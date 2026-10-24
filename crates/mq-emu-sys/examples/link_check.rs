@@ -15,17 +15,8 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         WriteChatColorf as *const c_void,
         DebugSpew as *const c_void,
         DebugSpewAlways as *const c_void,
-        AddCommand as *const c_void,
-        RemoveCommand as *const c_void,
-        IsCommand as *const c_void,
-        AddAlias as *const c_void,
-        RemoveAlias as *const c_void,
-        IsAlias as *const c_void,
-        HideDoCommand as *const c_void,
-        TimedCommand as *const c_void,
         ParseMacroData as *const c_void,
         GetGameState as *const c_void,
-        IsPluginsInitialized as *const c_void,
         GetPluginProc as *const c_void,
     ];
     let statics: &[*const c_void] = &[

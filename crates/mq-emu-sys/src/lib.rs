@@ -49,7 +49,7 @@ pub use mq2main::*;
 pub use types::*;
 
 /// EverQuest client build that MacroQuest emu targets
-/// (`__ExpectedVersionDate " " __ExpectedVersionTime` in `eqgame.h`).
+/// (`__ExpectedVersionDate " " __ExpectedVersionTime` in eqlib `offsets/eqgame.h`).
 ///
 /// The plugin loader refuses any plugin whose exported `EverQuestVersion`
 /// doesn't match this exactly.

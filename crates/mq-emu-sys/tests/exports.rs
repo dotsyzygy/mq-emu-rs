@@ -104,6 +104,14 @@ fn assert_all_exported_panics_on_missing_name() {
 }
 
 #[test]
+fn command_functions_are_no_longer_c_exports() {
+    // These moved behind MacroQuest's C++ MainInterface (mq/api/CommandAPI.h).
+    // If they ever come back as C exports, they can be bound directly again.
+    let moved = ["AddCommand", "RemoveCommand", "IsCommand", "HideDoCommand", "TimedCommand", "AddAlias"];
+    assert_eq!(missing_exports(&read_dll("MQ2Main.dll"), &moved), moved);
+}
+
+#[test]
 fn non_plugin_dll_lacks_plugin_sentinels() {
     assert_eq!(missing_exports(&read_dll("MQ2Main.dll"), &PLUGIN_SENTINELS), PLUGIN_SENTINELS);
 }

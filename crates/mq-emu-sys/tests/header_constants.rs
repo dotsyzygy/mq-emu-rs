@@ -50,13 +50,13 @@ macro_rules! check {
 
 #[test]
 fn common_constants_match() {
-    let file = "include/mq/base/Common.h";
+    let file = "include/mq/base/Base.h";
     check!(read_header(file), file, [MAX_STRING]);
 }
 
 #[test]
 fn game_states_match() {
-    let file = "src/main/MQ2Main.h";
+    let file = "src/eqlib/include/eqlib/game/Constants.h";
     check!(read_header(file), file, [
         GAMESTATE_PRECHARSELECT,
         GAMESTATE_CHARSELECT,
@@ -71,7 +71,7 @@ fn game_states_match() {
 
 #[test]
 fn chat_colors_match() {
-    let file = "src/eqlib/Constants.h";
+    let file = "src/eqlib/include/eqlib/game/ChatFilters.h";
     check!(read_header(file), file, [
         USERCOLOR_DEFAULT,
         CONCOLOR_GREEN,
@@ -84,7 +84,7 @@ fn chat_colors_match() {
 
 #[test]
 fn everquest_version_matches_eqgame_header() {
-    let header = read_header("src/eqlib/eqgame.h");
+    let header = read_header("src/eqlib/include/eqlib/offsets/eqgame.h");
     let unquote = |name| {
         let raw = find_value(&header, name).unwrap_or_else(|| panic!("{name} not found in eqgame.h"));
         // find_value stops at whitespace, so read the full quoted string from its start.
@@ -99,16 +99,16 @@ fn everquest_version_matches_eqgame_header() {
 // Negative tests: the comparisons above must actually reject bad values.
 
 #[test]
-#[should_panic(expected = "MAX_STRING: header include/mq/base/Common.h says 2048")]
+#[should_panic(expected = "MAX_STRING: header include/mq/base/Base.h says 2048")]
 fn wrong_value_is_rejected() {
-    let file = "include/mq/base/Common.h";
+    let file = "include/mq/base/Base.h";
     assert_header_value(&read_header(file), file, "MAX_STRING", 4096);
 }
 
 #[test]
 #[should_panic(expected = "GAMESTATE_NOT_REAL not found")]
 fn unknown_name_is_rejected() {
-    let file = "src/main/MQ2Main.h";
+    let file = "src/eqlib/include/eqlib/game/Constants.h";
     assert_header_value(&read_header(file), file, "GAMESTATE_NOT_REAL", 0);
 }
 

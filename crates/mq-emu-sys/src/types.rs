@@ -57,9 +57,9 @@ impl<T> ForeignPointer<T> {
     }
 }
 
-/// `fEQCommand`: a slash-command handler registered with `AddCommand`.
-/// `buffer` is the (mutable) argument text after the command name.
-pub type fEQCommand = Option<unsafe extern "C" fn(player: *mut PlayerClient, buffer: *mut c_char)>;
+/// `fEQCommand` (`mq/api/CommandAPI.h`): a slash-command handler.
+/// `command` is the argument text after the command name.
+pub type fEQCommand = Option<unsafe extern "C" fn(player: *mut PlayerClient, command: *const c_char)>;
 
 #[cfg(test)]
 mod tests {

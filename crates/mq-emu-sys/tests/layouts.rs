@@ -163,19 +163,25 @@ fn compare(header: &[HeaderField], generated: &[(&str, &str, u64)]) -> Report {
     report
 }
 
+/// Every `.h` under eqlib's public include directory, recursively, as
+/// (path relative to that directory, contents).
 fn eqlib_headers() -> Vec<(String, String)> {
-    let dir = PathBuf::from(env!("MQ_ROOT")).join("src/eqlib");
-    let mut headers: Vec<_> = std::fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("failed to list {}: {e}", dir.display()))
-        .filter_map(Result::ok)
-        .map(|entry| entry.path())
-        .filter(|path| path.extension().is_some_and(|ext| ext == "h"))
-        .map(|path| {
-            let text = std::fs::read_to_string(&path).unwrap();
-            (path.file_name().unwrap().to_string_lossy().into_owned(), text)
-        })
-        .collect();
+    let root = PathBuf::from(env!("MQ_ROOT")).join("src/eqlib/include/eqlib");
+    let mut headers = Vec::new();
+    let mut dirs = vec![root.clone()];
+    while let Some(dir) = dirs.pop() {
+        for entry in std::fs::read_dir(&dir).unwrap_or_else(|e| panic!("failed to list {}: {e}", dir.display())) {
+            let path = entry.unwrap().path();
+            if path.is_dir() {
+                dirs.push(path);
+            } else if path.extension().is_some_and(|ext| ext == "h") {
+                let relative = path.strip_prefix(&root).unwrap().to_string_lossy().replace('\\', "/");
+                headers.push((relative, std::fs::read_to_string(&path).unwrap()));
+            }
+        }
+    }
     headers.sort();
+    assert!(!headers.is_empty(), "no headers found under {}", root.display());
     headers
 }
 

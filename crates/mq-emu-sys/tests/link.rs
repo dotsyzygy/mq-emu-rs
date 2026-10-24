@@ -65,7 +65,7 @@ fn assert_unresolved(dll: &str, kind: SymbolKind, symbol: &str) {
 
 #[test]
 fn real_function_links() {
-    assert_links("MQ2Main", SymbolKind::Function, "IsAlias");
+    assert_links("MQ2Main", SymbolKind::Function, "GetGameState");
 }
 
 #[test]
@@ -80,7 +80,7 @@ fn real_eqlib_static_links() {
 
 #[test]
 fn bogus_function_fails_to_link() {
-    assert_unresolved("MQ2Main", SymbolKind::Function, "IsAliasTypo");
+    assert_unresolved("MQ2Main", SymbolKind::Function, "GetGameStateTypo");
 }
 
 #[test]
