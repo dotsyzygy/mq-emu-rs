@@ -1,0 +1,19 @@
+[package]
+name = "mq-emu-sys"
+description = "Unofficial raw FFI bindings to MacroQuest emu (RoF2, 32-bit): MQ2Main.dll / eqlib.dll. Not affiliated with the MacroQuest project; not for live EverQuest."
+keywords = ["macroquest", "everquest", "emu", "rof2", "ffi"]
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+links = "MQ2Main"
+build = "build.rs"
+
+[[example]]
+name = "link_check"
+crate-type = ["cdylib"]
+
+[dev-dependencies]
+object = { version = "0.36", default-features = false, features = ["std", "read_core", "pe"] }

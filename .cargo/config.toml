@@ -1,0 +1,7 @@
+# The emu (RoF2) MacroQuest build is 32-bit, so everything here targets i686.
+# Crates that depend on mq-emu-sys from outside this repo must do the same.
+#
+# MQ_ROOT is deliberately not set here: it is machine-specific. Set it in your
+# environment or in your user-level ~/.cargo/config.toml (see README.md).
+[build]
+target = "i686-pc-windows-msvc"

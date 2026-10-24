@@ -1,0 +1,17 @@
+[workspace]
+resolver = "3"
+members = ["crates/mq-emu-sys"]
+
+# Shared metadata. Each crate opts in with `field.workspace = true` and decides
+# for itself whether it is published.
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/dotsyzygy/mq-emu-rs"
+
+# Internal crates are referenced by path *and* version, so they resolve locally
+# here and from crates.io once published.
+[workspace.dependencies]
+mq-emu-sys = { path = "crates/mq-emu-sys", version = "0.1.0" }
