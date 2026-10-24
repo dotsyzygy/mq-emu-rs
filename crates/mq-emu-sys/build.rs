@@ -5,6 +5,12 @@ fn main() {
     println!("cargo::rerun-if-changed=build.rs");
     println!("cargo::rerun-if-env-changed=MQ_ROOT");
     println!("cargo::rerun-if-env-changed=MQ_BUILD_CONFIG");
+    println!("cargo::rerun-if-env-changed=DOCS_RS");
+
+    // docs.rs only runs rustdoc, which never links, and has no MacroQuest build.
+    if env::var_os("DOCS_RS").is_some() {
+        return;
+    }
 
     let mq_root = PathBuf::from(env::var("MQ_ROOT").unwrap_or_else(|_| {
         fail("MQ_ROOT is not set. Point it at your MacroQuest (emu branch) checkout; see .cargo/config.toml.")

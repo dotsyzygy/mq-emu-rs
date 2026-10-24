@@ -56,19 +56,30 @@ fn consumer() -> &'static Consumer {
 
 /// Runs `cargo build` in the consumer crate with only the given MQ settings.
 fn build(target: &str, mq_root: Option<&str>) -> Output {
+    run_cargo("build", target, mq_root, false)
+}
+
+/// Runs `cargo <subcommand>` in the consumer crate. `docs_rs` sets `DOCS_RS=1`,
+/// as docs.rs does for its builds.
+fn run_cargo(subcommand: &str, target: &str, mq_root: Option<&str>, docs_rs: bool) -> Output {
     let consumer = consumer();
     let cargo = PathBuf::from(env!("CARGO"));
     let mut cmd = Command::new(&cargo);
-    cmd.args(["build", "--offline", "--target", target])
+    cmd.args([subcommand, "--offline", "--target", target])
         .current_dir(&consumer.dir)
         .env("CARGO_HOME", &consumer.cargo_home)
         .env("CARGO_TARGET_DIR", &consumer.target_dir)
-        // Use the toolchain's rustc directly; the rustup proxy isn't in the empty CARGO_HOME.
+        // Use the toolchain's binaries directly; the rustup proxies aren't in the empty CARGO_HOME.
         .env("RUSTC", cargo.with_file_name("rustc.exe"))
+        .env("RUSTDOC", cargo.with_file_name("rustdoc.exe"))
         .env_remove("MQ_ROOT")
-        .env_remove("MQ_BUILD_CONFIG");
+        .env_remove("MQ_BUILD_CONFIG")
+        .env_remove("DOCS_RS");
     if let Some(root) = mq_root {
         cmd.env("MQ_ROOT", root);
+    }
+    if docs_rs {
+        cmd.env("DOCS_RS", "1");
     }
     cmd.output().expect("failed to run cargo")
 }
@@ -100,4 +111,17 @@ fn mq_root_without_build_output_fails_with_clear_message() {
 #[test]
 fn non_32_bit_target_fails_with_clear_message() {
     assert_fails_with(&build(TARGET_64, Some(env!("MQ_ROOT"))), "MacroQuest emu (RoF2), which is 32-bit only");
+}
+
+// docs.rs has no MacroQuest build, so build.rs must not require one there.
+
+#[test]
+fn docs_build_succeeds_on_docs_rs_without_mq_root() {
+    let out = run_cargo("doc", TARGET_32, None, true);
+    assert!(out.status.success(), "docs.rs-style doc build failed:\n{}", String::from_utf8_lossy(&out.stderr));
+}
+
+#[test]
+fn docs_build_still_needs_mq_root_outside_docs_rs() {
+    assert_fails_with(&run_cargo("doc", TARGET_32, None, false), "MQ_ROOT is not set");
 }
