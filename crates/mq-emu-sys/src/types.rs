@@ -16,11 +16,11 @@ macro_rules! opaque {
     };
 }
 
+// eqlib game objects have generated layouts; MacroQuest's own types (below)
+// aren't in eqlib.pdb and stay opaque.
+pub use crate::layouts::{EQGroundItem, PlayerClient};
+
 opaque! {
-    /// `eqlib::PlayerClient` (a.k.a. `SPAWNINFO`). Layout depends on the client build.
-    PlayerClient,
-    /// `eqlib::EQGroundItem` (a.k.a. `GROUNDITEM`).
-    EQGroundItem,
     /// `mq::MQTypeVar`, the value type used by TLOs and macro data.
     MQTypeVar,
     /// `mq::MQPlugin`, MacroQuest's bookkeeping record for a loaded plugin.
@@ -88,9 +88,11 @@ mod tests {
     }
 
     #[test]
-    fn opaque_types_are_zero_sized() {
-        assert_eq!(size_of::<PlayerClient>(), 0);
+    fn mq_types_are_opaque_and_game_types_have_layouts() {
         assert_eq!(size_of::<MQTypeVar>(), 0);
+        assert_eq!(size_of::<PluginInterface>(), 0);
+        // From eqlib.h: PlayerClient_size = 0x1f08 for the emu client.
+        assert_eq!(size_of::<PlayerClient>(), 0x1f08);
     }
 
     #[test]

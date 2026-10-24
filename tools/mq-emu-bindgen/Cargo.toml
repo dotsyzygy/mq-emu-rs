@@ -1,0 +1,12 @@
+[package]
+name = "mq-emu-bindgen"
+description = "Generates mq-emu-sys game-object layouts from eqlib.pdb"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+pdb2 = "0.11"

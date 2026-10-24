@@ -38,6 +38,7 @@ mod macros;
 
 pub mod constants;
 pub mod eqlib;
+pub mod layouts;
 pub mod mq2main;
 pub mod plugin;
 pub mod types;

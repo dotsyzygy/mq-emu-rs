@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/mq-emu-sys"]
+members = ["crates/mq-emu-sys", "tools/mq-emu-bindgen"]
 
 # Shared metadata. Each crate opts in with `field.workspace = true` and decides
 # for itself whether it is published.
