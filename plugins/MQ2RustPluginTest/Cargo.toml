@@ -1,0 +1,21 @@
+[package]
+name = "mq2-rust-plugin-test"
+description = "In-game test plugin for mq-emu (builds MQ2RustPluginTest.dll)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[lib]
+# The DLL name MacroQuest loads: /plugin MQ2RustPluginTest
+name = "MQ2RustPluginTest"
+crate-type = ["cdylib"]
+# A plugin links MacroQuest for real, so a test binary couldn't start outside
+# the game. It's tested in game with `/rusttest selftest`.
+test = false
+doctest = false
+
+[dependencies]
+mq-emu.workspace = true

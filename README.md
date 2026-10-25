@@ -16,9 +16,31 @@ Unofficial Rust bindings for writing [MacroQuest](https://github.com/macroquest/
 | Crate | Published | Purpose |
 |---|---|---|
 | `crates/mq-emu-sys` | yes | Raw, `unsafe` 1:1 FFI declarations for `MQ2Main.dll` / `eqlib.dll` exports |
-| `crates/mq-emu` *(planned)* | yes | Safe, idiomatic API on top of `mq-emu-sys`; what plugins depend on |
-| `plugins/MQ2RustPluginTest` *(planned)* | no | Test plugin exercising the bindings in-game (builds `MQ2RustPluginTest.dll`) |
+| `crates/mq-emu` | yes | Safe, idiomatic API on top of `mq-emu-sys`; what plugins depend on |
+| `plugins/MQ2RustPluginTest` | no | Test plugin exercising the bindings in-game (builds `MQ2RustPluginTest.dll`) |
 | `tools/mq-emu-bindgen` | no | Generates `mq-emu-sys`'s game-object layouts from `eqlib.pdb` |
+
+## Trying it in game
+
+```powershell
+./scripts/deploy-plugin.ps1
+```
+
+This builds `MQ2RustPluginTest` in release and copies the DLL (and its `.pdb`) into
+`$MQ_ROOT/build/bin/release/plugins`, finding `MQ_ROOT` the same way the build does: from your
+environment, or from `[env]` in `~/.cargo/config.toml`. Use `-Plugin <name>` for another plugin
+under `plugins/`, `-DebugBuild` for a debug build, and `-NoBuild` to only copy. If the plugin is
+loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be replaced. Then in game:
+
+| Command | What it does |
+|---|---|
+| `/plugin MQ2RustPluginTest` | Load it (`/plugin MQ2RustPluginTest unload` to unload) |
+| `/rusttest selftest` | Compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data and exercises commands, re-entrancy and parsing; prints PASS/FAIL per check |
+| `/rusttest stats` | Pulse timing, queued/dropped events, panics |
+| `/rusttest me`, `/rusttest target` | What mq-emu reads for you and your target |
+| `/rusttest panic`, `slow [ms]`, `flood` | Deliberately trigger the runtime's safety nets: a caught panic, a slow-pulse warning, a capped feedback loop |
+
+Target something before `selftest` to include the target checks.
 
 ## Game-object layouts
 
@@ -72,8 +94,22 @@ config and only explicitly passed settings, to check what a downstream user will
   C++ `bool`, nested records and arrays of records.
 - **`tools/mq-emu-bindgen/tests`**: the committed layouts are up to date with `layouts.txt` and the PDB,
   and generation is deterministic.
+- **`tests/plugin_loader.rs`**: the plugin exports we document match every name MacroQuest's loader
+  looks up, in both directions.
+- **`tests/shim.rs`**: the C++ shim against a fake `MainInterface`: arguments, handles and callback
+  routing, without MacroQuest.
+- **`tests/consumer.rs`**: builds mq-emu-sys as an outside crate would, checking each requirement
+  (`MQ_ROOT`, 32-bit target, static C runtime, docs.rs) gives a clear error when missing.
+- **`mq-emu` runtime tests**: dispatch, re-entrant events queued and delivered in order, the feedback
+  loop cap, caught panics reported once, commands routed to closures, rate-limited warnings, all
+  against a fake host and clock.
+- **`mq-emu` `tests/plugin_exports.rs`**: a DLL built with `plugin!` exports everything the loader
+  needs, carries the right `EverQuestVersion` bytes, and doesn't need the Visual C++ redistributable.
 - **Unit tests**: type layouts (`ForeignPointer`, callback pointers), the `imports!` macro, the version
-  byte array, and the generator's naming and enum literal rules.
+  byte array, the generator's naming and enum literal rules, text conversion, headings and stats.
+
+Test binaries never import MacroQuest's DLLs (checked by the tests themselves), so `cargo test` runs
+without the game. What only the game can show is covered by `/rusttest selftest`.
 
 Each check also has negative tests showing it rejects bad input: names that aren't exported, wrong
 constant values, and imports that don't link (a typo, or a symbol from the wrong DLL).
