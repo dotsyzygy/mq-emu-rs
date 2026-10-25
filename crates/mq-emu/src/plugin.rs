@@ -4,6 +4,7 @@ use mq_emu_sys::types::EQGroundItem;
 
 use crate::actors::Message;
 use crate::game::{GameState, Spawn};
+use crate::imgui::Ui;
 use crate::mq::Mq;
 
 /// A MacroQuest plugin. Implement the callbacks you need; the rest default to
@@ -62,8 +63,11 @@ pub trait Plugin: Sized + 'static {
     fn on_begin_zone(&mut self, mq: &Mq<Self>) {}
     /// Zoning finished loading, before spawns are added and `on_zoned`.
     fn on_end_zone(&mut self, mq: &Mq<Self>) {}
-    /// The ImGui overlay is being rendered. (Drawing APIs aren't bound yet.)
-    fn on_update_imgui(&mut self, mq: &Mq<Self>) {}
+    /// MacroQuest is drawing its ImGui overlay: draw your windows with `ui`
+    /// (see [`crate::imgui`]). Called every frame, even with nothing to show,
+    /// so return quickly when hidden. Never queued: if it arrives while
+    /// another callback is running, that frame is skipped.
+    fn on_update_imgui(&mut self, mq: &Mq<Self>, ui: &mut Ui) {}
 
     fn on_macro_start(&mut self, mq: &Mq<Self>, name: &str) {}
     fn on_macro_stop(&mut self, mq: &Mq<Self>, name: &str) {}

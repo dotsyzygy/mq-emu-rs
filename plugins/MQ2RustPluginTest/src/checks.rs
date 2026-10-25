@@ -2,8 +2,10 @@
 //! does with what MacroQuest itself reports.
 
 use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
+use std::cell::RefCell;
 use std::ffi::{CStr, CString};
-use std::time::Instant;
+use std::rc::Rc;
+use std::time::{Duration, Instant};
 
 use mq_emu::{AliasError, CommandError, GameState, MoveKey, Mq, Plugin, SpawnId, angle_difference};
 
@@ -20,16 +22,59 @@ impl Check {
     }
 }
 
+/// How a check came out, as the debug window shows it.
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum Outcome {
+    Pass,
+    Fail,
+    Skip,
+}
+
+/// One check's result, kept for the debug window.
+pub struct Entry {
+    pub label: String,
+    pub outcome: Outcome,
+    /// Why it failed or was skipped; empty for a pass.
+    pub detail: String,
+    /// Time since the selftest started.
+    pub at: Duration,
+}
+
+/// The latest selftest's results, shared between its [`Report`] and the
+/// debug window.
+#[derive(Default)]
+pub struct SelftestLog {
+    /// Each section's title and checks, in order.
+    pub sections: Vec<(String, Vec<Entry>)>,
+    pub started: Option<Instant>,
+    /// How long it took, once finished.
+    pub took: Option<Duration>,
+}
+
+pub type SharedLog = Rc<RefCell<SelftestLog>>;
+
 /// Pass/fail/skip counts.
 #[derive(Default, Clone, Copy)]
-struct Counts {
-    passed: u32,
-    failed: u32,
-    skipped: u32,
+pub struct Counts {
+    pub passed: u32,
+    pub failed: u32,
+    pub skipped: u32,
 }
 
 impl Counts {
-    fn add(&mut self, other: Counts) {
+    pub fn of(entries: &[Entry]) -> Counts {
+        let mut counts = Counts::default();
+        for entry in entries {
+            match entry.outcome {
+                Outcome::Pass => counts.passed += 1,
+                Outcome::Fail => counts.failed += 1,
+                Outcome::Skip => counts.skipped += 1,
+            }
+        }
+        counts
+    }
+
+    pub fn add(&mut self, other: Counts) {
         self.passed += other.passed;
         self.failed += other.failed;
         self.skipped += other.skipped;
@@ -49,8 +94,10 @@ impl Counts {
 }
 
 /// Collects check results, in titled sections, and prints them as they come.
+/// They also go to a [`SharedLog`] for the debug window.
 pub struct Report {
     name: &'static str,
+    log: SharedLog,
     /// Each section's title and counts, in order. Checks before the first
     /// section go in an untitled one.
     sections: Vec<(String, Counts)>,
@@ -60,14 +107,17 @@ pub struct Report {
 }
 
 impl Report {
-    pub fn new<P: Plugin>(mq: &Mq<P>) -> Report {
+    /// A new report, which starts `log` over.
+    pub fn new<P: Plugin>(mq: &Mq<P>, log: SharedLog) -> Report {
         let now = Instant::now();
-        Report { name: mq.plugin_name(), sections: Vec::new(), started: now, last: now }
+        *log.borrow_mut() = SelftestLog { started: Some(now), ..SelftestLog::default() };
+        Report { name: mq.plugin_name(), log, sections: Vec::new(), started: now, last: now }
     }
 
     /// Starts a titled group of checks, with a header line.
     pub fn section<P: Plugin>(&mut self, mq: &Mq<P>, title: &str) {
         self.sections.push((title.to_owned(), Counts::default()));
+        self.log.borrow_mut().sections.push((title.to_owned(), Vec::new()));
         mq.chat(format!("[{}] {TEAL}===== {}. {title} ====={RESET}", self.name, self.sections.len()));
     }
 
@@ -79,27 +129,31 @@ impl Report {
     fn counts(&mut self) -> &mut Counts {
         if self.sections.is_empty() {
             self.sections.push((String::new(), Counts::default()));
+            self.log.borrow_mut().sections.push((String::new(), Vec::new()));
         }
         &mut self.sections.last_mut().expect("just ensured").1
     }
 
     pub fn print<P: Plugin>(&mut self, mq: &Mq<P>, label: &str, check: Check) {
-        let line = match check {
+        let (line, outcome, detail) = match check {
             Check::Pass => {
                 self.counts().passed += 1;
-                format!("{GREEN}[PASS]{RESET} {label}")
+                (format!("{GREEN}[PASS]{RESET} {label}"), Outcome::Pass, String::new())
             }
             Check::Fail(detail) => {
                 self.counts().failed += 1;
-                format!("{RED}[FAIL]{RESET} {label}: {detail}")
+                (format!("{RED}[FAIL]{RESET} {label}: {detail}"), Outcome::Fail, detail)
             }
             Check::Skip(reason) => {
                 self.counts().skipped += 1;
-                format!("{YELLOW}[SKIP]{RESET} {label}: {reason}")
+                (format!("{YELLOW}[SKIP]{RESET} {label}: {reason}"), Outcome::Skip, reason)
             }
         };
         // Time since the selftest started, and since the previous line.
         let now = Instant::now();
+        if let Some((_, entries)) = self.log.borrow_mut().sections.last_mut() {
+            entries.push(Entry { label: label.to_owned(), outcome, detail, at: now - self.started });
+        }
         let stamp = format!("{:.2}s +{:.2}s", (now - self.started).as_secs_f64(), (now - self.last).as_secs_f64());
         self.last = now;
         mq.chat(format!("[{}] [{stamp}] {line}", self.name));
@@ -107,6 +161,7 @@ impl Report {
 
     /// Prints each section's counts, then the totals.
     pub fn finish<P: Plugin>(self, mq: &Mq<P>) {
+        self.log.borrow_mut().took = Some(self.started.elapsed());
         mq.chat(format!("[{}] {TEAL}===== summary ====={RESET}", self.name));
         let mut total = Counts::default();
         for (number, (title, counts)) in self.sections.iter().enumerate() {

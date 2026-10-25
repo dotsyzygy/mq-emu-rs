@@ -62,16 +62,22 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Async tasks on the game thread: `delay`, `wait_until`, timeouts, cancellation
 - Actors messaging: mailboxes, send, reply, request with timeout, other characters and peers
 - Lua interop: exchanging every actors value type with Lua scripts
+- ImGui (`mq_emu::imgui`): windows, child regions, menus, tabs, tables, trees, popups, tooltips,
+  text, buttons, checkboxes, radio buttons, selectables, sliders, drags, number and text inputs,
+  combo boxes, color editing, progress bars, plots, and ID/style/disabled scopes. Every begin/end
+  pair is a closure scope that always ends, even on a panic, and ImGui errors are caught and
+  reported instead of pausing every plugin's overlay
 - Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
 - Generated raw layouts for spawns, your character, the spawn list, zone info, key state, ground items
   and client state (via `sys`)
 
 **Missing**
 
-- ImGui: `on_update_imgui` is called, but there is no API to draw windows or widgets
 - Safe wrappers for items, inventory, spells, buffs, groups, pets, zone info and ground items (reachable
   only as raw layouts or through TLO reads)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
+- ImGui beyond the bound set: textures and images, custom drawing (draw lists), drag and drop,
+  fonts, docking control, ImPlot (reachable as raw `ImGui::*` C++ only)
 - MacroQuest events (`#Event`-style chat matching) and key binds
 - EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
 - Settings helpers for reading and writing plugin INI files
@@ -108,6 +114,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, and every bound ImGui widget to try by hand |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data, and
 exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also:
@@ -116,6 +123,8 @@ exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
 - **Triggers the runtime's safety nets on purpose:** expect a caught-panic message, a slow-pulse
   warning, and a burst of `flood` lines that the runtime cuts off.
+- **Opens the debug window**, to check it draws without ImGui errors, and leaves it open with the
+  results.
 - **Messages:** sends to itself through the launcher.
 - **Lua:** when `/lua run rustpeer` is running, exchanges every Lua value type with that script, both
   ways.
@@ -206,13 +215,25 @@ config and only explicitly passed settings, to check what a downstream user will
   looks up, in both directions.
 - **`tests/shim.rs`**: the C++ shim against a fake `MainInterface`: arguments, handles and callback
   routing, without MacroQuest.
+- **`tests/imgui.rs`**: the ImGui shim against MacroQuest's real `imgui.dll`, in a headless
+  context: every wrapper draws, simulated clicks register, and ImGui's C++ exceptions (calling `End`
+  too often) are caught instead of crossing into Rust. A window left open makes the frame fail, as
+  it would pause ImGui in game.
+- **`tests/imgui_constants.rs`**: every ImGui flag and enum value matches MacroQuest's `imgui.h`, and
+  every public name of the bound enums is bound.
 - **`tests/consumer.rs`**: builds mq-emu-sys as an outside crate would, checking each requirement
   (`MQ_ROOT`, 32-bit target, static C runtime, docs.rs) gives a clear error when missing.
 - **`mq-emu` runtime tests**: dispatch, re-entrant events queued and delivered in order, the feedback
   loop cap, caught panics reported once, commands routed to closures, rate-limited warnings, all
   against a fake host and clock.
+- **`mq-emu` ImGui tests**: against the real `imgui.dll`, every scope ends when its closure panics,
+  closed and collapsed windows skip their contents, clicks and typing (multi-byte, growing the
+  buffer) reach Rust values, style variables have the right kinds, and table setup misuse panics
+  before ImGui sees it. Doctests show that reaching a table from a window opened in one of its cells
+  doesn't compile.
 - **`mq-emu` `tests/plugin_exports.rs`**: a DLL built with `plugin!` exports everything the loader
-  needs, carries the right `EverQuestVersion` bytes, and doesn't need the Visual C++ redistributable.
+  needs, carries the right `EverQuestVersion` bytes, doesn't need the Visual C++ redistributable, and
+  imports `imgui.dll`.
 - **`mq-emu` `tests/lua_oracle.rs`**: the Lua message encoding against real C++ protobuf, built
   from MacroQuest's own `Actor.pb.cc` (what MQ2Lua uses), in both directions, including truncated and
   invalid input both sides must reject.
@@ -220,7 +241,8 @@ config and only explicitly passed settings, to check what a downstream user will
   byte array, the generator's naming and enum literal rules, text conversion, headings and stats.
 
 Test binaries never import MacroQuest's DLLs (checked by the tests themselves), so `cargo test` runs
-without the game. What only the game can show is covered by `/rusttest selftest`.
+without the game. The exception is the ImGui tests, which load `imgui.dll`; it needs only Windows,
+and the build copies it where `cargo test` finds it. What only the game can show is covered by `/rusttest selftest`.
 
 Each check also has negative tests showing it rejects bad input: names that aren't exported, wrong
 constant values, and imports that don't link (a typo, or a symbol from the wrong DLL).

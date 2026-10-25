@@ -5,6 +5,9 @@
 //! parsing, keys, async tasks, turning and walking, the runtime's safety nets
 //! (a caught panic, a slow pulse, a capped feedback loop), messaging, Lua
 //! scripts, and your other characters running the plugin.
+//!
+//! `/rusttest window` opens a debug window (ImGui) with the results, the
+//! runtime's stats, the game as mq-emu sees it, and every bound widget.
 
 #![allow(non_snake_case)] // the crate is named after the DLL
 
@@ -12,14 +15,15 @@ mod checks;
 mod data_checks;
 mod lua_checks;
 mod peer_checks;
+mod window;
 
 use std::collections::{BTreeSet, VecDeque};
 use std::time::{Duration, Instant};
 
 use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
-use mq_emu::{Address, LuaTable, LuaValue, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId, Value};
+use mq_emu::{Address, LuaTable, LuaValue, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId, Ui, Value};
 
-use crate::checks::{Check, Report};
+use crate::checks::{Check, Report, SharedLog};
 
 const COMMAND: &str = "/rusttest";
 /// Text the re-entrancy checks look for in chat.
@@ -67,6 +71,9 @@ struct RustTest {
     recent_pulses: VecDeque<Instant>,
     /// The selftest's `/echo` of the RustTest TLO, once it arrives.
     tlo_echo: Option<String>,
+    /// The latest selftest's results, for the debug window.
+    selftest_log: SharedLog,
+    window: window::DebugWindow,
 }
 
 impl Plugin for RustTest {
@@ -128,6 +135,10 @@ impl Plugin for RustTest {
             // Deliberate feedback loop: every line we write comes back here.
             mq.chat("flood");
         }
+    }
+
+    fn on_update_imgui(&mut self, mq: &Mq<Self>, ui: &mut Ui) {
+        self.draw_window(mq, ui);
     }
 
     fn on_add_spawn(&mut self, _mq: &Mq<Self>, _spawn: &Spawn<'_>) {
@@ -227,6 +238,7 @@ impl RustTest {
     fn command(&mut self, mq: &Mq<Self>, args: &str) {
         match args.split_whitespace().next().unwrap_or("help") {
             "selftest" => self.start_selftest(mq),
+            "window" => self.window.open = !self.window.open,
             "stats" => {
                 for line in mq.stats().summary() {
                     say(mq, &line);
@@ -252,7 +264,7 @@ impl RustTest {
                 }
             }
             _ => {
-                say(mq, &format!("{COMMAND} selftest | stats | stop"));
+                say(mq, &format!("{COMMAND} selftest | stats | stop | window"));
                 say(mq, &format!("  for the Lua checks: /lua run {} (here and on your other characters)", lua_checks::PEER_SCRIPT));
             }
         }
@@ -263,7 +275,7 @@ impl RustTest {
             say(mq, "a selftest is already running");
             return;
         }
-        let mut report = Report::new(mq);
+        let mut report = Report::new(mq, self.selftest_log.clone());
         report.section(mq, "Targeting");
         let targeted = checks::targeting(mq, &mut report);
         report.section(mq, "Game data");
@@ -340,6 +352,8 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
         ))
     });
 
+    task.with(|mq| report.section(mq, "ImGui"));
+    imgui(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Providing a TLO"));
     data_checks::provided_tlo(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Turning and walking"));
@@ -357,6 +371,46 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     task.with_plugin(|plugin, mq| {
         plugin.selftest = None;
         report.finish(mq);
+    });
+}
+
+/// ImGui frames reach the plugin, and the debug window draws without errors:
+/// it's opened for this (and left open, showing the results).
+async fn imgui(task: &Task<RustTest>, report: &mut Report) {
+    let frames_before = task.with_plugin(|plugin, _| plugin.window.frames);
+    let pulses = 30;
+    for _ in 0..pulses {
+        task.next_pulse().await;
+    }
+    let frames = task.with_plugin(|plugin, _| plugin.window.frames) - frames_before;
+    if frames == 0 {
+        task.with(|mq| {
+            for label in ["on_update_imgui is called every frame", "the debug window draws without ImGui errors"] {
+                report.print(mq, label, Check::Skip("no ImGui frames arrived (is the overlay hidden?)".into()));
+            }
+        });
+        return;
+    }
+    task.with(|mq| {
+        // Pulses and ImGui frames both come once per game frame.
+        report.print(mq, "on_update_imgui is called every frame", Check::that(frames + 2 >= pulses, || {
+            format!("{frames} ImGui frames in {pulses} pulses")
+        }))
+    });
+
+    let (drawn_before, errors_before) = task.with_plugin(|plugin, mq| {
+        plugin.window.open = true;
+        (plugin.window.drawn, mq.stats().imgui_errors)
+    });
+    for _ in 0..5 {
+        task.next_pulse().await;
+    }
+    task.with_plugin(|plugin, mq| {
+        let drawn = plugin.window.drawn - drawn_before;
+        let errors = mq.stats().imgui_errors - errors_before;
+        report.print(mq, "the debug window draws without ImGui errors", Check::that(drawn > 0 && errors == 0, || {
+            format!("drawn {drawn} times in 5 pulses, {errors} ImGui errors (collapsed windows don't draw)")
+        }));
     });
 }
 

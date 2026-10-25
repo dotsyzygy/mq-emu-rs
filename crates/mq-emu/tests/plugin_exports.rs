@@ -104,3 +104,15 @@ fn a_non_plugin_dll_fails_the_same_check() {
     });
     assert!(!exports.unwrap_or_default().contains(EXPORT_IS_BUILT_FOR_NEXT));
 }
+
+/// A plugin imports imgui.dll, through the shim's function table, which only
+/// plugins materialize (MacroQuest has always loaded imgui.dll by then). The
+/// positive control for tests/no_macroquest_imports.rs, which checks that
+/// programs that aren't plugins don't.
+#[test]
+fn plugin_imports_imgui_through_the_table() {
+    let image = plugin_dll();
+    let file = PeFile32::parse(&*image).unwrap();
+    let imports = imports(&file);
+    assert!(imports.contains(&"imgui.dll".to_owned()), "{imports:?}");
+}

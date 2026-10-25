@@ -96,7 +96,11 @@ impl Event {
     }
 
     fn queueable(&self) -> bool {
-        !matches!(self, Event::AddSpawn(_) | Event::RemoveSpawn(_) | Event::AddGroundItem(_) | Event::RemoveGroundItem(_))
+        // An ImGui frame can't be drawn later: by then MacroQuest has rendered it.
+        !matches!(
+            self,
+            Event::AddSpawn(_) | Event::RemoveSpawn(_) | Event::AddGroundItem(_) | Event::RemoveGroundItem(_) | Event::UpdateImGui
+        )
     }
 }
 
@@ -137,6 +141,8 @@ pub struct Runtime<P: Plugin> {
     warnings: RefCell<Warnings>,
     /// Bit per event kind whose panic message has already been shown.
     reported_panics: Cell<u32>,
+    /// Whether an ImGui error has already been shown.
+    reported_imgui_error: Cell<bool>,
     /// True while the runtime writes its own diagnostics, which must not come
     /// back to the plugin as chat events (they could feed a loop they report).
     writing_diagnostic: Cell<bool>,
@@ -178,6 +184,7 @@ impl<P: Plugin> Runtime<P> {
             stats: Cell::new(Stats::new()),
             warnings: RefCell::new(Warnings::new()),
             reported_panics: Cell::new(0),
+            reported_imgui_error: Cell::new(false),
             writing_diagnostic: Cell::new(false),
             plugin_in_use: Cell::new(false),
             executor: Executor::new(),
@@ -338,7 +345,14 @@ impl<P: Plugin> Runtime<P> {
         self.event(Event::EndZone)
     }
     pub fn update_imgui(&'static self) {
-        self.event(Event::UpdateImGui)
+        guard(|| {
+            self.enter(Event::UpdateImGui);
+            // Errors in what the plugin drew, which the shim caught; queued
+            // callbacks that ran after it can't draw, so this covers them too.
+            if let Some(error) = (self.host.take_imgui_error)() {
+                self.on_imgui_error(&error);
+            }
+        })
     }
 
     /// The macro and plugin name callbacks.
@@ -468,7 +482,7 @@ impl<P: Plugin> Runtime<P> {
             }
             Event::BeginZone => plugin.on_begin_zone(mq),
             Event::EndZone => plugin.on_end_zone(mq),
-            Event::UpdateImGui => plugin.on_update_imgui(mq),
+            Event::UpdateImGui => plugin.on_update_imgui(mq, &mut crate::imgui::Ui::new(self.host.imgui)),
             Event::MacroStart(name) => plugin.on_macro_start(mq, &name),
             Event::MacroStop(name) => plugin.on_macro_stop(mq, &name),
             Event::LoadPlugin(name) => plugin.on_load_plugin(mq, &name),
@@ -505,6 +519,19 @@ impl<P: Plugin> Runtime<P> {
                 .or_else(|| payload.downcast_ref::<String>().map(String::as_str))
                 .unwrap_or("(non-string panic payload)");
             self.diagnostic(&format!("panicked in {name}: {message}"));
+        }
+    }
+
+    /// Counts an ImGui error, and shows the first one; later ones go in the
+    /// rate-limited warnings, as a plugin drawing wrongly does it every frame.
+    fn on_imgui_error(&self, error: &str) {
+        let mut stats = self.stats.get();
+        stats.imgui_errors += 1;
+        self.stats.set(stats);
+        if self.reported_imgui_error.replace(true) {
+            self.warnings.borrow_mut().record_imgui_error();
+        } else {
+            self.diagnostic(&format!("ImGui error while drawing: {error}"));
         }
     }
 

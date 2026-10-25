@@ -46,6 +46,10 @@ pub(crate) struct Host {
     pub loaded_plugin_name: fn(&str) -> Option<String>,
     /// MacroQuest's data system: TLOs and their members.
     pub data: crate::data::DataApi,
+    /// The first ImGui error the shim caught since the last call, if any.
+    pub take_imgui_error: fn() -> Option<String>,
+    /// The ImGui shim's functions, for drawing (see `mq_emu_sys::imgui::Api`).
+    pub imgui: &'static mq_emu_sys::imgui::Api,
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
@@ -67,6 +71,8 @@ pub(crate) const fn real<P>() -> Host {
         set_face_angle: |value| unsafe { mq_emu_sys::mq2main::gFaceAngle = value },
         loaded_plugin_name: real_loaded_plugin_name::<P>,
         data: crate::data::real::<P>(),
+        take_imgui_error: real_take_imgui_error::<P>,
+        imgui: &mq_emu_sys::imgui::API,
     }
 }
 
@@ -96,6 +102,12 @@ fn real_loaded_plugin_name<P>(name: &str) -> Option<String> {
     let name = to_c(name);
     let found = unsafe { mq_emu_sys::shim::mqemu_loaded_plugin_name(name.as_ptr()) };
     (!found.is_null()).then(|| unsafe { std::ffi::CStr::from_ptr(found) }.to_string_lossy().into_owned())
+}
+
+fn real_take_imgui_error<P>() -> Option<String> {
+    let mut buffer = [0 as std::ffi::c_char; 512];
+    unsafe { (mq_emu_sys::imgui::API.mqemu_imgui_take_error)(buffer.as_mut_ptr(), buffer.len()) }
+        .then(|| crate::text::from_c_array(&buffer))
 }
 
 fn real_game_state<P>() -> i32 {

@@ -19,6 +19,7 @@ use crate::movement::{MoveError, MoveKey};
 
 mod aliases;
 mod data;
+mod imgui;
 
 // ----- fake host -----------------------------------------------------------
 
@@ -36,6 +37,7 @@ thread_local! {
     static ON_NEW: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static ON_PULSE: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static ON_CHAT: RefCell<Option<Hook>> = const { RefCell::new(None) };
+    static ON_IMGUI: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static GAME_STATE: Cell<i32> = const { Cell::new(mq_emu_sys::constants::GAMESTATE_INGAME) };
     /// The local and controlled player (the same spawn unless "riding").
     static PLAYER: FakeObject<PlayerClient> = FakeObject::new();
@@ -52,6 +54,8 @@ thread_local! {
     static HAS_MANAGER: Cell<bool> = const { Cell::new(true) };
     /// The name MQ2Lua was loaded as, if it is.
     static LUA_LOADED_AS: Cell<Option<&'static str>> = const { Cell::new(None) };
+    /// What the fake ImGui shim reports as caught after the next frame.
+    static IMGUI_ERROR: RefCell<Option<String>> = const { RefCell::new(None) };
     /// The zone's other spawns; kept alive here so the list's pointers stay valid.
     static ZONE: RefCell<Vec<FakeObject<PlayerClient>>> = const { RefCell::new(Vec::new()) };
 }
@@ -120,6 +124,9 @@ const FAKE: Host = Host {
     set_face_angle: |value| FACE_ANGLE.with(|angle| angle.set(value)),
     loaded_plugin_name: |name| LUA_LOADED_AS.with(Cell::get).filter(|_| name.eq_ignore_ascii_case("lua")).map(str::to_owned),
     data: data::FAKE_DATA,
+    take_imgui_error: || IMGUI_ERROR.with(RefCell::take),
+    // Recorder never draws; nothing calls these.
+    imgui: &mq_emu_sys::imgui::API,
 };
 
 fn chat_lines() -> Vec<String> {
@@ -212,6 +219,12 @@ impl Plugin for Recorder {
     fn on_write_chat_color(&mut self, mq: &Mq<Self>, line: &str, _color: u32) {
         self.log.push(format!("chat:{line}"));
         run_hook(&ON_CHAT, self, mq);
+    }
+
+    /// Doesn't draw: these tests have no ImGui context (see src/imgui/tests.rs).
+    fn on_update_imgui(&mut self, mq: &Mq<Self>, _ui: &mut crate::imgui::Ui) {
+        self.log.push("imgui".into());
+        run_hook(&ON_IMGUI, self, mq);
     }
 
     fn on_add_spawn(&mut self, _mq: &Mq<Self>, spawn: &Spawn<'_>) {

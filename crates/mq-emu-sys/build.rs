@@ -24,7 +24,7 @@ fn main() {
     let build_config = env::var("MQ_BUILD_CONFIG").unwrap_or_else(|_| "release".to_owned());
     let bin_dir = mq_root.join("build").join("bin").join(&build_config);
 
-    for lib in ["MQ2Main.lib", "eqlib.lib"] {
+    for lib in ["MQ2Main.lib", "eqlib.lib", "imgui.lib"] {
         let path = bin_dir.join(lib);
         if !path.is_file() {
             fail(&format!("{} not found. Build MacroQuest ({build_config}|Win32) first.", path.display()));
@@ -34,6 +34,10 @@ fn main() {
 
     // The extern blocks carry #[link(name = ...)]; we only provide the search path.
     println!("cargo::rustc-link-search=native={}", bin_dir.display());
+    // Only the shim calls ImGui (imgui.dll), from C++, so no extern block names
+    // it. A binary imports imgui.dll only if it uses those wrappers.
+    println!("cargo::rustc-link-lib=dylib=imgui");
+    provide_imgui_dll(&bin_dir);
 
     // MacroQuest links the C runtime statically. A plugin that doesn't would
     // need the Visual C++ redistributable on every player's machine and fail to
@@ -61,7 +65,15 @@ fn main() {
 /// Compiles the C++ shim (shim/*.cpp) against MacroQuest's headers, with the
 /// language settings MacroQuest uses for its own plugins (src/Common.props).
 fn build_shim(mq_root: &Path) {
-    let sources = ["shim/commands.cpp", "shim/actors.cpp", "shim/data.cpp", "shim/main_interface.cpp", "shim/test_fake.cpp"];
+    let sources = [
+        "shim/commands.cpp",
+        "shim/actors.cpp",
+        "shim/data.cpp",
+        "shim/main_interface.cpp",
+        "shim/test_fake.cpp",
+        "shim/imgui.cpp",
+        "shim/imgui_test.cpp",
+    ];
     println!("cargo::rerun-if-changed=shim/mq_api.h");
     for source in sources {
         println!("cargo::rerun-if-changed={source}");
@@ -79,6 +91,7 @@ fn build_shim(mq_root: &Path) {
         .include(mq_root.join("src/eqlib/include"))
         .include(mq_root.join("src"))
         .include(mq_root.join("contrib"))
+        .include(mq_root.join("contrib/imgui"))
         .include(vcpkg_include)
         .flag("/std:c++20")
         .flag("/utf-8")
@@ -91,6 +104,22 @@ fn build_shim(mq_root: &Path) {
         // MacroQuest's headers aren't warning-clean at /W4; only our own code matters here.
         .warnings(false)
         .compile("mq_emu_shim");
+}
+
+/// Copies imgui.dll into OUT_DIR and adds it to the link search path. Cargo
+/// puts search paths inside the target directory on PATH when it runs tests,
+/// so tests that drive the ImGui wrappers headlessly find the DLL; MacroQuest's
+/// own bin directory is outside it, so isn't. (imgui.dll needs nothing but
+/// Windows itself.) Plugins never load this copy: in game, MacroQuest has
+/// already loaded its own.
+fn provide_imgui_dll(bin_dir: &Path) {
+    let source = bin_dir.join("imgui.dll");
+    println!("cargo::rerun-if-changed={}", source.display());
+    let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("cargo sets OUT_DIR")).join("imgui-dll");
+    std::fs::create_dir_all(&out_dir).unwrap_or_else(|e| fail(&format!("can't create {}: {e}", out_dir.display())));
+    std::fs::copy(&source, out_dir.join("imgui.dll"))
+        .unwrap_or_else(|e| fail(&format!("can't copy {}: {e}. Build MacroQuest first.", source.display())));
+    println!("cargo::rustc-link-search=native={}", out_dir.display());
 }
 
 fn fail(message: &str) -> ! {

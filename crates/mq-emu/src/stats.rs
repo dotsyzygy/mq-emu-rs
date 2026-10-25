@@ -23,6 +23,8 @@ pub struct Stats {
     pub cap_hits: u64,
     /// Panics caught in plugin callbacks.
     pub panics: u64,
+    /// Errors ImGui reported while the plugin drew (see [`crate::imgui`]).
+    pub imgui_errors: u64,
 }
 
 impl Stats {
@@ -35,6 +37,7 @@ impl Stats {
             dropped: 0,
             cap_hits: 0,
             panics: 0,
+            imgui_errors: 0,
         }
     }
 
@@ -56,8 +59,8 @@ impl Stats {
                 millis(self.slowest_pulse)
             ),
             format!(
-                "re-entrant events: {} queued, {} dropped (cap hits: {}) | panics: {}",
-                self.queued, self.dropped, self.cap_hits, self.panics
+                "re-entrant events: {} queued, {} dropped (cap hits: {}) | panics: {} | ImGui errors: {}",
+                self.queued, self.dropped, self.cap_hits, self.panics, self.imgui_errors
             ),
         ]
     }
@@ -83,6 +86,7 @@ pub(crate) struct Warnings {
     worst_pulse: Duration,
     dropped: u64,
     panics: u64,
+    imgui_errors: u64,
 }
 
 impl Warnings {
@@ -95,6 +99,7 @@ impl Warnings {
             worst_pulse: Duration::ZERO,
             dropped: 0,
             panics: 0,
+            imgui_errors: 0,
         }
     }
 
@@ -113,17 +118,22 @@ impl Warnings {
         self.panics += 1;
     }
 
+    pub fn record_imgui_error(&mut self) {
+        self.imgui_errors += 1;
+    }
+
     /// Forgets problems not yet reported. The rate limit still applies.
     pub fn dismiss(&mut self) {
         self.slow_pulses = 0;
         self.worst_pulse = Duration::ZERO;
         self.dropped = 0;
         self.panics = 0;
+        self.imgui_errors = 0;
     }
 
     /// Returns a warning if anything is pending and the interval has passed.
     pub fn poll(&mut self, now: Instant) -> Option<String> {
-        if self.slow_pulses == 0 && self.dropped == 0 && self.panics == 0 {
+        if self.slow_pulses == 0 && self.dropped == 0 && self.panics == 0 && self.imgui_errors == 0 {
             return None;
         }
         if self.last_report.is_some_and(|last| now.saturating_duration_since(last) < self.interval) {
@@ -145,12 +155,16 @@ impl Warnings {
         if self.panics > 0 {
             parts.push(format!("{} panic{}", self.panics, if self.panics == 1 { "" } else { "s" }));
         }
+        if self.imgui_errors > 0 {
+            parts.push(format!("{} ImGui error{}", self.imgui_errors, if self.imgui_errors == 1 { "" } else { "s" }));
+        }
 
         self.last_report = Some(now);
         self.slow_pulses = 0;
         self.worst_pulse = Duration::ZERO;
         self.dropped = 0;
         self.panics = 0;
+        self.imgui_errors = 0;
         Some(parts.join(", "))
     }
 }
@@ -170,10 +184,10 @@ mod tests {
 
     #[test]
     fn summary_is_two_lines() {
-        let stats = Stats { pulses: 2, pulse_time: 3 * MS, slowest_pulse: 2 * MS, queued: 5, dropped: 1, cap_hits: 1, panics: 0 };
+        let stats = Stats { pulses: 2, pulse_time: 3 * MS, slowest_pulse: 2 * MS, queued: 5, dropped: 1, cap_hits: 1, panics: 0, imgui_errors: 2 };
         let [first, second] = stats.summary();
         assert_eq!(first, "pulses: 2 | avg 1.500 ms | slowest 2.000 ms");
-        assert_eq!(second, "re-entrant events: 5 queued, 1 dropped (cap hits: 1) | panics: 0");
+        assert_eq!(second, "re-entrant events: 5 queued, 1 dropped (cap hits: 1) | panics: 0 | ImGui errors: 2");
     }
 
     #[test]
@@ -208,6 +222,18 @@ mod tests {
         // ...and are summarized once it has passed.
         assert_eq!(w.poll(start + Duration::from_secs(30)).unwrap(), "1 slow pulse (worst 30.0 ms), 1 panic");
         assert_eq!(w.poll(start + Duration::from_secs(90)), None);
+    }
+
+    #[test]
+    fn imgui_errors_are_summarized_and_dismissable() {
+        let mut w = Warnings::new();
+        w.record_imgui_error();
+        w.record_imgui_error();
+        assert_eq!(w.poll(Instant::now()).unwrap(), "2 ImGui errors");
+        let mut w = Warnings::new();
+        w.record_imgui_error();
+        w.dismiss();
+        assert_eq!(w.poll(Instant::now()), None);
     }
 
     #[test]

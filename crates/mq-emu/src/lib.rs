@@ -61,6 +61,7 @@ pub mod color;
 mod data;
 mod game;
 mod host;
+pub mod imgui;
 pub mod lua;
 mod movement;
 mod mq;
@@ -75,6 +76,7 @@ pub use mq_emu_sys as sys;
 
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
 pub use data::{Data, PathError, TloError, Value};
+pub use imgui::Ui;
 pub use lua::{LuaTable, LuaValue};
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
