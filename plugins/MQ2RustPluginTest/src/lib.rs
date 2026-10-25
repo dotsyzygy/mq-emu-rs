@@ -9,6 +9,7 @@
 #![allow(non_snake_case)] // the crate is named after the DLL
 
 mod checks;
+mod data_checks;
 mod lua_checks;
 mod peer_checks;
 
@@ -16,7 +17,7 @@ use std::collections::{BTreeSet, VecDeque};
 use std::time::{Duration, Instant};
 
 use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
-use mq_emu::{Address, LuaTable, LuaValue, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId};
+use mq_emu::{Address, LuaTable, LuaValue, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId, Value};
 
 use crate::checks::{Check, Report};
 
@@ -60,6 +61,8 @@ struct RustTest {
     peers: Option<BTreeSet<String>>,
     /// When the latest pulses started, oldest first.
     recent_pulses: VecDeque<Instant>,
+    /// The selftest's `/echo` of the RustTest TLO, once it arrives.
+    tlo_echo: Option<String>,
 }
 
 impl Plugin for RustTest {
@@ -76,6 +79,10 @@ impl Plugin for RustTest {
         // Lua scripts reach us at "RustPluginTest:lua" (see lua/rustpeer.lua).
         if let Err(e) = mq.add_mailbox("lua", RustTest::lua_message) {
             mq.chat(format!("{RED}[{}]{RESET} couldn't add the lua mailbox: {e}", mq.plugin_name()));
+        }
+        // ${RustTest[...]} for macros and mq.TLO.RustTest(...) for Lua.
+        if let Err(e) = mq.add_tlo(data_checks::TLO, RustTest::tlo) {
+            mq.chat(format!("{RED}[{}]{RESET} couldn't add the {} TLO: {e}", mq.plugin_name(), data_checks::TLO));
         }
         mq.chat(format!("{GREEN}[{}]{RESET} loaded. Try {YELLOW}{COMMAND} selftest{RESET}.", mq.plugin_name()));
         RustTest::default()
@@ -107,6 +114,9 @@ impl Plugin for RustTest {
         self.chat_lines += 1;
         self.seen_marker_chat |= line.contains(MARKER_CHAT);
         self.seen_marker_echo |= line.contains(MARKER_ECHO);
+        if let Some(echo) = data_checks::note_echo(line) {
+            self.tlo_echo = Some(echo);
+        }
         if self.flooding {
             // Deliberate feedback loop: every line we write comes back here.
             mq.chat("flood");
@@ -160,6 +170,20 @@ impl Plugin for RustTest {
 }
 
 impl RustTest {
+    /// The `RustTest` TLO: `${RustTest}` is the plugin's name; indexes give
+    /// one value of each kind; anything else is NULL.
+    fn tlo(&mut self, mq: &Mq<Self>, index: &str) -> Option<Value> {
+        match index {
+            "" => Some(mq.plugin_name().into()),
+            "answer" => Some(42.into()),
+            "half" => Some(2.5.into()),
+            "yes" => Some(true.into()),
+            "big" => Some(Value::Int(1 << 40)),
+            "pulses" => Some(Value::Int(mq.stats().pulses as i64)),
+            _ => None,
+        }
+    }
+
     /// The average time between recent pulses, in milliseconds.
     fn frame_ms(&self) -> Option<f64> {
         let (first, last) = (self.recent_pulses.front()?, self.recent_pulses.back()?);
@@ -233,11 +257,17 @@ impl RustTest {
             return;
         }
         let mut report = Report::new(mq);
+        report.section(mq, "Game data");
         checks::game_data(mq, &mut report);
+        report.section(mq, "Spawn list");
         checks::spawn_list(mq, &mut report);
+        report.section(mq, "Commands and parsing");
         checks::commands(mq, &mut report);
         checks::parsing(mq, &mut report);
+        report.section(mq, "Movement keys");
         checks::keys(mq, &mut report);
+        report.section(mq, "Reading TLOs");
+        data_checks::reads(mq, &mut report);
 
         // Re-entrancy can only be judged after this command returns.
         self.seen_marker_chat = false;
@@ -253,6 +283,7 @@ impl RustTest {
 async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: mq_emu::Stats) {
     // The command that started us has returned; its queued chat has arrived.
     task.next_pulse().await;
+    task.with(|mq| report.section(mq, "Re-entrancy and tasks"));
     task.with_plugin(|plugin, mq| {
         let after = mq.stats();
         report.print(
@@ -289,11 +320,18 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
         ))
     });
 
+    task.with(|mq| report.section(mq, "Providing a TLO"));
+    data_checks::provided_tlo(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Turning and walking"));
     turning(&task, &mut report).await;
     walking(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Safety nets"));
     safety_nets(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Messaging"));
     messaging(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Lua"));
     let lua_here = lua_checks::run(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Other characters"));
     peer_checks::run(&task, &mut report, lua_here).await;
 
     task.with_plugin(|plugin, mq| {

@@ -182,6 +182,78 @@ unsafe extern "C" {
     pub fn mqemu_loaded_plugin_name(name: *const c_char) -> *const c_char;
 }
 
+// ----- macro data (mq/api/MacroAPI.h) -----
+//
+// shim/data.cpp imports MQ2Main.dll and eqlib.dll, so only plugins may call
+// these; code reachable from tests must go through a substitutable layer.
+
+/// An evaluated TLO or member value, owned by the caller until [`mqemu_data_free`].
+#[repr(C)]
+pub struct mqemu_data {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// A value's raw data read as each kind of number; which one means something
+/// depends on the value's type (an `int` can be stored as an unsigned 32-bit
+/// pattern, so truncate it to `i32`).
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct mqemu_scalar {
+    pub integer: i64,
+    pub real: f64,
+    pub boolean: bool,
+}
+
+/// Where a TLO callback writes its value (see [`mqemu_tlo_set`]).
+#[repr(C)]
+pub struct mqemu_tlo_result {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// A TLO was evaluated with `index` ("" for none). Return true after setting
+/// a value with [`mqemu_tlo_set`], false for NULL.
+pub type mqemu_tlo_fn = unsafe extern "C" fn(user: *mut c_void, index: *const c_char, result: *mut mqemu_tlo_result) -> bool;
+
+/// Value kinds for [`mqemu_tlo_set`], naming MacroQuest's types.
+pub mod tlo_kind {
+    pub const BOOL: i32 = 0;
+    pub const INT: i32 = 1;
+    pub const INT64: i32 = 2;
+    pub const FLOAT: i32 = 3;
+    pub const STRING: i32 = 4;
+}
+
+unsafe extern "C" {
+    /// Evaluates TLO `name` with `index` ("" for none). Null for no such TLO or NULL.
+    pub fn mqemu_data_tlo(main: *mut MainInterface, name: *const c_char, index: *const c_char) -> *mut mqemu_data;
+    /// Evaluates a member of `data`. Null for no such member or NULL.
+    pub fn mqemu_data_member(data: *const mqemu_data, member: *const c_char, index: *const c_char) -> *mut mqemu_data;
+    pub fn mqemu_data_free(data: *mut mqemu_data);
+    /// The type's name (`"int"`, `"spawn"`...), valid while MacroQuest runs.
+    pub fn mqemu_data_type_name(data: *const mqemu_data) -> *const c_char;
+    /// The value as `${...}` shows it, NUL-terminated; returns the length written.
+    pub fn mqemu_data_text(data: *const mqemu_data, out: *mut c_char, cap: usize) -> usize;
+    pub fn mqemu_data_scalar(data: *const mqemu_data, out: *mut mqemu_scalar);
+
+    /// Adds a TLO. Ownership of `user` passes to the shim: `drop` is called
+    /// exactly once, when MacroQuest lets go of it (at once if adding fails).
+    pub fn mqemu_add_tlo(
+        main: *mut MainInterface,
+        handle: *const MQPluginHandle,
+        name: *const c_char,
+        callback: mqemu_tlo_fn,
+        user: *mut c_void,
+        drop: Option<mqemu_drop_fn>,
+    ) -> bool;
+    pub fn mqemu_remove_tlo(main: *mut MainInterface, handle: *const MQPluginHandle, name: *const c_char) -> bool;
+    /// Sets a TLO callback's value: `kind` from [`tlo_kind`]; `integer` for
+    /// bool/int/int64, `real` for float, `text`/`len` for string. False if
+    /// MacroQuest lacks the type.
+    pub fn mqemu_tlo_set(result: *mut mqemu_tlo_result, kind: i32, integer: i64, real: f64, text: *const c_char, len: usize) -> bool;
+}
+
 /// A fake `MainInterface` that records command API calls, for testing code
 /// built on the shim without MacroQuest (`shim/test_fake.cpp`). It is only
 /// linked into binaries that use it.

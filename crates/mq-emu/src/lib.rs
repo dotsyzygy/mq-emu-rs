@@ -58,6 +58,7 @@ compile_error!(
 
 mod actors;
 pub mod color;
+mod data;
 mod game;
 mod host;
 pub mod lua;
@@ -73,6 +74,7 @@ mod text;
 pub use mq_emu_sys as sys;
 
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
+pub use data::{Data, PathError, TloError, Value};
 pub use lua::{LuaTable, LuaValue};
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,

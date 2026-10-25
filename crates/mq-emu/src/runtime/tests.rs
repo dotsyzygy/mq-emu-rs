@@ -17,6 +17,8 @@ use crate::game::{Heading, Position, SpawnId};
 use crate::host::Host;
 use crate::movement::{MoveError, MoveKey};
 
+mod data;
+
 // ----- fake host -----------------------------------------------------------
 
 type Hook = Rc<dyn Fn(&mut Recorder, &Mq<Recorder>)>;
@@ -116,6 +118,7 @@ const FAKE: Host = Host {
     face_angle: || FACE_ANGLE.with(Cell::get),
     set_face_angle: |value| FACE_ANGLE.with(|angle| angle.set(value)),
     loaded_plugin_name: |name| LUA_LOADED_AS.with(Cell::get).filter(|_| name.eq_ignore_ascii_case("lua")).map(str::to_owned),
+    data: data::FAKE_DATA,
 };
 
 fn chat_lines() -> Vec<String> {
@@ -308,6 +311,61 @@ fn feedback_loop_is_capped_and_counted() {
     assert_eq!(stats.cap_hits, 1);
     assert!(stats.dropped >= 1, "{stats:?}");
 
+    // The runtime recovers: the next pulse is delivered normally.
+    ON_CHAT.with(|hook| *hook.borrow_mut() = None);
+    ON_PULSE.with(|hook| *hook.borrow_mut() = None);
+    rt.pulse();
+    assert_eq!(log_of(rt).last().unwrap(), "pulse");
+}
+
+#[test]
+fn a_wide_burst_is_delivered_in_full() {
+    // A long report written in one callback is one generation of events, not
+    // a loop: every line comes back.
+    let rt = runtime();
+    set_hook(&ON_PULSE, |_, mq| {
+        for n in 0..200 {
+            mq.chat(format!("line {n}"));
+        }
+    });
+    rt.initialize();
+    rt.pulse();
+    let chats = log_of(rt).iter().filter(|e| e.starts_with("chat:")).count();
+    assert_eq!(chats, 200);
+    let stats = rt.stats();
+    assert_eq!((stats.queued, stats.dropped, stats.cap_hits), (200, 0, 0));
+}
+
+#[test]
+fn more_than_the_queue_holds_drops_only_the_excess() {
+    let rt = runtime();
+    set_hook(&ON_PULSE, |_, mq| {
+        for n in 0..MAX_QUEUE + 10 {
+            mq.chat(format!("line {n}"));
+        }
+    });
+    rt.initialize();
+    rt.pulse();
+    let chats: Vec<_> = log_of(rt).into_iter().filter(|e| e.starts_with("chat:")).collect();
+    assert_eq!(chats.len(), MAX_QUEUE);
+    assert_eq!(chats.last().unwrap(), &format!("chat:line {}", MAX_QUEUE - 1), "the first ones are kept, in order");
+    let stats = rt.stats();
+    assert_eq!((stats.dropped, stats.cap_hits), (10, 0));
+}
+
+#[test]
+fn a_loop_that_fans_out_still_ends() {
+    // Each line causes two more: the queue limit and the depth limit both stop it.
+    let rt = runtime();
+    set_hook(&ON_PULSE, |_, mq| mq.chat("seed"));
+    set_hook(&ON_CHAT, |_, mq| {
+        mq.chat("a");
+        mq.chat("b");
+    });
+    rt.initialize();
+    rt.pulse();
+    let stats = rt.stats();
+    assert!(stats.dropped > 0, "{stats:?}");
     // The runtime recovers: the next pulse is delivered normally.
     ON_CHAT.with(|hook| *hook.borrow_mut() = None);
     ON_PULSE.with(|hook| *hook.borrow_mut() = None);

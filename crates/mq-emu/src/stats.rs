@@ -15,10 +15,11 @@ pub struct Stats {
     /// Events that arrived while a callback was running and were delivered
     /// right after it (see the crate docs on re-entrant events).
     pub queued: u64,
-    /// Re-entrant events that were dropped: queue full, the per-callback cap
-    /// was hit, or the event can't be queued (spawn and ground item events).
+    /// Re-entrant events that were dropped: queue full, nested too deep, or
+    /// the event can't be queued (spawn and ground item events).
     pub dropped: u64,
-    /// Times the per-callback delivery cap was hit (a likely feedback loop).
+    /// Events dropped for being nested too deep (a likely feedback loop; see
+    /// [`MAX_NESTED_DELIVERIES`](crate::MAX_NESTED_DELIVERIES)).
     pub cap_hits: u64,
     /// Panics caught in plugin callbacks.
     pub panics: u64,

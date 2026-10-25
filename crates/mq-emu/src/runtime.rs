@@ -30,9 +30,12 @@ use crate::text::{from_c, to_c};
 
 /// Most re-entrant events held at once; more are dropped.
 pub const MAX_QUEUE: usize = 256;
-/// Most queued events delivered after one callback; the rest are dropped. A
-/// callback that keeps causing events for itself (e.g. echoing its own chat)
-/// would otherwise never return control to the game.
+/// Deepest chain of queued events: events a callback causes are delivered
+/// after it, events *those* cause after them, and so on, up to this many
+/// generations; deeper ones are dropped. A callback that keeps causing events
+/// for itself (e.g. echoing its own chat) would otherwise never return
+/// control to the game. A callback that causes many events at once (a long
+/// report in chat) is one generation, limited only by [`MAX_QUEUE`].
 pub const MAX_NESTED_DELIVERIES: usize = 64;
 
 /// A callback from MacroQuest, with the data it needs owned so it can wait in
@@ -101,6 +104,7 @@ impl Event {
 const KIND_NEW: (u32, &str) = (21, "Plugin::new");
 const KIND_SHUTDOWN: (u32, &str) = (22, "shutdown");
 const KIND_TASK: (u32, &str) = (23, "a task");
+const KIND_TLO: (u32, &str) = (24, "a TLO");
 
 pub(crate) type CommandHandler<P> = dyn Fn(&mut P, &Mq<P>, &str);
 
@@ -121,7 +125,10 @@ pub struct Runtime<P: Plugin> {
     handle: Cell<MQPluginHandle>,
     /// MacroQuest's record for this plugin (null in tests).
     mq_plugin: Cell<*mut MQPlugin>,
-    queue: RefCell<VecDeque<Event>>,
+    /// Queued events, each with its generation (see `MAX_NESTED_DELIVERIES`).
+    queue: RefCell<VecDeque<(Event, usize)>>,
+    /// The generation of the event being delivered; 0 for MacroQuest's own call.
+    generation: Cell<usize>,
     commands: RefCell<Vec<Rc<CommandSlot<P>>>>,
     /// Removed command slots, freed once no callback is running.
     retired: RefCell<Vec<Rc<CommandSlot<P>>>>,
@@ -138,6 +145,8 @@ pub struct Runtime<P: Plugin> {
     executor: Executor,
     mailboxes: RefCell<Vec<Rc<MailboxSlot<P>>>>,
     next_mailbox_id: Cell<u64>,
+    /// Names of the TLOs this plugin added.
+    tlos: RefCell<Vec<String>>,
 }
 
 // SAFETY: MacroQuest calls plugins only from the game thread, and plugin code
@@ -148,7 +157,7 @@ unsafe impl<P: Plugin> Sync for Runtime<P> {}
 impl<P: Plugin> Runtime<P> {
     /// A runtime that talks to MacroQuest. `name` labels its chat messages.
     pub const fn new(name: &'static str) -> Runtime<P> {
-        Runtime::with_host(name, crate::host::REAL)
+        Runtime::with_host(name, crate::host::real::<P>())
     }
 
     pub(crate) const fn with_host(name: &'static str, host: Host) -> Runtime<P> {
@@ -160,6 +169,7 @@ impl<P: Plugin> Runtime<P> {
             handle: Cell::new(MQPluginHandle { pluginID: 0 }),
             mq_plugin: Cell::new(std::ptr::null_mut()),
             queue: RefCell::new(VecDeque::new()),
+            generation: Cell::new(0),
             commands: RefCell::new(Vec::new()),
             retired: RefCell::new(Vec::new()),
             next_command_id: Cell::new(1),
@@ -171,6 +181,7 @@ impl<P: Plugin> Runtime<P> {
             executor: Executor::new(),
             mailboxes: RefCell::new(Vec::new()),
             next_mailbox_id: Cell::new(1),
+            tlos: RefCell::new(Vec::new()),
         }
     }
 
@@ -230,6 +241,7 @@ impl<P: Plugin> Runtime<P> {
             self.executor.clear();
             self.remove_all_commands();
             self.unregister_all_mailboxes();
+            self.remove_all_tlos();
             let plugin = unsafe { (*self.plugin.get()).take() };
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
                 self.diagnostic("panicked while dropping the plugin");
@@ -372,9 +384,15 @@ impl<P: Plugin> Runtime<P> {
     }
 
     fn enqueue(&self, event: Event) {
+        let generation = self.generation.get() + 1;
         let mut stats = self.stats.get();
-        if event.queueable() && self.queue.borrow().len() < MAX_QUEUE {
-            self.queue.borrow_mut().push_back(event);
+        if generation > MAX_NESTED_DELIVERIES {
+            // Too deep: almost certainly a feedback loop.
+            stats.dropped += 1;
+            stats.cap_hits += 1;
+            self.warnings.borrow_mut().record_dropped(1);
+        } else if event.queueable() && self.queue.borrow().len() < MAX_QUEUE {
+            self.queue.borrow_mut().push_back((event, generation));
             stats.queued += 1;
         } else {
             stats.dropped += 1;
@@ -384,23 +402,13 @@ impl<P: Plugin> Runtime<P> {
     }
 
     fn drain(&'static self) {
-        let mut delivered = 0;
         loop {
             let next = self.queue.borrow_mut().pop_front();
-            let Some(event) = next else { break };
-            if delivered == MAX_NESTED_DELIVERIES {
-                let rest = 1 + self.queue.borrow().len() as u64;
-                self.queue.borrow_mut().clear();
-                let mut stats = self.stats.get();
-                stats.dropped += rest;
-                stats.cap_hits += 1;
-                self.stats.set(stats);
-                self.warnings.borrow_mut().record_dropped(rest);
-                break;
-            }
+            let Some((event, generation)) = next else { break };
+            self.generation.set(generation);
             self.run_one(event);
-            delivered += 1;
         }
+        self.generation.set(0);
     }
 
     /// Runs one event's callback. Must only be called while `busy`.
@@ -545,6 +553,42 @@ impl<P: Plugin> Runtime<P> {
         } else {
             unsafe { std::ffi::CStr::from_ptr(name) }.to_string_lossy().into_owned()
         }
+    }
+
+    pub(crate) fn tlos(&self) -> &RefCell<Vec<String>> {
+        &self.tlos
+    }
+
+    /// Asks a TLO handler for its value, synchronously: MacroQuest needs the
+    /// answer now, so unlike events this can't be queued. None (NULL) if a
+    /// callback is already running (the plugin is borrowed) or it panics.
+    pub(crate) fn call_tlo(&'static self, handler: &crate::data::TloHandler<P>, index: &str) -> Option<crate::data::Value> {
+        if self.busy.get() || !self.has_plugin() {
+            let mut stats = self.stats.get();
+            stats.dropped += 1;
+            self.stats.set(stats);
+            self.warnings.borrow_mut().record_dropped(1);
+            return None;
+        }
+        self.busy.set(true);
+        // SAFETY: busy, so this is the only borrow of `plugin`.
+        let plugin = unsafe { (*self.plugin.get()).as_mut() }.expect("checked above");
+        let mq = Mq::new(self);
+        self.plugin_in_use.set(true);
+        let outcome = catch_unwind(AssertUnwindSafe(|| handler(plugin, &mq, index)));
+        self.plugin_in_use.set(false);
+        let value = match outcome {
+            Ok(value) => value,
+            Err(payload) => {
+                self.on_panic(KIND_TLO, payload.as_ref());
+                None
+            }
+        };
+        // Deliver whatever the handler caused (chat it wrote, say).
+        self.drain();
+        self.busy.set(false);
+        self.free_retired();
+        value
     }
 
     pub(crate) fn mailboxes(&self) -> &RefCell<Vec<Rc<MailboxSlot<P>>>> {

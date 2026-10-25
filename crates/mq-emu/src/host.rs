@@ -2,6 +2,15 @@
 //! pointers so tests can substitute fakes. Code reachable from tests must go
 //! through [`Host`] rather than calling MQ2Main.dll directly; otherwise the
 //! test binary would need MQ2Main.dll to start.
+//!
+//! The real functions are generic over the plugin type (`P`, otherwise
+//! unused), so their code is only generated where a plugin instantiates
+//! `Runtime::new`. A plain function would be compiled into mq-emu's library,
+//! and any binary linking the object file it landed in, a test using only
+//! `mq_emu::lua` say, would import MQ2Main.dll and eqlib.dll.
+
+// The unused `P` on the real functions is the point (see above).
+#![allow(clippy::extra_unused_type_parameters)]
 
 use std::time::Instant;
 
@@ -35,26 +44,31 @@ pub(crate) struct Host {
     pub set_face_angle: fn(f64),
     /// The name MacroQuest gave a loaded plugin (see `mqemu_loaded_plugin_name`).
     pub loaded_plugin_name: fn(&str) -> Option<String>,
+    /// MacroQuest's data system: TLOs and their members.
+    pub data: crate::data::DataApi,
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
 /// plugins (through `plugin!`) call.
-pub(crate) const REAL: Host = Host {
-    write_chat: real_write_chat,
-    main_interface: real_main_interface,
-    game_state: real_game_state,
-    now: Instant::now,
-    local_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPlayer) },
-    controlled_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pControlledPlayer) },
-    target: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTarget) },
-    spawn_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpawnManager) },
-    everquest_info: || unsafe { mq_emu_sys::eqlib::pEverQuestInfo },
-    command_enabled: real_command_enabled,
-    execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
-    face_angle: || unsafe { mq_emu_sys::mq2main::gFaceAngle },
-    set_face_angle: |value| unsafe { mq_emu_sys::mq2main::gFaceAngle = value },
-    loaded_plugin_name: real_loaded_plugin_name,
-};
+pub(crate) const fn real<P>() -> Host {
+    Host {
+        write_chat: real_write_chat::<P>,
+        main_interface: real_main_interface::<P>,
+        game_state: real_game_state::<P>,
+        now: Instant::now,
+        local_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPlayer) },
+        controlled_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pControlledPlayer) },
+        target: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTarget) },
+        spawn_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpawnManager) },
+        everquest_info: || unsafe { mq_emu_sys::eqlib::pEverQuestInfo },
+        command_enabled: real_command_enabled::<P>,
+        execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
+        face_angle: || unsafe { mq_emu_sys::mq2main::gFaceAngle },
+        set_face_angle: |value| unsafe { mq_emu_sys::mq2main::gFaceAngle = value },
+        loaded_plugin_name: real_loaded_plugin_name::<P>,
+        data: crate::data::real::<P>(),
+    }
+}
 
 /// Reads an eqlib `ForeignPointer` global.
 ///
@@ -64,27 +78,27 @@ unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
     unsafe { (*global).get() }
 }
 
-fn real_command_enabled(command: u32) -> bool {
+fn real_command_enabled<P>(command: u32) -> bool {
     let states = unsafe { mq_emu_sys::eqlib::EQbCommandStates };
     (command as usize) < N_EQ_MAPPABLE_COMMANDS && !states.is_null() && unsafe { *states.add(command as usize) } != 0
 }
 
-fn real_write_chat(text: &str, color: i32) {
+fn real_write_chat<P>(text: &str, color: i32) {
     let text = to_c(truncate(text, MAX_STRING - 1));
     unsafe { mq_emu_sys::mq2main::WriteChatColor(text.as_ptr(), color, 0) }
 }
 
-fn real_main_interface() -> *mut MainInterface {
+fn real_main_interface<P>() -> *mut MainInterface {
     unsafe { mq_emu_sys::shim::mqemu_main_interface() }
 }
 
-fn real_loaded_plugin_name(name: &str) -> Option<String> {
+fn real_loaded_plugin_name<P>(name: &str) -> Option<String> {
     let name = to_c(name);
     let found = unsafe { mq_emu_sys::shim::mqemu_loaded_plugin_name(name.as_ptr()) };
     (!found.is_null()).then(|| unsafe { std::ffi::CStr::from_ptr(found) }.to_string_lossy().into_owned())
 }
 
-fn real_game_state() -> i32 {
+fn real_game_state<P>() -> i32 {
     unsafe { mq_emu_sys::mq2main::GetGameState() }
 }
 

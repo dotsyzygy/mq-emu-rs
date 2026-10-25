@@ -153,6 +153,23 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) -> bool {
         })
     });
 
+    // Lua reads the plugin's TLO (mq.TLO.RustTest(...)()), with types intact.
+    let tlo = ask(task, &script, request("tlo")).await;
+    task.with(|mq| {
+        let expected = LuaValue::from(
+            LuaTable::new()
+                .with("name", mq.plugin_name())
+                .with("answer", 42)
+                .with("half", 2.5)
+                .with("yes", true)
+                .with("nope_is_nil", true),
+        );
+        report.print(mq, "Lua reads the plugin's TLO", match &tlo {
+            Ok(value) => Check::that(*value == expected, || format!("Lua read {value:?}")),
+            Err(e) => Check::Fail(e.clone()),
+        })
+    });
+
     // Negative: requests Lua can't make sense of are refused, not dropped.
     let unknown = ask(task, &script, request("no_such_request")).await;
     let garbage = task.request_timeout(&script, [0xffu8], TIMEOUT).await.map_err(|e| e.to_string());

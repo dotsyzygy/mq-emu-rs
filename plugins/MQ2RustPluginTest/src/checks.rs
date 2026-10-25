@@ -1,7 +1,7 @@
 //! The `/rusttest selftest` checks. Each compares something mq-emu reads or
 //! does with what MacroQuest itself reports.
 
-use mq_emu::color::{GREEN, RED, RESET, YELLOW};
+use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
 use std::ffi::{CStr, CString};
 use std::time::Instant;
 
@@ -20,12 +20,40 @@ impl Check {
     }
 }
 
-/// Collects check results and prints them as they come.
-pub struct Report {
-    name: &'static str,
+/// Pass/fail/skip counts.
+#[derive(Default, Clone, Copy)]
+struct Counts {
     passed: u32,
     failed: u32,
     skipped: u32,
+}
+
+impl Counts {
+    fn add(&mut self, other: Counts) {
+        self.passed += other.passed;
+        self.failed += other.failed;
+        self.skipped += other.skipped;
+    }
+
+    /// "12 passed, 1 failed, 2 skipped", leaving out zero failures and skips.
+    fn summary(self) -> String {
+        let mut parts = vec![format!("{} passed", self.passed)];
+        if self.failed > 0 {
+            parts.push(format!("{RED}{} failed{RESET}", self.failed));
+        }
+        if self.skipped > 0 {
+            parts.push(format!("{YELLOW}{} skipped{RESET}", self.skipped));
+        }
+        parts.join(", ")
+    }
+}
+
+/// Collects check results, in titled sections, and prints them as they come.
+pub struct Report {
+    name: &'static str,
+    /// Each section's title and counts, in order. Checks before the first
+    /// section go in an untitled one.
+    sections: Vec<(String, Counts)>,
     started: Instant,
     /// When the previous line was printed.
     last: Instant,
@@ -34,21 +62,34 @@ pub struct Report {
 impl Report {
     pub fn new<P: Plugin>(mq: &Mq<P>) -> Report {
         let now = Instant::now();
-        Report { name: mq.plugin_name(), passed: 0, failed: 0, skipped: 0, started: now, last: now }
+        Report { name: mq.plugin_name(), sections: Vec::new(), started: now, last: now }
+    }
+
+    /// Starts a titled group of checks, with a header line.
+    pub fn section<P: Plugin>(&mut self, mq: &Mq<P>, title: &str) {
+        self.sections.push((title.to_owned(), Counts::default()));
+        mq.chat(format!("[{}] {TEAL}===== {}. {title} ====={RESET}", self.name, self.sections.len()));
+    }
+
+    fn counts(&mut self) -> &mut Counts {
+        if self.sections.is_empty() {
+            self.sections.push((String::new(), Counts::default()));
+        }
+        &mut self.sections.last_mut().expect("just ensured").1
     }
 
     pub fn print<P: Plugin>(&mut self, mq: &Mq<P>, label: &str, check: Check) {
         let line = match check {
             Check::Pass => {
-                self.passed += 1;
+                self.counts().passed += 1;
                 format!("{GREEN}[PASS]{RESET} {label}")
             }
             Check::Fail(detail) => {
-                self.failed += 1;
+                self.counts().failed += 1;
                 format!("{RED}[FAIL]{RESET} {label}: {detail}")
             }
             Check::Skip(reason) => {
-                self.skipped += 1;
+                self.counts().skipped += 1;
                 format!("{YELLOW}[SKIP]{RESET} {label}: {reason}")
             }
         };
@@ -59,14 +100,23 @@ impl Report {
         mq.chat(format!("[{}] [{stamp}] {line}", self.name));
     }
 
+    /// Prints each section's counts, then the totals.
     pub fn finish<P: Plugin>(self, mq: &Mq<P>) {
-        let color = if self.failed == 0 { GREEN } else { RED };
+        mq.chat(format!("[{}] {TEAL}===== summary ====={RESET}", self.name));
+        let mut total = Counts::default();
+        for (number, (title, counts)) in self.sections.iter().enumerate() {
+            if !title.is_empty() {
+                mq.chat(format!("[{}]   {}. {title}: {}", self.name, number + 1, counts.summary()));
+            }
+            total.add(*counts);
+        }
+        let color = if total.failed == 0 { GREEN } else { RED };
         mq.chat(format!(
             "[{}] {color}selftest: {} passed, {} failed, {} skipped in {:.2}s{RESET}",
             self.name,
-            self.passed,
-            self.failed,
-            self.skipped,
+            total.passed,
+            total.failed,
+            total.skipped,
             self.started.elapsed().as_secs_f64()
         ));
     }

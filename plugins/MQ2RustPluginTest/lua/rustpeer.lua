@@ -57,6 +57,17 @@ function handlers.call_rust(content)
     return { id = 'sent' }
 end
 
+-- The Rust plugin's TLO, read the way scripts read any TLO.
+function handlers.tlo()
+    return {
+        name = mq.TLO.RustTest(),
+        answer = mq.TLO.RustTest('answer')(),
+        half = mq.TLO.RustTest('half')(),
+        yes = mq.TLO.RustTest('yes')(),
+        nope_is_nil = mq.TLO.RustTest('nope')() == nil,
+    }
+end
+
 function handlers.last_reply()
     return last_reply or { id = 'none' }
 end
