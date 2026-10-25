@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/mq-emu-sys", "tools/mq-emu-bindgen"]
+members = ["crates/mq-emu-sys", "crates/mq-emu", "tools/mq-emu-bindgen"]
 
 # Shared metadata. Each crate opts in with `field.workspace = true` and decides
 # for itself whether it is published.
@@ -15,3 +15,4 @@ repository = "https://github.com/dotsyzygy/mq-emu-rs"
 # here and from crates.io once published.
 [workspace.dependencies]
 mq-emu-sys = { path = "crates/mq-emu-sys", version = "0.1.0" }
+mq-emu = { path = "crates/mq-emu", version = "0.1.0" }

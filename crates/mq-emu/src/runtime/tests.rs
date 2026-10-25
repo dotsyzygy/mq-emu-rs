@@ -1,0 +1,510 @@
+//! Runtime behaviour against a fake host: dispatch, re-entrancy, the feedback
+//! cap, panics, commands and warnings. Each test runs on its own thread, so the
+//! thread-local fakes isolate tests from each other.
+
+use std::cell::{Cell, RefCell};
+use std::ffi::CString;
+use std::ptr;
+use std::rc::Rc;
+use std::time::{Duration, Instant};
+
+use mq_emu_sys::shim::MainInterface;
+use mq_emu_sys::shim::testing::*;
+
+use super::*;
+use crate::host::Host;
+
+// ----- fake host -----------------------------------------------------------
+
+type Hook = Rc<dyn Fn(&mut Recorder, &Mq<Recorder>)>;
+/// Stands in for MacroQuest calling OnWriteChatColor back synchronously.
+type Echo = Rc<dyn Fn(&str, i32)>;
+
+thread_local! {
+    static CHAT: RefCell<Vec<(String, i32)>> = const { RefCell::new(Vec::new()) };
+    /// Simulates MacroQuest calling every plugin's OnWriteChatColor synchronously.
+    static ECHO: RefCell<Option<Echo>> = const { RefCell::new(None) };
+    static MAIN: Cell<*mut MainInterface> = const { Cell::new(ptr::null_mut()) };
+    static CLOCK_BASE: Instant = Instant::now();
+    static CLOCK: Cell<Duration> = const { Cell::new(Duration::ZERO) };
+    static ON_NEW: RefCell<Option<Hook>> = const { RefCell::new(None) };
+    static ON_PULSE: RefCell<Option<Hook>> = const { RefCell::new(None) };
+    static ON_CHAT: RefCell<Option<Hook>> = const { RefCell::new(None) };
+}
+
+fn fake_write_chat(text: &str, color: i32) {
+    CHAT.with(|chat| chat.borrow_mut().push((text.to_owned(), color)));
+    let echo = ECHO.with(|echo| echo.borrow().clone());
+    if let Some(echo) = echo {
+        echo(text, color);
+    }
+}
+
+fn fake_now() -> Instant {
+    CLOCK_BASE.with(|base| *base) + CLOCK.with(Cell::get)
+}
+
+fn advance_clock(by: Duration) {
+    CLOCK.with(|clock| clock.set(clock.get() + by));
+}
+
+const FAKE: Host = Host {
+    write_chat: fake_write_chat,
+    main_interface: || MAIN.with(Cell::get),
+    game_state: || mq_emu_sys::constants::GAMESTATE_INGAME,
+    now: fake_now,
+};
+
+fn chat_lines() -> Vec<String> {
+    CHAT.with(|chat| chat.borrow().iter().map(|(text, _)| text.clone()).collect())
+}
+
+/// A leaked runtime wired to the fake host, with chat echoed back to it.
+fn runtime() -> &'static Runtime<Recorder> {
+    let rt: &'static Runtime<Recorder> = Box::leak(Box::new(Runtime::with_host("test", FAKE)));
+    ECHO.with(|echo| {
+        *echo.borrow_mut() = Some(Rc::new(move |text: &str, color: i32| {
+            let text = CString::new(text).unwrap();
+            unsafe { rt.write_chat_color(text.as_ptr(), color as u32) };
+        }))
+    });
+    rt
+}
+
+fn set_hook(slot: &'static std::thread::LocalKey<RefCell<Option<Hook>>>, hook: impl Fn(&mut Recorder, &Mq<Recorder>) + 'static) {
+    slot.with(|s| *s.borrow_mut() = Some(Rc::new(hook)));
+}
+
+fn run_hook(slot: &'static std::thread::LocalKey<RefCell<Option<Hook>>>, plugin: &mut Recorder, mq: &Mq<Recorder>) {
+    let hook = slot.with(|s| s.borrow().clone());
+    if let Some(hook) = hook {
+        hook(plugin, mq);
+    }
+}
+
+/// Owns a fake MainInterface installed as the host's for this thread.
+struct FakeMain(*mut MainInterface);
+
+impl FakeMain {
+    fn install() -> FakeMain {
+        let fake = unsafe { mqemu_test_fake_new() };
+        MAIN.with(|main| main.set(fake));
+        FakeMain(fake)
+    }
+
+    fn invoke(&self, name: &str, line: &str) -> bool {
+        let (name, line) = (CString::new(name).unwrap(), CString::new(line).unwrap());
+        unsafe { mqemu_test_fake_invoke(self.0, name.as_ptr(), ptr::null_mut(), line.as_ptr()) }
+    }
+
+    fn log(&self) -> FakeLog {
+        unsafe { *mqemu_test_fake_log(self.0) }
+    }
+}
+
+impl Drop for FakeMain {
+    fn drop(&mut self) {
+        MAIN.with(|main| main.set(ptr::null_mut()));
+        unsafe { mqemu_test_fake_free(self.0) }
+    }
+}
+
+// ----- test plugin -----------------------------------------------------------
+
+#[derive(Default)]
+struct Recorder {
+    log: Vec<String>,
+}
+
+impl Plugin for Recorder {
+    fn new(mq: &Mq<Self>) -> Self {
+        let mut plugin = Recorder::default();
+        plugin.log.push("new".into());
+        run_hook(&ON_NEW, &mut plugin, mq);
+        plugin
+    }
+
+    fn shutdown(&mut self, _mq: &Mq<Self>) {
+        self.log.push("shutdown".into());
+    }
+
+    fn on_pulse(&mut self, mq: &Mq<Self>) {
+        self.log.push("pulse".into());
+        run_hook(&ON_PULSE, self, mq);
+    }
+
+    fn on_incoming_chat(&mut self, _mq: &Mq<Self>, line: &str, _color: u32) -> bool {
+        self.log.push(format!("incoming:{line}"));
+        line.contains("secret")
+    }
+
+    fn on_write_chat_color(&mut self, mq: &Mq<Self>, line: &str, _color: u32) {
+        self.log.push(format!("chat:{line}"));
+        run_hook(&ON_CHAT, self, mq);
+    }
+
+    fn on_add_spawn(&mut self, _mq: &Mq<Self>, spawn: &Spawn<'_>) {
+        self.log.push(format!("spawn:{}", spawn.id()));
+    }
+}
+
+fn log_of(rt: &Runtime<Recorder>) -> Vec<String> {
+    rt.with_plugin(|p| p.log.clone()).unwrap_or_default()
+}
+
+// ----- lifecycle -------------------------------------------------------------
+
+#[test]
+fn callbacks_reach_the_plugin_and_pulses_are_counted() {
+    let rt = runtime();
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+    rt.zoned();
+    assert_eq!(log_of(rt), ["new", "pulse", "pulse"]);
+    assert_eq!(rt.stats().pulses, 2);
+}
+
+#[test]
+fn nothing_is_delivered_before_initialize_or_after_shutdown() {
+    let rt = runtime();
+    rt.pulse();
+    assert!(rt.with_plugin(|_| ()).is_none());
+
+    rt.initialize();
+    rt.shutdown();
+    assert!(rt.with_plugin(|_| ()).is_none(), "plugin dropped on shutdown");
+    rt.pulse();
+    assert!(rt.with_plugin(|_| ()).is_none());
+}
+
+#[test]
+fn initialize_twice_keeps_the_first_plugin() {
+    let rt = runtime();
+    rt.initialize();
+    rt.pulse();
+    rt.initialize();
+    assert_eq!(log_of(rt), ["new", "pulse"]);
+}
+
+// ----- re-entrancy -------------------------------------------------------------
+
+#[test]
+fn reentrant_event_is_delivered_right_after_the_callback() {
+    let rt = runtime();
+    set_hook(&ON_PULSE, |plugin, mq| {
+        mq.chat("hi");
+        plugin.log.push("pulse:end".into());
+    });
+    rt.initialize();
+    rt.pulse();
+
+    // The chat callback waited for on_pulse to finish, then ran in the same call.
+    assert_eq!(log_of(rt), ["new", "pulse", "pulse:end", "chat:hi"]);
+    assert_eq!(rt.stats().queued, 1);
+    assert_eq!(rt.stats().dropped, 0);
+}
+
+#[test]
+fn events_outside_a_callback_are_not_queued() {
+    let rt = runtime();
+    rt.initialize();
+    let line = CString::new("direct").unwrap();
+    unsafe { rt.write_chat_color(line.as_ptr(), 0) };
+    assert_eq!(log_of(rt), ["new", "chat:direct"]);
+    assert_eq!(rt.stats().queued, 0);
+}
+
+#[test]
+fn feedback_loop_is_capped_and_counted() {
+    let rt = runtime();
+    // Echoing our own chat would loop forever without the cap.
+    set_hook(&ON_PULSE, |_, mq| mq.chat("ping"));
+    set_hook(&ON_CHAT, |_, mq| mq.chat("ping"));
+    rt.initialize();
+    rt.pulse();
+
+    let chats = log_of(rt).iter().filter(|e| e.starts_with("chat:")).count();
+    assert_eq!(chats, MAX_NESTED_DELIVERIES);
+    let stats = rt.stats();
+    assert_eq!(stats.cap_hits, 1);
+    assert!(stats.dropped >= 1, "{stats:?}");
+
+    // The runtime recovers: the next pulse is delivered normally.
+    ON_CHAT.with(|hook| *hook.borrow_mut() = None);
+    ON_PULSE.with(|hook| *hook.borrow_mut() = None);
+    rt.pulse();
+    assert_eq!(log_of(rt).last().unwrap(), "pulse");
+}
+
+#[test]
+fn spawn_events_during_a_callback_are_dropped_not_queued() {
+    let rt = runtime();
+    let mut storage = vec![0u64; size_of::<PlayerClient>().div_ceil(8)];
+    let spawn = storage.as_mut_ptr().cast::<PlayerClient>();
+    unsafe { (*spawn).set_SpawnID(9) };
+
+    set_hook(&ON_PULSE, move |_, _| {
+        // MacroQuest adding a spawn while on_pulse runs: the pointer might be
+        // stale by the time a queued event ran, so it must be dropped.
+        let rt: &Runtime<Recorder> = RUNTIME_FOR_SPAWN.with(Cell::get).unwrap();
+        rt.add_spawn(spawn);
+    });
+    RUNTIME_FOR_SPAWN.with(|cell| cell.set(Some(rt)));
+    rt.initialize();
+    rt.pulse();
+    assert_eq!(log_of(rt), ["new", "pulse"]);
+    assert_eq!(rt.stats().dropped, 1);
+
+    // Outside a callback the same event is delivered.
+    rt.add_spawn(spawn);
+    assert_eq!(log_of(rt).last().unwrap(), "spawn:9");
+}
+
+thread_local! {
+    static RUNTIME_FOR_SPAWN: Cell<Option<&'static Runtime<Recorder>>> = const { Cell::new(None) };
+}
+
+// ----- panics -------------------------------------------------------------
+
+#[test]
+fn panics_are_caught_reported_once_and_counted() {
+    let rt = runtime();
+    set_hook(&ON_PULSE, |_, _| panic!("boom"));
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+
+    let reports: Vec<_> = chat_lines().into_iter().filter(|l| l.contains("panicked")).collect();
+    assert_eq!(reports, ["[test] panicked in on_pulse: boom"]);
+    assert_eq!(rt.stats().panics, 2);
+
+    // Not stuck busy: other callbacks still work.
+    let line = CString::new("after").unwrap();
+    unsafe { rt.write_chat_color(line.as_ptr(), 0) };
+    assert!(log_of(rt).contains(&"chat:after".to_owned()));
+}
+
+#[test]
+fn a_reported_panic_is_not_repeated_as_a_warning() {
+    // Seen in game: "panicked in a command handler: ..." followed by "warning: 1 panic".
+    let rt = runtime();
+    let fail_once = Cell::new(true);
+    let fail_once = Rc::new(fail_once);
+    let flag = fail_once.clone();
+    set_hook(&ON_PULSE, move |_, _| {
+        if flag.replace(false) {
+            panic!("once");
+        }
+    });
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+    let lines = chat_lines();
+    assert_eq!(lines, ["[test] panicked in on_pulse: once"], "{lines:?}");
+
+    // A second, silenced panic of the same kind does show up in a warning.
+    fail_once.set(true);
+    advance_clock(WARNING_INTERVAL_FOR_TESTS);
+    rt.pulse();
+    assert_eq!(chat_lines().last().unwrap(), "[test] warning: 1 panic");
+}
+
+const WARNING_INTERVAL_FOR_TESTS: Duration = crate::stats::WARNING_INTERVAL;
+
+#[test]
+fn panic_in_new_leaves_no_plugin() {
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, _| panic!("bad config"));
+    rt.initialize();
+    assert!(rt.with_plugin(|_| ()).is_none());
+    assert!(chat_lines().contains(&"[test] panicked in Plugin::new: bad config".to_owned()));
+    rt.pulse(); // ignored, not a crash
+}
+
+// ----- chat input -------------------------------------------------------------
+
+#[test]
+fn incoming_chat_is_lossy_and_can_be_suppressed() {
+    let rt = runtime();
+    rt.initialize();
+    let secret = b"secret caf\xe9\0";
+    assert!(unsafe { rt.incoming_chat(secret.as_ptr().cast(), 0) });
+    let plain = CString::new("hello").unwrap();
+    assert!(!unsafe { rt.incoming_chat(plain.as_ptr(), 0) });
+    assert!(!unsafe { rt.incoming_chat(ptr::null(), 0) });
+    assert_eq!(log_of(rt), ["new", "incoming:secret caf\u{fffd}", "incoming:hello", "incoming:"]);
+}
+
+// ----- commands -------------------------------------------------------------
+
+fn register_echo_command(name: &'static str) {
+    set_hook(&ON_NEW, move |_, mq| {
+        mq.add_command(name, |plugin: &mut Recorder, _mq, args| plugin.log.push(format!("cmd:{args}"))).unwrap();
+    });
+}
+
+#[test]
+fn commands_route_to_their_closure_with_the_plugin_handle() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    rt.init_handle(MQPluginHandle { pluginID: 0x42 });
+    register_echo_command("/rt");
+    rt.initialize();
+
+    let log = main.log();
+    assert_eq!((log.add_count, log.last_handle, log.last_parse), (1, 0x42, true));
+    assert!(main.invoke("/rt", "stats now"));
+    assert_eq!(log_of(rt), ["new", "cmd:stats now"]);
+}
+
+#[test]
+fn command_invoked_during_a_callback_is_queued() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    register_echo_command("/rt");
+    let fake = main.0;
+    set_hook(&ON_PULSE, move |plugin, _| {
+        let (name, line) = (CString::new("/rt").unwrap(), CString::new("inner").unwrap());
+        unsafe { mqemu_test_fake_invoke(fake, name.as_ptr(), ptr::null_mut(), line.as_ptr()) };
+        plugin.log.push("pulse:end".into());
+    });
+    rt.initialize();
+    rt.pulse();
+    assert_eq!(log_of(rt), ["new", "pulse", "pulse:end", "cmd:inner"]);
+}
+
+#[test]
+fn a_handler_can_remove_its_own_command() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.add_command("/once", |plugin: &mut Recorder, mq, _| {
+            plugin.log.push(format!("removed:{}", mq.remove_command("/once")));
+        })
+        .unwrap();
+    });
+    rt.initialize();
+    assert!(main.invoke("/once", ""));
+    assert!(!main.invoke("/once", ""), "gone from MacroQuest");
+    assert_eq!(log_of(rt), ["new", "removed:true"]);
+}
+
+#[test]
+fn shutdown_removes_every_command() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.add_command("/a", |_: &mut Recorder, _, _| {}).unwrap();
+        mq.add_command("/b", |_: &mut Recorder, _, _| {}).unwrap();
+    });
+    rt.initialize();
+    rt.shutdown();
+    assert_eq!(main.log().remove_count, 2);
+    assert!(!main.invoke("/a", ""));
+    assert!(!main.invoke("/b", ""));
+}
+
+#[test]
+fn bad_command_registrations_are_rejected() {
+    let main = FakeMain::install();
+    // Another plugin already owns /taken.
+    let other = MQPluginHandle { pluginID: 7 };
+    unsafe extern "C" fn noop(_: *mut std::ffi::c_void, _: *mut PlayerClient, _: *const c_char) {}
+    assert!(unsafe { shim::mqemu_add_command(main.0, &other, "/taken".as_ptr().cast(), 6, noop, ptr::null_mut(), false, true, false) });
+
+    let rt = runtime();
+    set_hook(&ON_NEW, |plugin, mq| {
+        let mut results = Vec::new();
+        for name in ["rt", "/", "/a b", "/ok", "/OK", "/taken"] {
+            results.push(format!("{name}={:?}", mq.add_command(name, |_: &mut Recorder, _, _| {})));
+        }
+        plugin.log.extend(results);
+    });
+    rt.initialize();
+    assert_eq!(
+        log_of(rt),
+        [
+            "new",
+            "rt=Err(InvalidName)",
+            "/=Err(InvalidName)",
+            "/a b=Err(InvalidName)",
+            "/ok=Ok(())",
+            "/OK=Err(AlreadyRegistered)",
+            "/taken=Err(Rejected)",
+        ]
+    );
+}
+
+#[test]
+fn commands_are_unavailable_without_macroquest() {
+    let rt = runtime();
+    set_hook(&ON_NEW, |plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.add_command("/rt", |_: &mut Recorder, _, _| {})));
+        plugin.log.push(format!("{}", mq.command("/echo hi")));
+    });
+    rt.initialize();
+    assert_eq!(log_of(rt), ["new", "Err(Unavailable)", "false"]);
+}
+
+#[test]
+fn do_and_timed_commands_reach_macroquest() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_PULSE, |_, mq| {
+        assert!(mq.command("/echo later"));
+        assert!(mq.timed_command("/echo timed", Duration::from_millis(1500)));
+    });
+    rt.initialize();
+    rt.pulse();
+    let log = main.log();
+    assert_eq!((log.do_count, log.last_delayed, log.timed_count, log.last_ms), (1, true, 1, 1500));
+}
+
+// ----- warnings -------------------------------------------------------------
+
+#[test]
+fn slow_pulses_warn_at_most_every_interval() {
+    let rt = runtime();
+    set_hook(&ON_PULSE, |_, _| advance_clock(Duration::from_millis(20)));
+    rt.initialize();
+
+    rt.pulse();
+    rt.pulse();
+    let warnings = || chat_lines().into_iter().filter(|l| l.contains("warning")).collect::<Vec<_>>();
+    assert_eq!(warnings(), ["[test] warning: 1 slow pulse (worst 20.0 ms)"]);
+
+    advance_clock(Duration::from_secs(30));
+    rt.pulse();
+    assert_eq!(warnings().len(), 2);
+    assert_eq!(warnings()[1], "[test] warning: 2 slow pulses (worst 20.0 ms)");
+    assert_eq!(rt.stats().slowest_pulse, Duration::from_millis(20));
+}
+
+#[test]
+fn fast_pulses_are_silent() {
+    let rt = runtime();
+    rt.initialize();
+    for _ in 0..100 {
+        rt.pulse();
+    }
+    assert!(chat_lines().is_empty(), "{:?}", chat_lines());
+}
+
+// ----- linking -------------------------------------------------------------
+
+#[test]
+fn unit_tests_do_not_import_macroquest() {
+    // Everything reachable from these tests goes through the fake host, so the
+    // test binary must start without MQ2Main.dll or eqlib.dll.
+    use object::read::pe::PeFile32;
+    let exe = std::fs::read(std::env::current_exe().unwrap()).unwrap();
+    let file = PeFile32::parse(&*exe).unwrap();
+    let imports = file.import_table().unwrap().unwrap();
+    let mut descriptors = imports.descriptors().unwrap();
+    while let Some(descriptor) = descriptors.next().unwrap() {
+        let name = imports.name(descriptor.name.get(object::LittleEndian)).unwrap();
+        let name = String::from_utf8_lossy(name).to_ascii_lowercase();
+        assert!(name != "mq2main.dll" && name != "eqlib.dll", "test binary imports {name}");
+    }
+}

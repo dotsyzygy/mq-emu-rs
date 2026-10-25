@@ -1,0 +1,24 @@
+[package]
+name = "mq-emu"
+description = "Unofficial safe Rust API for writing MacroQuest emu (RoF2, 32-bit) plugins. Not affiliated with the MacroQuest project; not for live EverQuest."
+keywords = ["macroquest", "everquest", "emu", "rof2", "plugin"]
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+
+[package.metadata.docs.rs]
+default-target = "i686-pc-windows-msvc"
+targets = ["i686-pc-windows-msvc"]
+
+[dependencies]
+mq-emu-sys.workspace = true
+
+[dev-dependencies]
+object = { version = "0.36", default-features = false, features = ["std", "read_core", "pe"] }
+
+[[example]]
+name = "minimal_plugin"
+crate-type = ["cdylib"]
