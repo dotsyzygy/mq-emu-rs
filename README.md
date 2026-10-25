@@ -43,8 +43,9 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data, and
-exercises commands, re-entrancy, parsing, keys and async tasks. It also:
+exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also:
 
+- **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
 - **Triggers the runtime's safety nets on purpose:** expect a caught-panic message, a slow-pulse
   warning, and a burst of `flood` lines that the runtime cuts off.

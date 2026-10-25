@@ -25,6 +25,8 @@ const COMMAND: &str = "/rusttest";
 /// Text the re-entrancy checks look for in chat.
 const MARKER_CHAT: &str = "rusttest-marker-chat";
 const MARKER_ECHO: &str = "rusttest-marker-echo";
+/// What the selftest's alias echoes.
+const MARKER_ALIAS: &str = "rusttest-marker-alias";
 /// The selftest's turn: lopsided on purpose, so clockwise and counter-clockwise
 /// degrees can't agree by coincidence (they do at north and south).
 const SELFTEST_TURN_DEGREES: f32 = 100.0;
@@ -53,6 +55,8 @@ struct RustTest {
     selftest: Option<TaskId>,
     seen_marker_chat: bool,
     seen_marker_echo: bool,
+    /// The chat line the selftest's alias echoed.
+    alias_echo: Option<String>,
     /// What the `selftest` mailbox last received.
     selftest_mailbox: Option<String>,
     /// The last "hello" from a Lua script, and the mailbox it came from.
@@ -114,6 +118,9 @@ impl Plugin for RustTest {
         self.chat_lines += 1;
         self.seen_marker_chat |= line.contains(MARKER_CHAT);
         self.seen_marker_echo |= line.contains(MARKER_ECHO);
+        if line.contains(MARKER_ALIAS) {
+            self.alias_echo = Some(line.to_owned());
+        }
         if let Some(echo) = data_checks::note_echo(line) {
             self.tlo_echo = Some(echo);
         }
@@ -304,6 +311,14 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
             Check::that(plugin.seen_marker_echo, || "the /echo line never arrived".into()),
         );
     });
+
+    task.with_plugin(|plugin, mq| {
+        report.section(mq, "Aliases");
+        plugin.alias_echo = None;
+        checks::aliases(mq, &mut report, &format!("[{}] {MARKER_ALIAS}", mq.plugin_name()), "with arguments");
+    });
+    task.next_pulse().await;
+    task.with_plugin(|plugin, mq| checks::alias_expanded(mq, &mut report, plugin.alias_echo.as_deref(), "with arguments"));
 
     // Async tasks themselves.
     let pulses_before = task.with(|mq| mq.stats().pulses);

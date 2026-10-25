@@ -52,6 +52,35 @@ impl fmt::Display for CommandError {
 
 impl std::error::Error for CommandError {}
 
+/// Why an alias couldn't be added.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum AliasError {
+    /// Names must start with `/`, have at least one more character, and contain
+    /// no whitespace or `=` (it would break the alias's line in MacroQuest.ini).
+    InvalidName,
+    /// The replacement must be non-empty, a single line without NULs, and
+    /// shorter than MacroQuest's `MAX_STRING` (2048 bytes).
+    InvalidReplacement,
+    /// MacroQuest refused it: an alias with that name already exists, or a
+    /// command does (aliases may only shadow EverQuest's own commands).
+    Rejected,
+    /// MacroQuest's command interface isn't available.
+    Unavailable,
+}
+
+impl fmt::Display for AliasError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(match self {
+            AliasError::InvalidName => "alias names must look like /name",
+            AliasError::InvalidReplacement => "alias replacements must be one non-empty line under 2048 bytes",
+            AliasError::Rejected => "MacroQuest rejected the alias (is the name taken?)",
+            AliasError::Unavailable => "MacroQuest's command interface is unavailable",
+        })
+    }
+}
+
+impl std::error::Error for AliasError {}
+
 impl<P: Plugin> Mq<P> {
     pub(crate) fn new(runtime: &'static Runtime<P>) -> Mq<P> {
         Mq { runtime, _not_send: PhantomData }
@@ -120,6 +149,35 @@ impl<P: Plugin> Mq<P> {
     /// True if any plugin (or MacroQuest) has a command with this name.
     pub fn is_command(&self, name: &str) -> bool {
         self.runtime.is_command(name)
+    }
+
+    // ----- aliases -----
+
+    /// Adds an alias, as `/alias /name replacement` does: typing `/name args`
+    /// runs `replacement args`. Unlike `/alias`, it isn't saved to
+    /// MacroQuest.ini, and it's removed when the plugin unloads (MacroQuest
+    /// itself would leave it behind until the game restarts).
+    pub fn add_alias(&self, name: &str, replacement: &str) -> Result<(), AliasError> {
+        self.runtime.add_alias(name, replacement, false)
+    }
+
+    /// Adds an alias and saves it to MacroQuest.ini, exactly like
+    /// `/alias /name replacement`. It belongs to the user from then on: it
+    /// stays after the plugin unloads and comes back when MacroQuest starts.
+    pub fn add_persistent_alias(&self, name: &str, replacement: &str) -> Result<(), AliasError> {
+        self.runtime.add_alias(name, replacement, true)
+    }
+
+    /// Removes an alias, like `/alias /name delete`: any alias, whoever added
+    /// it, including MacroQuest's built-in ones, and it's deleted from
+    /// MacroQuest.ini too. False if there was no such alias.
+    pub fn remove_alias(&self, name: &str) -> bool {
+        self.runtime.remove_alias(name)
+    }
+
+    /// True if an alias with this name exists (as `${Alias[/name]}`).
+    pub fn is_alias(&self, name: &str) -> bool {
+        self.runtime.is_alias(name)
     }
 
     // ----- macro data -----

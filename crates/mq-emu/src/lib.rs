@@ -80,7 +80,7 @@ pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
 };
 pub use movement::{MoveError, MoveKey};
-pub use mq::{CommandError, Mq};
+pub use mq::{AliasError, CommandError, Mq};
 pub use plugin::Plugin;
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
 pub use spawns::{MAX_SPAWNS, Spawns};

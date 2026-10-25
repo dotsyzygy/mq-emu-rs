@@ -118,14 +118,33 @@ fn do_and_timed_commands_pass_their_arguments() {
     assert_eq!((log.timed_count, log.last_ms), (1, 1500));
 }
 
+impl Fake {
+    /// An alias's replacement and whether it was persisted, if it exists.
+    fn alias(&self, name: &CStr) -> Option<(String, bool)> {
+        let (mut out, mut persisted) = ([0 as c_char; 256], false);
+        let found = unsafe { mqemu_test_fake_alias(self.0, name.as_ptr(), out.as_mut_ptr(), out.len(), &mut persisted) };
+        found.then(|| (unsafe { CStr::from_ptr(out.as_ptr()) }.to_string_lossy().into_owned(), persisted))
+    }
+}
+
 #[test]
 fn aliases_round_trip() {
     let fake = Fake::new();
     let (short, long) = (CString::new("/rt").unwrap(), CString::new("/rusttest").unwrap());
     assert!(unsafe { mqemu_add_alias(fake.0, &HANDLE, short.as_ptr(), long.as_ptr(), false) });
     assert!(unsafe { mqemu_is_alias(fake.0, short.as_ptr()) });
+    assert_eq!(fake.alias(&short), Some(("/rusttest".into(), false)));
+    assert_eq!(fake.log().last_handle, HANDLE.pluginID);
     assert!(unsafe { mqemu_remove_alias(fake.0, &HANDLE, short.as_ptr()) });
     assert!(!unsafe { mqemu_is_alias(fake.0, short.as_ptr()) });
+}
+
+#[test]
+fn persisting_an_alias_reaches_macroquest() {
+    let fake = Fake::new();
+    let (short, long) = (c"/rtp", c"/rusttest stats");
+    assert!(unsafe { mqemu_add_alias(fake.0, &HANDLE, short.as_ptr(), long.as_ptr(), true) });
+    assert_eq!(fake.alias(short), Some(("/rusttest stats".into(), true)));
 }
 
 // Negative tests.
@@ -136,6 +155,17 @@ fn duplicate_command_is_rejected() {
     let mut calls = Calls::default();
     assert!(add(&fake, "/dup", record, (&raw mut calls).cast()));
     assert!(!add(&fake, "/dup", record, (&raw mut calls).cast()));
+}
+
+#[test]
+fn duplicate_or_unknown_aliases_fail() {
+    let fake = Fake::new();
+    assert!(unsafe { mqemu_add_alias(fake.0, &HANDLE, c"/dupe".as_ptr(), c"/one".as_ptr(), false) });
+    // MacroQuest matches alias names case-insensitively.
+    assert!(!unsafe { mqemu_add_alias(fake.0, &HANDLE, c"/DUPE".as_ptr(), c"/two".as_ptr(), false) });
+    assert_eq!(fake.alias(c"/dupe"), Some(("/one".into(), false)));
+    assert!(!unsafe { mqemu_remove_alias(fake.0, &HANDLE, c"/nope".as_ptr()) });
+    assert!(!unsafe { mqemu_is_alias(fake.0, c"/nope".as_ptr()) });
 }
 
 #[test]

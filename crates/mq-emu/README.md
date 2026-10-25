@@ -39,7 +39,8 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
 
 - **Callbacks** for everything MacroQuest offers plugins (pulse, chat, zoning, spawns,
   macros, plugin load/unload), each with an `&Mq` handle.
-- **Commands** as Rust closures that receive your plugin state.
+- **Commands** as Rust closures that receive your plugin state, and **aliases**: temporary ones
+  (`mq.add_alias`, removed when the plugin unloads) or saved to MacroQuest.ini like `/alias`.
 - **Game state**: `mq.me()`, `mq.target()`, positions, headings, HP/mana, and
   `mq.parse("${...}")` for any MacroQuest data.
 - **Movement and the spawn list**: hold movement keys, turn smoothly or instantly, face points;

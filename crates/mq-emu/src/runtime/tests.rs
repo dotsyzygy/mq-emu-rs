@@ -17,6 +17,7 @@ use crate::game::{Heading, Position, SpawnId};
 use crate::host::Host;
 use crate::movement::{MoveError, MoveKey};
 
+mod aliases;
 mod data;
 
 // ----- fake host -----------------------------------------------------------

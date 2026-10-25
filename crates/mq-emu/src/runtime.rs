@@ -14,7 +14,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::rc::Rc;
 use std::time::Duration;
 
-use mq_emu_sys::constants::CONCOLOR_RED;
+use mq_emu_sys::constants::{CONCOLOR_RED, MAX_STRING};
 use mq_emu_sys::plugin::MQPluginHandle;
 use mq_emu_sys::shim;
 use mq_emu_sys::types::{EQGroundItem, MQPlugin, PlayerClient};
@@ -22,7 +22,7 @@ use mq_emu_sys::types::{EQGroundItem, MQPlugin, PlayerClient};
 use crate::actors::{MailboxSlot, Message};
 use crate::game::{GameState, Spawn};
 use crate::host::Host;
-use crate::mq::{CommandError, Mq};
+use crate::mq::{AliasError, CommandError, Mq};
 use crate::plugin::Plugin;
 use crate::stats::{Stats, Warnings};
 use crate::tasks::Executor;
@@ -147,6 +147,8 @@ pub struct Runtime<P: Plugin> {
     next_mailbox_id: Cell<u64>,
     /// Names of the TLOs this plugin added.
     tlos: RefCell<Vec<String>>,
+    /// Names of the temporary aliases this plugin added, removed at shutdown.
+    aliases: RefCell<Vec<String>>,
 }
 
 // SAFETY: MacroQuest calls plugins only from the game thread, and plugin code
@@ -182,6 +184,7 @@ impl<P: Plugin> Runtime<P> {
             mailboxes: RefCell::new(Vec::new()),
             next_mailbox_id: Cell::new(1),
             tlos: RefCell::new(Vec::new()),
+            aliases: RefCell::new(Vec::new()),
         }
     }
 
@@ -242,6 +245,7 @@ impl<P: Plugin> Runtime<P> {
             self.remove_all_commands();
             self.unregister_all_mailboxes();
             self.remove_all_tlos();
+            self.remove_temporary_aliases();
             let plugin = unsafe { (*self.plugin.get()).take() };
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
                 self.diagnostic("panicked while dropping the plugin");
@@ -734,6 +738,55 @@ impl<P: Plugin> Runtime<P> {
     pub(crate) fn is_command(&self, name: &str) -> bool {
         let main = (self.host.main_interface)();
         !main.is_null() && unsafe { shim::mqemu_is_command(main, name.as_ptr().cast(), name.len()) }
+    }
+
+    pub(crate) fn add_alias(&self, name: &str, replacement: &str, persist: bool) -> Result<(), AliasError> {
+        if !name.starts_with('/') || name.len() < 2 || name.contains(|c: char| c.is_whitespace() || c == '=' || c == '\0') {
+            return Err(AliasError::InvalidName);
+        }
+        if replacement.trim().is_empty() || replacement.len() >= MAX_STRING || replacement.contains(['\0', '\r', '\n']) {
+            return Err(AliasError::InvalidReplacement);
+        }
+        let main = (self.host.main_interface)();
+        if main.is_null() {
+            return Err(AliasError::Unavailable);
+        }
+        let handle = self.handle.get();
+        let (c_name, c_replacement) = (to_c(name), to_c(replacement));
+        if !unsafe { shim::mqemu_add_alias(main, &handle, c_name.as_ptr(), c_replacement.as_ptr(), persist) } {
+            return Err(AliasError::Rejected);
+        }
+        if !persist {
+            self.aliases.borrow_mut().push(name.to_owned());
+        }
+        Ok(())
+    }
+
+    pub(crate) fn remove_alias(&self, name: &str) -> bool {
+        self.aliases.borrow_mut().retain(|alias| !alias.eq_ignore_ascii_case(name));
+        let main = (self.host.main_interface)();
+        if main.is_null() {
+            return false;
+        }
+        let handle = self.handle.get();
+        let name = to_c(name);
+        unsafe { shim::mqemu_remove_alias(main, &handle, name.as_ptr()) }
+    }
+
+    pub(crate) fn is_alias(&self, name: &str) -> bool {
+        let main = (self.host.main_interface)();
+        let name = to_c(name);
+        !main.is_null() && unsafe { shim::mqemu_is_alias(main, name.as_ptr()) }
+    }
+
+    /// MacroQuest keeps a plugin's aliases after it unloads; drop the
+    /// temporary ones. (If the user deleted one and made their own with the
+    /// same name, this removes theirs: MacroQuest can't say whose it is.)
+    fn remove_temporary_aliases(&self) {
+        let names: Vec<_> = self.aliases.borrow_mut().drain(..).collect();
+        for name in names {
+            self.remove_alias(&name);
+        }
     }
 }
 

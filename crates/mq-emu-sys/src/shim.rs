@@ -292,6 +292,9 @@ pub mod testing {
         pub fn mqemu_test_fake_log(fake: *mut MainInterface) -> *const FakeLog;
         /// Calls a registered command the way MacroQuest would; false if unknown.
         pub fn mqemu_test_fake_invoke(fake: *mut MainInterface, name: *const c_char, player: *mut PlayerClient, line: *const c_char) -> bool;
+        /// Copies an alias's replacement into `out` and says whether it's saved
+        /// in the (fake) ini; false if there's no such alias.
+        pub fn mqemu_test_fake_alias(fake: *mut MainInterface, name: *const c_char, out: *mut c_char, out_len: usize, persisted: *mut bool) -> bool;
 
         // The fake post office.
         /// Delivers a message to the mailbox at `local_address`; false if none.

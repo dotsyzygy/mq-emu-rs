@@ -3,9 +3,11 @@
 // a plugin.
 
 #include "mq_api.h"
+#include "mq/base/String.h"
 
 #include <cstring>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -58,8 +60,12 @@ public:
 	std::vector<po::ResponseCallbackAPI> pending; // requests awaiting a response, oldest first
 	std::vector<FakeReply> replies;
 	uintptr_t next_dropbox = 0x1000;
-	std::map<std::string, mq::MQCommandHandler, std::less<>> commands;
-	std::map<std::string, std::string, std::less<>> aliases;
+	// Like MacroQuest's, command and alias names are case-insensitive.
+	std::map<std::string, mq::MQCommandHandler, mq::ci_less> commands;
+	std::set<std::string, mq::ci_less> eq_commands;
+	std::map<std::string, std::string, mq::ci_less> aliases;
+	// The [Aliases] section of MacroQuest.ini.
+	std::map<std::string, std::string, mq::ci_less> ini_aliases;
 
 	void Record(std::string_view text, const MQPluginHandle& handle)
 	{
@@ -78,7 +84,10 @@ public:
 		log.last_parse = parse;
 		log.last_in_game = inGame;
 		Record(command, pluginHandle);
-		return commands.emplace(std::string(command), std::move(handler)).second;
+		bool added = commands.emplace(std::string(command), std::move(handler)).second;
+		if (added && eq)
+			eq_commands.emplace(command);
+		return added;
 	}
 
 	bool RemoveCommand(std::string_view command, const MQPluginHandle& pluginHandle) override
@@ -88,6 +97,7 @@ public:
 		auto it = commands.find(command);
 		if (it == commands.end())
 			return false;
+		eq_commands.erase(it->first);
 		commands.erase(it);
 		return true;
 	}
@@ -108,16 +118,28 @@ public:
 		Record(command, pluginHandle);
 	}
 
-	bool AddAlias(const std::string& shortCommand, const std::string& longCommand, bool, const MQPluginHandle& pluginHandle) override
+	// As MQCommandAPI: an alias may shadow an EQ command but not another
+	// command, and removing one deletes it from the ini whether or not it was
+	// persisted there, ignoring which plugin added it.
+	bool AddAlias(const std::string& shortCommand, const std::string& longCommand, bool persist, const MQPluginHandle& pluginHandle) override
 	{
 		Record(longCommand, pluginHandle);
-		return aliases.emplace(shortCommand, longCommand).second;
+		if (commands.count(shortCommand) != 0 && eq_commands.count(shortCommand) == 0)
+			return false;
+		if (!aliases.emplace(shortCommand, longCommand).second)
+			return false;
+		if (persist)
+			ini_aliases[shortCommand] = longCommand;
+		return true;
 	}
 
 	bool RemoveAlias(const std::string& shortCommand, const MQPluginHandle& pluginHandle) override
 	{
 		Record(shortCommand, pluginHandle);
-		return aliases.erase(shortCommand) != 0;
+		if (aliases.erase(shortCommand) == 0)
+			return false;
+		ini_aliases.erase(shortCommand);
+		return true;
 	}
 
 	bool IsAlias(const std::string& alias) const override { return aliases.count(alias) != 0; }
@@ -192,6 +214,20 @@ extern "C" bool mqemu_test_fake_invoke(mq::MainInterface* fake, const char* name
 }
 
 static FakeMainInterface* fake_of(mq::MainInterface* fake) { return static_cast<FakeMainInterface*>(fake); }
+
+// An alias's replacement, and whether it's saved in the ini. False if no such alias.
+extern "C" bool mqemu_test_fake_alias(mq::MainInterface* fake, const char* name, char* out, size_t out_len, bool* persisted)
+{
+	auto* f = fake_of(fake);
+	auto it = f->aliases.find(name);
+	if (it == f->aliases.end() || out_len == 0)
+		return false;
+	size_t n = std::min(it->second.size(), out_len - 1);
+	std::memcpy(out, it->second.data(), n);
+	out[n] = 0;
+	*persisted = f->ini_aliases.count(name) != 0;
+	return true;
+}
 
 static std::shared_ptr<po::Message> make_message(const char* sender_character, const char* sender_mailbox,
 	const char* data, size_t len)

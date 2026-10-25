@@ -5,7 +5,7 @@ use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
 use std::ffi::{CStr, CString};
 use std::time::Instant;
 
-use mq_emu::{CommandError, GameState, MoveKey, Mq, Plugin, SpawnId, angle_difference};
+use mq_emu::{AliasError, CommandError, GameState, MoveKey, Mq, Plugin, SpawnId, angle_difference};
 
 /// The outcome of one check.
 pub enum Check {
@@ -241,6 +241,64 @@ pub fn commands<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         Err(CommandError::InvalidName) => Check::Pass,
         other => Check::Fail(format!("got {other:?}")),
     });
+}
+
+/// The temporary alias the selftest runs (its expansion is checked a pulse
+/// later, once the `/echo` it runs has come back as chat).
+pub const ALIAS: &str = "/rusttestalias";
+
+/// Alias management against MacroQuest's alias list, `${Alias}` and
+/// MacroQuest.ini. Leaves [`ALIAS`] in place, run with `arguments`, for
+/// [`alias_expanded`].
+pub fn aliases<P: Plugin>(mq: &Mq<P>, report: &mut Report, echo: &str, arguments: &str) {
+    let added = mq.add_alias(ALIAS, &format!("/echo {echo}"));
+    let visible = mq.is_alias(&ALIAS.to_uppercase());
+    report.print(mq, "a temporary alias can be added (names are case-insensitive)", Check::that(added.is_ok() && visible, || {
+        format!("added {added:?}, is_alias in capitals {visible}")
+    }));
+    report.print(mq, "${Alias} agrees", same_text("TRUE", mq.parse(&format!("${{Alias[{ALIAS}]}}"))));
+    report.print(mq, "adding it twice is refused", match mq.add_alias(ALIAS, "/echo again") {
+        Err(AliasError::Rejected) => Check::Pass,
+        other => Check::Fail(format!("got {other:?}")),
+    });
+    report.print(mq, "an alias can't shadow a plugin's command", match mq.add_alias("/rusttest", "/echo shadowed") {
+        Err(AliasError::Rejected) => Check::Pass,
+        other => Check::Fail(format!("got {other:?}")),
+    });
+    report.print(mq, "invalid alias names are refused", match mq.add_alias("no-slash", "/echo nope") {
+        Err(AliasError::InvalidName) => Check::Pass,
+        other => Check::Fail(format!("got {other:?}")),
+    });
+
+    // Persistent aliases go to MacroQuest.ini; removing one takes it out again.
+    let saved = "/rusttestsaved";
+    let ini = |mq: &Mq<P>| mq.parse(&format!("${{Ini[${{MacroQuest.Path[mqini]}},Aliases,{saved}]}}"));
+    let added = mq.add_persistent_alias(saved, "/rusttest stats");
+    let written = ini(mq);
+    report.print(mq, "a persistent alias is written to MacroQuest.ini", Check::that(added.is_ok() && written == "/rusttest stats", || {
+        format!("added {added:?}, ini has {written:?}")
+    }));
+    let removed = mq.remove_alias(saved);
+    let left = ini(mq);
+    report.print(mq, "removing it deletes it from MacroQuest.ini", Check::that(removed && !mq.is_alias(saved) && left == "NULL", || {
+        format!("removed {removed}, still an alias {}, ini has {left:?}", mq.is_alias(saved))
+    }));
+
+    mq.command_now(format!("{ALIAS} {arguments}"));
+}
+
+/// [`aliases`]'s run of [`ALIAS`], judged from the chat it caused, then the
+/// alias is removed.
+pub fn alias_expanded<P: Plugin>(mq: &Mq<P>, report: &mut Report, echoed: Option<&str>, expected: &str) {
+    report.print(mq, "running an alias runs its replacement, with the arguments", match echoed {
+        Some(line) => Check::that(line.ends_with(expected), || format!("echoed {line:?}, wanted it to end {expected:?}")),
+        None => Check::Fail("the alias's /echo never arrived".into()),
+    });
+    let removed = mq.remove_alias(ALIAS);
+    report.print(mq, "the alias can be removed", Check::that(removed && !mq.is_alias(ALIAS), || {
+        format!("removed {removed}, still an alias {}", mq.is_alias(ALIAS))
+    }));
+    report.print(mq, "${Alias} agrees it's gone", same_text("NULL", mq.parse(&format!("${{Alias[{ALIAS}]}}"))));
 }
 
 /// ParseMacroData, including a negative case.
