@@ -257,10 +257,15 @@ impl RustTest {
             return;
         }
         let mut report = Report::new(mq);
+        report.section(mq, "Targeting");
+        let targeted = checks::targeting(mq, &mut report);
         report.section(mq, "Game data");
         checks::game_data(mq, &mut report);
         report.section(mq, "Spawn list");
         checks::spawn_list(mq, &mut report);
+        if let Some(id) = targeted {
+            checks::clear_target(mq, &mut report, id);
+        }
         report.section(mq, "Commands and parsing");
         checks::commands(mq, &mut report);
         checks::parsing(mq, &mut report);

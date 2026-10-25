@@ -5,7 +5,7 @@ use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
 use std::ffi::{CStr, CString};
 use std::time::Instant;
 
-use mq_emu::{CommandError, GameState, MoveKey, Mq, Plugin, angle_difference};
+use mq_emu::{CommandError, GameState, MoveKey, Mq, Plugin, SpawnId, angle_difference};
 
 /// The outcome of one check.
 pub enum Check {
@@ -69,6 +69,11 @@ impl Report {
     pub fn section<P: Plugin>(&mut self, mq: &Mq<P>, title: &str) {
         self.sections.push((title.to_owned(), Counts::default()));
         mq.chat(format!("[{}] {TEAL}===== {}. {title} ====={RESET}", self.name, self.sections.len()));
+    }
+
+    /// A plain line in the report, not counted as a check.
+    pub fn note<P: Plugin>(&mut self, mq: &Mq<P>, text: &str) {
+        mq.chat(format!("[{}] {text}", self.name));
     }
 
     fn counts(&mut self) -> &mut Counts {
@@ -180,6 +185,40 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         }
         None => report.print(mq, "target checks", Check::Skip("no target (target something to include them)".into())),
     }
+}
+
+/// Targets the nearest spawn if nothing is targeted, so the target checks
+/// always run. Returns its id if this did the targeting (to clear it after).
+pub fn targeting<P: Plugin>(mq: &Mq<P>, report: &mut Report) -> Option<SpawnId> {
+    let (Some(me), GameState::InGame) = (mq.me(), mq.game_state()) else {
+        report.print(mq, "targeting", Check::Skip("needs to be in game".into()));
+        return None;
+    };
+    if let Some(target) = mq.target() {
+        report.note(mq, &format!("using your target, {} (id {})", target.name(), target.id()));
+        return None;
+    }
+    let Some(nearest) = mq.nearest(|spawn| spawn.id() != me.id()) else {
+        report.print(mq, "targeting the nearest spawn", Check::Skip("no spawns to target, so the target checks are skipped".into()));
+        return None;
+    };
+    let (id, name) = (nearest.id(), nearest.name());
+    mq.command_now(format!("/target id {id}"));
+    let targeted = mq.target().map(|target| target.id());
+    report.print(mq, &format!("/target id {id} targets the nearest spawn, {name}"), Check::that(targeted == Some(id), || {
+        format!("target() is {targeted:?}")
+    }));
+    report.print(mq, "${Target.ID} agrees", same_text(id, mq.parse("${Target.ID}")));
+    (targeted == Some(id)).then_some(id)
+}
+
+/// Clears a target that [`targeting`] set, leaving things as they were.
+pub fn clear_target<P: Plugin>(mq: &Mq<P>, report: &mut Report, id: SpawnId) {
+    mq.command_now("/target clear");
+    let left = mq.target().map(|target| target.id());
+    report.print(mq, &format!("/target clear clears the selftest's target ({id})"), Check::that(left.is_none(), || {
+        format!("target() is still {left:?}")
+    }));
 }
 
 /// Command registration through the C++ shim, against MacroQuest's command list.
