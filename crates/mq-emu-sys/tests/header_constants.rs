@@ -127,3 +127,77 @@ fn find_value_handles_both_forms() {
     assert_eq!(find_value(header, "MISSING"), None);
     assert_eq!(parse_int("0x1f"), 31);
 }
+
+/// Reads `enum Name { A = 0, B, C = 12, ... };` into (name, value) pairs,
+/// numbering implicit entries the way C++ does (previous value + 1).
+fn enum_values(header: &str, enum_name: &str) -> Vec<(String, i64)> {
+    let start = header
+        .lines()
+        .position(|line| {
+            let mut words = line.split_whitespace();
+            words.next() == Some("enum") && words.next().map(|w| w.trim_end_matches('{')) == Some(enum_name)
+        })
+        .unwrap_or_else(|| panic!("enum {enum_name} not found"));
+
+    let mut values = Vec::new();
+    let mut next = 0i64;
+    for line in header.lines().skip(start + 1) {
+        let code = line.split("//").next().unwrap().trim();
+        if code.starts_with('}') {
+            return values;
+        }
+        let entry = code.trim_end_matches(',').trim();
+        if entry.is_empty() || entry == "{" {
+            continue;
+        }
+        let (name, value) = match entry.split_once('=') {
+            Some((name, value)) => (name.trim(), parse_int(value.trim())),
+            None => (entry, next),
+        };
+        values.push((name.to_owned(), value));
+        next = value + 1;
+    }
+    panic!("enum {enum_name} isn't closed");
+}
+
+#[test]
+fn keybind_commands_match() {
+    let file = "src/eqlib/include/eqlib/game/Constants.h";
+    let header = read_header(file);
+    // `nEQMappableCommands` in the header; our name is Rust-style.
+    assert_header_value(&header, file, "nEQMappableCommands", mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS as i64);
+
+    let values = enum_values(&header, "KeybindCommand");
+    let ours = [
+        ("CMD_AUTORUN", mq_emu_sys::constants::CMD_AUTORUN),
+        ("CMD_JUMP", mq_emu_sys::constants::CMD_JUMP),
+        ("CMD_FORWARD", mq_emu_sys::constants::CMD_FORWARD),
+        ("CMD_BACK", mq_emu_sys::constants::CMD_BACK),
+        ("CMD_RIGHT", mq_emu_sys::constants::CMD_RIGHT),
+        ("CMD_LEFT", mq_emu_sys::constants::CMD_LEFT),
+        ("CMD_STRAFE_LEFT", mq_emu_sys::constants::CMD_STRAFE_LEFT),
+        ("CMD_STRAFE_RIGHT", mq_emu_sys::constants::CMD_STRAFE_RIGHT),
+        ("CMD_DUCK", mq_emu_sys::constants::CMD_DUCK),
+        ("CMD_RUN_WALK", mq_emu_sys::constants::CMD_RUN_WALK),
+    ];
+    for (name, value) in ours {
+        let header_value = values.iter().find(|(n, _)| n == name).unwrap_or_else(|| panic!("{name} not in enum")).1;
+        assert_eq!(i64::from(value), header_value, "{name}");
+    }
+    assert_eq!(values.len(), ours.len(), "KeybindCommand has entries we don't mirror: {values:?}");
+}
+
+#[test]
+fn enum_values_number_implicit_entries() {
+    let header = "enum Keys\n{\n\tA = 0,\n\tB,\n\tC, // comment\n\n\tD = 12,\n\tE = 0x20,\n\tF\n};";
+    let values = enum_values(header, "Keys");
+    let expected: Vec<(String, i64)> =
+        [("A", 0), ("B", 1), ("C", 2), ("D", 12), ("E", 32), ("F", 33)].iter().map(|(n, v)| (n.to_string(), *v)).collect();
+    assert_eq!(values, expected);
+}
+
+#[test]
+#[should_panic(expected = "enum Missing not found")]
+fn missing_enum_is_rejected() {
+    enum_values("enum Other { A };", "Missing");
+}

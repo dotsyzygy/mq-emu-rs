@@ -38,6 +38,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data and exercises commands, re-entrancy and parsing; prints PASS/FAIL per check |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest me`, `/rusttest target` | What mq-emu reads for you and your target |
+| `/rusttest face`, `turn [deg]`, `walk [ms]`, `stop` | Movement: smoothly face your target, turn left by some degrees (negative for right), walk forward for a while, or stop everything |
 | `/rusttest panic`, `slow [ms]`, `flood` | Deliberately trigger the runtime's safety nets: a caught panic, a slow-pulse warning, a capped feedback loop |
 
 Target something before `selftest` to include the target checks.
@@ -52,6 +53,10 @@ docs.rs never need the PDB. To add types, list them in `crates/mq-emu-sys/layout
 cargo run -p mq-emu-bindgen            # regenerate crates/mq-emu-sys/src/layouts/generated.rs
 cargo run -p mq-emu-bindgen -- --check # fail if the committed file is out of date
 ```
+
+If the generator reports that the PDB has several different definitions of a type, the PDB has
+outlived an older build: MSVC's linker updates an existing PDB in place and never removes old type
+records. Delete `build/bin/<config>/eqlib.pdb` and `eqlib.dll`, rebuild MacroQuest, and regenerate.
 
 Each record is an opaque byte block with accessors named after the C++ members (`X()`,
 `set_Heading()`), including inherited ones. Records contained by value are generated in full;

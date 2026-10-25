@@ -24,3 +24,23 @@ pub const CONCOLOR_WHITE: i32 = 0x0a;
 pub const CONCOLOR_RED: i32 = 0x0d;
 pub const CONCOLOR_YELLOW: i32 = 0x0f;
 pub const CONCOLOR_LIGHTBLUE: i32 = 0x12;
+
+/// `nEQMappableCommands` (eqlib `game/Constants.h`): number of key-bindable commands.
+pub const N_EQ_MAPPABLE_COMMANDS: usize = 500;
+
+// Key-bindable commands (eqlib `game/Constants.h`, `enum KeybindCommand`), for
+// `EQExecuteCmd` and `KeypressHandler::CommandState`.
+pub const CMD_AUTORUN: u32 = 0;
+pub const CMD_JUMP: u32 = 1;
+pub const CMD_FORWARD: u32 = 2;
+pub const CMD_BACK: u32 = 3;
+pub const CMD_RIGHT: u32 = 4;
+pub const CMD_LEFT: u32 = 5;
+pub const CMD_STRAFE_LEFT: u32 = 6;
+pub const CMD_STRAFE_RIGHT: u32 = 7;
+pub const CMD_DUCK: u32 = 12;
+pub const CMD_RUN_WALK: u32 = 284;
+
+/// The value of `gFaceAngle` / `gLookAngle` when no turn is in progress
+/// (MacroQuest's `MQ2Pulse.cpp` compares against `10000.0f`).
+pub const FACE_ANGLE_INACTIVE: f64 = 10000.0;

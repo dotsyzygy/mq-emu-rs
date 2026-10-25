@@ -6,7 +6,10 @@
 use std::time::Instant;
 
 use mq_emu_sys::constants::MAX_STRING;
+use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
+use mq_emu_sys::layouts::{EverQuestinfo, PlayerClient};
 use mq_emu_sys::shim::MainInterface;
+use mq_emu_sys::types::ForeignPointer;
 
 use crate::text::to_c;
 
@@ -16,6 +19,18 @@ pub(crate) struct Host {
     pub main_interface: fn() -> *mut MainInterface,
     pub game_state: fn() -> i32,
     pub now: fn() -> Instant,
+    pub local_player: fn() -> *mut PlayerClient,
+    /// The spawn whose movement the player controls (a mount when riding).
+    pub controlled_player: fn() -> *mut PlayerClient,
+    pub target: fn() -> *mut PlayerClient,
+    /// Client-wide state; `keyDown` says which game commands are down.
+    pub everquest_info: fn() -> *mut EverQuestinfo,
+    /// Whether the game currently allows a command (`EQbCommandStates`).
+    pub command_enabled: fn(u32) -> bool,
+    /// `EQExecuteCmd(command, key_down, null, null)`.
+    pub execute_cmd: fn(u32, bool) -> bool,
+    pub face_angle: fn() -> f64,
+    pub set_face_angle: fn(f64),
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
@@ -25,7 +40,28 @@ pub(crate) const REAL: Host = Host {
     main_interface: real_main_interface,
     game_state: real_game_state,
     now: Instant::now,
+    local_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPlayer) },
+    controlled_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pControlledPlayer) },
+    target: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTarget) },
+    everquest_info: || unsafe { mq_emu_sys::eqlib::pEverQuestInfo },
+    command_enabled: real_command_enabled,
+    execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
+    face_angle: || unsafe { mq_emu_sys::mq2main::gFaceAngle },
+    set_face_angle: |value| unsafe { mq_emu_sys::mq2main::gFaceAngle = value },
 };
+
+/// Reads an eqlib `ForeignPointer` global.
+///
+/// # Safety
+/// `global` must be one of eqlib's `ForeignPointer` globals.
+unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
+    unsafe { (*global).get() }
+}
+
+fn real_command_enabled(command: u32) -> bool {
+    let states = unsafe { mq_emu_sys::eqlib::EQbCommandStates };
+    (command as usize) < N_EQ_MAPPABLE_COMMANDS && !states.is_null() && unsafe { *states.add(command as usize) } != 0
+}
 
 fn real_write_chat(text: &str, color: i32) {
     let text = to_c(truncate(text, MAX_STRING - 1));

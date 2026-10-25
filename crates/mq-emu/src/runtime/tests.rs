@@ -8,11 +8,14 @@ use std::ptr;
 use std::rc::Rc;
 use std::time::{Duration, Instant};
 
+use mq_emu_sys::layouts::EverQuestinfo;
 use mq_emu_sys::shim::MainInterface;
 use mq_emu_sys::shim::testing::*;
 
 use super::*;
+use crate::game::{Heading, Position};
 use crate::host::Host;
+use crate::movement::MoveKey;
 
 // ----- fake host -----------------------------------------------------------
 
@@ -30,6 +33,50 @@ thread_local! {
     static ON_NEW: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static ON_PULSE: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static ON_CHAT: RefCell<Option<Hook>> = const { RefCell::new(None) };
+    static GAME_STATE: Cell<i32> = const { Cell::new(mq_emu_sys::constants::GAMESTATE_INGAME) };
+    /// The local and controlled player (the same spawn unless "riding").
+    static PLAYER: FakeObject<PlayerClient> = FakeObject::new();
+    static HAS_PLAYER: Cell<bool> = const { Cell::new(true) };
+    static TARGET: FakeObject<PlayerClient> = FakeObject::new();
+    static HAS_TARGET: Cell<bool> = const { Cell::new(false) };
+    static INFO: FakeObject<EverQuestinfo> = FakeObject::new();
+    /// A command the fake game reports as disabled.
+    static DISABLED: Cell<Option<u32>> = const { Cell::new(None) };
+    /// Every EQExecuteCmd call, in order.
+    static EXECUTED: RefCell<Vec<(u32, bool)>> = const { RefCell::new(Vec::new()) };
+    static FACE_ANGLE: Cell<f64> = const { Cell::new(mq_emu_sys::constants::FACE_ANGLE_INACTIVE) };
+}
+
+/// Zeroed, aligned storage standing in for a game object.
+struct FakeObject<T> {
+    storage: RefCell<Vec<u64>>,
+    _type: std::marker::PhantomData<T>,
+}
+
+impl<T> FakeObject<T> {
+    fn new() -> FakeObject<T> {
+        FakeObject { storage: RefCell::new(vec![0; size_of::<T>().div_ceil(8)]), _type: std::marker::PhantomData }
+    }
+
+    fn ptr(&self) -> *mut T {
+        self.storage.borrow_mut().as_mut_ptr().cast()
+    }
+}
+
+fn fake_execute_cmd(command: u32, down: bool) -> bool {
+    EXECUTED.with(|log| log.borrow_mut().push((command, down)));
+    // Like the game: the command's state follows its key.
+    let info = unsafe { &*INFO.with(FakeObject::ptr) };
+    info.set_keyDown_at(command as usize, i32::from(down));
+    true
+}
+
+fn player() -> &'static PlayerClient {
+    unsafe { &*PLAYER.with(FakeObject::ptr) }
+}
+
+fn executed() -> Vec<(u32, bool)> {
+    EXECUTED.with(|log| log.borrow().clone())
 }
 
 fn fake_write_chat(text: &str, color: i32) {
@@ -51,8 +98,16 @@ fn advance_clock(by: Duration) {
 const FAKE: Host = Host {
     write_chat: fake_write_chat,
     main_interface: || MAIN.with(Cell::get),
-    game_state: || mq_emu_sys::constants::GAMESTATE_INGAME,
+    game_state: || GAME_STATE.with(Cell::get),
     now: fake_now,
+    local_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
+    controlled_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
+    target: || if HAS_TARGET.with(Cell::get) { TARGET.with(FakeObject::ptr) } else { ptr::null_mut() },
+    everquest_info: || INFO.with(FakeObject::ptr),
+    command_enabled: |command| DISABLED.with(Cell::get) != Some(command),
+    execute_cmd: fake_execute_cmd,
+    face_angle: || FACE_ANGLE.with(Cell::get),
+    set_face_angle: |value| FACE_ANGLE.with(|angle| angle.set(value)),
 };
 
 fn chat_lines() -> Vec<String> {
@@ -507,4 +562,122 @@ fn unit_tests_do_not_import_macroquest() {
         let name = String::from_utf8_lossy(name).to_ascii_lowercase();
         assert!(name != "mq2main.dll" && name != "eqlib.dll", "test binary imports {name}");
     }
+}
+
+// ----- game state and movement -------------------------------------------------
+
+/// Runs `f` with an `Mq` inside an `on_pulse`, the way plugin code would.
+fn in_pulse(f: impl Fn(&mut Recorder, &Mq<Recorder>) + 'static) -> &'static Runtime<Recorder> {
+    let rt = runtime();
+    set_hook(&ON_PULSE, f);
+    rt.initialize();
+    rt.pulse();
+    rt
+}
+
+#[test]
+fn me_and_target_come_from_the_game() {
+    player().set_SpawnID(1);
+    unsafe { (*TARGET.with(FakeObject::ptr)).set_SpawnID(2) };
+    let rt = in_pulse(|plugin, mq| {
+        plugin.log.push(format!("me:{:?} target:{:?}", mq.me().map(|s| s.id().0), mq.target().map(|s| s.id().0)));
+        HAS_TARGET.with(|t| t.set(true));
+        plugin.log.push(format!("target:{:?}", mq.target().map(|s| s.id().0)));
+    });
+    assert_eq!(log_of(rt)[2..], ["me:Some(1) target:None", "target:Some(2)"]);
+}
+
+#[test]
+fn keys_are_held_and_released_through_the_game() {
+    let rt = in_pulse(|plugin, mq| {
+        mq.set_key(MoveKey::Forward, true).unwrap();
+        plugin.log.push(format!("held:{}", mq.is_key_down(MoveKey::Forward)));
+        mq.set_key(MoveKey::Forward, false).unwrap();
+        plugin.log.push(format!("held:{}", mq.is_key_down(MoveKey::Forward)));
+        mq.tap_key(MoveKey::Jump).unwrap();
+    });
+    assert_eq!(log_of(rt)[2..], ["held:true", "held:false"]);
+    assert_eq!(executed(), [(2, true), (2, false), (1, true), (1, false)]);
+}
+
+#[test]
+fn nothing_is_sent_to_the_game_outside_the_in_game_state() {
+    // Game commands outside the in-game state crash the client.
+    GAME_STATE.with(|state| state.set(mq_emu_sys::constants::GAMESTATE_CHARSELECT));
+    let rt = in_pulse(|plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.set_key(MoveKey::Forward, true)));
+        plugin.log.push(format!("{:?}", mq.tap_key(MoveKey::Jump)));
+        plugin.log.push(format!("{:?}", mq.stop_moving()));
+        plugin.log.push(format!("{:?}", mq.face(Heading::EAST)));
+        plugin.log.push(format!("{:?}", mq.face_now(Heading::EAST)));
+    });
+    assert_eq!(log_of(rt)[2..], ["Err(NotInGame)"; 5]);
+    assert!(executed().is_empty());
+    assert_eq!(FACE_ANGLE.with(Cell::get), mq_emu_sys::constants::FACE_ANGLE_INACTIVE);
+}
+
+#[test]
+fn stop_moving_releases_held_keys_and_stops_turning() {
+    in_pulse(|_, mq| {
+        mq.set_key(MoveKey::Forward, true).unwrap();
+        mq.set_key(MoveKey::StrafeLeft, true).unwrap();
+        mq.face(Heading::SOUTH).unwrap();
+        mq.stop_moving().unwrap();
+        for key in MoveKey::HELD {
+            assert!(!mq.is_key_down(key), "{key:?} still held");
+        }
+        assert!(!mq.is_turning());
+    });
+    // Only the keys that were down were released.
+    assert_eq!(executed(), [(2, true), (6, true), (2, false), (6, false)]);
+}
+
+#[test]
+fn face_point_turns_smoothly_towards_it() {
+    player().set_X(0.0);
+    player().set_Y(0.0);
+    let rt = in_pulse(|plugin, mq| {
+        // +X is west in EverQuest.
+        mq.face_point(&Position { x: 50.0, y: 0.0, z: 0.0 }).unwrap();
+        plugin.log.push(format!("turning:{} to:{:?}", mq.is_turning(), mq.turn_target().map(|h| h.units())));
+        mq.stop_turning();
+        plugin.log.push(format!("turning:{}", mq.is_turning()));
+    });
+    assert_eq!(log_of(rt)[2..], ["turning:true to:Some(128.0)", "turning:false"]);
+}
+
+#[test]
+fn face_now_sets_the_heading_and_cancels_a_smooth_turn() {
+    in_pulse(|_, mq| {
+        mq.face(Heading::SOUTH).unwrap();
+        mq.face_now(Heading::EAST).unwrap();
+        assert!(!mq.is_turning());
+        assert_eq!(mq.controlled().unwrap().heading(), Heading::EAST);
+    });
+    assert_eq!(player().Heading(), 384.0);
+}
+
+#[test]
+fn turning_needs_a_controlled_spawn() {
+    HAS_PLAYER.with(|p| p.set(false));
+    let rt = in_pulse(|plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.face(Heading::EAST)));
+        plugin.log.push(format!("{:?}", mq.face_point(&Position::default())));
+        plugin.log.push(format!("{:?}", mq.face_now(Heading::EAST)));
+    });
+    assert_eq!(log_of(rt)[2..], ["Err(NoPlayer)"; 3]);
+    assert_eq!(FACE_ANGLE.with(Cell::get), mq_emu_sys::constants::FACE_ANGLE_INACTIVE);
+}
+
+#[test]
+fn disabled_commands_are_not_pressed_but_can_be_released() {
+    DISABLED.with(|d| d.set(Some(MoveKey::Forward.command())));
+    let rt = in_pulse(|plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.set_key(MoveKey::Forward, true)));
+        plugin.log.push(format!("{:?}", mq.set_key(MoveKey::Forward, false)));
+        plugin.log.push(format!("{:?}", mq.set_key(MoveKey::Back, true)));
+    });
+    assert_eq!(log_of(rt)[2..], ["Err(Disabled)", "Ok(())", "Ok(())"]);
+    // Forward was never pressed; its release and Back went through.
+    assert_eq!(executed(), [(2, false), (3, true)]);
 }

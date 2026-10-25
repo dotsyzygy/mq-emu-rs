@@ -18,9 +18,13 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         ParseMacroData as *const c_void,
         GetGameState as *const c_void,
         GetPluginProc as *const c_void,
+        FindMappableCommand as *const c_void,
+        EQExecuteCmd as *const c_void,
     ];
     let statics: &[*const c_void] = &[
         (&raw const gGameState).cast(),
+        (&raw const gFaceAngle).cast(),
+        (&raw const gLookAngle).cast(),
         (&raw const gbInZone).cast(),
         (&raw const gszMacroName).cast(),
         (&raw const gPathMQRoot).cast(),
@@ -32,6 +36,10 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const pLocalPlayer).cast(),
         (&raw const pControlledPlayer).cast(),
         (&raw const pTarget).cast(),
+        (&raw const pKeypressHandler).cast(),
+        (&raw const szEQMappableCommands).cast(),
+        (&raw const pEverQuestInfo).cast(),
+        (&raw const EQbCommandStates).cast(),
     ];
     assert_eq!(
         functions.len() + statics.len(),

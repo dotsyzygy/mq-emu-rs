@@ -7,10 +7,9 @@ use std::rc::Rc;
 use std::time::Duration;
 
 use mq_emu_sys::constants::{MAX_STRING, USERCOLOR_DEFAULT};
-use mq_emu_sys::types::{ForeignPointer, PlayerClient};
 
 use crate::game::{GameState, Spawn};
-use crate::host::truncate;
+use crate::host::{Host, truncate};
 use crate::plugin::Plugin;
 use crate::runtime::Runtime;
 use crate::stats::Stats;
@@ -56,6 +55,10 @@ impl std::error::Error for CommandError {}
 impl<P: Plugin> Mq<P> {
     pub(crate) fn new(runtime: &'static Runtime<P>) -> Mq<P> {
         Mq { runtime, _not_send: PhantomData }
+    }
+
+    pub(crate) fn host(&self) -> &Host {
+        self.runtime.host()
     }
 
     /// The plugin's name (its crate name), as used in its chat messages.
@@ -138,12 +141,14 @@ impl<P: Plugin> Mq<P> {
 
     /// Your character's spawn, if in game.
     pub fn me(&self) -> Option<Spawn<'_>> {
-        unsafe { spawn_from(&raw const mq_emu_sys::eqlib::pLocalPlayer) }
+        // SAFETY: the game keeps the spawn alive at least until this callback
+        // returns, which the borrow of `self` guarantees.
+        unsafe { Spawn::from_raw((self.host().local_player)()) }
     }
 
     /// Your current target, if any.
     pub fn target(&self) -> Option<Spawn<'_>> {
-        unsafe { spawn_from(&raw const mq_emu_sys::eqlib::pTarget) }
+        unsafe { Spawn::from_raw((self.host().target)()) }
     }
 
     // ----- diagnostics -----
@@ -163,11 +168,4 @@ impl<P: Plugin> Mq<P> {
     pub fn set_slow_pulse_warning(&self, threshold: Option<Duration>) {
         self.runtime.set_slow_pulse_warning(threshold)
     }
-}
-
-/// # Safety
-/// `global` must be an eqlib `ForeignPointer` global, and the result must not
-/// outlive the current callback.
-unsafe fn spawn_from<'a>(global: *const ForeignPointer<PlayerClient>) -> Option<Spawn<'a>> {
-    unsafe { Spawn::from_raw((*global).get()) }
 }

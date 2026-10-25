@@ -2,7 +2,9 @@
 //! does with what MacroQuest itself reports.
 
 use mq_emu::color::{GREEN, RED, RESET, YELLOW};
-use mq_emu::{CommandError, GameState, Mq, Plugin, angle_difference};
+use std::ffi::{CStr, CString};
+
+use mq_emu::{CommandError, GameState, MoveKey, Mq, Plugin, angle_difference};
 
 /// The outcome of one check.
 pub enum Check {
@@ -23,13 +25,11 @@ pub struct Report {
     passed: u32,
     failed: u32,
     skipped: u32,
-    /// Deferred checks, printed by `finish` once an `Mq` is available again.
-    pending: Vec<(String, Check)>,
 }
 
 impl Report {
     pub fn new<P: Plugin>(mq: &Mq<P>) -> Report {
-        Report { name: mq.plugin_name(), passed: 0, failed: 0, skipped: 0, pending: Vec::new() }
+        Report { name: mq.plugin_name(), passed: 0, failed: 0, skipped: 0 }
     }
 
     pub fn print<P: Plugin>(&mut self, mq: &Mq<P>, label: &str, check: Check) {
@@ -50,15 +50,7 @@ impl Report {
         mq.chat(format!("[{}] {line}", self.name));
     }
 
-    /// Records a deferred check's result; [`Report::finish`] prints it.
-    pub fn check(&mut self, label: &str, check: Check) {
-        self.pending.push((label.to_owned(), check));
-    }
-
-    pub fn finish<P: Plugin>(mut self, mq: &Mq<P>) {
-        for (label, check) in std::mem::take(&mut self.pending) {
-            self.print(mq, &label, check);
-        }
+    pub fn finish<P: Plugin>(self, mq: &Mq<P>) {
         let color = if self.failed == 0 { GREEN } else { RED };
         mq.chat(format!(
             "[{}] {color}selftest: {} passed, {} failed, {} skipped{RESET}",
@@ -111,8 +103,7 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     report.print(mq, "me().position().x = ${Me.X}", same_float(pos.x, &mq.parse("${Me.X}")));
     report.print(mq, "me().position().y = ${Me.Y}", same_float(pos.y, &mq.parse("${Me.Y}")));
     report.print(mq, "me().position().z = ${Me.Z}", same_float(pos.z, &mq.parse("${Me.Z}")));
-    // Compared as directions: a raw heading of 512 is 360° to MacroQuest and 0° to mq-emu.
-    report.print(mq, "me().heading_degrees() = ${Me.Heading.Degrees}", same_angle(me.heading_degrees(), &mq.parse("${Me.Heading.Degrees}")));
+    heading_matches(mq, report, "as found");
     report.print(mq, "me().hp_current() = ${Me.CurrentHPs}", same_text(me.hp_current(), mq.parse("${Me.CurrentHPs}")));
     report.print(mq, "me().hp_max() = ${Me.MaxHPs}", same_text(me.hp_max(), mq.parse("${Me.MaxHPs}")));
 
@@ -120,6 +111,9 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         Some(target) => {
             report.print(mq, "target().id() = ${Target.ID}", same_text(target.id(), mq.parse("${Target.ID}")));
             report.print(mq, "me().distance_to(target) = ${Target.Distance3D}", same_float(me.distance_to(&target), &mq.parse("${Target.Distance3D}")));
+            let to = me.heading_to(&target);
+            report.print(mq, "me().heading_to(target).degrees() = ${Target.HeadingTo.Degrees}", same_angle(to.degrees(), &mq.parse("${Target.HeadingTo.Degrees}")));
+            report.print(mq, "me().heading_to(target).degrees_ccw() = ${Target.HeadingTo.DegreesCCW}", same_angle(to.degrees_ccw(), &mq.parse("${Target.HeadingTo.DegreesCCW}")));
         }
         None => report.print(mq, "target checks", Check::Skip("no target (target something to include them)".into())),
     }
@@ -152,4 +146,56 @@ pub fn parsing<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     report.print(mq, "parse expands math", same_text("4", mq.parse("${Math.Calc[2+2].Int}")));
     report.print(mq, "parse of unknown data gives NULL", same_text("NULL", mq.parse("${ThisDataDoesNotExist}")));
     report.print(mq, "text without data passes through", same_text("plain text", mq.parse("plain text")));
+}
+
+/// The current heading both ways MacroQuest shows it. Only meaningful away from
+/// north and south, where the two coincide; the selftest repeats it after a
+/// lopsided turn.
+pub fn heading_matches<P: Plugin>(mq: &Mq<P>, report: &mut Report, when: &str) {
+    let Some(me) = mq.me() else {
+        report.print(mq, &format!("heading ({when})"), Check::Skip("no local player".into()));
+        return;
+    };
+    let heading = me.heading();
+    report.print(mq, &format!("heading.degrees() = ${{Me.Heading.Degrees}} ({when})"), same_angle(heading.degrees(), &mq.parse("${Me.Heading.Degrees}")));
+    report.print(mq, &format!("heading.degrees_ccw() = ${{Me.Heading.DegreesCCW}} ({when})"), same_angle(heading.degrees_ccw(), &mq.parse("${Me.Heading.DegreesCCW}")));
+}
+
+/// Movement key IDs against the game's own command table, and holding a key
+/// against the game's key state.
+pub fn keys<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
+    for key in MoveKey::ALL {
+        let id = key.command();
+        // SAFETY: the table is a static array of N_EQ_MAPPABLE_COMMANDS entries.
+        let name = unsafe { mq_emu::sys::eqlib::szEQMappableCommands[id as usize] };
+        let name = (!name.is_null()).then(|| unsafe { CStr::from_ptr(name) }.to_string_lossy().into_owned());
+        let wanted = CString::new(key.game_name()).unwrap();
+        let found = unsafe { mq_emu::sys::mq2main::FindMappableCommand(wanted.as_ptr()) };
+        report.print(
+            mq,
+            &format!("{key:?} is game command {id} \"{}\"", key.game_name()),
+            Check::that(name.as_deref().is_some_and(|n| n.eq_ignore_ascii_case(key.game_name())) && found == id as i32, || {
+                format!("the game calls command {id} {name:?}; FindMappableCommand(\"{}\") = {found}", key.game_name())
+            }),
+        );
+    }
+
+    if mq.game_state() != GameState::InGame {
+        report.print(mq, "holding a key", Check::Skip("needs to be in game".into()));
+        return;
+    }
+    let disabled: Vec<_> = MoveKey::HELD.into_iter().filter(|key| !mq.is_key_enabled(*key)).collect();
+    report.print(mq, "the game allows the movement keys", Check::that(disabled.is_empty(), || format!("disabled: {disabled:?}")));
+    if mq.is_key_down(MoveKey::Back) {
+        report.print(mq, "holding a key", Check::Skip("the back key is already held".into()));
+        return;
+    }
+    // Back, briefly: held and released within this call, before the game moves.
+    let pressed = mq.set_key(MoveKey::Back, true);
+    let held = mq.is_key_down(MoveKey::Back);
+    let released = mq.set_key(MoveKey::Back, false);
+    let held_after = mq.is_key_down(MoveKey::Back);
+    report.print(mq, "a held key shows in the game's key state, and releases", Check::that(pressed.is_ok() && held && released.is_ok() && !held_after, || {
+        format!("press {pressed:?}, held {held}, release {released:?}, held afterwards {held_after}")
+    }));
 }

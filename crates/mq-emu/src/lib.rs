@@ -59,6 +59,7 @@ compile_error!(
 pub mod color;
 mod game;
 mod host;
+mod movement;
 mod mq;
 mod plugin;
 mod runtime;
@@ -68,8 +69,9 @@ mod text;
 pub use mq_emu_sys as sys;
 
 pub use game::{
-    GameState, HEADING_UNITS, Position, Spawn, SpawnId, SpawnType, angle_difference, degrees_to_heading, heading_to_degrees,
+    GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
 };
+pub use movement::{MoveError, MoveKey};
 pub use mq::{CommandError, Mq};
 pub use plugin::Plugin;
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};

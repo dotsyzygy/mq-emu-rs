@@ -71,17 +71,82 @@ impl Position {
     }
 }
 
-/// EverQuest headings run from 0 to 512 for a full turn.
-pub const HEADING_UNITS: f32 = 512.0;
-
-/// Converts an EverQuest heading (0..512) to degrees (0..360).
-pub fn heading_to_degrees(heading: f32) -> f32 {
-    (heading * 360.0 / HEADING_UNITS).rem_euclid(360.0)
+/// A direction in the world.
+///
+/// EverQuest stores headings as 0..512 "units" for a full turn, increasing
+/// counter-clockwise seen from above (0 = north, 128 = west). MacroQuest shows
+/// them two ways, and so does this type:
+/// - [`degrees`](Heading::degrees): clockwise compass degrees (0 = north,
+///   90 = east), like `${Me.Heading.Degrees}` and `${Target.HeadingTo}`;
+/// - [`degrees_ccw`](Heading::degrees_ccw): counter-clockwise, like
+///   `${Me.Heading.DegreesCCW}`.
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Default)]
+pub struct Heading {
+    /// Normalized to 0..512.
+    units: f32,
 }
 
-/// Converts degrees to an EverQuest heading (0..512).
-pub fn degrees_to_heading(degrees: f32) -> f32 {
-    (degrees * HEADING_UNITS / 360.0).rem_euclid(HEADING_UNITS)
+impl Heading {
+    /// Units in a full turn.
+    pub const FULL_TURN: f32 = 512.0;
+    pub const NORTH: Heading = Heading { units: 0.0 };
+    pub const WEST: Heading = Heading { units: 128.0 };
+    pub const SOUTH: Heading = Heading { units: 256.0 };
+    pub const EAST: Heading = Heading { units: 384.0 };
+
+    /// From EverQuest units; any value, wrapped into 0..512.
+    pub fn from_units(units: f32) -> Heading {
+        let units = units.rem_euclid(Self::FULL_TURN);
+        // rem_euclid can round up to FULL_TURN itself for tiny negative inputs.
+        Heading { units: if units >= Self::FULL_TURN { 0.0 } else { units } }
+    }
+
+    /// From clockwise compass degrees (0 = north, 90 = east).
+    pub fn from_degrees(degrees: f32) -> Heading {
+        Heading::from_degrees_ccw(-degrees)
+    }
+
+    /// From counter-clockwise degrees (0 = north, 90 = west).
+    pub fn from_degrees_ccw(degrees: f32) -> Heading {
+        Heading::from_units(degrees * Self::FULL_TURN / 360.0)
+    }
+
+    /// EverQuest units, 0..512.
+    pub fn units(self) -> f32 {
+        self.units
+    }
+
+    /// Clockwise compass degrees, 0..360.
+    pub fn degrees(self) -> f32 {
+        (360.0 - self.degrees_ccw()).rem_euclid(360.0)
+    }
+
+    /// Counter-clockwise degrees, 0..360.
+    pub fn degrees_ccw(self) -> f32 {
+        self.units * 360.0 / Self::FULL_TURN
+    }
+
+    /// This heading turned left (counter-clockwise) by `degrees`.
+    pub fn turned_left(self, degrees: f32) -> Heading {
+        Heading::from_degrees_ccw(self.degrees_ccw() + degrees)
+    }
+
+    /// This heading turned right (clockwise) by `degrees`.
+    pub fn turned_right(self, degrees: f32) -> Heading {
+        self.turned_left(-degrees)
+    }
+
+    /// How far apart two headings are, in degrees, 0..=180.
+    pub fn difference(self, other: Heading) -> f32 {
+        angle_difference(self.degrees_ccw(), other.degrees_ccw())
+    }
+
+    /// The heading from `from` towards `to`, as MacroQuest's `/face` and
+    /// `${Spawn.HeadingTo}` compute it. North if the points coincide.
+    pub fn between(from: &Position, to: &Position) -> Heading {
+        let radians = (to.x - from.x).atan2(to.y - from.y);
+        Heading::from_units(radians * Self::FULL_TURN / std::f32::consts::TAU)
+    }
 }
 
 /// The smallest angle between two directions in degrees, 0..=180. Directions
@@ -157,13 +222,14 @@ impl<'a> Spawn<'a> {
         Position { x: self.raw.X(), y: self.raw.Y(), z: self.raw.Z() }
     }
 
-    /// Raw EverQuest heading, 0..512.
-    pub fn heading(&self) -> f32 {
-        self.raw.Heading()
+    /// The direction the spawn faces.
+    pub fn heading(&self) -> Heading {
+        Heading::from_units(self.raw.Heading())
     }
 
-    pub fn heading_degrees(&self) -> f32 {
-        heading_to_degrees(self.raw.Heading())
+    /// The direction from this spawn towards `other`.
+    pub fn heading_to(&self, other: &Spawn<'_>) -> Heading {
+        Heading::between(&self.position(), &other.position())
     }
 
     pub fn hp_current(&self) -> i32 {
@@ -210,14 +276,84 @@ mod tests {
         assert_eq!(GameState::from(42), GameState::Unknown(42));
     }
 
+    /// MacroQuest's formulas, transcribed from MQ2BasicTypes.cpp and MQ2SpawnType.cpp.
+    mod macroquest {
+        /// `${Spawn.Heading.Degrees}`: `360 - fmod(units * 0.703125, 360)`.
+        pub fn heading_degrees(units: f32) -> f32 {
+            let heading = 360.0 - (units * 0.703125) % 360.0;
+            if heading < 0.0 { heading + 360.0 } else { heading }
+        }
+
+        /// `${Spawn.Heading.DegreesCCW}`.
+        pub fn heading_degrees_ccw(units: f32) -> f32 {
+            units * 0.703125
+        }
+
+        /// The raw value behind `${Spawn.HeadingTo}`, before `.Degrees` flips it.
+        pub fn heading_to_ccw(me: (f32, f32), target: (f32, f32)) -> f32 {
+            let mut d = (me.1 - target.1).atan2(target.0 - me.0) * 180.0 / std::f32::consts::PI + 90.0;
+            if d < 0.0 {
+                d += 360.0
+            } else if d >= 360.0 {
+                d -= 360.0
+            }
+            d
+        }
+    }
+
+    fn close(a: f32, b: f32) -> bool {
+        angle_difference(a, b) < 1e-3
+    }
+
     #[test]
-    fn headings_convert_both_ways() {
-        assert_eq!(heading_to_degrees(0.0), 0.0);
-        assert_eq!(heading_to_degrees(128.0), 90.0);
-        assert_eq!(heading_to_degrees(512.0), 0.0);
-        assert_eq!(heading_to_degrees(-128.0), 270.0);
-        assert_eq!(degrees_to_heading(180.0), 256.0);
-        assert_eq!(degrees_to_heading(-90.0), 384.0);
+    fn heading_degrees_match_macroquest() {
+        // The bug found in game: Degrees is clockwise, so at every heading but
+        // north and south it differs from the raw counter-clockwise value.
+        for units in [0.0, 1.0, 100.0, 128.0, 255.9, 256.0, 300.0, 384.0, 511.0] {
+            let heading = Heading::from_units(units);
+            assert!(close(heading.degrees(), macroquest::heading_degrees(units)), "Degrees at {units}");
+            assert!(close(heading.degrees_ccw(), macroquest::heading_degrees_ccw(units)), "DegreesCCW at {units}");
+        }
+    }
+
+    #[test]
+    fn heading_between_matches_macroquest_heading_to() {
+        let me = Position { x: 10.0, y: -20.0, z: 0.0 };
+        for (x, y) in [(10.0, 0.0), (30.0, -20.0), (10.0, -40.0), (-5.0, -20.0), (17.0, 3.0), (-40.0, -90.0)] {
+            let target = Position { x, y, z: 5.0 };
+            let ours = Heading::between(&me, &target);
+            let theirs_ccw = macroquest::heading_to_ccw((me.x, me.y), (x, y));
+            assert!(close(ours.degrees_ccw(), theirs_ccw), "to ({x}, {y}): {} vs {theirs_ccw}", ours.degrees_ccw());
+            // `${...HeadingTo.Degrees}` is the clockwise form of the same value.
+            assert!(close(ours.degrees(), macroquest::heading_degrees(theirs_ccw / 0.703125)));
+        }
+    }
+
+    #[test]
+    fn compass_directions() {
+        let origin = Position::default();
+        let at = |x, y| Heading::between(&origin, &Position { x, y, z: 0.0 });
+        // EverQuest's +Y is north and +X is west.
+        assert_eq!(at(0.0, 10.0), Heading::NORTH);
+        assert_eq!(at(10.0, 0.0), Heading::WEST);
+        assert_eq!(at(0.0, -10.0), Heading::SOUTH);
+        assert_eq!(at(-10.0, 0.0), Heading::EAST);
+        assert_eq!(Heading::EAST.degrees(), 90.0);
+        assert_eq!(Heading::WEST.degrees(), 270.0);
+        assert_eq!(Heading::WEST.degrees_ccw(), 90.0);
+    }
+
+    #[test]
+    fn heading_conversions_round_trip_and_wrap() {
+        assert_eq!(Heading::from_degrees(90.0), Heading::EAST);
+        assert_eq!(Heading::from_degrees_ccw(90.0), Heading::WEST);
+        assert_eq!(Heading::from_units(512.0), Heading::NORTH);
+        assert_eq!(Heading::from_units(-128.0), Heading::EAST);
+        assert!(Heading::from_units(-1e-6).units() < Heading::FULL_TURN);
+        assert_eq!(Heading::NORTH.turned_left(90.0), Heading::WEST);
+        assert_eq!(Heading::NORTH.turned_right(90.0), Heading::EAST);
+        assert_eq!(Heading::WEST.difference(Heading::EAST), 180.0);
+        assert_eq!(Heading::from_degrees(350.0).difference(Heading::from_degrees(10.0)), 20.0);
     }
 
     #[test]
@@ -257,7 +393,7 @@ mod tests {
             raw.set_X(10.0);
             raw.set_Y(-20.0);
             raw.set_Z(3.5);
-            raw.set_Heading(256.0);
+            raw.set_Heading(128.0);
             let mut name = raw.DisplayedName();
             for (d, s) in name.iter_mut().zip(b"a rat\0") {
                 *d = *s as std::ffi::c_char;
@@ -268,7 +404,7 @@ mod tests {
             assert_eq!(spawn.level(), 65);
             assert_eq!(spawn.spawn_type(), SpawnType::Npc);
             assert_eq!(spawn.position(), Position { x: 10.0, y: -20.0, z: 3.5 });
-            assert_eq!(spawn.heading_degrees(), 180.0);
+            assert_eq!(spawn.heading(), Heading::WEST);
             assert_eq!(spawn.name(), "a rat");
         });
     }

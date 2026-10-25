@@ -33,12 +33,23 @@ imports! {
         /// One of the `GAMESTATE_*` constants.
         pub fn GetGameState() -> c_int;
 
+        // Key bindings (mq/utils/Keybinds.h)
+        /// The `CMD_*` index of a key-bindable command by its game name
+        /// (case-insensitive, e.g. "forward"), or -1.
+        pub fn FindMappableCommand(name: *const c_char) -> c_int;
+
         // Plugins (mq/api/PluginAPI.h)
         /// `GetProcAddress` against another loaded plugin, by plugin name.
         pub fn GetPluginProc(plugin: *const c_char, proc_name: *const c_char) -> *mut c_void;
     }
     statics {
         // MQ2Globals.h
+        /// Heading (EverQuest units, 0..512) MacroQuest is turning the
+        /// controlled player towards, a little each pulse; `FACE_ANGLE_INACTIVE`
+        /// when not turning. Writing it starts a smooth turn.
+        pub static mut gFaceAngle: f64;
+        /// Like `gFaceAngle`, for the camera's look (pitch) angle.
+        pub static mut gLookAngle: f64;
         /// Raw game state; prefer `GetGameState`.
         pub static mut gGameState: c_int;
         pub static mut gbInZone: bool;
