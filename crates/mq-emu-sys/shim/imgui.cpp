@@ -715,3 +715,72 @@ extern "C" float mqemu_imgui_delta_time()
 {
 	return guarded(0.0f, [] { return ImGui::GetIO().DeltaTime; });
 }
+
+// ----- items, style and drawing -----
+
+// The last item's rectangle, in screen coordinates.
+extern "C" void mqemu_imgui_item_rect(float* min_x, float* min_y, float* max_x, float* max_y)
+{
+	guarded_void([&] {
+		ImVec2 min = ImGui::GetItemRectMin();
+		ImVec2 max = ImGui::GetItemRectMax();
+		*min_x = min.x;
+		*min_y = min.y;
+		*max_x = max.x;
+		*max_y = max.y;
+	});
+}
+
+// The current style's color `idx` (an ImGuiCol_ value), into rgba[4].
+extern "C" void mqemu_imgui_style_color(int idx, float* rgba)
+{
+	guarded_void([&] {
+		const ImVec4& color = ImGui::GetStyleColorVec4(idx);
+		rgba[0] = color.x;
+		rgba[1] = color.y;
+		rgba[2] = color.z;
+		rgba[3] = color.w;
+	});
+}
+
+// Drawing on the current window's draw list, in screen coordinates. These
+// don't move the cursor or affect layout.
+
+extern "C" void mqemu_imgui_draw_line(float x1, float y1, float x2, float y2, float r, float g, float b, float a, float thickness)
+{
+	guarded_void([&] {
+		ImGui::GetWindowDrawList()->AddLine(ImVec2(x1, y1), ImVec2(x2, y2), ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a)), thickness);
+	});
+}
+
+extern "C" void mqemu_imgui_draw_rect(float x1, float y1, float x2, float y2, float r, float g, float b, float a,
+	float rounding, float thickness, bool filled)
+{
+	guarded_void([&] {
+		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a));
+		ImDrawList* list = ImGui::GetWindowDrawList();
+		if (filled)
+			list->AddRectFilled(ImVec2(x1, y1), ImVec2(x2, y2), color, rounding);
+		else
+			list->AddRect(ImVec2(x1, y1), ImVec2(x2, y2), color, rounding, 0, thickness);
+	});
+}
+
+extern "C" void mqemu_imgui_draw_circle(float x, float y, float radius, float r, float g, float b, float a, float thickness, bool filled)
+{
+	guarded_void([&] {
+		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a));
+		ImDrawList* list = ImGui::GetWindowDrawList();
+		if (filled)
+			list->AddCircleFilled(ImVec2(x, y), radius, color);
+		else
+			list->AddCircle(ImVec2(x, y), radius, color, 0, thickness);
+	});
+}
+
+extern "C" void mqemu_imgui_draw_text(float x, float y, float r, float g, float b, float a, const char* text, size_t len)
+{
+	guarded_void([&] {
+		ImGui::GetWindowDrawList()->AddText(ImVec2(x, y), ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a)), text, text + len);
+	});
+}

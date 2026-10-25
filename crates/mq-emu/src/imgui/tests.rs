@@ -415,3 +415,45 @@ fn popups_and_menus_open_and_close() {
     frame(|ui| ui.close_current_popup()).unwrap();
     assert_eq!(take_error(), None);
 }
+
+
+#[test]
+fn text_can_be_centered_over_an_item() {
+    let _imgui = lock();
+    let result = frame(|ui| {
+        test_window(ui, |ui| {
+            ui.progress_bar(1.0);
+            let (min, max) = ui.item_rect();
+            let center = last_item_center();
+            assert_eq!([(min[0] + max[0]) / 2.0, (min[1] + max[1]) / 2.0], center, "item_rect is the last item's");
+            let size = ui.calc_text_size("176 / 238");
+            let pos = [(min[0] + max[0] - size[0]) / 2.0, (min[1] + max[1] - size[1]) / 2.0];
+            let draw = ui.draw_list();
+            let before = unsafe { mqemu_imgui_test_window_vertices() };
+            draw.add_text(pos, ui.style_color(StyleColor::Text), "176 / 238");
+            let after_text = unsafe { mqemu_imgui_test_window_vertices() };
+            draw.add_line(min, max, [1.0; 4], 1.0);
+            draw.add_rect(min, max, [1.0; 4], 2.0, 1.0);
+            draw.add_rect_filled(min, max, [1.0, 1.0, 1.0, 0.2], 0.0);
+            draw.add_circle(center, 5.0, [1.0; 4], 1.0);
+            draw.add_circle_filled(center, 3.0, [1.0; 4]);
+            let after_shapes = unsafe { mqemu_imgui_test_window_vertices() };
+            (after_text > before, after_shapes > after_text)
+        })
+    });
+    assert_eq!(result, Ok(Some((true, true))));
+    assert_eq!(take_error(), None);
+}
+
+#[test]
+fn style_color_reads_what_is_pushed() {
+    let _imgui = lock();
+    let colors = frame(|ui| {
+        let pushed = [0.25, 0.5, 0.75, 1.0];
+        let inside = ui.with_style_color(StyleColor::Text, pushed, |ui| ui.style_color(StyleColor::Text));
+        (pushed, inside, ui.style_color(StyleColor::Text))
+    });
+    let (pushed, inside, after) = colors.unwrap();
+    assert_eq!(inside, pushed);
+    assert_ne!(after, pushed, "popped again");
+}

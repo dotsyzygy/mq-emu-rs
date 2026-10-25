@@ -292,6 +292,30 @@ imgui_functions! {
         enabled: bool,
     ) -> bool;
 
+    // ----- items, style and drawing -----
+    /// The last item's rectangle, in screen coordinates.
+    pub fn mqemu_imgui_item_rect(min_x: *mut f32, min_y: *mut f32, max_x: *mut f32, max_y: *mut f32);
+    /// Writes the style's color `idx` (an `ImGuiCol_` value, unchecked) to `rgba`, 4 floats.
+    pub fn mqemu_imgui_style_color(idx: i32, rgba: *mut f32);
+    /// The `draw_*` functions draw on the current window's draw list, in
+    /// screen coordinates, without affecting layout.
+    pub fn mqemu_imgui_draw_line(x1: f32, y1: f32, x2: f32, y2: f32, r: f32, g: f32, b: f32, a: f32, thickness: f32);
+    pub fn mqemu_imgui_draw_rect(
+        x1: f32,
+        y1: f32,
+        x2: f32,
+        y2: f32,
+        r: f32,
+        g: f32,
+        b: f32,
+        a: f32,
+        rounding: f32,
+        thickness: f32,
+        filled: bool,
+    );
+    pub fn mqemu_imgui_draw_circle(x: f32, y: f32, radius: f32, r: f32, g: f32, b: f32, a: f32, thickness: f32, filled: bool);
+    pub fn mqemu_imgui_draw_text(x: f32, y: f32, r: f32, g: f32, b: f32, a: f32, text: *const c_char, len: usize);
+
     // ----- frame info -----
     pub fn mqemu_imgui_frame_count() -> i32;
     /// Seconds since ImGui started.
@@ -325,6 +349,8 @@ pub mod testing {
         pub fn mqemu_imgui_test_id_depth() -> i32;
         /// Types NUL-terminated UTF-8 `text` into the focused widget, next frame.
         pub fn mqemu_imgui_test_type(text: *const c_char);
+        /// Vertices in the current window's draw list so far.
+        pub fn mqemu_imgui_test_window_vertices() -> i32;
     }
 }
 

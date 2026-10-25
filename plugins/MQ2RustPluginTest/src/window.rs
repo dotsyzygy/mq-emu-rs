@@ -261,13 +261,21 @@ impl RustTest {
                 table.text(label);
                 table.next_column();
                 let fraction = if max > 0 { current as f32 / max as f32 } else { 0.0 };
-                table.with_style_color(StyleColor::PlotHistogram, color, |ui| {
-                    ui.progress_bar_with(fraction, [-f32::MIN_POSITIVE, 0.0], Some(&format!("{current} / {max}")))
-                });
+                table.with_style_color(StyleColor::PlotHistogram, color, |ui| ui.progress_bar_with(fraction, [-f32::MIN_POSITIVE, 0.0], Some("")));
+                // ImGui puts a bar's own overlay where the fill ends (and with
+                // none, shows a percentage); center ours instead.
+                let text = format!("{current} / {max} ({:.0}%)", fraction * 100.0);
+                let ((min, max), size) = (table.item_rect(), table.calc_text_size(&text));
+                let pos = [(min[0] + max[0] - size[0]) / 2.0, (min[1] + max[1] - size[1]) / 2.0];
+                table.draw_list().add_text(pos, table.style_color(StyleColor::Text), text);
             };
             bar("HP", me.hp_current(), me.hp_max(), HP_RED);
-            if me.mana_max() > 0 {
-                bar("Mana", me.mana_current(), me.mana_max(), MANA_BLUE);
+            // Your own mana as ${Me} reads it, from the character rather than
+            // the spawn's mana fields (Spawn::mana_*, which were empty here).
+            let read = |path| mq.data(path).ok().flatten().and_then(|d| d.as_int()).unwrap_or(0) as i32;
+            let (mana, max_mana) = (read("Me.CurrentMana"), read("Me.MaxMana"));
+            if max_mana > 0 {
+                bar("Mana", mana, max_mana, MANA_BLUE);
             }
             let target = match mq.target() {
                 Some(t) => format!("{} (level {}, {:.1} away, {}% HP)", t.name(), t.level(), t.distance_to(me), t.hp_percent()),

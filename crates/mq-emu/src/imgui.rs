@@ -978,7 +978,8 @@ impl Ui {
         self.progress_bar_with(fraction, [-f32::MIN_POSITIVE, 0.0], None);
     }
 
-    /// [`Ui::progress_bar`] of `size` (`[w, h]`, 0 for defaults), showing `overlay` if given.
+    /// [`Ui::progress_bar`] of `size` (`[w, h]`, 0 for defaults), showing
+    /// `overlay` at the end of the fill: None shows the percentage, `Some("")` nothing.
     pub fn progress_bar_with(&mut self, fraction: f32, size: [f32; 2], overlay: Option<&str>) {
         let (o, on) = opt(overlay);
         unsafe { (self.api.mqemu_imgui_progress_bar)(fraction, size[0], size[1], o, on) }
@@ -1203,6 +1204,31 @@ impl Ui {
         unsafe { (self.api.mqemu_imgui_menu_item)(l, ln, k, kn, selected, enabled) }
     }
 
+    // ----- items, style and drawing -----
+
+    /// The last item's rectangle in screen coordinates, `(min, max)`.
+    pub fn item_rect(&self) -> ([f32; 2], [f32; 2]) {
+        let (mut x0, mut y0, mut x1, mut y1) = (0.0, 0.0, 0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_item_rect)(&mut x0, &mut y0, &mut x1, &mut y1) };
+        ([x0, y0], [x1, y1])
+    }
+
+    /// A color of the current style (MacroQuest's theme, plus any
+    /// [`Ui::with_style_color`] in effect).
+    pub fn style_color(&self, which: StyleColor) -> Color {
+        let mut color = [0.0; 4];
+        unsafe { (self.api.mqemu_imgui_style_color)(which as i32, color.as_mut_ptr()) };
+        color
+    }
+
+    /// Draws shapes and text on the current window, in screen coordinates,
+    /// without affecting layout: e.g. a label over the last item, at
+    /// [`Ui::item_rect`]. Borrows the `Ui`, so the window can't change while
+    /// it's held.
+    pub fn draw_list(&self) -> DrawList<'_> {
+        DrawList { api: self.api, _ui: PhantomData }
+    }
+
     // ----- frame info -----
 
     /// ImGui's frame counter.
@@ -1223,6 +1249,48 @@ impl Ui {
     /// Seconds since the last frame.
     pub fn delta_time(&self) -> f32 {
         unsafe { (self.api.mqemu_imgui_delta_time)() }
+    }
+}
+
+/// Draws on the current window; see [`Ui::draw_list`]. Positions are screen
+/// coordinates, `[x, y]`.
+pub struct DrawList<'ui> {
+    api: &'static sys::Api,
+    _ui: PhantomData<&'ui Ui>,
+}
+
+impl DrawList<'_> {
+    pub fn add_line(&self, from: [f32; 2], to: [f32; 2], color: Color, thickness: f32) {
+        let [r, g, b, a] = color;
+        unsafe { (self.api.mqemu_imgui_draw_line)(from[0], from[1], to[0], to[1], r, g, b, a, thickness) }
+    }
+
+    /// A rectangle's outline from `min` (top left) to `max`.
+    pub fn add_rect(&self, min: [f32; 2], max: [f32; 2], color: Color, rounding: f32, thickness: f32) {
+        let [r, g, b, a] = color;
+        unsafe { (self.api.mqemu_imgui_draw_rect)(min[0], min[1], max[0], max[1], r, g, b, a, rounding, thickness, false) }
+    }
+
+    pub fn add_rect_filled(&self, min: [f32; 2], max: [f32; 2], color: Color, rounding: f32) {
+        let [r, g, b, a] = color;
+        unsafe { (self.api.mqemu_imgui_draw_rect)(min[0], min[1], max[0], max[1], r, g, b, a, rounding, 0.0, true) }
+    }
+
+    pub fn add_circle(&self, center: [f32; 2], radius: f32, color: Color, thickness: f32) {
+        let [r, g, b, a] = color;
+        unsafe { (self.api.mqemu_imgui_draw_circle)(center[0], center[1], radius, r, g, b, a, thickness, false) }
+    }
+
+    pub fn add_circle_filled(&self, center: [f32; 2], radius: f32, color: Color) {
+        let [r, g, b, a] = color;
+        unsafe { (self.api.mqemu_imgui_draw_circle)(center[0], center[1], radius, r, g, b, a, 0.0, true) }
+    }
+
+    /// `text` with its top left at `pos`, as is (no formatting).
+    pub fn add_text(&self, pos: [f32; 2], color: Color, text: impl AsRef<str>) {
+        let [r, g, b, a] = color;
+        let (t, n) = s(text.as_ref());
+        unsafe { (self.api.mqemu_imgui_draw_text)(pos[0], pos[1], r, g, b, a, t, n) }
     }
 }
 

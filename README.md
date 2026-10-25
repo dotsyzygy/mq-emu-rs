@@ -64,7 +64,8 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Lua interop: exchanging every actors value type with Lua scripts
 - ImGui (`mq_emu::imgui`): windows, child regions, menus, tabs, tables, trees, popups, tooltips,
   text, buttons, checkboxes, radio buttons, selectables, sliders, drags, number and text inputs,
-  combo boxes, color editing, progress bars, plots, and ID/style/disabled scopes. Every begin/end
+  combo boxes, color editing, progress bars, plots, ID/style/disabled scopes, and lines, shapes and
+  text drawn on a window (`Ui::draw_list`). Every begin/end
   pair is a closure scope that always ends, even on a panic, and ImGui errors are caught and
   reported instead of pausing every plugin's overlay
 - Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
@@ -76,7 +77,8 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Safe wrappers for items, inventory, spells, buffs, groups, pets, zone info and ground items (reachable
   only as raw layouts or through TLO reads)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
-- ImGui beyond the bound set: textures and images, custom drawing (draw lists), drag and drop,
+- ImGui beyond the bound set: textures and images, the rest of draw lists (paths, polygons,
+  foreground/background lists), drag and drop,
   fonts, docking control, ImPlot (reachable as raw `ImGui::*` C++ only)
 - MacroQuest events (`#Event`-style chat matching) and key binds
 - EQ UI windows (`CXWnd` and friends): finding, reading and clicking them

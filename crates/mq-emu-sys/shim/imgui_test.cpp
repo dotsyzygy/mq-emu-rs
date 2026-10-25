@@ -114,3 +114,9 @@ extern "C" void mqemu_imgui_test_type(const char* utf8)
 {
 	ImGui::GetIO().AddInputCharactersUTF8(utf8);
 }
+
+// Vertices in the current window's draw list so far.
+extern "C" int mqemu_imgui_test_window_vertices()
+{
+	return ImGui::GetWindowDrawList()->VtxBuffer.Size;
+}
