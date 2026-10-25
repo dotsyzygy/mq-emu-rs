@@ -30,133 +30,112 @@ pub struct ARGBCOLOR {
 }
 
 impl ARGBCOLOR {
-    /// `ARGBCOLOR::B` at 0x0 (0x0 within `ARGBCOLOR`).
+    /// `RGB::Blue` at 0x0 (0x0 within `RGB`).
+    #[inline]
+    pub fn Blue(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `RGB::Blue` at 0x0 (0x0 within `RGB`).
+    #[inline]
+    pub fn set_Blue(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `RGB::B` at 0x0 (0x0 within `RGB`).
     #[inline]
     pub fn B(&self) -> u8 {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
-    /// `ARGBCOLOR::B` at 0x0 (0x0 within `ARGBCOLOR`).
+    /// `RGB::B` at 0x0 (0x0 within `RGB`).
     #[inline]
     pub fn set_B(&self, value: u8) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
-    /// `ARGBCOLOR::ARGB` at 0x0 (0x0 within `ARGBCOLOR`).
+    /// `RGB::ARGB` at 0x0 (0x0 within `RGB`).
     #[inline]
     pub fn ARGB(&self) -> u32 {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
-    /// `ARGBCOLOR::ARGB` at 0x0 (0x0 within `ARGBCOLOR`).
+    /// `RGB::ARGB` at 0x0 (0x0 within `RGB`).
     #[inline]
     pub fn set_ARGB(&self, value: u32) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
-    /// `ARGBCOLOR::G` at 0x1 (0x1 within `ARGBCOLOR`).
+    /// `RGB::Green` at 0x1 (0x1 within `RGB`).
+    #[inline]
+    pub fn Green(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1) }
+    }
+
+    /// `RGB::Green` at 0x1 (0x1 within `RGB`).
+    #[inline]
+    pub fn set_Green(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1, value) }
+    }
+
+    /// `RGB::G` at 0x1 (0x1 within `RGB`).
     #[inline]
     pub fn G(&self) -> u8 {
         unsafe { read(self._bytes.get().cast(), 0x1) }
     }
 
-    /// `ARGBCOLOR::G` at 0x1 (0x1 within `ARGBCOLOR`).
+    /// `RGB::G` at 0x1 (0x1 within `RGB`).
     #[inline]
     pub fn set_G(&self, value: u8) {
         unsafe { write(self._bytes.get().cast(), 0x1, value) }
     }
 
-    /// `ARGBCOLOR::R` at 0x2 (0x2 within `ARGBCOLOR`).
+    /// `RGB::Red` at 0x2 (0x2 within `RGB`).
+    #[inline]
+    pub fn Red(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x2) }
+    }
+
+    /// `RGB::Red` at 0x2 (0x2 within `RGB`).
+    #[inline]
+    pub fn set_Red(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x2, value) }
+    }
+
+    /// `RGB::R` at 0x2 (0x2 within `RGB`).
     #[inline]
     pub fn R(&self) -> u8 {
         unsafe { read(self._bytes.get().cast(), 0x2) }
     }
 
-    /// `ARGBCOLOR::R` at 0x2 (0x2 within `ARGBCOLOR`).
+    /// `RGB::R` at 0x2 (0x2 within `RGB`).
     #[inline]
     pub fn set_R(&self, value: u8) {
         unsafe { write(self._bytes.get().cast(), 0x2, value) }
     }
 
-    /// `ARGBCOLOR::A` at 0x3 (0x3 within `ARGBCOLOR`).
+    /// `RGB::Alpha` at 0x3 (0x3 within `RGB`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x3) }
+    }
+
+    /// `RGB::Alpha` at 0x3 (0x3 within `RGB`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x3, value) }
+    }
+
+    /// `RGB::A` at 0x3 (0x3 within `RGB`).
     #[inline]
     pub fn A(&self) -> u8 {
         unsafe { read(self._bytes.get().cast(), 0x3) }
     }
 
-    /// `ARGBCOLOR::A` at 0x3 (0x3 within `ARGBCOLOR`).
+    /// `RGB::A` at 0x3 (0x3 within `RGB`).
     #[inline]
     pub fn set_A(&self, value: u8) {
         unsafe { write(self._bytes.get().cast(), 0x3, value) }
-    }
-}
-
-/// C++ class `ARMOR` (0x14 bytes).
-#[repr(C)]
-pub struct ARMOR {
-    _bytes: UnsafeCell<[u8; 0x14]>,
-    _pin: PhantomData<PhantomPinned>,
-}
-
-impl ARMOR {
-    /// `ARMOR::ID` at 0x0 (0x0 within `ARMOR`).
-    #[inline]
-    pub fn ID(&self) -> u32 {
-        unsafe { read(self._bytes.get().cast(), 0x0) }
-    }
-
-    /// `ARMOR::ID` at 0x0 (0x0 within `ARMOR`).
-    #[inline]
-    pub fn set_ID(&self, value: u32) {
-        unsafe { write(self._bytes.get().cast(), 0x0, value) }
-    }
-
-    /// `ARMOR::Var` at 0x4 (0x4 within `ARMOR`).
-    #[inline]
-    pub fn Var(&self) -> u32 {
-        unsafe { read(self._bytes.get().cast(), 0x4) }
-    }
-
-    /// `ARMOR::Var` at 0x4 (0x4 within `ARMOR`).
-    #[inline]
-    pub fn set_Var(&self, value: u32) {
-        unsafe { write(self._bytes.get().cast(), 0x4, value) }
-    }
-
-    /// `ARMOR::Material` at 0x8 (0x8 within `ARMOR`).
-    #[inline]
-    pub fn Material(&self) -> u32 {
-        unsafe { read(self._bytes.get().cast(), 0x8) }
-    }
-
-    /// `ARMOR::Material` at 0x8 (0x8 within `ARMOR`).
-    #[inline]
-    pub fn set_Material(&self, value: u32) {
-        unsafe { write(self._bytes.get().cast(), 0x8, value) }
-    }
-
-    /// `ARMOR::NewArmorID` at 0xc (0xc within `ARMOR`).
-    #[inline]
-    pub fn NewArmorID(&self) -> u32 {
-        unsafe { read(self._bytes.get().cast(), 0xc) }
-    }
-
-    /// `ARMOR::NewArmorID` at 0xc (0xc within `ARMOR`).
-    #[inline]
-    pub fn set_NewArmorID(&self, value: u32) {
-        unsafe { write(self._bytes.get().cast(), 0xc, value) }
-    }
-
-    /// `ARMOR::NewArmorType` at 0x10 (0x10 within `ARMOR`).
-    #[inline]
-    pub fn NewArmorType(&self) -> u32 {
-        unsafe { read(self._bytes.get().cast(), 0x10) }
-    }
-
-    /// `ARMOR::NewArmorType` at 0x10 (0x10 within `ARMOR`).
-    #[inline]
-    pub fn set_NewArmorType(&self, value: u32) {
-        unsafe { write(self._bytes.get().cast(), 0x10, value) }
     }
 }
 
@@ -360,6 +339,22 @@ impl ActorClient {
         unsafe { write(self._bytes.get().cast(), 0x16, value) }
     }
 
+    /// `ActorBase::ActorDef` at 0x16 (0x16 within `ActorBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn ActorDef_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x16 + index * 0x1) }
+    }
+
+    /// `ActorBase::ActorDef` at 0x16 (0x16 within `ActorBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_ActorDef_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x16 + index * 0x1, value) }
+    }
+
     /// `ActorBase::ArmorColor` at 0x58 (0x58 within `ActorBase`).
     #[inline]
     pub fn ArmorColor(&self) -> [u32; 9] {
@@ -370,6 +365,22 @@ impl ActorClient {
     #[inline]
     pub fn set_ArmorColor(&self, value: [u32; 9]) {
         unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+
+    /// `ActorBase::ArmorColor` at 0x58 (0x58 within `ActorBase`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn ArmorColor_at(&self, index: usize) -> u32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x58 + index * 0x4) }
+    }
+
+    /// `ActorBase::ArmorColor` at 0x58 (0x58 within `ActorBase`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_ArmorColor_at(&self, index: usize, value: u32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x58 + index * 0x4, value) }
     }
 
     /// `ActorBase::bShowHelm` at 0x7c (0x7c within `ActorBase`).
@@ -460,6 +471,22 @@ impl ActorClient {
     #[inline]
     pub fn set_pParticlePoints(&self, value: [*mut CParticlePointInterface; 10]) {
         unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `ActorClient::pParticlePoints` at 0x148 (0x148 within `ActorClient`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn pParticlePoints_at(&self, index: usize) -> *mut CParticlePointInterface {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x148 + index * 0x4) }
+    }
+
+    /// `ActorClient::pParticlePoints` at 0x148 (0x148 within `ActorClient`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_pParticlePoints_at(&self, index: usize, value: *mut CParticlePointInterface) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x148 + index * 0x4, value) }
     }
 
     /// `ActorClient::pLowerBones` at 0x170 (0x170 within `ActorClient`).
@@ -619,6 +646,75 @@ impl ActorClient {
     }
 }
 
+/// C++ class `ArmorProperties` (0x14 bytes).
+#[repr(C)]
+pub struct ArmorProperties {
+    _bytes: UnsafeCell<[u8; 0x14]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArmorProperties {
+    /// `ArmorProperties::type` at 0x0 (0x0 within `ArmorProperties`).
+    #[inline]
+    pub fn r#type(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `ArmorProperties::type` at 0x0 (0x0 within `ArmorProperties`).
+    #[inline]
+    pub fn set_type(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArmorProperties::variation` at 0x4 (0x4 within `ArmorProperties`).
+    #[inline]
+    pub fn variation(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArmorProperties::variation` at 0x4 (0x4 within `ArmorProperties`).
+    #[inline]
+    pub fn set_variation(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArmorProperties::material` at 0x8 (0x8 within `ArmorProperties`).
+    #[inline]
+    pub fn material(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArmorProperties::material` at 0x8 (0x8 within `ArmorProperties`).
+    #[inline]
+    pub fn set_material(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArmorProperties::newArmorID` at 0xc (0xc within `ArmorProperties`).
+    #[inline]
+    pub fn newArmorID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArmorProperties::newArmorID` at 0xc (0xc within `ArmorProperties`).
+    #[inline]
+    pub fn set_newArmorID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArmorProperties::newArmorType` at 0x10 (0x10 within `ArmorProperties`).
+    #[inline]
+    pub fn newArmorType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArmorProperties::newArmorType` at 0x10 (0x10 within `ArmorProperties`).
+    #[inline]
+    pub fn set_newArmorType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+}
+
 /// C++ class `ArrayClass2<unsigned int>` (0x1c bytes).
 #[repr(C)]
 pub struct ArrayClass2_unsigned_int {
@@ -763,6 +859,63 @@ impl ArrayClass_CXStr {
     }
 
     /// `ArrayClass<CXStr>::m_isValid` at 0xc (0xc within `ArrayClass<CXStr>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<ChatBufferEntry *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_ChatBufferEntry {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_ChatBufferEntry {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<ChatBufferEntry *>::m_array` at 0x4 (0x4 within `ArrayClass<ChatBufferEntry *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut ChatBufferEntry {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<ChatBufferEntry *>::m_array` at 0x4 (0x4 within `ArrayClass<ChatBufferEntry *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut ChatBufferEntry) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<ChatBufferEntry *>::m_alloc` at 0x8 (0x8 within `ArrayClass<ChatBufferEntry *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<ChatBufferEntry *>::m_alloc` at 0x8 (0x8 within `ArrayClass<ChatBufferEntry *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<ChatBufferEntry *>::m_isValid` at 0xc (0xc within `ArrayClass<ChatBufferEntry *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<ChatBufferEntry *>::m_isValid` at 0xc (0xc within `ArrayClass<ChatBufferEntry *>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -1550,13 +1703,13 @@ pub struct CharacterPropertyHash {
 impl CharacterPropertyHash {
     /// `HashTable<int,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<int,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_int_int_ResizePolicyNoResize_HashTableEntry_int_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_int_int_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<int,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<int,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_int_int_ResizePolicyNoResize_HashTableEntry_int_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_int_int_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -1597,6 +1750,43 @@ impl CharacterPropertyHash {
     }
 }
 
+/// C++ class `ChatFilterData` (0x88 bytes).
+#[repr(C)]
+pub struct ChatFilterData {
+    _bytes: UnsafeCell<[u8; 0x88]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ChatFilterData {
+    /// `ChatFilterData::chatFilters` at 0x0 (0x0 within `ChatFilterData`).
+    #[inline]
+    pub fn chatFilters(&self) -> [eChatFilterValues; 34] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `ChatFilterData::chatFilters` at 0x0 (0x0 within `ChatFilterData`).
+    #[inline]
+    pub fn set_chatFilters(&self, value: [eChatFilterValues; 34]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ChatFilterData::chatFilters` at 0x0 (0x0 within `ChatFilterData`).
+    /// One element; panics if `index >= 34`.
+    #[inline]
+    pub fn chatFilters_at(&self, index: usize) -> eChatFilterValues {
+        assert!(index < 34, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x4) }
+    }
+
+    /// `ChatFilterData::chatFilters` at 0x0 (0x0 within `ChatFilterData`).
+    /// Sets one element; panics if `index >= 34`.
+    #[inline]
+    pub fn set_chatFilters_at(&self, index: usize, value: eChatFilterValues) {
+        assert!(index < 34, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x4, value) }
+    }
+}
+
 /// C++ class `ClaimDataCollection` (0x10 bytes).
 #[repr(C)]
 pub struct ClaimDataCollection {
@@ -1609,6 +1799,837 @@ impl ClaimDataCollection {
     #[inline]
     pub fn claimData(&self) -> &ArrayClass_ClaimData {
         unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+}
+
+/// C++ class `EQCameraOptions` (0x1c bytes).
+#[repr(C)]
+pub struct EQCameraOptions {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQCameraOptions {
+    /// `EQCameraOptions::distance` at 0x0 (0x0 within `EQCameraOptions`).
+    #[inline]
+    pub fn distance(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQCameraOptions::distance` at 0x0 (0x0 within `EQCameraOptions`).
+    #[inline]
+    pub fn set_distance(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQCameraOptions::dirHeading` at 0x4 (0x4 within `EQCameraOptions`).
+    #[inline]
+    pub fn dirHeading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQCameraOptions::dirHeading` at 0x4 (0x4 within `EQCameraOptions`).
+    #[inline]
+    pub fn set_dirHeading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EQCameraOptions::height` at 0x8 (0x8 within `EQCameraOptions`).
+    #[inline]
+    pub fn height(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EQCameraOptions::height` at 0x8 (0x8 within `EQCameraOptions`).
+    #[inline]
+    pub fn set_height(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EQCameraOptions::heading` at 0xc (0xc within `EQCameraOptions`).
+    #[inline]
+    pub fn heading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `EQCameraOptions::heading` at 0xc (0xc within `EQCameraOptions`).
+    #[inline]
+    pub fn set_heading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `EQCameraOptions::pitch` at 0x10 (0x10 within `EQCameraOptions`).
+    #[inline]
+    pub fn pitch(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQCameraOptions::pitch` at 0x10 (0x10 within `EQCameraOptions`).
+    #[inline]
+    pub fn set_pitch(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQCameraOptions::zoom` at 0x14 (0x14 within `EQCameraOptions`).
+    #[inline]
+    pub fn zoom(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EQCameraOptions::zoom` at 0x14 (0x14 within `EQCameraOptions`).
+    #[inline]
+    pub fn set_zoom(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `EQCameraOptions::changeable` at 0x18 (0x18 within `EQCameraOptions`).
+    #[inline]
+    pub fn changeable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `EQCameraOptions::changeable` at 0x18 (0x18 within `EQCameraOptions`).
+    #[inline]
+    pub fn set_changeable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `EQGameOptions` (0x198 bytes).
+#[repr(C)]
+pub struct EQGameOptions {
+    _bytes: UnsafeCell<[u8; 0x198]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQGameOptions {
+    /// `EQGameOptions::gamma` at 0x0 (0x0 within `EQGameOptions`).
+    #[inline]
+    pub fn gamma(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQGameOptions::gamma` at 0x0 (0x0 within `EQGameOptions`).
+    #[inline]
+    pub fn set_gamma(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQGameOptions::gammaScale` at 0x4 (0x4 within `EQGameOptions`).
+    #[inline]
+    pub fn gammaScale(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQGameOptions::gammaScale` at 0x4 (0x4 within `EQGameOptions`).
+    #[inline]
+    pub fn set_gammaScale(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EQGameOptions::anonymous` at 0x8 (0x8 within `EQGameOptions`).
+    #[inline]
+    pub fn anonymous(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EQGameOptions::anonymous` at 0x8 (0x8 within `EQGameOptions`).
+    #[inline]
+    pub fn set_anonymous(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EQGameOptions::autoHelp` at 0xc (0xc within `EQGameOptions`).
+    #[inline]
+    pub fn autoHelp(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `EQGameOptions::autoHelp` at 0xc (0xc within `EQGameOptions`).
+    #[inline]
+    pub fn set_autoHelp(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `EQGameOptions::trade` at 0x10 (0x10 within `EQGameOptions`).
+    #[inline]
+    pub fn trade(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQGameOptions::trade` at 0x10 (0x10 within `EQGameOptions`).
+    #[inline]
+    pub fn set_trade(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQGameOptions::guildInvites` at 0x14 (0x14 within `EQGameOptions`).
+    #[inline]
+    pub fn guildInvites(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EQGameOptions::guildInvites` at 0x14 (0x14 within `EQGameOptions`).
+    #[inline]
+    pub fn set_guildInvites(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `EQGameOptions::sky` at 0x18 (0x18 within `EQGameOptions`).
+    #[inline]
+    pub fn sky(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `EQGameOptions::sky` at 0x18 (0x18 within `EQGameOptions`).
+    #[inline]
+    pub fn set_sky(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `EQGameOptions::lod` at 0x1c (0x1c within `EQGameOptions`).
+    #[inline]
+    pub fn lod(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c) != 0 }
+    }
+
+    /// `EQGameOptions::lod` at 0x1c (0x1c within `EQGameOptions`).
+    #[inline]
+    pub fn set_lod(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::videoMode` at 0x20 (0x20 within `EQGameOptions`).
+    #[inline]
+    pub fn videoMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `EQGameOptions::videoMode` at 0x20 (0x20 within `EQGameOptions`).
+    #[inline]
+    pub fn set_videoMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `EQGameOptions::sameRes` at 0x24 (0x24 within `EQGameOptions`).
+    #[inline]
+    pub fn sameRes(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `EQGameOptions::sameRes` at 0x24 (0x24 within `EQGameOptions`).
+    #[inline]
+    pub fn set_sameRes(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `EQGameOptions::pcNames` at 0x28 (0x28 within `EQGameOptions`).
+    #[inline]
+    pub fn pcNames(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `EQGameOptions::pcNames` at 0x28 (0x28 within `EQGameOptions`).
+    #[inline]
+    pub fn set_pcNames(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `EQGameOptions::npcNames` at 0x2c (0x2c within `EQGameOptions`).
+    #[inline]
+    pub fn npcNames(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `EQGameOptions::npcNames` at 0x2c (0x2c within `EQGameOptions`).
+    #[inline]
+    pub fn set_npcNames(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+
+    /// `EQGameOptions::petNames` at 0x30 (0x30 within `EQGameOptions`).
+    #[inline]
+    pub fn petNames(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x30) != 0 }
+    }
+
+    /// `EQGameOptions::petNames` at 0x30 (0x30 within `EQGameOptions`).
+    #[inline]
+    pub fn set_petNames(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x30, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::mercNames` at 0x31 (0x31 within `EQGameOptions`).
+    #[inline]
+    pub fn mercNames(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x31) != 0 }
+    }
+
+    /// `EQGameOptions::mercNames` at 0x31 (0x31 within `EQGameOptions`).
+    #[inline]
+    pub fn set_mercNames(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x31, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::targetHealth` at 0x32 (0x32 within `EQGameOptions`).
+    #[inline]
+    pub fn targetHealth(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x32) != 0 }
+    }
+
+    /// `EQGameOptions::targetHealth` at 0x32 (0x32 within `EQGameOptions`).
+    #[inline]
+    pub fn set_targetHealth(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x32, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::petOwnerNames` at 0x33 (0x33 within `EQGameOptions`).
+    #[inline]
+    pub fn petOwnerNames(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x33) != 0 }
+    }
+
+    /// `EQGameOptions::petOwnerNames` at 0x33 (0x33 within `EQGameOptions`).
+    #[inline]
+    pub fn set_petOwnerNames(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x33, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::mercOwnerNames` at 0x34 (0x34 within `EQGameOptions`).
+    #[inline]
+    pub fn mercOwnerNames(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x34) != 0 }
+    }
+
+    /// `EQGameOptions::mercOwnerNames` at 0x34 (0x34 within `EQGameOptions`).
+    #[inline]
+    pub fn set_mercOwnerNames(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x34, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::itemPalcementHideUI` at 0x35 (0x35 within `EQGameOptions`).
+    #[inline]
+    pub fn itemPalcementHideUI(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x35) != 0 }
+    }
+
+    /// `EQGameOptions::itemPalcementHideUI` at 0x35 (0x35 within `EQGameOptions`).
+    #[inline]
+    pub fn set_itemPalcementHideUI(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x35, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::itemPlacementDefaultModeCursor` at 0x36 (0x36 within `EQGameOptions`).
+    #[inline]
+    pub fn itemPlacementDefaultModeCursor(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x36) != 0 }
+    }
+
+    /// `EQGameOptions::itemPlacementDefaultModeCursor` at 0x36 (0x36 within `EQGameOptions`).
+    #[inline]
+    pub fn set_itemPlacementDefaultModeCursor(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x36, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::randomCharacterSelectMusic` at 0x37 (0x37 within `EQGameOptions`).
+    #[inline]
+    pub fn randomCharacterSelectMusic(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x37) != 0 }
+    }
+
+    /// `EQGameOptions::randomCharacterSelectMusic` at 0x37 (0x37 within `EQGameOptions`).
+    #[inline]
+    pub fn set_randomCharacterSelectMusic(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x37, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::music` at 0x38 (0x38 within `EQGameOptions`).
+    #[inline]
+    pub fn music(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `EQGameOptions::music` at 0x38 (0x38 within `EQGameOptions`).
+    #[inline]
+    pub fn set_music(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38, value) }
+    }
+
+    /// `EQGameOptions::sound` at 0x3c (0x3c within `EQGameOptions`).
+    #[inline]
+    pub fn sound(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `EQGameOptions::sound` at 0x3c (0x3c within `EQGameOptions`).
+    #[inline]
+    pub fn set_sound(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `EQGameOptions::realism` at 0x40 (0x40 within `EQGameOptions`).
+    #[inline]
+    pub fn realism(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `EQGameOptions::realism` at 0x40 (0x40 within `EQGameOptions`).
+    #[inline]
+    pub fn set_realism(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `EQGameOptions::xMouseSensitivity` at 0x44 (0x44 within `EQGameOptions`).
+    #[inline]
+    pub fn xMouseSensitivity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `EQGameOptions::xMouseSensitivity` at 0x44 (0x44 within `EQGameOptions`).
+    #[inline]
+    pub fn set_xMouseSensitivity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `EQGameOptions::yMouseSensitivity` at 0x48 (0x48 within `EQGameOptions`).
+    #[inline]
+    pub fn yMouseSensitivity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `EQGameOptions::yMouseSensitivity` at 0x48 (0x48 within `EQGameOptions`).
+    #[inline]
+    pub fn set_yMouseSensitivity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `EQGameOptions::inverseMouse` at 0x4c (0x4c within `EQGameOptions`).
+    #[inline]
+    pub fn inverseMouse(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `EQGameOptions::inverseMouse` at 0x4c (0x4c within `EQGameOptions`).
+    #[inline]
+    pub fn set_inverseMouse(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `EQGameOptions::lookSpring` at 0x50 (0x50 within `EQGameOptions`).
+    #[inline]
+    pub fn lookSpring(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x50) }
+    }
+
+    /// `EQGameOptions::lookSpring` at 0x50 (0x50 within `EQGameOptions`).
+    #[inline]
+    pub fn set_lookSpring(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x50, value) }
+    }
+
+    /// `EQGameOptions::mouseActive` at 0x54 (0x54 within `EQGameOptions`).
+    #[inline]
+    pub fn mouseActive(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x54) }
+    }
+
+    /// `EQGameOptions::mouseActive` at 0x54 (0x54 within `EQGameOptions`).
+    #[inline]
+    pub fn set_mouseActive(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x54, value) }
+    }
+
+    /// `EQGameOptions::destroy` at 0x58 (0x58 within `EQGameOptions`).
+    #[inline]
+    pub fn destroy(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `EQGameOptions::destroy` at 0x58 (0x58 within `EQGameOptions`).
+    #[inline]
+    pub fn set_destroy(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+
+    /// `EQGameOptions::mipMapping` at 0x5c (0x5c within `EQGameOptions`).
+    #[inline]
+    pub fn mipMapping(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c) }
+    }
+
+    /// `EQGameOptions::mipMapping` at 0x5c (0x5c within `EQGameOptions`).
+    #[inline]
+    pub fn set_mipMapping(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, value) }
+    }
+
+    /// `EQGameOptions::filterOff` at 0x60 (0x60 within `EQGameOptions`).
+    #[inline]
+    pub fn filterOff(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `EQGameOptions::filterOff` at 0x60 (0x60 within `EQGameOptions`).
+    #[inline]
+    pub fn set_filterOff(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+
+    /// `EQGameOptions::clipPlane` at 0x64 (0x64 within `EQGameOptions`).
+    #[inline]
+    pub fn clipPlane(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x64) }
+    }
+
+    /// `EQGameOptions::clipPlane` at 0x64 (0x64 within `EQGameOptions`).
+    #[inline]
+    pub fn set_clipPlane(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x64, value) }
+    }
+
+    /// `EQGameOptions::keyboard` at 0x68 (0x68 within `EQGameOptions`).
+    #[inline]
+    pub fn keyboard(&self) -> [i32; 50] {
+        unsafe { read(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `EQGameOptions::keyboard` at 0x68 (0x68 within `EQGameOptions`).
+    #[inline]
+    pub fn set_keyboard(&self, value: [i32; 50]) {
+        unsafe { write(self._bytes.get().cast(), 0x68, value) }
+    }
+
+    /// `EQGameOptions::keyboard` at 0x68 (0x68 within `EQGameOptions`).
+    /// One element; panics if `index >= 50`.
+    #[inline]
+    pub fn keyboard_at(&self, index: usize) -> i32 {
+        assert!(index < 50, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x68 + index * 0x4) }
+    }
+
+    /// `EQGameOptions::keyboard` at 0x68 (0x68 within `EQGameOptions`).
+    /// Sets one element; panics if `index >= 50`.
+    #[inline]
+    pub fn set_keyboard_at(&self, index: usize, value: i32) {
+        assert!(index < 50, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x68 + index * 0x4, value) }
+    }
+
+    /// `EQGameOptions::cameras` at 0x130 (0x130 within `EQGameOptions`).
+    /// Indexes the 2 elements in memory order.
+    #[inline]
+    pub fn cameras(&self, index: usize) -> &EQCameraOptions {
+        assert!(index < 2, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x130 + index * 0x1c) }
+    }
+
+    /// `EQGameOptions::aaNoConfirm` at 0x168 (0x168 within `EQGameOptions`).
+    #[inline]
+    pub fn aaNoConfirm(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x168) }
+    }
+
+    /// `EQGameOptions::aaNoConfirm` at 0x168 (0x168 within `EQGameOptions`).
+    #[inline]
+    pub fn set_aaNoConfirm(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x168, value) }
+    }
+
+    /// `EQGameOptions::pointMerchantNoConfirm` at 0x16c (0x16c within `EQGameOptions`).
+    #[inline]
+    pub fn pointMerchantNoConfirm(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x16c) }
+    }
+
+    /// `EQGameOptions::pointMerchantNoConfirm` at 0x16c (0x16c within `EQGameOptions`).
+    #[inline]
+    pub fn set_pointMerchantNoConfirm(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x16c, value) }
+    }
+
+    /// `EQGameOptions::mouseWheelZoom` at 0x170 (0x170 within `EQGameOptions`).
+    #[inline]
+    pub fn mouseWheelZoom(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x170) }
+    }
+
+    /// `EQGameOptions::mouseWheelZoom` at 0x170 (0x170 within `EQGameOptions`).
+    #[inline]
+    pub fn set_mouseWheelZoom(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x170, value) }
+    }
+
+    /// `EQGameOptions::mouseTurnZoom` at 0x174 (0x174 within `EQGameOptions`).
+    #[inline]
+    pub fn mouseTurnZoom(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `EQGameOptions::mouseTurnZoom` at 0x174 (0x174 within `EQGameOptions`).
+    #[inline]
+    pub fn set_mouseTurnZoom(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `EQGameOptions::bTargetIndicatorVisible` at 0x178 (0x178 within `EQGameOptions`).
+    #[inline]
+    pub fn bTargetIndicatorVisible(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `EQGameOptions::bTargetIndicatorVisible` at 0x178 (0x178 within `EQGameOptions`).
+    #[inline]
+    pub fn set_bTargetIndicatorVisible(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `EQGameOptions::maxFPS` at 0x17c (0x17c within `EQGameOptions`).
+    #[inline]
+    pub fn maxFPS(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `EQGameOptions::maxFPS` at 0x17c (0x17c within `EQGameOptions`).
+    #[inline]
+    pub fn set_maxFPS(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `EQGameOptions::maxBGFPS` at 0x180 (0x180 within `EQGameOptions`).
+    #[inline]
+    pub fn maxBGFPS(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `EQGameOptions::maxBGFPS` at 0x180 (0x180 within `EQGameOptions`).
+    #[inline]
+    pub fn set_maxBGFPS(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `EQGameOptions::nLODBias` at 0x184 (0x184 within `EQGameOptions`).
+    #[inline]
+    pub fn nLODBias(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `EQGameOptions::nLODBias` at 0x184 (0x184 within `EQGameOptions`).
+    #[inline]
+    pub fn set_nLODBias(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `EQGameOptions::lootAllConfirm` at 0x188 (0x188 within `EQGameOptions`).
+    #[inline]
+    pub fn lootAllConfirm(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `EQGameOptions::lootAllConfirm` at 0x188 (0x188 within `EQGameOptions`).
+    #[inline]
+    pub fn set_lootAllConfirm(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `EQGameOptions::dismissMercenaryConfirm` at 0x18c (0x18c within `EQGameOptions`).
+    #[inline]
+    pub fn dismissMercenaryConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `EQGameOptions::dismissMercenaryConfirm` at 0x18c (0x18c within `EQGameOptions`).
+    #[inline]
+    pub fn set_dismissMercenaryConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::raidInviteConfirm` at 0x18d (0x18d within `EQGameOptions`).
+    #[inline]
+    pub fn raidInviteConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18d) != 0 }
+    }
+
+    /// `EQGameOptions::raidInviteConfirm` at 0x18d (0x18d within `EQGameOptions`).
+    #[inline]
+    pub fn set_raidInviteConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18d, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::offlineModeConfirm` at 0x18e (0x18e within `EQGameOptions`).
+    #[inline]
+    pub fn offlineModeConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18e) != 0 }
+    }
+
+    /// `EQGameOptions::offlineModeConfirm` at 0x18e (0x18e within `EQGameOptions`).
+    #[inline]
+    pub fn set_offlineModeConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18e, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::bagSellConfirm` at 0x18f (0x18f within `EQGameOptions`).
+    #[inline]
+    pub fn bagSellConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18f) != 0 }
+    }
+
+    /// `EQGameOptions::bagSellConfirm` at 0x18f (0x18f within `EQGameOptions`).
+    #[inline]
+    pub fn set_bagSellConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18f, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::bagSellContentsConfirm` at 0x190 (0x190 within `EQGameOptions`).
+    #[inline]
+    pub fn bagSellContentsConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x190) != 0 }
+    }
+
+    /// `EQGameOptions::bagSellContentsConfirm` at 0x190 (0x190 within `EQGameOptions`).
+    #[inline]
+    pub fn set_bagSellContentsConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x190, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::tributeAutoOff` at 0x191 (0x191 within `EQGameOptions`).
+    #[inline]
+    pub fn tributeAutoOff(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x191) != 0 }
+    }
+
+    /// `EQGameOptions::tributeAutoOff` at 0x191 (0x191 within `EQGameOptions`).
+    #[inline]
+    pub fn set_tributeAutoOff(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x191, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::trophyTributeAutoOff` at 0x192 (0x192 within `EQGameOptions`).
+    #[inline]
+    pub fn trophyTributeAutoOff(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x192) != 0 }
+    }
+
+    /// `EQGameOptions::trophyTributeAutoOff` at 0x192 (0x192 within `EQGameOptions`).
+    #[inline]
+    pub fn set_trophyTributeAutoOff(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x192, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::parcelLimitLogoutConfirm` at 0x193 (0x193 within `EQGameOptions`).
+    #[inline]
+    pub fn parcelLimitLogoutConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x193) != 0 }
+    }
+
+    /// `EQGameOptions::parcelLimitLogoutConfirm` at 0x193 (0x193 within `EQGameOptions`).
+    #[inline]
+    pub fn set_parcelLimitLogoutConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x193, u8::from(value)) }
+    }
+
+    /// `EQGameOptions::saveSetConfirm` at 0x194 (0x194 within `EQGameOptions`).
+    #[inline]
+    pub fn saveSetConfirm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `EQGameOptions::saveSetConfirm` at 0x194 (0x194 within `EQGameOptions`).
+    #[inline]
+    pub fn set_saveSetConfirm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+}
+
+/// C++ class `EQGameOptions2` (0x18 bytes).
+#[repr(C)]
+pub struct EQGameOptions2 {
+    _bytes: UnsafeCell<[u8; 0x18]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQGameOptions2 {
+    /// `EQGameOptions2::UserFogScaler` at 0x0 (0x0 within `EQGameOptions2`).
+    #[inline]
+    pub fn UserFogScaler(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQGameOptions2::UserFogScaler` at 0x0 (0x0 within `EQGameOptions2`).
+    #[inline]
+    pub fn set_UserFogScaler(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQGameOptions2::VoiceRecOn` at 0x4 (0x4 within `EQGameOptions2`).
+    #[inline]
+    pub fn VoiceRecOn(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQGameOptions2::VoiceRecOn` at 0x4 (0x4 within `EQGameOptions2`).
+    #[inline]
+    pub fn set_VoiceRecOn(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EQGameOptions2::VRDelay` at 0x8 (0x8 within `EQGameOptions2`).
+    #[inline]
+    pub fn VRDelay(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EQGameOptions2::VRDelay` at 0x8 (0x8 within `EQGameOptions2`).
+    #[inline]
+    pub fn set_VRDelay(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EQGameOptions2::noSafeDrop` at 0xc (0xc within `EQGameOptions2`).
+    #[inline]
+    pub fn noSafeDrop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `EQGameOptions2::noSafeDrop` at 0xc (0xc within `EQGameOptions2`).
+    #[inline]
+    pub fn set_noSafeDrop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+
+    /// `EQGameOptions2::lootNoDrop` at 0xd (0xd within `EQGameOptions2`).
+    #[inline]
+    pub fn lootNoDrop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xd) != 0 }
+    }
+
+    /// `EQGameOptions2::lootNoDrop` at 0xd (0xd within `EQGameOptions2`).
+    #[inline]
+    pub fn set_lootNoDrop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xd, u8::from(value)) }
+    }
+
+    /// `EQGameOptions2::ReverseSoundChannels` at 0x10 (0x10 within `EQGameOptions2`).
+    #[inline]
+    pub fn ReverseSoundChannels(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQGameOptions2::ReverseSoundChannels` at 0x10 (0x10 within `EQGameOptions2`).
+    #[inline]
+    pub fn set_ReverseSoundChannels(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQGameOptions2::temp10` at 0x14 (0x14 within `EQGameOptions2`).
+    #[inline]
+    pub fn temp10(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EQGameOptions2::temp10` at 0x14 (0x14 within `EQGameOptions2`).
+    #[inline]
+    pub fn set_temp10(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
     }
 }
 
@@ -1652,13 +2673,13 @@ impl EQGroundItem {
 
     /// `EQGroundItem::DropID` at 0xc (0xc within `EQGroundItem`).
     #[inline]
-    pub fn DropID(&self) -> u32 {
+    pub fn DropID(&self) -> i32 {
         unsafe { read(self._bytes.get().cast(), 0xc) }
     }
 
     /// `EQGroundItem::DropID` at 0xc (0xc within `EQGroundItem`).
     #[inline]
-    pub fn set_DropID(&self, value: u32) {
+    pub fn set_DropID(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0xc, value) }
     }
 
@@ -1708,6 +2729,22 @@ impl EQGroundItem {
     #[inline]
     pub fn set_Name(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `EQGroundItem::Name` at 0x1c (0x1c within `EQGroundItem`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1c + index * 0x1) }
+    }
+
+    /// `EQGroundItem::Name` at 0x1c (0x1c within `EQGroundItem`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1c + index * 0x1, value) }
     }
 
     /// `EQGroundItem::Expires` at 0x5c (0x5c within `EQGroundItem`).
@@ -1819,60 +2856,145 @@ impl EQGroundItem {
     }
 }
 
-/// C++ class `EQList<ALCHEMYBONUSSKILLDATA *>` (0x10 bytes).
+/// C++ class `EQList<AlchemyBonusSkillData *>` (0x10 bytes).
 #[repr(C)]
-pub struct EQList_ALCHEMYBONUSSKILLDATA {
+pub struct EQList_AlchemyBonusSkillData {
     _bytes: UnsafeCell<[u8; 0x10]>,
     _pin: PhantomData<PhantomPinned>,
 }
 
-impl EQList_ALCHEMYBONUSSKILLDATA {
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_numItems` at 0x0 (0x0 within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+impl EQList_AlchemyBonusSkillData {
+    /// `EQList<AlchemyBonusSkillData *>::m_numItems` at 0x0 (0x0 within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
     pub fn m_numItems(&self) -> i32 {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_numItems` at 0x0 (0x0 within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_numItems` at 0x0 (0x0 within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
     pub fn set_m_numItems(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_pHead` at 0x4 (0x4 within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_pHead` at 0x4 (0x4 within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
-    pub fn m_pHead(&self) -> *mut EQList_ALCHEMYBONUSSKILLDATA_Node {
+    pub fn m_pHead(&self) -> *mut EQList_AlchemyBonusSkillData_Node {
         unsafe { read(self._bytes.get().cast(), 0x4) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_pHead` at 0x4 (0x4 within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_pHead` at 0x4 (0x4 within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
-    pub fn set_m_pHead(&self, value: *mut EQList_ALCHEMYBONUSSKILLDATA_Node) {
+    pub fn set_m_pHead(&self, value: *mut EQList_AlchemyBonusSkillData_Node) {
         unsafe { write(self._bytes.get().cast(), 0x4, value) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_pTail` at 0x8 (0x8 within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_pTail` at 0x8 (0x8 within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
-    pub fn m_pTail(&self) -> *mut EQList_ALCHEMYBONUSSKILLDATA_Node {
+    pub fn m_pTail(&self) -> *mut EQList_AlchemyBonusSkillData_Node {
         unsafe { read(self._bytes.get().cast(), 0x8) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_pTail` at 0x8 (0x8 within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_pTail` at 0x8 (0x8 within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
-    pub fn set_m_pTail(&self, value: *mut EQList_ALCHEMYBONUSSKILLDATA_Node) {
+    pub fn set_m_pTail(&self, value: *mut EQList_AlchemyBonusSkillData_Node) {
         unsafe { write(self._bytes.get().cast(), 0x8, value) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_pCurrent` at 0xc (0xc within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_pCurrent` at 0xc (0xc within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
-    pub fn m_pCurrent(&self) -> *mut EQList_ALCHEMYBONUSSKILLDATA_Node {
+    pub fn m_pCurrent(&self) -> *mut EQList_AlchemyBonusSkillData_Node {
         unsafe { read(self._bytes.get().cast(), 0xc) }
     }
 
-    /// `EQList<ALCHEMYBONUSSKILLDATA *>::m_pCurrent` at 0xc (0xc within `EQList<ALCHEMYBONUSSKILLDATA *>`).
+    /// `EQList<AlchemyBonusSkillData *>::m_pCurrent` at 0xc (0xc within `EQList<AlchemyBonusSkillData *>`).
     #[inline]
-    pub fn set_m_pCurrent(&self, value: *mut EQList_ALCHEMYBONUSSKILLDATA_Node) {
+    pub fn set_m_pCurrent(&self, value: *mut EQList_AlchemyBonusSkillData_Node) {
         unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+}
+
+/// C++ class `EQSocial` (0x51c bytes).
+#[repr(C)]
+pub struct EQSocial {
+    _bytes: UnsafeCell<[u8; 0x51c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQSocial {
+    /// `EQSocial::Name` at 0x0 (0x0 within `EQSocial`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 16] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQSocial::Name` at 0x0 (0x0 within `EQSocial`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 16]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQSocial::Name` at 0x0 (0x0 within `EQSocial`).
+    /// One element; panics if `index >= 16`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 16, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `EQSocial::Name` at 0x0 (0x0 within `EQSocial`).
+    /// Sets one element; panics if `index >= 16`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 16, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `EQSocial::Line` at 0x10 (0x10 within `EQSocial`).
+    #[inline]
+    pub fn Line(&self) -> [[c_char; 256]; 5] {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQSocial::Line` at 0x10 (0x10 within `EQSocial`).
+    #[inline]
+    pub fn set_Line(&self, value: [[c_char; 256]; 5]) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQSocial::Color` at 0x510 (0x510 within `EQSocial`).
+    #[inline]
+    pub fn Color(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x510) }
+    }
+
+    /// `EQSocial::Color` at 0x510 (0x510 within `EQSocial`).
+    #[inline]
+    pub fn set_Color(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x510, value) }
+    }
+
+    /// `EQSocial::TimerBegin` at 0x514 (0x514 within `EQSocial`).
+    #[inline]
+    pub fn TimerBegin(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x514) }
+    }
+
+    /// `EQSocial::TimerBegin` at 0x514 (0x514 within `EQSocial`).
+    #[inline]
+    pub fn set_TimerBegin(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x514, value) }
+    }
+
+    /// `EQSocial::TimerDuration` at 0x518 (0x518 within `EQSocial`).
+    #[inline]
+    pub fn TimerDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x518) }
+    }
+
+    /// `EQSocial::TimerDuration` at 0x518 (0x518 within `EQSocial`).
+    #[inline]
+    pub fn set_TimerDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x518, value) }
     }
 }
 
@@ -1887,62 +3009,62 @@ impl EQUIPMENT {
     /// `EQUIPMENT::Item` at 0x0 (0x0 within `EQUIPMENT`).
     /// Indexes the 9 elements in memory order.
     #[inline]
-    pub fn Item(&self, index: usize) -> &ARMOR {
+    pub fn Item(&self, index: usize) -> &ArmorProperties {
         assert!(index < 9, "index out of bounds");
         unsafe { at(self._bytes.get().cast(), 0x0 + index * 0x14) }
     }
 
     /// `EQUIPMENT::Head` at 0x0 (0x0 within `EQUIPMENT`).
     #[inline]
-    pub fn Head(&self) -> &ARMOR {
+    pub fn Head(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x0) }
     }
 
     /// `EQUIPMENT::Chest` at 0x14 (0x14 within `EQUIPMENT`).
     #[inline]
-    pub fn Chest(&self) -> &ARMOR {
+    pub fn Chest(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x14) }
     }
 
     /// `EQUIPMENT::Arms` at 0x28 (0x28 within `EQUIPMENT`).
     #[inline]
-    pub fn Arms(&self) -> &ARMOR {
+    pub fn Arms(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x28) }
     }
 
     /// `EQUIPMENT::Wrists` at 0x3c (0x3c within `EQUIPMENT`).
     #[inline]
-    pub fn Wrists(&self) -> &ARMOR {
+    pub fn Wrists(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x3c) }
     }
 
     /// `EQUIPMENT::Hands` at 0x50 (0x50 within `EQUIPMENT`).
     #[inline]
-    pub fn Hands(&self) -> &ARMOR {
+    pub fn Hands(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x50) }
     }
 
     /// `EQUIPMENT::Legs` at 0x64 (0x64 within `EQUIPMENT`).
     #[inline]
-    pub fn Legs(&self) -> &ARMOR {
+    pub fn Legs(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x64) }
     }
 
     /// `EQUIPMENT::Feet` at 0x78 (0x78 within `EQUIPMENT`).
     #[inline]
-    pub fn Feet(&self) -> &ARMOR {
+    pub fn Feet(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x78) }
     }
 
     /// `EQUIPMENT::Primary` at 0x8c (0x8c within `EQUIPMENT`).
     #[inline]
-    pub fn Primary(&self) -> &ARMOR {
+    pub fn Primary(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0x8c) }
     }
 
     /// `EQUIPMENT::Offhand` at 0xa0 (0xa0 within `EQUIPMENT`).
     #[inline]
-    pub fn Offhand(&self) -> &ARMOR {
+    pub fn Offhand(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0xa0) }
     }
 }
@@ -2003,6 +3125,22 @@ impl EQZoneInfo {
         unsafe { write(self._bytes.get().cast(), 0x10, value) }
     }
 
+    /// `EQZoneInfo::ShortName` at 0x10 (0x10 within `EQZoneInfo`).
+    /// One element; panics if `index >= 129`.
+    #[inline]
+    pub fn ShortName_at(&self, index: usize) -> c_char {
+        assert!(index < 129, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10 + index * 0x1) }
+    }
+
+    /// `EQZoneInfo::ShortName` at 0x10 (0x10 within `EQZoneInfo`).
+    /// Sets one element; panics if `index >= 129`.
+    #[inline]
+    pub fn set_ShortName_at(&self, index: usize, value: c_char) {
+        assert!(index < 129, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10 + index * 0x1, value) }
+    }
+
     /// `EQZoneInfo::LongName` at 0x91 (0x91 within `EQZoneInfo`).
     #[inline]
     pub fn LongName(&self) -> [c_char; 257] {
@@ -2013,6 +3151,22 @@ impl EQZoneInfo {
     #[inline]
     pub fn set_LongName(&self, value: [c_char; 257]) {
         unsafe { write(self._bytes.get().cast(), 0x91, value) }
+    }
+
+    /// `EQZoneInfo::LongName` at 0x91 (0x91 within `EQZoneInfo`).
+    /// One element; panics if `index >= 257`.
+    #[inline]
+    pub fn LongName_at(&self, index: usize) -> c_char {
+        assert!(index < 257, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x91 + index * 0x1) }
+    }
+
+    /// `EQZoneInfo::LongName` at 0x91 (0x91 within `EQZoneInfo`).
+    /// Sets one element; panics if `index >= 257`.
+    #[inline]
+    pub fn set_LongName_at(&self, index: usize, value: c_char) {
+        assert!(index < 257, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x91 + index * 0x1, value) }
     }
 
     /// `EQZoneInfo::ZoneFlags` at 0x198 (0x198 within `EQZoneInfo`).
@@ -2194,6 +3348,22 @@ impl EQZoneInfo {
     pub fn set_Unknown0x1D4(&self, value: [i32; 9]) {
         unsafe { write(self._bytes.get().cast(), 0x1d4, value) }
     }
+
+    /// `EQZoneInfo::Unknown0x1D4` at 0x1d4 (0x1d4 within `EQZoneInfo`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn Unknown0x1D4_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1d4 + index * 0x4) }
+    }
+
+    /// `EQZoneInfo::Unknown0x1D4` at 0x1d4 (0x1d4 within `EQZoneInfo`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_Unknown0x1D4_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1d4 + index * 0x4, value) }
+    }
 }
 
 /// C++ union `EqGuid` (0x8 bytes).
@@ -2272,6 +3442,5143 @@ impl EqItemGuid {
     pub fn set_guid(&self, value: [c_char; 18]) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
+
+    /// `EqItemGuid::guid` at 0x0 (0x0 within `EqItemGuid`).
+    /// One element; panics if `index >= 18`.
+    #[inline]
+    pub fn guid_at(&self, index: usize) -> c_char {
+        assert!(index < 18, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `EqItemGuid::guid` at 0x0 (0x0 within `EqItemGuid`).
+    /// Sets one element; panics if `index >= 18`.
+    #[inline]
+    pub fn set_guid_at(&self, index: usize, value: c_char) {
+        assert!(index < 18, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+}
+
+/// C++ class `EverQuestinfo` (0x83f9c bytes).
+#[repr(C)]
+pub struct EverQuestinfo {
+    _bytes: UnsafeCell<[u8; 0x83f9c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EverQuestinfo {
+    /// `EverQuestinfo::Wnd` at 0x0 (0x0 within `EverQuestinfo`).
+    #[inline]
+    pub fn Wnd(&self) -> *mut HWND__ {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EverQuestinfo::Wnd` at 0x0 (0x0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Wnd(&self, value: *mut HWND__) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EverQuestinfo::hInst` at 0x4 (0x4 within `EverQuestinfo`).
+    #[inline]
+    pub fn hInst(&self) -> *mut HINSTANCE__ {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EverQuestinfo::hInst` at 0x4 (0x4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_hInst(&self, value: *mut HINSTANCE__) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EverQuestinfo::Render_MinX` at 0x8 (0x8 within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_MinX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EverQuestinfo::Render_MinX` at 0x8 (0x8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_MinX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EverQuestinfo::Render_MinY` at 0xc (0xc within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_MinY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `EverQuestinfo::Render_MinY` at 0xc (0xc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_MinY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `EverQuestinfo::Render_MaxX` at 0x10 (0x10 within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_MaxX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EverQuestinfo::Render_MaxX` at 0x10 (0x10 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_MaxX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EverQuestinfo::Render_MaxY` at 0x14 (0x14 within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_MaxY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EverQuestinfo::Render_MaxY` at 0x14 (0x14 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_MaxY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `EverQuestinfo::Render_XScale` at 0x18 (0x18 within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_XScale(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `EverQuestinfo::Render_XScale` at 0x18 (0x18 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_XScale(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `EverQuestinfo::Render_YScale` at 0x1c (0x1c within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_YScale(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `EverQuestinfo::Render_YScale` at 0x1c (0x1c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_YScale(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `EverQuestinfo::Render_WidthScale` at 0x20 (0x20 within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_WidthScale(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `EverQuestinfo::Render_WidthScale` at 0x20 (0x20 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_WidthScale(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `EverQuestinfo::Render_HeightScale` at 0x24 (0x24 within `EverQuestinfo`).
+    #[inline]
+    pub fn Render_HeightScale(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `EverQuestinfo::Render_HeightScale` at 0x24 (0x24 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Render_HeightScale(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `EverQuestinfo::ReadyEnterWorld` at 0x28 (0x28 within `EverQuestinfo`).
+    #[inline]
+    pub fn ReadyEnterWorld(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `EverQuestinfo::ReadyEnterWorld` at 0x28 (0x28 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ReadyEnterWorld(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `EverQuestinfo::InsideDoMainWhileLoop` at 0x2c (0x2c within `EverQuestinfo`).
+    #[inline]
+    pub fn InsideDoMainWhileLoop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `EverQuestinfo::InsideDoMainWhileLoop` at 0x2c (0x2c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InsideDoMainWhileLoop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::Hidden` at 0x30 (0x30 within `EverQuestinfo`).
+    #[inline]
+    pub fn Hidden(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `EverQuestinfo::Hidden` at 0x30 (0x30 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Hidden(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `EverQuestinfo::DisplayFlags` at 0x34 (0x34 within `EverQuestinfo`).
+    #[inline]
+    pub fn DisplayFlags(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `EverQuestinfo::DisplayFlags` at 0x34 (0x34 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DisplayFlags(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `EverQuestinfo::Command` at 0x38 (0x38 within `EverQuestinfo`).
+    #[inline]
+    pub fn Command(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `EverQuestinfo::Command` at 0x38 (0x38 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Command(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x38, value) }
+    }
+
+    /// `EverQuestinfo::Unknown0x0003c` at 0x3c (0x3c within `EverQuestinfo`).
+    #[inline]
+    pub fn Unknown0x0003c(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `EverQuestinfo::Unknown0x0003c` at 0x3c (0x3c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Unknown0x0003c(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `EverQuestinfo::ScreenXRes` at 0x40 (0x40 within `EverQuestinfo`).
+    #[inline]
+    pub fn ScreenXRes(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `EverQuestinfo::ScreenXRes` at 0x40 (0x40 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ScreenXRes(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `EverQuestinfo::ScreenYRes` at 0x44 (0x44 within `EverQuestinfo`).
+    #[inline]
+    pub fn ScreenYRes(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `EverQuestinfo::ScreenYRes` at 0x44 (0x44 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ScreenYRes(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `EverQuestinfo::WindowXOffset` at 0x48 (0x48 within `EverQuestinfo`).
+    #[inline]
+    pub fn WindowXOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `EverQuestinfo::WindowXOffset` at 0x48 (0x48 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_WindowXOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `EverQuestinfo::WindowYOffset` at 0x4c (0x4c within `EverQuestinfo`).
+    #[inline]
+    pub fn WindowYOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `EverQuestinfo::WindowYOffset` at 0x4c (0x4c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_WindowYOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `EverQuestinfo::FullscreenMode` at 0x50 (0x50 within `EverQuestinfo`).
+    #[inline]
+    pub fn FullscreenMode(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x50) != 0 }
+    }
+
+    /// `EverQuestinfo::FullscreenMode` at 0x50 (0x50 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_FullscreenMode(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x50, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::KeyboardMode` at 0x54 (0x54 within `EverQuestinfo`).
+    #[inline]
+    pub fn KeyboardMode(&self) -> eKeyboardMode {
+        unsafe { read(self._bytes.get().cast(), 0x54) }
+    }
+
+    /// `EverQuestinfo::KeyboardMode` at 0x54 (0x54 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_KeyboardMode(&self, value: eKeyboardMode) {
+        unsafe { write(self._bytes.get().cast(), 0x54, value) }
+    }
+
+    /// `EverQuestinfo::RunMode` at 0x58 (0x58 within `EverQuestinfo`).
+    #[inline]
+    pub fn RunMode(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `EverQuestinfo::RunMode` at 0x58 (0x58 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RunMode(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+
+    /// `EverQuestinfo::MoveCollisions` at 0x59 (0x59 within `EverQuestinfo`).
+    #[inline]
+    pub fn MoveCollisions(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x59) }
+    }
+
+    /// `EverQuestinfo::MoveCollisions` at 0x59 (0x59 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MoveCollisions(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x59, value) }
+    }
+
+    /// `EverQuestinfo::DisplayCollVolume` at 0x5a (0x5a within `EverQuestinfo`).
+    #[inline]
+    pub fn DisplayCollVolume(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x5a) }
+    }
+
+    /// `EverQuestinfo::DisplayCollVolume` at 0x5a (0x5a within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DisplayCollVolume(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x5a, value) }
+    }
+
+    /// `EverQuestinfo::MouseCntrl` at 0x5b (0x5b within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseCntrl(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x5b) }
+    }
+
+    /// `EverQuestinfo::MouseCntrl` at 0x5b (0x5b within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseCntrl(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x5b, value) }
+    }
+
+    /// `EverQuestinfo::MouseActive` at 0x5c (0x5c within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseActive(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x5c) }
+    }
+
+    /// `EverQuestinfo::MouseActive` at 0x5c (0x5c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseActive(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, value) }
+    }
+
+    /// `EverQuestinfo::ForceCrouch` at 0x5d (0x5d within `EverQuestinfo`).
+    #[inline]
+    pub fn ForceCrouch(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x5d) }
+    }
+
+    /// `EverQuestinfo::ForceCrouch` at 0x5d (0x5d within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ForceCrouch(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x5d, value) }
+    }
+
+    /// `EverQuestinfo::ForceCrouchTimer` at 0x60 (0x60 within `EverQuestinfo`).
+    #[inline]
+    pub fn ForceCrouchTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `EverQuestinfo::ForceCrouchTimer` at 0x60 (0x60 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ForceCrouchTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+
+    /// `EverQuestinfo::Friction` at 0x64 (0x64 within `EverQuestinfo`).
+    #[inline]
+    pub fn Friction(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x64) }
+    }
+
+    /// `EverQuestinfo::Friction` at 0x64 (0x64 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Friction(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x64, value) }
+    }
+
+    /// `EverQuestinfo::AFriction` at 0x68 (0x68 within `EverQuestinfo`).
+    #[inline]
+    pub fn AFriction(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `EverQuestinfo::AFriction` at 0x68 (0x68 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AFriction(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x68, value) }
+    }
+
+    /// `EverQuestinfo::MouseX` at 0x6c (0x6c within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6c) }
+    }
+
+    /// `EverQuestinfo::MouseX` at 0x6c (0x6c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6c, value) }
+    }
+
+    /// `EverQuestinfo::MouseY` at 0x70 (0x70 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `EverQuestinfo::MouseY` at 0x70 (0x70 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `EverQuestinfo::MouseZ` at 0x74 (0x74 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseZ(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x74) }
+    }
+
+    /// `EverQuestinfo::MouseZ` at 0x74 (0x74 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseZ(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x74, value) }
+    }
+
+    /// `EverQuestinfo::LastMX` at 0x78 (0x78 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastMX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `EverQuestinfo::LastMX` at 0x78 (0x78 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastMX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `EverQuestinfo::LastMY` at 0x7c (0x7c within `EverQuestinfo`).
+    #[inline]
+    pub fn LastMY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `EverQuestinfo::LastMY` at 0x7c (0x7c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastMY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+
+    /// `EverQuestinfo::MouseInClientRect` at 0x80 (0x80 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseInClientRect(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x80) != 0 }
+    }
+
+    /// `EverQuestinfo::MouseInClientRect` at 0x80 (0x80 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseInClientRect(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x80, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::MouseSensitivity` at 0x84 (0x84 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseSensitivity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `EverQuestinfo::MouseSensitivity` at 0x84 (0x84 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseSensitivity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `EverQuestinfo::MousePointerSpeedMod` at 0x88 (0x88 within `EverQuestinfo`).
+    #[inline]
+    pub fn MousePointerSpeedMod(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `EverQuestinfo::MousePointerSpeedMod` at 0x88 (0x88 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MousePointerSpeedMod(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x88, value) }
+    }
+
+    /// `EverQuestinfo::ServerFilter` at 0x8c (0x8c within `EverQuestinfo`).
+    #[inline]
+    pub fn ServerFilter(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x8c) != 0 }
+    }
+
+    /// `EverQuestinfo::ServerFilter` at 0x8c (0x8c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ServerFilter(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x8c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::IsTrader` at 0x90 (0x90 within `EverQuestinfo`).
+    #[inline]
+    pub fn IsTrader(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x90) }
+    }
+
+    /// `EverQuestinfo::IsTrader` at 0x90 (0x90 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_IsTrader(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x90, value) }
+    }
+
+    /// `EverQuestinfo::CurrentChan` at 0x94 (0x94 within `EverQuestinfo`).
+    #[inline]
+    pub fn CurrentChan(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x94) }
+    }
+
+    /// `EverQuestinfo::CurrentChan` at 0x94 (0x94 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_CurrentChan(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x94, value) }
+    }
+
+    /// `EverQuestinfo::CurrentLang` at 0x98 (0x98 within `EverQuestinfo`).
+    #[inline]
+    pub fn CurrentLang(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x98) }
+    }
+
+    /// `EverQuestinfo::CurrentLang` at 0x98 (0x98 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_CurrentLang(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x98, value) }
+    }
+
+    /// `EverQuestinfo::TellTarget` at 0x9c (0x9c within `EverQuestinfo`).
+    #[inline]
+    pub fn TellTarget(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `EverQuestinfo::TellTarget` at 0x9c (0x9c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TellTarget(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `EverQuestinfo::TellTarget` at 0x9c (0x9c within `EverQuestinfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn TellTarget_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x9c + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::TellTarget` at 0x9c (0x9c within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_TellTarget_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x9c + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::LastMinute` at 0xdc (0xdc within `EverQuestinfo`).
+    #[inline]
+    pub fn LastMinute(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `EverQuestinfo::LastMinute` at 0xdc (0xdc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastMinute(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `EverQuestinfo::LastLocal` at 0xe0 (0xe0 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastLocal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xe0) }
+    }
+
+    /// `EverQuestinfo::LastLocal` at 0xe0 (0xe0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastLocal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, value) }
+    }
+
+    /// `EverQuestinfo::LastControlled` at 0xe4 (0xe4 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastControlled(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `EverQuestinfo::LastControlled` at 0xe4 (0xe4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastControlled(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xe4, value) }
+    }
+
+    /// `EverQuestinfo::MInverse` at 0xe8 (0xe8 within `EverQuestinfo`).
+    #[inline]
+    pub fn MInverse(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `EverQuestinfo::MInverse` at 0xe8 (0xe8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MInverse(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xe8, value) }
+    }
+
+    /// `EverQuestinfo::Unknown0x000ed` at 0xe9 (0xe9 within `EverQuestinfo`).
+    #[inline]
+    pub fn Unknown0x000ed(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xe9) }
+    }
+
+    /// `EverQuestinfo::Unknown0x000ed` at 0xe9 (0xe9 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Unknown0x000ed(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xe9, value) }
+    }
+
+    /// `EverQuestinfo::MouseLook` at 0xea (0xea within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseLook(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xea) }
+    }
+
+    /// `EverQuestinfo::MouseLook` at 0xea (0xea within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseLook(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xea, value) }
+    }
+
+    /// `EverQuestinfo::bDefaultMouseLook` at 0xeb (0xeb within `EverQuestinfo`).
+    #[inline]
+    pub fn bDefaultMouseLook(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xeb) != 0 }
+    }
+
+    /// `EverQuestinfo::bDefaultMouseLook` at 0xeb (0xeb within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bDefaultMouseLook(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xeb, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::Strafe` at 0xec (0xec within `EverQuestinfo`).
+    #[inline]
+    pub fn Strafe(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `EverQuestinfo::Strafe` at 0xec (0xec within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Strafe(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `EverQuestinfo::bNetstat` at 0xed (0xed within `EverQuestinfo`).
+    #[inline]
+    pub fn bNetstat(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xed) != 0 }
+    }
+
+    /// `EverQuestinfo::bNetstat` at 0xed (0xed within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bNetstat(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xed, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ModInventory` at 0xee (0xee within `EverQuestinfo`).
+    #[inline]
+    pub fn ModInventory(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xee) }
+    }
+
+    /// `EverQuestinfo::ModInventory` at 0xee (0xee within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ModInventory(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xee, value) }
+    }
+
+    /// `EverQuestinfo::LastHitter` at 0xf0 (0xf0 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastHitter(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `EverQuestinfo::LastHitter` at 0xf0 (0xf0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastHitter(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `EverQuestinfo::Harmless` at 0xf4 (0xf4 within `EverQuestinfo`).
+    #[inline]
+    pub fn Harmless(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xf4) }
+    }
+
+    /// `EverQuestinfo::Harmless` at 0xf4 (0xf4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Harmless(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, value) }
+    }
+
+    /// `EverQuestinfo::Silenced` at 0xf5 (0xf5 within `EverQuestinfo`).
+    #[inline]
+    pub fn Silenced(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xf5) }
+    }
+
+    /// `EverQuestinfo::Silenced` at 0xf5 (0xf5 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Silenced(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xf5, value) }
+    }
+
+    /// `EverQuestinfo::JumpTimer` at 0xf8 (0xf8 within `EverQuestinfo`).
+    #[inline]
+    pub fn JumpTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `EverQuestinfo::JumpTimer` at 0xf8 (0xf8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_JumpTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `EverQuestinfo::EventJump` at 0xfc (0xfc within `EverQuestinfo`).
+    #[inline]
+    pub fn EventJump(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `EverQuestinfo::EventJump` at 0xfc (0xfc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_EventJump(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `EverQuestinfo::LastJump` at 0x100 (0x100 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastJump(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `EverQuestinfo::LastJump` at 0x100 (0x100 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastJump(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `EverQuestinfo::FrameTime` at 0x104 (0x104 within `EverQuestinfo`).
+    #[inline]
+    pub fn FrameTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x104) }
+    }
+
+    /// `EverQuestinfo::FrameTime` at 0x104 (0x104 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_FrameTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x104, value) }
+    }
+
+    /// `EverQuestinfo::AutoRun` at 0x108 (0x108 within `EverQuestinfo`).
+    #[inline]
+    pub fn AutoRun(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `EverQuestinfo::AutoRun` at 0x108 (0x108 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AutoRun(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `EverQuestinfo::PoisonTimer` at 0x10c (0x10c within `EverQuestinfo`).
+    #[inline]
+    pub fn PoisonTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `EverQuestinfo::PoisonTimer` at 0x10c (0x10c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PoisonTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x10c, value) }
+    }
+
+    /// `EverQuestinfo::PoisonGI` at 0x110 (0x110 within `EverQuestinfo`).
+    #[inline]
+    pub fn PoisonGI(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x110) }
+    }
+
+    /// `EverQuestinfo::PoisonGI` at 0x110 (0x110 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PoisonGI(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x110, value) }
+    }
+
+    /// `EverQuestinfo::OldX` at 0x114 (0x114 within `EverQuestinfo`).
+    #[inline]
+    pub fn OldX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x114) }
+    }
+
+    /// `EverQuestinfo::OldX` at 0x114 (0x114 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OldX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x114, value) }
+    }
+
+    /// `EverQuestinfo::OldY` at 0x118 (0x118 within `EverQuestinfo`).
+    #[inline]
+    pub fn OldY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x118) }
+    }
+
+    /// `EverQuestinfo::OldY` at 0x118 (0x118 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OldY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x118, value) }
+    }
+
+    /// `EverQuestinfo::OldMouseButtons` at 0x11c (0x11c within `EverQuestinfo`).
+    #[inline]
+    pub fn OldMouseButtons(&self) -> [u8; 8] {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `EverQuestinfo::OldMouseButtons` at 0x11c (0x11c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OldMouseButtons(&self, value: [u8; 8]) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `EverQuestinfo::OldMouseButtons` at 0x11c (0x11c within `EverQuestinfo`).
+    /// One element; panics if `index >= 8`.
+    #[inline]
+    pub fn OldMouseButtons_at(&self, index: usize) -> u8 {
+        assert!(index < 8, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x11c + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::OldMouseButtons` at 0x11c (0x11c within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 8`.
+    #[inline]
+    pub fn set_OldMouseButtons_at(&self, index: usize, value: u8) {
+        assert!(index < 8, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x11c + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::MouseButtons` at 0x124 (0x124 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseButtons(&self) -> [u8; 8] {
+        unsafe { read(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `EverQuestinfo::MouseButtons` at 0x124 (0x124 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseButtons(&self, value: [u8; 8]) {
+        unsafe { write(self._bytes.get().cast(), 0x124, value) }
+    }
+
+    /// `EverQuestinfo::MouseButtons` at 0x124 (0x124 within `EverQuestinfo`).
+    /// One element; panics if `index >= 8`.
+    #[inline]
+    pub fn MouseButtons_at(&self, index: usize) -> u8 {
+        assert!(index < 8, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x124 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::MouseButtons` at 0x124 (0x124 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 8`.
+    #[inline]
+    pub fn set_MouseButtons_at(&self, index: usize, value: u8) {
+        assert!(index < 8, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x124 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::bIsMouseRightHanded` at 0x12c (0x12c within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsMouseRightHanded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x12c) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsMouseRightHanded` at 0x12c (0x12c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsMouseRightHanded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::EncumberStatus` at 0x130 (0x130 within `EverQuestinfo`).
+    #[inline]
+    pub fn EncumberStatus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x130) }
+    }
+
+    /// `EverQuestinfo::EncumberStatus` at 0x130 (0x130 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_EncumberStatus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x130, value) }
+    }
+
+    /// `EverQuestinfo::PendingCharState` at 0x134 (0x134 within `EverQuestinfo`).
+    #[inline]
+    pub fn PendingCharState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `EverQuestinfo::PendingCharState` at 0x134 (0x134 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PendingCharState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `EverQuestinfo::PendingCharacterName` at 0x138 (0x138 within `EverQuestinfo`).
+    #[inline]
+    pub fn PendingCharacterName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x138) }
+    }
+
+    /// `EverQuestinfo::PendingCharacterName` at 0x138 (0x138 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PendingCharacterName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x138, value) }
+    }
+
+    /// `EverQuestinfo::PendingCharacterName` at 0x138 (0x138 within `EverQuestinfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn PendingCharacterName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x138 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::PendingCharacterName` at 0x138 (0x138 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_PendingCharacterName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x138 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::TutorialMode` at 0x178 (0x178 within `EverQuestinfo`).
+    #[inline]
+    pub fn TutorialMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `EverQuestinfo::TutorialMode` at 0x178 (0x178 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TutorialMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `EverQuestinfo::RMouseSecond` at 0x17c (0x17c within `EverQuestinfo`).
+    #[inline]
+    pub fn RMouseSecond(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `EverQuestinfo::RMouseSecond` at 0x17c (0x17c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RMouseSecond(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `EverQuestinfo::LMouseSecond` at 0x180 (0x180 within `EverQuestinfo`).
+    #[inline]
+    pub fn LMouseSecond(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `EverQuestinfo::LMouseSecond` at 0x180 (0x180 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LMouseSecond(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `EverQuestinfo::RMouseDown` at 0x184 (0x184 within `EverQuestinfo`).
+    #[inline]
+    pub fn RMouseDown(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `EverQuestinfo::RMouseDown` at 0x184 (0x184 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RMouseDown(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `EverQuestinfo::LMouseDown` at 0x188 (0x188 within `EverQuestinfo`).
+    #[inline]
+    pub fn LMouseDown(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `EverQuestinfo::LMouseDown` at 0x188 (0x188 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LMouseDown(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `EverQuestinfo::Snooper` at 0x18c (0x18c within `EverQuestinfo`).
+    #[inline]
+    pub fn Snooper(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x18c) }
+    }
+
+    /// `EverQuestinfo::Snooper` at 0x18c (0x18c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Snooper(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, value) }
+    }
+
+    /// `EverQuestinfo::Snooper` at 0x18c (0x18c within `EverQuestinfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Snooper_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x18c + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::Snooper` at 0x18c (0x18c within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Snooper_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x18c + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::DuelTarget` at 0x1cc (0x1cc within `EverQuestinfo`).
+    #[inline]
+    pub fn DuelTarget(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1cc) }
+    }
+
+    /// `EverQuestinfo::DuelTarget` at 0x1cc (0x1cc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DuelTarget(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, value) }
+    }
+
+    /// `EverQuestinfo::DuelMe` at 0x1d0 (0x1d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn DuelMe(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `EverQuestinfo::DuelMe` at 0x1d0 (0x1d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DuelMe(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `EverQuestinfo::DuelOn` at 0x1d4 (0x1d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn DuelOn(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1d4) }
+    }
+
+    /// `EverQuestinfo::DuelOn` at 0x1d4 (0x1d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DuelOn(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, value) }
+    }
+
+    /// `EverQuestinfo::AutoHelp` at 0x1d8 (0x1d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn AutoHelp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `EverQuestinfo::AutoHelp` at 0x1d8 (0x1d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AutoHelp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `EverQuestinfo::OldMouseLook` at 0x1dc (0x1dc within `EverQuestinfo`).
+    #[inline]
+    pub fn OldMouseLook(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `EverQuestinfo::OldMouseLook` at 0x1dc (0x1dc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OldMouseLook(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, value) }
+    }
+
+    /// `EverQuestinfo::LastLocalUpdate` at 0x1e0 (0x1e0 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastLocalUpdate(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `EverQuestinfo::LastLocalUpdate` at 0x1e0 (0x1e0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastLocalUpdate(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `EverQuestinfo::LastControlledUpdate` at 0x1e4 (0x1e4 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastControlledUpdate(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `EverQuestinfo::LastControlledUpdate` at 0x1e4 (0x1e4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastControlledUpdate(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e4, value) }
+    }
+
+    /// `EverQuestinfo::DataRate` at 0x1e8 (0x1e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn DataRate(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e8) }
+    }
+
+    /// `EverQuestinfo::DataRate` at 0x1e8 (0x1e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DataRate(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e8, value) }
+    }
+
+    /// `EverQuestinfo::SavedPC` at 0x1ec (0x1ec within `EverQuestinfo`).
+    #[inline]
+    pub fn SavedPC(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1ec) }
+    }
+
+    /// `EverQuestinfo::SavedPC` at 0x1ec (0x1ec within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SavedPC(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1ec, value) }
+    }
+
+    /// `EverQuestinfo::InfraRed` at 0x1f0 (0x1f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn InfraRed(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f0) }
+    }
+
+    /// `EverQuestinfo::InfraRed` at 0x1f0 (0x1f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InfraRed(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f0, value) }
+    }
+
+    /// `EverQuestinfo::InfraGreen` at 0x1f4 (0x1f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn InfraGreen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f4) }
+    }
+
+    /// `EverQuestinfo::InfraGreen` at 0x1f4 (0x1f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InfraGreen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, value) }
+    }
+
+    /// `EverQuestinfo::InfraBlue` at 0x1f8 (0x1f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn InfraBlue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `EverQuestinfo::InfraBlue` at 0x1f8 (0x1f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InfraBlue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `EverQuestinfo::UltraRed` at 0x1fc (0x1fc within `EverQuestinfo`).
+    #[inline]
+    pub fn UltraRed(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `EverQuestinfo::UltraRed` at 0x1fc (0x1fc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UltraRed(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1fc, value) }
+    }
+
+    /// `EverQuestinfo::UltraGreen` at 0x200 (0x200 within `EverQuestinfo`).
+    #[inline]
+    pub fn UltraGreen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `EverQuestinfo::UltraGreen` at 0x200 (0x200 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UltraGreen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `EverQuestinfo::UltraBlue` at 0x204 (0x204 within `EverQuestinfo`).
+    #[inline]
+    pub fn UltraBlue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `EverQuestinfo::UltraBlue` at 0x204 (0x204 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UltraBlue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `EverQuestinfo::globalOffset` at 0x208 (0x208 within `EverQuestinfo`).
+    #[inline]
+    pub fn globalOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `EverQuestinfo::globalOffset` at 0x208 (0x208 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_globalOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `EverQuestinfo::IOLines` at 0x20c (0x20c within `EverQuestinfo`).
+    #[inline]
+    pub fn IOLines(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `EverQuestinfo::IOLines` at 0x20c (0x20c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_IOLines(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `EverQuestinfo::IOLineSpacing` at 0x210 (0x210 within `EverQuestinfo`).
+    #[inline]
+    pub fn IOLineSpacing(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `EverQuestinfo::IOLineSpacing` at 0x210 (0x210 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_IOLineSpacing(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `EverQuestinfo::ObjectTag` at 0x214 (0x214 within `EverQuestinfo`).
+    #[inline]
+    pub fn ObjectTag(&self) -> [c_char; 20] {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `EverQuestinfo::ObjectTag` at 0x214 (0x214 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ObjectTag(&self, value: [c_char; 20]) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `EverQuestinfo::ObjectTag` at 0x214 (0x214 within `EverQuestinfo`).
+    /// One element; panics if `index >= 20`.
+    #[inline]
+    pub fn ObjectTag_at(&self, index: usize) -> c_char {
+        assert!(index < 20, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x214 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::ObjectTag` at 0x214 (0x214 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 20`.
+    #[inline]
+    pub fn set_ObjectTag_at(&self, index: usize, value: c_char) {
+        assert!(index < 20, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x214 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::NumObjects` at 0x228 (0x228 within `EverQuestinfo`).
+    #[inline]
+    pub fn NumObjects(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `EverQuestinfo::NumObjects` at 0x228 (0x228 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_NumObjects(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `EverQuestinfo::NumLights` at 0x22c (0x22c within `EverQuestinfo`).
+    #[inline]
+    pub fn NumLights(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `EverQuestinfo::NumLights` at 0x22c (0x22c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_NumLights(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `EverQuestinfo::DecrTime` at 0x230 (0x230 within `EverQuestinfo`).
+    #[inline]
+    pub fn DecrTime(&self) -> [i32; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `EverQuestinfo::DecrTime` at 0x230 (0x230 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DecrTime(&self, value: [i32; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `EverQuestinfo::DecrTime` at 0x230 (0x230 within `EverQuestinfo`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn DecrTime_at(&self, index: usize) -> i32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x230 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::DecrTime` at 0x230 (0x230 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_DecrTime_at(&self, index: usize, value: i32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x230 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::DecrMsg` at 0x258 (0x258 within `EverQuestinfo`).
+    #[inline]
+    pub fn DecrMsg(&self) -> [i32; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `EverQuestinfo::DecrMsg` at 0x258 (0x258 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DecrMsg(&self, value: [i32; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `EverQuestinfo::DecrMsg` at 0x258 (0x258 within `EverQuestinfo`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn DecrMsg_at(&self, index: usize) -> i32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x258 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::DecrMsg` at 0x258 (0x258 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_DecrMsg_at(&self, index: usize, value: i32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x258 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::DecrIndex` at 0x280 (0x280 within `EverQuestinfo`).
+    #[inline]
+    pub fn DecrIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x280) }
+    }
+
+    /// `EverQuestinfo::DecrIndex` at 0x280 (0x280 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DecrIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x280, value) }
+    }
+
+    /// `EverQuestinfo::AffectsOn` at 0x284 (0x284 within `EverQuestinfo`).
+    #[inline]
+    pub fn AffectsOn(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x284) }
+    }
+
+    /// `EverQuestinfo::AffectsOn` at 0x284 (0x284 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AffectsOn(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x284, value) }
+    }
+
+    /// `EverQuestinfo::InspectMode` at 0x285 (0x285 within `EverQuestinfo`).
+    #[inline]
+    pub fn InspectMode(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x285) }
+    }
+
+    /// `EverQuestinfo::InspectMode` at 0x285 (0x285 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InspectMode(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x285, value) }
+    }
+
+    /// `EverQuestinfo::UpMouseAnim` at 0x286 (0x286 within `EverQuestinfo`).
+    #[inline]
+    pub fn UpMouseAnim(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x286) }
+    }
+
+    /// `EverQuestinfo::UpMouseAnim` at 0x286 (0x286 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UpMouseAnim(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x286, value) }
+    }
+
+    /// `EverQuestinfo::ExitCounter` at 0x288 (0x288 within `EverQuestinfo`).
+    #[inline]
+    pub fn ExitCounter(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x288) }
+    }
+
+    /// `EverQuestinfo::ExitCounter` at 0x288 (0x288 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ExitCounter(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x288, value) }
+    }
+
+    /// `EverQuestinfo::ExitStart` at 0x28c (0x28c within `EverQuestinfo`).
+    #[inline]
+    pub fn ExitStart(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28c) }
+    }
+
+    /// `EverQuestinfo::ExitStart` at 0x28c (0x28c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ExitStart(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28c, value) }
+    }
+
+    /// `EverQuestinfo::ForcedExitCounter` at 0x290 (0x290 within `EverQuestinfo`).
+    #[inline]
+    pub fn ForcedExitCounter(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x290) }
+    }
+
+    /// `EverQuestinfo::ForcedExitCounter` at 0x290 (0x290 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ForcedExitCounter(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x290, value) }
+    }
+
+    /// `EverQuestinfo::OfflineModeRequestTime` at 0x294 (0x294 within `EverQuestinfo`).
+    #[inline]
+    pub fn OfflineModeRequestTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x294) }
+    }
+
+    /// `EverQuestinfo::OfflineModeRequestTime` at 0x294 (0x294 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OfflineModeRequestTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x294, value) }
+    }
+
+    /// `EverQuestinfo::SwimJump` at 0x298 (0x298 within `EverQuestinfo`).
+    #[inline]
+    pub fn SwimJump(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x298) }
+    }
+
+    /// `EverQuestinfo::SwimJump` at 0x298 (0x298 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SwimJump(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x298, value) }
+    }
+
+    /// `EverQuestinfo::DisplayCamp` at 0x29c (0x29c within `EverQuestinfo`).
+    #[inline]
+    pub fn DisplayCamp(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x29c) }
+    }
+
+    /// `EverQuestinfo::DisplayCamp` at 0x29c (0x29c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DisplayCamp(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x29c, value) }
+    }
+
+    /// `EverQuestinfo::PolysOff` at 0x2a0 (0x2a0 within `EverQuestinfo`).
+    #[inline]
+    pub fn PolysOff(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a0) }
+    }
+
+    /// `EverQuestinfo::PolysOff` at 0x2a0 (0x2a0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PolysOff(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a0, value) }
+    }
+
+    /// `EverQuestinfo::CampY` at 0x2a4 (0x2a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn CampY(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a4) }
+    }
+
+    /// `EverQuestinfo::CampY` at 0x2a4 (0x2a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_CampY(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a4, value) }
+    }
+
+    /// `EverQuestinfo::CampX` at 0x2a8 (0x2a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn CampX(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a8) }
+    }
+
+    /// `EverQuestinfo::CampX` at 0x2a8 (0x2a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_CampX(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a8, value) }
+    }
+
+    /// `EverQuestinfo::CampZ` at 0x2ac (0x2ac within `EverQuestinfo`).
+    #[inline]
+    pub fn CampZ(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ac) }
+    }
+
+    /// `EverQuestinfo::CampZ` at 0x2ac (0x2ac within `EverQuestinfo`).
+    #[inline]
+    pub fn set_CampZ(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ac, value) }
+    }
+
+    /// `EverQuestinfo::Hits` at 0x2b0 (0x2b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn Hits(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b0) }
+    }
+
+    /// `EverQuestinfo::Hits` at 0x2b0 (0x2b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Hits(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b0, value) }
+    }
+
+    /// `EverQuestinfo::Bbandage` at 0x2b4 (0x2b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn Bbandage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b4) }
+    }
+
+    /// `EverQuestinfo::Bbandage` at 0x2b4 (0x2b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Bbandage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b4, value) }
+    }
+
+    /// `EverQuestinfo::BackSpace` at 0x2b8 (0x2b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn BackSpace(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b8) }
+    }
+
+    /// `EverQuestinfo::BackSpace` at 0x2b8 (0x2b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_BackSpace(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b8, value) }
+    }
+
+    /// `EverQuestinfo::StartBandage` at 0x2bc (0x2bc within `EverQuestinfo`).
+    #[inline]
+    pub fn StartBandage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bc) }
+    }
+
+    /// `EverQuestinfo::StartBandage` at 0x2bc (0x2bc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_StartBandage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bc, value) }
+    }
+
+    /// `EverQuestinfo::MyY` at 0x2c0 (0x2c0 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c0) }
+    }
+
+    /// `EverQuestinfo::MyY` at 0x2c0 (0x2c0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c0, value) }
+    }
+
+    /// `EverQuestinfo::MyX` at 0x2c4 (0x2c4 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c4) }
+    }
+
+    /// `EverQuestinfo::MyX` at 0x2c4 (0x2c4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c4, value) }
+    }
+
+    /// `EverQuestinfo::MyZ` at 0x2c8 (0x2c8 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyZ(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c8) }
+    }
+
+    /// `EverQuestinfo::MyZ` at 0x2c8 (0x2c8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyZ(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c8, value) }
+    }
+
+    /// `EverQuestinfo::TargetX` at 0x2cc (0x2cc within `EverQuestinfo`).
+    #[inline]
+    pub fn TargetX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2cc) }
+    }
+
+    /// `EverQuestinfo::TargetX` at 0x2cc (0x2cc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TargetX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2cc, value) }
+    }
+
+    /// `EverQuestinfo::TargetY` at 0x2d0 (0x2d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn TargetY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d0) }
+    }
+
+    /// `EverQuestinfo::TargetY` at 0x2d0 (0x2d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TargetY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d0, value) }
+    }
+
+    /// `EverQuestinfo::TargetZ` at 0x2d4 (0x2d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn TargetZ(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d4) }
+    }
+
+    /// `EverQuestinfo::TargetZ` at 0x2d4 (0x2d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TargetZ(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d4, value) }
+    }
+
+    /// `EverQuestinfo::ZoneInfo` at 0x2d8 (0x2d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn ZoneInfo(&self) -> &zoneHeader {
+        unsafe { at(self._bytes.get().cast(), 0x2d8) }
+    }
+
+    /// `EverQuestinfo::ZDefined` at 0x68c (0x68c within `EverQuestinfo`).
+    #[inline]
+    pub fn ZDefined(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x68c) != 0 }
+    }
+
+    /// `EverQuestinfo::ZDefined` at 0x68c (0x68c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ZDefined(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x68c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::TrackTimer` at 0x690 (0x690 within `EverQuestinfo`).
+    #[inline]
+    pub fn TrackTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x690) }
+    }
+
+    /// `EverQuestinfo::TrackTimer` at 0x690 (0x690 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TrackTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x690, value) }
+    }
+
+    /// `EverQuestinfo::StartTrack` at 0x694 (0x694 within `EverQuestinfo`).
+    #[inline]
+    pub fn StartTrack(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x694) }
+    }
+
+    /// `EverQuestinfo::StartTrack` at 0x694 (0x694 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_StartTrack(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x694, value) }
+    }
+
+    /// `EverQuestinfo::TrackPlayers` at 0x698 (0x698 within `EverQuestinfo`).
+    #[inline]
+    pub fn TrackPlayers(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x698) }
+    }
+
+    /// `EverQuestinfo::TrackPlayers` at 0x698 (0x698 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TrackPlayers(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x698, value) }
+    }
+
+    /// `EverQuestinfo::bTrackMercs` at 0x69c (0x69c within `EverQuestinfo`).
+    #[inline]
+    pub fn bTrackMercs(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x69c) != 0 }
+    }
+
+    /// `EverQuestinfo::bTrackMercs` at 0x69c (0x69c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bTrackMercs(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x69c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bTrackPets` at 0x69d (0x69d within `EverQuestinfo`).
+    #[inline]
+    pub fn bTrackPets(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x69d) != 0 }
+    }
+
+    /// `EverQuestinfo::bTrackPets` at 0x69d (0x69d within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bTrackPets(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x69d, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::iTrackSortType` at 0x6a0 (0x6a0 within `EverQuestinfo`).
+    #[inline]
+    pub fn iTrackSortType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6a0) }
+    }
+
+    /// `EverQuestinfo::iTrackSortType` at 0x6a0 (0x6a0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iTrackSortType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6a0, value) }
+    }
+
+    /// `EverQuestinfo::iTrackFilterType` at 0x6a4 (0x6a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn iTrackFilterType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6a4) }
+    }
+
+    /// `EverQuestinfo::iTrackFilterType` at 0x6a4 (0x6a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iTrackFilterType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6a4, value) }
+    }
+
+    /// `EverQuestinfo::MouseTimer` at 0x6a8 (0x6a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x6a8) }
+    }
+
+    /// `EverQuestinfo::MouseTimer` at 0x6a8 (0x6a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x6a8, value) }
+    }
+
+    /// `EverQuestinfo::SoundUpdate` at 0x6ac (0x6ac within `EverQuestinfo`).
+    #[inline]
+    pub fn SoundUpdate(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6ac) }
+    }
+
+    /// `EverQuestinfo::SoundUpdate` at 0x6ac (0x6ac within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SoundUpdate(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6ac, value) }
+    }
+
+    /// `EverQuestinfo::MouseOn` at 0x6b0 (0x6b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn MouseOn(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x6b0) }
+    }
+
+    /// `EverQuestinfo::MouseOn` at 0x6b0 (0x6b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MouseOn(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x6b0, value) }
+    }
+
+    /// `EverQuestinfo::UsingSkill` at 0x6b4 (0x6b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn UsingSkill(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6b4) }
+    }
+
+    /// `EverQuestinfo::UsingSkill` at 0x6b4 (0x6b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UsingSkill(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6b4, value) }
+    }
+
+    /// `EverQuestinfo::UsingSkillTarget` at 0x6b8 (0x6b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn UsingSkillTarget(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x6b8) }
+    }
+
+    /// `EverQuestinfo::UsingSkillTarget` at 0x6b8 (0x6b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UsingSkillTarget(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x6b8, value) }
+    }
+
+    /// `EverQuestinfo::LimboMoney` at 0x6bc (0x6bc within `EverQuestinfo`).
+    #[inline]
+    pub fn LimboMoney(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x6bc) }
+    }
+
+    /// `EverQuestinfo::LimboMoney` at 0x6bc (0x6bc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LimboMoney(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x6bc, value) }
+    }
+
+    /// `EverQuestinfo::LimboMoney` at 0x6bc (0x6bc within `EverQuestinfo`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn LimboMoney_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x6bc + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::LimboMoney` at 0x6bc (0x6bc within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_LimboMoney_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x6bc + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::ClickThroughMask` at 0x6cc (0x6cc within `EverQuestinfo`).
+    #[inline]
+    pub fn ClickThroughMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x6cc) }
+    }
+
+    /// `EverQuestinfo::ClickThroughMask` at 0x6cc (0x6cc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ClickThroughMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x6cc, value) }
+    }
+
+    /// `EverQuestinfo::ShowSpellDescriptions` at 0x6d0 (0x6d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn ShowSpellDescriptions(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6d0) }
+    }
+
+    /// `EverQuestinfo::ShowSpellDescriptions` at 0x6d0 (0x6d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ShowSpellDescriptions(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6d0, value) }
+    }
+
+    /// `EverQuestinfo::ReceivedWorldObjects` at 0x6d4 (0x6d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn ReceivedWorldObjects(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6d4) != 0 }
+    }
+
+    /// `EverQuestinfo::ReceivedWorldObjects` at 0x6d4 (0x6d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ReceivedWorldObjects(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6d4, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ScreenCapture` at 0x6d5 (0x6d5 within `EverQuestinfo`).
+    #[inline]
+    pub fn ScreenCapture(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6d5) != 0 }
+    }
+
+    /// `EverQuestinfo::ScreenCapture` at 0x6d5 (0x6d5 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ScreenCapture(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6d5, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ScreenShare` at 0x6d6 (0x6d6 within `EverQuestinfo`).
+    #[inline]
+    pub fn ScreenShare(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6d6) != 0 }
+    }
+
+    /// `EverQuestinfo::ScreenShare` at 0x6d6 (0x6d6 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ScreenShare(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6d6, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::SavedViewPitch` at 0x6d8 (0x6d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn SavedViewPitch(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x6d8) }
+    }
+
+    /// `EverQuestinfo::SavedViewPitch` at 0x6d8 (0x6d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SavedViewPitch(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x6d8, value) }
+    }
+
+    /// `EverQuestinfo::SendPcReceived` at 0x6dc (0x6dc within `EverQuestinfo`).
+    #[inline]
+    pub fn SendPcReceived(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6dc) }
+    }
+
+    /// `EverQuestinfo::SendPcReceived` at 0x6dc (0x6dc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SendPcReceived(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6dc, value) }
+    }
+
+    /// `EverQuestinfo::WeatherReceived` at 0x6e0 (0x6e0 within `EverQuestinfo`).
+    #[inline]
+    pub fn WeatherReceived(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6e0) }
+    }
+
+    /// `EverQuestinfo::WeatherReceived` at 0x6e0 (0x6e0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_WeatherReceived(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6e0, value) }
+    }
+
+    /// `EverQuestinfo::PixelInit` at 0x6e4 (0x6e4 within `EverQuestinfo`).
+    #[inline]
+    pub fn PixelInit(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6e4) }
+    }
+
+    /// `EverQuestinfo::PixelInit` at 0x6e4 (0x6e4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PixelInit(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6e4, value) }
+    }
+
+    /// `EverQuestinfo::bIsPressedShift` at 0x6e8 (0x6e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedShift(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6e8) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedShift` at 0x6e8 (0x6e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedShift(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6e8, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedControl` at 0x6e9 (0x6e9 within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedControl(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6e9) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedControl` at 0x6e9 (0x6e9 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedControl(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6e9, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedAlt` at 0x6ea (0x6ea within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedAlt(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6ea) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedAlt` at 0x6ea (0x6ea within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedAlt(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6ea, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedLShift` at 0x6eb (0x6eb within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedLShift(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6eb) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedLShift` at 0x6eb (0x6eb within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedLShift(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6eb, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedLControl` at 0x6ec (0x6ec within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedLControl(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6ec) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedLControl` at 0x6ec (0x6ec within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedLControl(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6ec, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedLAlt` at 0x6ed (0x6ed within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedLAlt(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6ed) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedLAlt` at 0x6ed (0x6ed within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedLAlt(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6ed, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedRShift` at 0x6ee (0x6ee within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedRShift(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6ee) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedRShift` at 0x6ee (0x6ee within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedRShift(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6ee, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedRControl` at 0x6ef (0x6ef within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedRControl(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6ef) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedRControl` at 0x6ef (0x6ef within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedRControl(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6ef, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsPressedRAlt` at 0x6f0 (0x6f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsPressedRAlt(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x6f0) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsPressedRAlt` at 0x6f0 (0x6f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsPressedRAlt(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x6f0, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::Currkeypress` at 0x6f4 (0x6f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn Currkeypress(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6f4) }
+    }
+
+    /// `EverQuestinfo::Currkeypress` at 0x6f4 (0x6f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Currkeypress(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6f4, value) }
+    }
+
+    /// `EverQuestinfo::Lastkeypress` at 0x6f8 (0x6f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn Lastkeypress(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6f8) }
+    }
+
+    /// `EverQuestinfo::Lastkeypress` at 0x6f8 (0x6f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Lastkeypress(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6f8, value) }
+    }
+
+    /// `EverQuestinfo::RateUp` at 0x6fc (0x6fc within `EverQuestinfo`).
+    #[inline]
+    pub fn RateUp(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6fc) }
+    }
+
+    /// `EverQuestinfo::RateUp` at 0x6fc (0x6fc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RateUp(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6fc, value) }
+    }
+
+    /// `EverQuestinfo::RateDown` at 0x700 (0x700 within `EverQuestinfo`).
+    #[inline]
+    pub fn RateDown(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x700) }
+    }
+
+    /// `EverQuestinfo::RateDown` at 0x700 (0x700 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RateDown(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x700, value) }
+    }
+
+    /// `EverQuestinfo::Rateforward` at 0x704 (0x704 within `EverQuestinfo`).
+    #[inline]
+    pub fn Rateforward(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x704) }
+    }
+
+    /// `EverQuestinfo::Rateforward` at 0x704 (0x704 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Rateforward(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x704, value) }
+    }
+
+    /// `EverQuestinfo::Rateback` at 0x708 (0x708 within `EverQuestinfo`).
+    #[inline]
+    pub fn Rateback(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x708) }
+    }
+
+    /// `EverQuestinfo::Rateback` at 0x708 (0x708 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Rateback(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x708, value) }
+    }
+
+    /// `EverQuestinfo::RateLeft` at 0x70c (0x70c within `EverQuestinfo`).
+    #[inline]
+    pub fn RateLeft(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x70c) }
+    }
+
+    /// `EverQuestinfo::RateLeft` at 0x70c (0x70c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RateLeft(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x70c, value) }
+    }
+
+    /// `EverQuestinfo::RateRight` at 0x710 (0x710 within `EverQuestinfo`).
+    #[inline]
+    pub fn RateRight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x710) }
+    }
+
+    /// `EverQuestinfo::RateRight` at 0x710 (0x710 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RateRight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x710, value) }
+    }
+
+    /// `EverQuestinfo::RaceWar` at 0x714 (0x714 within `EverQuestinfo`).
+    #[inline]
+    pub fn RaceWar(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x714) }
+    }
+
+    /// `EverQuestinfo::RaceWar` at 0x714 (0x714 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RaceWar(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x714, value) }
+    }
+
+    /// `EverQuestinfo::Ruleset` at 0x718 (0x718 within `EverQuestinfo`).
+    #[inline]
+    pub fn Ruleset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x718) }
+    }
+
+    /// `EverQuestinfo::Ruleset` at 0x718 (0x718 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Ruleset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x718, value) }
+    }
+
+    /// `EverQuestinfo::bRpServer` at 0x71c (0x71c within `EverQuestinfo`).
+    #[inline]
+    pub fn bRpServer(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x71c) != 0 }
+    }
+
+    /// `EverQuestinfo::bRpServer` at 0x71c (0x71c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bRpServer(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x71c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAcceleratedServer` at 0x71d (0x71d within `EverQuestinfo`).
+    #[inline]
+    pub fn bAcceleratedServer(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x71d) != 0 }
+    }
+
+    /// `EverQuestinfo::bAcceleratedServer` at 0x71d (0x71d within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAcceleratedServer(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x71d, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bProgressionServer` at 0x71e (0x71e within `EverQuestinfo`).
+    #[inline]
+    pub fn bProgressionServer(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x71e) != 0 }
+    }
+
+    /// `EverQuestinfo::bProgressionServer` at 0x71e (0x71e within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bProgressionServer(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x71e, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ProgressionOpenExpansions` at 0x720 (0x720 within `EverQuestinfo`).
+    #[inline]
+    pub fn ProgressionOpenExpansions(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x720) }
+    }
+
+    /// `EverQuestinfo::ProgressionOpenExpansions` at 0x720 (0x720 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ProgressionOpenExpansions(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x720, value) }
+    }
+
+    /// `EverQuestinfo::iIsBetaServer` at 0x724 (0x724 within `EverQuestinfo`).
+    #[inline]
+    pub fn iIsBetaServer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x724) }
+    }
+
+    /// `EverQuestinfo::iIsBetaServer` at 0x724 (0x724 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iIsBetaServer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x724, value) }
+    }
+
+    /// `EverQuestinfo::bIsTestServer` at 0x728 (0x728 within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsTestServer(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x728) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsTestServer` at 0x728 (0x728 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsTestServer(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x728, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bUseMailSystem` at 0x729 (0x729 within `EverQuestinfo`).
+    #[inline]
+    pub fn bUseMailSystem(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x729) != 0 }
+    }
+
+    /// `EverQuestinfo::bUseMailSystem` at 0x729 (0x729 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bUseMailSystem(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x729, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsEscapeServer` at 0x72a (0x72a within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsEscapeServer(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x72a) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsEscapeServer` at 0x72a (0x72a within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsEscapeServer(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x72a, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIsTutorialEnabled` at 0x72b (0x72b within `EverQuestinfo`).
+    #[inline]
+    pub fn bIsTutorialEnabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x72b) != 0 }
+    }
+
+    /// `EverQuestinfo::bIsTutorialEnabled` at 0x72b (0x72b within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIsTutorialEnabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x72b, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bCanCreateHeroicCharacter` at 0x72c (0x72c within `EverQuestinfo`).
+    #[inline]
+    pub fn bCanCreateHeroicCharacter(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x72c) != 0 }
+    }
+
+    /// `EverQuestinfo::bCanCreateHeroicCharacter` at 0x72c (0x72c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bCanCreateHeroicCharacter(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x72c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::Heroic85Slots` at 0x730 (0x730 within `EverQuestinfo`).
+    #[inline]
+    pub fn Heroic85Slots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x730) }
+    }
+
+    /// `EverQuestinfo::Heroic85Slots` at 0x730 (0x730 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Heroic85Slots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x730, value) }
+    }
+
+    /// `EverQuestinfo::bNameGen` at 0x734 (0x734 within `EverQuestinfo`).
+    #[inline]
+    pub fn bNameGen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x734) }
+    }
+
+    /// `EverQuestinfo::bNameGen` at 0x734 (0x734 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bNameGen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x734, value) }
+    }
+
+    /// `EverQuestinfo::bGibberish` at 0x738 (0x738 within `EverQuestinfo`).
+    #[inline]
+    pub fn bGibberish(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x738) }
+    }
+
+    /// `EverQuestinfo::bGibberish` at 0x738 (0x738 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bGibberish(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x738, value) }
+    }
+
+    /// `EverQuestinfo::Locale` at 0x73c (0x73c within `EverQuestinfo`).
+    #[inline]
+    pub fn Locale(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x73c) }
+    }
+
+    /// `EverQuestinfo::Locale` at 0x73c (0x73c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Locale(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x73c, value) }
+    }
+
+    /// `EverQuestinfo::UpdateControlled` at 0x740 (0x740 within `EverQuestinfo`).
+    #[inline]
+    pub fn UpdateControlled(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x740) }
+    }
+
+    /// `EverQuestinfo::UpdateControlled` at 0x740 (0x740 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UpdateControlled(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x740, value) }
+    }
+
+    /// `EverQuestinfo::UpdateLocal` at 0x741 (0x741 within `EverQuestinfo`).
+    #[inline]
+    pub fn UpdateLocal(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x741) }
+    }
+
+    /// `EverQuestinfo::UpdateLocal` at 0x741 (0x741 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UpdateLocal(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x741, value) }
+    }
+
+    /// `EverQuestinfo::EnterZone` at 0x742 (0x742 within `EverQuestinfo`).
+    #[inline]
+    pub fn EnterZone(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x742) }
+    }
+
+    /// `EverQuestinfo::EnterZone` at 0x742 (0x742 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_EnterZone(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x742, value) }
+    }
+
+    /// `EverQuestinfo::ExitGame` at 0x743 (0x743 within `EverQuestinfo`).
+    #[inline]
+    pub fn ExitGame(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x743) }
+    }
+
+    /// `EverQuestinfo::ExitGame` at 0x743 (0x743 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ExitGame(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x743, value) }
+    }
+
+    /// `EverQuestinfo::UseVoiceMacros` at 0x744 (0x744 within `EverQuestinfo`).
+    #[inline]
+    pub fn UseVoiceMacros(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x744) != 0 }
+    }
+
+    /// `EverQuestinfo::UseVoiceMacros` at 0x744 (0x744 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UseVoiceMacros(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x744, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::DeltaX` at 0x748 (0x748 within `EverQuestinfo`).
+    #[inline]
+    pub fn DeltaX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x748) }
+    }
+
+    /// `EverQuestinfo::DeltaX` at 0x748 (0x748 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DeltaX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x748, value) }
+    }
+
+    /// `EverQuestinfo::DeltaY` at 0x74c (0x74c within `EverQuestinfo`).
+    #[inline]
+    pub fn DeltaY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x74c) }
+    }
+
+    /// `EverQuestinfo::DeltaY` at 0x74c (0x74c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DeltaY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x74c, value) }
+    }
+
+    /// `EverQuestinfo::OldRate1` at 0x750 (0x750 within `EverQuestinfo`).
+    #[inline]
+    pub fn OldRate1(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x750) }
+    }
+
+    /// `EverQuestinfo::OldRate1` at 0x750 (0x750 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OldRate1(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x750, value) }
+    }
+
+    /// `EverQuestinfo::OldRate2` at 0x754 (0x754 within `EverQuestinfo`).
+    #[inline]
+    pub fn OldRate2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x754) }
+    }
+
+    /// `EverQuestinfo::OldRate2` at 0x754 (0x754 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OldRate2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x754, value) }
+    }
+
+    /// `EverQuestinfo::StrafeRate` at 0x758 (0x758 within `EverQuestinfo`).
+    #[inline]
+    pub fn StrafeRate(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x758) }
+    }
+
+    /// `EverQuestinfo::StrafeRate` at 0x758 (0x758 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_StrafeRate(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x758, value) }
+    }
+
+    /// `EverQuestinfo::SaveIndex` at 0x75c (0x75c within `EverQuestinfo`).
+    #[inline]
+    pub fn SaveIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x75c) }
+    }
+
+    /// `EverQuestinfo::SaveIndex` at 0x75c (0x75c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SaveIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x75c, value) }
+    }
+
+    /// `EverQuestinfo::MoveDownSpeed` at 0x760 (0x760 within `EverQuestinfo`).
+    #[inline]
+    pub fn MoveDownSpeed(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x760) }
+    }
+
+    /// `EverQuestinfo::MoveDownSpeed` at 0x760 (0x760 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MoveDownSpeed(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x760, value) }
+    }
+
+    /// `EverQuestinfo::Motd` at 0x764 (0x764 within `EverQuestinfo`).
+    #[inline]
+    pub fn Motd(&self) -> [c_char; 1024] {
+        unsafe { read(self._bytes.get().cast(), 0x764) }
+    }
+
+    /// `EverQuestinfo::Motd` at 0x764 (0x764 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Motd(&self, value: [c_char; 1024]) {
+        unsafe { write(self._bytes.get().cast(), 0x764, value) }
+    }
+
+    /// `EverQuestinfo::Motd` at 0x764 (0x764 within `EverQuestinfo`).
+    /// One element; panics if `index >= 1024`.
+    #[inline]
+    pub fn Motd_at(&self, index: usize) -> c_char {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x764 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::Motd` at 0x764 (0x764 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 1024`.
+    #[inline]
+    pub fn set_Motd_at(&self, index: usize, value: c_char) {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x764 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::Motd2` at 0xb64 (0xb64 within `EverQuestinfo`).
+    #[inline]
+    pub fn Motd2(&self) -> [c_char; 1024] {
+        unsafe { read(self._bytes.get().cast(), 0xb64) }
+    }
+
+    /// `EverQuestinfo::Motd2` at 0xb64 (0xb64 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Motd2(&self, value: [c_char; 1024]) {
+        unsafe { write(self._bytes.get().cast(), 0xb64, value) }
+    }
+
+    /// `EverQuestinfo::Motd2` at 0xb64 (0xb64 within `EverQuestinfo`).
+    /// One element; panics if `index >= 1024`.
+    #[inline]
+    pub fn Motd2_at(&self, index: usize) -> c_char {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xb64 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::Motd2` at 0xb64 (0xb64 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 1024`.
+    #[inline]
+    pub fn set_Motd2_at(&self, index: usize, value: c_char) {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xb64 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::bDisplayMOTD` at 0xf64 (0xf64 within `EverQuestinfo`).
+    #[inline]
+    pub fn bDisplayMOTD(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf64) != 0 }
+    }
+
+    /// `EverQuestinfo::bDisplayMOTD` at 0xf64 (0xf64 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bDisplayMOTD(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf64, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bDoGuildMOTD` at 0xf68 (0xf68 within `EverQuestinfo`).
+    #[inline]
+    pub fn bDoGuildMOTD(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf68) }
+    }
+
+    /// `EverQuestinfo::bDoGuildMOTD` at 0xf68 (0xf68 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bDoGuildMOTD(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf68, value) }
+    }
+
+    /// `EverQuestinfo::bIgnorePR` at 0xf6c (0xf6c within `EverQuestinfo`).
+    #[inline]
+    pub fn bIgnorePR(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf6c) != 0 }
+    }
+
+    /// `EverQuestinfo::bIgnorePR` at 0xf6c (0xf6c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIgnorePR(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf6c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::WordList` at 0xf6d (0xf6d within `EverQuestinfo`).
+    #[inline]
+    pub fn WordList(&self) -> [c_char; 512] {
+        unsafe { read(self._bytes.get().cast(), 0xf6d) }
+    }
+
+    /// `EverQuestinfo::WordList` at 0xf6d (0xf6d within `EverQuestinfo`).
+    #[inline]
+    pub fn set_WordList(&self, value: [c_char; 512]) {
+        unsafe { write(self._bytes.get().cast(), 0xf6d, value) }
+    }
+
+    /// `EverQuestinfo::WordList` at 0xf6d (0xf6d within `EverQuestinfo`).
+    /// One element; panics if `index >= 512`.
+    #[inline]
+    pub fn WordList_at(&self, index: usize) -> c_char {
+        assert!(index < 512, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xf6d + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::WordList` at 0xf6d (0xf6d within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 512`.
+    #[inline]
+    pub fn set_WordList_at(&self, index: usize, value: c_char) {
+        assert!(index < 512, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xf6d + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::Display` at 0x1170 (0x1170 within `EverQuestinfo`).
+    #[inline]
+    pub fn Display(&self) -> [*mut c_char; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x1170) }
+    }
+
+    /// `EverQuestinfo::Display` at 0x1170 (0x1170 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Display(&self, value: [*mut c_char; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x1170, value) }
+    }
+
+    /// `EverQuestinfo::Display` at 0x1170 (0x1170 within `EverQuestinfo`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn Display_at(&self, index: usize) -> *mut c_char {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1170 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::Display` at 0x1170 (0x1170 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_Display_at(&self, index: usize, value: *mut c_char) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1170 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::DColor` at 0x11d4 (0x11d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn DColor(&self) -> [*mut i32; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x11d4) }
+    }
+
+    /// `EverQuestinfo::DColor` at 0x11d4 (0x11d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DColor(&self, value: [*mut i32; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x11d4, value) }
+    }
+
+    /// `EverQuestinfo::DColor` at 0x11d4 (0x11d4 within `EverQuestinfo`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn DColor_at(&self, index: usize) -> *mut i32 {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x11d4 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::DColor` at 0x11d4 (0x11d4 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_DColor_at(&self, index: usize, value: *mut i32) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x11d4 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::LineNo` at 0x1238 (0x1238 within `EverQuestinfo`).
+    #[inline]
+    pub fn LineNo(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1238) }
+    }
+
+    /// `EverQuestinfo::LineNo` at 0x1238 (0x1238 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LineNo(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1238, value) }
+    }
+
+    /// `EverQuestinfo::DoingSpellAnim` at 0x123c (0x123c within `EverQuestinfo`).
+    #[inline]
+    pub fn DoingSpellAnim(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x123c) }
+    }
+
+    /// `EverQuestinfo::DoingSpellAnim` at 0x123c (0x123c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DoingSpellAnim(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x123c, value) }
+    }
+
+    /// `EverQuestinfo::ZoneID` at 0x1240 (0x1240 within `EverQuestinfo`).
+    #[inline]
+    pub fn ZoneID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1240) }
+    }
+
+    /// `EverQuestinfo::ZoneID` at 0x1240 (0x1240 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ZoneID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1240, value) }
+    }
+
+    /// `EverQuestinfo::CommandIndex` at 0x1244 (0x1244 within `EverQuestinfo`).
+    #[inline]
+    pub fn CommandIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1244) }
+    }
+
+    /// `EverQuestinfo::CommandIndex` at 0x1244 (0x1244 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_CommandIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1244, value) }
+    }
+
+    /// `EverQuestinfo::MaxLines` at 0x1248 (0x1248 within `EverQuestinfo`).
+    #[inline]
+    pub fn MaxLines(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1248) }
+    }
+
+    /// `EverQuestinfo::MaxLines` at 0x1248 (0x1248 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MaxLines(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1248, value) }
+    }
+
+    /// `EverQuestinfo::PrimaryAttackReady` at 0x124c (0x124c within `EverQuestinfo`).
+    #[inline]
+    pub fn PrimaryAttackReady(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x124c) != 0 }
+    }
+
+    /// `EverQuestinfo::PrimaryAttackReady` at 0x124c (0x124c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PrimaryAttackReady(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x124c, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::SecondaryAttackReady` at 0x124d (0x124d within `EverQuestinfo`).
+    #[inline]
+    pub fn SecondaryAttackReady(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x124d) != 0 }
+    }
+
+    /// `EverQuestinfo::SecondaryAttackReady` at 0x124d (0x124d within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SecondaryAttackReady(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x124d, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::AutosaveCounter` at 0x1250 (0x1250 within `EverQuestinfo`).
+    #[inline]
+    pub fn AutosaveCounter(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1250) }
+    }
+
+    /// `EverQuestinfo::AutosaveCounter` at 0x1250 (0x1250 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AutosaveCounter(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1250, value) }
+    }
+
+    /// `EverQuestinfo::StartAFK` at 0x1254 (0x1254 within `EverQuestinfo`).
+    #[inline]
+    pub fn StartAFK(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1254) }
+    }
+
+    /// `EverQuestinfo::StartAFK` at 0x1254 (0x1254 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_StartAFK(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1254, value) }
+    }
+
+    /// `EverQuestinfo::AllPlayerCollisions` at 0x1258 (0x1258 within `EverQuestinfo`).
+    #[inline]
+    pub fn AllPlayerCollisions(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1258) }
+    }
+
+    /// `EverQuestinfo::AllPlayerCollisions` at 0x1258 (0x1258 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AllPlayerCollisions(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1258, value) }
+    }
+
+    /// `EverQuestinfo::MyVehicleFound` at 0x1259 (0x1259 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyVehicleFound(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1259) }
+    }
+
+    /// `EverQuestinfo::MyVehicleFound` at 0x1259 (0x1259 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyVehicleFound(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1259, value) }
+    }
+
+    /// `EverQuestinfo::ZoneFindingVehicle` at 0x125a (0x125a within `EverQuestinfo`).
+    #[inline]
+    pub fn ZoneFindingVehicle(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x125a) }
+    }
+
+    /// `EverQuestinfo::ZoneFindingVehicle` at 0x125a (0x125a within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ZoneFindingVehicle(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x125a, value) }
+    }
+
+    /// `EverQuestinfo::ForceSendVehicleUpdate` at 0x125b (0x125b within `EverQuestinfo`).
+    #[inline]
+    pub fn ForceSendVehicleUpdate(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x125b) }
+    }
+
+    /// `EverQuestinfo::ForceSendVehicleUpdate` at 0x125b (0x125b within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ForceSendVehicleUpdate(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x125b, value) }
+    }
+
+    /// `EverQuestinfo::GotSafeCoords` at 0x125c (0x125c within `EverQuestinfo`).
+    #[inline]
+    pub fn GotSafeCoords(&self) -> ZONE_REQ_STATUS {
+        unsafe { read(self._bytes.get().cast(), 0x125c) }
+    }
+
+    /// `EverQuestinfo::GotSafeCoords` at 0x125c (0x125c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_GotSafeCoords(&self, value: ZONE_REQ_STATUS) {
+        unsafe { write(self._bytes.get().cast(), 0x125c, value) }
+    }
+
+    /// `EverQuestinfo::ZoningTo` at 0x1260 (0x1260 within `EverQuestinfo`).
+    #[inline]
+    pub fn ZoningTo(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1260) }
+    }
+
+    /// `EverQuestinfo::ZoningTo` at 0x1260 (0x1260 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ZoningTo(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1260, value) }
+    }
+
+    /// `EverQuestinfo::NpcPhysics` at 0x1264 (0x1264 within `EverQuestinfo`).
+    #[inline]
+    pub fn NpcPhysics(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1264) }
+    }
+
+    /// `EverQuestinfo::NpcPhysics` at 0x1264 (0x1264 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_NpcPhysics(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1264, value) }
+    }
+
+    /// `EverQuestinfo::BeneficialSpellCast` at 0x1268 (0x1268 within `EverQuestinfo`).
+    #[inline]
+    pub fn BeneficialSpellCast(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1268) }
+    }
+
+    /// `EverQuestinfo::BeneficialSpellCast` at 0x1268 (0x1268 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_BeneficialSpellCast(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1268, value) }
+    }
+
+    /// `EverQuestinfo::AFKMessage` at 0x126c (0x126c within `EverQuestinfo`).
+    #[inline]
+    pub fn AFKMessage(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0x126c) }
+    }
+
+    /// `EverQuestinfo::AFKMessage` at 0x126c (0x126c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AFKMessage(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0x126c, value) }
+    }
+
+    /// `EverQuestinfo::AFKMessage` at 0x126c (0x126c within `EverQuestinfo`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn AFKMessage_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x126c + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::AFKMessage` at 0x126c (0x126c within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_AFKMessage_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x126c + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::bLogging` at 0x136c (0x136c within `EverQuestinfo`).
+    #[inline]
+    pub fn bLogging(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x136c) }
+    }
+
+    /// `EverQuestinfo::bLogging` at 0x136c (0x136c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bLogging(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x136c, value) }
+    }
+
+    /// `EverQuestinfo::LogFile` at 0x1370 (0x1370 within `EverQuestinfo`).
+    #[inline]
+    pub fn LogFile(&self) -> [c_char; 50] {
+        unsafe { read(self._bytes.get().cast(), 0x1370) }
+    }
+
+    /// `EverQuestinfo::LogFile` at 0x1370 (0x1370 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LogFile(&self, value: [c_char; 50]) {
+        unsafe { write(self._bytes.get().cast(), 0x1370, value) }
+    }
+
+    /// `EverQuestinfo::LogFile` at 0x1370 (0x1370 within `EverQuestinfo`).
+    /// One element; panics if `index >= 50`.
+    #[inline]
+    pub fn LogFile_at(&self, index: usize) -> c_char {
+        assert!(index < 50, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1370 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::LogFile` at 0x1370 (0x1370 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 50`.
+    #[inline]
+    pub fn set_LogFile_at(&self, index: usize, value: c_char) {
+        assert!(index < 50, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1370 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::LogSeconds` at 0x13a2 (0x13a2 within `EverQuestinfo`).
+    #[inline]
+    pub fn LogSeconds(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x13a2) }
+    }
+
+    /// `EverQuestinfo::LogSeconds` at 0x13a2 (0x13a2 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LogSeconds(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x13a2, value) }
+    }
+
+    /// `EverQuestinfo::Controlled` at 0x13a4 (0x13a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn Controlled(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13a4) }
+    }
+
+    /// `EverQuestinfo::Controlled` at 0x13a4 (0x13a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Controlled(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13a4, value) }
+    }
+
+    /// `EverQuestinfo::KunarkApproved` at 0x13a8 (0x13a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn KunarkApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13a8) != 0 }
+    }
+
+    /// `EverQuestinfo::KunarkApproved` at 0x13a8 (0x13a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_KunarkApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13a8, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::VeliousApproved` at 0x13a9 (0x13a9 within `EverQuestinfo`).
+    #[inline]
+    pub fn VeliousApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13a9) != 0 }
+    }
+
+    /// `EverQuestinfo::VeliousApproved` at 0x13a9 (0x13a9 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_VeliousApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13a9, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::LuclinApproved` at 0x13aa (0x13aa within `EverQuestinfo`).
+    #[inline]
+    pub fn LuclinApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13aa) != 0 }
+    }
+
+    /// `EverQuestinfo::LuclinApproved` at 0x13aa (0x13aa within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LuclinApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13aa, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::PopApproved` at 0x13ab (0x13ab within `EverQuestinfo`).
+    #[inline]
+    pub fn PopApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13ab) != 0 }
+    }
+
+    /// `EverQuestinfo::PopApproved` at 0x13ab (0x13ab within `EverQuestinfo`).
+    #[inline]
+    pub fn set_PopApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13ab, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::YkeshaApproved` at 0x13ac (0x13ac within `EverQuestinfo`).
+    #[inline]
+    pub fn YkeshaApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13ac) != 0 }
+    }
+
+    /// `EverQuestinfo::YkeshaApproved` at 0x13ac (0x13ac within `EverQuestinfo`).
+    #[inline]
+    pub fn set_YkeshaApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13ac, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::LdonApproved` at 0x13ad (0x13ad within `EverQuestinfo`).
+    #[inline]
+    pub fn LdonApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13ad) != 0 }
+    }
+
+    /// `EverQuestinfo::LdonApproved` at 0x13ad (0x13ad within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LdonApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13ad, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::GatesApproved` at 0x13ae (0x13ae within `EverQuestinfo`).
+    #[inline]
+    pub fn GatesApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13ae) != 0 }
+    }
+
+    /// `EverQuestinfo::GatesApproved` at 0x13ae (0x13ae within `EverQuestinfo`).
+    #[inline]
+    pub fn set_GatesApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13ae, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::OmensApproved` at 0x13af (0x13af within `EverQuestinfo`).
+    #[inline]
+    pub fn OmensApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13af) != 0 }
+    }
+
+    /// `EverQuestinfo::OmensApproved` at 0x13af (0x13af within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OmensApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13af, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::DonApproved` at 0x13b0 (0x13b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn DonApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b0) != 0 }
+    }
+
+    /// `EverQuestinfo::DonApproved` at 0x13b0 (0x13b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DonApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b0, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::DarkhollowApproved` at 0x13b1 (0x13b1 within `EverQuestinfo`).
+    #[inline]
+    pub fn DarkhollowApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b1) != 0 }
+    }
+
+    /// `EverQuestinfo::DarkhollowApproved` at 0x13b1 (0x13b1 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_DarkhollowApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b1, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ProphecyApproved` at 0x13b2 (0x13b2 within `EverQuestinfo`).
+    #[inline]
+    pub fn ProphecyApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b2) != 0 }
+    }
+
+    /// `EverQuestinfo::ProphecyApproved` at 0x13b2 (0x13b2 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ProphecyApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b2, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::SerpentApproved` at 0x13b3 (0x13b3 within `EverQuestinfo`).
+    #[inline]
+    pub fn SerpentApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b3) != 0 }
+    }
+
+    /// `EverQuestinfo::SerpentApproved` at 0x13b3 (0x13b3 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SerpentApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b3, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::BuriedSeaApproved` at 0x13b4 (0x13b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn BuriedSeaApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b4) != 0 }
+    }
+
+    /// `EverQuestinfo::BuriedSeaApproved` at 0x13b4 (0x13b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_BuriedSeaApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b4, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::SecretsOfFaydwerApproved` at 0x13b5 (0x13b5 within `EverQuestinfo`).
+    #[inline]
+    pub fn SecretsOfFaydwerApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b5) != 0 }
+    }
+
+    /// `EverQuestinfo::SecretsOfFaydwerApproved` at 0x13b5 (0x13b5 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SecretsOfFaydwerApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b5, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::SeedsOfDestructionApproved` at 0x13b6 (0x13b6 within `EverQuestinfo`).
+    #[inline]
+    pub fn SeedsOfDestructionApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b6) != 0 }
+    }
+
+    /// `EverQuestinfo::SeedsOfDestructionApproved` at 0x13b6 (0x13b6 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_SeedsOfDestructionApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b6, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::UnderfootApproved` at 0x13b7 (0x13b7 within `EverQuestinfo`).
+    #[inline]
+    pub fn UnderfootApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b7) != 0 }
+    }
+
+    /// `EverQuestinfo::UnderfootApproved` at 0x13b7 (0x13b7 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_UnderfootApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b7, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::HouseOfThuleApproved` at 0x13b8 (0x13b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn HouseOfThuleApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b8) != 0 }
+    }
+
+    /// `EverQuestinfo::HouseOfThuleApproved` at 0x13b8 (0x13b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_HouseOfThuleApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b8, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::VeilOfAlarisApproved` at 0x13b9 (0x13b9 within `EverQuestinfo`).
+    #[inline]
+    pub fn VeilOfAlarisApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13b9) != 0 }
+    }
+
+    /// `EverQuestinfo::VeilOfAlarisApproved` at 0x13b9 (0x13b9 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_VeilOfAlarisApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13b9, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::RainOfFearApproved` at 0x13ba (0x13ba within `EverQuestinfo`).
+    #[inline]
+    pub fn RainOfFearApproved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x13ba) != 0 }
+    }
+
+    /// `EverQuestinfo::RainOfFearApproved` at 0x13ba (0x13ba within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RainOfFearApproved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x13ba, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ExpansionsFlagBitmask` at 0x13bc (0x13bc within `EverQuestinfo`).
+    #[inline]
+    pub fn ExpansionsFlagBitmask(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x13bc) }
+    }
+
+    /// `EverQuestinfo::ExpansionsFlagBitmask` at 0x13bc (0x13bc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ExpansionsFlagBitmask(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x13bc, value) }
+    }
+
+    /// `EverQuestinfo::NoNameApprove` at 0x13c0 (0x13c0 within `EverQuestinfo`).
+    #[inline]
+    pub fn NoNameApprove(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c0) }
+    }
+
+    /// `EverQuestinfo::NoNameApprove` at 0x13c0 (0x13c0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_NoNameApprove(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c0, value) }
+    }
+
+    /// `EverQuestinfo::AttackOnAssist` at 0x13c4 (0x13c4 within `EverQuestinfo`).
+    #[inline]
+    pub fn AttackOnAssist(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c4) }
+    }
+
+    /// `EverQuestinfo::AttackOnAssist` at 0x13c4 (0x13c4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_AttackOnAssist(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c4, value) }
+    }
+
+    /// `EverQuestinfo::Unknown0x13c8` at 0x13c8 (0x13c8 within `EverQuestinfo`).
+    #[inline]
+    pub fn Unknown0x13c8(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c8) }
+    }
+
+    /// `EverQuestinfo::Unknown0x13c8` at 0x13c8 (0x13c8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Unknown0x13c8(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c8, value) }
+    }
+
+    /// `EverQuestinfo::bInvWinLabels` at 0x13cc (0x13cc within `EverQuestinfo`).
+    #[inline]
+    pub fn bInvWinLabels(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13cc) }
+    }
+
+    /// `EverQuestinfo::bInvWinLabels` at 0x13cc (0x13cc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bInvWinLabels(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13cc, value) }
+    }
+
+    /// `EverQuestinfo::LoadedArmor` at 0x13d0 (0x13d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn LoadedArmor(&self) -> [i32; 7] {
+        unsafe { read(self._bytes.get().cast(), 0x13d0) }
+    }
+
+    /// `EverQuestinfo::LoadedArmor` at 0x13d0 (0x13d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LoadedArmor(&self, value: [i32; 7]) {
+        unsafe { write(self._bytes.get().cast(), 0x13d0, value) }
+    }
+
+    /// `EverQuestinfo::LoadedArmor` at 0x13d0 (0x13d0 within `EverQuestinfo`).
+    /// One element; panics if `index >= 7`.
+    #[inline]
+    pub fn LoadedArmor_at(&self, index: usize) -> i32 {
+        assert!(index < 7, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x13d0 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::LoadedArmor` at 0x13d0 (0x13d0 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 7`.
+    #[inline]
+    pub fn set_LoadedArmor_at(&self, index: usize, value: i32) {
+        assert!(index < 7, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x13d0 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::bLockWindows` at 0x13ec (0x13ec within `EverQuestinfo`).
+    #[inline]
+    pub fn bLockWindows(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13ec) }
+    }
+
+    /// `EverQuestinfo::bLockWindows` at 0x13ec (0x13ec within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bLockWindows(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13ec, value) }
+    }
+
+    /// `EverQuestinfo::bHidePlayerWin` at 0x13f0 (0x13f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHidePlayerWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13f0) }
+    }
+
+    /// `EverQuestinfo::bHidePlayerWin` at 0x13f0 (0x13f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHidePlayerWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13f0, value) }
+    }
+
+    /// `EverQuestinfo::bHidePartyWin` at 0x13f4 (0x13f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHidePartyWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13f4) }
+    }
+
+    /// `EverQuestinfo::bHidePartyWin` at 0x13f4 (0x13f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHidePartyWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13f4, value) }
+    }
+
+    /// `EverQuestinfo::bHideTargetWin` at 0x13f8 (0x13f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHideTargetWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13f8) }
+    }
+
+    /// `EverQuestinfo::bHideTargetWin` at 0x13f8 (0x13f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHideTargetWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13f8, value) }
+    }
+
+    /// `EverQuestinfo::bHideSpellsWin` at 0x13fc (0x13fc within `EverQuestinfo`).
+    #[inline]
+    pub fn bHideSpellsWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13fc) }
+    }
+
+    /// `EverQuestinfo::bHideSpellsWin` at 0x13fc (0x13fc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHideSpellsWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13fc, value) }
+    }
+
+    /// `EverQuestinfo::bHideHotboxWin` at 0x1400 (0x1400 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHideHotboxWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1400) }
+    }
+
+    /// `EverQuestinfo::bHideHotboxWin` at 0x1400 (0x1400 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHideHotboxWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1400, value) }
+    }
+
+    /// `EverQuestinfo::bHideChatWin` at 0x1404 (0x1404 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHideChatWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1404) }
+    }
+
+    /// `EverQuestinfo::bHideChatWin` at 0x1404 (0x1404 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHideChatWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1404, value) }
+    }
+
+    /// `EverQuestinfo::bHideMainWin` at 0x1408 (0x1408 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHideMainWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1408) }
+    }
+
+    /// `EverQuestinfo::bHideMainWin` at 0x1408 (0x1408 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHideMainWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1408, value) }
+    }
+
+    /// `EverQuestinfo::bHideAltAdvWin` at 0x140c (0x140c within `EverQuestinfo`).
+    #[inline]
+    pub fn bHideAltAdvWin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x140c) }
+    }
+
+    /// `EverQuestinfo::bHideAltAdvWin` at 0x140c (0x140c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHideAltAdvWin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x140c, value) }
+    }
+
+    /// `EverQuestinfo::bUnknown0x1410` at 0x1410 (0x1410 within `EverQuestinfo`).
+    #[inline]
+    pub fn bUnknown0x1410(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1410) }
+    }
+
+    /// `EverQuestinfo::bUnknown0x1410` at 0x1410 (0x1410 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bUnknown0x1410(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1410, value) }
+    }
+
+    /// `EverQuestinfo::bUnknown0x1414` at 0x1414 (0x1414 within `EverQuestinfo`).
+    #[inline]
+    pub fn bUnknown0x1414(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1414) }
+    }
+
+    /// `EverQuestinfo::bUnknown0x1414` at 0x1414 (0x1414 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bUnknown0x1414(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1414, value) }
+    }
+
+    /// `EverQuestinfo::bShowDynamicLights` at 0x1418 (0x1418 within `EverQuestinfo`).
+    #[inline]
+    pub fn bShowDynamicLights(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1418) }
+    }
+
+    /// `EverQuestinfo::bShowDynamicLights` at 0x1418 (0x1418 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bShowDynamicLights(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1418, value) }
+    }
+
+    /// `EverQuestinfo::iChatFontSize` at 0x141c (0x141c within `EverQuestinfo`).
+    #[inline]
+    pub fn iChatFontSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x141c) }
+    }
+
+    /// `EverQuestinfo::iChatFontSize` at 0x141c (0x141c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iChatFontSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x141c, value) }
+    }
+
+    /// `EverQuestinfo::VideoMode` at 0x1420 (0x1420 within `EverQuestinfo`).
+    #[inline]
+    pub fn VideoMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1420) }
+    }
+
+    /// `EverQuestinfo::VideoMode` at 0x1420 (0x1420 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_VideoMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1420, value) }
+    }
+
+    /// `EverQuestinfo::bShowGrass` at 0x1424 (0x1424 within `EverQuestinfo`).
+    #[inline]
+    pub fn bShowGrass(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1424) != 0 }
+    }
+
+    /// `EverQuestinfo::bShowGrass` at 0x1424 (0x1424 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bShowGrass(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1424, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::RawTextBuffer` at 0x1428 (0x1428 within `EverQuestinfo`).
+    #[inline]
+    pub fn RawTextBuffer(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x1428) }
+    }
+
+    /// `EverQuestinfo::RawTextBuffer` at 0x1428 (0x1428 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RawTextBuffer(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x1428, value) }
+    }
+
+    /// `EverQuestinfo::RawTextBufferSize` at 0x142c (0x142c within `EverQuestinfo`).
+    #[inline]
+    pub fn RawTextBufferSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x142c) }
+    }
+
+    /// `EverQuestinfo::RawTextBufferSize` at 0x142c (0x142c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RawTextBufferSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x142c, value) }
+    }
+
+    /// `EverQuestinfo::RawTextBufferEnd` at 0x1430 (0x1430 within `EverQuestinfo`).
+    #[inline]
+    pub fn RawTextBufferEnd(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x1430) }
+    }
+
+    /// `EverQuestinfo::RawTextBufferEnd` at 0x1430 (0x1430 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RawTextBufferEnd(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x1430, value) }
+    }
+
+    /// `EverQuestinfo::RawTextFirstLine` at 0x1434 (0x1434 within `EverQuestinfo`).
+    #[inline]
+    pub fn RawTextFirstLine(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x1434) }
+    }
+
+    /// `EverQuestinfo::RawTextFirstLine` at 0x1434 (0x1434 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RawTextFirstLine(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x1434, value) }
+    }
+
+    /// `EverQuestinfo::RawTextLastLine` at 0x1438 (0x1438 within `EverQuestinfo`).
+    #[inline]
+    pub fn RawTextLastLine(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x1438) }
+    }
+
+    /// `EverQuestinfo::RawTextLastLine` at 0x1438 (0x1438 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RawTextLastLine(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x1438, value) }
+    }
+
+    /// `EverQuestinfo::RawTextNewPos` at 0x143c (0x143c within `EverQuestinfo`).
+    #[inline]
+    pub fn RawTextNewPos(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x143c) }
+    }
+
+    /// `EverQuestinfo::RawTextNewPos` at 0x143c (0x143c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RawTextNewPos(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x143c, value) }
+    }
+
+    /// `EverQuestinfo::bInspectOthers` at 0x1440 (0x1440 within `EverQuestinfo`).
+    #[inline]
+    pub fn bInspectOthers(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1440) }
+    }
+
+    /// `EverQuestinfo::bInspectOthers` at 0x1440 (0x1440 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bInspectOthers(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1440, value) }
+    }
+
+    /// `EverQuestinfo::bShowSpellEffects` at 0x1444 (0x1444 within `EverQuestinfo`).
+    #[inline]
+    pub fn bShowSpellEffects(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1444) }
+    }
+
+    /// `EverQuestinfo::bShowSpellEffects` at 0x1444 (0x1444 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bShowSpellEffects(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1444, value) }
+    }
+
+    /// `EverQuestinfo::NextKeyRepeatTime` at 0x1448 (0x1448 within `EverQuestinfo`).
+    #[inline]
+    pub fn NextKeyRepeatTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1448) }
+    }
+
+    /// `EverQuestinfo::NextKeyRepeatTime` at 0x1448 (0x1448 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_NextKeyRepeatTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1448, value) }
+    }
+
+    /// `EverQuestinfo::KeyRepeatDelay` at 0x144c (0x144c within `EverQuestinfo`).
+    #[inline]
+    pub fn KeyRepeatDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x144c) }
+    }
+
+    /// `EverQuestinfo::KeyRepeatDelay` at 0x144c (0x144c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_KeyRepeatDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x144c, value) }
+    }
+
+    /// `EverQuestinfo::TimeScale` at 0x1450 (0x1450 within `EverQuestinfo`).
+    #[inline]
+    pub fn TimeScale(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1450) }
+    }
+
+    /// `EverQuestinfo::TimeScale` at 0x1450 (0x1450 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_TimeScale(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1450, value) }
+    }
+
+    /// `EverQuestinfo::BeTheMonsterAllowed` at 0x1454 (0x1454 within `EverQuestinfo`).
+    #[inline]
+    pub fn BeTheMonsterAllowed(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1454) }
+    }
+
+    /// `EverQuestinfo::BeTheMonsterAllowed` at 0x1454 (0x1454 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_BeTheMonsterAllowed(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1454, value) }
+    }
+
+    /// `EverQuestinfo::iShowNamesLevel` at 0x1458 (0x1458 within `EverQuestinfo`).
+    #[inline]
+    pub fn iShowNamesLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1458) }
+    }
+
+    /// `EverQuestinfo::iShowNamesLevel` at 0x1458 (0x1458 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iShowNamesLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1458, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsMode` at 0x145c (0x145c within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x145c) }
+    }
+
+    /// `EverQuestinfo::MyHitsMode` at 0x145c (0x145c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x145c, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsX` at 0x1460 (0x1460 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1460) }
+    }
+
+    /// `EverQuestinfo::MyHitsX` at 0x1460 (0x1460 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1460, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsY` at 0x1464 (0x1464 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1464) }
+    }
+
+    /// `EverQuestinfo::MyHitsY` at 0x1464 (0x1464 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1464, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsCount` at 0x1468 (0x1468 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1468) }
+    }
+
+    /// `EverQuestinfo::MyHitsCount` at 0x1468 (0x1468 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1468, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsFontSize` at 0x146c (0x146c within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsFontSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x146c) }
+    }
+
+    /// `EverQuestinfo::MyHitsFontSize` at 0x146c (0x146c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsFontSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x146c, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsShowHeader` at 0x1470 (0x1470 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsShowHeader(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1470) }
+    }
+
+    /// `EverQuestinfo::MyHitsShowHeader` at 0x1470 (0x1470 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsShowHeader(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1470, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsShowBG` at 0x1474 (0x1474 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsShowBG(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1474) }
+    }
+
+    /// `EverQuestinfo::MyHitsShowBG` at 0x1474 (0x1474 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsShowBG(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1474, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsBGWidth` at 0x1478 (0x1478 within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsBGWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1478) }
+    }
+
+    /// `EverQuestinfo::MyHitsBGWidth` at 0x1478 (0x1478 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsBGWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1478, value) }
+    }
+
+    /// `EverQuestinfo::MyHitsAlwaysDraw` at 0x147c (0x147c within `EverQuestinfo`).
+    #[inline]
+    pub fn MyHitsAlwaysDraw(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x147c) }
+    }
+
+    /// `EverQuestinfo::MyHitsAlwaysDraw` at 0x147c (0x147c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_MyHitsAlwaysDraw(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x147c, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeMode` at 0x1480 (0x1480 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1480) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeMode` at 0x1480 (0x1480 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1480, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeX` at 0x1484 (0x1484 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1484) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeX` at 0x1484 (0x1484 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1484, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeY` at 0x1488 (0x1488 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1488) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeY` at 0x1488 (0x1488 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1488, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeCount` at 0x148c (0x148c within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x148c) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeCount` at 0x148c (0x148c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x148c, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeFontSize` at 0x1490 (0x1490 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeFontSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1490) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeFontSize` at 0x1490 (0x1490 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeFontSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1490, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeShowHeader` at 0x1494 (0x1494 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeShowHeader(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1494) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeShowHeader` at 0x1494 (0x1494 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeShowHeader(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1494, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeShowBG` at 0x1498 (0x1498 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeShowBG(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1498) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeShowBG` at 0x1498 (0x1498 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeShowBG(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1498, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeBGWidth` at 0x149c (0x149c within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeBGWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x149c) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeBGWidth` at 0x149c (0x149c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeBGWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x149c, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeAlwaysDraw` at 0x14a0 (0x14a0 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsMeAlwaysDraw(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14a0) }
+    }
+
+    /// `EverQuestinfo::OtherHitsMeAlwaysDraw` at 0x14a0 (0x14a0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsMeAlwaysDraw(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14a0, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherMode` at 0x14a4 (0x14a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14a4) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherMode` at 0x14a4 (0x14a4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14a4, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherX` at 0x14a8 (0x14a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14a8) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherX` at 0x14a8 (0x14a8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14a8, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherY` at 0x14ac (0x14ac within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14ac) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherY` at 0x14ac (0x14ac within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14ac, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherCount` at 0x14b0 (0x14b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14b0) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherCount` at 0x14b0 (0x14b0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14b0, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherFontSize` at 0x14b4 (0x14b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherFontSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14b4) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherFontSize` at 0x14b4 (0x14b4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherFontSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14b4, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherShowHeader` at 0x14b8 (0x14b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherShowHeader(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14b8) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherShowHeader` at 0x14b8 (0x14b8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherShowHeader(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14b8, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherShowBG` at 0x14bc (0x14bc within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherShowBG(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14bc) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherShowBG` at 0x14bc (0x14bc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherShowBG(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14bc, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherBGWidth` at 0x14c0 (0x14c0 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherBGWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c0) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherBGWidth` at 0x14c0 (0x14c0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherBGWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c0, value) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherAlwaysDraw` at 0x14c4 (0x14c4 within `EverQuestinfo`).
+    #[inline]
+    pub fn OtherHitsOtherAlwaysDraw(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c4) }
+    }
+
+    /// `EverQuestinfo::OtherHitsOtherAlwaysDraw` at 0x14c4 (0x14c4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_OtherHitsOtherAlwaysDraw(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c4, value) }
+    }
+
+    /// `EverQuestinfo::bCombatMusic` at 0x14c8 (0x14c8 within `EverQuestinfo`).
+    #[inline]
+    pub fn bCombatMusic(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c8) }
+    }
+
+    /// `EverQuestinfo::bCombatMusic` at 0x14c8 (0x14c8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bCombatMusic(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c8, value) }
+    }
+
+    /// `EverQuestinfo::iSoundMixAhead` at 0x14cc (0x14cc within `EverQuestinfo`).
+    #[inline]
+    pub fn iSoundMixAhead(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14cc) }
+    }
+
+    /// `EverQuestinfo::iSoundMixAhead` at 0x14cc (0x14cc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iSoundMixAhead(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14cc, value) }
+    }
+
+    /// `EverQuestinfo::bDisableDrakkinTattoos` at 0x14d0 (0x14d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn bDisableDrakkinTattoos(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x14d0) != 0 }
+    }
+
+    /// `EverQuestinfo::bDisableDrakkinTattoos` at 0x14d0 (0x14d0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bDisableDrakkinTattoos(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x14d0, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::fFizzleMinSuccess` at 0x14d4 (0x14d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleMinSuccess(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14d4) }
+    }
+
+    /// `EverQuestinfo::fFizzleMinSuccess` at 0x14d4 (0x14d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleMinSuccess(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14d4, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccess` at 0x14d8 (0x14d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleMaxSuccess(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14d8) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccess` at 0x14d8 (0x14d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleMaxSuccess(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14d8, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleMinSuccessBard` at 0x14dc (0x14dc within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleMinSuccessBard(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14dc) }
+    }
+
+    /// `EverQuestinfo::fFizzleMinSuccessBard` at 0x14dc (0x14dc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleMinSuccessBard(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14dc, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccessBard` at 0x14e0 (0x14e0 within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleMaxSuccessBard(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14e0) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccessBard` at 0x14e0 (0x14e0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleMaxSuccessBard(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14e0, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccessDefault` at 0x14e4 (0x14e4 within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleMaxSuccessDefault(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14e4) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccessDefault` at 0x14e4 (0x14e4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleMaxSuccessDefault(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14e4, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccessSpecialized` at 0x14e8 (0x14e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleMaxSuccessSpecialized(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14e8) }
+    }
+
+    /// `EverQuestinfo::fFizzleMaxSuccessSpecialized` at 0x14e8 (0x14e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleMaxSuccessSpecialized(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14e8, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleManaCostMin` at 0x14ec (0x14ec within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleManaCostMin(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14ec) }
+    }
+
+    /// `EverQuestinfo::fFizzleManaCostMin` at 0x14ec (0x14ec within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleManaCostMin(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14ec, value) }
+    }
+
+    /// `EverQuestinfo::fFizzleManaCostMax` at 0x14f0 (0x14f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn fFizzleManaCostMax(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14f0) }
+    }
+
+    /// `EverQuestinfo::fFizzleManaCostMax` at 0x14f0 (0x14f0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fFizzleManaCostMax(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14f0, value) }
+    }
+
+    /// `EverQuestinfo::iActivityCheckInterval` at 0x14f4 (0x14f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn iActivityCheckInterval(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14f4) }
+    }
+
+    /// `EverQuestinfo::iActivityCheckInterval` at 0x14f4 (0x14f4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iActivityCheckInterval(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14f4, value) }
+    }
+
+    /// `EverQuestinfo::iActivityThreshhold` at 0x14f8 (0x14f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn iActivityThreshhold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14f8) }
+    }
+
+    /// `EverQuestinfo::iActivityThreshhold` at 0x14f8 (0x14f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iActivityThreshhold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14f8, value) }
+    }
+
+    /// `EverQuestinfo::iActivityScriptId` at 0x14fc (0x14fc within `EverQuestinfo`).
+    #[inline]
+    pub fn iActivityScriptId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14fc) }
+    }
+
+    /// `EverQuestinfo::iActivityScriptId` at 0x14fc (0x14fc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iActivityScriptId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14fc, value) }
+    }
+
+    /// `EverQuestinfo::ChatFilters` at 0x1500 (0x1500 within `EverQuestinfo`).
+    #[inline]
+    pub fn ChatFilters(&self) -> &ChatFilterData {
+        unsafe { at(self._bytes.get().cast(), 0x1500) }
+    }
+
+    /// `EverQuestinfo::gOpt` at 0x1588 (0x1588 within `EverQuestinfo`).
+    #[inline]
+    pub fn gOpt(&self) -> &EQGameOptions {
+        unsafe { at(self._bytes.get().cast(), 0x1588) }
+    }
+
+    /// `EverQuestinfo::gOpt2` at 0x1720 (0x1720 within `EverQuestinfo`).
+    #[inline]
+    pub fn gOpt2(&self) -> &EQGameOptions2 {
+        unsafe { at(self._bytes.get().cast(), 0x1720) }
+    }
+
+    /// `EverQuestinfo::bEnvSounds` at 0x1738 (0x1738 within `EverQuestinfo`).
+    #[inline]
+    pub fn bEnvSounds(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1738) != 0 }
+    }
+
+    /// `EverQuestinfo::bEnvSounds` at 0x1738 (0x1738 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bEnvSounds(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1738, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAllowContextMenus` at 0x1739 (0x1739 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAllowContextMenus(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1739) != 0 }
+    }
+
+    /// `EverQuestinfo::bAllowContextMenus` at 0x1739 (0x1739 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAllowContextMenus(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1739, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bShowHelpOnLeftClickTarget` at 0x173a (0x173a within `EverQuestinfo`).
+    #[inline]
+    pub fn bShowHelpOnLeftClickTarget(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x173a) != 0 }
+    }
+
+    /// `EverQuestinfo::bShowHelpOnLeftClickTarget` at 0x173a (0x173a within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bShowHelpOnLeftClickTarget(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x173a, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::iClaimingPrize` at 0x173c (0x173c within `EverQuestinfo`).
+    #[inline]
+    pub fn iClaimingPrize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x173c) }
+    }
+
+    /// `EverQuestinfo::iClaimingPrize` at 0x173c (0x173c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_iClaimingPrize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x173c, value) }
+    }
+
+    /// `EverQuestinfo::bUseTellWindows` at 0x1740 (0x1740 within `EverQuestinfo`).
+    #[inline]
+    pub fn bUseTellWindows(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1740) != 0 }
+    }
+
+    /// `EverQuestinfo::bUseTellWindows` at 0x1740 (0x1740 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bUseTellWindows(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1740, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bCtrlBypassesTradeskill` at 0x1741 (0x1741 within `EverQuestinfo`).
+    #[inline]
+    pub fn bCtrlBypassesTradeskill(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1741) != 0 }
+    }
+
+    /// `EverQuestinfo::bCtrlBypassesTradeskill` at 0x1741 (0x1741 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bCtrlBypassesTradeskill(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1741, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAllowAutoDuck` at 0x1742 (0x1742 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAllowAutoDuck(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1742) != 0 }
+    }
+
+    /// `EverQuestinfo::bAllowAutoDuck` at 0x1742 (0x1742 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAllowAutoDuck(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1742, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAllowAutoStand` at 0x1743 (0x1743 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAllowAutoStand(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1743) != 0 }
+    }
+
+    /// `EverQuestinfo::bAllowAutoStand` at 0x1743 (0x1743 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAllowAutoStand(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1743, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAutojoinHelpChannels` at 0x1744 (0x1744 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAutojoinHelpChannels(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1744) != 0 }
+    }
+
+    /// `EverQuestinfo::bAutojoinHelpChannels` at 0x1744 (0x1744 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAutojoinHelpChannels(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1744, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bStreamItemTextures` at 0x1745 (0x1745 within `EverQuestinfo`).
+    #[inline]
+    pub fn bStreamItemTextures(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1745) != 0 }
+    }
+
+    /// `EverQuestinfo::bStreamItemTextures` at 0x1745 (0x1745 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bStreamItemTextures(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1745, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bIgnoreLONChallenges` at 0x1746 (0x1746 within `EverQuestinfo`).
+    #[inline]
+    pub fn bIgnoreLONChallenges(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1746) != 0 }
+    }
+
+    /// `EverQuestinfo::bIgnoreLONChallenges` at 0x1746 (0x1746 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bIgnoreLONChallenges(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1746, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAcceptKickRequests` at 0x1747 (0x1747 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAcceptKickRequests(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1747) != 0 }
+    }
+
+    /// `EverQuestinfo::bAcceptKickRequests` at 0x1747 (0x1747 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAcceptKickRequests(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1747, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bSuppressFirstUseAlerts` at 0x1748 (0x1748 within `EverQuestinfo`).
+    #[inline]
+    pub fn bSuppressFirstUseAlerts(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1748) != 0 }
+    }
+
+    /// `EverQuestinfo::bSuppressFirstUseAlerts` at 0x1748 (0x1748 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bSuppressFirstUseAlerts(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1748, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bUseArrowCamera` at 0x1749 (0x1749 within `EverQuestinfo`).
+    #[inline]
+    pub fn bUseArrowCamera(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1749) != 0 }
+    }
+
+    /// `EverQuestinfo::bUseArrowCamera` at 0x1749 (0x1749 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bUseArrowCamera(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1749, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::cameras` at 0x174c (0x174c within `EverQuestinfo`).
+    #[inline]
+    pub fn cameras(&self) -> [*mut EQCamera; 9] {
+        unsafe { read(self._bytes.get().cast(), 0x174c) }
+    }
+
+    /// `EverQuestinfo::cameras` at 0x174c (0x174c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_cameras(&self, value: [*mut EQCamera; 9]) {
+        unsafe { write(self._bytes.get().cast(), 0x174c, value) }
+    }
+
+    /// `EverQuestinfo::cameras` at 0x174c (0x174c within `EverQuestinfo`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn cameras_at(&self, index: usize) -> *mut EQCamera {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x174c + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::cameras` at 0x174c (0x174c within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_cameras_at(&self, index: usize, value: *mut EQCamera) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x174c + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::keyDown` at 0x1770 (0x1770 within `EverQuestinfo`).
+    #[inline]
+    pub fn keyDown(&self) -> [i32; 500] {
+        unsafe { read(self._bytes.get().cast(), 0x1770) }
+    }
+
+    /// `EverQuestinfo::keyDown` at 0x1770 (0x1770 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_keyDown(&self, value: [i32; 500]) {
+        unsafe { write(self._bytes.get().cast(), 0x1770, value) }
+    }
+
+    /// `EverQuestinfo::keyDown` at 0x1770 (0x1770 within `EverQuestinfo`).
+    /// One element; panics if `index >= 500`.
+    #[inline]
+    pub fn keyDown_at(&self, index: usize) -> i32 {
+        assert!(index < 500, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1770 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::keyDown` at 0x1770 (0x1770 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 500`.
+    #[inline]
+    pub fn set_keyDown_at(&self, index: usize, value: i32) {
+        assert!(index < 500, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1770 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::LastTellFromList` at 0x1f40 (0x1f40 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastTellFromList(&self) -> [[c_char; 64]; 50] {
+        unsafe { read(self._bytes.get().cast(), 0x1f40) }
+    }
+
+    /// `EverQuestinfo::LastTellFromList` at 0x1f40 (0x1f40 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastTellFromList(&self, value: [[c_char; 64]; 50]) {
+        unsafe { write(self._bytes.get().cast(), 0x1f40, value) }
+    }
+
+    /// `EverQuestinfo::LastTellFromIndex` at 0x2bc0 (0x2bc0 within `EverQuestinfo`).
+    #[inline]
+    pub fn LastTellFromIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bc0) }
+    }
+
+    /// `EverQuestinfo::LastTellFromIndex` at 0x2bc0 (0x2bc0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastTellFromIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bc0, value) }
+    }
+
+    /// `EverQuestinfo::bcolor` at 0x2bc4 (0x2bc4 within `EverQuestinfo`).
+    #[inline]
+    pub fn bcolor(&self) -> [i32; 500] {
+        unsafe { read(self._bytes.get().cast(), 0x2bc4) }
+    }
+
+    /// `EverQuestinfo::bcolor` at 0x2bc4 (0x2bc4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bcolor(&self, value: [i32; 500]) {
+        unsafe { write(self._bytes.get().cast(), 0x2bc4, value) }
+    }
+
+    /// `EverQuestinfo::bcolor` at 0x2bc4 (0x2bc4 within `EverQuestinfo`).
+    /// One element; panics if `index >= 500`.
+    #[inline]
+    pub fn bcolor_at(&self, index: usize) -> i32 {
+        assert!(index < 500, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2bc4 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::bcolor` at 0x2bc4 (0x2bc4 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 500`.
+    #[inline]
+    pub fn set_bcolor_at(&self, index: usize, value: i32) {
+        assert!(index < 500, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2bc4 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::buffer` at 0x3394 (0x3394 within `EverQuestinfo`).
+    #[inline]
+    pub fn buffer(&self) -> [[c_char; 256]; 500] {
+        unsafe { read(self._bytes.get().cast(), 0x3394) }
+    }
+
+    /// `EverQuestinfo::buffer` at 0x3394 (0x3394 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_buffer(&self, value: [[c_char; 256]; 500]) {
+        unsafe { write(self._bytes.get().cast(), 0x3394, value) }
+    }
+
+    /// `EverQuestinfo::commandList` at 0x22794 (0x22794 within `EverQuestinfo`).
+    #[inline]
+    pub fn commandList(&self) -> [[c_char; 2048]; 40] {
+        unsafe { read(self._bytes.get().cast(), 0x22794) }
+    }
+
+    /// `EverQuestinfo::commandList` at 0x22794 (0x22794 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_commandList(&self, value: [[c_char; 2048]; 40]) {
+        unsafe { write(self._bytes.get().cast(), 0x22794, value) }
+    }
+
+    /// `EverQuestinfo::LockPassword` at 0x36794 (0x36794 within `EverQuestinfo`).
+    #[inline]
+    pub fn LockPassword(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x36794) }
+    }
+
+    /// `EverQuestinfo::LockPassword` at 0x36794 (0x36794 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LockPassword(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x36794, value) }
+    }
+
+    /// `EverQuestinfo::LockPassword` at 0x36794 (0x36794 within `EverQuestinfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn LockPassword_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x36794 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::LockPassword` at 0x36794 (0x36794 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_LockPassword_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x36794 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::bLoadFriendsList` at 0x367d4 (0x367d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn bLoadFriendsList(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x367d4) != 0 }
+    }
+
+    /// `EverQuestinfo::bLoadFriendsList` at 0x367d4 (0x367d4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bLoadFriendsList(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x367d4, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ClaimPrizeData` at 0x367d8 (0x367d8 within `EverQuestinfo`).
+    #[inline]
+    pub fn ClaimPrizeData(&self) -> &ClaimDataCollection {
+        unsafe { at(self._bytes.get().cast(), 0x367d8) }
+    }
+
+    /// `EverQuestinfo::chatBuffer` at 0x367e8 (0x367e8 within `EverQuestinfo`).
+    #[inline]
+    pub fn chatBuffer(&self) -> &ArrayClass_ChatBufferEntry {
+        unsafe { at(self._bytes.get().cast(), 0x367e8) }
+    }
+
+    /// `EverQuestinfo::WorldServerShortname` at 0x367f8 (0x367f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn WorldServerShortname(&self) -> [c_char; 40] {
+        unsafe { read(self._bytes.get().cast(), 0x367f8) }
+    }
+
+    /// `EverQuestinfo::WorldServerShortname` at 0x367f8 (0x367f8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_WorldServerShortname(&self, value: [c_char; 40]) {
+        unsafe { write(self._bytes.get().cast(), 0x367f8, value) }
+    }
+
+    /// `EverQuestinfo::WorldServerShortname` at 0x367f8 (0x367f8 within `EverQuestinfo`).
+    /// One element; panics if `index >= 40`.
+    #[inline]
+    pub fn WorldServerShortname_at(&self, index: usize) -> c_char {
+        assert!(index < 40, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x367f8 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::WorldServerShortname` at 0x367f8 (0x367f8 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 40`.
+    #[inline]
+    pub fn set_WorldServerShortname_at(&self, index: usize, value: c_char) {
+        assert!(index < 40, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x367f8 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::combatSkill` at 0x36820 (0x36820 within `EverQuestinfo`).
+    #[inline]
+    pub fn combatSkill(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x36820) }
+    }
+
+    /// `EverQuestinfo::combatSkill` at 0x36820 (0x36820 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_combatSkill(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x36820, value) }
+    }
+
+    /// `EverQuestinfo::combatSkill` at 0x36820 (0x36820 within `EverQuestinfo`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn combatSkill_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x36820 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::combatSkill` at 0x36820 (0x36820 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_combatSkill_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x36820 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::abilities` at 0x36830 (0x36830 within `EverQuestinfo`).
+    #[inline]
+    pub fn abilities(&self) -> [i32; 6] {
+        unsafe { read(self._bytes.get().cast(), 0x36830) }
+    }
+
+    /// `EverQuestinfo::abilities` at 0x36830 (0x36830 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_abilities(&self, value: [i32; 6]) {
+        unsafe { write(self._bytes.get().cast(), 0x36830, value) }
+    }
+
+    /// `EverQuestinfo::abilities` at 0x36830 (0x36830 within `EverQuestinfo`).
+    /// One element; panics if `index >= 6`.
+    #[inline]
+    pub fn abilities_at(&self, index: usize) -> i32 {
+        assert!(index < 6, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x36830 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::abilities` at 0x36830 (0x36830 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 6`.
+    #[inline]
+    pub fn set_abilities_at(&self, index: usize, value: i32) {
+        assert!(index < 6, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x36830 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::combatAbilities` at 0x36848 (0x36848 within `EverQuestinfo`).
+    #[inline]
+    pub fn combatAbilities(&self) -> [i32; 8] {
+        unsafe { read(self._bytes.get().cast(), 0x36848) }
+    }
+
+    /// `EverQuestinfo::combatAbilities` at 0x36848 (0x36848 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_combatAbilities(&self, value: [i32; 8]) {
+        unsafe { write(self._bytes.get().cast(), 0x36848, value) }
+    }
+
+    /// `EverQuestinfo::combatAbilities` at 0x36848 (0x36848 within `EverQuestinfo`).
+    /// One element; panics if `index >= 8`.
+    #[inline]
+    pub fn combatAbilities_at(&self, index: usize) -> i32 {
+        assert!(index < 8, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x36848 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::combatAbilities` at 0x36848 (0x36848 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 8`.
+    #[inline]
+    pub fn set_combatAbilities_at(&self, index: usize, value: i32) {
+        assert!(index < 8, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x36848 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::Unknown0x36880` at 0x36868 (0x36868 within `EverQuestinfo`).
+    #[inline]
+    pub fn Unknown0x36880(&self) -> [i32; 6] {
+        unsafe { read(self._bytes.get().cast(), 0x36868) }
+    }
+
+    /// `EverQuestinfo::Unknown0x36880` at 0x36868 (0x36868 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Unknown0x36880(&self, value: [i32; 6]) {
+        unsafe { write(self._bytes.get().cast(), 0x36868, value) }
+    }
+
+    /// `EverQuestinfo::Unknown0x36880` at 0x36868 (0x36868 within `EverQuestinfo`).
+    /// One element; panics if `index >= 6`.
+    #[inline]
+    pub fn Unknown0x36880_at(&self, index: usize) -> i32 {
+        assert!(index < 6, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x36868 + index * 0x4) }
+    }
+
+    /// `EverQuestinfo::Unknown0x36880` at 0x36868 (0x36868 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 6`.
+    #[inline]
+    pub fn set_Unknown0x36880_at(&self, index: usize, value: i32) {
+        assert!(index < 6, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x36868 + index * 0x4, value) }
+    }
+
+    /// `EverQuestinfo::bSocialChanged` at 0x36880 (0x36880 within `EverQuestinfo`).
+    #[inline]
+    pub fn bSocialChanged(&self) -> [[u8; 12]; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x36880) }
+    }
+
+    /// `EverQuestinfo::bSocialChanged` at 0x36880 (0x36880 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bSocialChanged(&self, value: [[u8; 12]; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x36880, value) }
+    }
+
+    /// `EverQuestinfo::socials` at 0x368f8 (0x368f8 within `EverQuestinfo`).
+    /// Indexes the 120 elements in memory order.
+    #[inline]
+    pub fn socials(&self, index: usize) -> &EQSocial {
+        assert!(index < 120, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x368f8 + index * 0x51c) }
+    }
+
+    /// `EverQuestinfo::tempSocial` at 0x5ce18 (0x5ce18 within `EverQuestinfo`).
+    #[inline]
+    pub fn tempSocial(&self) -> &EQSocial {
+        unsafe { at(self._bytes.get().cast(), 0x5ce18) }
+    }
+
+    /// `EverQuestinfo::socialIndex` at 0x5d334 (0x5d334 within `EverQuestinfo`).
+    #[inline]
+    pub fn socialIndex(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x5d334) }
+    }
+
+    /// `EverQuestinfo::socialIndex` at 0x5d334 (0x5d334 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_socialIndex(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x5d334, value) }
+    }
+
+    /// `EverQuestinfo::selSlot` at 0x5d335 (0x5d335 within `EverQuestinfo`).
+    #[inline]
+    pub fn selSlot(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x5d335) }
+    }
+
+    /// `EverQuestinfo::selSlot` at 0x5d335 (0x5d335 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_selSlot(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x5d335, value) }
+    }
+
+    /// `EverQuestinfo::bHotButtonChanged` at 0x5d336 (0x5d336 within `EverQuestinfo`).
+    #[inline]
+    pub fn bHotButtonChanged(&self) -> [[[u8; 12]; 10]; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x5d336) }
+    }
+
+    /// `EverQuestinfo::bHotButtonChanged` at 0x5d336 (0x5d336 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bHotButtonChanged(&self, value: [[[u8; 12]; 10]; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x5d336, value) }
+    }
+
+    /// `EverQuestinfo::hotBank` at 0x5d7e6 (0x5d7e6 within `EverQuestinfo`).
+    #[inline]
+    pub fn hotBank(&self) -> [c_char; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x5d7e6) }
+    }
+
+    /// `EverQuestinfo::hotBank` at 0x5d7e6 (0x5d7e6 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_hotBank(&self, value: [c_char; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x5d7e6, value) }
+    }
+
+    /// `EverQuestinfo::hotBank` at 0x5d7e6 (0x5d7e6 within `EverQuestinfo`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn hotBank_at(&self, index: usize) -> c_char {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x5d7e6 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::hotBank` at 0x5d7e6 (0x5d7e6 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_hotBank_at(&self, index: usize, value: c_char) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x5d7e6 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::hotButtons` at 0x5d7f0 (0x5d7f0 within `EverQuestinfo`).
+    /// Indexes the 1200 elements in memory order.
+    #[inline]
+    pub fn hotButtons(&self, index: usize) -> &HotButtonData {
+        assert!(index < 1200, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x5d7f0 + index * 0x6c) }
+    }
+
+    /// `EverQuestinfo::dragButton` at 0x7d230 (0x7d230 within `EverQuestinfo`).
+    #[inline]
+    pub fn dragButton(&self) -> &HotButtonData {
+        unsafe { at(self._bytes.get().cast(), 0x7d230) }
+    }
+
+    /// `EverQuestinfo::spellLoadouts` at 0x7d29c (0x7d29c within `EverQuestinfo`).
+    /// Indexes the 10 elements in memory order.
+    #[inline]
+    pub fn spellLoadouts(&self, index: usize) -> &SpellLoadout {
+        assert!(index < 10, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x7d29c + index * 0x4c) }
+    }
+
+    /// `EverQuestinfo::hotbuttonLoadouts` at 0x7d594 (0x7d594 within `EverQuestinfo`).
+    /// Indexes the 100 elements in memory order.
+    #[inline]
+    pub fn hotbuttonLoadouts(&self, index: usize) -> &HotButtonLoadout {
+        assert!(index < 100, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x7d594 + index * 0x20) }
+    }
+
+    /// `EverQuestinfo::groupRoleLoadouts` at 0x7e214 (0x7e214 within `EverQuestinfo`).
+    /// Indexes the 10 elements in memory order.
+    #[inline]
+    pub fn groupRoleLoadouts(&self, index: usize) -> &GroupRoleLoadout {
+        assert!(index < 10, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x7e214 + index * 0x334) }
+    }
+
+    /// `EverQuestinfo::targetSetLoadouts` at 0x8021c (0x8021c within `EverQuestinfo`).
+    /// Indexes the 10 elements in memory order.
+    #[inline]
+    pub fn targetSetLoadouts(&self, index: usize) -> &TargetSetLoadout {
+        assert!(index < 10, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x8021c + index * 0x5f7) }
+    }
+
+    /// `EverQuestinfo::InspectLines` at 0x83dc4 (0x83dc4 within `EverQuestinfo`).
+    #[inline]
+    pub fn InspectLines(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83dc4) }
+    }
+
+    /// `EverQuestinfo::InspectLines` at 0x83dc4 (0x83dc4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InspectLines(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83dc4, value) }
+    }
+
+    /// `EverQuestinfo::InspectText` at 0x83dc8 (0x83dc8 within `EverQuestinfo`).
+    #[inline]
+    pub fn InspectText(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0x83dc8) }
+    }
+
+    /// `EverQuestinfo::InspectText` at 0x83dc8 (0x83dc8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_InspectText(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0x83dc8, value) }
+    }
+
+    /// `EverQuestinfo::InspectText` at 0x83dc8 (0x83dc8 within `EverQuestinfo`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn InspectText_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x83dc8 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::InspectText` at 0x83dc8 (0x83dc8 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_InspectText_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x83dc8 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::bInviteOn` at 0x83ec8 (0x83ec8 within `EverQuestinfo`).
+    #[inline]
+    pub fn bInviteOn(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x83ec8) != 0 }
+    }
+
+    /// `EverQuestinfo::bInviteOn` at 0x83ec8 (0x83ec8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bInviteOn(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x83ec8, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::LastInspectTime` at 0x83ecc (0x83ecc within `EverQuestinfo`).
+    #[inline]
+    pub fn LastInspectTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ecc) }
+    }
+
+    /// `EverQuestinfo::LastInspectTime` at 0x83ecc (0x83ecc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_LastInspectTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ecc, value) }
+    }
+
+    /// `EverQuestinfo::fSpellParticleDensity` at 0x83ed0 (0x83ed0 within `EverQuestinfo`).
+    #[inline]
+    pub fn fSpellParticleDensity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ed0) }
+    }
+
+    /// `EverQuestinfo::fSpellParticleDensity` at 0x83ed0 (0x83ed0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fSpellParticleDensity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ed0, value) }
+    }
+
+    /// `EverQuestinfo::fSpellParticleOpacity` at 0x83ed4 (0x83ed4 within `EverQuestinfo`).
+    #[inline]
+    pub fn fSpellParticleOpacity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ed4) }
+    }
+
+    /// `EverQuestinfo::fSpellParticleOpacity` at 0x83ed4 (0x83ed4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fSpellParticleOpacity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ed4, value) }
+    }
+
+    /// `EverQuestinfo::fSpellParticleNearClipPlane` at 0x83ed8 (0x83ed8 within `EverQuestinfo`).
+    #[inline]
+    pub fn fSpellParticleNearClipPlane(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ed8) }
+    }
+
+    /// `EverQuestinfo::fSpellParticleNearClipPlane` at 0x83ed8 (0x83ed8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fSpellParticleNearClipPlane(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ed8, value) }
+    }
+
+    /// `EverQuestinfo::nSpellParticleCastFilters` at 0x83edc (0x83edc within `EverQuestinfo`).
+    #[inline]
+    pub fn nSpellParticleCastFilters(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83edc) }
+    }
+
+    /// `EverQuestinfo::nSpellParticleCastFilters` at 0x83edc (0x83edc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_nSpellParticleCastFilters(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83edc, value) }
+    }
+
+    /// `EverQuestinfo::fEnvironmentParticleDensity` at 0x83ee0 (0x83ee0 within `EverQuestinfo`).
+    #[inline]
+    pub fn fEnvironmentParticleDensity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ee0) }
+    }
+
+    /// `EverQuestinfo::fEnvironmentParticleDensity` at 0x83ee0 (0x83ee0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fEnvironmentParticleDensity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ee0, value) }
+    }
+
+    /// `EverQuestinfo::fEnvironmentParticleOpacity` at 0x83ee4 (0x83ee4 within `EverQuestinfo`).
+    #[inline]
+    pub fn fEnvironmentParticleOpacity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ee4) }
+    }
+
+    /// `EverQuestinfo::fEnvironmentParticleOpacity` at 0x83ee4 (0x83ee4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fEnvironmentParticleOpacity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ee4, value) }
+    }
+
+    /// `EverQuestinfo::fEnvironmentParticleNearClipPlane` at 0x83ee8 (0x83ee8 within `EverQuestinfo`).
+    #[inline]
+    pub fn fEnvironmentParticleNearClipPlane(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ee8) }
+    }
+
+    /// `EverQuestinfo::fEnvironmentParticleNearClipPlane` at 0x83ee8 (0x83ee8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fEnvironmentParticleNearClipPlane(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ee8, value) }
+    }
+
+    /// `EverQuestinfo::nEnvironmentParticleCastFilters` at 0x83eec (0x83eec within `EverQuestinfo`).
+    #[inline]
+    pub fn nEnvironmentParticleCastFilters(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83eec) }
+    }
+
+    /// `EverQuestinfo::nEnvironmentParticleCastFilters` at 0x83eec (0x83eec within `EverQuestinfo`).
+    #[inline]
+    pub fn set_nEnvironmentParticleCastFilters(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83eec, value) }
+    }
+
+    /// `EverQuestinfo::fActorParticleDensity` at 0x83ef0 (0x83ef0 within `EverQuestinfo`).
+    #[inline]
+    pub fn fActorParticleDensity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ef0) }
+    }
+
+    /// `EverQuestinfo::fActorParticleDensity` at 0x83ef0 (0x83ef0 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fActorParticleDensity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ef0, value) }
+    }
+
+    /// `EverQuestinfo::fActorParticleOpacity` at 0x83ef4 (0x83ef4 within `EverQuestinfo`).
+    #[inline]
+    pub fn fActorParticleOpacity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ef4) }
+    }
+
+    /// `EverQuestinfo::fActorParticleOpacity` at 0x83ef4 (0x83ef4 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fActorParticleOpacity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ef4, value) }
+    }
+
+    /// `EverQuestinfo::fActorParticleNearClipPlane` at 0x83ef8 (0x83ef8 within `EverQuestinfo`).
+    #[inline]
+    pub fn fActorParticleNearClipPlane(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x83ef8) }
+    }
+
+    /// `EverQuestinfo::fActorParticleNearClipPlane` at 0x83ef8 (0x83ef8 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_fActorParticleNearClipPlane(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x83ef8, value) }
+    }
+
+    /// `EverQuestinfo::nActorParticleCastFilters` at 0x83efc (0x83efc within `EverQuestinfo`).
+    #[inline]
+    pub fn nActorParticleCastFilters(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83efc) }
+    }
+
+    /// `EverQuestinfo::nActorParticleCastFilters` at 0x83efc (0x83efc within `EverQuestinfo`).
+    #[inline]
+    pub fn set_nActorParticleCastFilters(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83efc, value) }
+    }
+
+    /// `EverQuestinfo::nActorNewArmorFilters` at 0x83f00 (0x83f00 within `EverQuestinfo`).
+    #[inline]
+    pub fn nActorNewArmorFilters(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83f00) }
+    }
+
+    /// `EverQuestinfo::nActorNewArmorFilters` at 0x83f00 (0x83f00 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_nActorNewArmorFilters(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83f00, value) }
+    }
+
+    /// `EverQuestinfo::timeWhenKicked` at 0x83f04 (0x83f04 within `EverQuestinfo`).
+    #[inline]
+    pub fn timeWhenKicked(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83f04) }
+    }
+
+    /// `EverQuestinfo::timeWhenKicked` at 0x83f04 (0x83f04 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_timeWhenKicked(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83f04, value) }
+    }
+
+    /// `EverQuestinfo::bCreateGroupRequested` at 0x83f08 (0x83f08 within `EverQuestinfo`).
+    #[inline]
+    pub fn bCreateGroupRequested(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x83f08) != 0 }
+    }
+
+    /// `EverQuestinfo::bCreateGroupRequested` at 0x83f08 (0x83f08 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bCreateGroupRequested(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x83f08, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::GroupRequestId` at 0x83f0c (0x83f0c within `EverQuestinfo`).
+    #[inline]
+    pub fn GroupRequestId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83f0c) }
+    }
+
+    /// `EverQuestinfo::GroupRequestId` at 0x83f0c (0x83f0c within `EverQuestinfo`).
+    #[inline]
+    pub fn set_GroupRequestId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83f0c, value) }
+    }
+
+    /// `EverQuestinfo::Inviter` at 0x83f10 (0x83f10 within `EverQuestinfo`).
+    #[inline]
+    pub fn Inviter(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x83f10) }
+    }
+
+    /// `EverQuestinfo::Inviter` at 0x83f10 (0x83f10 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_Inviter(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x83f10, value) }
+    }
+
+    /// `EverQuestinfo::Inviter` at 0x83f10 (0x83f10 within `EverQuestinfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Inviter_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x83f10 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::Inviter` at 0x83f10 (0x83f10 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Inviter_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x83f10 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::party` at 0x83f50 (0x83f50 within `EverQuestinfo`).
+    #[inline]
+    pub fn party(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x83f50) }
+    }
+
+    /// `EverQuestinfo::party` at 0x83f50 (0x83f50 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_party(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x83f50, value) }
+    }
+
+    /// `EverQuestinfo::party` at 0x83f50 (0x83f50 within `EverQuestinfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn party_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x83f50 + index * 0x1) }
+    }
+
+    /// `EverQuestinfo::party` at 0x83f50 (0x83f50 within `EverQuestinfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_party_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x83f50 + index * 0x1, value) }
+    }
+
+    /// `EverQuestinfo::FirstTime` at 0x83f90 (0x83f90 within `EverQuestinfo`).
+    #[inline]
+    pub fn FirstTime(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x83f90) != 0 }
+    }
+
+    /// `EverQuestinfo::FirstTime` at 0x83f90 (0x83f90 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_FirstTime(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x83f90, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::FirstTimePreMainLoop` at 0x83f91 (0x83f91 within `EverQuestinfo`).
+    #[inline]
+    pub fn FirstTimePreMainLoop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x83f91) != 0 }
+    }
+
+    /// `EverQuestinfo::FirstTimePreMainLoop` at 0x83f91 (0x83f91 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_FirstTimePreMainLoop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x83f91, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAutoAttack` at 0x83f92 (0x83f92 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAutoAttack(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x83f92) != 0 }
+    }
+
+    /// `EverQuestinfo::bAutoAttack` at 0x83f92 (0x83f92 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAutoAttack(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x83f92, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::bAutoRangeAttack` at 0x83f93 (0x83f93 within `EverQuestinfo`).
+    #[inline]
+    pub fn bAutoRangeAttack(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x83f93) != 0 }
+    }
+
+    /// `EverQuestinfo::bAutoRangeAttack` at 0x83f93 (0x83f93 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_bAutoRangeAttack(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x83f93, u8::from(value)) }
+    }
+
+    /// `EverQuestinfo::ItemPending` at 0x83f94 (0x83f94 within `EverQuestinfo`).
+    #[inline]
+    pub fn ItemPending(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83f94) }
+    }
+
+    /// `EverQuestinfo::ItemPending` at 0x83f94 (0x83f94 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_ItemPending(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83f94, value) }
+    }
+
+    /// `EverQuestinfo::RequestPending` at 0x83f98 (0x83f98 within `EverQuestinfo`).
+    #[inline]
+    pub fn RequestPending(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x83f98) }
+    }
+
+    /// `EverQuestinfo::RequestPending` at 0x83f98 (0x83f98 within `EverQuestinfo`).
+    #[inline]
+    pub fn set_RequestPending(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x83f98, value) }
+    }
 }
 
 /// C++ class `GroupMemberStats` (0x150 bytes).
@@ -2292,6 +8599,22 @@ impl GroupMemberStats {
     #[inline]
     pub fn set_PlayerName(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `GroupMemberStats::PlayerName` at 0x0 (0x0 within `GroupMemberStats`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn PlayerName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `GroupMemberStats::PlayerName` at 0x0 (0x0 within `GroupMemberStats`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_PlayerName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
     }
 
     /// `GroupMemberStats::PlayerLevel` at 0x40 (0x40 within `GroupMemberStats`).
@@ -2384,12 +8707,97 @@ impl GroupMemberStats {
         unsafe { write(self._bytes.get().cast(), 0x5c, value) }
     }
 
+    /// `GroupMemberStats::BuffIDs` at 0x5c (0x5c within `GroupMemberStats`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn BuffIDs_at(&self, index: usize) -> i32 {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x5c + index * 0x4) }
+    }
+
+    /// `GroupMemberStats::BuffIDs` at 0x5c (0x5c within `GroupMemberStats`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_BuffIDs_at(&self, index: usize, value: i32) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x5c + index * 0x4, value) }
+    }
+
     /// `GroupMemberStats::Statistics` at 0x104 (0x104 within `GroupMemberStats`).
     /// Indexes the 19 elements in memory order.
     #[inline]
     pub fn Statistics(&self, index: usize) -> &StatCounter {
         assert!(index < 19, "index out of bounds");
         unsafe { at(self._bytes.get().cast(), 0x104 + index * 0x4) }
+    }
+}
+
+/// C++ class `GroupRoleLoadout` (0x334 bytes).
+#[repr(C)]
+pub struct GroupRoleLoadout {
+    _bytes: UnsafeCell<[u8; 0x334]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl GroupRoleLoadout {
+    /// `GroupRoleLoadout::players` at 0x0 (0x0 within `GroupRoleLoadout`).
+    /// Indexes the 6 elements in memory order.
+    #[inline]
+    pub fn players(&self, index: usize) -> &PlayerRoleLoadout {
+        assert!(index < 6, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x0 + index * 0x84) }
+    }
+
+    /// `GroupRoleLoadout::name` at 0x318 (0x318 within `GroupRoleLoadout`).
+    #[inline]
+    pub fn name(&self) -> [c_char; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x318) }
+    }
+
+    /// `GroupRoleLoadout::name` at 0x318 (0x318 within `GroupRoleLoadout`).
+    #[inline]
+    pub fn set_name(&self, value: [c_char; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x318, value) }
+    }
+
+    /// `GroupRoleLoadout::name` at 0x318 (0x318 within `GroupRoleLoadout`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn name_at(&self, index: usize) -> c_char {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x318 + index * 0x1) }
+    }
+
+    /// `GroupRoleLoadout::name` at 0x318 (0x318 within `GroupRoleLoadout`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_name_at(&self, index: usize, value: c_char) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x318 + index * 0x1, value) }
+    }
+
+    /// `GroupRoleLoadout::inuse` at 0x331 (0x331 within `GroupRoleLoadout`).
+    #[inline]
+    pub fn inuse(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x331) != 0 }
+    }
+
+    /// `GroupRoleLoadout::inuse` at 0x331 (0x331 within `GroupRoleLoadout`).
+    #[inline]
+    pub fn set_inuse(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x331, u8::from(value)) }
+    }
+
+    /// `GroupRoleLoadout::changed` at 0x332 (0x332 within `GroupRoleLoadout`).
+    #[inline]
+    pub fn changed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x332) != 0 }
+    }
+
+    /// `GroupRoleLoadout::changed` at 0x332 (0x332 within `GroupRoleLoadout`).
+    #[inline]
+    pub fn set_changed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x332, u8::from(value)) }
     }
 }
 
@@ -2461,6 +8869,22 @@ impl HashListSet_int_128_1 {
         unsafe { write(self._bytes.get().cast(), 0x10, value) }
     }
 
+    /// `HashListSet<int,128,-1>::Table` at 0x10 (0x10 within `HashListSet<int,128,-1>`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn Table_at(&self, index: usize) -> *mut HashListSet_int_128_1_Node {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10 + index * 0x4) }
+    }
+
+    /// `HashListSet<int,128,-1>::Table` at 0x10 (0x10 within `HashListSet<int,128,-1>`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_Table_at(&self, index: usize, value: *mut HashListSet_int_128_1_Node) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10 + index * 0x4, value) }
+    }
+
     /// `HashListSet<int,128,-1>::DynTable` at 0x10 (0x10 within `HashListSet<int,128,-1>`).
     #[inline]
     pub fn DynTable(&self) -> *mut *mut HashListSet_int_128_1_Node {
@@ -2484,13 +8908,13 @@ pub struct HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink {
 impl HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink {
     /// `HashTable<AchievementSubComponentCountData,int,ResizePolicyNoShrink>::m_table` at 0x0 (0x0 within `HashTable<AchievementSubComponentCountData,int,ResizePolicyNoShrink>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink_HashTableEntry_AchievementSubComponentCountData_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<AchievementSubComponentCountData,int,ResizePolicyNoShrink>::m_table` at 0x0 (0x0 within `HashTable<AchievementSubComponentCountData,int,ResizePolicyNoShrink>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink_HashTableEntry_AchievementSubComponentCountData_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2541,13 +8965,13 @@ pub struct HashTable_CachedFocusAbility___int64_ResizePolicyNoResize {
 impl HashTable_CachedFocusAbility___int64_ResizePolicyNoResize {
     /// `HashTable<CachedFocusAbility,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<CachedFocusAbility,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_CachedFocusAbility___int64_ResizePolicyNoResize_HashTableEntry_CachedFocusAbility___int64 {
+    pub fn m_table(&self) -> *mut *mut HashTable_CachedFocusAbility___int64_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<CachedFocusAbility,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<CachedFocusAbility,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_CachedFocusAbility___int64_ResizePolicyNoResize_HashTableEntry_CachedFocusAbility___int64) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_CachedFocusAbility___int64_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2598,13 +9022,13 @@ pub struct HashTable_CompletedAchievementData_int_ResizePolicyNoShrink {
 impl HashTable_CompletedAchievementData_int_ResizePolicyNoShrink {
     /// `HashTable<CompletedAchievementData,int,ResizePolicyNoShrink>::m_table` at 0x0 (0x0 within `HashTable<CompletedAchievementData,int,ResizePolicyNoShrink>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_CompletedAchievementData_int_ResizePolicyNoShrink_HashTableEntry_CompletedAchievementData_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_CompletedAchievementData_int_ResizePolicyNoShrink_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<CompletedAchievementData,int,ResizePolicyNoShrink>::m_table` at 0x0 (0x0 within `HashTable<CompletedAchievementData,int,ResizePolicyNoShrink>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_CompletedAchievementData_int_ResizePolicyNoShrink_HashTableEntry_CompletedAchievementData_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_CompletedAchievementData_int_ResizePolicyNoShrink_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2655,13 +9079,13 @@ pub struct HashTable_DynamicZoneData_int_ResizePolicyNoResize {
 impl HashTable_DynamicZoneData_int_ResizePolicyNoResize {
     /// `HashTable<DynamicZoneData,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<DynamicZoneData,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashTableEntry_DynamicZoneData_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<DynamicZoneData,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<DynamicZoneData,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashTableEntry_DynamicZoneData_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2712,13 +9136,13 @@ pub struct HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink {
 impl HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink {
     /// `HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>::m_table` at 0x0 (0x0 within `HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashTableEntry_MailItemData_EqItemGuid {
+    pub fn m_table(&self) -> *mut *mut HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>::m_table` at 0x0 (0x0 within `HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashTableEntry_MailItemData_EqItemGuid) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2769,13 +9193,13 @@ pub struct HashTable_ProgressionExperience_int_ResizePolicyNoResize {
 impl HashTable_ProgressionExperience_int_ResizePolicyNoResize {
     /// `HashTable<ProgressionExperience,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<ProgressionExperience,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_ProgressionExperience_int_ResizePolicyNoResize_HashTableEntry_ProgressionExperience_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_ProgressionExperience_int_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<ProgressionExperience,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<ProgressionExperience,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_ProgressionExperience_int_ResizePolicyNoResize_HashTableEntry_ProgressionExperience_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_ProgressionExperience_int_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2826,13 +9250,13 @@ pub struct HashTable_PvPKill24HourData_int_ResizePolicyNoResize {
 impl HashTable_PvPKill24HourData_int_ResizePolicyNoResize {
     /// `HashTable<PvPKill24HourData,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<PvPKill24HourData,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_PvPKill24HourData_int_ResizePolicyNoResize_HashTableEntry_PvPKill24HourData_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_PvPKill24HourData_int_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<PvPKill24HourData,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<PvPKill24HourData,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_PvPKill24HourData_int_ResizePolicyNoResize_HashTableEntry_PvPKill24HourData_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_PvPKill24HourData_int_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2883,13 +9307,13 @@ pub struct HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize {
 impl HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize {
     /// `HashTable<SpellCache::CachedFocusEffect,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<SpellCache::CachedFocusEffect,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusEffect___int64 {
+    pub fn m_table(&self) -> *mut *mut HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<SpellCache::CachedFocusEffect,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<SpellCache::CachedFocusEffect,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusEffect___int64) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2940,13 +9364,13 @@ pub struct HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize {
 impl HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize {
     /// `HashTable<SpellCache::CachedFocusItem,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<SpellCache::CachedFocusItem,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusItem___int64 {
+    pub fn m_table(&self) -> *mut *mut HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<SpellCache::CachedFocusItem,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<SpellCache::CachedFocusItem,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusItem___int64) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -2997,13 +9421,13 @@ pub struct HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoRes
 impl HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize {
     /// `HashTable<SpellCache::CachedFocusMercAbility,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<SpellCache::CachedFocusMercAbility,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusMercAbility___int64 {
+    pub fn m_table(&self) -> *mut *mut HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<SpellCache::CachedFocusMercAbility,__int64,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<SpellCache::CachedFocusMercAbility,__int64,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusMercAbility___int64) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -3054,13 +9478,13 @@ pub struct HashTable_int_int_ResizePolicyNoResize {
 impl HashTable_int_int_ResizePolicyNoResize {
     /// `HashTable<int,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<int,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn m_table(&self) -> *mut *mut HashTable_int_int_ResizePolicyNoResize_HashTableEntry_int_int {
+    pub fn m_table(&self) -> *mut *mut HashTable_int_int_ResizePolicyNoResize_HashNode {
         unsafe { read(self._bytes.get().cast(), 0x0) }
     }
 
     /// `HashTable<int,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<int,int,ResizePolicyNoResize>`).
     #[inline]
-    pub fn set_m_table(&self, value: *mut *mut HashTable_int_int_ResizePolicyNoResize_HashTableEntry_int_int) {
+    pub fn set_m_table(&self, value: *mut *mut HashTable_int_int_ResizePolicyNoResize_HashNode) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
@@ -3098,6 +9522,188 @@ impl HashTable_int_int_ResizePolicyNoResize {
     #[inline]
     pub fn set_m_statUsedSlots(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+}
+
+/// C++ class `HotButtonData` (0x6c bytes).
+#[repr(C)]
+pub struct HotButtonData {
+    _bytes: UnsafeCell<[u8; 0x6c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl HotButtonData {
+    /// `HotButtonData::Type` at 0x0 (0x0 within `HotButtonData`).
+    #[inline]
+    pub fn Type(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `HotButtonData::Type` at 0x0 (0x0 within `HotButtonData`).
+    #[inline]
+    pub fn set_Type(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `HotButtonData::Slot` at 0x4 (0x4 within `HotButtonData`).
+    #[inline]
+    pub fn Slot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `HotButtonData::Slot` at 0x4 (0x4 within `HotButtonData`).
+    #[inline]
+    pub fn set_Slot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `HotButtonData::Item` at 0x8 (0x8 within `HotButtonData`).
+    #[inline]
+    pub fn Item(&self) -> &VePointer_ItemClient {
+        unsafe { at(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `HotButtonData::ItemGuid` at 0xc (0xc within `HotButtonData`).
+    #[inline]
+    pub fn ItemGuid(&self) -> &EqItemGuid {
+        unsafe { at(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `HotButtonData::Label` at 0x1e (0x1e within `HotButtonData`).
+    #[inline]
+    pub fn Label(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x1e) }
+    }
+
+    /// `HotButtonData::Label` at 0x1e (0x1e within `HotButtonData`).
+    #[inline]
+    pub fn set_Label(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x1e, value) }
+    }
+
+    /// `HotButtonData::Label` at 0x1e (0x1e within `HotButtonData`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Label_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1e + index * 0x1) }
+    }
+
+    /// `HotButtonData::Label` at 0x1e (0x1e within `HotButtonData`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Label_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1e + index * 0x1, value) }
+    }
+
+    /// `HotButtonData::IconType` at 0x60 (0x60 within `HotButtonData`).
+    #[inline]
+    pub fn IconType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `HotButtonData::IconType` at 0x60 (0x60 within `HotButtonData`).
+    #[inline]
+    pub fn set_IconType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+
+    /// `HotButtonData::IconSlot` at 0x64 (0x64 within `HotButtonData`).
+    #[inline]
+    pub fn IconSlot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x64) }
+    }
+
+    /// `HotButtonData::IconSlot` at 0x64 (0x64 within `HotButtonData`).
+    #[inline]
+    pub fn set_IconSlot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x64, value) }
+    }
+
+    /// `HotButtonData::Unknown` at 0x68 (0x68 within `HotButtonData`).
+    #[inline]
+    pub fn Unknown(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `HotButtonData::Unknown` at 0x68 (0x68 within `HotButtonData`).
+    #[inline]
+    pub fn set_Unknown(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x68, value) }
+    }
+}
+
+/// C++ class `HotButtonLoadout` (0x20 bytes).
+#[repr(C)]
+pub struct HotButtonLoadout {
+    _bytes: UnsafeCell<[u8; 0x20]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl HotButtonLoadout {
+    /// `HotButtonLoadout::Name` at 0x0 (0x0 within `HotButtonLoadout`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `HotButtonLoadout::Name` at 0x0 (0x0 within `HotButtonLoadout`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `HotButtonLoadout::Name` at 0x0 (0x0 within `HotButtonLoadout`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `HotButtonLoadout::Name` at 0x0 (0x0 within `HotButtonLoadout`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `HotButtonLoadout::inuse` at 0x19 (0x19 within `HotButtonLoadout`).
+    #[inline]
+    pub fn inuse(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19) != 0 }
+    }
+
+    /// `HotButtonLoadout::inuse` at 0x19 (0x19 within `HotButtonLoadout`).
+    #[inline]
+    pub fn set_inuse(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19, u8::from(value)) }
+    }
+
+    /// `HotButtonLoadout::changed` at 0x1a (0x1a within `HotButtonLoadout`).
+    #[inline]
+    pub fn changed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `HotButtonLoadout::changed` at 0x1a (0x1a within `HotButtonLoadout`).
+    #[inline]
+    pub fn set_changed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `HotButtonLoadout::id` at 0x1c (0x1c within `HotButtonLoadout`).
+    #[inline]
+    pub fn id(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `HotButtonLoadout::id` at 0x1c (0x1c within `HotButtonLoadout`).
+    #[inline]
+    pub fn set_id(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
     }
 }
 
@@ -3163,6 +9769,22 @@ impl ItemContainer {
         unsafe { write(self._bytes.get().cast(), 0x16, value) }
     }
 
+    /// `ItemContainer::m_slots` at 0x16 (0x16 within `ItemContainer`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn m_slots_at(&self, index: usize) -> i16 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x16 + index * 0x2) }
+    }
+
+    /// `ItemContainer::m_slots` at 0x16 (0x16 within `ItemContainer`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_m_slots_at(&self, index: usize, value: i16) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x16 + index * 0x2, value) }
+    }
+
     /// `ItemContainer::m_bDynamic` at 0x1a (0x1a within `ItemContainer`).
     #[inline]
     pub fn m_bDynamic(&self) -> bool {
@@ -3185,6 +9807,22 @@ impl ItemContainer {
     #[inline]
     pub fn set_Uknown0xc0(&self, value: [u32; 7]) {
         unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `ItemContainer::Uknown0xc0` at 0x1c (0x1c within `ItemContainer`).
+    /// One element; panics if `index >= 7`.
+    #[inline]
+    pub fn Uknown0xc0_at(&self, index: usize) -> u32 {
+        assert!(index < 7, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1c + index * 0x4) }
+    }
+
+    /// `ItemContainer::Uknown0xc0` at 0x1c (0x1c within `ItemContainer`).
+    /// Sets one element; panics if `index >= 7`.
+    #[inline]
+    pub fn set_Uknown0xc0_at(&self, index: usize, value: u32) {
+        assert!(index < 7, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1c + index * 0x4, value) }
     }
 }
 
@@ -3234,6 +9872,22 @@ impl ItemIndex {
     pub fn set_m_slots(&self, value: [i16; 3]) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
+
+    /// `ItemIndex::m_slots` at 0x0 (0x0 within `ItemIndex`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn m_slots_at(&self, index: usize) -> i16 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x2) }
+    }
+
+    /// `ItemIndex::m_slots` at 0x0 (0x0 within `ItemIndex`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_m_slots_at(&self, index: usize, value: i16) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x2, value) }
+    }
 }
 
 /// C++ class `KeyCombo` (0x4 bytes).
@@ -3254,6 +9908,22 @@ impl KeyCombo {
     #[inline]
     pub fn set_Data(&self, value: [u8; 4]) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `KeyCombo::Data` at 0x0 (0x0 within `KeyCombo`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn Data_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `KeyCombo::Data` at 0x0 (0x0 within `KeyCombo`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_Data_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
     }
 }
 
@@ -3291,6 +9961,22 @@ impl KeypressHandler {
     #[inline]
     pub fn set_CommandState(&self, value: [c_char; 500]) {
         unsafe { write(self._bytes.get().cast(), 0xfa0, value) }
+    }
+
+    /// `KeypressHandler::CommandState` at 0xfa0 (0xfa0 within `KeypressHandler`).
+    /// One element; panics if `index >= 500`.
+    #[inline]
+    pub fn CommandState_at(&self, index: usize) -> c_char {
+        assert!(index < 500, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xfa0 + index * 0x1) }
+    }
+
+    /// `KeypressHandler::CommandState` at 0xfa0 (0xfa0 within `KeypressHandler`).
+    /// Sets one element; panics if `index >= 500`.
+    #[inline]
+    pub fn set_CommandState_at(&self, index: usize, value: c_char) {
+        assert!(index < 500, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xfa0 + index * 0x1, value) }
     }
 }
 
@@ -3806,6 +10492,22 @@ impl PCAdventureData {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
     }
 
+    /// `PCAdventureData::AdventureLastAdventureDefinitionSeen` at 0x0 (0x0 within `PCAdventureData`).
+    /// One element; panics if `index >= 5`.
+    #[inline]
+    pub fn AdventureLastAdventureDefinitionSeen_at(&self, index: usize) -> i32 {
+        assert!(index < 5, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x4) }
+    }
+
+    /// `PCAdventureData::AdventureLastAdventureDefinitionSeen` at 0x0 (0x0 within `PCAdventureData`).
+    /// Sets one element; panics if `index >= 5`.
+    #[inline]
+    pub fn set_AdventureLastAdventureDefinitionSeen_at(&self, index: usize, value: i32) {
+        assert!(index < 5, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x4, value) }
+    }
+
     /// `PCAdventureData::AdventureLastAdventureDefinitionSeenTime` at 0x14 (0x14 within `PCAdventureData`).
     #[inline]
     pub fn AdventureLastAdventureDefinitionSeenTime(&self) -> [i32; 5] {
@@ -3816,6 +10518,22 @@ impl PCAdventureData {
     #[inline]
     pub fn set_AdventureLastAdventureDefinitionSeenTime(&self, value: [i32; 5]) {
         unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `PCAdventureData::AdventureLastAdventureDefinitionSeenTime` at 0x14 (0x14 within `PCAdventureData`).
+    /// One element; panics if `index >= 5`.
+    #[inline]
+    pub fn AdventureLastAdventureDefinitionSeenTime_at(&self, index: usize) -> i32 {
+        assert!(index < 5, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x14 + index * 0x4) }
+    }
+
+    /// `PCAdventureData::AdventureLastAdventureDefinitionSeenTime` at 0x14 (0x14 within `PCAdventureData`).
+    /// Sets one element; panics if `index >= 5`.
+    #[inline]
+    pub fn set_AdventureLastAdventureDefinitionSeenTime_at(&self, index: usize, value: i32) {
+        assert!(index < 5, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x14 + index * 0x4, value) }
     }
 
     /// `PCAdventureData::AdventureActiveAdventureId` at 0x28 (0x28 within `PCAdventureData`).
@@ -4259,6 +10977,22 @@ impl PCStatistics {
         unsafe { write(self._bytes.get().cast(), 0x94, value) }
     }
 
+    /// `PCStatistics::PlayerName` at 0x94 (0x94 within `PCStatistics`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn PlayerName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x94 + index * 0x1) }
+    }
+
+    /// `PCStatistics::PlayerName` at 0x94 (0x94 within `PCStatistics`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_PlayerName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x94 + index * 0x1, value) }
+    }
+
     /// `PCStatistics::PlayerStationID` at 0xd4 (0xd4 within `PCStatistics`).
     #[inline]
     pub fn PlayerStationID(&self) -> [c_char; 32] {
@@ -4269,6 +11003,22 @@ impl PCStatistics {
     #[inline]
     pub fn set_PlayerStationID(&self, value: [c_char; 32]) {
         unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `PCStatistics::PlayerStationID` at 0xd4 (0xd4 within `PCStatistics`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn PlayerStationID_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xd4 + index * 0x1) }
+    }
+
+    /// `PCStatistics::PlayerStationID` at 0xd4 (0xd4 within `PCStatistics`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_PlayerStationID_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xd4 + index * 0x1, value) }
     }
 
     /// `PCStatistics::PlayerLevel` at 0xf4 (0xf4 within `PCStatistics`).
@@ -4376,6 +11126,22 @@ impl PCTaskStatus {
         unsafe { write(self._bytes.get().cast(), 0xc, value) }
     }
 
+    /// `PCTaskStatus::ElementActive` at 0xc (0xc within `PCTaskStatus`).
+    /// One element; panics if `index >= 20`.
+    #[inline]
+    pub fn ElementActive_at(&self, index: usize) -> u8 {
+        assert!(index < 20, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xc + index * 0x1) }
+    }
+
+    /// `PCTaskStatus::ElementActive` at 0xc (0xc within `PCTaskStatus`).
+    /// Sets one element; panics if `index >= 20`.
+    #[inline]
+    pub fn set_ElementActive_at(&self, index: usize, value: u8) {
+        assert!(index < 20, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xc + index * 0x1, value) }
+    }
+
     /// `PCTaskStatus::CurrentCounts` at 0x20 (0x20 within `PCTaskStatus`).
     #[inline]
     pub fn CurrentCounts(&self) -> [i32; 20] {
@@ -4386,6 +11152,22 @@ impl PCTaskStatus {
     #[inline]
     pub fn set_CurrentCounts(&self, value: [i32; 20]) {
         unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `PCTaskStatus::CurrentCounts` at 0x20 (0x20 within `PCTaskStatus`).
+    /// One element; panics if `index >= 20`.
+    #[inline]
+    pub fn CurrentCounts_at(&self, index: usize) -> i32 {
+        assert!(index < 20, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x20 + index * 0x4) }
+    }
+
+    /// `PCTaskStatus::CurrentCounts` at 0x20 (0x20 within `PCTaskStatus`).
+    /// Sets one element; panics if `index >= 20`.
+    #[inline]
+    pub fn set_CurrentCounts_at(&self, index: usize, value: i32) {
+        assert!(index < 20, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x20 + index * 0x4, value) }
     }
 }
 
@@ -4594,6 +11376,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x10, value) }
     }
 
+    /// `PcBase::RecentTasks` at 0x10 (0x10 within `PcBase`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn RecentTasks_at(&self, index: usize) -> i32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10 + index * 0x4) }
+    }
+
+    /// `PcBase::RecentTasks` at 0x10 (0x10 within `PcBase`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_RecentTasks_at(&self, index: usize, value: i32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10 + index * 0x4, value) }
+    }
+
     /// `PcBase::Tasks` at 0x38 (0x38 within `PcBase`).
     /// Indexes the 1 elements in memory order.
     #[inline]
@@ -4620,6 +11418,22 @@ impl PcClient {
     #[inline]
     pub fn set_BitFlags(&self, value: [u8; 800]) {
         unsafe { write(self._bytes.get().cast(), 0xd58, value) }
+    }
+
+    /// `PcBase::BitFlags` at 0xd58 (0xd58 within `PcBase`).
+    /// One element; panics if `index >= 800`.
+    #[inline]
+    pub fn BitFlags_at(&self, index: usize) -> u8 {
+        assert!(index < 800, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xd58 + index * 0x1) }
+    }
+
+    /// `PcBase::BitFlags` at 0xd58 (0xd58 within `PcBase`).
+    /// Sets one element; panics if `index >= 800`.
+    #[inline]
+    pub fn set_BitFlags_at(&self, index: usize, value: u8) {
+        assert!(index < 800, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xd58 + index * 0x1, value) }
     }
 
     /// `PcBase::ActiveTributeBenefits` at 0x1078 (0x1078 within `PcBase`).
@@ -4650,6 +11464,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x10f0, value) }
     }
 
+    /// `PcBase::BitFlags2` at 0x10f0 (0x10f0 within `PcBase`).
+    /// One element; panics if `index >= 800`.
+    #[inline]
+    pub fn BitFlags2_at(&self, index: usize) -> u8 {
+        assert!(index < 800, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10f0 + index * 0x1) }
+    }
+
+    /// `PcBase::BitFlags2` at 0x10f0 (0x10f0 within `PcBase`).
+    /// Sets one element; panics if `index >= 800`.
+    #[inline]
+    pub fn set_BitFlags2_at(&self, index: usize, value: u8) {
+        assert!(index < 800, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10f0 + index * 0x1, value) }
+    }
+
     /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
     #[inline]
     pub fn Unknown0x1410(&self) -> [u8; 2448] {
@@ -4660,6 +11490,22 @@ impl PcClient {
     #[inline]
     pub fn set_Unknown0x1410(&self, value: [u8; 2448]) {
         unsafe { write(self._bytes.get().cast(), 0x1410, value) }
+    }
+
+    /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
+    /// One element; panics if `index >= 2448`.
+    #[inline]
+    pub fn Unknown0x1410_at(&self, index: usize) -> u8 {
+        assert!(index < 2448, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1410 + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
+    /// Sets one element; panics if `index >= 2448`.
+    #[inline]
+    pub fn set_Unknown0x1410_at(&self, index: usize, value: u8) {
+        assert!(index < 2448, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1410 + index * 0x1, value) }
     }
 
     /// `PcBase::MyLeadershipAbilities` at 0x1da0 (0x1da0 within `PcBase`).
@@ -4678,6 +11524,22 @@ impl PcClient {
     #[inline]
     pub fn set_Unknown0x1ddc(&self, value: [u8; 196]) {
         unsafe { write(self._bytes.get().cast(), 0x1ddc, value) }
+    }
+
+    /// `PcBase::Unknown0x1ddc` at 0x1ddc (0x1ddc within `PcBase`).
+    /// One element; panics if `index >= 196`.
+    #[inline]
+    pub fn Unknown0x1ddc_at(&self, index: usize) -> u8 {
+        assert!(index < 196, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1ddc + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x1ddc` at 0x1ddc (0x1ddc within `PcBase`).
+    /// Sets one element; panics if `index >= 196`.
+    #[inline]
+    pub fn set_Unknown0x1ddc_at(&self, index: usize, value: u8) {
+        assert!(index < 196, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1ddc + index * 0x1, value) }
     }
 
     /// `PcBase::BankItems` at 0x1ea0 (0x1ea0 within `PcBase`).
@@ -5268,6 +12130,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x2101, value) }
     }
 
+    /// `PcBase::szGroupMentoringName` at 0x2101 (0x2101 within `PcBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn szGroupMentoringName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2101 + index * 0x1) }
+    }
+
+    /// `PcBase::szGroupMentoringName` at 0x2101 (0x2101 within `PcBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_szGroupMentoringName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2101 + index * 0x1, value) }
+    }
+
     /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
     #[inline]
     pub fn Unknown0x2141(&self) -> [u8; 4] {
@@ -5278,6 +12156,22 @@ impl PcClient {
     #[inline]
     pub fn set_Unknown0x2141(&self, value: [u8; 4]) {
         unsafe { write(self._bytes.get().cast(), 0x2141, value) }
+    }
+
+    /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn Unknown0x2141_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2141 + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_Unknown0x2141_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2141 + index * 0x1, value) }
     }
 
     /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
@@ -5292,6 +12186,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x2145, value) }
     }
 
+    /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn szMyMentor_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2145 + index * 0x1) }
+    }
+
+    /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_szMyMentor_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2145 + index * 0x1, value) }
+    }
+
     /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
     #[inline]
     pub fn Unknown0x2185(&self) -> [u8; 7] {
@@ -5302,6 +12212,22 @@ impl PcClient {
     #[inline]
     pub fn set_Unknown0x2185(&self, value: [u8; 7]) {
         unsafe { write(self._bytes.get().cast(), 0x2185, value) }
+    }
+
+    /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
+    /// One element; panics if `index >= 7`.
+    #[inline]
+    pub fn Unknown0x2185_at(&self, index: usize) -> u8 {
+        assert!(index < 7, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2185 + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
+    /// Sets one element; panics if `index >= 7`.
+    #[inline]
+    pub fn set_Unknown0x2185_at(&self, index: usize, value: u8) {
+        assert!(index < 7, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2185 + index * 0x1, value) }
     }
 
     /// `PcBase::GroupMentoringPercent` at 0x218c (0x218c within `PcBase`).
@@ -5754,6 +12680,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x22c8, value) }
     }
 
+    /// `PcBase::ServerCreated` at 0x22c8 (0x22c8 within `PcBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn ServerCreated_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x22c8 + index * 0x1) }
+    }
+
+    /// `PcBase::ServerCreated` at 0x22c8 (0x22c8 within `PcBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_ServerCreated_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x22c8 + index * 0x1, value) }
+    }
+
     /// `PcBase::AdventureData` at 0x22e8 (0x22e8 within `PcBase`).
     #[inline]
     pub fn AdventureData(&self) -> &PCAdventureData {
@@ -5964,6 +12906,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x292c, value) }
     }
 
+    /// `PcBase::StationID` at 0x292c (0x292c within `PcBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn StationID_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x292c + index * 0x1) }
+    }
+
+    /// `PcBase::StationID` at 0x292c (0x292c within `PcBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_StationID_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x292c + index * 0x1, value) }
+    }
+
     /// `PcBase::Guid` at 0x2950 (0x2950 within `PcBase`).
     #[inline]
     pub fn Guid(&self) -> &EqGuid {
@@ -6118,6 +13076,22 @@ impl PcClient {
     #[inline]
     pub fn set_OverridePetName(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x29dc, value) }
+    }
+
+    /// `PcBase::OverridePetName` at 0x29dc (0x29dc within `PcBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn OverridePetName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x29dc + index * 0x1) }
+    }
+
+    /// `PcBase::OverridePetName` at 0x29dc (0x29dc within `PcBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_OverridePetName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x29dc + index * 0x1, value) }
     }
 
     /// `PcBase::bCanRequestPetNameChange` at 0x2a1c (0x2a1c within `PcBase`).
@@ -6326,6 +13300,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x2ac8, value) }
     }
 
+    /// `PcBase::InspectText` at 0x2ac8 (0x2ac8 within `PcBase`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn InspectText_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2ac8 + index * 0x1) }
+    }
+
+    /// `PcBase::InspectText` at 0x2ac8 (0x2ac8 within `PcBase`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_InspectText_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2ac8 + index * 0x1, value) }
+    }
+
     /// `PcBase::BlockedSpellsHash` at 0x2bc8 (0x2bc8 within `PcBase`).
     #[inline]
     pub fn BlockedSpellsHash(&self) -> &HashTable_int_int_ResizePolicyNoResize {
@@ -6344,6 +13334,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x2bd8, value) }
     }
 
+    /// `PcBase::BlockedSpell` at 0x2bd8 (0x2bd8 within `PcBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn BlockedSpell_at(&self, index: usize) -> i32 {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2bd8 + index * 0x4) }
+    }
+
+    /// `PcBase::BlockedSpell` at 0x2bd8 (0x2bd8 within `PcBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_BlockedSpell_at(&self, index: usize, value: i32) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2bd8 + index * 0x4, value) }
+    }
+
     /// `PcBase::BlockedPetSpellsHash` at 0x2c50 (0x2c50 within `PcBase`).
     #[inline]
     pub fn BlockedPetSpellsHash(&self) -> &HashTable_int_int_ResizePolicyNoResize {
@@ -6360,6 +13366,22 @@ impl PcClient {
     #[inline]
     pub fn set_BlockedPetSpell(&self, value: [i32; 30]) {
         unsafe { write(self._bytes.get().cast(), 0x2c60, value) }
+    }
+
+    /// `PcBase::BlockedPetSpell` at 0x2c60 (0x2c60 within `PcBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn BlockedPetSpell_at(&self, index: usize) -> i32 {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2c60 + index * 0x4) }
+    }
+
+    /// `PcBase::BlockedPetSpell` at 0x2c60 (0x2c60 within `PcBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_BlockedPetSpell_at(&self, index: usize, value: i32) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2c60 + index * 0x4, value) }
     }
 
     /// `PcBase::ConsumableFeatures` at 0x2cd8 (0x2cd8 within `PcBase`).
@@ -6558,6 +13580,22 @@ impl PcClient {
     #[inline]
     pub fn set_FreeToPlayUnlocks(&self, value: [i32; 22]) {
         unsafe { write(self._bytes.get().cast(), 0x2d6c, value) }
+    }
+
+    /// `PcBase::FreeToPlayUnlocks` at 0x2d6c (0x2d6c within `PcBase`).
+    /// One element; panics if `index >= 22`.
+    #[inline]
+    pub fn FreeToPlayUnlocks_at(&self, index: usize) -> i32 {
+        assert!(index < 22, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2d6c + index * 0x4) }
+    }
+
+    /// `PcBase::FreeToPlayUnlocks` at 0x2d6c (0x2d6c within `PcBase`).
+    /// Sets one element; panics if `index >= 22`.
+    #[inline]
+    pub fn set_FreeToPlayUnlocks_at(&self, index: usize, value: i32) {
+        assert!(index < 22, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2d6c + index * 0x4, value) }
     }
 
     /// `CharacterZoneClient::__vfptr` at 0x2dc8 (0x0 within `CharacterZoneClient`).
@@ -6812,6 +13850,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x2e14, value) }
     }
 
+    /// `CharacterZoneClient::ItemSkillMinDamageMod` at 0x2e14 (0x4c within `CharacterZoneClient`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn ItemSkillMinDamageMod_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e14 + index * 0x4) }
+    }
+
+    /// `CharacterZoneClient::ItemSkillMinDamageMod` at 0x2e14 (0x4c within `CharacterZoneClient`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_ItemSkillMinDamageMod_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e14 + index * 0x4, value) }
+    }
+
     /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
     #[inline]
     pub fn SkillMinDamageModBonus(&self) -> [i32; 9] {
@@ -6822,6 +13876,22 @@ impl PcClient {
     #[inline]
     pub fn set_SkillMinDamageModBonus(&self, value: [i32; 9]) {
         unsafe { write(self._bytes.get().cast(), 0x2e38, value) }
+    }
+
+    /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn SkillMinDamageModBonus_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e38 + index * 0x4) }
+    }
+
+    /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_SkillMinDamageModBonus_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e38 + index * 0x4, value) }
     }
 
     /// `CharacterZoneClient::Unknown0x2e5c` at 0x2e5c (0x94 within `CharacterZoneClient`).
@@ -7280,6 +14350,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x2ef0, value) }
     }
 
+    /// `CharacterZoneClient::NoBuffItemSkillMinDamageMod` at 0x2ef0 (0x128 within `CharacterZoneClient`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn NoBuffItemSkillMinDamageMod_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2ef0 + index * 0x4) }
+    }
+
+    /// `CharacterZoneClient::NoBuffItemSkillMinDamageMod` at 0x2ef0 (0x128 within `CharacterZoneClient`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_NoBuffItemSkillMinDamageMod_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2ef0 + index * 0x4, value) }
+    }
+
     /// `CharacterZoneClient::bOutputHpRegen` at 0x2f14 (0x14c within `CharacterZoneClient`).
     #[inline]
     pub fn bOutputHpRegen(&self) -> bool {
@@ -7364,6 +14450,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x3188, value) }
     }
 
+    /// `PcZoneClient::Flags` at 0x3188 (0x3188 within `PcZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn Flags_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3188 + index * 0x4) }
+    }
+
+    /// `PcZoneClient::Flags` at 0x3188 (0x3188 within `PcZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_Flags_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3188 + index * 0x4, value) }
+    }
+
     /// `PcZoneClient::TransfersReceived` at 0x3194 (0x3194 within `PcZoneClient`).
     #[inline]
     pub fn TransfersReceived(&self) -> u32 {
@@ -7402,7 +14504,7 @@ impl PcClient {
 
     /// `PcZoneClient::AlchemyBaseSkillBonusList` at 0x31a0 (0x31a0 within `PcZoneClient`).
     #[inline]
-    pub fn AlchemyBaseSkillBonusList(&self) -> &EQList_ALCHEMYBONUSSKILLDATA {
+    pub fn AlchemyBaseSkillBonusList(&self) -> &EQList_AlchemyBonusSkillData {
         unsafe { at(self._bytes.get().cast(), 0x31a0) }
     }
 
@@ -7574,6 +14676,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x31f8, value) }
     }
 
+    /// `CharacterBase::languages` at 0x31f8 (0xc within `CharacterBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn languages_at(&self, index: usize) -> u8 {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x31f8 + index * 0x1) }
+    }
+
+    /// `CharacterBase::languages` at 0x31f8 (0xc within `CharacterBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_languages_at(&self, index: usize, value: u8) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x31f8 + index * 0x1, value) }
+    }
+
     /// `CharacterBase::X` at 0x3218 (0x2c within `CharacterBase`).
     #[inline]
     pub fn X(&self) -> f32 {
@@ -7634,6 +14752,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x3228, value) }
     }
 
+    /// `CharacterBase::Name` at 0x3228 (0x3c within `CharacterBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3228 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Name` at 0x3228 (0x3c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3228 + index * 0x1, value) }
+    }
+
     /// `CharacterBase::Lastname` at 0x3268 (0x7c within `CharacterBase`).
     #[inline]
     pub fn Lastname(&self) -> [c_char; 32] {
@@ -7644,6 +14778,22 @@ impl PcClient {
     #[inline]
     pub fn set_Lastname(&self, value: [c_char; 32]) {
         unsafe { write(self._bytes.get().cast(), 0x3268, value) }
+    }
+
+    /// `CharacterBase::Lastname` at 0x3268 (0x7c within `CharacterBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Lastname_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3268 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Lastname` at 0x3268 (0x7c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Lastname_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3268 + index * 0x1, value) }
     }
 
     /// `CharacterBase::Title` at 0x3288 (0x9c within `CharacterBase`).
@@ -7658,6 +14808,22 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x3288, value) }
     }
 
+    /// `CharacterBase::Title` at 0x3288 (0x9c within `CharacterBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Title_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3288 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Title` at 0x3288 (0x9c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Title_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3288 + index * 0x1, value) }
+    }
+
     /// `CharacterBase::VehicleName` at 0x32a8 (0xbc within `CharacterBase`).
     #[inline]
     pub fn VehicleName(&self) -> [c_char; 64] {
@@ -7668,6 +14834,22 @@ impl PcClient {
     #[inline]
     pub fn set_VehicleName(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x32a8, value) }
+    }
+
+    /// `CharacterBase::VehicleName` at 0x32a8 (0xbc within `CharacterBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn VehicleName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x32a8 + index * 0x1) }
+    }
+
+    /// `CharacterBase::VehicleName` at 0x32a8 (0xbc within `CharacterBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_VehicleName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x32a8 + index * 0x1, value) }
     }
 
     /// `CharacterBase::Status` at 0x32e8 (0xfc within `CharacterBase`).
@@ -7734,6 +14916,22 @@ impl PcClient {
     #[inline]
     pub fn set_unknown0x3334(&self, value: [u8; 788]) {
         unsafe { write(self._bytes.get().cast(), 0x3334, value) }
+    }
+
+    /// `CharacterBase::unknown0x3334` at 0x3334 (0x148 within `CharacterBase`).
+    /// One element; panics if `index >= 788`.
+    #[inline]
+    pub fn unknown0x3334_at(&self, index: usize) -> u8 {
+        assert!(index < 788, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3334 + index * 0x1) }
+    }
+
+    /// `CharacterBase::unknown0x3334` at 0x3334 (0x148 within `CharacterBase`).
+    /// Sets one element; panics if `index >= 788`.
+    #[inline]
+    pub fn set_unknown0x3334_at(&self, index: usize, value: u8) {
+        assert!(index < 788, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3334 + index * 0x1, value) }
     }
 
     /// `CharacterBase::ExpansionFlags` at 0x3648 (0x45c within `CharacterBase`).
@@ -8491,6 +15689,22 @@ impl PcClient {
     pub fn set_Unknown0x31d8(&self, value: [u8; 8412]) {
         unsafe { write(self._bytes.get().cast(), 0x3728, value) }
     }
+
+    /// `CharacterBase::Unknown0x31d8` at 0x3728 (0x53c within `CharacterBase`).
+    /// One element; panics if `index >= 8412`.
+    #[inline]
+    pub fn Unknown0x31d8_at(&self, index: usize) -> u8 {
+        assert!(index < 8412, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3728 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Unknown0x31d8` at 0x3728 (0x53c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 8412`.
+    #[inline]
+    pub fn set_Unknown0x31d8_at(&self, index: usize, value: u8) {
+        assert!(index < 8412, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3728 + index * 0x1, value) }
+    }
 }
 
 /// C++ class `PendingRewardList` (0x2c bytes).
@@ -8822,6 +16036,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x38, value) }
     }
 
+    /// `PlayerBase::Lastname` at 0x38 (0x38 within `PlayerBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Lastname_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x38 + index * 0x1) }
+    }
+
+    /// `PlayerBase::Lastname` at 0x38 (0x38 within `PlayerBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Lastname_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x38 + index * 0x1, value) }
+    }
+
     /// `PlayerBase::AreaHPRegenMod` at 0x58 (0x58 within `PlayerBase`).
     #[inline]
     pub fn AreaHPRegenMod(&self) -> f32 {
@@ -9098,6 +16328,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0xa4, value) }
     }
 
+    /// `PlayerBase::Name` at 0xa4 (0xa4 within `PlayerBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xa4 + index * 0x1) }
+    }
+
+    /// `PlayerBase::Name` at 0xa4 (0xa4 within `PlayerBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xa4 + index * 0x1, value) }
+    }
+
     /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
     #[inline]
     pub fn DisplayedName(&self) -> [c_char; 64] {
@@ -9108,6 +16354,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_DisplayedName(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0xe4, value) }
+    }
+
+    /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn DisplayedName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe4 + index * 0x1) }
+    }
+
+    /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_DisplayedName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe4 + index * 0x1, value) }
     }
 
     /// `PlayerBase::PossiblyStuck` at 0x124 (0x124 within `PlayerBase`).
@@ -9548,6 +16810,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x1a8, value) }
     }
 
+    /// `PlayerZoneClient::LoginRelated` at 0x1a8 (0x1a8 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn LoginRelated_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1a8 + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::LoginRelated` at 0x1a8 (0x1a8 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_LoginRelated_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1a8 + index * 0x1, value) }
+    }
+
     /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
     #[inline]
     pub fn DraggingPlayer(&self) -> [c_char; 64] {
@@ -9558,6 +16836,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_DraggingPlayer(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn DraggingPlayer_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1c8 + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_DraggingPlayer_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1c8 + index * 0x1, value) }
     }
 
     /// `PlayerZoneClient::Mercenary` at 0x208 (0x208 within `PlayerZoneClient`).
@@ -10154,6 +17448,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x2e8, value) }
     }
 
+    /// `PlayerZoneClient::SpellGemETA` at 0x2e8 (0x2e8 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 13`.
+    #[inline]
+    pub fn SpellGemETA_at(&self, index: usize) -> u32 {
+        assert!(index < 13, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e8 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::SpellGemETA` at 0x2e8 (0x2e8 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 13`.
+    #[inline]
+    pub fn set_SpellGemETA_at(&self, index: usize, value: u32) {
+        assert!(index < 13, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e8 + index * 0x4, value) }
+    }
+
     /// `PlayerZoneClient::GetMeleeRangeVar1` at 0x31c (0x31c within `PlayerZoneClient`).
     #[inline]
     pub fn GetMeleeRangeVar1(&self) -> f32 {
@@ -10188,6 +17498,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_SomeData(&self, value: [i32; 2]) {
         unsafe { write(self._bytes.get().cast(), 0x324, value) }
+    }
+
+    /// `PlayerZoneClient::SomeData` at 0x324 (0x324 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn SomeData_at(&self, index: usize) -> i32 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x324 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::SomeData` at 0x324 (0x324 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_SomeData_at(&self, index: usize, value: i32) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x324 + index * 0x4, value) }
     }
 
     /// `PlayerZoneClient::bSwitchMoved` at 0x32c (0x32c within `PlayerZoneClient`).
@@ -10394,6 +17720,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x368, value) }
     }
 
+    /// `PlayerZoneClient::CombatSkillTicks` at 0x368 (0x368 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn CombatSkillTicks_at(&self, index: usize) -> u32 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x368 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillTicks` at 0x368 (0x368 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_CombatSkillTicks_at(&self, index: usize, value: u32) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x368 + index * 0x4, value) }
+    }
+
     /// `PlayerZoneClient::MissileRangeToTarget` at 0x370 (0x370 within `PlayerZoneClient`).
     #[inline]
     pub fn MissileRangeToTarget(&self) -> f32 {
@@ -10460,6 +17802,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x390, value) }
     }
 
+    /// `PlayerZoneClient::CombatSkillUsed` at 0x390 (0x390 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn CombatSkillUsed_at(&self, index: usize) -> u32 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x390 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillUsed` at 0x390 (0x390 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_CombatSkillUsed_at(&self, index: usize, value: u32) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x390 + index * 0x4, value) }
+    }
+
     /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
     #[inline]
     pub fn Handle(&self) -> [c_char; 32] {
@@ -10470,6 +17828,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_Handle(&self, value: [c_char; 32]) {
         unsafe { write(self._bytes.get().cast(), 0x398, value) }
+    }
+
+    /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Handle_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x398 + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Handle_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x398 + index * 0x1, value) }
     }
 
     /// `PlayerZoneClient::FD` at 0x3b8 (0x3b8 within `PlayerZoneClient`).
@@ -10604,6 +17978,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x3dd, value) }
     }
 
+    /// `PlayerZoneClient::Title` at 0x3dd (0x3dd within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Title_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3dd + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::Title` at 0x3dd (0x3dd within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Title_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3dd + index * 0x1, value) }
+    }
+
     /// `PlayerZoneClient::FishingEvent` at 0x3fd (0x3fd within `PlayerZoneClient`).
     #[inline]
     pub fn FishingEvent(&self) -> u8 {
@@ -10626,6 +18016,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_Suffix(&self, value: [c_char; 32]) {
         unsafe { write(self._bytes.get().cast(), 0x3fe, value) }
+    }
+
+    /// `PlayerZoneClient::Suffix` at 0x3fe (0x3fe within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Suffix_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3fe + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::Suffix` at 0x3fe (0x3fe within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Suffix_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3fe + index * 0x1, value) }
     }
 
     /// `PlayerZoneClient::RealEstateItemId` at 0x420 (0x420 within `PlayerZoneClient`).
@@ -10856,6 +18262,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0xe44, value) }
     }
 
+    /// `PlayerZoneClient::GroupAssistNPC` at 0xe44 (0xe44 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 1`.
+    #[inline]
+    pub fn GroupAssistNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 1, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe44 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::GroupAssistNPC` at 0xe44 (0xe44 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 1`.
+    #[inline]
+    pub fn set_GroupAssistNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 1, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe44 + index * 0x4, value) }
+    }
+
     /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
     #[inline]
     pub fn RaidAssistNPC(&self) -> [u32; 3] {
@@ -10866,6 +18288,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_RaidAssistNPC(&self, value: [u32; 3]) {
         unsafe { write(self._bytes.get().cast(), 0xe48, value) }
+    }
+
+    /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn RaidAssistNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe48 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_RaidAssistNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe48 + index * 0x4, value) }
     }
 
     /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
@@ -10880,6 +18318,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0xe54, value) }
     }
 
+    /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn GroupMarkNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe54 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_GroupMarkNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe54 + index * 0x4, value) }
+    }
+
     /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
     #[inline]
     pub fn RaidMarkNPC(&self) -> [u32; 3] {
@@ -10890,6 +18344,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_RaidMarkNPC(&self, value: [u32; 3]) {
         unsafe { write(self._bytes.get().cast(), 0xe60, value) }
+    }
+
+    /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn RaidMarkNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe60 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_RaidMarkNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe60 + index * 0x4, value) }
     }
 
     /// `PlayerZoneClient::TargetOfTarget` at 0xe6c (0xe6c within `PlayerZoneClient`).
@@ -11942,6 +19412,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x11d0, value) }
     }
 
+    /// `PlayerClient::AssistName` at 0x11d0 (0x11d0 within `PlayerClient`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn AssistName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x11d0 + index * 0x1) }
+    }
+
+    /// `PlayerClient::AssistName` at 0x11d0 (0x11d0 within `PlayerClient`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_AssistName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x11d0 + index * 0x1, value) }
+    }
+
     /// `PlayerClient::InvitedToGroup` at 0x1210 (0x1210 within `PlayerClient`).
     #[inline]
     pub fn InvitedToGroup(&self) -> bool {
@@ -12062,16 +19548,48 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x122b, value) }
     }
 
-    /// `PlayerClient::InteractiveObjectOtherName` at 0x12ab (0x12ab within `PlayerClient`).
+    /// `PlayerClient::InteractiveObjectModelName` at 0x122b (0x122b within `PlayerClient`).
+    /// One element; panics if `index >= 128`.
     #[inline]
-    pub fn InteractiveObjectOtherName(&self) -> [u8; 128] {
+    pub fn InteractiveObjectModelName_at(&self, index: usize) -> u8 {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x122b + index * 0x1) }
+    }
+
+    /// `PlayerClient::InteractiveObjectModelName` at 0x122b (0x122b within `PlayerClient`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_InteractiveObjectModelName_at(&self, index: usize, value: u8) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x122b + index * 0x1, value) }
+    }
+
+    /// `PlayerClient::InteractiveObjectReplaceName` at 0x12ab (0x12ab within `PlayerClient`).
+    #[inline]
+    pub fn InteractiveObjectReplaceName(&self) -> [u8; 128] {
         unsafe { read(self._bytes.get().cast(), 0x12ab) }
     }
 
-    /// `PlayerClient::InteractiveObjectOtherName` at 0x12ab (0x12ab within `PlayerClient`).
+    /// `PlayerClient::InteractiveObjectReplaceName` at 0x12ab (0x12ab within `PlayerClient`).
     #[inline]
-    pub fn set_InteractiveObjectOtherName(&self, value: [u8; 128]) {
+    pub fn set_InteractiveObjectReplaceName(&self, value: [u8; 128]) {
         unsafe { write(self._bytes.get().cast(), 0x12ab, value) }
+    }
+
+    /// `PlayerClient::InteractiveObjectReplaceName` at 0x12ab (0x12ab within `PlayerClient`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn InteractiveObjectReplaceName_at(&self, index: usize) -> u8 {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x12ab + index * 0x1) }
+    }
+
+    /// `PlayerClient::InteractiveObjectReplaceName` at 0x12ab (0x12ab within `PlayerClient`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_InteractiveObjectReplaceName_at(&self, index: usize, value: u8) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x12ab + index * 0x1, value) }
     }
 
     /// `PlayerClient::InteractiveObjectName` at 0x132b (0x132b within `PlayerClient`).
@@ -12084,6 +19602,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_InteractiveObjectName(&self, value: [u8; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x132b, value) }
+    }
+
+    /// `PlayerClient::InteractiveObjectName` at 0x132b (0x132b within `PlayerClient`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn InteractiveObjectName_at(&self, index: usize) -> u8 {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x132b + index * 0x1) }
+    }
+
+    /// `PlayerClient::InteractiveObjectName` at 0x132b (0x132b within `PlayerClient`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_InteractiveObjectName_at(&self, index: usize, value: u8) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x132b + index * 0x1, value) }
     }
 
     /// `PlayerClient::PhysicsBeforeLastPort` at 0x136c (0x136c within `PlayerClient`).
@@ -12272,6 +19806,22 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x1e64, value) }
     }
 
+    /// `PlayerClient::SoundIDs` at 0x1e64 (0x1e64 within `PlayerClient`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn SoundIDs_at(&self, index: usize) -> i32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1e64 + index * 0x4) }
+    }
+
+    /// `PlayerClient::SoundIDs` at 0x1e64 (0x1e64 within `PlayerClient`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_SoundIDs_at(&self, index: usize, value: i32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1e64 + index * 0x4, value) }
+    }
+
     /// `PlayerClient::LastHistorySentTime` at 0x1e8c (0x1e8c within `PlayerClient`).
     #[inline]
     pub fn LastHistorySentTime(&self) -> u32 {
@@ -12318,6 +19868,22 @@ impl PlayerClient {
     #[inline]
     pub fn set_SpawnStatus(&self, value: [i32; 6]) {
         unsafe { write(self._bytes.get().cast(), 0x1ed8, value) }
+    }
+
+    /// `PlayerClient::SpawnStatus` at 0x1ed8 (0x1ed8 within `PlayerClient`).
+    /// One element; panics if `index >= 6`.
+    #[inline]
+    pub fn SpawnStatus_at(&self, index: usize) -> i32 {
+        assert!(index < 6, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1ed8 + index * 0x4) }
+    }
+
+    /// `PlayerClient::SpawnStatus` at 0x1ed8 (0x1ed8 within `PlayerClient`).
+    /// Sets one element; panics if `index >= 6`.
+    #[inline]
+    pub fn set_SpawnStatus_at(&self, index: usize, value: i32) {
+        assert!(index < 6, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1ed8 + index * 0x4, value) }
     }
 
     /// `PlayerClient::BannerIndex0` at 0x1ef0 (0x1ef0 within `PlayerClient`).
@@ -12585,6 +20151,55 @@ impl PlayerPhysicsClient {
     }
 }
 
+/// C++ class `PlayerRoleLoadout` (0x84 bytes).
+#[repr(C)]
+pub struct PlayerRoleLoadout {
+    _bytes: UnsafeCell<[u8; 0x84]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl PlayerRoleLoadout {
+    /// `PlayerRoleLoadout::roles` at 0x0 (0x0 within `PlayerRoleLoadout`).
+    #[inline]
+    pub fn roles(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `PlayerRoleLoadout::roles` at 0x0 (0x0 within `PlayerRoleLoadout`).
+    #[inline]
+    pub fn set_roles(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `PlayerRoleLoadout::name` at 0x4 (0x4 within `PlayerRoleLoadout`).
+    #[inline]
+    pub fn name(&self) -> [c_char; 128] {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `PlayerRoleLoadout::name` at 0x4 (0x4 within `PlayerRoleLoadout`).
+    #[inline]
+    pub fn set_name(&self, value: [c_char; 128]) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `PlayerRoleLoadout::name` at 0x4 (0x4 within `PlayerRoleLoadout`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn name_at(&self, index: usize) -> c_char {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4 + index * 0x1) }
+    }
+
+    /// `PlayerRoleLoadout::name` at 0x4 (0x4 within `PlayerRoleLoadout`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_name_at(&self, index: usize, value: c_char) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4 + index * 0x1, value) }
+    }
+}
+
 /// C++ class `PointSystemBase` (0x14 bytes).
 #[repr(C)]
 pub struct PointSystemBase {
@@ -12663,6 +20278,22 @@ impl PvPDeath {
     #[inline]
     pub fn set_KillerName(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `PvPDeath::KillerName` at 0x0 (0x0 within `PvPDeath`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn KillerName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `PvPDeath::KillerName` at 0x0 (0x0 within `PvPDeath`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_KillerName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
     }
 
     /// `PvPDeath::KillerLevel` at 0x40 (0x40 within `PvPDeath`).
@@ -12756,6 +20387,22 @@ impl PvPKill {
     #[inline]
     pub fn set_VictimName(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `PvPKill::VictimName` at 0x0 (0x0 within `PvPKill`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn VictimName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `PvPKill::VictimName` at 0x0 (0x0 within `PvPKill`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_VictimName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
     }
 
     /// `PvPKill::VictimLevel` at 0x40 (0x40 within `PvPKill`).
@@ -12956,6 +20603,22 @@ impl SFellowship {
         unsafe { write(self._bytes.get().cast(), 0x8, value) }
     }
 
+    /// `SFellowship::FellowshipName` at 0x8 (0x8 within `SFellowship`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn FellowshipName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8 + index * 0x1) }
+    }
+
+    /// `SFellowship::FellowshipName` at 0x8 (0x8 within `SFellowship`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_FellowshipName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8 + index * 0x1, value) }
+    }
+
     /// `SFellowship::MotD` at 0x48 (0x48 within `SFellowship`).
     #[inline]
     pub fn MotD(&self) -> [c_char; 1024] {
@@ -12966,6 +20629,22 @@ impl SFellowship {
     #[inline]
     pub fn set_MotD(&self, value: [c_char; 1024]) {
         unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `SFellowship::MotD` at 0x48 (0x48 within `SFellowship`).
+    /// One element; panics if `index >= 1024`.
+    #[inline]
+    pub fn MotD_at(&self, index: usize) -> c_char {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x48 + index * 0x1) }
+    }
+
+    /// `SFellowship::MotD` at 0x48 (0x48 within `SFellowship`).
+    /// Sets one element; panics if `index >= 1024`.
+    #[inline]
+    pub fn set_MotD_at(&self, index: usize, value: c_char) {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x48 + index * 0x1, value) }
     }
 
     /// `SFellowship::Members` at 0x448 (0x448 within `SFellowship`).
@@ -13024,6 +20703,22 @@ impl SFellowship {
         unsafe { write(self._bytes.get().cast(), 0x9c0, value) }
     }
 
+    /// `SFellowship::bExpSharingEnabled` at 0x9c0 (0x9c0 within `SFellowship`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn bExpSharingEnabled_at(&self, index: usize) -> u8 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x9c0 + index * 0x1) }
+    }
+
+    /// `SFellowship::bExpSharingEnabled` at 0x9c0 (0x9c0 within `SFellowship`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_bExpSharingEnabled_at(&self, index: usize, value: u8) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x9c0 + index * 0x1, value) }
+    }
+
     /// `SFellowship::bSharedExpCapped` at 0x9cc (0x9cc within `SFellowship`).
     #[inline]
     pub fn bSharedExpCapped(&self) -> [u8; 12] {
@@ -13036,6 +20731,22 @@ impl SFellowship {
         unsafe { write(self._bytes.get().cast(), 0x9cc, value) }
     }
 
+    /// `SFellowship::bSharedExpCapped` at 0x9cc (0x9cc within `SFellowship`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn bSharedExpCapped_at(&self, index: usize) -> u8 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x9cc + index * 0x1) }
+    }
+
+    /// `SFellowship::bSharedExpCapped` at 0x9cc (0x9cc within `SFellowship`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_bSharedExpCapped_at(&self, index: usize, value: u8) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x9cc + index * 0x1, value) }
+    }
+
     /// `SFellowship::bIsOfflineMode` at 0x9d8 (0x9d8 within `SFellowship`).
     #[inline]
     pub fn bIsOfflineMode(&self) -> [u8; 12] {
@@ -13046,6 +20757,22 @@ impl SFellowship {
     #[inline]
     pub fn set_bIsOfflineMode(&self, value: [u8; 12]) {
         unsafe { write(self._bytes.get().cast(), 0x9d8, value) }
+    }
+
+    /// `SFellowship::bIsOfflineMode` at 0x9d8 (0x9d8 within `SFellowship`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn bIsOfflineMode_at(&self, index: usize) -> u8 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x9d8 + index * 0x1) }
+    }
+
+    /// `SFellowship::bIsOfflineMode` at 0x9d8 (0x9d8 within `SFellowship`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_bIsOfflineMode_at(&self, index: usize, value: u8) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x9d8 + index * 0x1, value) }
     }
 }
 
@@ -13079,6 +20806,22 @@ impl SFellowshipMember {
     #[inline]
     pub fn set_Name(&self, value: [c_char; 64]) {
         unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `SFellowshipMember::Name` at 0x4 (0x4 within `SFellowshipMember`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4 + index * 0x1) }
+    }
+
+    /// `SFellowshipMember::Name` at 0x4 (0x4 within `SFellowshipMember`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4 + index * 0x1, value) }
     }
 
     /// `SFellowshipMember::ZoneID` at 0x44 (0x44 within `SFellowshipMember`).
@@ -13232,6 +20975,95 @@ impl SpellCache {
     #[inline]
     pub fn CachedFocusMercAbilities(&self) -> &HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize {
         unsafe { at(self._bytes.get().cast(), 0x48) }
+    }
+}
+
+/// C++ class `SpellLoadout` (0x4c bytes).
+#[repr(C)]
+pub struct SpellLoadout {
+    _bytes: UnsafeCell<[u8; 0x4c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SpellLoadout {
+    /// `SpellLoadout::SpellId` at 0x0 (0x0 within `SpellLoadout`).
+    #[inline]
+    pub fn SpellId(&self) -> [i32; 12] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SpellLoadout::SpellId` at 0x0 (0x0 within `SpellLoadout`).
+    #[inline]
+    pub fn set_SpellId(&self, value: [i32; 12]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `SpellLoadout::SpellId` at 0x0 (0x0 within `SpellLoadout`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn SpellId_at(&self, index: usize) -> i32 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x4) }
+    }
+
+    /// `SpellLoadout::SpellId` at 0x0 (0x0 within `SpellLoadout`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_SpellId_at(&self, index: usize, value: i32) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x4, value) }
+    }
+
+    /// `SpellLoadout::Name` at 0x30 (0x30 within `SpellLoadout`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `SpellLoadout::Name` at 0x30 (0x30 within `SpellLoadout`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `SpellLoadout::Name` at 0x30 (0x30 within `SpellLoadout`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x30 + index * 0x1) }
+    }
+
+    /// `SpellLoadout::Name` at 0x30 (0x30 within `SpellLoadout`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x30 + index * 0x1, value) }
+    }
+
+    /// `SpellLoadout::inuse` at 0x49 (0x49 within `SpellLoadout`).
+    #[inline]
+    pub fn inuse(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x49) != 0 }
+    }
+
+    /// `SpellLoadout::inuse` at 0x49 (0x49 within `SpellLoadout`).
+    #[inline]
+    pub fn set_inuse(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x49, u8::from(value)) }
+    }
+
+    /// `SpellLoadout::changed` at 0x4a (0x4a within `SpellLoadout`).
+    #[inline]
+    pub fn changed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4a) != 0 }
+    }
+
+    /// `SpellLoadout::changed` at 0x4a (0x4a within `SpellLoadout`).
+    #[inline]
+    pub fn set_changed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4a, u8::from(value)) }
     }
 }
 
@@ -13408,6 +21240,95 @@ impl TList_PlayerClient {
     }
 }
 
+/// C++ class `TargetSetLoadout` (0x5f7 bytes).
+#[repr(C)]
+pub struct TargetSetLoadout {
+    _bytes: UnsafeCell<[u8; 0x5f7]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl TargetSetLoadout {
+    /// `TargetSetLoadout::name` at 0x0 (0x0 within `TargetSetLoadout`).
+    #[inline]
+    pub fn name(&self) -> [c_char; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `TargetSetLoadout::name` at 0x0 (0x0 within `TargetSetLoadout`).
+    #[inline]
+    pub fn set_name(&self, value: [c_char; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TargetSetLoadout::name` at 0x0 (0x0 within `TargetSetLoadout`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn name_at(&self, index: usize) -> c_char {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `TargetSetLoadout::name` at 0x0 (0x0 within `TargetSetLoadout`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_name_at(&self, index: usize, value: c_char) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `TargetSetLoadout::storedString` at 0x19 (0x19 within `TargetSetLoadout`).
+    #[inline]
+    pub fn storedString(&self) -> [c_char; 1500] {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `TargetSetLoadout::storedString` at 0x19 (0x19 within `TargetSetLoadout`).
+    #[inline]
+    pub fn set_storedString(&self, value: [c_char; 1500]) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `TargetSetLoadout::storedString` at 0x19 (0x19 within `TargetSetLoadout`).
+    /// One element; panics if `index >= 1500`.
+    #[inline]
+    pub fn storedString_at(&self, index: usize) -> c_char {
+        assert!(index < 1500, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x19 + index * 0x1) }
+    }
+
+    /// `TargetSetLoadout::storedString` at 0x19 (0x19 within `TargetSetLoadout`).
+    /// Sets one element; panics if `index >= 1500`.
+    #[inline]
+    pub fn set_storedString_at(&self, index: usize, value: c_char) {
+        assert!(index < 1500, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x19 + index * 0x1, value) }
+    }
+
+    /// `TargetSetLoadout::inuse` at 0x5f5 (0x5f5 within `TargetSetLoadout`).
+    #[inline]
+    pub fn inuse(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5f5) != 0 }
+    }
+
+    /// `TargetSetLoadout::inuse` at 0x5f5 (0x5f5 within `TargetSetLoadout`).
+    #[inline]
+    pub fn set_inuse(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5f5, u8::from(value)) }
+    }
+
+    /// `TargetSetLoadout::changed` at 0x5f6 (0x5f6 within `TargetSetLoadout`).
+    #[inline]
+    pub fn changed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5f6) != 0 }
+    }
+
+    /// `TargetSetLoadout::changed` at 0x5f6 (0x5f6 within `TargetSetLoadout`).
+    #[inline]
+    pub fn set_changed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5f6, u8::from(value)) }
+    }
+}
+
 /// C++ class `VeArray<VePointer<ItemClient> >` (0xc bytes).
 #[repr(C)]
 pub struct VeArray_VePointer_ItemClient {
@@ -13543,6 +21464,1367 @@ impl WorldLocation {
     }
 }
 
+/// C++ class `zoneHeader` (0x3b4 bytes).
+#[repr(C)]
+pub struct zoneHeader {
+    _bytes: UnsafeCell<[u8; 0x3b4]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl zoneHeader {
+    /// `zoneHeader::CharacterName` at 0x0 (0x0 within `zoneHeader`).
+    #[inline]
+    pub fn CharacterName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `zoneHeader::CharacterName` at 0x0 (0x0 within `zoneHeader`).
+    #[inline]
+    pub fn set_CharacterName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `zoneHeader::CharacterName` at 0x0 (0x0 within `zoneHeader`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn CharacterName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `zoneHeader::CharacterName` at 0x0 (0x0 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_CharacterName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::ShortName` at 0x40 (0x40 within `zoneHeader`).
+    #[inline]
+    pub fn ShortName(&self) -> [c_char; 128] {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `zoneHeader::ShortName` at 0x40 (0x40 within `zoneHeader`).
+    #[inline]
+    pub fn set_ShortName(&self, value: [c_char; 128]) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `zoneHeader::ShortName` at 0x40 (0x40 within `zoneHeader`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn ShortName_at(&self, index: usize) -> c_char {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x40 + index * 0x1) }
+    }
+
+    /// `zoneHeader::ShortName` at 0x40 (0x40 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_ShortName_at(&self, index: usize, value: c_char) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x40 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::LongName` at 0xc0 (0xc0 within `zoneHeader`).
+    #[inline]
+    pub fn LongName(&self) -> [c_char; 128] {
+        unsafe { read(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `zoneHeader::LongName` at 0xc0 (0xc0 within `zoneHeader`).
+    #[inline]
+    pub fn set_LongName(&self, value: [c_char; 128]) {
+        unsafe { write(self._bytes.get().cast(), 0xc0, value) }
+    }
+
+    /// `zoneHeader::LongName` at 0xc0 (0xc0 within `zoneHeader`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn LongName_at(&self, index: usize) -> c_char {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xc0 + index * 0x1) }
+    }
+
+    /// `zoneHeader::LongName` at 0xc0 (0xc0 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_LongName_at(&self, index: usize, value: c_char) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xc0 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::ZoneDesc` at 0x140 (0x140 within `zoneHeader`).
+    #[inline]
+    pub fn ZoneDesc(&self) -> [[c_char; 30]; 5] {
+        unsafe { read(self._bytes.get().cast(), 0x140) }
+    }
+
+    /// `zoneHeader::ZoneDesc` at 0x140 (0x140 within `zoneHeader`).
+    #[inline]
+    pub fn set_ZoneDesc(&self, value: [[c_char; 30]; 5]) {
+        unsafe { write(self._bytes.get().cast(), 0x140, value) }
+    }
+
+    /// `zoneHeader::FogOnOff` at 0x1d6 (0x1d6 within `zoneHeader`).
+    #[inline]
+    pub fn FogOnOff(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d6) != 0 }
+    }
+
+    /// `zoneHeader::FogOnOff` at 0x1d6 (0x1d6 within `zoneHeader`).
+    #[inline]
+    pub fn set_FogOnOff(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d6, u8::from(value)) }
+    }
+
+    /// `zoneHeader::FogRed` at 0x1d7 (0x1d7 within `zoneHeader`).
+    #[inline]
+    pub fn FogRed(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x1d7) }
+    }
+
+    /// `zoneHeader::FogRed` at 0x1d7 (0x1d7 within `zoneHeader`).
+    #[inline]
+    pub fn set_FogRed(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x1d7, value) }
+    }
+
+    /// `zoneHeader::FogRed` at 0x1d7 (0x1d7 within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FogRed_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1d7 + index * 0x1) }
+    }
+
+    /// `zoneHeader::FogRed` at 0x1d7 (0x1d7 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FogRed_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1d7 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::FogGreen` at 0x1db (0x1db within `zoneHeader`).
+    #[inline]
+    pub fn FogGreen(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x1db) }
+    }
+
+    /// `zoneHeader::FogGreen` at 0x1db (0x1db within `zoneHeader`).
+    #[inline]
+    pub fn set_FogGreen(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x1db, value) }
+    }
+
+    /// `zoneHeader::FogGreen` at 0x1db (0x1db within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FogGreen_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1db + index * 0x1) }
+    }
+
+    /// `zoneHeader::FogGreen` at 0x1db (0x1db within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FogGreen_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1db + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::FogBlue` at 0x1df (0x1df within `zoneHeader`).
+    #[inline]
+    pub fn FogBlue(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x1df) }
+    }
+
+    /// `zoneHeader::FogBlue` at 0x1df (0x1df within `zoneHeader`).
+    #[inline]
+    pub fn set_FogBlue(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x1df, value) }
+    }
+
+    /// `zoneHeader::FogBlue` at 0x1df (0x1df within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FogBlue_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1df + index * 0x1) }
+    }
+
+    /// `zoneHeader::FogBlue` at 0x1df (0x1df within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FogBlue_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1df + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::FogStart` at 0x1e4 (0x1e4 within `zoneHeader`).
+    #[inline]
+    pub fn FogStart(&self) -> [f32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `zoneHeader::FogStart` at 0x1e4 (0x1e4 within `zoneHeader`).
+    #[inline]
+    pub fn set_FogStart(&self, value: [f32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x1e4, value) }
+    }
+
+    /// `zoneHeader::FogStart` at 0x1e4 (0x1e4 within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FogStart_at(&self, index: usize) -> f32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1e4 + index * 0x4) }
+    }
+
+    /// `zoneHeader::FogStart` at 0x1e4 (0x1e4 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FogStart_at(&self, index: usize, value: f32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1e4 + index * 0x4, value) }
+    }
+
+    /// `zoneHeader::FogEnd` at 0x1f4 (0x1f4 within `zoneHeader`).
+    #[inline]
+    pub fn FogEnd(&self) -> [f32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x1f4) }
+    }
+
+    /// `zoneHeader::FogEnd` at 0x1f4 (0x1f4 within `zoneHeader`).
+    #[inline]
+    pub fn set_FogEnd(&self, value: [f32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, value) }
+    }
+
+    /// `zoneHeader::FogEnd` at 0x1f4 (0x1f4 within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FogEnd_at(&self, index: usize) -> f32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1f4 + index * 0x4) }
+    }
+
+    /// `zoneHeader::FogEnd` at 0x1f4 (0x1f4 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FogEnd_at(&self, index: usize, value: f32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1f4 + index * 0x4, value) }
+    }
+
+    /// `zoneHeader::ZoneGravity` at 0x204 (0x204 within `zoneHeader`).
+    #[inline]
+    pub fn ZoneGravity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `zoneHeader::ZoneGravity` at 0x204 (0x204 within `zoneHeader`).
+    #[inline]
+    pub fn set_ZoneGravity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `zoneHeader::ZoneType` at 0x208 (0x208 within `zoneHeader`).
+    #[inline]
+    pub fn ZoneType(&self) -> EOutDoor {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `zoneHeader::ZoneType` at 0x208 (0x208 within `zoneHeader`).
+    #[inline]
+    pub fn set_ZoneType(&self, value: EOutDoor) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `zoneHeader::RainChance` at 0x209 (0x209 within `zoneHeader`).
+    #[inline]
+    pub fn RainChance(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x209) }
+    }
+
+    /// `zoneHeader::RainChance` at 0x209 (0x209 within `zoneHeader`).
+    #[inline]
+    pub fn set_RainChance(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x209, value) }
+    }
+
+    /// `zoneHeader::RainChance` at 0x209 (0x209 within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn RainChance_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x209 + index * 0x1) }
+    }
+
+    /// `zoneHeader::RainChance` at 0x209 (0x209 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_RainChance_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x209 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::RainDuration` at 0x20d (0x20d within `zoneHeader`).
+    #[inline]
+    pub fn RainDuration(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x20d) }
+    }
+
+    /// `zoneHeader::RainDuration` at 0x20d (0x20d within `zoneHeader`).
+    #[inline]
+    pub fn set_RainDuration(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x20d, value) }
+    }
+
+    /// `zoneHeader::RainDuration` at 0x20d (0x20d within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn RainDuration_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x20d + index * 0x1) }
+    }
+
+    /// `zoneHeader::RainDuration` at 0x20d (0x20d within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_RainDuration_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x20d + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::SnowChance` at 0x211 (0x211 within `zoneHeader`).
+    #[inline]
+    pub fn SnowChance(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x211) }
+    }
+
+    /// `zoneHeader::SnowChance` at 0x211 (0x211 within `zoneHeader`).
+    #[inline]
+    pub fn set_SnowChance(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x211, value) }
+    }
+
+    /// `zoneHeader::SnowChance` at 0x211 (0x211 within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn SnowChance_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x211 + index * 0x1) }
+    }
+
+    /// `zoneHeader::SnowChance` at 0x211 (0x211 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_SnowChance_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x211 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::SnowDuration` at 0x215 (0x215 within `zoneHeader`).
+    #[inline]
+    pub fn SnowDuration(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x215) }
+    }
+
+    /// `zoneHeader::SnowDuration` at 0x215 (0x215 within `zoneHeader`).
+    #[inline]
+    pub fn set_SnowDuration(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x215, value) }
+    }
+
+    /// `zoneHeader::SnowDuration` at 0x215 (0x215 within `zoneHeader`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn SnowDuration_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x215 + index * 0x1) }
+    }
+
+    /// `zoneHeader::SnowDuration` at 0x215 (0x215 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_SnowDuration_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x215 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::ZoneTimeZone` at 0x219 (0x219 within `zoneHeader`).
+    #[inline]
+    pub fn ZoneTimeZone(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x219) }
+    }
+
+    /// `zoneHeader::ZoneTimeZone` at 0x219 (0x219 within `zoneHeader`).
+    #[inline]
+    pub fn set_ZoneTimeZone(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x219, value) }
+    }
+
+    /// `zoneHeader::SkyEnabled` at 0x21a (0x21a within `zoneHeader`).
+    #[inline]
+    pub fn SkyEnabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21a) != 0 }
+    }
+
+    /// `zoneHeader::SkyEnabled` at 0x21a (0x21a within `zoneHeader`).
+    #[inline]
+    pub fn set_SkyEnabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21a, u8::from(value)) }
+    }
+
+    /// `zoneHeader::WaterMidi` at 0x21c (0x21c within `zoneHeader`).
+    #[inline]
+    pub fn WaterMidi(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `zoneHeader::WaterMidi` at 0x21c (0x21c within `zoneHeader`).
+    #[inline]
+    pub fn set_WaterMidi(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, value) }
+    }
+
+    /// `zoneHeader::DayMidi` at 0x220 (0x220 within `zoneHeader`).
+    #[inline]
+    pub fn DayMidi(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `zoneHeader::DayMidi` at 0x220 (0x220 within `zoneHeader`).
+    #[inline]
+    pub fn set_DayMidi(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `zoneHeader::NightMidi` at 0x224 (0x224 within `zoneHeader`).
+    #[inline]
+    pub fn NightMidi(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `zoneHeader::NightMidi` at 0x224 (0x224 within `zoneHeader`).
+    #[inline]
+    pub fn set_NightMidi(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `zoneHeader::ZoneExpModifier` at 0x228 (0x228 within `zoneHeader`).
+    #[inline]
+    pub fn ZoneExpModifier(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `zoneHeader::ZoneExpModifier` at 0x228 (0x228 within `zoneHeader`).
+    #[inline]
+    pub fn set_ZoneExpModifier(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `zoneHeader::SafeYLoc` at 0x22c (0x22c within `zoneHeader`).
+    #[inline]
+    pub fn SafeYLoc(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `zoneHeader::SafeYLoc` at 0x22c (0x22c within `zoneHeader`).
+    #[inline]
+    pub fn set_SafeYLoc(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `zoneHeader::SafeXLoc` at 0x230 (0x230 within `zoneHeader`).
+    #[inline]
+    pub fn SafeXLoc(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `zoneHeader::SafeXLoc` at 0x230 (0x230 within `zoneHeader`).
+    #[inline]
+    pub fn set_SafeXLoc(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `zoneHeader::SafeZLoc` at 0x234 (0x234 within `zoneHeader`).
+    #[inline]
+    pub fn SafeZLoc(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `zoneHeader::SafeZLoc` at 0x234 (0x234 within `zoneHeader`).
+    #[inline]
+    pub fn set_SafeZLoc(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x234, value) }
+    }
+
+    /// `zoneHeader::SafeHeading` at 0x238 (0x238 within `zoneHeader`).
+    #[inline]
+    pub fn SafeHeading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x238) }
+    }
+
+    /// `zoneHeader::SafeHeading` at 0x238 (0x238 within `zoneHeader`).
+    #[inline]
+    pub fn set_SafeHeading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x238, value) }
+    }
+
+    /// `zoneHeader::Ceiling` at 0x23c (0x23c within `zoneHeader`).
+    #[inline]
+    pub fn Ceiling(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x23c) }
+    }
+
+    /// `zoneHeader::Ceiling` at 0x23c (0x23c within `zoneHeader`).
+    #[inline]
+    pub fn set_Ceiling(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, value) }
+    }
+
+    /// `zoneHeader::Floor` at 0x240 (0x240 within `zoneHeader`).
+    #[inline]
+    pub fn Floor(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x240) }
+    }
+
+    /// `zoneHeader::Floor` at 0x240 (0x240 within `zoneHeader`).
+    #[inline]
+    pub fn set_Floor(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x240, value) }
+    }
+
+    /// `zoneHeader::MinClip` at 0x244 (0x244 within `zoneHeader`).
+    #[inline]
+    pub fn MinClip(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x244) }
+    }
+
+    /// `zoneHeader::MinClip` at 0x244 (0x244 within `zoneHeader`).
+    #[inline]
+    pub fn set_MinClip(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x244, value) }
+    }
+
+    /// `zoneHeader::MaxClip` at 0x248 (0x248 within `zoneHeader`).
+    #[inline]
+    pub fn MaxClip(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x248) }
+    }
+
+    /// `zoneHeader::MaxClip` at 0x248 (0x248 within `zoneHeader`).
+    #[inline]
+    pub fn set_MaxClip(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x248, value) }
+    }
+
+    /// `zoneHeader::ForageLow` at 0x24c (0x24c within `zoneHeader`).
+    #[inline]
+    pub fn ForageLow(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24c) }
+    }
+
+    /// `zoneHeader::ForageLow` at 0x24c (0x24c within `zoneHeader`).
+    #[inline]
+    pub fn set_ForageLow(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24c, value) }
+    }
+
+    /// `zoneHeader::ForageMedium` at 0x250 (0x250 within `zoneHeader`).
+    #[inline]
+    pub fn ForageMedium(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x250) }
+    }
+
+    /// `zoneHeader::ForageMedium` at 0x250 (0x250 within `zoneHeader`).
+    #[inline]
+    pub fn set_ForageMedium(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x250, value) }
+    }
+
+    /// `zoneHeader::ForageHigh` at 0x254 (0x254 within `zoneHeader`).
+    #[inline]
+    pub fn ForageHigh(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x254) }
+    }
+
+    /// `zoneHeader::ForageHigh` at 0x254 (0x254 within `zoneHeader`).
+    #[inline]
+    pub fn set_ForageHigh(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x254, value) }
+    }
+
+    /// `zoneHeader::FishingLow` at 0x258 (0x258 within `zoneHeader`).
+    #[inline]
+    pub fn FishingLow(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `zoneHeader::FishingLow` at 0x258 (0x258 within `zoneHeader`).
+    #[inline]
+    pub fn set_FishingLow(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `zoneHeader::FishingMedium` at 0x25c (0x25c within `zoneHeader`).
+    #[inline]
+    pub fn FishingMedium(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x25c) }
+    }
+
+    /// `zoneHeader::FishingMedium` at 0x25c (0x25c within `zoneHeader`).
+    #[inline]
+    pub fn set_FishingMedium(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x25c, value) }
+    }
+
+    /// `zoneHeader::FishingHigh` at 0x260 (0x260 within `zoneHeader`).
+    #[inline]
+    pub fn FishingHigh(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x260) }
+    }
+
+    /// `zoneHeader::FishingHigh` at 0x260 (0x260 within `zoneHeader`).
+    #[inline]
+    pub fn set_FishingHigh(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x260, value) }
+    }
+
+    /// `zoneHeader::SkyLock` at 0x264 (0x264 within `zoneHeader`).
+    #[inline]
+    pub fn SkyLock(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x264) }
+    }
+
+    /// `zoneHeader::SkyLock` at 0x264 (0x264 within `zoneHeader`).
+    #[inline]
+    pub fn set_SkyLock(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x264, value) }
+    }
+
+    /// `zoneHeader::GraveyardTimer` at 0x268 (0x268 within `zoneHeader`).
+    #[inline]
+    pub fn GraveyardTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x268) }
+    }
+
+    /// `zoneHeader::GraveyardTimer` at 0x268 (0x268 within `zoneHeader`).
+    #[inline]
+    pub fn set_GraveyardTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x268, value) }
+    }
+
+    /// `zoneHeader::Unknowns` at 0x26c (0x26c within `zoneHeader`).
+    #[inline]
+    pub fn Unknowns(&self) -> [i32; 8] {
+        unsafe { read(self._bytes.get().cast(), 0x26c) }
+    }
+
+    /// `zoneHeader::Unknowns` at 0x26c (0x26c within `zoneHeader`).
+    #[inline]
+    pub fn set_Unknowns(&self, value: [i32; 8]) {
+        unsafe { write(self._bytes.get().cast(), 0x26c, value) }
+    }
+
+    /// `zoneHeader::Unknowns` at 0x26c (0x26c within `zoneHeader`).
+    /// One element; panics if `index >= 8`.
+    #[inline]
+    pub fn Unknowns_at(&self, index: usize) -> i32 {
+        assert!(index < 8, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x26c + index * 0x4) }
+    }
+
+    /// `zoneHeader::Unknowns` at 0x26c (0x26c within `zoneHeader`).
+    /// Sets one element; panics if `index >= 8`.
+    #[inline]
+    pub fn set_Unknowns_at(&self, index: usize, value: i32) {
+        assert!(index < 8, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x26c + index * 0x4, value) }
+    }
+
+    /// `zoneHeader::ScriptIDHour` at 0x28c (0x28c within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDHour(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28c) }
+    }
+
+    /// `zoneHeader::ScriptIDHour` at 0x28c (0x28c within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDHour(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28c, value) }
+    }
+
+    /// `zoneHeader::ScriptIDMinute` at 0x290 (0x290 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDMinute(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x290) }
+    }
+
+    /// `zoneHeader::ScriptIDMinute` at 0x290 (0x290 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDMinute(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x290, value) }
+    }
+
+    /// `zoneHeader::ScriptIDTick` at 0x294 (0x294 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDTick(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x294) }
+    }
+
+    /// `zoneHeader::ScriptIDTick` at 0x294 (0x294 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDTick(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x294, value) }
+    }
+
+    /// `zoneHeader::ScriptIDOnPlayerDeath` at 0x298 (0x298 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDOnPlayerDeath(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x298) }
+    }
+
+    /// `zoneHeader::ScriptIDOnPlayerDeath` at 0x298 (0x298 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDOnPlayerDeath(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x298, value) }
+    }
+
+    /// `zoneHeader::ScriptIDOnNPCDeath` at 0x29c (0x29c within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDOnNPCDeath(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x29c) }
+    }
+
+    /// `zoneHeader::ScriptIDOnNPCDeath` at 0x29c (0x29c within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDOnNPCDeath(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x29c, value) }
+    }
+
+    /// `zoneHeader::ScriptIDPlayerEnteringZone` at 0x2a0 (0x2a0 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDPlayerEnteringZone(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a0) }
+    }
+
+    /// `zoneHeader::ScriptIDPlayerEnteringZone` at 0x2a0 (0x2a0 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDPlayerEnteringZone(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a0, value) }
+    }
+
+    /// `zoneHeader::ScriptIDOnZonePop` at 0x2a4 (0x2a4 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDOnZonePop(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a4) }
+    }
+
+    /// `zoneHeader::ScriptIDOnZonePop` at 0x2a4 (0x2a4 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDOnZonePop(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a4, value) }
+    }
+
+    /// `zoneHeader::ScriptIDNPCLoot` at 0x2a8 (0x2a8 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDNPCLoot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a8) }
+    }
+
+    /// `zoneHeader::ScriptIDNPCLoot` at 0x2a8 (0x2a8 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDNPCLoot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a8, value) }
+    }
+
+    /// `zoneHeader::ScriptIDAdventureFailed` at 0x2ac (0x2ac within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDAdventureFailed(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ac) }
+    }
+
+    /// `zoneHeader::ScriptIDAdventureFailed` at 0x2ac (0x2ac within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDAdventureFailed(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ac, value) }
+    }
+
+    /// `zoneHeader::CanExploreTasks` at 0x2b0 (0x2b0 within `zoneHeader`).
+    #[inline]
+    pub fn CanExploreTasks(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b0) }
+    }
+
+    /// `zoneHeader::CanExploreTasks` at 0x2b0 (0x2b0 within `zoneHeader`).
+    #[inline]
+    pub fn set_CanExploreTasks(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b0, value) }
+    }
+
+    /// `zoneHeader::NewEngineZone` at 0x2b4 (0x2b4 within `zoneHeader`).
+    #[inline]
+    pub fn NewEngineZone(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b4) }
+    }
+
+    /// `zoneHeader::NewEngineZone` at 0x2b4 (0x2b4 within `zoneHeader`).
+    #[inline]
+    pub fn set_NewEngineZone(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b4, value) }
+    }
+
+    /// `zoneHeader::ScriptIDOnFishing` at 0x2b8 (0x2b8 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDOnFishing(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b8) }
+    }
+
+    /// `zoneHeader::ScriptIDOnFishing` at 0x2b8 (0x2b8 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDOnFishing(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b8, value) }
+    }
+
+    /// `zoneHeader::ScriptIDOnForage` at 0x2bc (0x2bc within `zoneHeader`).
+    #[inline]
+    pub fn ScriptIDOnForage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bc) }
+    }
+
+    /// `zoneHeader::ScriptIDOnForage` at 0x2bc (0x2bc within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptIDOnForage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bc, value) }
+    }
+
+    /// `zoneHeader::SkyType` at 0x2c0 (0x2c0 within `zoneHeader`).
+    #[inline]
+    pub fn SkyType(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x2c0) }
+    }
+
+    /// `zoneHeader::SkyType` at 0x2c0 (0x2c0 within `zoneHeader`).
+    #[inline]
+    pub fn set_SkyType(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x2c0, value) }
+    }
+
+    /// `zoneHeader::SkyType` at 0x2c0 (0x2c0 within `zoneHeader`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn SkyType_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2c0 + index * 0x1) }
+    }
+
+    /// `zoneHeader::SkyType` at 0x2c0 (0x2c0 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_SkyType_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2c0 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::WeatherType` at 0x2e0 (0x2e0 within `zoneHeader`).
+    #[inline]
+    pub fn WeatherType(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x2e0) }
+    }
+
+    /// `zoneHeader::WeatherType` at 0x2e0 (0x2e0 within `zoneHeader`).
+    #[inline]
+    pub fn set_WeatherType(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x2e0, value) }
+    }
+
+    /// `zoneHeader::WeatherType` at 0x2e0 (0x2e0 within `zoneHeader`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn WeatherType_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e0 + index * 0x1) }
+    }
+
+    /// `zoneHeader::WeatherType` at 0x2e0 (0x2e0 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_WeatherType_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e0 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::SkyTypeOverride` at 0x300 (0x300 within `zoneHeader`).
+    #[inline]
+    pub fn SkyTypeOverride(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x300) }
+    }
+
+    /// `zoneHeader::SkyTypeOverride` at 0x300 (0x300 within `zoneHeader`).
+    #[inline]
+    pub fn set_SkyTypeOverride(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x300, value) }
+    }
+
+    /// `zoneHeader::SkyTypeOverride` at 0x300 (0x300 within `zoneHeader`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn SkyTypeOverride_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x300 + index * 0x1) }
+    }
+
+    /// `zoneHeader::SkyTypeOverride` at 0x300 (0x300 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_SkyTypeOverride_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x300 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::SkyLockOverride` at 0x320 (0x320 within `zoneHeader`).
+    #[inline]
+    pub fn SkyLockOverride(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x320) }
+    }
+
+    /// `zoneHeader::SkyLockOverride` at 0x320 (0x320 within `zoneHeader`).
+    #[inline]
+    pub fn set_SkyLockOverride(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x320, value) }
+    }
+
+    /// `zoneHeader::WeatherTypeOverride` at 0x324 (0x324 within `zoneHeader`).
+    #[inline]
+    pub fn WeatherTypeOverride(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x324) }
+    }
+
+    /// `zoneHeader::WeatherTypeOverride` at 0x324 (0x324 within `zoneHeader`).
+    #[inline]
+    pub fn set_WeatherTypeOverride(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x324, value) }
+    }
+
+    /// `zoneHeader::WeatherTypeOverride` at 0x324 (0x324 within `zoneHeader`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn WeatherTypeOverride_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x324 + index * 0x1) }
+    }
+
+    /// `zoneHeader::WeatherTypeOverride` at 0x324 (0x324 within `zoneHeader`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_WeatherTypeOverride_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x324 + index * 0x1, value) }
+    }
+
+    /// `zoneHeader::WeatherChangeTime` at 0x344 (0x344 within `zoneHeader`).
+    #[inline]
+    pub fn WeatherChangeTime(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x344) }
+    }
+
+    /// `zoneHeader::WeatherChangeTime` at 0x344 (0x344 within `zoneHeader`).
+    #[inline]
+    pub fn set_WeatherChangeTime(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x344, value) }
+    }
+
+    /// `zoneHeader::ClimateType` at 0x348 (0x348 within `zoneHeader`).
+    #[inline]
+    pub fn ClimateType(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x348) != 0 }
+    }
+
+    /// `zoneHeader::ClimateType` at 0x348 (0x348 within `zoneHeader`).
+    #[inline]
+    pub fn set_ClimateType(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x348, u8::from(value)) }
+    }
+
+    /// `zoneHeader::NPCAgroMaxDist` at 0x34c (0x34c within `zoneHeader`).
+    #[inline]
+    pub fn NPCAgroMaxDist(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x34c) }
+    }
+
+    /// `zoneHeader::NPCAgroMaxDist` at 0x34c (0x34c within `zoneHeader`).
+    #[inline]
+    pub fn set_NPCAgroMaxDist(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x34c, value) }
+    }
+
+    /// `zoneHeader::FilterID` at 0x350 (0x350 within `zoneHeader`).
+    #[inline]
+    pub fn FilterID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x350) }
+    }
+
+    /// `zoneHeader::FilterID` at 0x350 (0x350 within `zoneHeader`).
+    #[inline]
+    pub fn set_FilterID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x350, value) }
+    }
+
+    /// `zoneHeader::ZoneID` at 0x354 (0x354 within `zoneHeader`).
+    #[inline]
+    pub fn ZoneID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x354) }
+    }
+
+    /// `zoneHeader::ZoneID` at 0x354 (0x354 within `zoneHeader`).
+    #[inline]
+    pub fn set_ZoneID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x354, value) }
+    }
+
+    /// `zoneHeader::ScriptNPCReceivedItem` at 0x358 (0x358 within `zoneHeader`).
+    #[inline]
+    pub fn ScriptNPCReceivedItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x358) }
+    }
+
+    /// `zoneHeader::ScriptNPCReceivedItem` at 0x358 (0x358 within `zoneHeader`).
+    #[inline]
+    pub fn set_ScriptNPCReceivedItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x358, value) }
+    }
+
+    /// `zoneHeader::bValidateZoneIns` at 0x35c (0x35c within `zoneHeader`).
+    #[inline]
+    pub fn bValidateZoneIns(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x35c) != 0 }
+    }
+
+    /// `zoneHeader::bValidateZoneIns` at 0x35c (0x35c within `zoneHeader`).
+    #[inline]
+    pub fn set_bValidateZoneIns(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x35c, u8::from(value)) }
+    }
+
+    /// `zoneHeader::RespawnLocationGroupId` at 0x360 (0x360 within `zoneHeader`).
+    #[inline]
+    pub fn RespawnLocationGroupId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x360) }
+    }
+
+    /// `zoneHeader::RespawnLocationGroupId` at 0x360 (0x360 within `zoneHeader`).
+    #[inline]
+    pub fn set_RespawnLocationGroupId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x360, value) }
+    }
+
+    /// `zoneHeader::FallThroughWorldTeleportID` at 0x364 (0x364 within `zoneHeader`).
+    #[inline]
+    pub fn FallThroughWorldTeleportID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x364) }
+    }
+
+    /// `zoneHeader::FallThroughWorldTeleportID` at 0x364 (0x364 within `zoneHeader`).
+    #[inline]
+    pub fn set_FallThroughWorldTeleportID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x364, value) }
+    }
+
+    /// `zoneHeader::FallThroughWorldScriptID` at 0x368 (0x368 within `zoneHeader`).
+    #[inline]
+    pub fn FallThroughWorldScriptID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x368) }
+    }
+
+    /// `zoneHeader::FallThroughWorldScriptID` at 0x368 (0x368 within `zoneHeader`).
+    #[inline]
+    pub fn set_FallThroughWorldScriptID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x368, value) }
+    }
+
+    /// `zoneHeader::bNoBuffExpiration` at 0x36c (0x36c within `zoneHeader`).
+    #[inline]
+    pub fn bNoBuffExpiration(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x36c) != 0 }
+    }
+
+    /// `zoneHeader::bNoBuffExpiration` at 0x36c (0x36c within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoBuffExpiration(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x36c, u8::from(value)) }
+    }
+
+    /// `zoneHeader::LavaDamage` at 0x370 (0x370 within `zoneHeader`).
+    #[inline]
+    pub fn LavaDamage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x370) }
+    }
+
+    /// `zoneHeader::LavaDamage` at 0x370 (0x370 within `zoneHeader`).
+    #[inline]
+    pub fn set_LavaDamage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x370, value) }
+    }
+
+    /// `zoneHeader::MinLavaDamage` at 0x374 (0x374 within `zoneHeader`).
+    #[inline]
+    pub fn MinLavaDamage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x374) }
+    }
+
+    /// `zoneHeader::MinLavaDamage` at 0x374 (0x374 within `zoneHeader`).
+    #[inline]
+    pub fn set_MinLavaDamage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x374, value) }
+    }
+
+    /// `zoneHeader::bDisallowManaStone` at 0x378 (0x378 within `zoneHeader`).
+    #[inline]
+    pub fn bDisallowManaStone(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x378) != 0 }
+    }
+
+    /// `zoneHeader::bDisallowManaStone` at 0x378 (0x378 within `zoneHeader`).
+    #[inline]
+    pub fn set_bDisallowManaStone(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x378, u8::from(value)) }
+    }
+
+    /// `zoneHeader::bNoBind` at 0x379 (0x379 within `zoneHeader`).
+    #[inline]
+    pub fn bNoBind(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x379) != 0 }
+    }
+
+    /// `zoneHeader::bNoBind` at 0x379 (0x379 within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoBind(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x379, u8::from(value)) }
+    }
+
+    /// `zoneHeader::bNoAttack` at 0x37a (0x37a within `zoneHeader`).
+    #[inline]
+    pub fn bNoAttack(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x37a) != 0 }
+    }
+
+    /// `zoneHeader::bNoAttack` at 0x37a (0x37a within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoAttack(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x37a, u8::from(value)) }
+    }
+
+    /// `zoneHeader::bNoCallOfTheHero` at 0x37b (0x37b within `zoneHeader`).
+    #[inline]
+    pub fn bNoCallOfTheHero(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x37b) != 0 }
+    }
+
+    /// `zoneHeader::bNoCallOfTheHero` at 0x37b (0x37b within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoCallOfTheHero(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x37b, u8::from(value)) }
+    }
+
+    /// `zoneHeader::bNoFlux` at 0x37c (0x37c within `zoneHeader`).
+    #[inline]
+    pub fn bNoFlux(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x37c) != 0 }
+    }
+
+    /// `zoneHeader::bNoFlux` at 0x37c (0x37c within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoFlux(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x37c, u8::from(value)) }
+    }
+
+    /// `zoneHeader::bNoFear` at 0x37d (0x37d within `zoneHeader`).
+    #[inline]
+    pub fn bNoFear(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x37d) != 0 }
+    }
+
+    /// `zoneHeader::bNoFear` at 0x37d (0x37d within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoFear(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x37d, u8::from(value)) }
+    }
+
+    /// `zoneHeader::bNoEncumber` at 0x37e (0x37e within `zoneHeader`).
+    #[inline]
+    pub fn bNoEncumber(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x37e) != 0 }
+    }
+
+    /// `zoneHeader::bNoEncumber` at 0x37e (0x37e within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoEncumber(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x37e, u8::from(value)) }
+    }
+
+    /// `zoneHeader::FastRegenHP` at 0x380 (0x380 within `zoneHeader`).
+    #[inline]
+    pub fn FastRegenHP(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x380) }
+    }
+
+    /// `zoneHeader::FastRegenHP` at 0x380 (0x380 within `zoneHeader`).
+    #[inline]
+    pub fn set_FastRegenHP(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x380, value) }
+    }
+
+    /// `zoneHeader::FastRegenMana` at 0x384 (0x384 within `zoneHeader`).
+    #[inline]
+    pub fn FastRegenMana(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x384) }
+    }
+
+    /// `zoneHeader::FastRegenMana` at 0x384 (0x384 within `zoneHeader`).
+    #[inline]
+    pub fn set_FastRegenMana(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x384, value) }
+    }
+
+    /// `zoneHeader::FastRegenEndurance` at 0x388 (0x388 within `zoneHeader`).
+    #[inline]
+    pub fn FastRegenEndurance(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x388) }
+    }
+
+    /// `zoneHeader::FastRegenEndurance` at 0x388 (0x388 within `zoneHeader`).
+    #[inline]
+    pub fn set_FastRegenEndurance(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x388, value) }
+    }
+
+    /// `zoneHeader::CanPlaceCampsite` at 0x38c (0x38c within `zoneHeader`).
+    #[inline]
+    pub fn CanPlaceCampsite(&self) -> EPlace {
+        unsafe { read(self._bytes.get().cast(), 0x38c) }
+    }
+
+    /// `zoneHeader::CanPlaceCampsite` at 0x38c (0x38c within `zoneHeader`).
+    #[inline]
+    pub fn set_CanPlaceCampsite(&self, value: EPlace) {
+        unsafe { write(self._bytes.get().cast(), 0x38c, value) }
+    }
+
+    /// `zoneHeader::CanPlaceGuildBanner` at 0x390 (0x390 within `zoneHeader`).
+    #[inline]
+    pub fn CanPlaceGuildBanner(&self) -> EPlace {
+        unsafe { read(self._bytes.get().cast(), 0x390) }
+    }
+
+    /// `zoneHeader::CanPlaceGuildBanner` at 0x390 (0x390 within `zoneHeader`).
+    #[inline]
+    pub fn set_CanPlaceGuildBanner(&self, value: EPlace) {
+        unsafe { write(self._bytes.get().cast(), 0x390, value) }
+    }
+
+    /// `zoneHeader::FogDensity` at 0x394 (0x394 within `zoneHeader`).
+    #[inline]
+    pub fn FogDensity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x394) }
+    }
+
+    /// `zoneHeader::FogDensity` at 0x394 (0x394 within `zoneHeader`).
+    #[inline]
+    pub fn set_FogDensity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x394, value) }
+    }
+
+    /// `zoneHeader::bAdjustGamma` at 0x398 (0x398 within `zoneHeader`).
+    #[inline]
+    pub fn bAdjustGamma(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x398) != 0 }
+    }
+
+    /// `zoneHeader::bAdjustGamma` at 0x398 (0x398 within `zoneHeader`).
+    #[inline]
+    pub fn set_bAdjustGamma(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x398, u8::from(value)) }
+    }
+
+    /// `zoneHeader::TimeStringID` at 0x39c (0x39c within `zoneHeader`).
+    #[inline]
+    pub fn TimeStringID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x39c) }
+    }
+
+    /// `zoneHeader::TimeStringID` at 0x39c (0x39c within `zoneHeader`).
+    #[inline]
+    pub fn set_TimeStringID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x39c, value) }
+    }
+
+    /// `zoneHeader::bNoMercenaries` at 0x3a0 (0x3a0 within `zoneHeader`).
+    #[inline]
+    pub fn bNoMercenaries(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3a0) != 0 }
+    }
+
+    /// `zoneHeader::bNoMercenaries` at 0x3a0 (0x3a0 within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoMercenaries(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3a0, u8::from(value)) }
+    }
+
+    /// `zoneHeader::FishingRelated` at 0x3a4 (0x3a4 within `zoneHeader`).
+    #[inline]
+    pub fn FishingRelated(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3a4) }
+    }
+
+    /// `zoneHeader::FishingRelated` at 0x3a4 (0x3a4 within `zoneHeader`).
+    #[inline]
+    pub fn set_FishingRelated(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3a4, value) }
+    }
+
+    /// `zoneHeader::ForageSpecial` at 0x3a8 (0x3a8 within `zoneHeader`).
+    #[inline]
+    pub fn ForageSpecial(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3a8) }
+    }
+
+    /// `zoneHeader::ForageSpecial` at 0x3a8 (0x3a8 within `zoneHeader`).
+    #[inline]
+    pub fn set_ForageSpecial(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3a8, value) }
+    }
+
+    /// `zoneHeader::bNoLevitate` at 0x3ac (0x3ac within `zoneHeader`).
+    #[inline]
+    pub fn bNoLevitate(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3ac) != 0 }
+    }
+
+    /// `zoneHeader::bNoLevitate` at 0x3ac (0x3ac within `zoneHeader`).
+    #[inline]
+    pub fn set_bNoLevitate(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3ac, u8::from(value)) }
+    }
+
+    /// `zoneHeader::BloomIntensity` at 0x3b0 (0x3b0 within `zoneHeader`).
+    #[inline]
+    pub fn BloomIntensity(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x3b0) }
+    }
+
+    /// `zoneHeader::BloomIntensity` at 0x3b0 (0x3b0 within `zoneHeader`).
+    #[inline]
+    pub fn set_BloomIntensity(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x3b0, value) }
+    }
+}
+
 /// C++ enum `EActorType`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -13588,6 +22870,33 @@ impl ELockoutCharacterReason {
     pub const LCR_Something: Self = Self(2);
 }
 
+/// C++ enum `EOutDoor`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct EOutDoor(pub u8);
+
+impl EOutDoor {
+    pub const IndoorDungeon: Self = Self(0);
+    pub const Outdoor: Self = Self(1);
+    pub const OutdoorCity: Self = Self(2);
+    pub const DungeonCity: Self = Self(3);
+    pub const IndoorCity: Self = Self(4);
+    pub const OutdoorDungeon: Self = Self(5);
+}
+
+/// C++ enum `EPlace`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct EPlace(pub i32);
+
+impl EPlace {
+    pub const CannotPlace: Self = Self(0);
+    pub const CanOnlyPlace: Self = Self(1);
+    pub const CanPlaceAndGoto: Self = Self(2);
+}
+
 /// C++ enum `EQExpansion`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -13625,6 +22934,9 @@ impl EQExpansion {
     pub const EQExpansionCOV: Self = Self(27);
     pub const EQExpansionTOL: Self = Self(28);
     pub const EQExpansionNOS: Self = Self(29);
+    pub const EQExpansionLS: Self = Self(30);
+    pub const EQExpansionTOB: Self = Self(31);
+    pub const EQExpansionSOR: Self = Self(32);
 }
 
 /// C++ enum `GravityBehavior`. A newtype rather than a Rust enum, since game memory may hold
@@ -13698,7 +23010,7 @@ impl ItemContainerInstance {
 /// values that aren't listed.
 #[repr(transparent)]
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
-pub struct ItemSpellTypes(pub i32);
+pub struct ItemSpellTypes(pub u8);
 
 impl ItemSpellTypes {
     pub const ItemSpellType_Clicky: Self = Self(0);
@@ -13724,6 +23036,12 @@ impl ItemSpellTypes {
     pub const eFamiliarSpell: Self = Self(0);
 }
 
+/// C++ enum `ZONE_REQ_STATUS`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct ZONE_REQ_STATUS(pub i32);
+
 /// C++ enum `eCharacterStatus`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -13736,6 +23054,32 @@ impl eCharacterStatus {
     pub const eCharStatusFrozen: Self = Self(2);
     pub const eCharStatusUnconcious: Self = Self(3);
     pub const eCharStatusDead: Self = Self(4);
+}
+
+/// C++ enum `eChatFilterValues`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eChatFilterValues(pub i32);
+
+impl eChatFilterValues {
+    pub const FILTER_VALUE_INVALID: Self = Self(-1);
+    pub const FILTER_VALUE_SHOW: Self = Self(0);
+    pub const FILTER_VALUE_HIDE: Self = Self(1);
+    pub const FILTER_VALUE_ME: Self = Self(2);
+    pub const FILTER_VALUE_GROUP: Self = Self(3);
+    pub const FILTER_VALUE_COUNT: Self = Self(4);
+}
+
+/// C++ enum `eKeyboardMode`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eKeyboardMode(pub i32);
+
+impl eKeyboardMode {
+    pub const KeyboardMode_Typing: Self = Self(0);
+    pub const KeyboardMode_Command: Self = Self(1);
 }
 
 /// C++ enum `eParcelStatus`. A newtype rather than a Rust enum, since game memory may hold
@@ -13836,6 +23180,13 @@ pub struct CharacterZoneClient {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct ChatBufferEntry {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct ClaimData {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -13850,7 +23201,14 @@ pub struct DynamicZoneTimerData {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct EQList_ALCHEMYBONUSSKILLDATA_Node {
+pub struct EQCamera {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct EQList_AlchemyBonusSkillData_Node {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -13871,6 +23229,20 @@ pub struct ExtendedTargetList {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct HINSTANCE__ {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct HWND__ {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct HashListSet_int_128_1_Node {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -13878,35 +23250,35 @@ pub struct HashListSet_int_128_1_Node {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink_HashTableEntry_AchievementSubComponentCountData_int {
+pub struct HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_CachedFocusAbility___int64_ResizePolicyNoResize_HashTableEntry_CachedFocusAbility___int64 {
+pub struct HashTable_CachedFocusAbility___int64_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_CompletedAchievementData_int_ResizePolicyNoShrink_HashTableEntry_CompletedAchievementData_int {
+pub struct HashTable_CompletedAchievementData_int_ResizePolicyNoShrink_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashTableEntry_DynamicZoneData_int {
+pub struct HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashTableEntry_MailItemData_EqItemGuid {
+pub struct HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -13920,14 +23292,14 @@ pub struct HashTable_PlayerClient_int_ResizePolicyNoResize {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_ProgressionExperience_int_ResizePolicyNoResize_HashTableEntry_ProgressionExperience_int {
+pub struct HashTable_ProgressionExperience_int_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_PvPKill24HourData_int_ResizePolicyNoResize_HashTableEntry_PvPKill24HourData_int {
+pub struct HashTable_PvPKill24HourData_int_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -13941,21 +23313,21 @@ pub struct HashTable_SpellCache_AltEffectCache_int_ResizePolicyNoResize {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusEffect___int64 {
+pub struct HashTable_SpellCache_CachedFocusEffect___int64_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusItem___int64 {
+pub struct HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize_HashTableEntry_SpellCache_CachedFocusMercAbility___int64 {
+pub struct HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -13969,7 +23341,7 @@ pub struct HashTable_SpellCache_EffectCache_int_ResizePolicyNoResize {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct HashTable_int_int_ResizePolicyNoResize_HashTableEntry_int_int {
+pub struct HashTable_int_int_ResizePolicyNoResize_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -14040,10 +23412,11 @@ pub struct TaskTimerData {
 /// Every generated record, keyed by its C++ name.
 pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ARGBCOLOR", rust_name: "ARGBCOLOR", size: 0x4 },
-    RecordInfo { name: "ARMOR", rust_name: "ARMOR", size: 0x14 },
     RecordInfo { name: "ActorClient", rust_name: "ActorClient", size: 0x1b4 },
+    RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
     RecordInfo { name: "ArrayClass2<unsigned int>", rust_name: "ArrayClass2_unsigned_int", size: 0x1c },
     RecordInfo { name: "ArrayClass<CXStr>", rust_name: "ArrayClass_CXStr", size: 0x10 },
+    RecordInfo { name: "ArrayClass<ChatBufferEntry *>", rust_name: "ArrayClass_ChatBufferEntry", size: 0x10 },
     RecordInfo { name: "ArrayClass<ClaimData>", rust_name: "ArrayClass_ClaimData", size: 0x10 },
     RecordInfo { name: "ArrayClass<MonsterMissionTemplate>", rust_name: "ArrayClass_MonsterMissionTemplate", size: 0x10 },
     RecordInfo { name: "ArrayClass<PhysicsEffect>", rust_name: "ArrayClass_PhysicsEffect", size: 0x10 },
@@ -14058,14 +23431,21 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CVector3", rust_name: "CVector3", size: 0xc },
     RecordInfo { name: "CXStr", rust_name: "CXStr", size: 0x4 },
     RecordInfo { name: "CharacterPropertyHash", rust_name: "CharacterPropertyHash", size: 0x10 },
+    RecordInfo { name: "ChatFilterData", rust_name: "ChatFilterData", size: 0x88 },
     RecordInfo { name: "ClaimDataCollection", rust_name: "ClaimDataCollection", size: 0x10 },
+    RecordInfo { name: "EQCameraOptions", rust_name: "EQCameraOptions", size: 0x1c },
+    RecordInfo { name: "EQGameOptions", rust_name: "EQGameOptions", size: 0x198 },
+    RecordInfo { name: "EQGameOptions2", rust_name: "EQGameOptions2", size: 0x18 },
     RecordInfo { name: "EQGroundItem", rust_name: "EQGroundItem", size: 0x80 },
-    RecordInfo { name: "EQList<ALCHEMYBONUSSKILLDATA *>", rust_name: "EQList_ALCHEMYBONUSSKILLDATA", size: 0x10 },
+    RecordInfo { name: "EQList<AlchemyBonusSkillData *>", rust_name: "EQList_AlchemyBonusSkillData", size: 0x10 },
+    RecordInfo { name: "EQSocial", rust_name: "EQSocial", size: 0x51c },
     RecordInfo { name: "EQUIPMENT", rust_name: "EQUIPMENT", size: 0xb4 },
     RecordInfo { name: "EQZoneInfo", rust_name: "EQZoneInfo", size: 0x1f8 },
     RecordInfo { name: "EqGuid", rust_name: "EqGuid", size: 0x8 },
     RecordInfo { name: "EqItemGuid", rust_name: "EqItemGuid", size: 0x12 },
+    RecordInfo { name: "EverQuestinfo", rust_name: "EverQuestinfo", size: 0x83f9c },
     RecordInfo { name: "GroupMemberStats", rust_name: "GroupMemberStats", size: 0x150 },
+    RecordInfo { name: "GroupRoleLoadout", rust_name: "GroupRoleLoadout", size: 0x334 },
     RecordInfo { name: "HashListSet<int,128,-1>", rust_name: "HashListSet_int_128_1", size: 0x210 },
     RecordInfo { name: "HashTable<AchievementSubComponentCountData,int,ResizePolicyNoShrink>", rust_name: "HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink", size: 0x10 },
     RecordInfo { name: "HashTable<CachedFocusAbility,__int64,ResizePolicyNoResize>", rust_name: "HashTable_CachedFocusAbility___int64_ResizePolicyNoResize", size: 0x10 },
@@ -14078,6 +23458,8 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "HashTable<SpellCache::CachedFocusItem,__int64,ResizePolicyNoResize>", rust_name: "HashTable_SpellCache_CachedFocusItem___int64_ResizePolicyNoResize", size: 0x10 },
     RecordInfo { name: "HashTable<SpellCache::CachedFocusMercAbility,__int64,ResizePolicyNoResize>", rust_name: "HashTable_SpellCache_CachedFocusMercAbility___int64_ResizePolicyNoResize", size: 0x10 },
     RecordInfo { name: "HashTable<int,int,ResizePolicyNoResize>", rust_name: "HashTable_int_int_ResizePolicyNoResize", size: 0x10 },
+    RecordInfo { name: "HotButtonData", rust_name: "HotButtonData", size: 0x6c },
+    RecordInfo { name: "HotButtonLoadout", rust_name: "HotButtonLoadout", size: 0x20 },
     RecordInfo { name: "ItemContainer", rust_name: "ItemContainer", size: 0x38 },
     RecordInfo { name: "ItemGlobalIndex", rust_name: "ItemGlobalIndex", size: 0xc },
     RecordInfo { name: "ItemIndex", rust_name: "ItemIndex", size: 0x6 },
@@ -14098,6 +23480,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "PlayerClient", rust_name: "PlayerClient", size: 0x1f08 },
     RecordInfo { name: "PlayerManagerClient", rust_name: "PlayerManagerClient", size: 0x18 },
     RecordInfo { name: "PlayerPhysicsClient", rust_name: "PlayerPhysicsClient", size: 0x28 },
+    RecordInfo { name: "PlayerRoleLoadout", rust_name: "PlayerRoleLoadout", size: 0x84 },
     RecordInfo { name: "PointSystemBase", rust_name: "PointSystemBase", size: 0x14 },
     RecordInfo { name: "ProfileManager", rust_name: "ProfileManager", size: 0x8 },
     RecordInfo { name: "PvPDeath", rust_name: "PvPDeath", size: 0x58 },
@@ -14106,28 +23489,30 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "SFellowship", rust_name: "SFellowship", size: 0x9e4 },
     RecordInfo { name: "SFellowshipMember", rust_name: "SFellowshipMember", size: 0x54 },
     RecordInfo { name: "SpellCache", rust_name: "SpellCache", size: 0x58 },
+    RecordInfo { name: "SpellLoadout", rust_name: "SpellLoadout", size: 0x4c },
     RecordInfo { name: "StatCounter", rust_name: "StatCounter", size: 0x4 },
     RecordInfo { name: "StatElapsedTime", rust_name: "StatElapsedTime", size: 0xc },
     RecordInfo { name: "TCircularBuffer<SDoCollisionMovementStats,20>", rust_name: "TCircularBuffer_SDoCollisionMovementStats_20", size: 0x918 },
     RecordInfo { name: "TList<CObjectGroupStageInstance>", rust_name: "TList_CObjectGroupStageInstance", size: 0x8 },
     RecordInfo { name: "TList<PlayerClient>", rust_name: "TList_PlayerClient", size: 0x8 },
+    RecordInfo { name: "TargetSetLoadout", rust_name: "TargetSetLoadout", size: 0x5f7 },
     RecordInfo { name: "VeArray<VePointer<ItemClient> >", rust_name: "VeArray_VePointer_ItemClient", size: 0xc },
     RecordInfo { name: "VePointer<ItemClient>", rust_name: "VePointer_ItemClient", size: 0x4 },
     RecordInfo { name: "WorldLocation", rust_name: "WorldLocation", size: 0x14 },
+    RecordInfo { name: "zoneHeader", rust_name: "zoneHeader", size: 0x3b4 },
 ];
 
 /// Every generated field accessor and where it reads from.
 pub static FIELDS: &[FieldInfo] = &[
-    FieldInfo { record: "ARGBCOLOR", field: "B", accessor: "B", declared_in: "ARGBCOLOR", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
-    FieldInfo { record: "ARGBCOLOR", field: "ARGB", accessor: "ARGB", declared_in: "ARGBCOLOR", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
-    FieldInfo { record: "ARGBCOLOR", field: "G", accessor: "G", declared_in: "ARGBCOLOR", offset: 0x1, decl_offset: 0x1, size: 0x1, bits: None },
-    FieldInfo { record: "ARGBCOLOR", field: "R", accessor: "R", declared_in: "ARGBCOLOR", offset: 0x2, decl_offset: 0x2, size: 0x1, bits: None },
-    FieldInfo { record: "ARGBCOLOR", field: "A", accessor: "A", declared_in: "ARGBCOLOR", offset: 0x3, decl_offset: 0x3, size: 0x1, bits: None },
-    FieldInfo { record: "ARMOR", field: "ID", accessor: "ID", declared_in: "ARMOR", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
-    FieldInfo { record: "ARMOR", field: "Var", accessor: "Var", declared_in: "ARMOR", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
-    FieldInfo { record: "ARMOR", field: "Material", accessor: "Material", declared_in: "ARMOR", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
-    FieldInfo { record: "ARMOR", field: "NewArmorID", accessor: "NewArmorID", declared_in: "ARMOR", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
-    FieldInfo { record: "ARMOR", field: "NewArmorType", accessor: "NewArmorType", declared_in: "ARMOR", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "Blue", accessor: "Blue", declared_in: "RGB", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "B", accessor: "B", declared_in: "RGB", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "ARGB", accessor: "ARGB", declared_in: "RGB", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "Green", accessor: "Green", declared_in: "RGB", offset: 0x1, decl_offset: 0x1, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "G", accessor: "G", declared_in: "RGB", offset: 0x1, decl_offset: 0x1, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "Red", accessor: "Red", declared_in: "RGB", offset: 0x2, decl_offset: 0x2, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "R", accessor: "R", declared_in: "RGB", offset: 0x2, decl_offset: 0x2, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "Alpha", accessor: "Alpha", declared_in: "RGB", offset: 0x3, decl_offset: 0x3, size: 0x1, bits: None },
+    FieldInfo { record: "ARGBCOLOR", field: "A", accessor: "A", declared_in: "RGB", offset: 0x3, decl_offset: 0x3, size: 0x1, bits: None },
     FieldInfo { record: "ActorClient", field: "__vfptr", accessor: "__vfptr", declared_in: "ActorBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ActorClient", field: "TextureType", accessor: "TextureType", declared_in: "ActorBase", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
     FieldInfo { record: "ActorClient", field: "Material", accessor: "Material", declared_in: "ActorBase", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
@@ -14167,6 +23552,11 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ActorClient", field: "PartialFaceNumber", accessor: "PartialFaceNumber", declared_in: "ActorClient", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
     FieldInfo { record: "ActorClient", field: "bNewArmorDisabled", accessor: "bNewArmorDisabled", declared_in: "ActorClient", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
     FieldInfo { record: "ActorClient", field: "pApplicationData", accessor: "pApplicationData", declared_in: "ActorClient", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "ArmorProperties", field: "type", accessor: "type", declared_in: "ArmorProperties", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArmorProperties", field: "variation", accessor: "variation", declared_in: "ArmorProperties", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArmorProperties", field: "material", accessor: "material", declared_in: "ArmorProperties", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArmorProperties", field: "newArmorID", accessor: "newArmorID", declared_in: "ArmorProperties", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArmorProperties", field: "newArmorType", accessor: "newArmorType", declared_in: "ArmorProperties", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<unsigned int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<unsigned int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -14178,6 +23568,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXStr>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXStr>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CXStr>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<ClaimData>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ClaimData>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<ClaimData>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ClaimData>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<ClaimData>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -14237,7 +23631,74 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CharacterPropertyHash", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CharacterPropertyHash", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "CharacterPropertyHash", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ChatFilterData", field: "chatFilters", accessor: "chatFilters", declared_in: "ChatFilterData", offset: 0x0, decl_offset: 0x0, size: 0x88, bits: None },
     FieldInfo { record: "ClaimDataCollection", field: "claimData", accessor: "claimData", declared_in: "ClaimDataCollection", offset: 0x0, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "distance", accessor: "distance", declared_in: "EQCameraOptions", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "dirHeading", accessor: "dirHeading", declared_in: "EQCameraOptions", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "height", accessor: "height", declared_in: "EQCameraOptions", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "heading", accessor: "heading", declared_in: "EQCameraOptions", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "pitch", accessor: "pitch", declared_in: "EQCameraOptions", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "zoom", accessor: "zoom", declared_in: "EQCameraOptions", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "EQCameraOptions", field: "changeable", accessor: "changeable", declared_in: "EQCameraOptions", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "gamma", accessor: "gamma", declared_in: "EQGameOptions", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "gammaScale", accessor: "gammaScale", declared_in: "EQGameOptions", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "anonymous", accessor: "anonymous", declared_in: "EQGameOptions", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "autoHelp", accessor: "autoHelp", declared_in: "EQGameOptions", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "trade", accessor: "trade", declared_in: "EQGameOptions", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "guildInvites", accessor: "guildInvites", declared_in: "EQGameOptions", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "sky", accessor: "sky", declared_in: "EQGameOptions", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "lod", accessor: "lod", declared_in: "EQGameOptions", offset: 0x1c, decl_offset: 0x1c, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "videoMode", accessor: "videoMode", declared_in: "EQGameOptions", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "sameRes", accessor: "sameRes", declared_in: "EQGameOptions", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "pcNames", accessor: "pcNames", declared_in: "EQGameOptions", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "npcNames", accessor: "npcNames", declared_in: "EQGameOptions", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "petNames", accessor: "petNames", declared_in: "EQGameOptions", offset: 0x30, decl_offset: 0x30, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "mercNames", accessor: "mercNames", declared_in: "EQGameOptions", offset: 0x31, decl_offset: 0x31, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "targetHealth", accessor: "targetHealth", declared_in: "EQGameOptions", offset: 0x32, decl_offset: 0x32, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "petOwnerNames", accessor: "petOwnerNames", declared_in: "EQGameOptions", offset: 0x33, decl_offset: 0x33, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "mercOwnerNames", accessor: "mercOwnerNames", declared_in: "EQGameOptions", offset: 0x34, decl_offset: 0x34, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "itemPalcementHideUI", accessor: "itemPalcementHideUI", declared_in: "EQGameOptions", offset: 0x35, decl_offset: 0x35, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "itemPlacementDefaultModeCursor", accessor: "itemPlacementDefaultModeCursor", declared_in: "EQGameOptions", offset: 0x36, decl_offset: 0x36, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "randomCharacterSelectMusic", accessor: "randomCharacterSelectMusic", declared_in: "EQGameOptions", offset: 0x37, decl_offset: 0x37, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "music", accessor: "music", declared_in: "EQGameOptions", offset: 0x38, decl_offset: 0x38, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "sound", accessor: "sound", declared_in: "EQGameOptions", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "realism", accessor: "realism", declared_in: "EQGameOptions", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "xMouseSensitivity", accessor: "xMouseSensitivity", declared_in: "EQGameOptions", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "yMouseSensitivity", accessor: "yMouseSensitivity", declared_in: "EQGameOptions", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "inverseMouse", accessor: "inverseMouse", declared_in: "EQGameOptions", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "lookSpring", accessor: "lookSpring", declared_in: "EQGameOptions", offset: 0x50, decl_offset: 0x50, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "mouseActive", accessor: "mouseActive", declared_in: "EQGameOptions", offset: 0x54, decl_offset: 0x54, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "destroy", accessor: "destroy", declared_in: "EQGameOptions", offset: 0x58, decl_offset: 0x58, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "mipMapping", accessor: "mipMapping", declared_in: "EQGameOptions", offset: 0x5c, decl_offset: 0x5c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "filterOff", accessor: "filterOff", declared_in: "EQGameOptions", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "clipPlane", accessor: "clipPlane", declared_in: "EQGameOptions", offset: 0x64, decl_offset: 0x64, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "keyboard", accessor: "keyboard", declared_in: "EQGameOptions", offset: 0x68, decl_offset: 0x68, size: 0xc8, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "cameras", accessor: "cameras", declared_in: "EQGameOptions", offset: 0x130, decl_offset: 0x130, size: 0x38, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "aaNoConfirm", accessor: "aaNoConfirm", declared_in: "EQGameOptions", offset: 0x168, decl_offset: 0x168, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "pointMerchantNoConfirm", accessor: "pointMerchantNoConfirm", declared_in: "EQGameOptions", offset: 0x16c, decl_offset: 0x16c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "mouseWheelZoom", accessor: "mouseWheelZoom", declared_in: "EQGameOptions", offset: 0x170, decl_offset: 0x170, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "mouseTurnZoom", accessor: "mouseTurnZoom", declared_in: "EQGameOptions", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "bTargetIndicatorVisible", accessor: "bTargetIndicatorVisible", declared_in: "EQGameOptions", offset: 0x178, decl_offset: 0x178, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "maxFPS", accessor: "maxFPS", declared_in: "EQGameOptions", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "maxBGFPS", accessor: "maxBGFPS", declared_in: "EQGameOptions", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "nLODBias", accessor: "nLODBias", declared_in: "EQGameOptions", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "lootAllConfirm", accessor: "lootAllConfirm", declared_in: "EQGameOptions", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "dismissMercenaryConfirm", accessor: "dismissMercenaryConfirm", declared_in: "EQGameOptions", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "raidInviteConfirm", accessor: "raidInviteConfirm", declared_in: "EQGameOptions", offset: 0x18d, decl_offset: 0x18d, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "offlineModeConfirm", accessor: "offlineModeConfirm", declared_in: "EQGameOptions", offset: 0x18e, decl_offset: 0x18e, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "bagSellConfirm", accessor: "bagSellConfirm", declared_in: "EQGameOptions", offset: 0x18f, decl_offset: 0x18f, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "bagSellContentsConfirm", accessor: "bagSellContentsConfirm", declared_in: "EQGameOptions", offset: 0x190, decl_offset: 0x190, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "tributeAutoOff", accessor: "tributeAutoOff", declared_in: "EQGameOptions", offset: 0x191, decl_offset: 0x191, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "trophyTributeAutoOff", accessor: "trophyTributeAutoOff", declared_in: "EQGameOptions", offset: 0x192, decl_offset: 0x192, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "parcelLimitLogoutConfirm", accessor: "parcelLimitLogoutConfirm", declared_in: "EQGameOptions", offset: 0x193, decl_offset: 0x193, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions", field: "saveSetConfirm", accessor: "saveSetConfirm", declared_in: "EQGameOptions", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "UserFogScaler", accessor: "UserFogScaler", declared_in: "EQGameOptions2", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "VoiceRecOn", accessor: "VoiceRecOn", declared_in: "EQGameOptions2", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "VRDelay", accessor: "VRDelay", declared_in: "EQGameOptions2", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "noSafeDrop", accessor: "noSafeDrop", declared_in: "EQGameOptions2", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "lootNoDrop", accessor: "lootNoDrop", declared_in: "EQGameOptions2", offset: 0xd, decl_offset: 0xd, size: 0x1, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "ReverseSoundChannels", accessor: "ReverseSoundChannels", declared_in: "EQGameOptions2", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EQGameOptions2", field: "temp10", accessor: "temp10", declared_in: "EQGameOptions2", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "pPrev", accessor: "pPrev", declared_in: "EQGroundItem", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "pNext", accessor: "pNext", declared_in: "EQGroundItem", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "Item", accessor: "Item", declared_in: "EQGroundItem", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -14255,10 +23716,15 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "EQGroundItem", field: "X", accessor: "X", declared_in: "EQGroundItem", offset: 0x74, decl_offset: 0x74, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "Z", accessor: "Z", declared_in: "EQGroundItem", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "Weight", accessor: "Weight", declared_in: "EQGroundItem", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
-    FieldInfo { record: "EQList<ALCHEMYBONUSSKILLDATA *>", field: "m_numItems", accessor: "m_numItems", declared_in: "EQList<ALCHEMYBONUSSKILLDATA *>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
-    FieldInfo { record: "EQList<ALCHEMYBONUSSKILLDATA *>", field: "m_pHead", accessor: "m_pHead", declared_in: "EQList<ALCHEMYBONUSSKILLDATA *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
-    FieldInfo { record: "EQList<ALCHEMYBONUSSKILLDATA *>", field: "m_pTail", accessor: "m_pTail", declared_in: "EQList<ALCHEMYBONUSSKILLDATA *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
-    FieldInfo { record: "EQList<ALCHEMYBONUSSKILLDATA *>", field: "m_pCurrent", accessor: "m_pCurrent", declared_in: "EQList<ALCHEMYBONUSSKILLDATA *>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_numItems", accessor: "m_numItems", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_pHead", accessor: "m_pHead", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_pTail", accessor: "m_pTail", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_pCurrent", accessor: "m_pCurrent", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EQSocial", field: "Name", accessor: "Name", declared_in: "EQSocial", offset: 0x0, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "EQSocial", field: "Line", accessor: "Line", declared_in: "EQSocial", offset: 0x10, decl_offset: 0x10, size: 0x500, bits: None },
+    FieldInfo { record: "EQSocial", field: "Color", accessor: "Color", declared_in: "EQSocial", offset: 0x510, decl_offset: 0x510, size: 0x1, bits: None },
+    FieldInfo { record: "EQSocial", field: "TimerBegin", accessor: "TimerBegin", declared_in: "EQSocial", offset: 0x514, decl_offset: 0x514, size: 0x4, bits: None },
+    FieldInfo { record: "EQSocial", field: "TimerDuration", accessor: "TimerDuration", declared_in: "EQSocial", offset: 0x518, decl_offset: 0x518, size: 0x4, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Item", accessor: "Item", declared_in: "EQUIPMENT", offset: 0x0, decl_offset: 0x0, size: 0xb4, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Head", accessor: "Head", declared_in: "EQUIPMENT", offset: 0x0, decl_offset: 0x0, size: 0x14, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Chest", accessor: "Chest", declared_in: "EQUIPMENT", offset: 0x14, decl_offset: 0x14, size: 0x14, bits: None },
@@ -14294,6 +23760,398 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "EqGuid", field: "WorldUniqueID", accessor: "WorldUniqueID", declared_in: "EqGuid", offset: 0x4, decl_offset: 0x4, size: 0x2, bits: None },
     FieldInfo { record: "EqGuid", field: "Reserved", accessor: "Reserved", declared_in: "EqGuid", offset: 0x6, decl_offset: 0x6, size: 0x2, bits: None },
     FieldInfo { record: "EqItemGuid", field: "guid", accessor: "guid", declared_in: "EqItemGuid", offset: 0x0, decl_offset: 0x0, size: 0x12, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Wnd", accessor: "Wnd", declared_in: "EverQuestinfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "hInst", accessor: "hInst", declared_in: "EverQuestinfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_MinX", accessor: "Render_MinX", declared_in: "EverQuestinfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_MinY", accessor: "Render_MinY", declared_in: "EverQuestinfo", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_MaxX", accessor: "Render_MaxX", declared_in: "EverQuestinfo", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_MaxY", accessor: "Render_MaxY", declared_in: "EverQuestinfo", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_XScale", accessor: "Render_XScale", declared_in: "EverQuestinfo", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_YScale", accessor: "Render_YScale", declared_in: "EverQuestinfo", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_WidthScale", accessor: "Render_WidthScale", declared_in: "EverQuestinfo", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Render_HeightScale", accessor: "Render_HeightScale", declared_in: "EverQuestinfo", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ReadyEnterWorld", accessor: "ReadyEnterWorld", declared_in: "EverQuestinfo", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InsideDoMainWhileLoop", accessor: "InsideDoMainWhileLoop", declared_in: "EverQuestinfo", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Hidden", accessor: "Hidden", declared_in: "EverQuestinfo", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DisplayFlags", accessor: "DisplayFlags", declared_in: "EverQuestinfo", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Command", accessor: "Command", declared_in: "EverQuestinfo", offset: 0x38, decl_offset: 0x38, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Unknown0x0003c", accessor: "Unknown0x0003c", declared_in: "EverQuestinfo", offset: 0x3c, decl_offset: 0x3c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ScreenXRes", accessor: "ScreenXRes", declared_in: "EverQuestinfo", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ScreenYRes", accessor: "ScreenYRes", declared_in: "EverQuestinfo", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "WindowXOffset", accessor: "WindowXOffset", declared_in: "EverQuestinfo", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "WindowYOffset", accessor: "WindowYOffset", declared_in: "EverQuestinfo", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "FullscreenMode", accessor: "FullscreenMode", declared_in: "EverQuestinfo", offset: 0x50, decl_offset: 0x50, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "KeyboardMode", accessor: "KeyboardMode", declared_in: "EverQuestinfo", offset: 0x54, decl_offset: 0x54, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RunMode", accessor: "RunMode", declared_in: "EverQuestinfo", offset: 0x58, decl_offset: 0x58, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MoveCollisions", accessor: "MoveCollisions", declared_in: "EverQuestinfo", offset: 0x59, decl_offset: 0x59, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DisplayCollVolume", accessor: "DisplayCollVolume", declared_in: "EverQuestinfo", offset: 0x5a, decl_offset: 0x5a, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseCntrl", accessor: "MouseCntrl", declared_in: "EverQuestinfo", offset: 0x5b, decl_offset: 0x5b, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseActive", accessor: "MouseActive", declared_in: "EverQuestinfo", offset: 0x5c, decl_offset: 0x5c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ForceCrouch", accessor: "ForceCrouch", declared_in: "EverQuestinfo", offset: 0x5d, decl_offset: 0x5d, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ForceCrouchTimer", accessor: "ForceCrouchTimer", declared_in: "EverQuestinfo", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Friction", accessor: "Friction", declared_in: "EverQuestinfo", offset: 0x64, decl_offset: 0x64, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AFriction", accessor: "AFriction", declared_in: "EverQuestinfo", offset: 0x68, decl_offset: 0x68, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseX", accessor: "MouseX", declared_in: "EverQuestinfo", offset: 0x6c, decl_offset: 0x6c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseY", accessor: "MouseY", declared_in: "EverQuestinfo", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseZ", accessor: "MouseZ", declared_in: "EverQuestinfo", offset: 0x74, decl_offset: 0x74, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastMX", accessor: "LastMX", declared_in: "EverQuestinfo", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastMY", accessor: "LastMY", declared_in: "EverQuestinfo", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseInClientRect", accessor: "MouseInClientRect", declared_in: "EverQuestinfo", offset: 0x80, decl_offset: 0x80, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseSensitivity", accessor: "MouseSensitivity", declared_in: "EverQuestinfo", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MousePointerSpeedMod", accessor: "MousePointerSpeedMod", declared_in: "EverQuestinfo", offset: 0x88, decl_offset: 0x88, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ServerFilter", accessor: "ServerFilter", declared_in: "EverQuestinfo", offset: 0x8c, decl_offset: 0x8c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "IsTrader", accessor: "IsTrader", declared_in: "EverQuestinfo", offset: 0x90, decl_offset: 0x90, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "CurrentChan", accessor: "CurrentChan", declared_in: "EverQuestinfo", offset: 0x94, decl_offset: 0x94, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "CurrentLang", accessor: "CurrentLang", declared_in: "EverQuestinfo", offset: 0x98, decl_offset: 0x98, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TellTarget", accessor: "TellTarget", declared_in: "EverQuestinfo", offset: 0x9c, decl_offset: 0x9c, size: 0x40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastMinute", accessor: "LastMinute", declared_in: "EverQuestinfo", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastLocal", accessor: "LastLocal", declared_in: "EverQuestinfo", offset: 0xe0, decl_offset: 0xe0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastControlled", accessor: "LastControlled", declared_in: "EverQuestinfo", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MInverse", accessor: "MInverse", declared_in: "EverQuestinfo", offset: 0xe8, decl_offset: 0xe8, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Unknown0x000ed", accessor: "Unknown0x000ed", declared_in: "EverQuestinfo", offset: 0xe9, decl_offset: 0xe9, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseLook", accessor: "MouseLook", declared_in: "EverQuestinfo", offset: 0xea, decl_offset: 0xea, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bDefaultMouseLook", accessor: "bDefaultMouseLook", declared_in: "EverQuestinfo", offset: 0xeb, decl_offset: 0xeb, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Strafe", accessor: "Strafe", declared_in: "EverQuestinfo", offset: 0xec, decl_offset: 0xec, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bNetstat", accessor: "bNetstat", declared_in: "EverQuestinfo", offset: 0xed, decl_offset: 0xed, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ModInventory", accessor: "ModInventory", declared_in: "EverQuestinfo", offset: 0xee, decl_offset: 0xee, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastHitter", accessor: "LastHitter", declared_in: "EverQuestinfo", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Harmless", accessor: "Harmless", declared_in: "EverQuestinfo", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Silenced", accessor: "Silenced", declared_in: "EverQuestinfo", offset: 0xf5, decl_offset: 0xf5, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "JumpTimer", accessor: "JumpTimer", declared_in: "EverQuestinfo", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "EventJump", accessor: "EventJump", declared_in: "EverQuestinfo", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastJump", accessor: "LastJump", declared_in: "EverQuestinfo", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "FrameTime", accessor: "FrameTime", declared_in: "EverQuestinfo", offset: 0x104, decl_offset: 0x104, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AutoRun", accessor: "AutoRun", declared_in: "EverQuestinfo", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PoisonTimer", accessor: "PoisonTimer", declared_in: "EverQuestinfo", offset: 0x10c, decl_offset: 0x10c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PoisonGI", accessor: "PoisonGI", declared_in: "EverQuestinfo", offset: 0x110, decl_offset: 0x110, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OldX", accessor: "OldX", declared_in: "EverQuestinfo", offset: 0x114, decl_offset: 0x114, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OldY", accessor: "OldY", declared_in: "EverQuestinfo", offset: 0x118, decl_offset: 0x118, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OldMouseButtons", accessor: "OldMouseButtons", declared_in: "EverQuestinfo", offset: 0x11c, decl_offset: 0x11c, size: 0x8, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseButtons", accessor: "MouseButtons", declared_in: "EverQuestinfo", offset: 0x124, decl_offset: 0x124, size: 0x8, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsMouseRightHanded", accessor: "bIsMouseRightHanded", declared_in: "EverQuestinfo", offset: 0x12c, decl_offset: 0x12c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "EncumberStatus", accessor: "EncumberStatus", declared_in: "EverQuestinfo", offset: 0x130, decl_offset: 0x130, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PendingCharState", accessor: "PendingCharState", declared_in: "EverQuestinfo", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PendingCharacterName", accessor: "PendingCharacterName", declared_in: "EverQuestinfo", offset: 0x138, decl_offset: 0x138, size: 0x40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TutorialMode", accessor: "TutorialMode", declared_in: "EverQuestinfo", offset: 0x178, decl_offset: 0x178, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RMouseSecond", accessor: "RMouseSecond", declared_in: "EverQuestinfo", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LMouseSecond", accessor: "LMouseSecond", declared_in: "EverQuestinfo", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RMouseDown", accessor: "RMouseDown", declared_in: "EverQuestinfo", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LMouseDown", accessor: "LMouseDown", declared_in: "EverQuestinfo", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Snooper", accessor: "Snooper", declared_in: "EverQuestinfo", offset: 0x18c, decl_offset: 0x18c, size: 0x40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DuelTarget", accessor: "DuelTarget", declared_in: "EverQuestinfo", offset: 0x1cc, decl_offset: 0x1cc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DuelMe", accessor: "DuelMe", declared_in: "EverQuestinfo", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DuelOn", accessor: "DuelOn", declared_in: "EverQuestinfo", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AutoHelp", accessor: "AutoHelp", declared_in: "EverQuestinfo", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OldMouseLook", accessor: "OldMouseLook", declared_in: "EverQuestinfo", offset: 0x1dc, decl_offset: 0x1dc, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastLocalUpdate", accessor: "LastLocalUpdate", declared_in: "EverQuestinfo", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastControlledUpdate", accessor: "LastControlledUpdate", declared_in: "EverQuestinfo", offset: 0x1e4, decl_offset: 0x1e4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DataRate", accessor: "DataRate", declared_in: "EverQuestinfo", offset: 0x1e8, decl_offset: 0x1e8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SavedPC", accessor: "SavedPC", declared_in: "EverQuestinfo", offset: 0x1ec, decl_offset: 0x1ec, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InfraRed", accessor: "InfraRed", declared_in: "EverQuestinfo", offset: 0x1f0, decl_offset: 0x1f0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InfraGreen", accessor: "InfraGreen", declared_in: "EverQuestinfo", offset: 0x1f4, decl_offset: 0x1f4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InfraBlue", accessor: "InfraBlue", declared_in: "EverQuestinfo", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UltraRed", accessor: "UltraRed", declared_in: "EverQuestinfo", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UltraGreen", accessor: "UltraGreen", declared_in: "EverQuestinfo", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UltraBlue", accessor: "UltraBlue", declared_in: "EverQuestinfo", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "globalOffset", accessor: "globalOffset", declared_in: "EverQuestinfo", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "IOLines", accessor: "IOLines", declared_in: "EverQuestinfo", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "IOLineSpacing", accessor: "IOLineSpacing", declared_in: "EverQuestinfo", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ObjectTag", accessor: "ObjectTag", declared_in: "EverQuestinfo", offset: 0x214, decl_offset: 0x214, size: 0x14, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "NumObjects", accessor: "NumObjects", declared_in: "EverQuestinfo", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "NumLights", accessor: "NumLights", declared_in: "EverQuestinfo", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DecrTime", accessor: "DecrTime", declared_in: "EverQuestinfo", offset: 0x230, decl_offset: 0x230, size: 0x28, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DecrMsg", accessor: "DecrMsg", declared_in: "EverQuestinfo", offset: 0x258, decl_offset: 0x258, size: 0x28, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DecrIndex", accessor: "DecrIndex", declared_in: "EverQuestinfo", offset: 0x280, decl_offset: 0x280, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AffectsOn", accessor: "AffectsOn", declared_in: "EverQuestinfo", offset: 0x284, decl_offset: 0x284, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InspectMode", accessor: "InspectMode", declared_in: "EverQuestinfo", offset: 0x285, decl_offset: 0x285, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UpMouseAnim", accessor: "UpMouseAnim", declared_in: "EverQuestinfo", offset: 0x286, decl_offset: 0x286, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ExitCounter", accessor: "ExitCounter", declared_in: "EverQuestinfo", offset: 0x288, decl_offset: 0x288, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ExitStart", accessor: "ExitStart", declared_in: "EverQuestinfo", offset: 0x28c, decl_offset: 0x28c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ForcedExitCounter", accessor: "ForcedExitCounter", declared_in: "EverQuestinfo", offset: 0x290, decl_offset: 0x290, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OfflineModeRequestTime", accessor: "OfflineModeRequestTime", declared_in: "EverQuestinfo", offset: 0x294, decl_offset: 0x294, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SwimJump", accessor: "SwimJump", declared_in: "EverQuestinfo", offset: 0x298, decl_offset: 0x298, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DisplayCamp", accessor: "DisplayCamp", declared_in: "EverQuestinfo", offset: 0x29c, decl_offset: 0x29c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PolysOff", accessor: "PolysOff", declared_in: "EverQuestinfo", offset: 0x2a0, decl_offset: 0x2a0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "CampY", accessor: "CampY", declared_in: "EverQuestinfo", offset: 0x2a4, decl_offset: 0x2a4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "CampX", accessor: "CampX", declared_in: "EverQuestinfo", offset: 0x2a8, decl_offset: 0x2a8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "CampZ", accessor: "CampZ", declared_in: "EverQuestinfo", offset: 0x2ac, decl_offset: 0x2ac, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Hits", accessor: "Hits", declared_in: "EverQuestinfo", offset: 0x2b0, decl_offset: 0x2b0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Bbandage", accessor: "Bbandage", declared_in: "EverQuestinfo", offset: 0x2b4, decl_offset: 0x2b4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "BackSpace", accessor: "BackSpace", declared_in: "EverQuestinfo", offset: 0x2b8, decl_offset: 0x2b8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "StartBandage", accessor: "StartBandage", declared_in: "EverQuestinfo", offset: 0x2bc, decl_offset: 0x2bc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyY", accessor: "MyY", declared_in: "EverQuestinfo", offset: 0x2c0, decl_offset: 0x2c0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyX", accessor: "MyX", declared_in: "EverQuestinfo", offset: 0x2c4, decl_offset: 0x2c4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyZ", accessor: "MyZ", declared_in: "EverQuestinfo", offset: 0x2c8, decl_offset: 0x2c8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TargetX", accessor: "TargetX", declared_in: "EverQuestinfo", offset: 0x2cc, decl_offset: 0x2cc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TargetY", accessor: "TargetY", declared_in: "EverQuestinfo", offset: 0x2d0, decl_offset: 0x2d0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TargetZ", accessor: "TargetZ", declared_in: "EverQuestinfo", offset: 0x2d4, decl_offset: 0x2d4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ZoneInfo", accessor: "ZoneInfo", declared_in: "EverQuestinfo", offset: 0x2d8, decl_offset: 0x2d8, size: 0x3b4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ZDefined", accessor: "ZDefined", declared_in: "EverQuestinfo", offset: 0x68c, decl_offset: 0x68c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TrackTimer", accessor: "TrackTimer", declared_in: "EverQuestinfo", offset: 0x690, decl_offset: 0x690, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "StartTrack", accessor: "StartTrack", declared_in: "EverQuestinfo", offset: 0x694, decl_offset: 0x694, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TrackPlayers", accessor: "TrackPlayers", declared_in: "EverQuestinfo", offset: 0x698, decl_offset: 0x698, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bTrackMercs", accessor: "bTrackMercs", declared_in: "EverQuestinfo", offset: 0x69c, decl_offset: 0x69c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bTrackPets", accessor: "bTrackPets", declared_in: "EverQuestinfo", offset: 0x69d, decl_offset: 0x69d, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iTrackSortType", accessor: "iTrackSortType", declared_in: "EverQuestinfo", offset: 0x6a0, decl_offset: 0x6a0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iTrackFilterType", accessor: "iTrackFilterType", declared_in: "EverQuestinfo", offset: 0x6a4, decl_offset: 0x6a4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseTimer", accessor: "MouseTimer", declared_in: "EverQuestinfo", offset: 0x6a8, decl_offset: 0x6a8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SoundUpdate", accessor: "SoundUpdate", declared_in: "EverQuestinfo", offset: 0x6ac, decl_offset: 0x6ac, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MouseOn", accessor: "MouseOn", declared_in: "EverQuestinfo", offset: 0x6b0, decl_offset: 0x6b0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UsingSkill", accessor: "UsingSkill", declared_in: "EverQuestinfo", offset: 0x6b4, decl_offset: 0x6b4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UsingSkillTarget", accessor: "UsingSkillTarget", declared_in: "EverQuestinfo", offset: 0x6b8, decl_offset: 0x6b8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LimboMoney", accessor: "LimboMoney", declared_in: "EverQuestinfo", offset: 0x6bc, decl_offset: 0x6bc, size: 0x10, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ClickThroughMask", accessor: "ClickThroughMask", declared_in: "EverQuestinfo", offset: 0x6cc, decl_offset: 0x6cc, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ShowSpellDescriptions", accessor: "ShowSpellDescriptions", declared_in: "EverQuestinfo", offset: 0x6d0, decl_offset: 0x6d0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ReceivedWorldObjects", accessor: "ReceivedWorldObjects", declared_in: "EverQuestinfo", offset: 0x6d4, decl_offset: 0x6d4, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ScreenCapture", accessor: "ScreenCapture", declared_in: "EverQuestinfo", offset: 0x6d5, decl_offset: 0x6d5, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ScreenShare", accessor: "ScreenShare", declared_in: "EverQuestinfo", offset: 0x6d6, decl_offset: 0x6d6, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SavedViewPitch", accessor: "SavedViewPitch", declared_in: "EverQuestinfo", offset: 0x6d8, decl_offset: 0x6d8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SendPcReceived", accessor: "SendPcReceived", declared_in: "EverQuestinfo", offset: 0x6dc, decl_offset: 0x6dc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "WeatherReceived", accessor: "WeatherReceived", declared_in: "EverQuestinfo", offset: 0x6e0, decl_offset: 0x6e0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PixelInit", accessor: "PixelInit", declared_in: "EverQuestinfo", offset: 0x6e4, decl_offset: 0x6e4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedShift", accessor: "bIsPressedShift", declared_in: "EverQuestinfo", offset: 0x6e8, decl_offset: 0x6e8, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedControl", accessor: "bIsPressedControl", declared_in: "EverQuestinfo", offset: 0x6e9, decl_offset: 0x6e9, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedAlt", accessor: "bIsPressedAlt", declared_in: "EverQuestinfo", offset: 0x6ea, decl_offset: 0x6ea, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedLShift", accessor: "bIsPressedLShift", declared_in: "EverQuestinfo", offset: 0x6eb, decl_offset: 0x6eb, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedLControl", accessor: "bIsPressedLControl", declared_in: "EverQuestinfo", offset: 0x6ec, decl_offset: 0x6ec, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedLAlt", accessor: "bIsPressedLAlt", declared_in: "EverQuestinfo", offset: 0x6ed, decl_offset: 0x6ed, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedRShift", accessor: "bIsPressedRShift", declared_in: "EverQuestinfo", offset: 0x6ee, decl_offset: 0x6ee, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedRControl", accessor: "bIsPressedRControl", declared_in: "EverQuestinfo", offset: 0x6ef, decl_offset: 0x6ef, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsPressedRAlt", accessor: "bIsPressedRAlt", declared_in: "EverQuestinfo", offset: 0x6f0, decl_offset: 0x6f0, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Currkeypress", accessor: "Currkeypress", declared_in: "EverQuestinfo", offset: 0x6f4, decl_offset: 0x6f4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Lastkeypress", accessor: "Lastkeypress", declared_in: "EverQuestinfo", offset: 0x6f8, decl_offset: 0x6f8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RateUp", accessor: "RateUp", declared_in: "EverQuestinfo", offset: 0x6fc, decl_offset: 0x6fc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RateDown", accessor: "RateDown", declared_in: "EverQuestinfo", offset: 0x700, decl_offset: 0x700, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Rateforward", accessor: "Rateforward", declared_in: "EverQuestinfo", offset: 0x704, decl_offset: 0x704, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Rateback", accessor: "Rateback", declared_in: "EverQuestinfo", offset: 0x708, decl_offset: 0x708, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RateLeft", accessor: "RateLeft", declared_in: "EverQuestinfo", offset: 0x70c, decl_offset: 0x70c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RateRight", accessor: "RateRight", declared_in: "EverQuestinfo", offset: 0x710, decl_offset: 0x710, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RaceWar", accessor: "RaceWar", declared_in: "EverQuestinfo", offset: 0x714, decl_offset: 0x714, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Ruleset", accessor: "Ruleset", declared_in: "EverQuestinfo", offset: 0x718, decl_offset: 0x718, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bRpServer", accessor: "bRpServer", declared_in: "EverQuestinfo", offset: 0x71c, decl_offset: 0x71c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAcceleratedServer", accessor: "bAcceleratedServer", declared_in: "EverQuestinfo", offset: 0x71d, decl_offset: 0x71d, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bProgressionServer", accessor: "bProgressionServer", declared_in: "EverQuestinfo", offset: 0x71e, decl_offset: 0x71e, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ProgressionOpenExpansions", accessor: "ProgressionOpenExpansions", declared_in: "EverQuestinfo", offset: 0x720, decl_offset: 0x720, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iIsBetaServer", accessor: "iIsBetaServer", declared_in: "EverQuestinfo", offset: 0x724, decl_offset: 0x724, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsTestServer", accessor: "bIsTestServer", declared_in: "EverQuestinfo", offset: 0x728, decl_offset: 0x728, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bUseMailSystem", accessor: "bUseMailSystem", declared_in: "EverQuestinfo", offset: 0x729, decl_offset: 0x729, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsEscapeServer", accessor: "bIsEscapeServer", declared_in: "EverQuestinfo", offset: 0x72a, decl_offset: 0x72a, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIsTutorialEnabled", accessor: "bIsTutorialEnabled", declared_in: "EverQuestinfo", offset: 0x72b, decl_offset: 0x72b, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bCanCreateHeroicCharacter", accessor: "bCanCreateHeroicCharacter", declared_in: "EverQuestinfo", offset: 0x72c, decl_offset: 0x72c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Heroic85Slots", accessor: "Heroic85Slots", declared_in: "EverQuestinfo", offset: 0x730, decl_offset: 0x730, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bNameGen", accessor: "bNameGen", declared_in: "EverQuestinfo", offset: 0x734, decl_offset: 0x734, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bGibberish", accessor: "bGibberish", declared_in: "EverQuestinfo", offset: 0x738, decl_offset: 0x738, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Locale", accessor: "Locale", declared_in: "EverQuestinfo", offset: 0x73c, decl_offset: 0x73c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UpdateControlled", accessor: "UpdateControlled", declared_in: "EverQuestinfo", offset: 0x740, decl_offset: 0x740, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UpdateLocal", accessor: "UpdateLocal", declared_in: "EverQuestinfo", offset: 0x741, decl_offset: 0x741, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "EnterZone", accessor: "EnterZone", declared_in: "EverQuestinfo", offset: 0x742, decl_offset: 0x742, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ExitGame", accessor: "ExitGame", declared_in: "EverQuestinfo", offset: 0x743, decl_offset: 0x743, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UseVoiceMacros", accessor: "UseVoiceMacros", declared_in: "EverQuestinfo", offset: 0x744, decl_offset: 0x744, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DeltaX", accessor: "DeltaX", declared_in: "EverQuestinfo", offset: 0x748, decl_offset: 0x748, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DeltaY", accessor: "DeltaY", declared_in: "EverQuestinfo", offset: 0x74c, decl_offset: 0x74c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OldRate1", accessor: "OldRate1", declared_in: "EverQuestinfo", offset: 0x750, decl_offset: 0x750, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OldRate2", accessor: "OldRate2", declared_in: "EverQuestinfo", offset: 0x754, decl_offset: 0x754, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "StrafeRate", accessor: "StrafeRate", declared_in: "EverQuestinfo", offset: 0x758, decl_offset: 0x758, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SaveIndex", accessor: "SaveIndex", declared_in: "EverQuestinfo", offset: 0x75c, decl_offset: 0x75c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MoveDownSpeed", accessor: "MoveDownSpeed", declared_in: "EverQuestinfo", offset: 0x760, decl_offset: 0x760, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Motd", accessor: "Motd", declared_in: "EverQuestinfo", offset: 0x764, decl_offset: 0x764, size: 0x400, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Motd2", accessor: "Motd2", declared_in: "EverQuestinfo", offset: 0xb64, decl_offset: 0xb64, size: 0x400, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bDisplayMOTD", accessor: "bDisplayMOTD", declared_in: "EverQuestinfo", offset: 0xf64, decl_offset: 0xf64, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bDoGuildMOTD", accessor: "bDoGuildMOTD", declared_in: "EverQuestinfo", offset: 0xf68, decl_offset: 0xf68, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIgnorePR", accessor: "bIgnorePR", declared_in: "EverQuestinfo", offset: 0xf6c, decl_offset: 0xf6c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "WordList", accessor: "WordList", declared_in: "EverQuestinfo", offset: 0xf6d, decl_offset: 0xf6d, size: 0x200, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Display", accessor: "Display", declared_in: "EverQuestinfo", offset: 0x1170, decl_offset: 0x1170, size: 0x64, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DColor", accessor: "DColor", declared_in: "EverQuestinfo", offset: 0x11d4, decl_offset: 0x11d4, size: 0x64, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LineNo", accessor: "LineNo", declared_in: "EverQuestinfo", offset: 0x1238, decl_offset: 0x1238, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DoingSpellAnim", accessor: "DoingSpellAnim", declared_in: "EverQuestinfo", offset: 0x123c, decl_offset: 0x123c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ZoneID", accessor: "ZoneID", declared_in: "EverQuestinfo", offset: 0x1240, decl_offset: 0x1240, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "CommandIndex", accessor: "CommandIndex", declared_in: "EverQuestinfo", offset: 0x1244, decl_offset: 0x1244, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MaxLines", accessor: "MaxLines", declared_in: "EverQuestinfo", offset: 0x1248, decl_offset: 0x1248, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PrimaryAttackReady", accessor: "PrimaryAttackReady", declared_in: "EverQuestinfo", offset: 0x124c, decl_offset: 0x124c, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SecondaryAttackReady", accessor: "SecondaryAttackReady", declared_in: "EverQuestinfo", offset: 0x124d, decl_offset: 0x124d, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AutosaveCounter", accessor: "AutosaveCounter", declared_in: "EverQuestinfo", offset: 0x1250, decl_offset: 0x1250, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "StartAFK", accessor: "StartAFK", declared_in: "EverQuestinfo", offset: 0x1254, decl_offset: 0x1254, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AllPlayerCollisions", accessor: "AllPlayerCollisions", declared_in: "EverQuestinfo", offset: 0x1258, decl_offset: 0x1258, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyVehicleFound", accessor: "MyVehicleFound", declared_in: "EverQuestinfo", offset: 0x1259, decl_offset: 0x1259, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ZoneFindingVehicle", accessor: "ZoneFindingVehicle", declared_in: "EverQuestinfo", offset: 0x125a, decl_offset: 0x125a, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ForceSendVehicleUpdate", accessor: "ForceSendVehicleUpdate", declared_in: "EverQuestinfo", offset: 0x125b, decl_offset: 0x125b, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "GotSafeCoords", accessor: "GotSafeCoords", declared_in: "EverQuestinfo", offset: 0x125c, decl_offset: 0x125c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ZoningTo", accessor: "ZoningTo", declared_in: "EverQuestinfo", offset: 0x1260, decl_offset: 0x1260, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "NpcPhysics", accessor: "NpcPhysics", declared_in: "EverQuestinfo", offset: 0x1264, decl_offset: 0x1264, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "BeneficialSpellCast", accessor: "BeneficialSpellCast", declared_in: "EverQuestinfo", offset: 0x1268, decl_offset: 0x1268, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AFKMessage", accessor: "AFKMessage", declared_in: "EverQuestinfo", offset: 0x126c, decl_offset: 0x126c, size: 0x100, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bLogging", accessor: "bLogging", declared_in: "EverQuestinfo", offset: 0x136c, decl_offset: 0x136c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LogFile", accessor: "LogFile", declared_in: "EverQuestinfo", offset: 0x1370, decl_offset: 0x1370, size: 0x32, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LogSeconds", accessor: "LogSeconds", declared_in: "EverQuestinfo", offset: 0x13a2, decl_offset: 0x13a2, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Controlled", accessor: "Controlled", declared_in: "EverQuestinfo", offset: 0x13a4, decl_offset: 0x13a4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "KunarkApproved", accessor: "KunarkApproved", declared_in: "EverQuestinfo", offset: 0x13a8, decl_offset: 0x13a8, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "VeliousApproved", accessor: "VeliousApproved", declared_in: "EverQuestinfo", offset: 0x13a9, decl_offset: 0x13a9, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LuclinApproved", accessor: "LuclinApproved", declared_in: "EverQuestinfo", offset: 0x13aa, decl_offset: 0x13aa, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "PopApproved", accessor: "PopApproved", declared_in: "EverQuestinfo", offset: 0x13ab, decl_offset: 0x13ab, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "YkeshaApproved", accessor: "YkeshaApproved", declared_in: "EverQuestinfo", offset: 0x13ac, decl_offset: 0x13ac, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LdonApproved", accessor: "LdonApproved", declared_in: "EverQuestinfo", offset: 0x13ad, decl_offset: 0x13ad, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "GatesApproved", accessor: "GatesApproved", declared_in: "EverQuestinfo", offset: 0x13ae, decl_offset: 0x13ae, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OmensApproved", accessor: "OmensApproved", declared_in: "EverQuestinfo", offset: 0x13af, decl_offset: 0x13af, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DonApproved", accessor: "DonApproved", declared_in: "EverQuestinfo", offset: 0x13b0, decl_offset: 0x13b0, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "DarkhollowApproved", accessor: "DarkhollowApproved", declared_in: "EverQuestinfo", offset: 0x13b1, decl_offset: 0x13b1, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ProphecyApproved", accessor: "ProphecyApproved", declared_in: "EverQuestinfo", offset: 0x13b2, decl_offset: 0x13b2, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SerpentApproved", accessor: "SerpentApproved", declared_in: "EverQuestinfo", offset: 0x13b3, decl_offset: 0x13b3, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "BuriedSeaApproved", accessor: "BuriedSeaApproved", declared_in: "EverQuestinfo", offset: 0x13b4, decl_offset: 0x13b4, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SecretsOfFaydwerApproved", accessor: "SecretsOfFaydwerApproved", declared_in: "EverQuestinfo", offset: 0x13b5, decl_offset: 0x13b5, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "SeedsOfDestructionApproved", accessor: "SeedsOfDestructionApproved", declared_in: "EverQuestinfo", offset: 0x13b6, decl_offset: 0x13b6, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "UnderfootApproved", accessor: "UnderfootApproved", declared_in: "EverQuestinfo", offset: 0x13b7, decl_offset: 0x13b7, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "HouseOfThuleApproved", accessor: "HouseOfThuleApproved", declared_in: "EverQuestinfo", offset: 0x13b8, decl_offset: 0x13b8, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "VeilOfAlarisApproved", accessor: "VeilOfAlarisApproved", declared_in: "EverQuestinfo", offset: 0x13b9, decl_offset: 0x13b9, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RainOfFearApproved", accessor: "RainOfFearApproved", declared_in: "EverQuestinfo", offset: 0x13ba, decl_offset: 0x13ba, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ExpansionsFlagBitmask", accessor: "ExpansionsFlagBitmask", declared_in: "EverQuestinfo", offset: 0x13bc, decl_offset: 0x13bc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "NoNameApprove", accessor: "NoNameApprove", declared_in: "EverQuestinfo", offset: 0x13c0, decl_offset: 0x13c0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "AttackOnAssist", accessor: "AttackOnAssist", declared_in: "EverQuestinfo", offset: 0x13c4, decl_offset: 0x13c4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Unknown0x13c8", accessor: "Unknown0x13c8", declared_in: "EverQuestinfo", offset: 0x13c8, decl_offset: 0x13c8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bInvWinLabels", accessor: "bInvWinLabels", declared_in: "EverQuestinfo", offset: 0x13cc, decl_offset: 0x13cc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LoadedArmor", accessor: "LoadedArmor", declared_in: "EverQuestinfo", offset: 0x13d0, decl_offset: 0x13d0, size: 0x1c, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bLockWindows", accessor: "bLockWindows", declared_in: "EverQuestinfo", offset: 0x13ec, decl_offset: 0x13ec, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHidePlayerWin", accessor: "bHidePlayerWin", declared_in: "EverQuestinfo", offset: 0x13f0, decl_offset: 0x13f0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHidePartyWin", accessor: "bHidePartyWin", declared_in: "EverQuestinfo", offset: 0x13f4, decl_offset: 0x13f4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHideTargetWin", accessor: "bHideTargetWin", declared_in: "EverQuestinfo", offset: 0x13f8, decl_offset: 0x13f8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHideSpellsWin", accessor: "bHideSpellsWin", declared_in: "EverQuestinfo", offset: 0x13fc, decl_offset: 0x13fc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHideHotboxWin", accessor: "bHideHotboxWin", declared_in: "EverQuestinfo", offset: 0x1400, decl_offset: 0x1400, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHideChatWin", accessor: "bHideChatWin", declared_in: "EverQuestinfo", offset: 0x1404, decl_offset: 0x1404, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHideMainWin", accessor: "bHideMainWin", declared_in: "EverQuestinfo", offset: 0x1408, decl_offset: 0x1408, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHideAltAdvWin", accessor: "bHideAltAdvWin", declared_in: "EverQuestinfo", offset: 0x140c, decl_offset: 0x140c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bUnknown0x1410", accessor: "bUnknown0x1410", declared_in: "EverQuestinfo", offset: 0x1410, decl_offset: 0x1410, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bUnknown0x1414", accessor: "bUnknown0x1414", declared_in: "EverQuestinfo", offset: 0x1414, decl_offset: 0x1414, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bShowDynamicLights", accessor: "bShowDynamicLights", declared_in: "EverQuestinfo", offset: 0x1418, decl_offset: 0x1418, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iChatFontSize", accessor: "iChatFontSize", declared_in: "EverQuestinfo", offset: 0x141c, decl_offset: 0x141c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "VideoMode", accessor: "VideoMode", declared_in: "EverQuestinfo", offset: 0x1420, decl_offset: 0x1420, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bShowGrass", accessor: "bShowGrass", declared_in: "EverQuestinfo", offset: 0x1424, decl_offset: 0x1424, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RawTextBuffer", accessor: "RawTextBuffer", declared_in: "EverQuestinfo", offset: 0x1428, decl_offset: 0x1428, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RawTextBufferSize", accessor: "RawTextBufferSize", declared_in: "EverQuestinfo", offset: 0x142c, decl_offset: 0x142c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RawTextBufferEnd", accessor: "RawTextBufferEnd", declared_in: "EverQuestinfo", offset: 0x1430, decl_offset: 0x1430, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RawTextFirstLine", accessor: "RawTextFirstLine", declared_in: "EverQuestinfo", offset: 0x1434, decl_offset: 0x1434, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RawTextLastLine", accessor: "RawTextLastLine", declared_in: "EverQuestinfo", offset: 0x1438, decl_offset: 0x1438, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RawTextNewPos", accessor: "RawTextNewPos", declared_in: "EverQuestinfo", offset: 0x143c, decl_offset: 0x143c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bInspectOthers", accessor: "bInspectOthers", declared_in: "EverQuestinfo", offset: 0x1440, decl_offset: 0x1440, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bShowSpellEffects", accessor: "bShowSpellEffects", declared_in: "EverQuestinfo", offset: 0x1444, decl_offset: 0x1444, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "NextKeyRepeatTime", accessor: "NextKeyRepeatTime", declared_in: "EverQuestinfo", offset: 0x1448, decl_offset: 0x1448, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "KeyRepeatDelay", accessor: "KeyRepeatDelay", declared_in: "EverQuestinfo", offset: 0x144c, decl_offset: 0x144c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "TimeScale", accessor: "TimeScale", declared_in: "EverQuestinfo", offset: 0x1450, decl_offset: 0x1450, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "BeTheMonsterAllowed", accessor: "BeTheMonsterAllowed", declared_in: "EverQuestinfo", offset: 0x1454, decl_offset: 0x1454, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iShowNamesLevel", accessor: "iShowNamesLevel", declared_in: "EverQuestinfo", offset: 0x1458, decl_offset: 0x1458, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsMode", accessor: "MyHitsMode", declared_in: "EverQuestinfo", offset: 0x145c, decl_offset: 0x145c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsX", accessor: "MyHitsX", declared_in: "EverQuestinfo", offset: 0x1460, decl_offset: 0x1460, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsY", accessor: "MyHitsY", declared_in: "EverQuestinfo", offset: 0x1464, decl_offset: 0x1464, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsCount", accessor: "MyHitsCount", declared_in: "EverQuestinfo", offset: 0x1468, decl_offset: 0x1468, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsFontSize", accessor: "MyHitsFontSize", declared_in: "EverQuestinfo", offset: 0x146c, decl_offset: 0x146c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsShowHeader", accessor: "MyHitsShowHeader", declared_in: "EverQuestinfo", offset: 0x1470, decl_offset: 0x1470, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsShowBG", accessor: "MyHitsShowBG", declared_in: "EverQuestinfo", offset: 0x1474, decl_offset: 0x1474, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsBGWidth", accessor: "MyHitsBGWidth", declared_in: "EverQuestinfo", offset: 0x1478, decl_offset: 0x1478, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "MyHitsAlwaysDraw", accessor: "MyHitsAlwaysDraw", declared_in: "EverQuestinfo", offset: 0x147c, decl_offset: 0x147c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeMode", accessor: "OtherHitsMeMode", declared_in: "EverQuestinfo", offset: 0x1480, decl_offset: 0x1480, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeX", accessor: "OtherHitsMeX", declared_in: "EverQuestinfo", offset: 0x1484, decl_offset: 0x1484, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeY", accessor: "OtherHitsMeY", declared_in: "EverQuestinfo", offset: 0x1488, decl_offset: 0x1488, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeCount", accessor: "OtherHitsMeCount", declared_in: "EverQuestinfo", offset: 0x148c, decl_offset: 0x148c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeFontSize", accessor: "OtherHitsMeFontSize", declared_in: "EverQuestinfo", offset: 0x1490, decl_offset: 0x1490, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeShowHeader", accessor: "OtherHitsMeShowHeader", declared_in: "EverQuestinfo", offset: 0x1494, decl_offset: 0x1494, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeShowBG", accessor: "OtherHitsMeShowBG", declared_in: "EverQuestinfo", offset: 0x1498, decl_offset: 0x1498, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeBGWidth", accessor: "OtherHitsMeBGWidth", declared_in: "EverQuestinfo", offset: 0x149c, decl_offset: 0x149c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsMeAlwaysDraw", accessor: "OtherHitsMeAlwaysDraw", declared_in: "EverQuestinfo", offset: 0x14a0, decl_offset: 0x14a0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherMode", accessor: "OtherHitsOtherMode", declared_in: "EverQuestinfo", offset: 0x14a4, decl_offset: 0x14a4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherX", accessor: "OtherHitsOtherX", declared_in: "EverQuestinfo", offset: 0x14a8, decl_offset: 0x14a8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherY", accessor: "OtherHitsOtherY", declared_in: "EverQuestinfo", offset: 0x14ac, decl_offset: 0x14ac, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherCount", accessor: "OtherHitsOtherCount", declared_in: "EverQuestinfo", offset: 0x14b0, decl_offset: 0x14b0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherFontSize", accessor: "OtherHitsOtherFontSize", declared_in: "EverQuestinfo", offset: 0x14b4, decl_offset: 0x14b4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherShowHeader", accessor: "OtherHitsOtherShowHeader", declared_in: "EverQuestinfo", offset: 0x14b8, decl_offset: 0x14b8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherShowBG", accessor: "OtherHitsOtherShowBG", declared_in: "EverQuestinfo", offset: 0x14bc, decl_offset: 0x14bc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherBGWidth", accessor: "OtherHitsOtherBGWidth", declared_in: "EverQuestinfo", offset: 0x14c0, decl_offset: 0x14c0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "OtherHitsOtherAlwaysDraw", accessor: "OtherHitsOtherAlwaysDraw", declared_in: "EverQuestinfo", offset: 0x14c4, decl_offset: 0x14c4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bCombatMusic", accessor: "bCombatMusic", declared_in: "EverQuestinfo", offset: 0x14c8, decl_offset: 0x14c8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iSoundMixAhead", accessor: "iSoundMixAhead", declared_in: "EverQuestinfo", offset: 0x14cc, decl_offset: 0x14cc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bDisableDrakkinTattoos", accessor: "bDisableDrakkinTattoos", declared_in: "EverQuestinfo", offset: 0x14d0, decl_offset: 0x14d0, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleMinSuccess", accessor: "fFizzleMinSuccess", declared_in: "EverQuestinfo", offset: 0x14d4, decl_offset: 0x14d4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleMaxSuccess", accessor: "fFizzleMaxSuccess", declared_in: "EverQuestinfo", offset: 0x14d8, decl_offset: 0x14d8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleMinSuccessBard", accessor: "fFizzleMinSuccessBard", declared_in: "EverQuestinfo", offset: 0x14dc, decl_offset: 0x14dc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleMaxSuccessBard", accessor: "fFizzleMaxSuccessBard", declared_in: "EverQuestinfo", offset: 0x14e0, decl_offset: 0x14e0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleMaxSuccessDefault", accessor: "fFizzleMaxSuccessDefault", declared_in: "EverQuestinfo", offset: 0x14e4, decl_offset: 0x14e4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleMaxSuccessSpecialized", accessor: "fFizzleMaxSuccessSpecialized", declared_in: "EverQuestinfo", offset: 0x14e8, decl_offset: 0x14e8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleManaCostMin", accessor: "fFizzleManaCostMin", declared_in: "EverQuestinfo", offset: 0x14ec, decl_offset: 0x14ec, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fFizzleManaCostMax", accessor: "fFizzleManaCostMax", declared_in: "EverQuestinfo", offset: 0x14f0, decl_offset: 0x14f0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iActivityCheckInterval", accessor: "iActivityCheckInterval", declared_in: "EverQuestinfo", offset: 0x14f4, decl_offset: 0x14f4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iActivityThreshhold", accessor: "iActivityThreshhold", declared_in: "EverQuestinfo", offset: 0x14f8, decl_offset: 0x14f8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iActivityScriptId", accessor: "iActivityScriptId", declared_in: "EverQuestinfo", offset: 0x14fc, decl_offset: 0x14fc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ChatFilters", accessor: "ChatFilters", declared_in: "EverQuestinfo", offset: 0x1500, decl_offset: 0x1500, size: 0x88, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "gOpt", accessor: "gOpt", declared_in: "EverQuestinfo", offset: 0x1588, decl_offset: 0x1588, size: 0x198, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "gOpt2", accessor: "gOpt2", declared_in: "EverQuestinfo", offset: 0x1720, decl_offset: 0x1720, size: 0x18, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bEnvSounds", accessor: "bEnvSounds", declared_in: "EverQuestinfo", offset: 0x1738, decl_offset: 0x1738, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAllowContextMenus", accessor: "bAllowContextMenus", declared_in: "EverQuestinfo", offset: 0x1739, decl_offset: 0x1739, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bShowHelpOnLeftClickTarget", accessor: "bShowHelpOnLeftClickTarget", declared_in: "EverQuestinfo", offset: 0x173a, decl_offset: 0x173a, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "iClaimingPrize", accessor: "iClaimingPrize", declared_in: "EverQuestinfo", offset: 0x173c, decl_offset: 0x173c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bUseTellWindows", accessor: "bUseTellWindows", declared_in: "EverQuestinfo", offset: 0x1740, decl_offset: 0x1740, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bCtrlBypassesTradeskill", accessor: "bCtrlBypassesTradeskill", declared_in: "EverQuestinfo", offset: 0x1741, decl_offset: 0x1741, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAllowAutoDuck", accessor: "bAllowAutoDuck", declared_in: "EverQuestinfo", offset: 0x1742, decl_offset: 0x1742, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAllowAutoStand", accessor: "bAllowAutoStand", declared_in: "EverQuestinfo", offset: 0x1743, decl_offset: 0x1743, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAutojoinHelpChannels", accessor: "bAutojoinHelpChannels", declared_in: "EverQuestinfo", offset: 0x1744, decl_offset: 0x1744, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bStreamItemTextures", accessor: "bStreamItemTextures", declared_in: "EverQuestinfo", offset: 0x1745, decl_offset: 0x1745, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bIgnoreLONChallenges", accessor: "bIgnoreLONChallenges", declared_in: "EverQuestinfo", offset: 0x1746, decl_offset: 0x1746, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAcceptKickRequests", accessor: "bAcceptKickRequests", declared_in: "EverQuestinfo", offset: 0x1747, decl_offset: 0x1747, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bSuppressFirstUseAlerts", accessor: "bSuppressFirstUseAlerts", declared_in: "EverQuestinfo", offset: 0x1748, decl_offset: 0x1748, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bUseArrowCamera", accessor: "bUseArrowCamera", declared_in: "EverQuestinfo", offset: 0x1749, decl_offset: 0x1749, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "cameras", accessor: "cameras", declared_in: "EverQuestinfo", offset: 0x174c, decl_offset: 0x174c, size: 0x24, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "keyDown", accessor: "keyDown", declared_in: "EverQuestinfo", offset: 0x1770, decl_offset: 0x1770, size: 0x7d0, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastTellFromList", accessor: "LastTellFromList", declared_in: "EverQuestinfo", offset: 0x1f40, decl_offset: 0x1f40, size: 0xc80, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastTellFromIndex", accessor: "LastTellFromIndex", declared_in: "EverQuestinfo", offset: 0x2bc0, decl_offset: 0x2bc0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bcolor", accessor: "bcolor", declared_in: "EverQuestinfo", offset: 0x2bc4, decl_offset: 0x2bc4, size: 0x7d0, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "buffer", accessor: "buffer", declared_in: "EverQuestinfo", offset: 0x3394, decl_offset: 0x3394, size: 0x1f400, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "commandList", accessor: "commandList", declared_in: "EverQuestinfo", offset: 0x22794, decl_offset: 0x22794, size: 0x14000, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LockPassword", accessor: "LockPassword", declared_in: "EverQuestinfo", offset: 0x36794, decl_offset: 0x36794, size: 0x40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bLoadFriendsList", accessor: "bLoadFriendsList", declared_in: "EverQuestinfo", offset: 0x367d4, decl_offset: 0x367d4, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ClaimPrizeData", accessor: "ClaimPrizeData", declared_in: "EverQuestinfo", offset: 0x367d8, decl_offset: 0x367d8, size: 0x10, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "chatBuffer", accessor: "chatBuffer", declared_in: "EverQuestinfo", offset: 0x367e8, decl_offset: 0x367e8, size: 0x10, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "WorldServerShortname", accessor: "WorldServerShortname", declared_in: "EverQuestinfo", offset: 0x367f8, decl_offset: 0x367f8, size: 0x28, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "combatSkill", accessor: "combatSkill", declared_in: "EverQuestinfo", offset: 0x36820, decl_offset: 0x36820, size: 0x10, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "abilities", accessor: "abilities", declared_in: "EverQuestinfo", offset: 0x36830, decl_offset: 0x36830, size: 0x18, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "combatAbilities", accessor: "combatAbilities", declared_in: "EverQuestinfo", offset: 0x36848, decl_offset: 0x36848, size: 0x20, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Unknown0x36880", accessor: "Unknown0x36880", declared_in: "EverQuestinfo", offset: 0x36868, decl_offset: 0x36868, size: 0x18, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bSocialChanged", accessor: "bSocialChanged", declared_in: "EverQuestinfo", offset: 0x36880, decl_offset: 0x36880, size: 0x78, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "socials", accessor: "socials", declared_in: "EverQuestinfo", offset: 0x368f8, decl_offset: 0x368f8, size: 0x26520, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "tempSocial", accessor: "tempSocial", declared_in: "EverQuestinfo", offset: 0x5ce18, decl_offset: 0x5ce18, size: 0x51c, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "socialIndex", accessor: "socialIndex", declared_in: "EverQuestinfo", offset: 0x5d334, decl_offset: 0x5d334, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "selSlot", accessor: "selSlot", declared_in: "EverQuestinfo", offset: 0x5d335, decl_offset: 0x5d335, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bHotButtonChanged", accessor: "bHotButtonChanged", declared_in: "EverQuestinfo", offset: 0x5d336, decl_offset: 0x5d336, size: 0x4b0, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "hotBank", accessor: "hotBank", declared_in: "EverQuestinfo", offset: 0x5d7e6, decl_offset: 0x5d7e6, size: 0xa, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "hotButtons", accessor: "hotButtons", declared_in: "EverQuestinfo", offset: 0x5d7f0, decl_offset: 0x5d7f0, size: 0x1fa40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "dragButton", accessor: "dragButton", declared_in: "EverQuestinfo", offset: 0x7d230, decl_offset: 0x7d230, size: 0x6c, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "spellLoadouts", accessor: "spellLoadouts", declared_in: "EverQuestinfo", offset: 0x7d29c, decl_offset: 0x7d29c, size: 0x2f8, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "hotbuttonLoadouts", accessor: "hotbuttonLoadouts", declared_in: "EverQuestinfo", offset: 0x7d594, decl_offset: 0x7d594, size: 0xc80, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "groupRoleLoadouts", accessor: "groupRoleLoadouts", declared_in: "EverQuestinfo", offset: 0x7e214, decl_offset: 0x7e214, size: 0x2008, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "targetSetLoadouts", accessor: "targetSetLoadouts", declared_in: "EverQuestinfo", offset: 0x8021c, decl_offset: 0x8021c, size: 0x3ba6, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InspectLines", accessor: "InspectLines", declared_in: "EverQuestinfo", offset: 0x83dc4, decl_offset: 0x83dc4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "InspectText", accessor: "InspectText", declared_in: "EverQuestinfo", offset: 0x83dc8, decl_offset: 0x83dc8, size: 0x100, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bInviteOn", accessor: "bInviteOn", declared_in: "EverQuestinfo", offset: 0x83ec8, decl_offset: 0x83ec8, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "LastInspectTime", accessor: "LastInspectTime", declared_in: "EverQuestinfo", offset: 0x83ecc, decl_offset: 0x83ecc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fSpellParticleDensity", accessor: "fSpellParticleDensity", declared_in: "EverQuestinfo", offset: 0x83ed0, decl_offset: 0x83ed0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fSpellParticleOpacity", accessor: "fSpellParticleOpacity", declared_in: "EverQuestinfo", offset: 0x83ed4, decl_offset: 0x83ed4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fSpellParticleNearClipPlane", accessor: "fSpellParticleNearClipPlane", declared_in: "EverQuestinfo", offset: 0x83ed8, decl_offset: 0x83ed8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "nSpellParticleCastFilters", accessor: "nSpellParticleCastFilters", declared_in: "EverQuestinfo", offset: 0x83edc, decl_offset: 0x83edc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fEnvironmentParticleDensity", accessor: "fEnvironmentParticleDensity", declared_in: "EverQuestinfo", offset: 0x83ee0, decl_offset: 0x83ee0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fEnvironmentParticleOpacity", accessor: "fEnvironmentParticleOpacity", declared_in: "EverQuestinfo", offset: 0x83ee4, decl_offset: 0x83ee4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fEnvironmentParticleNearClipPlane", accessor: "fEnvironmentParticleNearClipPlane", declared_in: "EverQuestinfo", offset: 0x83ee8, decl_offset: 0x83ee8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "nEnvironmentParticleCastFilters", accessor: "nEnvironmentParticleCastFilters", declared_in: "EverQuestinfo", offset: 0x83eec, decl_offset: 0x83eec, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fActorParticleDensity", accessor: "fActorParticleDensity", declared_in: "EverQuestinfo", offset: 0x83ef0, decl_offset: 0x83ef0, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fActorParticleOpacity", accessor: "fActorParticleOpacity", declared_in: "EverQuestinfo", offset: 0x83ef4, decl_offset: 0x83ef4, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "fActorParticleNearClipPlane", accessor: "fActorParticleNearClipPlane", declared_in: "EverQuestinfo", offset: 0x83ef8, decl_offset: 0x83ef8, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "nActorParticleCastFilters", accessor: "nActorParticleCastFilters", declared_in: "EverQuestinfo", offset: 0x83efc, decl_offset: 0x83efc, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "nActorNewArmorFilters", accessor: "nActorNewArmorFilters", declared_in: "EverQuestinfo", offset: 0x83f00, decl_offset: 0x83f00, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "timeWhenKicked", accessor: "timeWhenKicked", declared_in: "EverQuestinfo", offset: 0x83f04, decl_offset: 0x83f04, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bCreateGroupRequested", accessor: "bCreateGroupRequested", declared_in: "EverQuestinfo", offset: 0x83f08, decl_offset: 0x83f08, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "GroupRequestId", accessor: "GroupRequestId", declared_in: "EverQuestinfo", offset: 0x83f0c, decl_offset: 0x83f0c, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "Inviter", accessor: "Inviter", declared_in: "EverQuestinfo", offset: 0x83f10, decl_offset: 0x83f10, size: 0x40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "party", accessor: "party", declared_in: "EverQuestinfo", offset: 0x83f50, decl_offset: 0x83f50, size: 0x40, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "FirstTime", accessor: "FirstTime", declared_in: "EverQuestinfo", offset: 0x83f90, decl_offset: 0x83f90, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "FirstTimePreMainLoop", accessor: "FirstTimePreMainLoop", declared_in: "EverQuestinfo", offset: 0x83f91, decl_offset: 0x83f91, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAutoAttack", accessor: "bAutoAttack", declared_in: "EverQuestinfo", offset: 0x83f92, decl_offset: 0x83f92, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "bAutoRangeAttack", accessor: "bAutoRangeAttack", declared_in: "EverQuestinfo", offset: 0x83f93, decl_offset: 0x83f93, size: 0x1, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "ItemPending", accessor: "ItemPending", declared_in: "EverQuestinfo", offset: 0x83f94, decl_offset: 0x83f94, size: 0x4, bits: None },
+    FieldInfo { record: "EverQuestinfo", field: "RequestPending", accessor: "RequestPending", declared_in: "EverQuestinfo", offset: 0x83f98, decl_offset: 0x83f98, size: 0x4, bits: None },
     FieldInfo { record: "GroupMemberStats", field: "PlayerName", accessor: "PlayerName", declared_in: "GroupMemberStats", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
     FieldInfo { record: "GroupMemberStats", field: "PlayerLevel", accessor: "PlayerLevel", declared_in: "GroupMemberStats", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
     FieldInfo { record: "GroupMemberStats", field: "PlayerRace", accessor: "PlayerRace", declared_in: "GroupMemberStats", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
@@ -14304,6 +24162,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "GroupMemberStats", field: "PlayerGuild", accessor: "PlayerGuild", declared_in: "GroupMemberStats", offset: 0x58, decl_offset: 0x58, size: 0x4, bits: None },
     FieldInfo { record: "GroupMemberStats", field: "BuffIDs", accessor: "BuffIDs", declared_in: "GroupMemberStats", offset: 0x5c, decl_offset: 0x5c, size: 0xa8, bits: None },
     FieldInfo { record: "GroupMemberStats", field: "Statistics", accessor: "Statistics", declared_in: "GroupMemberStats", offset: 0x104, decl_offset: 0x104, size: 0x4c, bits: None },
+    FieldInfo { record: "GroupRoleLoadout", field: "players", accessor: "players", declared_in: "GroupRoleLoadout", offset: 0x0, decl_offset: 0x0, size: 0x318, bits: None },
+    FieldInfo { record: "GroupRoleLoadout", field: "name", accessor: "name", declared_in: "GroupRoleLoadout", offset: 0x318, decl_offset: 0x318, size: 0x19, bits: None },
+    FieldInfo { record: "GroupRoleLoadout", field: "inuse", accessor: "inuse", declared_in: "GroupRoleLoadout", offset: 0x331, decl_offset: 0x331, size: 0x1, bits: None },
+    FieldInfo { record: "GroupRoleLoadout", field: "changed", accessor: "changed", declared_in: "GroupRoleLoadout", offset: 0x332, decl_offset: 0x332, size: 0x1, bits: None },
     FieldInfo { record: "HashListSet<int,128,-1>", field: "vfTable", accessor: "vfTable", declared_in: "HashListSet<int,128,-1>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "HashListSet<int,128,-1>", field: "DynSize", accessor: "DynSize", declared_in: "HashListSet<int,128,-1>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "HashListSet<int,128,-1>", field: "MaxDynSize", accessor: "MaxDynSize", declared_in: "HashListSet<int,128,-1>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -14354,6 +24216,18 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "HashTable<int,int,ResizePolicyNoResize>", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<int,int,ResizePolicyNoResize>", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<int,int,ResizePolicyNoResize>", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "HotButtonData", field: "Type", accessor: "Type", declared_in: "HotButtonData", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
+    FieldInfo { record: "HotButtonData", field: "Slot", accessor: "Slot", declared_in: "HotButtonData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "HotButtonData", field: "Item", accessor: "Item", declared_in: "HotButtonData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "HotButtonData", field: "ItemGuid", accessor: "ItemGuid", declared_in: "HotButtonData", offset: 0xc, decl_offset: 0xc, size: 0x12, bits: None },
+    FieldInfo { record: "HotButtonData", field: "Label", accessor: "Label", declared_in: "HotButtonData", offset: 0x1e, decl_offset: 0x1e, size: 0x40, bits: None },
+    FieldInfo { record: "HotButtonData", field: "IconType", accessor: "IconType", declared_in: "HotButtonData", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
+    FieldInfo { record: "HotButtonData", field: "IconSlot", accessor: "IconSlot", declared_in: "HotButtonData", offset: 0x64, decl_offset: 0x64, size: 0x4, bits: None },
+    FieldInfo { record: "HotButtonData", field: "Unknown", accessor: "Unknown", declared_in: "HotButtonData", offset: 0x68, decl_offset: 0x68, size: 0x4, bits: None },
+    FieldInfo { record: "HotButtonLoadout", field: "Name", accessor: "Name", declared_in: "HotButtonLoadout", offset: 0x0, decl_offset: 0x0, size: 0x19, bits: None },
+    FieldInfo { record: "HotButtonLoadout", field: "inuse", accessor: "inuse", declared_in: "HotButtonLoadout", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "HotButtonLoadout", field: "changed", accessor: "changed", declared_in: "HotButtonLoadout", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "HotButtonLoadout", field: "id", accessor: "id", declared_in: "HotButtonLoadout", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_size", accessor: "m_size", declared_in: "ItemContainer", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_type", accessor: "m_type", declared_in: "ItemContainer", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_items", accessor: "m_items", declared_in: "ItemContainer", offset: 0x8, decl_offset: 0x8, size: 0xc, bits: None },
@@ -14373,7 +24247,7 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "LaunchSpellData", field: "SpellSlot", accessor: "SpellSlot", declared_in: "LaunchSpellData", offset: 0x8, decl_offset: 0x8, size: 0x1, bits: None },
     FieldInfo { record: "LaunchSpellData", field: "SpellLevel", accessor: "SpellLevel", declared_in: "LaunchSpellData", offset: 0x9, decl_offset: 0x9, size: 0x1, bits: None },
     FieldInfo { record: "LaunchSpellData", field: "ItemLocation", accessor: "ItemLocation", declared_in: "LaunchSpellData", offset: 0xc, decl_offset: 0xc, size: 0xc, bits: None },
-    FieldInfo { record: "LaunchSpellData", field: "ItemCastType", accessor: "ItemCastType", declared_in: "LaunchSpellData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "LaunchSpellData", field: "ItemCastType", accessor: "ItemCastType", declared_in: "LaunchSpellData", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "LaunchSpellData", field: "ItemID", accessor: "ItemID", declared_in: "LaunchSpellData", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
     FieldInfo { record: "LaunchSpellData", field: "CastingY", accessor: "CastingY", declared_in: "LaunchSpellData", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "LaunchSpellData", field: "CastingX", accessor: "CastingX", declared_in: "LaunchSpellData", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
@@ -15125,7 +24999,7 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PlayerClient", field: "bIdleAnimationOff", accessor: "bIdleAnimationOff", declared_in: "PlayerClient", offset: 0x1229, decl_offset: 0x1229, size: 0x1, bits: None },
     FieldInfo { record: "PlayerClient", field: "bIsInteractiveObject", accessor: "bIsInteractiveObject", declared_in: "PlayerClient", offset: 0x122a, decl_offset: 0x122a, size: 0x1, bits: None },
     FieldInfo { record: "PlayerClient", field: "InteractiveObjectModelName", accessor: "InteractiveObjectModelName", declared_in: "PlayerClient", offset: 0x122b, decl_offset: 0x122b, size: 0x80, bits: None },
-    FieldInfo { record: "PlayerClient", field: "InteractiveObjectOtherName", accessor: "InteractiveObjectOtherName", declared_in: "PlayerClient", offset: 0x12ab, decl_offset: 0x12ab, size: 0x80, bits: None },
+    FieldInfo { record: "PlayerClient", field: "InteractiveObjectReplaceName", accessor: "InteractiveObjectReplaceName", declared_in: "PlayerClient", offset: 0x12ab, decl_offset: 0x12ab, size: 0x80, bits: None },
     FieldInfo { record: "PlayerClient", field: "InteractiveObjectName", accessor: "InteractiveObjectName", declared_in: "PlayerClient", offset: 0x132b, decl_offset: 0x132b, size: 0x40, bits: None },
     FieldInfo { record: "PlayerClient", field: "PhysicsBeforeLastPort", accessor: "PhysicsBeforeLastPort", declared_in: "PlayerClient", offset: 0x136c, decl_offset: 0x136c, size: 0x30, bits: None },
     FieldInfo { record: "PlayerClient", field: "Fellowship", accessor: "Fellowship", declared_in: "PlayerClient", offset: 0x139c, decl_offset: 0x139c, size: 0x9e4, bits: None },
@@ -15171,6 +25045,8 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PlayerPhysicsClient", field: "LeftRightSpeed", accessor: "LeftRightSpeed", declared_in: "PlayerPhysics", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
     FieldInfo { record: "PlayerPhysicsClient", field: "LeftRightDist", accessor: "LeftRightDist", declared_in: "PlayerPhysics", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "PlayerPhysicsClient", field: "UpDownDist", accessor: "UpDownDist", declared_in: "PlayerPhysics", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerRoleLoadout", field: "roles", accessor: "roles", declared_in: "PlayerRoleLoadout", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerRoleLoadout", field: "name", accessor: "name", declared_in: "PlayerRoleLoadout", offset: 0x4, decl_offset: 0x4, size: 0x80, bits: None },
     FieldInfo { record: "PointSystemBase", field: "vfTable", accessor: "vfTable", declared_in: "PointSystemBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PointSystemBase", field: "PointNameEntries", accessor: "PointNameEntries", declared_in: "PointSystemBase", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
     FieldInfo { record: "ProfileManager", field: "pFirst", accessor: "pFirst", declared_in: "ProfileManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
@@ -15223,6 +25099,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "SpellCache", field: "CachedFocusEffects", accessor: "CachedFocusEffects", declared_in: "SpellCache", offset: 0x28, decl_offset: 0x28, size: 0x10, bits: None },
     FieldInfo { record: "SpellCache", field: "CachedFocusAbilities", accessor: "CachedFocusAbilities", declared_in: "SpellCache", offset: 0x38, decl_offset: 0x38, size: 0x10, bits: None },
     FieldInfo { record: "SpellCache", field: "CachedFocusMercAbilities", accessor: "CachedFocusMercAbilities", declared_in: "SpellCache", offset: 0x48, decl_offset: 0x48, size: 0x10, bits: None },
+    FieldInfo { record: "SpellLoadout", field: "SpellId", accessor: "SpellId", declared_in: "SpellLoadout", offset: 0x0, decl_offset: 0x0, size: 0x30, bits: None },
+    FieldInfo { record: "SpellLoadout", field: "Name", accessor: "Name", declared_in: "SpellLoadout", offset: 0x30, decl_offset: 0x30, size: 0x19, bits: None },
+    FieldInfo { record: "SpellLoadout", field: "inuse", accessor: "inuse", declared_in: "SpellLoadout", offset: 0x49, decl_offset: 0x49, size: 0x1, bits: None },
+    FieldInfo { record: "SpellLoadout", field: "changed", accessor: "changed", declared_in: "SpellLoadout", offset: 0x4a, decl_offset: 0x4a, size: 0x1, bits: None },
     FieldInfo { record: "StatCounter", field: "Value", accessor: "Value", declared_in: "StatCounter", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "StatElapsedTime", field: "StartTick", accessor: "StartTick", declared_in: "StatElapsedTime", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "StatElapsedTime", field: "ElapsedTotal", accessor: "ElapsedTotal", declared_in: "StatElapsedTime", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
@@ -15234,6 +25114,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "TList<CObjectGroupStageInstance>", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CObjectGroupStageInstance>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "TList<PlayerClient>", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<PlayerClient>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "TList<PlayerClient>", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<PlayerClient>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "TargetSetLoadout", field: "name", accessor: "name", declared_in: "TargetSetLoadout", offset: 0x0, decl_offset: 0x0, size: 0x19, bits: None },
+    FieldInfo { record: "TargetSetLoadout", field: "storedString", accessor: "storedString", declared_in: "TargetSetLoadout", offset: 0x19, decl_offset: 0x19, size: 0x5dc, bits: None },
+    FieldInfo { record: "TargetSetLoadout", field: "inuse", accessor: "inuse", declared_in: "TargetSetLoadout", offset: 0x5f5, decl_offset: 0x5f5, size: 0x1, bits: None },
+    FieldInfo { record: "TargetSetLoadout", field: "changed", accessor: "changed", declared_in: "TargetSetLoadout", offset: 0x5f6, decl_offset: 0x5f6, size: 0x1, bits: None },
     FieldInfo { record: "VeArray<VePointer<ItemClient> >", field: "m_data", accessor: "m_data", declared_in: "VeArray<VePointer<ItemClient> >", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "VeArray<VePointer<ItemClient> >", field: "m_size", accessor: "m_size", declared_in: "VeArray<VePointer<ItemClient> >", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "VeArray<VePointer<ItemClient> >", field: "m_capacity", accessor: "m_capacity", declared_in: "VeArray<VePointer<ItemClient> >", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -15243,4 +25127,94 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "WorldLocation", field: "ZoneBoundX", accessor: "ZoneBoundX", declared_in: "WorldLocation", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "WorldLocation", field: "ZoneBoundZ", accessor: "ZoneBoundZ", declared_in: "WorldLocation", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "WorldLocation", field: "ZoneBoundHeading", accessor: "ZoneBoundHeading", declared_in: "WorldLocation", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "CharacterName", accessor: "CharacterName", declared_in: "zoneHeader", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ShortName", accessor: "ShortName", declared_in: "zoneHeader", offset: 0x40, decl_offset: 0x40, size: 0x80, bits: None },
+    FieldInfo { record: "zoneHeader", field: "LongName", accessor: "LongName", declared_in: "zoneHeader", offset: 0xc0, decl_offset: 0xc0, size: 0x80, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ZoneDesc", accessor: "ZoneDesc", declared_in: "zoneHeader", offset: 0x140, decl_offset: 0x140, size: 0x96, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogOnOff", accessor: "FogOnOff", declared_in: "zoneHeader", offset: 0x1d6, decl_offset: 0x1d6, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogRed", accessor: "FogRed", declared_in: "zoneHeader", offset: 0x1d7, decl_offset: 0x1d7, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogGreen", accessor: "FogGreen", declared_in: "zoneHeader", offset: 0x1db, decl_offset: 0x1db, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogBlue", accessor: "FogBlue", declared_in: "zoneHeader", offset: 0x1df, decl_offset: 0x1df, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogStart", accessor: "FogStart", declared_in: "zoneHeader", offset: 0x1e4, decl_offset: 0x1e4, size: 0x10, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogEnd", accessor: "FogEnd", declared_in: "zoneHeader", offset: 0x1f4, decl_offset: 0x1f4, size: 0x10, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ZoneGravity", accessor: "ZoneGravity", declared_in: "zoneHeader", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ZoneType", accessor: "ZoneType", declared_in: "zoneHeader", offset: 0x208, decl_offset: 0x208, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "RainChance", accessor: "RainChance", declared_in: "zoneHeader", offset: 0x209, decl_offset: 0x209, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "RainDuration", accessor: "RainDuration", declared_in: "zoneHeader", offset: 0x20d, decl_offset: 0x20d, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SnowChance", accessor: "SnowChance", declared_in: "zoneHeader", offset: 0x211, decl_offset: 0x211, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SnowDuration", accessor: "SnowDuration", declared_in: "zoneHeader", offset: 0x215, decl_offset: 0x215, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ZoneTimeZone", accessor: "ZoneTimeZone", declared_in: "zoneHeader", offset: 0x219, decl_offset: 0x219, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SkyEnabled", accessor: "SkyEnabled", declared_in: "zoneHeader", offset: 0x21a, decl_offset: 0x21a, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "WaterMidi", accessor: "WaterMidi", declared_in: "zoneHeader", offset: 0x21c, decl_offset: 0x21c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "DayMidi", accessor: "DayMidi", declared_in: "zoneHeader", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "NightMidi", accessor: "NightMidi", declared_in: "zoneHeader", offset: 0x224, decl_offset: 0x224, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ZoneExpModifier", accessor: "ZoneExpModifier", declared_in: "zoneHeader", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SafeYLoc", accessor: "SafeYLoc", declared_in: "zoneHeader", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SafeXLoc", accessor: "SafeXLoc", declared_in: "zoneHeader", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SafeZLoc", accessor: "SafeZLoc", declared_in: "zoneHeader", offset: 0x234, decl_offset: 0x234, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SafeHeading", accessor: "SafeHeading", declared_in: "zoneHeader", offset: 0x238, decl_offset: 0x238, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "Ceiling", accessor: "Ceiling", declared_in: "zoneHeader", offset: 0x23c, decl_offset: 0x23c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "Floor", accessor: "Floor", declared_in: "zoneHeader", offset: 0x240, decl_offset: 0x240, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "MinClip", accessor: "MinClip", declared_in: "zoneHeader", offset: 0x244, decl_offset: 0x244, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "MaxClip", accessor: "MaxClip", declared_in: "zoneHeader", offset: 0x248, decl_offset: 0x248, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ForageLow", accessor: "ForageLow", declared_in: "zoneHeader", offset: 0x24c, decl_offset: 0x24c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ForageMedium", accessor: "ForageMedium", declared_in: "zoneHeader", offset: 0x250, decl_offset: 0x250, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ForageHigh", accessor: "ForageHigh", declared_in: "zoneHeader", offset: 0x254, decl_offset: 0x254, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FishingLow", accessor: "FishingLow", declared_in: "zoneHeader", offset: 0x258, decl_offset: 0x258, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FishingMedium", accessor: "FishingMedium", declared_in: "zoneHeader", offset: 0x25c, decl_offset: 0x25c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FishingHigh", accessor: "FishingHigh", declared_in: "zoneHeader", offset: 0x260, decl_offset: 0x260, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SkyLock", accessor: "SkyLock", declared_in: "zoneHeader", offset: 0x264, decl_offset: 0x264, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "GraveyardTimer", accessor: "GraveyardTimer", declared_in: "zoneHeader", offset: 0x268, decl_offset: 0x268, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "Unknowns", accessor: "Unknowns", declared_in: "zoneHeader", offset: 0x26c, decl_offset: 0x26c, size: 0x20, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDHour", accessor: "ScriptIDHour", declared_in: "zoneHeader", offset: 0x28c, decl_offset: 0x28c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDMinute", accessor: "ScriptIDMinute", declared_in: "zoneHeader", offset: 0x290, decl_offset: 0x290, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDTick", accessor: "ScriptIDTick", declared_in: "zoneHeader", offset: 0x294, decl_offset: 0x294, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDOnPlayerDeath", accessor: "ScriptIDOnPlayerDeath", declared_in: "zoneHeader", offset: 0x298, decl_offset: 0x298, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDOnNPCDeath", accessor: "ScriptIDOnNPCDeath", declared_in: "zoneHeader", offset: 0x29c, decl_offset: 0x29c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDPlayerEnteringZone", accessor: "ScriptIDPlayerEnteringZone", declared_in: "zoneHeader", offset: 0x2a0, decl_offset: 0x2a0, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDOnZonePop", accessor: "ScriptIDOnZonePop", declared_in: "zoneHeader", offset: 0x2a4, decl_offset: 0x2a4, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDNPCLoot", accessor: "ScriptIDNPCLoot", declared_in: "zoneHeader", offset: 0x2a8, decl_offset: 0x2a8, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDAdventureFailed", accessor: "ScriptIDAdventureFailed", declared_in: "zoneHeader", offset: 0x2ac, decl_offset: 0x2ac, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "CanExploreTasks", accessor: "CanExploreTasks", declared_in: "zoneHeader", offset: 0x2b0, decl_offset: 0x2b0, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "NewEngineZone", accessor: "NewEngineZone", declared_in: "zoneHeader", offset: 0x2b4, decl_offset: 0x2b4, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDOnFishing", accessor: "ScriptIDOnFishing", declared_in: "zoneHeader", offset: 0x2b8, decl_offset: 0x2b8, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptIDOnForage", accessor: "ScriptIDOnForage", declared_in: "zoneHeader", offset: 0x2bc, decl_offset: 0x2bc, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SkyType", accessor: "SkyType", declared_in: "zoneHeader", offset: 0x2c0, decl_offset: 0x2c0, size: 0x20, bits: None },
+    FieldInfo { record: "zoneHeader", field: "WeatherType", accessor: "WeatherType", declared_in: "zoneHeader", offset: 0x2e0, decl_offset: 0x2e0, size: 0x20, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SkyTypeOverride", accessor: "SkyTypeOverride", declared_in: "zoneHeader", offset: 0x300, decl_offset: 0x300, size: 0x20, bits: None },
+    FieldInfo { record: "zoneHeader", field: "SkyLockOverride", accessor: "SkyLockOverride", declared_in: "zoneHeader", offset: 0x320, decl_offset: 0x320, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "WeatherTypeOverride", accessor: "WeatherTypeOverride", declared_in: "zoneHeader", offset: 0x324, decl_offset: 0x324, size: 0x20, bits: None },
+    FieldInfo { record: "zoneHeader", field: "WeatherChangeTime", accessor: "WeatherChangeTime", declared_in: "zoneHeader", offset: 0x344, decl_offset: 0x344, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ClimateType", accessor: "ClimateType", declared_in: "zoneHeader", offset: 0x348, decl_offset: 0x348, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "NPCAgroMaxDist", accessor: "NPCAgroMaxDist", declared_in: "zoneHeader", offset: 0x34c, decl_offset: 0x34c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FilterID", accessor: "FilterID", declared_in: "zoneHeader", offset: 0x350, decl_offset: 0x350, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ZoneID", accessor: "ZoneID", declared_in: "zoneHeader", offset: 0x354, decl_offset: 0x354, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ScriptNPCReceivedItem", accessor: "ScriptNPCReceivedItem", declared_in: "zoneHeader", offset: 0x358, decl_offset: 0x358, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bValidateZoneIns", accessor: "bValidateZoneIns", declared_in: "zoneHeader", offset: 0x35c, decl_offset: 0x35c, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "RespawnLocationGroupId", accessor: "RespawnLocationGroupId", declared_in: "zoneHeader", offset: 0x360, decl_offset: 0x360, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FallThroughWorldTeleportID", accessor: "FallThroughWorldTeleportID", declared_in: "zoneHeader", offset: 0x364, decl_offset: 0x364, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FallThroughWorldScriptID", accessor: "FallThroughWorldScriptID", declared_in: "zoneHeader", offset: 0x368, decl_offset: 0x368, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoBuffExpiration", accessor: "bNoBuffExpiration", declared_in: "zoneHeader", offset: 0x36c, decl_offset: 0x36c, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "LavaDamage", accessor: "LavaDamage", declared_in: "zoneHeader", offset: 0x370, decl_offset: 0x370, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "MinLavaDamage", accessor: "MinLavaDamage", declared_in: "zoneHeader", offset: 0x374, decl_offset: 0x374, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bDisallowManaStone", accessor: "bDisallowManaStone", declared_in: "zoneHeader", offset: 0x378, decl_offset: 0x378, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoBind", accessor: "bNoBind", declared_in: "zoneHeader", offset: 0x379, decl_offset: 0x379, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoAttack", accessor: "bNoAttack", declared_in: "zoneHeader", offset: 0x37a, decl_offset: 0x37a, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoCallOfTheHero", accessor: "bNoCallOfTheHero", declared_in: "zoneHeader", offset: 0x37b, decl_offset: 0x37b, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoFlux", accessor: "bNoFlux", declared_in: "zoneHeader", offset: 0x37c, decl_offset: 0x37c, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoFear", accessor: "bNoFear", declared_in: "zoneHeader", offset: 0x37d, decl_offset: 0x37d, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoEncumber", accessor: "bNoEncumber", declared_in: "zoneHeader", offset: 0x37e, decl_offset: 0x37e, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FastRegenHP", accessor: "FastRegenHP", declared_in: "zoneHeader", offset: 0x380, decl_offset: 0x380, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FastRegenMana", accessor: "FastRegenMana", declared_in: "zoneHeader", offset: 0x384, decl_offset: 0x384, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FastRegenEndurance", accessor: "FastRegenEndurance", declared_in: "zoneHeader", offset: 0x388, decl_offset: 0x388, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "CanPlaceCampsite", accessor: "CanPlaceCampsite", declared_in: "zoneHeader", offset: 0x38c, decl_offset: 0x38c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "CanPlaceGuildBanner", accessor: "CanPlaceGuildBanner", declared_in: "zoneHeader", offset: 0x390, decl_offset: 0x390, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FogDensity", accessor: "FogDensity", declared_in: "zoneHeader", offset: 0x394, decl_offset: 0x394, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bAdjustGamma", accessor: "bAdjustGamma", declared_in: "zoneHeader", offset: 0x398, decl_offset: 0x398, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "TimeStringID", accessor: "TimeStringID", declared_in: "zoneHeader", offset: 0x39c, decl_offset: 0x39c, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoMercenaries", accessor: "bNoMercenaries", declared_in: "zoneHeader", offset: 0x3a0, decl_offset: 0x3a0, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "FishingRelated", accessor: "FishingRelated", declared_in: "zoneHeader", offset: 0x3a4, decl_offset: 0x3a4, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "ForageSpecial", accessor: "ForageSpecial", declared_in: "zoneHeader", offset: 0x3a8, decl_offset: 0x3a8, size: 0x4, bits: None },
+    FieldInfo { record: "zoneHeader", field: "bNoLevitate", accessor: "bNoLevitate", declared_in: "zoneHeader", offset: 0x3ac, decl_offset: 0x3ac, size: 0x1, bits: None },
+    FieldInfo { record: "zoneHeader", field: "BloomIntensity", accessor: "BloomIntensity", declared_in: "zoneHeader", offset: 0x3b0, decl_offset: 0x3b0, size: 0x4, bits: None },
 ];

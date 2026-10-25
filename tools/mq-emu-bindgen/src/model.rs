@@ -157,6 +157,7 @@ pub fn build(pdb_path: &str, roots: &[&str]) -> Result<Model> {
     // Index complete definitions so forward references can be resolved.
     let mut by_unique: HashMap<String, TypeIndex> = HashMap::new();
     let mut by_name: HashMap<String, TypeIndex> = HashMap::new();
+    let mut definitions: HashMap<String, Vec<TypeIndex>> = HashMap::new();
     let mut iter = info.iter();
     while let Some(item) = iter.next()? {
         finder.update(&iter);
@@ -173,11 +174,25 @@ pub fn build(pdb_path: &str, roots: &[&str]) -> Result<Model> {
             by_unique.entry(unique.into_owned()).or_insert(item.index());
         }
         if !is_anonymous(&name) {
-            by_name.entry(display_name(&name)).or_insert(item.index());
+            let name = display_name(&name);
+            by_name.entry(name.clone()).or_insert(item.index());
+            definitions.entry(name).or_default().push(item.index());
         }
     }
 
-    let mut builder = Builder { finder: &finder, by_unique, by_name, model: Model::default(), queue: VecDeque::new() };
+    // The linker merges identical type records, so two complete definitions
+    // with one name normally means two *different* layouts, e.g. a stale one
+    // from an old object file or compiler PDB. Using either would be a guess.
+    let mut conflicts = HashMap::new();
+    for (name, indexes) in definitions.into_iter().filter(|(_, indexes)| indexes.len() > 1) {
+        let signatures = indexes.iter().map(|index| signature(&finder, *index)).collect::<Result<Vec<_>>>()?;
+        if differ(&signatures) {
+            conflicts.insert(name, indexes);
+        }
+    }
+
+    let mut builder =
+        Builder { finder: &finder, by_unique, by_name, conflicts, model: Model::default(), queue: VecDeque::new() };
 
     for root in roots {
         let index = *builder.by_name.get(*root).ok_or_else(|| Error(format!("type `{root}` not found in {pdb_path}")))?;
@@ -208,6 +223,8 @@ struct Builder<'a, 't> {
     finder: &'a TypeFinder<'t>,
     by_unique: HashMap<String, TypeIndex>,
     by_name: HashMap<String, TypeIndex>,
+    /// Names with several different complete definitions in the PDB.
+    conflicts: HashMap<String, Vec<TypeIndex>>,
     model: Model,
     queue: VecDeque<(TypeIndex, Option<(TypeId, String)>)>,
 }
@@ -215,6 +232,18 @@ struct Builder<'a, 't> {
 impl<'t> Builder<'_, 't> {
     fn parse(&self, index: TypeIndex) -> Result<TypeData<'t>> {
         Ok(self.finder.find(index)?.parse()?)
+    }
+
+    /// Refuses to lay out a type whose name has conflicting definitions.
+    fn check_unambiguous(&self, name: &str) -> Result<()> {
+        match self.conflicts.get(name) {
+            Some(indexes) => Err(Error(format!(
+                "the PDB has {} different definitions of `{name}` (type indexes {indexes:?}), so its layout is ambiguous. \
+                 The linker updates an existing PDB in place and never drops old types, so this usually means                  eqlib.pdb has survived from an older build: delete build/bin/<config>/eqlib.pdb (and eqlib.dll, to force a                  relink), rebuild MacroQuest, and regenerate.",
+                indexes.len()
+            ))),
+            None => Ok(()),
+        }
     }
 
     /// Maps a forward reference to its complete definition, if the PDB has one.
@@ -240,6 +269,7 @@ impl<'t> Builder<'_, 't> {
             TypeData::Union(u) => (display_name(&u.name.to_string()), u.size, true, Some(u.fields)),
             other => return Err(Error(format!("type {index:?} is not a record: {other:?}"))),
         };
+        self.check_unambiguous(&cpp_name)?;
 
         let mut out = Vec::new();
         if let Some(fields) = fields {
@@ -424,6 +454,7 @@ impl<'t> Builder<'_, 't> {
             return Ok(Ty::Enum(index.0));
         }
         let TypeData::Enumeration(e) = self.parse(index)? else { unreachable!() };
+        self.check_unambiguous(&display_name(&e.name.to_string()))?;
         let underlying = match self.parse(e.underlying_type)? {
             TypeData::Primitive(p) => match prim_ty(p.kind)? {
                 Ty::Prim(p) => p,
@@ -448,6 +479,43 @@ impl<'t> Builder<'_, 't> {
         self.model.enums.insert(index.0, Enum { cpp_name: display_name(&e.name.to_string()), underlying, values });
         Ok(Ty::Enum(index.0))
     }
+}
+
+/// What distinguishes one definition of a type from another: its size and its
+/// members' names and offsets (or an enum's values).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct Signature {
+    size: u64,
+    members: Vec<(String, u64)>,
+}
+
+fn signature(finder: &TypeFinder<'_>, index: TypeIndex) -> Result<Signature> {
+    let (size, fields) = match finder.find(index)?.parse()? {
+        TypeData::Class(c) => (c.size, c.fields),
+        TypeData::Union(u) => (u.size, Some(u.fields)),
+        TypeData::Enumeration(e) => (0, Some(e.fields)),
+        _ => return Ok(Signature { size: 0, members: Vec::new() }),
+    };
+    let mut members = Vec::new();
+    let mut next = fields;
+    while let Some(list) = next {
+        let TypeData::FieldList(list) = finder.find(list)?.parse()? else { break };
+        for field in &list.fields {
+            match field {
+                TypeData::Member(m) => members.push((m.name.to_string().into_owned(), m.offset)),
+                TypeData::BaseClass(b) => members.push((format!("<base {}>", b.base_class.0), u64::from(b.offset))),
+                TypeData::Enumerate(v) => members.push((v.name.to_string().into_owned(), variant_value(v.value) as u64)),
+                _ => {}
+            }
+        }
+        next = list.continuation;
+    }
+    Ok(Signature { size, members })
+}
+
+/// True if any two signatures differ.
+pub(crate) fn differ(signatures: &[Signature]) -> bool {
+    signatures.windows(2).any(|pair| pair[0] != pair[1])
 }
 
 fn prim_ty(kind: PrimitiveKind) -> Result<Ty> {
@@ -479,5 +547,32 @@ fn variant_value(v: Variant) -> i128 {
         Variant::I16(v) => v.into(),
         Variant::I32(v) => v.into(),
         Variant::I64(v) => v.into(),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn sig(size: u64, members: &[(&str, u64)]) -> Signature {
+        Signature { size, members: members.iter().map(|(n, o)| (n.to_string(), *o)).collect() }
+    }
+
+    #[test]
+    fn identical_definitions_do_not_conflict() {
+        let a = sig(8, &[("x", 0), ("y", 4)]);
+        assert!(!differ(&[a.clone(), a.clone(), a]));
+        assert!(!differ(&[sig(8, &[])]));
+        assert!(!differ(&[]));
+    }
+
+    #[test]
+    fn differing_definitions_conflict() {
+        // The case found in practice: same size, a member renamed and moved.
+        let stale = sig(0x83f9c, &[("WorldServerShortname", 0x367f8), ("combatSkill", 0x36838), ("temp", 0x5d34e)]);
+        let current = sig(0x83f9c, &[("WorldServerShortname", 0x367f8), ("combatSkill", 0x36820), ("bHotButtonChanged", 0x5d336)]);
+        assert!(differ(&[stale.clone(), current.clone()]));
+        assert!(differ(&[current.clone(), current, stale]));
+        assert!(differ(&[sig(4, &[("x", 0)]), sig(8, &[("x", 0)])]));
     }
 }

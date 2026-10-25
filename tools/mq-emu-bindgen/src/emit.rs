@@ -231,8 +231,14 @@ pub fn emit(model: &Model) -> String {
     out
 }
 
-/// Picks a unique getter name per field. Setters are `set_<getter>`, so both
-/// namespaces are checked together.
+/// The method names a field's accessors may use: getter, setter, and the
+/// indexed pair emitted for arrays of scalars.
+fn method_names(bare: &str) -> [String; 4] {
+    [bare.to_owned(), format!("set_{bare}"), format!("{bare}_at"), format!("set_{bare}_at")]
+}
+
+/// Picks a unique getter name per field. Every field reserves all of its
+/// possible method names, so no two fields' accessors can collide.
 fn accessor_names(record: &Record) -> Vec<String> {
     let mut used: HashSet<String> = HashSet::new();
     let mut names = Vec::with_capacity(record.fields.len());
@@ -244,14 +250,9 @@ fn accessor_names(record: &Record) -> Vec<String> {
         ];
         let chosen = candidates
             .into_iter()
-            .find(|c| {
-                let bare = c.trim_start_matches("r#");
-                !used.contains(bare) && !used.contains(&format!("set_{bare}"))
-            })
+            .find(|c| method_names(c.trim_start_matches("r#")).iter().all(|name| !used.contains(name)))
             .expect("offset-qualified accessor names are unique");
-        let bare = chosen.trim_start_matches("r#").to_owned();
-        used.insert(format!("set_{bare}"));
-        used.insert(bare);
+        used.extend(method_names(chosen.trim_start_matches("r#")));
         names.push(chosen);
     }
     names
@@ -368,6 +369,26 @@ fn emit_record(out: &mut String, model: &Model, names: &Names, name: &str, recor
                     "\n{doc}    #[inline]\n    pub fn {getter}(&self) -> {rust} {{\n        unsafe {{ read({base}, {offset}) }}\n    }}\n\n\
                      {doc}    #[inline]\n    pub fn {setter}(&self, value: {rust}) {{\n        unsafe {{ write({base}, {offset}, value) }}\n    }}\n"
                 );
+                // One element at a time, without copying the whole array.
+                if let Ty::Array(element, bytes) = ty {
+                    if !matches!(**element, Ty::Array(..)) {
+                        let element_rust = rust_ty(model, names, element);
+                        let element_size = model.size_of(element);
+                        let count = bytes.checked_div(element_size).unwrap_or(0);
+                        let bare = getter.trim_start_matches("r#");
+                        let _ = write!(
+                            out,
+                            "\n{doc}    /// One element; panics if `index >= {count}`.\n    #[inline]\n    \
+                             pub fn {bare}_at(&self, index: usize) -> {element_rust} {{\n        \
+                             assert!(index < {count}, \"index out of bounds\");\n        \
+                             unsafe {{ read({base}, {offset} + index * {element_size:#x}) }}\n    }}\n\n\
+                             {doc}    /// Sets one element; panics if `index >= {count}`.\n    #[inline]\n    \
+                             pub fn set_{bare}_at(&self, index: usize, value: {element_rust}) {{\n        \
+                             assert!(index < {count}, \"index out of bounds\");\n        \
+                             unsafe {{ write({base}, {offset} + index * {element_size:#x}, value) }}\n    }}\n"
+                        );
+                    }
+                }
             }
             Ty::Record(id) => {
                 let rust = names.of(*id);
@@ -516,5 +537,18 @@ mod tests {
             accessor_names(&record),
             ["__vfptr", "Other___vfptr", "x", "Derived_set_x", "r#type", "Derived_x"]
         );
+    }
+
+    #[test]
+    fn indexed_accessor_names_are_reserved_too() {
+        let record = Record {
+            cpp_name: "Arrays".into(),
+            size: 0x10,
+            is_union: false,
+            // `names` gets `names_at`; a member literally called `names_at` must not collide.
+            fields: vec![field("names", "Arrays", 0), field("names_at", "Arrays", 4), field("set_names_at", "Arrays", 8)],
+            parent_hint: None,
+        };
+        assert_eq!(accessor_names(&record), ["names", "Arrays_names_at", "Arrays_set_names_at"]);
     }
 }
