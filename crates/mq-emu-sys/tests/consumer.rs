@@ -6,9 +6,11 @@
 //! every parent of the working directory. So the consumer gets an empty
 //! `CARGO_HOME`, and lives under this repo's `target/tmp` rather than `%TEMP%`
 //! (which sits inside the user profile, next to `~/.cargo/config.toml`). The
-//! only parent config left is the repo's, which sets just `[build] target`,
-//! and every build here passes `--target` explicitly. If someone adds `[env]`
-//! to that config later, `missing_mq_root_fails_with_clear_message` fails.
+//! only parent config left is the repo's, which sets `[build] target` and
+//! `crt-static` rustflags; every build here passes `--target` and
+//! `CARGO_ENCODED_RUSTFLAGS` explicitly, which override both. If someone adds
+//! `[env]` to that config later, `missing_mq_root_fails_with_clear_message`
+//! fails.
 
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
@@ -36,6 +38,7 @@ fn consumer() -> &'static Consumer {
         let cargo_home = root.join("cargo-home");
         std::fs::create_dir_all(&dir).unwrap();
         std::fs::create_dir_all(&cargo_home).unwrap();
+        share_package_cache(&cargo_home);
 
         let mq_emu_sys = Path::new(env!("CARGO_MANIFEST_DIR")).display().to_string().replace('\\', "/");
         std::fs::write(
@@ -54,14 +57,50 @@ fn consumer() -> &'static Consumer {
     })
 }
 
-/// Runs `cargo build` in the consumer crate with only the given MQ settings.
+/// The isolated CARGO_HOME has no user config, but builds still need the
+/// crates.io packages mq-emu-sys depends on (e.g. `cc`). Link the real package
+/// cache in with a directory junction, so `--offline` resolution works without
+/// any of the user's config coming along.
+fn share_package_cache(cargo_home: &Path) {
+    let link = cargo_home.join("registry");
+    match std::fs::symlink_metadata(&link) {
+        // Already a junction (std reports junctions as symlinks).
+        Ok(meta) if meta.file_type().is_symlink() => return,
+        // A real directory Cargo created on an earlier run. Remove it file by
+        // file; never recursively, in case it ever points somewhere real.
+        Ok(_) => {
+            let _ = std::fs::remove_file(link.join("CACHEDIR.TAG"));
+            std::fs::remove_dir(&link).unwrap_or_else(|e| panic!("{} isn't empty ({e}); delete it by hand", link.display()));
+        }
+        Err(_) => {}
+    }
+    let real_home = std::env::var_os("CARGO_HOME")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from(std::env::var_os("USERPROFILE").expect("USERPROFILE")).join(".cargo"));
+    let status = Command::new("cmd")
+        .args(["/C", "mklink", "/J"])
+        .arg(&link)
+        .arg(real_home.join("registry"))
+        .stdout(std::process::Stdio::null())
+        .status()
+        .expect("failed to run mklink");
+    assert!(status.success() || link.exists(), "could not link the package cache into {}", cargo_home.display());
+}
+
+/// The static C runtime flag a plugin project is expected to set
+/// (space-separated; encoded for CARGO_ENCODED_RUSTFLAGS when used).
+const CRT_STATIC: &str = "-C target-feature=+crt-static";
+
+/// Runs `cargo build` in the consumer crate with only the given MQ settings
+/// (and the static C runtime, as a correctly configured project would have).
 fn build(target: &str, mq_root: Option<&str>) -> Output {
-    run_cargo("build", target, mq_root, false)
+    run_cargo("build", target, mq_root, false, Some(CRT_STATIC), &[])
 }
 
 /// Runs `cargo <subcommand>` in the consumer crate. `docs_rs` sets `DOCS_RS=1`,
-/// as docs.rs does for its builds.
-fn run_cargo(subcommand: &str, target: &str, mq_root: Option<&str>, docs_rs: bool) -> Output {
+/// as docs.rs does for its builds; `rustflags` stands in for the project's
+/// `.cargo/config.toml` rustflags; `env` adds variables.
+fn run_cargo(subcommand: &str, target: &str, mq_root: Option<&str>, docs_rs: bool, rustflags: Option<&str>, env: &[(&str, &str)]) -> Output {
     let consumer = consumer();
     let cargo = PathBuf::from(env!("CARGO"));
     let mut cmd = Command::new(&cargo);
@@ -74,7 +113,15 @@ fn run_cargo(subcommand: &str, target: &str, mq_root: Option<&str>, docs_rs: boo
         .env("RUSTDOC", cargo.with_file_name("rustdoc.exe"))
         .env_remove("MQ_ROOT")
         .env_remove("MQ_BUILD_CONFIG")
-        .env_remove("DOCS_RS");
+        .env_remove("DOCS_RS")
+        .env_remove("RUSTFLAGS")
+        .env_remove("MQ_EMU_DYNAMIC_CRT")
+        // Always set, even to nothing: it takes precedence over any rustflags in
+        // a parent directory's .cargo/config.toml (this repo's sets crt-static).
+        .env("CARGO_ENCODED_RUSTFLAGS", rustflags.unwrap_or("").replace(' ', "\x1f"));
+    for (key, value) in env {
+        cmd.env(key, value);
+    }
     if let Some(root) = mq_root {
         cmd.env("MQ_ROOT", root);
     }
@@ -117,11 +164,26 @@ fn non_32_bit_target_fails_with_clear_message() {
 
 #[test]
 fn docs_build_succeeds_on_docs_rs_without_mq_root() {
-    let out = run_cargo("doc", TARGET_32, None, true);
+    let out = run_cargo("doc", TARGET_32, None, true, None, &[]);
     assert!(out.status.success(), "docs.rs-style doc build failed:\n{}", String::from_utf8_lossy(&out.stderr));
 }
 
 #[test]
 fn docs_build_still_needs_mq_root_outside_docs_rs() {
-    assert_fails_with(&run_cargo("doc", TARGET_32, None, false), "MQ_ROOT is not set");
+    assert_fails_with(&run_cargo("doc", TARGET_32, None, false, Some(CRT_STATIC), &[]), "MQ_ROOT is not set");
+}
+
+// Plugins must not depend on the Visual C++ redistributable.
+
+#[test]
+fn dynamic_c_runtime_fails_with_clear_message() {
+    let out = run_cargo("build", TARGET_32, Some(env!("MQ_ROOT")), false, None, &[]);
+    assert_fails_with(&out, "plugins must link the C runtime statically");
+}
+
+#[test]
+fn dynamic_c_runtime_can_be_opted_into() {
+    let out = run_cargo("build", TARGET_32, Some(env!("MQ_ROOT")), false, None, &[("MQ_EMU_DYNAMIC_CRT", "1")]);
+    assert!(out.status.success(), "opt-out build failed:
+{}", String::from_utf8_lossy(&out.stderr));
 }

@@ -38,5 +38,11 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         MQ2MAIN_IMPORTS.len() + EQLIB_IMPORTS.len(),
         "link_check is missing an import"
     );
-    functions.iter().chain(statics).map(|p| *p as usize).fold(0, usize::wrapping_add)
+    // The shim's only MQ2Main import is the C++-mangled mq::GetMainInterface.
+    let shim: &[*const c_void] = &[
+        mq_emu_sys::shim::mqemu_main_interface as *const c_void,
+        mq_emu_sys::shim::mqemu_add_command as *const c_void,
+        mq_emu_sys::shim::mqemu_do_command as *const c_void,
+    ];
+    functions.iter().chain(statics).chain(shim).map(|p| *p as usize).fold(0, usize::wrapping_add)
 }

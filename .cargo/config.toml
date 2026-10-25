@@ -5,3 +5,9 @@
 # environment or in your user-level ~/.cargo/config.toml (see README.md).
 [build]
 target = "i686-pc-windows-msvc"
+
+# Link the C/C++ runtime statically, as MacroQuest does (/MT), so plugin DLLs
+# don't depend on the Visual C++ redistributable (VCRUNTIME140.dll,
+# MSVCP140.dll) being installed. Plugin projects should do the same.
+[target.i686-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

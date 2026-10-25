@@ -41,6 +41,7 @@ pub mod eqlib;
 pub mod layouts;
 pub mod mq2main;
 pub mod plugin;
+pub mod shim;
 pub mod types;
 
 pub use constants::*;
