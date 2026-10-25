@@ -254,6 +254,15 @@ unsafe extern "C" {
     pub fn mqemu_tlo_set(result: *mut mqemu_tlo_result, kind: i32, integer: i64, real: f64, text: *const c_char, len: usize) -> bool;
 }
 
+// shim/items.cpp: game objects through their virtual functions. No DLL
+// imports, so tests may call these.
+unsafe extern "C" {
+    /// `item->GetItemDefinition()`, dispatched through the item's vtable, so
+    /// the game's own implementation answers for items the game created.
+    /// Null for a null item.
+    pub fn mqemu_item_definition(item: *const crate::layouts::ItemClient) -> *mut crate::layouts::ItemDefinition;
+}
+
 /// A fake `MainInterface` that records command API calls, for testing code
 /// built on the shim without MacroQuest (`shim/test_fake.cpp`). It is only
 /// linked into binaries that use it.

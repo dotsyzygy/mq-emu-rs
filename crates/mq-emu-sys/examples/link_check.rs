@@ -41,6 +41,11 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const szEQMappableCommands).cast(),
         (&raw const pEverQuestInfo).cast(),
         (&raw const EQbCommandStates).cast(),
+        (&raw const pLocalPC).cast(),
+        (&raw const pSpellMgr).cast(),
+        (&raw const pWorldData).cast(),
+        (&raw const pZoneInfo).cast(),
+        (&raw const pItemList).cast(),
     ];
     assert_eq!(
         functions.len() + statics.len(),

@@ -133,6 +133,16 @@ fn parse_sizes(text: &str) -> Vec<(String, u64)> {
         .collect()
 }
 
+/// Classes whose header offset comments are known not to describe the emu
+/// build, with why. The PDB is what the compiler actually laid out; these are
+/// skipped by the comparison, and `known_wrong_comments_are_still_wrong`
+/// fails once a class's comments are fixed, so the list can't go stale.
+const WRONG_COMMENTS: &[(&str, &str)] = &[
+    // pFirst at 0x08, pLast at 0x10...: 64-bit (live client) offsets; in the
+    // 32-bit build the pointers follow the 4-byte enum directly.
+    ("ProfileList", "64-bit offsets"),
+];
+
 #[derive(Debug, Default)]
 struct Report {
     matched: usize,
@@ -189,16 +199,33 @@ fn generated_fields() -> Vec<(&'static str, &'static str, u64)> {
     FIELDS.iter().map(|f| (f.declared_in, f.field, u64::from(f.decl_offset))).collect()
 }
 
+fn all_header_fields() -> Vec<HeaderField> {
+    eqlib_headers().iter().flat_map(|(file, text)| parse_header(text, file)).collect()
+}
+
 #[test]
 fn generated_offsets_match_header_comments() {
-    let header: Vec<HeaderField> =
-        eqlib_headers().iter().flat_map(|(file, text)| parse_header(text, file)).collect();
+    let header: Vec<HeaderField> = all_header_fields()
+        .into_iter()
+        .filter(|h| !WRONG_COMMENTS.iter().any(|(class, _)| h.class == *class))
+        .collect();
     let report = compare(&header, &generated_fields());
     eprintln!("{} header members matched generated fields ({} generated fields total)", report.matched, FIELDS.len());
 
     assert!(report.mismatches.is_empty(), "{} offset mismatches:\n{}", report.mismatches.len(), report.mismatches.join("\n"));
     // Guard against the check silently matching nothing (e.g. a parser regression).
     assert!(report.matched >= 950, "only {} header members matched generated fields", report.matched);
+}
+
+#[test]
+fn known_wrong_comments_are_still_wrong() {
+    let header = all_header_fields();
+    for (class, why) in WRONG_COMMENTS {
+        let fields: Vec<HeaderField> = header.iter().filter(|h| h.class == *class).cloned().collect();
+        let report = compare(&fields, &generated_fields());
+        assert!(report.matched > 0, "{class} ({why}): no header members matched; is it still generated?");
+        assert!(!report.mismatches.is_empty(), "{class}'s header comments now match the PDB; remove it from WRONG_COMMENTS");
+    }
 }
 
 #[test]

@@ -389,3 +389,48 @@ fn plugin_name_comes_from_the_loaders_record() {
     unsafe { mqemu_test_free_plugin(plugin) };
     assert!(unsafe { mqemu_plugin_name(std::ptr::null()) }.is_null());
 }
+
+// ----- items ----------------------------------------------------------------
+
+mod item_definition {
+    use mq_emu_sys::layouts::{ItemClient, ItemDefinition};
+    use mq_emu_sys::shim::mqemu_item_definition;
+
+    /// The definition our fake game implementation hands out.
+    static mut DEFINITION: u8 = 0;
+
+    unsafe extern "thiscall" fn get_unknown(_this: *const ItemClient) -> u32 {
+        8
+    }
+    unsafe extern "thiscall" fn destructor(_this: *const ItemClient, _flags: u32) {}
+    unsafe extern "thiscall" fn get_item_definition(_this: *const ItemClient) -> *mut ItemDefinition {
+        (&raw mut DEFINITION).cast()
+    }
+    unsafe extern "thiscall" fn wrong_slot(_this: *const ItemClient) -> *mut ItemDefinition {
+        core::ptr::null_mut()
+    }
+
+    /// An ItemClient whose vtable is ours, like one the game created.
+    fn item_with(vtable: Vec<usize>) -> Vec<u64> {
+        let vtable = vtable.leak();
+        let mut storage = vec![0u64; size_of::<ItemClient>().div_ceil(8)];
+        storage[0] = vtable.as_ptr() as u64; // __vfptr at 0 (32-bit: the low half)
+        storage
+    }
+
+    #[test]
+    fn the_definition_comes_from_the_vtable_not_the_fields() {
+        // VeBaseReferenceCount's virtuals (getUnknown, the destructor), then
+        // ItemBase::GetItemDefinition. Item1 and SharedItemDef stay zero.
+        let item = item_with(vec![get_unknown as *const () as usize, destructor as *const () as usize, get_item_definition as *const () as usize, wrong_slot as *const () as usize]);
+        let found = unsafe { mqemu_item_definition(item.as_ptr().cast()) };
+        assert_eq!(found, (&raw mut DEFINITION).cast());
+        assert!(unsafe { mqemu_item_definition(core::ptr::null()) }.is_null());
+    }
+
+    #[test]
+    fn a_vtable_answering_null_gives_null() {
+        let item = item_with(vec![get_unknown as *const () as usize, destructor as *const () as usize, wrong_slot as *const () as usize]);
+        assert!(unsafe { mqemu_item_definition(item.as_ptr().cast()) }.is_null());
+    }
+}

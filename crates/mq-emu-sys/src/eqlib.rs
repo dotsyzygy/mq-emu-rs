@@ -3,8 +3,11 @@
 use core::ffi::{c_char, c_uint, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
-use crate::layouts::{EverQuestinfo, KeyCombo, KeypressHandler, PlayerManagerClient};
-use crate::types::{ForeignPointer, PlayerClient};
+use crate::layouts::{
+    ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient,
+    PlayerManagerClient, zoneHeader,
+};
+use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
 
 imports! {
     dll: "eqlib",
@@ -37,6 +40,16 @@ imports! {
         /// Points to one byte per bindable command (`CMD_*`): nonzero if the
         /// game currently allows it. MacroQuest's `/keypress` refuses disabled ones.
         pub static mut EQbCommandStates: *mut u8;
+        /// Your character's data: profile (inventory, buffs, spells), bank, group.
+        pub static mut pLocalPC: ForeignPointer<PcClient>;
+        /// The spell table; `Spells` is indexed by spell ID, null for unused IDs.
+        pub static mut pSpellMgr: ForeignPointer<ClientSpellManager>;
+        /// Every zone the client knows; `ZoneArray` is indexed by zone ID.
+        pub static mut pWorldData: ForeignPointer<EQWorldData>;
+        /// The zone you're in: names, type, safe point, clip planes.
+        pub static mut pZoneInfo: *mut zoneHeader;
+        /// The items on the ground, as a linked list (`Top`, then each item's `pNext`).
+        pub static mut pItemList: ComputedPointer<EQGroundItemListManager>;
         /// The game's name for each bindable command, indexed by `CMD_*`
         /// (e.g. "forward"); entries may be null.
         pub static mut szEQMappableCommands: [*const c_char; N_EQ_MAPPABLE_COMMANDS];

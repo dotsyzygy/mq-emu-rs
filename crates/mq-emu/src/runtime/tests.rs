@@ -19,6 +19,7 @@ use crate::movement::{MoveError, MoveKey};
 
 mod aliases;
 mod data;
+mod game_data;
 mod imgui;
 
 // ----- fake host -----------------------------------------------------------
@@ -56,6 +57,12 @@ thread_local! {
     static LUA_LOADED_AS: Cell<Option<&'static str>> = const { Cell::new(None) };
     /// What the fake ImGui shim reports as caught after the next frame.
     static IMGUI_ERROR: RefCell<Option<String>> = const { RefCell::new(None) };
+    /// What the game-data hosts return; null unless a test points them at its fakes.
+    static LOCAL_PC: Cell<*mut mq_emu_sys::layouts::PcClient> = const { Cell::new(ptr::null_mut()) };
+    static SPELL_MANAGER: Cell<*mut mq_emu_sys::layouts::ClientSpellManager> = const { Cell::new(ptr::null_mut()) };
+    static WORLD_DATA: Cell<*mut mq_emu_sys::layouts::EQWorldData> = const { Cell::new(ptr::null_mut()) };
+    static ZONE_INFO: Cell<*mut mq_emu_sys::layouts::zoneHeader> = const { Cell::new(ptr::null_mut()) };
+    static GROUND_ITEMS: Cell<*mut mq_emu_sys::layouts::EQGroundItemListManager> = const { Cell::new(ptr::null_mut()) };
     /// The zone's other spawns; kept alive here so the list's pointers stay valid.
     static ZONE: RefCell<Vec<FakeObject<PlayerClient>>> = const { RefCell::new(Vec::new()) };
 }
@@ -117,6 +124,11 @@ const FAKE: Host = Host {
     controlled_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
     target: || if HAS_TARGET.with(Cell::get) { TARGET.with(FakeObject::ptr) } else { ptr::null_mut() },
     spawn_manager: || if HAS_MANAGER.with(Cell::get) { MANAGER.with(FakeObject::ptr) } else { ptr::null_mut() },
+    local_pc: || LOCAL_PC.with(Cell::get),
+    spell_manager: || SPELL_MANAGER.with(Cell::get),
+    world_data: || WORLD_DATA.with(Cell::get),
+    zone_info: || ZONE_INFO.with(Cell::get),
+    ground_items: || GROUND_ITEMS.with(Cell::get),
     everquest_info: || INFO.with(FakeObject::ptr),
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),
     execute_cmd: fake_execute_cmd,

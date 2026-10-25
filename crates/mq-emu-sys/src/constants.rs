@@ -44,3 +44,28 @@ pub const CMD_RUN_WALK: u32 = 284;
 /// The value of `gFaceAngle` / `gLookAngle` when no turn is in progress
 /// (MacroQuest's `MQ2Pulse.cpp` compares against `10000.0f`).
 pub const FACE_ANGLE_INACTIVE: f64 = 10000.0;
+
+// Items, inventory and bank (eqlib `game/Constants.h`).
+/// `ItemDefinition::Type` of a container (a bag).
+pub const ITEMTYPE_PACK: u8 = 1;
+pub const MAX_AUG_SOCKETS: usize = 6;
+pub const NUM_BANK_SLOTS: usize = 24;
+pub const NUM_SHAREDBANK_SLOTS: usize = 2;
+
+// Buffs and spells (eqlib `game/Constants.h`, `game/Spells.h`).
+/// Long buff slots, at the start of `BaseProfile::Buffs`.
+pub const NUM_LONG_BUFFS: usize = 42;
+/// Short buff (song) slots, after the long ones.
+pub const NUM_TEMP_BUFFS: usize = 55;
+/// Spell gems.
+pub const MAX_MEMORIZED_SPELLS: usize = 16;
+pub const NUM_BOOK_SLOTS: usize = 720;
+/// Size of `ClientSpellManager::Spells`; spell IDs are below this.
+pub const TOTAL_SPELL_COUNT: usize = 45001;
+/// Effect slots per spell (`EQ_Spell::Attrib`, `Base`, ...).
+pub const MAX_EFFECT_SLOTS: usize = 12;
+
+// Groups and zones (eqlib `game/Constants.h`, `game/EQClasses.h`).
+pub const MAX_GROUP_SIZE: usize = 6;
+/// Size of `EQWorldData::ZoneArray`; zone IDs are below this.
+pub const MAX_ZONES: usize = 1000;

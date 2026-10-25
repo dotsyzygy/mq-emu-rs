@@ -57,6 +57,27 @@ impl<T> ForeignPointer<T> {
     }
 }
 
+/// `eqlib::ComputedPointer<T>`: a global that computes its pointer by calling
+/// an eqlib function (an instance getter), rather than reading a slot.
+#[repr(C)]
+pub struct ComputedPointer<T> {
+    pub m_fn: Option<unsafe extern "C" fn() -> *mut T>,
+}
+
+impl<T> ComputedPointer<T> {
+    /// Calls the getter, or returns null if there is none.
+    ///
+    /// # Safety
+    /// `m_fn` must be null or eqlib's getter, which holds for the globals
+    /// eqlib exports once offsets are initialized. Game thread only.
+    pub unsafe fn get(&self) -> *mut T {
+        match self.m_fn {
+            Some(getter) => unsafe { getter() },
+            None => core::ptr::null_mut(),
+        }
+    }
+}
+
 /// `fEQCommand` (`mq/api/CommandAPI.h`): a slash-command handler.
 /// `command` is the argument text after the command name.
 pub type fEQCommand = Option<unsafe extern "C" fn(player: *mut PlayerClient, command: *const c_char)>;
@@ -84,6 +105,19 @@ mod tests {
         assert!(unsafe { fp.get() }.is_null());
 
         let unset = ForeignPointer::<u32> { m_ptr: core::ptr::null_mut() };
+        assert!(unsafe { unset.get() }.is_null());
+    }
+
+    #[test]
+    fn computed_pointer_is_one_pointer_and_calls_its_getter() {
+        assert_eq!(size_of::<ComputedPointer<u32>>(), size_of::<*mut ()>());
+        static mut VALUE: u32 = 7;
+        unsafe extern "C" fn getter() -> *mut u32 {
+            &raw mut VALUE
+        }
+        let computed = ComputedPointer { m_fn: Some(getter) };
+        assert_eq!(unsafe { computed.get() }, &raw mut VALUE);
+        let unset = ComputedPointer::<u32> { m_fn: None };
         assert!(unsafe { unset.get() }.is_null());
     }
 

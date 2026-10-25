@@ -41,9 +41,9 @@
 //!
 //! - All game access happens on the game thread: callbacks get an [`Mq`] that
 //!   can't leave the callback or the thread.
-//! - Game objects such as [`Spawn`] borrow from that `Mq`, so they can't be
-//!   kept past the callback, when the game may free them. Keep a [`SpawnId`]
-//!   instead.
+//! - Game objects such as [`Spawn`], [`Item`] and [`Spell`] borrow from that
+//!   `Mq`, so they can't be kept past the callback, when the game may free
+//!   them. Keep an ID ([`SpawnId`], [`SpellId`], an item's ID) instead.
 //! - A panic in plugin code is caught at the boundary: reported once in chat,
 //!   counted in [`Mq::stats`], and the game keeps running.
 //! - Callbacks that would re-enter the plugin while it's busy are queued and
@@ -60,23 +60,33 @@ mod actors;
 pub mod color;
 mod data;
 mod game;
+mod ground;
+mod group;
 mod host;
 pub mod imgui;
+mod inventory;
+mod items;
 pub mod lua;
 mod movement;
 mod mq;
 mod plugin;
 mod runtime;
 mod spawns;
+mod spells;
 mod tasks;
 mod stats;
 mod text;
+mod zone;
 
 pub use mq_emu_sys as sys;
 
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
 pub use data::{Data, PathError, TloError, Value};
+pub use ground::{GroundItem, GroundItems, MAX_GROUND_ITEMS};
+pub use group::{Group, GroupMember, GroupRole};
 pub use imgui::Ui;
+pub use inventory::{InvSlot, Inventory};
+pub use items::{Item, ItemEffect, ItemLocation, ItemSlots, ItemSpell, MAX_CONTAINER_SLOTS};
 pub use lua::{LuaTable, LuaValue};
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
@@ -86,8 +96,10 @@ pub use mq::{AliasError, CommandError, Mq};
 pub use plugin::Plugin;
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
 pub use spawns::{MAX_SPAWNS, Spawns};
+pub use spells::{Buff, Spell, SpellEffect, SpellId};
 pub use tasks::{NextPulse, Task, TaskId};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
+pub use zone::{CurrentZone, ZoneId, ZoneInfo, ZoneType};
 
 /// Used by [`plugin!`]; not part of the public API.
 #[doc(hidden)]

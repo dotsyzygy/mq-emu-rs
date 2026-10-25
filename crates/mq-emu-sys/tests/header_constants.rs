@@ -83,6 +83,26 @@ fn chat_colors_match() {
 }
 
 #[test]
+fn game_limits_match() {
+    let file = "src/eqlib/include/eqlib/game/Constants.h";
+    check!(read_header(file), file, [
+        ITEMTYPE_PACK,
+        MAX_AUG_SOCKETS,
+        NUM_BANK_SLOTS,
+        NUM_SHAREDBANK_SLOTS,
+        NUM_LONG_BUFFS,
+        NUM_TEMP_BUFFS,
+        MAX_MEMORIZED_SPELLS,
+        NUM_BOOK_SLOTS,
+        MAX_GROUP_SIZE,
+    ]);
+    let file = "src/eqlib/include/eqlib/game/Spells.h";
+    check!(read_header(file), file, [TOTAL_SPELL_COUNT, MAX_EFFECT_SLOTS]);
+    let file = "src/eqlib/include/eqlib/game/EQClasses.h";
+    check!(read_header(file), file, [MAX_ZONES]);
+}
+
+#[test]
 fn everquest_version_matches_eqgame_header() {
     let header = read_header("src/eqlib/include/eqlib/offsets/eqgame.h");
     let unquote = |name| {

@@ -1,9 +1,8 @@
 //! The [`Plugin`] trait and the [`plugin!`](crate::plugin!) macro.
 
-use mq_emu_sys::types::EQGroundItem;
-
 use crate::actors::Message;
 use crate::game::{GameState, Spawn};
+use crate::ground::GroundItem;
 use crate::imgui::Ui;
 use crate::mq::Mq;
 
@@ -55,9 +54,9 @@ pub trait Plugin: Sized + 'static {
     /// A spawn is about to disappear.
     fn on_remove_spawn(&mut self, mq: &Mq<Self>, spawn: &Spawn<'_>) {}
     /// A ground item appeared (also called for every existing one after loading).
-    fn on_add_ground_item(&mut self, mq: &Mq<Self>, item: &EQGroundItem) {}
+    fn on_add_ground_item(&mut self, mq: &Mq<Self>, item: &GroundItem<'_>) {}
     /// A ground item is about to disappear.
-    fn on_remove_ground_item(&mut self, mq: &Mq<Self>, item: &EQGroundItem) {}
+    fn on_remove_ground_item(&mut self, mq: &Mq<Self>, item: &GroundItem<'_>) {}
 
     /// Zoning started (loading screen).
     fn on_begin_zone(&mut self, mq: &Mq<Self>) {}

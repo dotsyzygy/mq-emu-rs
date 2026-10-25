@@ -73,6 +73,7 @@ fn build_shim(mq_root: &Path) {
         "shim/test_fake.cpp",
         "shim/imgui.cpp",
         "shim/imgui_test.cpp",
+        "shim/items.cpp",
     ];
     println!("cargo::rerun-if-changed=shim/mq_api.h");
     for source in sources {

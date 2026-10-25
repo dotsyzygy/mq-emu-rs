@@ -45,6 +45,10 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   `mq.parse("${...}")` for any MacroQuest data.
 - **Movement and the spawn list**: hold movement keys, turn smoothly or instantly, face points;
   iterate the zone's spawns, look them up by ID or name, find the nearest match.
+- **Your character's things**: `mq.inventory()` (worn slots, bags and their contents, the cursor;
+  find items by name or ID, count stacks), `mq.bank()`, `mq.buffs()`/`mq.songs()`, spell gems
+  and book, `mq.spell(id)`/`mq.spell_by_name(..)`, `mq.group()`, `mq.pet()`, `mq.zone()` and the
+  zone list, and `mq.ground_items()`.
 - **Messaging between characters** through MacroQuest's actor system (via the launcher, on this PC
   or others): every plugin has a default mailbox (`Plugin::on_message`), `mq.add_mailbox(name, ...)`
   adds named ones, `mq.send(&Address::character("Bob").mailbox("follow"), bytes)` sends, and
@@ -65,7 +69,7 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   only inside `task.with(...)`, so nothing from the game can be held across an `.await`.
 - **Safety**:
   - Game access stays on the game thread, because `Mq` is `!Send`.
-  - Spawns can't outlive the callback they came from.
+  - Spawns, items, spells and other game objects can't outlive the callback they came from.
   - Panics are caught at the boundary.
   - Callbacks that re-enter your plugin while it's busy are queued and delivered right after,
     with a cap against feedback loops.

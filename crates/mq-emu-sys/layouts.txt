@@ -2,10 +2,22 @@
 # it contains by value; types only reached through pointers become opaque.
 # After editing, run `cargo run -p mq-emu-bindgen` and commit the result.
 
-PlayerClient        # a spawn: you, other players, NPCs, corpses (pLocalPlayer, pTarget)
-PcClient            # your character's data (pLocalPC)
-PlayerManagerClient # the spawn list (pSpawnManager)
-KeypressHandler     # movement key state (pKeypressHandler)
-EQZoneInfo          # current zone (pZoneInfo)
-EQGroundItem        # an item on the ground (OnAddGroundItem)
-EverQuestinfo       # client-wide state, incl. which game commands are down (pEverQuestInfo)
+PlayerClient            # a spawn: you, other players, NPCs, corpses (pLocalPlayer, pTarget)
+PcClient                # your character's data (pLocalPC)
+PcProfile               # your character's current profile: inventory, buffs, spell book, gems
+ProfileList             # PcClient::ProfileManager's lists of profiles
+PlayerManagerClient     # the spawn list (pSpawnManager)
+KeypressHandler         # movement key state (pKeypressHandler)
+zoneHeader              # the zone you're in (pZoneInfo)
+EQWorldData             # every zone the client knows, by ID (pWorldData)
+EQZoneInfo              # one entry of EQWorldData::ZoneArray
+EQGroundItem            # an item on the ground (OnAddGroundItem)
+EQGroundItemListManager # the ground item list (pItemList)
+EverQuestinfo           # client-wide state, incl. which game commands are down (pEverQuestInfo)
+ItemClient              # an item instance: in inventory, a bag, the bank, on the ground
+ItemDefinition          # what an item is (name, stats, effects), shared by every instance
+ClientSpellManager      # the spell table (pSpellMgr)
+EQ_Spell                # one spell
+CGroup                  # your group (PcClient::Group)
+CGroupMember            # one group member
+CStrRep                 # the text behind a CXStr

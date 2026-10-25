@@ -16,9 +16,12 @@ use std::time::Instant;
 
 use mq_emu_sys::constants::MAX_STRING;
 use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
-use mq_emu_sys::layouts::{EverQuestinfo, PlayerClient, PlayerManagerClient};
+use mq_emu_sys::layouts::{
+    ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient, PlayerManagerClient,
+    zoneHeader,
+};
 use mq_emu_sys::shim::MainInterface;
-use mq_emu_sys::types::ForeignPointer;
+use mq_emu_sys::types::{ComputedPointer, ForeignPointer};
 
 use crate::text::to_c;
 
@@ -34,6 +37,16 @@ pub(crate) struct Host {
     pub target: fn() -> *mut PlayerClient,
     /// Owns the zone's spawn list.
     pub spawn_manager: fn() -> *mut PlayerManagerClient,
+    /// Your character's data (`pLocalPC`): profile, bank, group.
+    pub local_pc: fn() -> *mut PcClient,
+    /// The spell table (`pSpellMgr`).
+    pub spell_manager: fn() -> *mut ClientSpellManager,
+    /// Every zone the client knows (`pWorldData`).
+    pub world_data: fn() -> *mut EQWorldData,
+    /// The zone you're in (`pZoneInfo`).
+    pub zone_info: fn() -> *mut zoneHeader,
+    /// The ground item list (`pItemList`).
+    pub ground_items: fn() -> *mut EQGroundItemListManager,
     /// Client-wide state; `keyDown` says which game commands are down.
     pub everquest_info: fn() -> *mut EverQuestinfo,
     /// Whether the game currently allows a command (`EQbCommandStates`).
@@ -64,6 +77,11 @@ pub(crate) const fn real<P>() -> Host {
         controlled_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pControlledPlayer) },
         target: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTarget) },
         spawn_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpawnManager) },
+        local_pc: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPC) },
+        spell_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpellMgr) },
+        world_data: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pWorldData) },
+        zone_info: || unsafe { mq_emu_sys::eqlib::pZoneInfo },
+        ground_items: || unsafe { computed(&raw const mq_emu_sys::eqlib::pItemList) },
         everquest_info: || unsafe { mq_emu_sys::eqlib::pEverQuestInfo },
         command_enabled: real_command_enabled::<P>,
         execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
@@ -81,6 +99,14 @@ pub(crate) const fn real<P>() -> Host {
 /// # Safety
 /// `global` must be one of eqlib's `ForeignPointer` globals.
 unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
+    unsafe { (*global).get() }
+}
+
+/// Reads an eqlib `ComputedPointer` global.
+///
+/// # Safety
+/// `global` must be one of eqlib's `ComputedPointer` globals.
+unsafe fn computed<T>(global: *const ComputedPointer<T>) -> *mut T {
     unsafe { (*global).get() }
 }
 

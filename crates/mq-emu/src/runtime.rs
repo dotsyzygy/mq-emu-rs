@@ -21,6 +21,7 @@ use mq_emu_sys::types::{EQGroundItem, MQPlugin, PlayerClient};
 
 use crate::actors::{MailboxSlot, Message};
 use crate::game::{GameState, Spawn};
+use crate::ground::GroundItem;
 use crate::host::Host;
 use crate::mq::{AliasError, CommandError, Mq};
 use crate::plugin::Plugin;
@@ -471,13 +472,14 @@ impl<P: Plugin> Runtime<P> {
                 }
             }
             Event::AddGroundItem(raw) => {
-                if let Some(item) = unsafe { raw.as_ref() } {
-                    plugin.on_add_ground_item(mq, item);
+                // SAFETY: MacroQuest passes a live ground item for this call.
+                if let Some(item) = unsafe { GroundItem::from_raw(raw) } {
+                    plugin.on_add_ground_item(mq, &item);
                 }
             }
             Event::RemoveGroundItem(raw) => {
-                if let Some(item) = unsafe { raw.as_ref() } {
-                    plugin.on_remove_ground_item(mq, item);
+                if let Some(item) = unsafe { GroundItem::from_raw(raw) } {
+                    plugin.on_remove_ground_item(mq, &item);
                 }
             }
             Event::BeginZone => plugin.on_begin_zone(mq),

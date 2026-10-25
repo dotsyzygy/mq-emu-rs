@@ -282,12 +282,75 @@ impl RustTest {
                 None => "none".to_owned(),
             };
             table.row(&["Target".to_owned(), target]);
+            if let Some(zone) = mq.zone() {
+                let id = zone.id().map_or("?".to_owned(), |id| id.to_string());
+                table.row(&["Zone".to_owned(), format!("{} ({}, ID {id}, {:?})", zone.name(), zone.short_name(), zone.zone_type())]);
+            }
+            let pet = mq.pet().map_or("none".to_owned(), |p| format!("{} (level {}, {}% HP)", p.name(), p.level(), p.hp_percent()));
+            table.row(&["Pet".to_owned(), pet]);
         });
         let Some(me) = me else {
             ui.text_disabled(if state == GameState::InGame { "No character." } else { "Spawn details need to be in game." });
             return;
         };
         let here = me.position();
+
+        if ui.collapsing_header("Buffs and spells") {
+            for buff in mq.buffs() {
+                let ticks = buff.ticks().map_or("permanent".to_owned(), |t| format!("{t} ticks"));
+                ui.bullet_text(format!("{} (level {}, {ticks})", buff.name(), buff.level()));
+            }
+            for song in mq.songs() {
+                ui.bullet_text(format!("{} (song)", song.name()));
+            }
+            ui.separator();
+            for (gem, spell) in mq.gems() {
+                ui.text(format!("Gem {}: {} ({} mana)", gem + 1, spell.name(), spell.mana_cost()));
+            }
+            ui.text_disabled(format!("{} spells in the book", mq.spell_book().count()));
+        }
+        if ui.collapsing_header("Inventory") {
+            if let Some(inventory) = mq.inventory() {
+                for (slot, item) in inventory.worn() {
+                    ui.text(format!("{slot}: {}", item.name()));
+                }
+                for (slot, bag) in inventory.bags() {
+                    let label = format!("{slot}: {}", bag.name());
+                    if !bag.is_container() {
+                        ui.text(label);
+                        continue;
+                    }
+                    ui.tree_node(&format!("{label} ({}/{} free)", bag.contents().free(), bag.contents().capacity()), |ui| {
+                        for (i, item) in bag.contents().iter() {
+                            ui.text(format!("{}: {} x{}", i + 1, item.name(), item.stack()));
+                        }
+                    });
+                }
+                if let Some(item) = inventory.cursor() {
+                    ui.text(format!("cursor: {}", item.name()));
+                }
+                ui.text_disabled(format!("{} free bag slots", inventory.free_bag_slots()));
+            }
+        }
+        if ui.collapsing_header("Group") {
+            match mq.group() {
+                Some(group) => {
+                    let leader = group.leader().map(|m| m.slot());
+                    for member in group.members() {
+                        let mark = if Some(member.slot()) == leader { " (leader)" } else { "" };
+                        let place = member.spawn().map_or("not in zone".to_owned(), |s| format!("{:.0} away", s.distance_to(&me)));
+                        ui.text(format!("{}{mark}, level {}, {place}", member.name(), member.level()));
+                    }
+                }
+                None => ui.text_disabled("Not in a group."),
+            }
+        }
+        if ui.collapsing_header("Ground items") {
+            for item in mq.ground_items().take(MAX_LISTED_SPAWNS) {
+                let name = item.item().map_or_else(|| item.name(), |i| i.name());
+                ui.text(format!("{name} ({:.0} away)", item.position().distance(&here)));
+            }
+        }
 
         ui.separator_text("Nearby spawns");
         ui.set_next_item_width(200.0);

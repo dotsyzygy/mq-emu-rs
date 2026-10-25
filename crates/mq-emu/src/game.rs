@@ -270,6 +270,21 @@ impl<'a> Spawn<'a> {
     pub fn distance_to(&self, other: &Spawn<'_>) -> f32 {
         self.position().distance(&other.position())
     }
+
+    /// The ID of this spawn's pet, if it has one (`${Spawn.Pet.ID}`).
+    pub fn pet_id(&self) -> Option<SpawnId> {
+        u32::try_from(self.raw.PetID()).ok().filter(|id| *id != 0).map(SpawnId)
+    }
+
+    /// For a pet, the ID of its owner (`${Spawn.Master.ID}`).
+    pub fn master_id(&self) -> Option<SpawnId> {
+        Some(self.raw.MasterID()).filter(|id| *id != 0).map(SpawnId)
+    }
+
+    /// True for pets (spawns with an owner).
+    pub fn is_pet(&self) -> bool {
+        self.master_id().is_some()
+    }
 }
 
 impl fmt::Debug for Spawn<'_> {
@@ -435,6 +450,19 @@ mod tests {
             raw.set_HPMax(i32::MAX);
             raw.set_HPCurrent(i32::MAX);
             assert_eq!(spawn.hp_percent(), 100);
+        });
+    }
+
+    #[test]
+    fn pets_and_masters() {
+        with_fake_spawn(|spawn, raw| {
+            assert_eq!((spawn.pet_id(), spawn.master_id(), spawn.is_pet()), (None, None, false));
+            // The client marks "no pet" as -1 as well as 0.
+            raw.set_PetID(-1);
+            assert_eq!(spawn.pet_id(), None);
+            raw.set_PetID(321);
+            raw.set_MasterID(9);
+            assert_eq!((spawn.pet_id(), spawn.master_id(), spawn.is_pet()), (Some(SpawnId(321)), Some(SpawnId(9)), true));
         });
     }
 

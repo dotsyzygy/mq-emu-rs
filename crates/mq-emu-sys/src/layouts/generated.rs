@@ -139,6 +139,51 @@ impl ARGBCOLOR {
     }
 }
 
+/// C++ class `AbilityInfo` (0xc bytes).
+#[repr(C)]
+pub struct AbilityInfo {
+    _bytes: UnsafeCell<[u8; 0xc]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl AbilityInfo {
+    /// `AbilityInfo::AAIndex` at 0x0 (0x0 within `AbilityInfo`).
+    #[inline]
+    pub fn AAIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `AbilityInfo::AAIndex` at 0x0 (0x0 within `AbilityInfo`).
+    #[inline]
+    pub fn set_AAIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `AbilityInfo::PointsSpent` at 0x4 (0x4 within `AbilityInfo`).
+    #[inline]
+    pub fn PointsSpent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `AbilityInfo::PointsSpent` at 0x4 (0x4 within `AbilityInfo`).
+    #[inline]
+    pub fn set_PointsSpent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `AbilityInfo::ChargeSpent` at 0x8 (0x8 within `AbilityInfo`).
+    #[inline]
+    pub fn ChargeSpent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `AbilityInfo::ChargeSpent` at 0x8 (0x8 within `AbilityInfo`).
+    #[inline]
+    pub fn set_ChargeSpent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+}
+
 /// C++ class `ActorClient` (0x1b4 bytes).
 #[repr(C)]
 pub struct ActorClient {
@@ -1321,6 +1366,169 @@ impl ArrayClass_int {
     }
 }
 
+/// C++ class `ArrayClass<unsigned int>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_unsigned_int {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_unsigned_int {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<unsigned int>::m_array` at 0x4 (0x4 within `ArrayClass<unsigned int>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut u32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<unsigned int>::m_array` at 0x4 (0x4 within `ArrayClass<unsigned int>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut u32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<unsigned int>::m_alloc` at 0x8 (0x8 within `ArrayClass<unsigned int>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<unsigned int>::m_alloc` at 0x8 (0x8 within `ArrayClass<unsigned int>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<unsigned int>::m_isValid` at 0xc (0xc within `ArrayClass<unsigned int>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<unsigned int>::m_isValid` at 0xc (0xc within `ArrayClass<unsigned int>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `BandolierItemInfo` (0x48 bytes).
+#[repr(C)]
+pub struct BandolierItemInfo {
+    _bytes: UnsafeCell<[u8; 0x48]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl BandolierItemInfo {
+    /// `BandolierItemInfo::ItemID` at 0x0 (0x0 within `BandolierItemInfo`).
+    #[inline]
+    pub fn ItemID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `BandolierItemInfo::ItemID` at 0x0 (0x0 within `BandolierItemInfo`).
+    #[inline]
+    pub fn set_ItemID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `BandolierItemInfo::IconID` at 0x4 (0x4 within `BandolierItemInfo`).
+    #[inline]
+    pub fn IconID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `BandolierItemInfo::IconID` at 0x4 (0x4 within `BandolierItemInfo`).
+    #[inline]
+    pub fn set_IconID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `BandolierItemInfo::Name` at 0x8 (0x8 within `BandolierItemInfo`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `BandolierItemInfo::Name` at 0x8 (0x8 within `BandolierItemInfo`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `BandolierItemInfo::Name` at 0x8 (0x8 within `BandolierItemInfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8 + index * 0x1) }
+    }
+
+    /// `BandolierItemInfo::Name` at 0x8 (0x8 within `BandolierItemInfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8 + index * 0x1, value) }
+    }
+}
+
+/// C++ class `BandolierSet` (0x140 bytes).
+#[repr(C)]
+pub struct BandolierSet {
+    _bytes: UnsafeCell<[u8; 0x140]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl BandolierSet {
+    /// `BandolierSet::Name` at 0x0 (0x0 within `BandolierSet`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `BandolierSet::Name` at 0x0 (0x0 within `BandolierSet`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `BandolierSet::Name` at 0x0 (0x0 within `BandolierSet`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `BandolierSet::Name` at 0x0 (0x0 within `BandolierSet`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `BandolierSet::Items` at 0x20 (0x20 within `BandolierSet`).
+    /// Indexes the 4 elements in memory order.
+    #[inline]
+    pub fn Items(&self, index: usize) -> &BandolierItemInfo {
+        assert!(index < 4, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x20 + index * 0x48) }
+    }
+}
+
 /// C++ class `BenefitSelection` (0x8 bytes).
 #[repr(C)]
 pub struct BenefitSelection {
@@ -1444,6 +1652,248 @@ impl CCapsule {
     #[inline]
     pub fn set_Radius(&self, value: f32) {
         unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+}
+
+/// C++ class `CGroup` (0x28 bytes).
+#[repr(C)]
+pub struct CGroup {
+    _bytes: UnsafeCell<[u8; 0x28]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CGroup {
+    /// `CGroupBase::__vfptr` at 0x0 (0x0 within `CGroupBase`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CGroupBase::__vfptr` at 0x0 (0x0 within `CGroupBase`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CGroupBase::m_groupMembers` at 0x4 (0x4 within `CGroupBase`).
+    #[inline]
+    pub fn m_groupMembers(&self) -> [*mut CGroupMember; 6] {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CGroupBase::m_groupMembers` at 0x4 (0x4 within `CGroupBase`).
+    #[inline]
+    pub fn set_m_groupMembers(&self, value: [*mut CGroupMember; 6]) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CGroupBase::m_groupMembers` at 0x4 (0x4 within `CGroupBase`).
+    /// One element; panics if `index >= 6`.
+    #[inline]
+    pub fn m_groupMembers_at(&self, index: usize) -> *mut CGroupMember {
+        assert!(index < 6, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4 + index * 0x4) }
+    }
+
+    /// `CGroupBase::m_groupMembers` at 0x4 (0x4 within `CGroupBase`).
+    /// Sets one element; panics if `index >= 6`.
+    #[inline]
+    pub fn set_m_groupMembers_at(&self, index: usize, value: *mut CGroupMember) {
+        assert!(index < 6, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4 + index * 0x4, value) }
+    }
+
+    /// `CGroupBase::m_groupLeader` at 0x1c (0x1c within `CGroupBase`).
+    #[inline]
+    pub fn m_groupLeader(&self) -> *mut CGroupMember {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CGroupBase::m_groupLeader` at 0x1c (0x1c within `CGroupBase`).
+    #[inline]
+    pub fn set_m_groupLeader(&self, value: *mut CGroupMember) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CGroupBase::m_id` at 0x20 (0x20 within `CGroupBase`).
+    #[inline]
+    pub fn m_id(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CGroupBase::m_id` at 0x20 (0x20 within `CGroupBase`).
+    #[inline]
+    pub fn set_m_id(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CGroup::GroupSelectID` at 0x24 (0x24 within `CGroup`).
+    #[inline]
+    pub fn GroupSelectID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CGroup::GroupSelectID` at 0x24 (0x24 within `CGroup`).
+    #[inline]
+    pub fn set_GroupSelectID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+}
+
+/// C++ class `CGroupMember` (0x30 bytes).
+#[repr(C)]
+pub struct CGroupMember {
+    _bytes: UnsafeCell<[u8; 0x30]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CGroupMember {
+    /// `CGroupMemberBase::__vfptr` at 0x0 (0x0 within `CGroupMemberBase`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CGroupMemberBase::__vfptr` at 0x0 (0x0 within `CGroupMemberBase`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CGroupMemberBase::Name` at 0x4 (0x4 within `CGroupMemberBase`).
+    #[inline]
+    pub fn Name(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CGroupMemberBase::Type` at 0x8 (0x8 within `CGroupMemberBase`).
+    #[inline]
+    pub fn Type(&self) -> i16 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CGroupMemberBase::Type` at 0x8 (0x8 within `CGroupMemberBase`).
+    #[inline]
+    pub fn set_Type(&self, value: i16) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CGroupMemberBase::OwnerName` at 0xc (0xc within `CGroupMemberBase`).
+    #[inline]
+    pub fn OwnerName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CGroupMemberBase::Level` at 0x10 (0x10 within `CGroupMemberBase`).
+    #[inline]
+    pub fn Level(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CGroupMemberBase::Level` at 0x10 (0x10 within `CGroupMemberBase`).
+    #[inline]
+    pub fn set_Level(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CGroupMemberBase::bIsOffline` at 0x14 (0x14 within `CGroupMemberBase`).
+    #[inline]
+    pub fn bIsOffline(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x14) != 0 }
+    }
+
+    /// `CGroupMemberBase::bIsOffline` at 0x14 (0x14 within `CGroupMemberBase`).
+    #[inline]
+    pub fn set_bIsOffline(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x14, u8::from(value)) }
+    }
+
+    /// `CGroupMemberBase::bRoleStates` at 0x15 (0x15 within `CGroupMemberBase`).
+    #[inline]
+    pub fn bRoleStates(&self) -> [u8; 6] {
+        unsafe { read(self._bytes.get().cast(), 0x15) }
+    }
+
+    /// `CGroupMemberBase::bRoleStates` at 0x15 (0x15 within `CGroupMemberBase`).
+    #[inline]
+    pub fn set_bRoleStates(&self, value: [u8; 6]) {
+        unsafe { write(self._bytes.get().cast(), 0x15, value) }
+    }
+
+    /// `CGroupMemberBase::bRoleStates` at 0x15 (0x15 within `CGroupMemberBase`).
+    /// One element; panics if `index >= 6`.
+    #[inline]
+    pub fn bRoleStates_at(&self, index: usize) -> u8 {
+        assert!(index < 6, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x15 + index * 0x1) }
+    }
+
+    /// `CGroupMemberBase::bRoleStates` at 0x15 (0x15 within `CGroupMemberBase`).
+    /// Sets one element; panics if `index >= 6`.
+    #[inline]
+    pub fn set_bRoleStates_at(&self, index: usize, value: u8) {
+        assert!(index < 6, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x15 + index * 0x1, value) }
+    }
+
+    /// `CGroupMemberBase::CurrentRoleBits` at 0x1c (0x1c within `CGroupMemberBase`).
+    #[inline]
+    pub fn CurrentRoleBits(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CGroupMemberBase::CurrentRoleBits` at 0x1c (0x1c within `CGroupMemberBase`).
+    #[inline]
+    pub fn set_CurrentRoleBits(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CGroupMemberBase::OnlineTimestamp` at 0x20 (0x20 within `CGroupMemberBase`).
+    #[inline]
+    pub fn OnlineTimestamp(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CGroupMemberBase::OnlineTimestamp` at 0x20 (0x20 within `CGroupMemberBase`).
+    #[inline]
+    pub fn set_OnlineTimestamp(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CGroupMember::pCharacter` at 0x24 (0x24 within `CGroupMember`).
+    #[inline]
+    pub fn pCharacter(&self) -> *mut CharacterZoneClient {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CGroupMember::pCharacter` at 0x24 (0x24 within `CGroupMember`).
+    #[inline]
+    pub fn set_pCharacter(&self, value: *mut CharacterZoneClient) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CGroupMember::pPlayer` at 0x28 (0x28 within `CGroupMember`).
+    #[inline]
+    pub fn pPlayer(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CGroupMember::pPlayer` at 0x28 (0x28 within `CGroupMember`).
+    #[inline]
+    pub fn set_pPlayer(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CGroupMember::GroupIndex` at 0x2c (0x2c within `CGroupMember`).
+    #[inline]
+    pub fn GroupIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `CGroupMember::GroupIndex` at 0x2c (0x2c within `CGroupMember`).
+    #[inline]
+    pub fn set_GroupIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
     }
 }
 
@@ -1627,6 +2077,170 @@ impl CPlayerPointManager {
     }
 }
 
+/// C++ class `CStrRep` (0x18 bytes).
+#[repr(C)]
+pub struct CStrRep {
+    _bytes: UnsafeCell<[u8; 0x18]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CStrRep {
+    /// `CStrRep::refCount` at 0x0 (0x0 within `CStrRep`).
+    #[inline]
+    pub fn refCount(&self) -> &std_atomic_int {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CStrRep::alloc` at 0x4 (0x4 within `CStrRep`).
+    #[inline]
+    pub fn alloc(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CStrRep::alloc` at 0x4 (0x4 within `CStrRep`).
+    #[inline]
+    pub fn set_alloc(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CStrRep::length` at 0x8 (0x8 within `CStrRep`).
+    #[inline]
+    pub fn length(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CStrRep::length` at 0x8 (0x8 within `CStrRep`).
+    #[inline]
+    pub fn set_length(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CStrRep::encoding` at 0xc (0xc within `CStrRep`).
+    #[inline]
+    pub fn encoding(&self) -> EStringEncoding {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CStrRep::encoding` at 0xc (0xc within `CStrRep`).
+    #[inline]
+    pub fn set_encoding(&self, value: EStringEncoding) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CStrRep::freeList` at 0x10 (0x10 within `CStrRep`).
+    #[inline]
+    pub fn freeList(&self) -> *mut CXFreeList {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CStrRep::freeList` at 0x10 (0x10 within `CStrRep`).
+    #[inline]
+    pub fn set_freeList(&self, value: *mut CXFreeList) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CStrRep::utf8` at 0x14 (0x14 within `CStrRep`).
+    #[inline]
+    pub fn utf8(&self) -> [c_char; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CStrRep::utf8` at 0x14 (0x14 within `CStrRep`).
+    #[inline]
+    pub fn set_utf8(&self, value: [c_char; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CStrRep::utf8` at 0x14 (0x14 within `CStrRep`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn utf8_at(&self, index: usize) -> c_char {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x14 + index * 0x1) }
+    }
+
+    /// `CStrRep::utf8` at 0x14 (0x14 within `CStrRep`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_utf8_at(&self, index: usize, value: c_char) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x14 + index * 0x1, value) }
+    }
+
+    /// `CStrRep::unicode` at 0x14 (0x14 within `CStrRep`).
+    #[inline]
+    pub fn unicode(&self) -> [u16; 2] {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CStrRep::unicode` at 0x14 (0x14 within `CStrRep`).
+    #[inline]
+    pub fn set_unicode(&self, value: [u16; 2]) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CStrRep::unicode` at 0x14 (0x14 within `CStrRep`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn unicode_at(&self, index: usize) -> u16 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x14 + index * 0x2) }
+    }
+
+    /// `CStrRep::unicode` at 0x14 (0x14 within `CStrRep`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_unicode_at(&self, index: usize, value: u16) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x14 + index * 0x2, value) }
+    }
+
+    /// `CStrRep::next` at 0x14 (0x14 within `CStrRep`).
+    #[inline]
+    pub fn next(&self) -> *mut CStrRep {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CStrRep::next` at 0x14 (0x14 within `CStrRep`).
+    #[inline]
+    pub fn set_next(&self, value: *mut CStrRep) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+}
+
+/// C++ class `CVector2` (0x8 bytes).
+#[repr(C)]
+pub struct CVector2 {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CVector2 {
+    /// `CVector2::X` at 0x0 (0x0 within `CVector2`).
+    #[inline]
+    pub fn X(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CVector2::X` at 0x0 (0x0 within `CVector2`).
+    #[inline]
+    pub fn set_X(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CVector2::Y` at 0x4 (0x4 within `CVector2`).
+    #[inline]
+    pub fn Y(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CVector2::Y` at 0x4 (0x4 within `CVector2`).
+    #[inline]
+    pub fn set_Y(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+}
+
 /// C++ class `CVector3` (0xc bytes).
 #[repr(C)]
 pub struct CVector3 {
@@ -1799,6 +2413,157 @@ impl ClaimDataCollection {
     #[inline]
     pub fn claimData(&self) -> &ArrayClass_ClaimData {
         unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+}
+
+/// C++ class `ClientSpellManager` (0xafeec bytes).
+#[repr(C)]
+pub struct ClientSpellManager {
+    _bytes: UnsafeCell<[u8; 0xafeec]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ClientSpellManager {
+    /// `SpellManager::__vfptr` at 0x0 (0x0 within `SpellManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SpellManager::__vfptr` at 0x0 (0x0 within `SpellManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `FileStatMgr::FileStats` at 0x4 (0x0 within `FileStatMgr`).
+    #[inline]
+    pub fn FileStats(&self) -> &HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `SpellManager::SpellsCrc32` at 0x14 (0x14 within `SpellManager`).
+    #[inline]
+    pub fn SpellsCrc32(&self) -> [i32; 45001] {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `SpellManager::SpellsCrc32` at 0x14 (0x14 within `SpellManager`).
+    #[inline]
+    pub fn set_SpellsCrc32(&self, value: [i32; 45001]) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `SpellManager::SpellsCrc32` at 0x14 (0x14 within `SpellManager`).
+    /// One element; panics if `index >= 45001`.
+    #[inline]
+    pub fn SpellsCrc32_at(&self, index: usize) -> i32 {
+        assert!(index < 45001, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x14 + index * 0x4) }
+    }
+
+    /// `SpellManager::SpellsCrc32` at 0x14 (0x14 within `SpellManager`).
+    /// Sets one element; panics if `index >= 45001`.
+    #[inline]
+    pub fn set_SpellsCrc32_at(&self, index: usize, value: i32) {
+        assert!(index < 45001, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x14 + index * 0x4, value) }
+    }
+
+    /// `SpellManager::MissingSpell` at 0x2bf38 (0x2bf38 within `SpellManager`).
+    #[inline]
+    pub fn MissingSpell(&self) -> *mut EQ_Spell {
+        unsafe { read(self._bytes.get().cast(), 0x2bf38) }
+    }
+
+    /// `SpellManager::MissingSpell` at 0x2bf38 (0x2bf38 within `SpellManager`).
+    #[inline]
+    pub fn set_MissingSpell(&self, value: *mut EQ_Spell) {
+        unsafe { write(self._bytes.get().cast(), 0x2bf38, value) }
+    }
+
+    /// `SpellManager::MissingSpellCrc32` at 0x2bf3c (0x2bf3c within `SpellManager`).
+    #[inline]
+    pub fn MissingSpellCrc32(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bf3c) }
+    }
+
+    /// `SpellManager::MissingSpellCrc32` at 0x2bf3c (0x2bf3c within `SpellManager`).
+    #[inline]
+    pub fn set_MissingSpellCrc32(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bf3c, value) }
+    }
+
+    /// `SpellManager::SpellFileCRC` at 0x2bf40 (0x2bf40 within `SpellManager`).
+    #[inline]
+    pub fn SpellFileCRC(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bf40) }
+    }
+
+    /// `SpellManager::SpellFileCRC` at 0x2bf40 (0x2bf40 within `SpellManager`).
+    #[inline]
+    pub fn set_SpellFileCRC(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bf40, value) }
+    }
+
+    /// `SpellManager::SpellAssocFileCRC` at 0x2bf44 (0x2bf44 within `SpellManager`).
+    #[inline]
+    pub fn SpellAssocFileCRC(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bf44) }
+    }
+
+    /// `SpellManager::SpellAssocFileCRC` at 0x2bf44 (0x2bf44 within `SpellManager`).
+    #[inline]
+    pub fn set_SpellAssocFileCRC(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bf44, value) }
+    }
+
+    /// `SpellManager::ReqAssocManager` at 0x2bf48 (0x2bf48 within `SpellManager`).
+    #[inline]
+    pub fn ReqAssocManager(&self) -> &RequirementAssociationManager {
+        unsafe { at(self._bytes.get().cast(), 0x2bf48) }
+    }
+
+    /// `SpellManager::SpellGroups` at 0x2c170 (0x2c170 within `SpellManager`).
+    #[inline]
+    pub fn SpellGroups(&self) -> &HashTable_int_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2c170) }
+    }
+
+    /// `ClientSpellManager::Spells` at 0x2c180 (0x2c180 within `ClientSpellManager`).
+    #[inline]
+    pub fn Spells(&self) -> [*mut EQ_Spell; 45001] {
+        unsafe { read(self._bytes.get().cast(), 0x2c180) }
+    }
+
+    /// `ClientSpellManager::Spells` at 0x2c180 (0x2c180 within `ClientSpellManager`).
+    #[inline]
+    pub fn set_Spells(&self, value: [*mut EQ_Spell; 45001]) {
+        unsafe { write(self._bytes.get().cast(), 0x2c180, value) }
+    }
+
+    /// `ClientSpellManager::Spells` at 0x2c180 (0x2c180 within `ClientSpellManager`).
+    /// One element; panics if `index >= 45001`.
+    #[inline]
+    pub fn Spells_at(&self, index: usize) -> *mut EQ_Spell {
+        assert!(index < 45001, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2c180 + index * 0x4) }
+    }
+
+    /// `ClientSpellManager::Spells` at 0x2c180 (0x2c180 within `ClientSpellManager`).
+    /// Sets one element; panics if `index >= 45001`.
+    #[inline]
+    pub fn set_Spells_at(&self, index: usize, value: *mut EQ_Spell) {
+        assert!(index < 45001, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2c180 + index * 0x4, value) }
+    }
+
+    /// `ClientSpellManager::SpellExtraData` at 0x580a4 (0x580a4 within `ClientSpellManager`).
+    /// Indexes the 45001 elements in memory order.
+    #[inline]
+    pub fn SpellExtraData(&self, index: usize) -> &EQSpellExtra {
+        assert!(index < 45001, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x580a4 + index * 0x8) }
     }
 }
 
@@ -2856,6 +3621,27 @@ impl EQGroundItem {
     }
 }
 
+/// C++ class `EQGroundItemListManager` (0x4 bytes).
+#[repr(C)]
+pub struct EQGroundItemListManager {
+    _bytes: UnsafeCell<[u8; 0x4]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQGroundItemListManager {
+    /// `EQGroundItemListManager::Top` at 0x0 (0x0 within `EQGroundItemListManager`).
+    #[inline]
+    pub fn Top(&self) -> *mut EQGroundItem {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQGroundItemListManager::Top` at 0x0 (0x0 within `EQGroundItemListManager`).
+    #[inline]
+    pub fn set_Top(&self, value: *mut EQGroundItem) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+}
+
 /// C++ class `EQList<AlchemyBonusSkillData *>` (0x10 bytes).
 #[repr(C)]
 pub struct EQList_AlchemyBonusSkillData {
@@ -2998,6 +3784,39 @@ impl EQSocial {
     }
 }
 
+/// C++ class `EQSpellExtra` (0x8 bytes).
+#[repr(C)]
+pub struct EQSpellExtra {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQSpellExtra {
+    /// `EQSpellExtra::OldSpellEff` at 0x0 (0x0 within `EQSpellExtra`).
+    #[inline]
+    pub fn OldSpellEff(&self) -> *mut OldSpellEffect {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQSpellExtra::OldSpellEff` at 0x0 (0x0 within `EQSpellExtra`).
+    #[inline]
+    pub fn set_OldSpellEff(&self, value: *mut OldSpellEffect) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQSpellExtra::NewSpellEff` at 0x4 (0x4 within `EQSpellExtra`).
+    #[inline]
+    pub fn NewSpellEff(&self) -> *mut NewSpellEffect {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQSpellExtra::NewSpellEff` at 0x4 (0x4 within `EQSpellExtra`).
+    #[inline]
+    pub fn set_NewSpellEff(&self, value: *mut NewSpellEffect) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+}
+
 /// C++ class `EQUIPMENT` (0xb4 bytes).
 #[repr(C)]
 pub struct EQUIPMENT {
@@ -3066,6 +3885,211 @@ impl EQUIPMENT {
     #[inline]
     pub fn Offhand(&self) -> &ArmorProperties {
         unsafe { at(self._bytes.get().cast(), 0xa0) }
+    }
+}
+
+/// C++ class `EQWorldData` (0xfc0 bytes).
+#[repr(C)]
+pub struct EQWorldData {
+    _bytes: UnsafeCell<[u8; 0xfc0]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQWorldData {
+    /// `EQWorldData::__vfptr` at 0x0 (0x0 within `EQWorldData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQWorldData::__vfptr` at 0x0 (0x0 within `EQWorldData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQWorldData::Hour` at 0x4 (0x4 within `EQWorldData`).
+    #[inline]
+    pub fn Hour(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQWorldData::Hour` at 0x4 (0x4 within `EQWorldData`).
+    #[inline]
+    pub fn set_Hour(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EQWorldData::Minute` at 0x5 (0x5 within `EQWorldData`).
+    #[inline]
+    pub fn Minute(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x5) }
+    }
+
+    /// `EQWorldData::Minute` at 0x5 (0x5 within `EQWorldData`).
+    #[inline]
+    pub fn set_Minute(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x5, value) }
+    }
+
+    /// `EQWorldData::Day` at 0x6 (0x6 within `EQWorldData`).
+    #[inline]
+    pub fn Day(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x6) }
+    }
+
+    /// `EQWorldData::Day` at 0x6 (0x6 within `EQWorldData`).
+    #[inline]
+    pub fn set_Day(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x6, value) }
+    }
+
+    /// `EQWorldData::Month` at 0x7 (0x7 within `EQWorldData`).
+    #[inline]
+    pub fn Month(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x7) }
+    }
+
+    /// `EQWorldData::Month` at 0x7 (0x7 within `EQWorldData`).
+    #[inline]
+    pub fn set_Month(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x7, value) }
+    }
+
+    /// `EQWorldData::Year` at 0x8 (0x8 within `EQWorldData`).
+    #[inline]
+    pub fn Year(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EQWorldData::Year` at 0x8 (0x8 within `EQWorldData`).
+    #[inline]
+    pub fn set_Year(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EQWorldData::LastHour` at 0xc (0xc within `EQWorldData`).
+    #[inline]
+    pub fn LastHour(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `EQWorldData::LastHour` at 0xc (0xc within `EQWorldData`).
+    #[inline]
+    pub fn set_LastHour(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `EQWorldData::LastMinute` at 0xd (0xd within `EQWorldData`).
+    #[inline]
+    pub fn LastMinute(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xd) }
+    }
+
+    /// `EQWorldData::LastMinute` at 0xd (0xd within `EQWorldData`).
+    #[inline]
+    pub fn set_LastMinute(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xd, value) }
+    }
+
+    /// `EQWorldData::LastDay` at 0xe (0xe within `EQWorldData`).
+    #[inline]
+    pub fn LastDay(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xe) }
+    }
+
+    /// `EQWorldData::LastDay` at 0xe (0xe within `EQWorldData`).
+    #[inline]
+    pub fn set_LastDay(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xe, value) }
+    }
+
+    /// `EQWorldData::LastMonth` at 0xf (0xf within `EQWorldData`).
+    #[inline]
+    pub fn LastMonth(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xf) }
+    }
+
+    /// `EQWorldData::LastMonth` at 0xf (0xf within `EQWorldData`).
+    #[inline]
+    pub fn set_LastMonth(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xf, value) }
+    }
+
+    /// `EQWorldData::LastYear` at 0x10 (0x10 within `EQWorldData`).
+    #[inline]
+    pub fn LastYear(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQWorldData::LastYear` at 0x10 (0x10 within `EQWorldData`).
+    #[inline]
+    pub fn set_LastYear(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQWorldData::LastAdvance` at 0x14 (0x14 within `EQWorldData`).
+    #[inline]
+    pub fn LastAdvance(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EQWorldData::LastAdvance` at 0x14 (0x14 within `EQWorldData`).
+    #[inline]
+    pub fn set_LastAdvance(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `EQWorldData::LastTime` at 0x18 (0x18 within `EQWorldData`).
+    #[inline]
+    pub fn LastTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `EQWorldData::LastTime` at 0x18 (0x18 within `EQWorldData`).
+    #[inline]
+    pub fn set_LastTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `EQWorldData::NextMercenaryId` at 0x1c (0x1c within `EQWorldData`).
+    #[inline]
+    pub fn NextMercenaryId(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `EQWorldData::NextMercenaryId` at 0x1c (0x1c within `EQWorldData`).
+    #[inline]
+    pub fn set_NextMercenaryId(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `EQWorldData::ZoneArray` at 0x20 (0x20 within `EQWorldData`).
+    #[inline]
+    pub fn ZoneArray(&self) -> [*mut EQZoneInfo; 1000] {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `EQWorldData::ZoneArray` at 0x20 (0x20 within `EQWorldData`).
+    #[inline]
+    pub fn set_ZoneArray(&self, value: [*mut EQZoneInfo; 1000]) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `EQWorldData::ZoneArray` at 0x20 (0x20 within `EQWorldData`).
+    /// One element; panics if `index >= 1000`.
+    #[inline]
+    pub fn ZoneArray_at(&self, index: usize) -> *mut EQZoneInfo {
+        assert!(index < 1000, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x20 + index * 0x4) }
+    }
+
+    /// `EQWorldData::ZoneArray` at 0x20 (0x20 within `EQWorldData`).
+    /// Sets one element; panics if `index >= 1000`.
+    #[inline]
+    pub fn set_ZoneArray_at(&self, index: usize, value: *mut EQZoneInfo) {
+        assert!(index < 1000, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x20 + index * 0x4, value) }
     }
 }
 
@@ -3363,6 +4387,2056 @@ impl EQZoneInfo {
     pub fn set_Unknown0x1D4_at(&self, index: usize, value: i32) {
         assert!(index < 9, "index out of bounds");
         unsafe { write(self._bytes.get().cast(), 0x1d4 + index * 0x4, value) }
+    }
+}
+
+/// C++ class `EQ_Affect` (0x58 bytes).
+#[repr(C)]
+pub struct EQ_Affect {
+    _bytes: UnsafeCell<[u8; 0x58]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQ_Affect {
+    /// `EQ_Affect::Type` at 0x0 (0x0 within `EQ_Affect`).
+    #[inline]
+    pub fn Type(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQ_Affect::Type` at 0x0 (0x0 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Type(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQ_Affect::Level` at 0x1 (0x1 within `EQ_Affect`).
+    #[inline]
+    pub fn Level(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1) }
+    }
+
+    /// `EQ_Affect::Level` at 0x1 (0x1 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Level(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1, value) }
+    }
+
+    /// `EQ_Affect::ChargesRemaining` at 0x2 (0x2 within `EQ_Affect`).
+    #[inline]
+    pub fn ChargesRemaining(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x2) }
+    }
+
+    /// `EQ_Affect::ChargesRemaining` at 0x2 (0x2 within `EQ_Affect`).
+    #[inline]
+    pub fn set_ChargesRemaining(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x2, value) }
+    }
+
+    /// `EQ_Affect::Activatable` at 0x3 (0x3 within `EQ_Affect`).
+    #[inline]
+    pub fn Activatable(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x3) }
+    }
+
+    /// `EQ_Affect::Activatable` at 0x3 (0x3 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Activatable(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x3, value) }
+    }
+
+    /// `EQ_Affect::Modifier` at 0x4 (0x4 within `EQ_Affect`).
+    #[inline]
+    pub fn Modifier(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQ_Affect::Modifier` at 0x4 (0x4 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Modifier(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EQ_Affect::SpellID` at 0x8 (0x8 within `EQ_Affect`).
+    #[inline]
+    pub fn SpellID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EQ_Affect::SpellID` at 0x8 (0x8 within `EQ_Affect`).
+    #[inline]
+    pub fn set_SpellID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EQ_Affect::Duration` at 0xc (0xc within `EQ_Affect`).
+    #[inline]
+    pub fn Duration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `EQ_Affect::Duration` at 0xc (0xc within `EQ_Affect`).
+    #[inline]
+    pub fn set_Duration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `EQ_Affect::CasterID` at 0x10 (0x10 within `EQ_Affect`).
+    #[inline]
+    pub fn CasterID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQ_Affect::CasterID` at 0x10 (0x10 within `EQ_Affect`).
+    #[inline]
+    pub fn set_CasterID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQ_Affect::HitCount` at 0x14 (0x14 within `EQ_Affect`).
+    #[inline]
+    pub fn HitCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EQ_Affect::HitCount` at 0x14 (0x14 within `EQ_Affect`).
+    #[inline]
+    pub fn set_HitCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `EQ_Affect::Y` at 0x18 (0x18 within `EQ_Affect`).
+    #[inline]
+    pub fn Y(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `EQ_Affect::Y` at 0x18 (0x18 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Y(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `EQ_Affect::X` at 0x1c (0x1c within `EQ_Affect`).
+    #[inline]
+    pub fn X(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `EQ_Affect::X` at 0x1c (0x1c within `EQ_Affect`).
+    #[inline]
+    pub fn set_X(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `EQ_Affect::Z` at 0x20 (0x20 within `EQ_Affect`).
+    #[inline]
+    pub fn Z(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `EQ_Affect::Z` at 0x20 (0x20 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Z(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `EQ_Affect::Flags` at 0x24 (0x24 within `EQ_Affect`).
+    #[inline]
+    pub fn Flags(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `EQ_Affect::Flags` at 0x24 (0x24 within `EQ_Affect`).
+    #[inline]
+    pub fn set_Flags(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `EQ_Affect::SlotData` at 0x28 (0x28 within `EQ_Affect`).
+    /// Indexes the 6 elements in memory order.
+    #[inline]
+    pub fn SlotData(&self, index: usize) -> &SlotData {
+        assert!(index < 6, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x28 + index * 0x8) }
+    }
+}
+
+/// C++ class `EQ_Spell` (0x4ed bytes).
+#[repr(C)]
+pub struct EQ_Spell {
+    _bytes: UnsafeCell<[u8; 0x4ed]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl EQ_Spell {
+    /// `EQ_Spell::Range` at 0x0 (0x0 within `EQ_Spell`).
+    #[inline]
+    pub fn Range(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `EQ_Spell::Range` at 0x0 (0x0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Range(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `EQ_Spell::AERange` at 0x4 (0x4 within `EQ_Spell`).
+    #[inline]
+    pub fn AERange(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `EQ_Spell::AERange` at 0x4 (0x4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_AERange(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `EQ_Spell::PushBack` at 0x8 (0x8 within `EQ_Spell`).
+    #[inline]
+    pub fn PushBack(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `EQ_Spell::PushBack` at 0x8 (0x8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_PushBack(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `EQ_Spell::PushUp` at 0xc (0xc within `EQ_Spell`).
+    #[inline]
+    pub fn PushUp(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `EQ_Spell::PushUp` at 0xc (0xc within `EQ_Spell`).
+    #[inline]
+    pub fn set_PushUp(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `EQ_Spell::CastTime` at 0x10 (0x10 within `EQ_Spell`).
+    #[inline]
+    pub fn CastTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `EQ_Spell::CastTime` at 0x10 (0x10 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `EQ_Spell::RecoveryTime` at 0x14 (0x14 within `EQ_Spell`).
+    #[inline]
+    pub fn RecoveryTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `EQ_Spell::RecoveryTime` at 0x14 (0x14 within `EQ_Spell`).
+    #[inline]
+    pub fn set_RecoveryTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `EQ_Spell::RecastTime` at 0x18 (0x18 within `EQ_Spell`).
+    #[inline]
+    pub fn RecastTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `EQ_Spell::RecastTime` at 0x18 (0x18 within `EQ_Spell`).
+    #[inline]
+    pub fn set_RecastTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `EQ_Spell::DurationType` at 0x1c (0x1c within `EQ_Spell`).
+    #[inline]
+    pub fn DurationType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `EQ_Spell::DurationType` at 0x1c (0x1c within `EQ_Spell`).
+    #[inline]
+    pub fn set_DurationType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `EQ_Spell::DurationCap` at 0x20 (0x20 within `EQ_Spell`).
+    #[inline]
+    pub fn DurationCap(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `EQ_Spell::DurationCap` at 0x20 (0x20 within `EQ_Spell`).
+    #[inline]
+    pub fn set_DurationCap(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `EQ_Spell::AEDuration` at 0x24 (0x24 within `EQ_Spell`).
+    #[inline]
+    pub fn AEDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `EQ_Spell::AEDuration` at 0x24 (0x24 within `EQ_Spell`).
+    #[inline]
+    pub fn set_AEDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `EQ_Spell::ManaCost` at 0x28 (0x28 within `EQ_Spell`).
+    #[inline]
+    pub fn ManaCost(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `EQ_Spell::ManaCost` at 0x28 (0x28 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ManaCost(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `EQ_Spell::Base` at 0x2c (0x2c within `EQ_Spell`).
+    #[inline]
+    pub fn Base(&self) -> [i32; 12] {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `EQ_Spell::Base` at 0x2c (0x2c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Base(&self, value: [i32; 12]) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+
+    /// `EQ_Spell::Base` at 0x2c (0x2c within `EQ_Spell`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn Base_at(&self, index: usize) -> i32 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2c + index * 0x4) }
+    }
+
+    /// `EQ_Spell::Base` at 0x2c (0x2c within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_Base_at(&self, index: usize, value: i32) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2c + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::Base2` at 0x5c (0x5c within `EQ_Spell`).
+    #[inline]
+    pub fn Base2(&self) -> [i32; 12] {
+        unsafe { read(self._bytes.get().cast(), 0x5c) }
+    }
+
+    /// `EQ_Spell::Base2` at 0x5c (0x5c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Base2(&self, value: [i32; 12]) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, value) }
+    }
+
+    /// `EQ_Spell::Base2` at 0x5c (0x5c within `EQ_Spell`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn Base2_at(&self, index: usize) -> i32 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x5c + index * 0x4) }
+    }
+
+    /// `EQ_Spell::Base2` at 0x5c (0x5c within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_Base2_at(&self, index: usize, value: i32) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x5c + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::Max` at 0x8c (0x8c within `EQ_Spell`).
+    #[inline]
+    pub fn Max(&self) -> [i32; 12] {
+        unsafe { read(self._bytes.get().cast(), 0x8c) }
+    }
+
+    /// `EQ_Spell::Max` at 0x8c (0x8c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Max(&self, value: [i32; 12]) {
+        unsafe { write(self._bytes.get().cast(), 0x8c, value) }
+    }
+
+    /// `EQ_Spell::Max` at 0x8c (0x8c within `EQ_Spell`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn Max_at(&self, index: usize) -> i32 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8c + index * 0x4) }
+    }
+
+    /// `EQ_Spell::Max` at 0x8c (0x8c within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_Max_at(&self, index: usize, value: i32) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8c + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::ReagentID` at 0xbc (0xbc within `EQ_Spell`).
+    #[inline]
+    pub fn ReagentID(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0xbc) }
+    }
+
+    /// `EQ_Spell::ReagentID` at 0xbc (0xbc within `EQ_Spell`).
+    #[inline]
+    pub fn set_ReagentID(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0xbc, value) }
+    }
+
+    /// `EQ_Spell::ReagentID` at 0xbc (0xbc within `EQ_Spell`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn ReagentID_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xbc + index * 0x4) }
+    }
+
+    /// `EQ_Spell::ReagentID` at 0xbc (0xbc within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_ReagentID_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xbc + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::ReagentCount` at 0xcc (0xcc within `EQ_Spell`).
+    #[inline]
+    pub fn ReagentCount(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0xcc) }
+    }
+
+    /// `EQ_Spell::ReagentCount` at 0xcc (0xcc within `EQ_Spell`).
+    #[inline]
+    pub fn set_ReagentCount(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0xcc, value) }
+    }
+
+    /// `EQ_Spell::ReagentCount` at 0xcc (0xcc within `EQ_Spell`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn ReagentCount_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xcc + index * 0x4) }
+    }
+
+    /// `EQ_Spell::ReagentCount` at 0xcc (0xcc within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_ReagentCount_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xcc + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::NoExpendReagent` at 0xdc (0xdc within `EQ_Spell`).
+    #[inline]
+    pub fn NoExpendReagent(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `EQ_Spell::NoExpendReagent` at 0xdc (0xdc within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoExpendReagent(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `EQ_Spell::NoExpendReagent` at 0xdc (0xdc within `EQ_Spell`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn NoExpendReagent_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xdc + index * 0x4) }
+    }
+
+    /// `EQ_Spell::NoExpendReagent` at 0xdc (0xdc within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_NoExpendReagent_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xdc + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::Calc` at 0xec (0xec within `EQ_Spell`).
+    #[inline]
+    pub fn Calc(&self) -> [i32; 12] {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `EQ_Spell::Calc` at 0xec (0xec within `EQ_Spell`).
+    #[inline]
+    pub fn set_Calc(&self, value: [i32; 12]) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `EQ_Spell::Calc` at 0xec (0xec within `EQ_Spell`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn Calc_at(&self, index: usize) -> i32 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xec + index * 0x4) }
+    }
+
+    /// `EQ_Spell::Calc` at 0xec (0xec within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_Calc_at(&self, index: usize, value: i32) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xec + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::Attrib` at 0x11c (0x11c within `EQ_Spell`).
+    #[inline]
+    pub fn Attrib(&self) -> [i32; 12] {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `EQ_Spell::Attrib` at 0x11c (0x11c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Attrib(&self, value: [i32; 12]) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `EQ_Spell::Attrib` at 0x11c (0x11c within `EQ_Spell`).
+    /// One element; panics if `index >= 12`.
+    #[inline]
+    pub fn Attrib_at(&self, index: usize) -> i32 {
+        assert!(index < 12, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x11c + index * 0x4) }
+    }
+
+    /// `EQ_Spell::Attrib` at 0x11c (0x11c within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 12`.
+    #[inline]
+    pub fn set_Attrib_at(&self, index: usize, value: i32) {
+        assert!(index < 12, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x11c + index * 0x4, value) }
+    }
+
+    /// `EQ_Spell::BookIcon` at 0x14c (0x14c within `EQ_Spell`).
+    #[inline]
+    pub fn BookIcon(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `EQ_Spell::BookIcon` at 0x14c (0x14c within `EQ_Spell`).
+    #[inline]
+    pub fn set_BookIcon(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `EQ_Spell::GemIcon` at 0x150 (0x150 within `EQ_Spell`).
+    #[inline]
+    pub fn GemIcon(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x150) }
+    }
+
+    /// `EQ_Spell::GemIcon` at 0x150 (0x150 within `EQ_Spell`).
+    #[inline]
+    pub fn set_GemIcon(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x150, value) }
+    }
+
+    /// `EQ_Spell::DescriptionIndex` at 0x154 (0x154 within `EQ_Spell`).
+    #[inline]
+    pub fn DescriptionIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `EQ_Spell::DescriptionIndex` at 0x154 (0x154 within `EQ_Spell`).
+    #[inline]
+    pub fn set_DescriptionIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `EQ_Spell::ResistAdj` at 0x158 (0x158 within `EQ_Spell`).
+    #[inline]
+    pub fn ResistAdj(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x158) }
+    }
+
+    /// `EQ_Spell::ResistAdj` at 0x158 (0x158 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ResistAdj(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x158, value) }
+    }
+
+    /// `EQ_Spell::Deity` at 0x15c (0x15c within `EQ_Spell`).
+    #[inline]
+    pub fn Deity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `EQ_Spell::Deity` at 0x15c (0x15c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Deity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `EQ_Spell::spaindex` at 0x160 (0x160 within `EQ_Spell`).
+    #[inline]
+    pub fn spaindex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `EQ_Spell::spaindex` at 0x160 (0x160 within `EQ_Spell`).
+    #[inline]
+    pub fn set_spaindex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `EQ_Spell::SpellAnim` at 0x164 (0x164 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellAnim(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `EQ_Spell::SpellAnim` at 0x164 (0x164 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellAnim(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x164, value) }
+    }
+
+    /// `EQ_Spell::SpellIcon` at 0x168 (0x168 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellIcon(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x168) }
+    }
+
+    /// `EQ_Spell::SpellIcon` at 0x168 (0x168 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellIcon(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x168, value) }
+    }
+
+    /// `EQ_Spell::DurationParticleEffect` at 0x16c (0x16c within `EQ_Spell`).
+    #[inline]
+    pub fn DurationParticleEffect(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x16c) }
+    }
+
+    /// `EQ_Spell::DurationParticleEffect` at 0x16c (0x16c within `EQ_Spell`).
+    #[inline]
+    pub fn set_DurationParticleEffect(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x16c, value) }
+    }
+
+    /// `EQ_Spell::NPCUsefulness` at 0x170 (0x170 within `EQ_Spell`).
+    #[inline]
+    pub fn NPCUsefulness(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x170) }
+    }
+
+    /// `EQ_Spell::NPCUsefulness` at 0x170 (0x170 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NPCUsefulness(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x170, value) }
+    }
+
+    /// `EQ_Spell::ID` at 0x174 (0x174 within `EQ_Spell`).
+    #[inline]
+    pub fn ID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `EQ_Spell::ID` at 0x174 (0x174 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `EQ_Spell::Autocast` at 0x178 (0x178 within `EQ_Spell`).
+    #[inline]
+    pub fn Autocast(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `EQ_Spell::Autocast` at 0x178 (0x178 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Autocast(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `EQ_Spell::Category` at 0x17c (0x17c within `EQ_Spell`).
+    #[inline]
+    pub fn Category(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `EQ_Spell::Category` at 0x17c (0x17c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Category(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `EQ_Spell::Subcategory` at 0x180 (0x180 within `EQ_Spell`).
+    #[inline]
+    pub fn Subcategory(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `EQ_Spell::Subcategory` at 0x180 (0x180 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Subcategory(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `EQ_Spell::Subcategory2` at 0x184 (0x184 within `EQ_Spell`).
+    #[inline]
+    pub fn Subcategory2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `EQ_Spell::Subcategory2` at 0x184 (0x184 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Subcategory2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `EQ_Spell::HateMod` at 0x188 (0x188 within `EQ_Spell`).
+    #[inline]
+    pub fn HateMod(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `EQ_Spell::HateMod` at 0x188 (0x188 within `EQ_Spell`).
+    #[inline]
+    pub fn set_HateMod(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `EQ_Spell::ResistPerLevel` at 0x18c (0x18c within `EQ_Spell`).
+    #[inline]
+    pub fn ResistPerLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18c) }
+    }
+
+    /// `EQ_Spell::ResistPerLevel` at 0x18c (0x18c within `EQ_Spell`).
+    #[inline]
+    pub fn set_ResistPerLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, value) }
+    }
+
+    /// `EQ_Spell::ResistCap` at 0x190 (0x190 within `EQ_Spell`).
+    #[inline]
+    pub fn ResistCap(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `EQ_Spell::ResistCap` at 0x190 (0x190 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ResistCap(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `EQ_Spell::EnduranceCost` at 0x194 (0x194 within `EQ_Spell`).
+    #[inline]
+    pub fn EnduranceCost(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x194) }
+    }
+
+    /// `EQ_Spell::EnduranceCost` at 0x194 (0x194 within `EQ_Spell`).
+    #[inline]
+    pub fn set_EnduranceCost(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x194, value) }
+    }
+
+    /// `EQ_Spell::ReuseTimerIndex` at 0x198 (0x198 within `EQ_Spell`).
+    #[inline]
+    pub fn ReuseTimerIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `EQ_Spell::ReuseTimerIndex` at 0x198 (0x198 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ReuseTimerIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `EQ_Spell::EnduranceUpkeep` at 0x19c (0x19c within `EQ_Spell`).
+    #[inline]
+    pub fn EnduranceUpkeep(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x19c) }
+    }
+
+    /// `EQ_Spell::EnduranceUpkeep` at 0x19c (0x19c within `EQ_Spell`).
+    #[inline]
+    pub fn set_EnduranceUpkeep(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, value) }
+    }
+
+    /// `EQ_Spell::HateGenerated` at 0x1a0 (0x1a0 within `EQ_Spell`).
+    #[inline]
+    pub fn HateGenerated(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `EQ_Spell::HateGenerated` at 0x1a0 (0x1a0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_HateGenerated(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `EQ_Spell::HitCountType` at 0x1a4 (0x1a4 within `EQ_Spell`).
+    #[inline]
+    pub fn HitCountType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a4) }
+    }
+
+    /// `EQ_Spell::HitCountType` at 0x1a4 (0x1a4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_HitCountType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, value) }
+    }
+
+    /// `EQ_Spell::HitCount` at 0x1a8 (0x1a8 within `EQ_Spell`).
+    #[inline]
+    pub fn HitCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `EQ_Spell::HitCount` at 0x1a8 (0x1a8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_HitCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a8, value) }
+    }
+
+    /// `EQ_Spell::ConeStartAngle` at 0x1ac (0x1ac within `EQ_Spell`).
+    #[inline]
+    pub fn ConeStartAngle(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `EQ_Spell::ConeStartAngle` at 0x1ac (0x1ac within `EQ_Spell`).
+    #[inline]
+    pub fn set_ConeStartAngle(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `EQ_Spell::ConeEndAngle` at 0x1b0 (0x1b0 within `EQ_Spell`).
+    #[inline]
+    pub fn ConeEndAngle(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `EQ_Spell::ConeEndAngle` at 0x1b0 (0x1b0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ConeEndAngle(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `EQ_Spell::PvPResistBase` at 0x1b4 (0x1b4 within `EQ_Spell`).
+    #[inline]
+    pub fn PvPResistBase(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `EQ_Spell::PvPResistBase` at 0x1b4 (0x1b4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_PvPResistBase(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b4, value) }
+    }
+
+    /// `EQ_Spell::PvPCalc` at 0x1b8 (0x1b8 within `EQ_Spell`).
+    #[inline]
+    pub fn PvPCalc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b8) }
+    }
+
+    /// `EQ_Spell::PvPCalc` at 0x1b8 (0x1b8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_PvPCalc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b8, value) }
+    }
+
+    /// `EQ_Spell::PvPResistCap` at 0x1bc (0x1bc within `EQ_Spell`).
+    #[inline]
+    pub fn PvPResistCap(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1bc) }
+    }
+
+    /// `EQ_Spell::PvPResistCap` at 0x1bc (0x1bc within `EQ_Spell`).
+    #[inline]
+    pub fn set_PvPResistCap(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1bc, value) }
+    }
+
+    /// `EQ_Spell::PvPDuration` at 0x1c0 (0x1c0 within `EQ_Spell`).
+    #[inline]
+    pub fn PvPDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c0) }
+    }
+
+    /// `EQ_Spell::PvPDuration` at 0x1c0 (0x1c0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_PvPDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c0, value) }
+    }
+
+    /// `EQ_Spell::PvPDurationCap` at 0x1c4 (0x1c4 within `EQ_Spell`).
+    #[inline]
+    pub fn PvPDurationCap(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c4) }
+    }
+
+    /// `EQ_Spell::PvPDurationCap` at 0x1c4 (0x1c4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_PvPDurationCap(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, value) }
+    }
+
+    /// `EQ_Spell::GlobalGroup` at 0x1c8 (0x1c8 within `EQ_Spell`).
+    #[inline]
+    pub fn GlobalGroup(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `EQ_Spell::GlobalGroup` at 0x1c8 (0x1c8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_GlobalGroup(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `EQ_Spell::PCNPCOnlyFlag` at 0x1cc (0x1cc within `EQ_Spell`).
+    #[inline]
+    pub fn PCNPCOnlyFlag(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1cc) }
+    }
+
+    /// `EQ_Spell::PCNPCOnlyFlag` at 0x1cc (0x1cc within `EQ_Spell`).
+    #[inline]
+    pub fn set_PCNPCOnlyFlag(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, value) }
+    }
+
+    /// `EQ_Spell::NPCMemCategory` at 0x1d0 (0x1d0 within `EQ_Spell`).
+    #[inline]
+    pub fn NPCMemCategory(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `EQ_Spell::NPCMemCategory` at 0x1d0 (0x1d0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NPCMemCategory(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `EQ_Spell::SpellGroup` at 0x1d4 (0x1d4 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellGroup(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d4) }
+    }
+
+    /// `EQ_Spell::SpellGroup` at 0x1d4 (0x1d4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellGroup(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, value) }
+    }
+
+    /// `EQ_Spell::SpellSubGroup` at 0x1d8 (0x1d8 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellSubGroup(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `EQ_Spell::SpellSubGroup` at 0x1d8 (0x1d8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellSubGroup(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `EQ_Spell::SpellRank` at 0x1dc (0x1dc within `EQ_Spell`).
+    #[inline]
+    pub fn SpellRank(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `EQ_Spell::SpellRank` at 0x1dc (0x1dc within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellRank(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, value) }
+    }
+
+    /// `EQ_Spell::SpellClass` at 0x1e0 (0x1e0 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellClass(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `EQ_Spell::SpellClass` at 0x1e0 (0x1e0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellClass(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `EQ_Spell::SpellSubClass` at 0x1e4 (0x1e4 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellSubClass(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `EQ_Spell::SpellSubClass` at 0x1e4 (0x1e4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellSubClass(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e4, value) }
+    }
+
+    /// `EQ_Spell::SpellReqAssociationID` at 0x1e8 (0x1e8 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellReqAssociationID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e8) }
+    }
+
+    /// `EQ_Spell::SpellReqAssociationID` at 0x1e8 (0x1e8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellReqAssociationID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e8, value) }
+    }
+
+    /// `EQ_Spell::CasterRequirementID` at 0x1ec (0x1ec within `EQ_Spell`).
+    #[inline]
+    pub fn CasterRequirementID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1ec) }
+    }
+
+    /// `EQ_Spell::CasterRequirementID` at 0x1ec (0x1ec within `EQ_Spell`).
+    #[inline]
+    pub fn set_CasterRequirementID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1ec, value) }
+    }
+
+    /// `EQ_Spell::MaxResist` at 0x1f0 (0x1f0 within `EQ_Spell`).
+    #[inline]
+    pub fn MaxResist(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f0) }
+    }
+
+    /// `EQ_Spell::MaxResist` at 0x1f0 (0x1f0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_MaxResist(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f0, value) }
+    }
+
+    /// `EQ_Spell::MinResist` at 0x1f4 (0x1f4 within `EQ_Spell`).
+    #[inline]
+    pub fn MinResist(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f4) }
+    }
+
+    /// `EQ_Spell::MinResist` at 0x1f4 (0x1f4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_MinResist(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, value) }
+    }
+
+    /// `EQ_Spell::MinSpreadTime` at 0x1f8 (0x1f8 within `EQ_Spell`).
+    #[inline]
+    pub fn MinSpreadTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `EQ_Spell::MinSpreadTime` at 0x1f8 (0x1f8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_MinSpreadTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `EQ_Spell::MaxSpreadTime` at 0x1fc (0x1fc within `EQ_Spell`).
+    #[inline]
+    pub fn MaxSpreadTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `EQ_Spell::MaxSpreadTime` at 0x1fc (0x1fc within `EQ_Spell`).
+    #[inline]
+    pub fn set_MaxSpreadTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1fc, value) }
+    }
+
+    /// `EQ_Spell::SpreadRadius` at 0x200 (0x200 within `EQ_Spell`).
+    #[inline]
+    pub fn SpreadRadius(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `EQ_Spell::SpreadRadius` at 0x200 (0x200 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpreadRadius(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `EQ_Spell::BaseEffectsFocusCap` at 0x204 (0x204 within `EQ_Spell`).
+    #[inline]
+    pub fn BaseEffectsFocusCap(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `EQ_Spell::BaseEffectsFocusCap` at 0x204 (0x204 within `EQ_Spell`).
+    #[inline]
+    pub fn set_BaseEffectsFocusCap(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `EQ_Spell::CritChanceOverride` at 0x208 (0x208 within `EQ_Spell`).
+    #[inline]
+    pub fn CritChanceOverride(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `EQ_Spell::CritChanceOverride` at 0x208 (0x208 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CritChanceOverride(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `EQ_Spell::MaxTargets` at 0x20c (0x20c within `EQ_Spell`).
+    #[inline]
+    pub fn MaxTargets(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `EQ_Spell::MaxTargets` at 0x20c (0x20c within `EQ_Spell`).
+    #[inline]
+    pub fn set_MaxTargets(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `EQ_Spell::AIValidTargets` at 0x210 (0x210 within `EQ_Spell`).
+    #[inline]
+    pub fn AIValidTargets(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `EQ_Spell::AIValidTargets` at 0x210 (0x210 within `EQ_Spell`).
+    #[inline]
+    pub fn set_AIValidTargets(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `EQ_Spell::BaseEffectsFocusOffset` at 0x214 (0x214 within `EQ_Spell`).
+    #[inline]
+    pub fn BaseEffectsFocusOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `EQ_Spell::BaseEffectsFocusOffset` at 0x214 (0x214 within `EQ_Spell`).
+    #[inline]
+    pub fn set_BaseEffectsFocusOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `EQ_Spell::BaseEffectsFocusSlope` at 0x218 (0x218 within `EQ_Spell`).
+    #[inline]
+    pub fn BaseEffectsFocusSlope(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `EQ_Spell::BaseEffectsFocusSlope` at 0x218 (0x218 within `EQ_Spell`).
+    #[inline]
+    pub fn set_BaseEffectsFocusSlope(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `EQ_Spell::DistanceModStart` at 0x21c (0x21c within `EQ_Spell`).
+    #[inline]
+    pub fn DistanceModStart(&self) -> &CVector2 {
+        unsafe { at(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `EQ_Spell::DistanceModEnd` at 0x224 (0x224 within `EQ_Spell`).
+    #[inline]
+    pub fn DistanceModEnd(&self) -> &CVector2 {
+        unsafe { at(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `EQ_Spell::MinRange` at 0x22c (0x22c within `EQ_Spell`).
+    #[inline]
+    pub fn MinRange(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `EQ_Spell::MinRange` at 0x22c (0x22c within `EQ_Spell`).
+    #[inline]
+    pub fn set_MinRange(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `EQ_Spell::NoNPCLOS` at 0x230 (0x230 within `EQ_Spell`).
+    #[inline]
+    pub fn NoNPCLOS(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x230) != 0 }
+    }
+
+    /// `EQ_Spell::NoNPCLOS` at 0x230 (0x230 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoNPCLOS(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x230, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::Feedbackable` at 0x231 (0x231 within `EQ_Spell`).
+    #[inline]
+    pub fn Feedbackable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x231) != 0 }
+    }
+
+    /// `EQ_Spell::Feedbackable` at 0x231 (0x231 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Feedbackable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x231, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::Reflectable` at 0x232 (0x232 within `EQ_Spell`).
+    #[inline]
+    pub fn Reflectable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x232) != 0 }
+    }
+
+    /// `EQ_Spell::Reflectable` at 0x232 (0x232 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Reflectable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x232, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoPartialSave` at 0x233 (0x233 within `EQ_Spell`).
+    #[inline]
+    pub fn NoPartialSave(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x233) != 0 }
+    }
+
+    /// `EQ_Spell::NoPartialSave` at 0x233 (0x233 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoPartialSave(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x233, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoResist` at 0x234 (0x234 within `EQ_Spell`).
+    #[inline]
+    pub fn NoResist(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x234) != 0 }
+    }
+
+    /// `EQ_Spell::NoResist` at 0x234 (0x234 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoResist(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x234, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::UsesPersistentParticles` at 0x235 (0x235 within `EQ_Spell`).
+    #[inline]
+    pub fn UsesPersistentParticles(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x235) != 0 }
+    }
+
+    /// `EQ_Spell::UsesPersistentParticles` at 0x235 (0x235 within `EQ_Spell`).
+    #[inline]
+    pub fn set_UsesPersistentParticles(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x235, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::SmallTargetsOnly` at 0x236 (0x236 within `EQ_Spell`).
+    #[inline]
+    pub fn SmallTargetsOnly(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x236) != 0 }
+    }
+
+    /// `EQ_Spell::SmallTargetsOnly` at 0x236 (0x236 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SmallTargetsOnly(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x236, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::DurationWindow` at 0x237 (0x237 within `EQ_Spell`).
+    #[inline]
+    pub fn DurationWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x237) != 0 }
+    }
+
+    /// `EQ_Spell::DurationWindow` at 0x237 (0x237 within `EQ_Spell`).
+    #[inline]
+    pub fn set_DurationWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x237, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::Uninterruptable` at 0x238 (0x238 within `EQ_Spell`).
+    #[inline]
+    pub fn Uninterruptable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x238) != 0 }
+    }
+
+    /// `EQ_Spell::Uninterruptable` at 0x238 (0x238 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Uninterruptable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x238, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NotStackableDot` at 0x239 (0x239 within `EQ_Spell`).
+    #[inline]
+    pub fn NotStackableDot(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x239) != 0 }
+    }
+
+    /// `EQ_Spell::NotStackableDot` at 0x239 (0x239 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NotStackableDot(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x239, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::Deletable` at 0x23a (0x23a within `EQ_Spell`).
+    #[inline]
+    pub fn Deletable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23a) != 0 }
+    }
+
+    /// `EQ_Spell::Deletable` at 0x23a (0x23a within `EQ_Spell`).
+    #[inline]
+    pub fn set_Deletable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23a, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::BypassRegenCheck` at 0x23b (0x23b within `EQ_Spell`).
+    #[inline]
+    pub fn BypassRegenCheck(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23b) != 0 }
+    }
+
+    /// `EQ_Spell::BypassRegenCheck` at 0x23b (0x23b within `EQ_Spell`).
+    #[inline]
+    pub fn set_BypassRegenCheck(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23b, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::CanCastInCombat` at 0x23c (0x23c within `EQ_Spell`).
+    #[inline]
+    pub fn CanCastInCombat(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23c) != 0 }
+    }
+
+    /// `EQ_Spell::CanCastInCombat` at 0x23c (0x23c within `EQ_Spell`).
+    #[inline]
+    pub fn set_CanCastInCombat(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::CanCastOutOfCombat` at 0x23d (0x23d within `EQ_Spell`).
+    #[inline]
+    pub fn CanCastOutOfCombat(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23d) != 0 }
+    }
+
+    /// `EQ_Spell::CanCastOutOfCombat` at 0x23d (0x23d within `EQ_Spell`).
+    #[inline]
+    pub fn set_CanCastOutOfCombat(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23d, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoHealDamageItemMod` at 0x23e (0x23e within `EQ_Spell`).
+    #[inline]
+    pub fn NoHealDamageItemMod(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23e) != 0 }
+    }
+
+    /// `EQ_Spell::NoHealDamageItemMod` at 0x23e (0x23e within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoHealDamageItemMod(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23e, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::OnlyDuringFastRegen` at 0x23f (0x23f within `EQ_Spell`).
+    #[inline]
+    pub fn OnlyDuringFastRegen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23f) != 0 }
+    }
+
+    /// `EQ_Spell::OnlyDuringFastRegen` at 0x23f (0x23f within `EQ_Spell`).
+    #[inline]
+    pub fn set_OnlyDuringFastRegen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23f, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::CastNotStanding` at 0x240 (0x240 within `EQ_Spell`).
+    #[inline]
+    pub fn CastNotStanding(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x240) != 0 }
+    }
+
+    /// `EQ_Spell::CastNotStanding` at 0x240 (0x240 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastNotStanding(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x240, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::CanMGB` at 0x241 (0x241 within `EQ_Spell`).
+    #[inline]
+    pub fn CanMGB(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x241) != 0 }
+    }
+
+    /// `EQ_Spell::CanMGB` at 0x241 (0x241 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CanMGB(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x241, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoDispell` at 0x242 (0x242 within `EQ_Spell`).
+    #[inline]
+    pub fn NoDispell(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x242) != 0 }
+    }
+
+    /// `EQ_Spell::NoDispell` at 0x242 (0x242 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoDispell(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x242, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::AffectInanimate` at 0x243 (0x243 within `EQ_Spell`).
+    #[inline]
+    pub fn AffectInanimate(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x243) != 0 }
+    }
+
+    /// `EQ_Spell::AffectInanimate` at 0x243 (0x243 within `EQ_Spell`).
+    #[inline]
+    pub fn set_AffectInanimate(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x243, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::IsSkill` at 0x244 (0x244 within `EQ_Spell`).
+    #[inline]
+    pub fn IsSkill(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x244) != 0 }
+    }
+
+    /// `EQ_Spell::IsSkill` at 0x244 (0x244 within `EQ_Spell`).
+    #[inline]
+    pub fn set_IsSkill(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x244, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::ShowDoTMessage` at 0x245 (0x245 within `EQ_Spell`).
+    #[inline]
+    pub fn ShowDoTMessage(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x245) != 0 }
+    }
+
+    /// `EQ_Spell::ShowDoTMessage` at 0x245 (0x245 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ShowDoTMessage(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x245, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::ClassLevel` at 0x246 (0x246 within `EQ_Spell`).
+    #[inline]
+    pub fn ClassLevel(&self) -> [u8; 36] {
+        unsafe { read(self._bytes.get().cast(), 0x246) }
+    }
+
+    /// `EQ_Spell::ClassLevel` at 0x246 (0x246 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ClassLevel(&self, value: [u8; 36]) {
+        unsafe { write(self._bytes.get().cast(), 0x246, value) }
+    }
+
+    /// `EQ_Spell::ClassLevel` at 0x246 (0x246 within `EQ_Spell`).
+    /// One element; panics if `index >= 36`.
+    #[inline]
+    pub fn ClassLevel_at(&self, index: usize) -> u8 {
+        assert!(index < 36, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x246 + index * 0x1) }
+    }
+
+    /// `EQ_Spell::ClassLevel` at 0x246 (0x246 within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 36`.
+    #[inline]
+    pub fn set_ClassLevel_at(&self, index: usize, value: u8) {
+        assert!(index < 36, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x246 + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::LightType` at 0x26a (0x26a within `EQ_Spell`).
+    #[inline]
+    pub fn LightType(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x26a) }
+    }
+
+    /// `EQ_Spell::LightType` at 0x26a (0x26a within `EQ_Spell`).
+    #[inline]
+    pub fn set_LightType(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x26a, value) }
+    }
+
+    /// `EQ_Spell::SpellType` at 0x26b (0x26b within `EQ_Spell`).
+    #[inline]
+    pub fn SpellType(&self) -> eSpellType {
+        unsafe { read(self._bytes.get().cast(), 0x26b) }
+    }
+
+    /// `EQ_Spell::SpellType` at 0x26b (0x26b within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellType(&self, value: eSpellType) {
+        unsafe { write(self._bytes.get().cast(), 0x26b, value) }
+    }
+
+    /// `EQ_Spell::Activated` at 0x26c (0x26c within `EQ_Spell`).
+    #[inline]
+    pub fn Activated(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x26c) }
+    }
+
+    /// `EQ_Spell::Activated` at 0x26c (0x26c within `EQ_Spell`).
+    #[inline]
+    pub fn set_Activated(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x26c, value) }
+    }
+
+    /// `EQ_Spell::Resist` at 0x26d (0x26d within `EQ_Spell`).
+    #[inline]
+    pub fn Resist(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x26d) }
+    }
+
+    /// `EQ_Spell::Resist` at 0x26d (0x26d within `EQ_Spell`).
+    #[inline]
+    pub fn set_Resist(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x26d, value) }
+    }
+
+    /// `EQ_Spell::TargetType` at 0x26e (0x26e within `EQ_Spell`).
+    #[inline]
+    pub fn TargetType(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x26e) }
+    }
+
+    /// `EQ_Spell::TargetType` at 0x26e (0x26e within `EQ_Spell`).
+    #[inline]
+    pub fn set_TargetType(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x26e, value) }
+    }
+
+    /// `EQ_Spell::CastDifficulty` at 0x26f (0x26f within `EQ_Spell`).
+    #[inline]
+    pub fn CastDifficulty(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x26f) }
+    }
+
+    /// `EQ_Spell::CastDifficulty` at 0x26f (0x26f within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastDifficulty(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x26f, value) }
+    }
+
+    /// `EQ_Spell::Skill` at 0x270 (0x270 within `EQ_Spell`).
+    #[inline]
+    pub fn Skill(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x270) }
+    }
+
+    /// `EQ_Spell::Skill` at 0x270 (0x270 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Skill(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x270, value) }
+    }
+
+    /// `EQ_Spell::ZoneType` at 0x271 (0x271 within `EQ_Spell`).
+    #[inline]
+    pub fn ZoneType(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x271) }
+    }
+
+    /// `EQ_Spell::ZoneType` at 0x271 (0x271 within `EQ_Spell`).
+    #[inline]
+    pub fn set_ZoneType(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x271, value) }
+    }
+
+    /// `EQ_Spell::Environment` at 0x272 (0x272 within `EQ_Spell`).
+    #[inline]
+    pub fn Environment(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x272) }
+    }
+
+    /// `EQ_Spell::Environment` at 0x272 (0x272 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Environment(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x272, value) }
+    }
+
+    /// `EQ_Spell::TimeOfDay` at 0x273 (0x273 within `EQ_Spell`).
+    #[inline]
+    pub fn TimeOfDay(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x273) }
+    }
+
+    /// `EQ_Spell::TimeOfDay` at 0x273 (0x273 within `EQ_Spell`).
+    #[inline]
+    pub fn set_TimeOfDay(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x273, value) }
+    }
+
+    /// `EQ_Spell::CastingAnim` at 0x274 (0x274 within `EQ_Spell`).
+    #[inline]
+    pub fn CastingAnim(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x274) }
+    }
+
+    /// `EQ_Spell::CastingAnim` at 0x274 (0x274 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastingAnim(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x274, value) }
+    }
+
+    /// `EQ_Spell::AnimVariation` at 0x275 (0x275 within `EQ_Spell`).
+    #[inline]
+    pub fn AnimVariation(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x275) }
+    }
+
+    /// `EQ_Spell::AnimVariation` at 0x275 (0x275 within `EQ_Spell`).
+    #[inline]
+    pub fn set_AnimVariation(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x275, value) }
+    }
+
+    /// `EQ_Spell::TargetAnim` at 0x276 (0x276 within `EQ_Spell`).
+    #[inline]
+    pub fn TargetAnim(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x276) }
+    }
+
+    /// `EQ_Spell::TargetAnim` at 0x276 (0x276 within `EQ_Spell`).
+    #[inline]
+    pub fn set_TargetAnim(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x276, value) }
+    }
+
+    /// `EQ_Spell::TravelType` at 0x277 (0x277 within `EQ_Spell`).
+    #[inline]
+    pub fn TravelType(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x277) }
+    }
+
+    /// `EQ_Spell::TravelType` at 0x277 (0x277 within `EQ_Spell`).
+    #[inline]
+    pub fn set_TravelType(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x277, value) }
+    }
+
+    /// `EQ_Spell::CancelOnSit` at 0x278 (0x278 within `EQ_Spell`).
+    #[inline]
+    pub fn CancelOnSit(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x278) }
+    }
+
+    /// `EQ_Spell::CancelOnSit` at 0x278 (0x278 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CancelOnSit(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x278, value) }
+    }
+
+    /// `EQ_Spell::CountdownHeld` at 0x279 (0x279 within `EQ_Spell`).
+    #[inline]
+    pub fn CountdownHeld(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x279) != 0 }
+    }
+
+    /// `EQ_Spell::CountdownHeld` at 0x279 (0x279 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CountdownHeld(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x279, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::Name` at 0x27a (0x27a within `EQ_Spell`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x27a) }
+    }
+
+    /// `EQ_Spell::Name` at 0x27a (0x27a within `EQ_Spell`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x27a, value) }
+    }
+
+    /// `EQ_Spell::Name` at 0x27a (0x27a within `EQ_Spell`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x27a + index * 0x1) }
+    }
+
+    /// `EQ_Spell::Name` at 0x27a (0x27a within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x27a + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::Target` at 0x2ba (0x2ba within `EQ_Spell`).
+    #[inline]
+    pub fn Target(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x2ba) }
+    }
+
+    /// `EQ_Spell::Target` at 0x2ba (0x2ba within `EQ_Spell`).
+    #[inline]
+    pub fn set_Target(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x2ba, value) }
+    }
+
+    /// `EQ_Spell::Target` at 0x2ba (0x2ba within `EQ_Spell`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Target_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2ba + index * 0x1) }
+    }
+
+    /// `EQ_Spell::Target` at 0x2ba (0x2ba within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Target_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2ba + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::Extra` at 0x2da (0x2da within `EQ_Spell`).
+    #[inline]
+    pub fn Extra(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x2da) }
+    }
+
+    /// `EQ_Spell::Extra` at 0x2da (0x2da within `EQ_Spell`).
+    #[inline]
+    pub fn set_Extra(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x2da, value) }
+    }
+
+    /// `EQ_Spell::Extra` at 0x2da (0x2da within `EQ_Spell`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Extra_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2da + index * 0x1) }
+    }
+
+    /// `EQ_Spell::Extra` at 0x2da (0x2da within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Extra_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2da + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::CastByMe` at 0x2fa (0x2fa within `EQ_Spell`).
+    #[inline]
+    pub fn CastByMe(&self) -> [c_char; 96] {
+        unsafe { read(self._bytes.get().cast(), 0x2fa) }
+    }
+
+    /// `EQ_Spell::CastByMe` at 0x2fa (0x2fa within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastByMe(&self, value: [c_char; 96]) {
+        unsafe { write(self._bytes.get().cast(), 0x2fa, value) }
+    }
+
+    /// `EQ_Spell::CastByMe` at 0x2fa (0x2fa within `EQ_Spell`).
+    /// One element; panics if `index >= 96`.
+    #[inline]
+    pub fn CastByMe_at(&self, index: usize) -> c_char {
+        assert!(index < 96, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2fa + index * 0x1) }
+    }
+
+    /// `EQ_Spell::CastByMe` at 0x2fa (0x2fa within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 96`.
+    #[inline]
+    pub fn set_CastByMe_at(&self, index: usize, value: c_char) {
+        assert!(index < 96, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2fa + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::CastByOther` at 0x35a (0x35a within `EQ_Spell`).
+    #[inline]
+    pub fn CastByOther(&self) -> [c_char; 96] {
+        unsafe { read(self._bytes.get().cast(), 0x35a) }
+    }
+
+    /// `EQ_Spell::CastByOther` at 0x35a (0x35a within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastByOther(&self, value: [c_char; 96]) {
+        unsafe { write(self._bytes.get().cast(), 0x35a, value) }
+    }
+
+    /// `EQ_Spell::CastByOther` at 0x35a (0x35a within `EQ_Spell`).
+    /// One element; panics if `index >= 96`.
+    #[inline]
+    pub fn CastByOther_at(&self, index: usize) -> c_char {
+        assert!(index < 96, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x35a + index * 0x1) }
+    }
+
+    /// `EQ_Spell::CastByOther` at 0x35a (0x35a within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 96`.
+    #[inline]
+    pub fn set_CastByOther_at(&self, index: usize, value: c_char) {
+        assert!(index < 96, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x35a + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::CastOnYou` at 0x3ba (0x3ba within `EQ_Spell`).
+    #[inline]
+    pub fn CastOnYou(&self) -> [c_char; 96] {
+        unsafe { read(self._bytes.get().cast(), 0x3ba) }
+    }
+
+    /// `EQ_Spell::CastOnYou` at 0x3ba (0x3ba within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastOnYou(&self, value: [c_char; 96]) {
+        unsafe { write(self._bytes.get().cast(), 0x3ba, value) }
+    }
+
+    /// `EQ_Spell::CastOnYou` at 0x3ba (0x3ba within `EQ_Spell`).
+    /// One element; panics if `index >= 96`.
+    #[inline]
+    pub fn CastOnYou_at(&self, index: usize) -> c_char {
+        assert!(index < 96, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3ba + index * 0x1) }
+    }
+
+    /// `EQ_Spell::CastOnYou` at 0x3ba (0x3ba within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 96`.
+    #[inline]
+    pub fn set_CastOnYou_at(&self, index: usize, value: c_char) {
+        assert!(index < 96, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3ba + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::CastOnAnother` at 0x41a (0x41a within `EQ_Spell`).
+    #[inline]
+    pub fn CastOnAnother(&self) -> [c_char; 96] {
+        unsafe { read(self._bytes.get().cast(), 0x41a) }
+    }
+
+    /// `EQ_Spell::CastOnAnother` at 0x41a (0x41a within `EQ_Spell`).
+    #[inline]
+    pub fn set_CastOnAnother(&self, value: [c_char; 96]) {
+        unsafe { write(self._bytes.get().cast(), 0x41a, value) }
+    }
+
+    /// `EQ_Spell::CastOnAnother` at 0x41a (0x41a within `EQ_Spell`).
+    /// One element; panics if `index >= 96`.
+    #[inline]
+    pub fn CastOnAnother_at(&self, index: usize) -> c_char {
+        assert!(index < 96, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x41a + index * 0x1) }
+    }
+
+    /// `EQ_Spell::CastOnAnother` at 0x41a (0x41a within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 96`.
+    #[inline]
+    pub fn set_CastOnAnother_at(&self, index: usize, value: c_char) {
+        assert!(index < 96, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x41a + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::WearOff` at 0x47a (0x47a within `EQ_Spell`).
+    #[inline]
+    pub fn WearOff(&self) -> [c_char; 96] {
+        unsafe { read(self._bytes.get().cast(), 0x47a) }
+    }
+
+    /// `EQ_Spell::WearOff` at 0x47a (0x47a within `EQ_Spell`).
+    #[inline]
+    pub fn set_WearOff(&self, value: [c_char; 96]) {
+        unsafe { write(self._bytes.get().cast(), 0x47a, value) }
+    }
+
+    /// `EQ_Spell::WearOff` at 0x47a (0x47a within `EQ_Spell`).
+    /// One element; panics if `index >= 96`.
+    #[inline]
+    pub fn WearOff_at(&self, index: usize) -> c_char {
+        assert!(index < 96, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x47a + index * 0x1) }
+    }
+
+    /// `EQ_Spell::WearOff` at 0x47a (0x47a within `EQ_Spell`).
+    /// Sets one element; panics if `index >= 96`.
+    #[inline]
+    pub fn set_WearOff_at(&self, index: usize, value: c_char) {
+        assert!(index < 96, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x47a + index * 0x1, value) }
+    }
+
+    /// `EQ_Spell::ShowWearOffMessage` at 0x4da (0x4da within `EQ_Spell`).
+    #[inline]
+    pub fn ShowWearOffMessage(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4da) != 0 }
+    }
+
+    /// `EQ_Spell::ShowWearOffMessage` at 0x4da (0x4da within `EQ_Spell`).
+    #[inline]
+    pub fn set_ShowWearOffMessage(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4da, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NPCChanceofKnowingSpell` at 0x4db (0x4db within `EQ_Spell`).
+    #[inline]
+    pub fn NPCChanceofKnowingSpell(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x4db) }
+    }
+
+    /// `EQ_Spell::NPCChanceofKnowingSpell` at 0x4db (0x4db within `EQ_Spell`).
+    #[inline]
+    pub fn set_NPCChanceofKnowingSpell(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x4db, value) }
+    }
+
+    /// `EQ_Spell::SneakAttack` at 0x4dc (0x4dc within `EQ_Spell`).
+    #[inline]
+    pub fn SneakAttack(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4dc) != 0 }
+    }
+
+    /// `EQ_Spell::SneakAttack` at 0x4dc (0x4dc within `EQ_Spell`).
+    #[inline]
+    pub fn set_SneakAttack(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4dc, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NotFocusable` at 0x4dd (0x4dd within `EQ_Spell`).
+    #[inline]
+    pub fn NotFocusable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4dd) != 0 }
+    }
+
+    /// `EQ_Spell::NotFocusable` at 0x4dd (0x4dd within `EQ_Spell`).
+    #[inline]
+    pub fn set_NotFocusable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4dd, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoHate` at 0x4de (0x4de within `EQ_Spell`).
+    #[inline]
+    pub fn NoHate(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4de) != 0 }
+    }
+
+    /// `EQ_Spell::NoHate` at 0x4de (0x4de within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoHate(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4de, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::StacksWithSelf` at 0x4df (0x4df within `EQ_Spell`).
+    #[inline]
+    pub fn StacksWithSelf(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4df) != 0 }
+    }
+
+    /// `EQ_Spell::StacksWithSelf` at 0x4df (0x4df within `EQ_Spell`).
+    #[inline]
+    pub fn set_StacksWithSelf(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4df, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoBuffBlock` at 0x4e0 (0x4e0 within `EQ_Spell`).
+    #[inline]
+    pub fn NoBuffBlock(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4e0) != 0 }
+    }
+
+    /// `EQ_Spell::NoBuffBlock` at 0x4e0 (0x4e0 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoBuffBlock(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4e0, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::Scribable` at 0x4e1 (0x4e1 within `EQ_Spell`).
+    #[inline]
+    pub fn Scribable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4e1) != 0 }
+    }
+
+    /// `EQ_Spell::Scribable` at 0x4e1 (0x4e1 within `EQ_Spell`).
+    #[inline]
+    pub fn set_Scribable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4e1, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoStripOnDeath` at 0x4e2 (0x4e2 within `EQ_Spell`).
+    #[inline]
+    pub fn NoStripOnDeath(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4e2) != 0 }
+    }
+
+    /// `EQ_Spell::NoStripOnDeath` at 0x4e2 (0x4e2 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoStripOnDeath(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4e2, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoRemove` at 0x4e3 (0x4e3 within `EQ_Spell`).
+    #[inline]
+    pub fn NoRemove(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4e3) != 0 }
+    }
+
+    /// `EQ_Spell::NoRemove` at 0x4e3 (0x4e3 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoRemove(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4e3, u8::from(value)) }
+    }
+
+    /// `EQ_Spell::NoOverwrite` at 0x4e4 (0x4e4 within `EQ_Spell`).
+    #[inline]
+    pub fn NoOverwrite(&self) -> eSpellNoOverwrite {
+        unsafe { read(self._bytes.get().cast(), 0x4e4) }
+    }
+
+    /// `EQ_Spell::NoOverwrite` at 0x4e4 (0x4e4 within `EQ_Spell`).
+    #[inline]
+    pub fn set_NoOverwrite(&self, value: eSpellNoOverwrite) {
+        unsafe { write(self._bytes.get().cast(), 0x4e4, value) }
+    }
+
+    /// `EQ_Spell::CRC32Marker` at 0x4e8 (0x4e8 within `EQ_Spell`).
+    #[inline]
+    pub fn CRC32Marker(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x4e8) }
+    }
+
+    /// `EQ_Spell::CRC32Marker` at 0x4e8 (0x4e8 within `EQ_Spell`).
+    #[inline]
+    pub fn set_CRC32Marker(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x4e8, value) }
+    }
+
+    /// `EQ_Spell::SpellRecourseType` at 0x4e9 (0x4e9 within `EQ_Spell`).
+    #[inline]
+    pub fn SpellRecourseType(&self) -> eSpellRecourseType {
+        unsafe { read(self._bytes.get().cast(), 0x4e9) }
+    }
+
+    /// `EQ_Spell::SpellRecourseType` at 0x4e9 (0x4e9 within `EQ_Spell`).
+    #[inline]
+    pub fn set_SpellRecourseType(&self, value: eSpellRecourseType) {
+        unsafe { write(self._bytes.get().cast(), 0x4e9, value) }
     }
 }
 
@@ -9126,6 +12200,120 @@ impl HashTable_DynamicZoneData_int_ResizePolicyNoResize {
     }
 }
 
+/// C++ class `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>` (0x10 bytes).
+#[repr(C)]
+pub struct HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize {
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_table(&self) -> *mut *mut HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize_HashNode {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_table(&self, value: *mut *mut HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize_HashNode) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_tableSize` at 0x4 (0x4 within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_tableSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_tableSize` at 0x4 (0x4 within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_tableSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_entryCount` at 0x8 (0x8 within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_entryCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_entryCount` at 0x8 (0x8 within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_entryCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_statUsedSlots` at 0xc (0xc within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_statUsedSlots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>::m_statUsedSlots` at 0xc (0xc within `HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_statUsedSlots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+}
+
+/// C++ class `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>` (0x10 bytes).
+#[repr(C)]
+pub struct HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize {
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_table(&self) -> *mut *mut HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize_HashNode {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_table` at 0x0 (0x0 within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_table(&self, value: *mut *mut HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize_HashNode) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_tableSize` at 0x4 (0x4 within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_tableSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_tableSize` at 0x4 (0x4 within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_tableSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_entryCount` at 0x8 (0x8 within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_entryCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_entryCount` at 0x8 (0x8 within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_entryCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_statUsedSlots` at 0xc (0xc within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn m_statUsedSlots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>::m_statUsedSlots` at 0xc (0xc within `HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>`).
+    #[inline]
+    pub fn set_m_statUsedSlots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+}
+
 /// C++ class `HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>` (0x10 bytes).
 #[repr(C)]
 pub struct HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink {
@@ -9707,6 +12895,614 @@ impl HotButtonLoadout {
     }
 }
 
+/// C++ class `ItemAugmentationSocket` (0x8 bytes).
+#[repr(C)]
+pub struct ItemAugmentationSocket {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemAugmentationSocket {
+    /// `ItemAugmentationSocket::Type` at 0x0 (0x0 within `ItemAugmentationSocket`).
+    #[inline]
+    pub fn Type(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `ItemAugmentationSocket::Type` at 0x0 (0x0 within `ItemAugmentationSocket`).
+    #[inline]
+    pub fn set_Type(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ItemAugmentationSocket::bVisible` at 0x4 (0x4 within `ItemAugmentationSocket`).
+    #[inline]
+    pub fn bVisible(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4) != 0 }
+    }
+
+    /// `ItemAugmentationSocket::bVisible` at 0x4 (0x4 within `ItemAugmentationSocket`).
+    #[inline]
+    pub fn set_bVisible(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4, u8::from(value)) }
+    }
+
+    /// `ItemAugmentationSocket::bInfusible` at 0x5 (0x5 within `ItemAugmentationSocket`).
+    #[inline]
+    pub fn bInfusible(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5) != 0 }
+    }
+
+    /// `ItemAugmentationSocket::bInfusible` at 0x5 (0x5 within `ItemAugmentationSocket`).
+    #[inline]
+    pub fn set_bInfusible(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5, u8::from(value)) }
+    }
+}
+
+/// C++ class `ItemClient` (0x150 bytes).
+#[repr(C)]
+pub struct ItemClient {
+    _bytes: UnsafeCell<[u8; 0x150]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemClient {
+    /// `VeBaseReferenceCount::__vfptr` at 0x0 (0x0 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `VeBaseReferenceCount::__vfptr` at 0x0 (0x0 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `VeBaseReferenceCount::ReferenceCount` at 0x4 (0x4 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn ReferenceCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `VeBaseReferenceCount::ReferenceCount` at 0x4 (0x4 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn set_ReferenceCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `IChildItemContainer::__vfptr` at 0x8 (0x0 within `IChildItemContainer`).
+    #[inline]
+    pub fn IChildItemContainer___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `IChildItemContainer::__vfptr` at 0x8 (0x0 within `IChildItemContainer`).
+    #[inline]
+    pub fn set_IChildItemContainer___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ItemBase::AugFlag` at 0xc (0xc within `ItemBase`).
+    #[inline]
+    pub fn AugFlag(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ItemBase::AugFlag` at 0xc (0xc within `ItemBase`).
+    #[inline]
+    pub fn set_AugFlag(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ItemBase::SaveString` at 0x10 (0x10 within `ItemBase`).
+    #[inline]
+    pub fn SaveString(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ItemBase::Open` at 0x14 (0x14 within `ItemBase`).
+    #[inline]
+    pub fn Open(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ItemBase::Open` at 0x14 (0x14 within `ItemBase`).
+    #[inline]
+    pub fn set_Open(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ItemBase::ItemHash` at 0x18 (0x18 within `ItemBase`).
+    #[inline]
+    pub fn ItemHash(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `ItemBase::ItemHash` at 0x18 (0x18 within `ItemBase`).
+    #[inline]
+    pub fn set_ItemHash(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `ItemBase::bCopied` at 0x1c (0x1c within `ItemBase`).
+    #[inline]
+    pub fn bCopied(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c) != 0 }
+    }
+
+    /// `ItemBase::bCopied` at 0x1c (0x1c within `ItemBase`).
+    #[inline]
+    pub fn set_bCopied(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, u8::from(value)) }
+    }
+
+    /// `ItemBase::EvolvingExpPct` at 0x20 (0x20 within `ItemBase`).
+    #[inline]
+    pub fn EvolvingExpPct(&self) -> f64 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `ItemBase::EvolvingExpPct` at 0x20 (0x20 within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingExpPct(&self, value: f64) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `ItemBase::Price` at 0x28 (0x28 within `ItemBase`).
+    #[inline]
+    pub fn Price(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `ItemBase::Price` at 0x28 (0x28 within `ItemBase`).
+    #[inline]
+    pub fn set_Price(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `ItemBase::EvolvingMaxLevel` at 0x2c (0x2c within `ItemBase`).
+    #[inline]
+    pub fn EvolvingMaxLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `ItemBase::EvolvingMaxLevel` at 0x2c (0x2c within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingMaxLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+
+    /// `ItemBase::bItemNeedsUpdate` at 0x30 (0x30 within `ItemBase`).
+    #[inline]
+    pub fn bItemNeedsUpdate(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x30) != 0 }
+    }
+
+    /// `ItemBase::bItemNeedsUpdate` at 0x30 (0x30 within `ItemBase`).
+    #[inline]
+    pub fn set_bItemNeedsUpdate(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x30, u8::from(value)) }
+    }
+
+    /// `ItemBase::LastCastTime` at 0x34 (0x34 within `ItemBase`).
+    #[inline]
+    pub fn LastCastTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `ItemBase::LastCastTime` at 0x34 (0x34 within `ItemBase`).
+    #[inline]
+    pub fn set_LastCastTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `ItemBase::GlobalIndex` at 0x38 (0x38 within `ItemBase`).
+    #[inline]
+    pub fn GlobalIndex(&self) -> &ItemGlobalIndex {
+        unsafe { at(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `ItemBase::Charges` at 0x44 (0x44 within `ItemBase`).
+    #[inline]
+    pub fn Charges(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `ItemBase::Charges` at 0x44 (0x44 within `ItemBase`).
+    #[inline]
+    pub fn set_Charges(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `ItemBase::NewArmorID` at 0x48 (0x48 within `ItemBase`).
+    #[inline]
+    pub fn NewArmorID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `ItemBase::NewArmorID` at 0x48 (0x48 within `ItemBase`).
+    #[inline]
+    pub fn set_NewArmorID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    #[inline]
+    pub fn ActorTag1(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    #[inline]
+    pub fn set_ActorTag1(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn ActorTag1_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4c + index * 0x1) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_ActorTag1_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4c + index * 0x1, value) }
+    }
+
+    /// `ItemBase::NoteStatus` at 0x6c (0x6c within `ItemBase`).
+    #[inline]
+    pub fn NoteStatus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6c) }
+    }
+
+    /// `ItemBase::NoteStatus` at 0x6c (0x6c within `ItemBase`).
+    #[inline]
+    pub fn set_NoteStatus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6c, value) }
+    }
+
+    /// `ItemBase::ScriptIndex` at 0x70 (0x70 within `ItemBase`).
+    #[inline]
+    pub fn ScriptIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `ItemBase::ScriptIndex` at 0x70 (0x70 within `ItemBase`).
+    #[inline]
+    pub fn set_ScriptIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `ItemBase::bRealEstateItemPlaceable` at 0x74 (0x74 within `ItemBase`).
+    #[inline]
+    pub fn bRealEstateItemPlaceable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `ItemBase::bRealEstateItemPlaceable` at 0x74 (0x74 within `ItemBase`).
+    #[inline]
+    pub fn set_bRealEstateItemPlaceable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `ItemBase::RespawnTime` at 0x78 (0x78 within `ItemBase`).
+    #[inline]
+    pub fn RespawnTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `ItemBase::RespawnTime` at 0x78 (0x78 within `ItemBase`).
+    #[inline]
+    pub fn set_RespawnTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `ItemBase::RealEstateID` at 0x7c (0x7c within `ItemBase`).
+    #[inline]
+    pub fn RealEstateID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `ItemBase::RealEstateID` at 0x7c (0x7c within `ItemBase`).
+    #[inline]
+    pub fn set_RealEstateID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+
+    /// `ItemBase::NoDropFlag` at 0x80 (0x80 within `ItemBase`).
+    #[inline]
+    pub fn NoDropFlag(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `ItemBase::NoDropFlag` at 0x80 (0x80 within `ItemBase`).
+    #[inline]
+    pub fn set_NoDropFlag(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `ItemBase::OrnamentationIcon` at 0x84 (0x84 within `ItemBase`).
+    #[inline]
+    pub fn OrnamentationIcon(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `ItemBase::OrnamentationIcon` at 0x84 (0x84 within `ItemBase`).
+    #[inline]
+    pub fn set_OrnamentationIcon(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `ItemBase::RealEstateArray` at 0x88 (0x88 within `ItemBase`).
+    #[inline]
+    pub fn RealEstateArray(&self) -> &ArrayClass_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `ItemBase::StackCount` at 0x98 (0x98 within `ItemBase`).
+    #[inline]
+    pub fn StackCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x98) }
+    }
+
+    /// `ItemBase::StackCount` at 0x98 (0x98 within `ItemBase`).
+    #[inline]
+    pub fn set_StackCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x98, value) }
+    }
+
+    /// `ItemBase::Item1` at 0x9c (0x9c within `ItemBase`).
+    #[inline]
+    pub fn Item1(&self) -> *mut ItemDefinition {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `ItemBase::Item1` at 0x9c (0x9c within `ItemBase`).
+    #[inline]
+    pub fn set_Item1(&self, value: *mut ItemDefinition) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `ItemBase::Contents` at 0xa0 (0xa0 within `ItemBase`).
+    #[inline]
+    pub fn Contents(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `ItemBase::ItemGUID` at 0xd8 (0xd8 within `ItemBase`).
+    #[inline]
+    pub fn ItemGUID(&self) -> &EqItemGuid {
+        unsafe { at(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `ItemBase::GroupID` at 0xec (0xec within `ItemBase`).
+    #[inline]
+    pub fn GroupID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `ItemBase::GroupID` at 0xec (0xec within `ItemBase`).
+    #[inline]
+    pub fn set_GroupID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `ItemBase::ArmorType` at 0xf0 (0xf0 within `ItemBase`).
+    #[inline]
+    pub fn ArmorType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `ItemBase::ArmorType` at 0xf0 (0xf0 within `ItemBase`).
+    #[inline]
+    pub fn set_ArmorType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `ItemBase::LastEquipped` at 0xf4 (0xf4 within `ItemBase`).
+    #[inline]
+    pub fn LastEquipped(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf4) }
+    }
+
+    /// `ItemBase::LastEquipped` at 0xf4 (0xf4 within `ItemBase`).
+    #[inline]
+    pub fn set_LastEquipped(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, value) }
+    }
+
+    /// `ItemBase::MerchantSlot` at 0xf8 (0xf8 within `ItemBase`).
+    #[inline]
+    pub fn MerchantSlot(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `ItemBase::MerchantSlot` at 0xf8 (0xf8 within `ItemBase`).
+    #[inline]
+    pub fn set_MerchantSlot(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `ItemBase::bDisableAugTexture` at 0x100 (0x100 within `ItemBase`).
+    #[inline]
+    pub fn bDisableAugTexture(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x100) != 0 }
+    }
+
+    /// `ItemBase::bDisableAugTexture` at 0x100 (0x100 within `ItemBase`).
+    #[inline]
+    pub fn set_bDisableAugTexture(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x100, u8::from(value)) }
+    }
+
+    /// `ItemBase::bRankDisabled` at 0x101 (0x101 within `ItemBase`).
+    #[inline]
+    pub fn bRankDisabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x101) != 0 }
+    }
+
+    /// `ItemBase::bRankDisabled` at 0x101 (0x101 within `ItemBase`).
+    #[inline]
+    pub fn set_bRankDisabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x101, u8::from(value)) }
+    }
+
+    /// `ItemBase::MerchantQuantity` at 0x104 (0x104 within `ItemBase`).
+    #[inline]
+    pub fn MerchantQuantity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x104) }
+    }
+
+    /// `ItemBase::MerchantQuantity` at 0x104 (0x104 within `ItemBase`).
+    #[inline]
+    pub fn set_MerchantQuantity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x104, value) }
+    }
+
+    /// `ItemBase::EvolvingCurrentLevel` at 0x108 (0x108 within `ItemBase`).
+    #[inline]
+    pub fn EvolvingCurrentLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `ItemBase::EvolvingCurrentLevel` at 0x108 (0x108 within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingCurrentLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `ItemBase::IsEvolvingItem` at 0x10c (0x10c within `ItemBase`).
+    #[inline]
+    pub fn IsEvolvingItem(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10c) != 0 }
+    }
+
+    /// `ItemBase::IsEvolvingItem` at 0x10c (0x10c within `ItemBase`).
+    #[inline]
+    pub fn set_IsEvolvingItem(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10c, u8::from(value)) }
+    }
+
+    /// `ItemBase::Power` at 0x110 (0x110 within `ItemBase`).
+    #[inline]
+    pub fn Power(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x110) }
+    }
+
+    /// `ItemBase::Power` at 0x110 (0x110 within `ItemBase`).
+    #[inline]
+    pub fn set_Power(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x110, value) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    #[inline]
+    pub fn ActorTag2(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x114) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    #[inline]
+    pub fn set_ActorTag2(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x114, value) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn ActorTag2_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x114 + index * 0x1) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_ActorTag2_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x114 + index * 0x1, value) }
+    }
+
+    /// `ItemBase::EvolvingExpOn` at 0x132 (0x132 within `ItemBase`).
+    #[inline]
+    pub fn EvolvingExpOn(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x132) != 0 }
+    }
+
+    /// `ItemBase::EvolvingExpOn` at 0x132 (0x132 within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingExpOn(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x132, u8::from(value)) }
+    }
+
+    /// `ItemBase::ItemColor` at 0x134 (0x134 within `ItemBase`).
+    #[inline]
+    pub fn ItemColor(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `ItemBase::ItemColor` at 0x134 (0x134 within `ItemBase`).
+    #[inline]
+    pub fn set_ItemColor(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `ItemBase::Tint` at 0x138 (0x138 within `ItemBase`).
+    #[inline]
+    pub fn Tint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x138) }
+    }
+
+    /// `ItemBase::Tint` at 0x138 (0x138 within `ItemBase`).
+    #[inline]
+    pub fn set_Tint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x138, value) }
+    }
+
+    /// `ItemBase::ID` at 0x13c (0x13c within `ItemBase`).
+    #[inline]
+    pub fn ID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `ItemBase::ID` at 0x13c (0x13c within `ItemBase`).
+    #[inline]
+    pub fn set_ID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c, value) }
+    }
+
+    /// `ItemClient::Padding0x140` at 0x140 (0x140 within `ItemClient`).
+    #[inline]
+    pub fn Padding0x140(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x140) }
+    }
+
+    /// `ItemClient::Padding0x140` at 0x140 (0x140 within `ItemClient`).
+    #[inline]
+    pub fn set_Padding0x140(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x140, value) }
+    }
+
+    /// `ItemClient::SharedItemDef` at 0x144 (0x144 within `ItemClient`).
+    #[inline]
+    pub fn SharedItemDef(&self) -> &SoeUtil_SharedPtr_ItemDefinition {
+        unsafe { at(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `ItemClient::ClientString` at 0x14c (0x14c within `ItemClient`).
+    #[inline]
+    pub fn ClientString(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14c) }
+    }
+}
+
 /// C++ class `ItemContainer` (0x38 bytes).
 #[repr(C)]
 pub struct ItemContainer {
@@ -9826,6 +13622,2249 @@ impl ItemContainer {
     }
 }
 
+/// C++ class `ItemDefinition` (0x634 bytes).
+#[repr(C)]
+pub struct ItemDefinition {
+    _bytes: UnsafeCell<[u8; 0x634]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemDefinition {
+    /// `ItemDefinition::Name` at 0x0 (0x0 within `ItemDefinition`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `ItemDefinition::Name` at 0x0 (0x0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ItemDefinition::Name` at 0x0 (0x0 within `ItemDefinition`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `ItemDefinition::Name` at 0x0 (0x0 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::LoreName` at 0x40 (0x40 within `ItemDefinition`).
+    #[inline]
+    pub fn LoreName(&self) -> [c_char; 80] {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `ItemDefinition::LoreName` at 0x40 (0x40 within `ItemDefinition`).
+    #[inline]
+    pub fn set_LoreName(&self, value: [c_char; 80]) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `ItemDefinition::LoreName` at 0x40 (0x40 within `ItemDefinition`).
+    /// One element; panics if `index >= 80`.
+    #[inline]
+    pub fn LoreName_at(&self, index: usize) -> c_char {
+        assert!(index < 80, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x40 + index * 0x1) }
+    }
+
+    /// `ItemDefinition::LoreName` at 0x40 (0x40 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 80`.
+    #[inline]
+    pub fn set_LoreName_at(&self, index: usize, value: c_char) {
+        assert!(index < 80, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x40 + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::AdvancedLoreName` at 0x90 (0x90 within `ItemDefinition`).
+    #[inline]
+    pub fn AdvancedLoreName(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x90) }
+    }
+
+    /// `ItemDefinition::AdvancedLoreName` at 0x90 (0x90 within `ItemDefinition`).
+    #[inline]
+    pub fn set_AdvancedLoreName(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x90, value) }
+    }
+
+    /// `ItemDefinition::AdvancedLoreName` at 0x90 (0x90 within `ItemDefinition`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn AdvancedLoreName_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x90 + index * 0x1) }
+    }
+
+    /// `ItemDefinition::AdvancedLoreName` at 0x90 (0x90 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_AdvancedLoreName_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x90 + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::IDFile` at 0xb0 (0xb0 within `ItemDefinition`).
+    #[inline]
+    pub fn IDFile(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0xb0) }
+    }
+
+    /// `ItemDefinition::IDFile` at 0xb0 (0xb0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_IDFile(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0xb0, value) }
+    }
+
+    /// `ItemDefinition::IDFile` at 0xb0 (0xb0 within `ItemDefinition`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn IDFile_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xb0 + index * 0x1) }
+    }
+
+    /// `ItemDefinition::IDFile` at 0xb0 (0xb0 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_IDFile_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xb0 + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::IDFile2` at 0xce (0xce within `ItemDefinition`).
+    #[inline]
+    pub fn IDFile2(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0xce) }
+    }
+
+    /// `ItemDefinition::IDFile2` at 0xce (0xce within `ItemDefinition`).
+    #[inline]
+    pub fn set_IDFile2(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0xce, value) }
+    }
+
+    /// `ItemDefinition::IDFile2` at 0xce (0xce within `ItemDefinition`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn IDFile2_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xce + index * 0x1) }
+    }
+
+    /// `ItemDefinition::IDFile2` at 0xce (0xce within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_IDFile2_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xce + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::ItemNumber` at 0xec (0xec within `ItemDefinition`).
+    #[inline]
+    pub fn ItemNumber(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `ItemDefinition::ItemNumber` at 0xec (0xec within `ItemDefinition`).
+    #[inline]
+    pub fn set_ItemNumber(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `ItemDefinition::EquipSlots` at 0xf0 (0xf0 within `ItemDefinition`).
+    #[inline]
+    pub fn EquipSlots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `ItemDefinition::EquipSlots` at 0xf0 (0xf0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_EquipSlots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `ItemDefinition::Cost` at 0xf4 (0xf4 within `ItemDefinition`).
+    #[inline]
+    pub fn Cost(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf4) }
+    }
+
+    /// `ItemDefinition::Cost` at 0xf4 (0xf4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Cost(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, value) }
+    }
+
+    /// `ItemDefinition::IconNumber` at 0xf8 (0xf8 within `ItemDefinition`).
+    #[inline]
+    pub fn IconNumber(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `ItemDefinition::IconNumber` at 0xf8 (0xf8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_IconNumber(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `ItemDefinition::eGMRequirement` at 0xfc (0xfc within `ItemDefinition`).
+    #[inline]
+    pub fn eGMRequirement(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `ItemDefinition::eGMRequirement` at 0xfc (0xfc within `ItemDefinition`).
+    #[inline]
+    pub fn set_eGMRequirement(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `ItemDefinition::bPoofOnDeath` at 0xfd (0xfd within `ItemDefinition`).
+    #[inline]
+    pub fn bPoofOnDeath(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xfd) != 0 }
+    }
+
+    /// `ItemDefinition::bPoofOnDeath` at 0xfd (0xfd within `ItemDefinition`).
+    #[inline]
+    pub fn set_bPoofOnDeath(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xfd, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Unknown0x0100` at 0x100 (0x100 within `ItemDefinition`).
+    #[inline]
+    pub fn Unknown0x0100(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `ItemDefinition::Unknown0x0100` at 0x100 (0x100 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Unknown0x0100(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `ItemDefinition::Unknown0x0104` at 0x104 (0x104 within `ItemDefinition`).
+    #[inline]
+    pub fn Unknown0x0104(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x104) }
+    }
+
+    /// `ItemDefinition::Unknown0x0104` at 0x104 (0x104 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Unknown0x0104(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x104, value) }
+    }
+
+    /// `ItemDefinition::Weight` at 0x108 (0x108 within `ItemDefinition`).
+    #[inline]
+    pub fn Weight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `ItemDefinition::Weight` at 0x108 (0x108 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Weight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `ItemDefinition::NoRent` at 0x10c (0x10c within `ItemDefinition`).
+    #[inline]
+    pub fn NoRent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10c) != 0 }
+    }
+
+    /// `ItemDefinition::NoRent` at 0x10c (0x10c within `ItemDefinition`).
+    #[inline]
+    pub fn set_NoRent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10c, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::IsDroppable` at 0x10d (0x10d within `ItemDefinition`).
+    #[inline]
+    pub fn IsDroppable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10d) != 0 }
+    }
+
+    /// `ItemDefinition::IsDroppable` at 0x10d (0x10d within `ItemDefinition`).
+    #[inline]
+    pub fn set_IsDroppable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10d, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Attuneable` at 0x10e (0x10e within `ItemDefinition`).
+    #[inline]
+    pub fn Attuneable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10e) != 0 }
+    }
+
+    /// `ItemDefinition::Attuneable` at 0x10e (0x10e within `ItemDefinition`).
+    #[inline]
+    pub fn set_Attuneable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10e, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Heirloom` at 0x10f (0x10f within `ItemDefinition`).
+    #[inline]
+    pub fn Heirloom(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10f) != 0 }
+    }
+
+    /// `ItemDefinition::Heirloom` at 0x10f (0x10f within `ItemDefinition`).
+    #[inline]
+    pub fn set_Heirloom(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10f, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Collectible` at 0x110 (0x110 within `ItemDefinition`).
+    #[inline]
+    pub fn Collectible(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x110) != 0 }
+    }
+
+    /// `ItemDefinition::Collectible` at 0x110 (0x110 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Collectible(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x110, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::NoDestroy` at 0x111 (0x111 within `ItemDefinition`).
+    #[inline]
+    pub fn NoDestroy(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x111) != 0 }
+    }
+
+    /// `ItemDefinition::NoDestroy` at 0x111 (0x111 within `ItemDefinition`).
+    #[inline]
+    pub fn set_NoDestroy(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x111, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::MarketPlace` at 0x112 (0x112 within `ItemDefinition`).
+    #[inline]
+    pub fn MarketPlace(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x112) != 0 }
+    }
+
+    /// `ItemDefinition::MarketPlace` at 0x112 (0x112 within `ItemDefinition`).
+    #[inline]
+    pub fn set_MarketPlace(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x112, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::NoZone` at 0x113 (0x113 within `ItemDefinition`).
+    #[inline]
+    pub fn NoZone(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x113) != 0 }
+    }
+
+    /// `ItemDefinition::NoZone` at 0x113 (0x113 within `ItemDefinition`).
+    #[inline]
+    pub fn set_NoZone(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x113, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::MakerID` at 0x114 (0x114 within `ItemDefinition`).
+    #[inline]
+    pub fn MakerID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x114) }
+    }
+
+    /// `ItemDefinition::MakerID` at 0x114 (0x114 within `ItemDefinition`).
+    #[inline]
+    pub fn set_MakerID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x114, value) }
+    }
+
+    /// `ItemDefinition::NoGround` at 0x118 (0x118 within `ItemDefinition`).
+    #[inline]
+    pub fn NoGround(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x118) != 0 }
+    }
+
+    /// `ItemDefinition::NoGround` at 0x118 (0x118 within `ItemDefinition`).
+    #[inline]
+    pub fn set_NoGround(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x118, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Size` at 0x119 (0x119 within `ItemDefinition`).
+    #[inline]
+    pub fn Size(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x119) }
+    }
+
+    /// `ItemDefinition::Size` at 0x119 (0x119 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Size(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x119, value) }
+    }
+
+    /// `ItemDefinition::Type` at 0x11a (0x11a within `ItemDefinition`).
+    #[inline]
+    pub fn Type(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x11a) }
+    }
+
+    /// `ItemDefinition::Type` at 0x11a (0x11a within `ItemDefinition`).
+    #[inline]
+    pub fn set_Type(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x11a, value) }
+    }
+
+    /// `ItemDefinition::TradeSkills` at 0x11b (0x11b within `ItemDefinition`).
+    #[inline]
+    pub fn TradeSkills(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x11b) != 0 }
+    }
+
+    /// `ItemDefinition::TradeSkills` at 0x11b (0x11b within `ItemDefinition`).
+    #[inline]
+    pub fn set_TradeSkills(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x11b, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Lore` at 0x11c (0x11c within `ItemDefinition`).
+    #[inline]
+    pub fn Lore(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `ItemDefinition::Lore` at 0x11c (0x11c within `ItemDefinition`).
+    #[inline]
+    pub fn set_Lore(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `ItemDefinition::Artifact` at 0x120 (0x120 within `ItemDefinition`).
+    #[inline]
+    pub fn Artifact(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x120) != 0 }
+    }
+
+    /// `ItemDefinition::Artifact` at 0x120 (0x120 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Artifact(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x120, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Summoned` at 0x121 (0x121 within `ItemDefinition`).
+    #[inline]
+    pub fn Summoned(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x121) != 0 }
+    }
+
+    /// `ItemDefinition::Summoned` at 0x121 (0x121 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Summoned(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x121, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::SvCold` at 0x122 (0x122 within `ItemDefinition`).
+    #[inline]
+    pub fn SvCold(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x122) }
+    }
+
+    /// `ItemDefinition::SvCold` at 0x122 (0x122 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SvCold(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x122, value) }
+    }
+
+    /// `ItemDefinition::SvFire` at 0x123 (0x123 within `ItemDefinition`).
+    #[inline]
+    pub fn SvFire(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x123) }
+    }
+
+    /// `ItemDefinition::SvFire` at 0x123 (0x123 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SvFire(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x123, value) }
+    }
+
+    /// `ItemDefinition::SvMagic` at 0x124 (0x124 within `ItemDefinition`).
+    #[inline]
+    pub fn SvMagic(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `ItemDefinition::SvMagic` at 0x124 (0x124 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SvMagic(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x124, value) }
+    }
+
+    /// `ItemDefinition::SvDisease` at 0x125 (0x125 within `ItemDefinition`).
+    #[inline]
+    pub fn SvDisease(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x125) }
+    }
+
+    /// `ItemDefinition::SvDisease` at 0x125 (0x125 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SvDisease(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x125, value) }
+    }
+
+    /// `ItemDefinition::SvPoison` at 0x126 (0x126 within `ItemDefinition`).
+    #[inline]
+    pub fn SvPoison(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x126) }
+    }
+
+    /// `ItemDefinition::SvPoison` at 0x126 (0x126 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SvPoison(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x126, value) }
+    }
+
+    /// `ItemDefinition::SvCorruption` at 0x127 (0x127 within `ItemDefinition`).
+    #[inline]
+    pub fn SvCorruption(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x127) }
+    }
+
+    /// `ItemDefinition::SvCorruption` at 0x127 (0x127 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SvCorruption(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x127, value) }
+    }
+
+    /// `ItemDefinition::STR` at 0x128 (0x128 within `ItemDefinition`).
+    #[inline]
+    pub fn STR(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `ItemDefinition::STR` at 0x128 (0x128 within `ItemDefinition`).
+    #[inline]
+    pub fn set_STR(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `ItemDefinition::STA` at 0x129 (0x129 within `ItemDefinition`).
+    #[inline]
+    pub fn STA(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x129) }
+    }
+
+    /// `ItemDefinition::STA` at 0x129 (0x129 within `ItemDefinition`).
+    #[inline]
+    pub fn set_STA(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x129, value) }
+    }
+
+    /// `ItemDefinition::AGI` at 0x12a (0x12a within `ItemDefinition`).
+    #[inline]
+    pub fn AGI(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x12a) }
+    }
+
+    /// `ItemDefinition::AGI` at 0x12a (0x12a within `ItemDefinition`).
+    #[inline]
+    pub fn set_AGI(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x12a, value) }
+    }
+
+    /// `ItemDefinition::DEX` at 0x12b (0x12b within `ItemDefinition`).
+    #[inline]
+    pub fn DEX(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x12b) }
+    }
+
+    /// `ItemDefinition::DEX` at 0x12b (0x12b within `ItemDefinition`).
+    #[inline]
+    pub fn set_DEX(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x12b, value) }
+    }
+
+    /// `ItemDefinition::CHA` at 0x12c (0x12c within `ItemDefinition`).
+    #[inline]
+    pub fn CHA(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `ItemDefinition::CHA` at 0x12c (0x12c within `ItemDefinition`).
+    #[inline]
+    pub fn set_CHA(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `ItemDefinition::INT` at 0x12d (0x12d within `ItemDefinition`).
+    #[inline]
+    pub fn INT(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x12d) }
+    }
+
+    /// `ItemDefinition::INT` at 0x12d (0x12d within `ItemDefinition`).
+    #[inline]
+    pub fn set_INT(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x12d, value) }
+    }
+
+    /// `ItemDefinition::WIS` at 0x12e (0x12e within `ItemDefinition`).
+    #[inline]
+    pub fn WIS(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x12e) }
+    }
+
+    /// `ItemDefinition::WIS` at 0x12e (0x12e within `ItemDefinition`).
+    #[inline]
+    pub fn set_WIS(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x12e, value) }
+    }
+
+    /// `ItemDefinition::HP` at 0x130 (0x130 within `ItemDefinition`).
+    #[inline]
+    pub fn HP(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x130) }
+    }
+
+    /// `ItemDefinition::HP` at 0x130 (0x130 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HP(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x130, value) }
+    }
+
+    /// `ItemDefinition::Mana` at 0x134 (0x134 within `ItemDefinition`).
+    #[inline]
+    pub fn Mana(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `ItemDefinition::Mana` at 0x134 (0x134 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Mana(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `ItemDefinition::AC` at 0x138 (0x138 within `ItemDefinition`).
+    #[inline]
+    pub fn AC(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x138) }
+    }
+
+    /// `ItemDefinition::AC` at 0x138 (0x138 within `ItemDefinition`).
+    #[inline]
+    pub fn set_AC(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x138, value) }
+    }
+
+    /// `ItemDefinition::RequiredLevel` at 0x13c (0x13c within `ItemDefinition`).
+    #[inline]
+    pub fn RequiredLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `ItemDefinition::RequiredLevel` at 0x13c (0x13c within `ItemDefinition`).
+    #[inline]
+    pub fn set_RequiredLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c, value) }
+    }
+
+    /// `ItemDefinition::RecommendedLevel` at 0x140 (0x140 within `ItemDefinition`).
+    #[inline]
+    pub fn RecommendedLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x140) }
+    }
+
+    /// `ItemDefinition::RecommendedLevel` at 0x140 (0x140 within `ItemDefinition`).
+    #[inline]
+    pub fn set_RecommendedLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x140, value) }
+    }
+
+    /// `ItemDefinition::RecommendedSkill` at 0x144 (0x144 within `ItemDefinition`).
+    #[inline]
+    pub fn RecommendedSkill(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `ItemDefinition::RecommendedSkill` at 0x144 (0x144 within `ItemDefinition`).
+    #[inline]
+    pub fn set_RecommendedSkill(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `ItemDefinition::SkillModType` at 0x148 (0x148 within `ItemDefinition`).
+    #[inline]
+    pub fn SkillModType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `ItemDefinition::SkillModType` at 0x148 (0x148 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SkillModType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `ItemDefinition::SkillModValue` at 0x14c (0x14c within `ItemDefinition`).
+    #[inline]
+    pub fn SkillModValue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `ItemDefinition::SkillModValue` at 0x14c (0x14c within `ItemDefinition`).
+    #[inline]
+    pub fn set_SkillModValue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `ItemDefinition::SkillModMax` at 0x150 (0x150 within `ItemDefinition`).
+    #[inline]
+    pub fn SkillModMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x150) }
+    }
+
+    /// `ItemDefinition::SkillModMax` at 0x150 (0x150 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SkillModMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x150, value) }
+    }
+
+    /// `ItemDefinition::SkillModBonus` at 0x154 (0x154 within `ItemDefinition`).
+    #[inline]
+    pub fn SkillModBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `ItemDefinition::SkillModBonus` at 0x154 (0x154 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SkillModBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `ItemDefinition::BaneDMGRace` at 0x158 (0x158 within `ItemDefinition`).
+    #[inline]
+    pub fn BaneDMGRace(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x158) }
+    }
+
+    /// `ItemDefinition::BaneDMGRace` at 0x158 (0x158 within `ItemDefinition`).
+    #[inline]
+    pub fn set_BaneDMGRace(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x158, value) }
+    }
+
+    /// `ItemDefinition::BaneDMGBodyType` at 0x15c (0x15c within `ItemDefinition`).
+    #[inline]
+    pub fn BaneDMGBodyType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `ItemDefinition::BaneDMGBodyType` at 0x15c (0x15c within `ItemDefinition`).
+    #[inline]
+    pub fn set_BaneDMGBodyType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `ItemDefinition::BaneDMGBodyTypeValue` at 0x160 (0x160 within `ItemDefinition`).
+    #[inline]
+    pub fn BaneDMGBodyTypeValue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `ItemDefinition::BaneDMGBodyTypeValue` at 0x160 (0x160 within `ItemDefinition`).
+    #[inline]
+    pub fn set_BaneDMGBodyTypeValue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `ItemDefinition::BaneDMGRaceValue` at 0x164 (0x164 within `ItemDefinition`).
+    #[inline]
+    pub fn BaneDMGRaceValue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `ItemDefinition::BaneDMGRaceValue` at 0x164 (0x164 within `ItemDefinition`).
+    #[inline]
+    pub fn set_BaneDMGRaceValue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x164, value) }
+    }
+
+    /// `ItemDefinition::InstrumentType` at 0x168 (0x168 within `ItemDefinition`).
+    #[inline]
+    pub fn InstrumentType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x168) }
+    }
+
+    /// `ItemDefinition::InstrumentType` at 0x168 (0x168 within `ItemDefinition`).
+    #[inline]
+    pub fn set_InstrumentType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x168, value) }
+    }
+
+    /// `ItemDefinition::InstrumentMod` at 0x16c (0x16c within `ItemDefinition`).
+    #[inline]
+    pub fn InstrumentMod(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x16c) }
+    }
+
+    /// `ItemDefinition::InstrumentMod` at 0x16c (0x16c within `ItemDefinition`).
+    #[inline]
+    pub fn set_InstrumentMod(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x16c, value) }
+    }
+
+    /// `ItemDefinition::Classes` at 0x170 (0x170 within `ItemDefinition`).
+    #[inline]
+    pub fn Classes(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x170) }
+    }
+
+    /// `ItemDefinition::Classes` at 0x170 (0x170 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Classes(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x170, value) }
+    }
+
+    /// `ItemDefinition::Races` at 0x174 (0x174 within `ItemDefinition`).
+    #[inline]
+    pub fn Races(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `ItemDefinition::Races` at 0x174 (0x174 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Races(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `ItemDefinition::Deity` at 0x178 (0x178 within `ItemDefinition`).
+    #[inline]
+    pub fn Deity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `ItemDefinition::Deity` at 0x178 (0x178 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Deity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `ItemDefinition::MaterialTintIndex` at 0x17c (0x17c within `ItemDefinition`).
+    #[inline]
+    pub fn MaterialTintIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `ItemDefinition::MaterialTintIndex` at 0x17c (0x17c within `ItemDefinition`).
+    #[inline]
+    pub fn set_MaterialTintIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `ItemDefinition::Magic` at 0x180 (0x180 within `ItemDefinition`).
+    #[inline]
+    pub fn Magic(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x180) != 0 }
+    }
+
+    /// `ItemDefinition::Magic` at 0x180 (0x180 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Magic(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x180, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Light` at 0x181 (0x181 within `ItemDefinition`).
+    #[inline]
+    pub fn Light(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x181) }
+    }
+
+    /// `ItemDefinition::Light` at 0x181 (0x181 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Light(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x181, value) }
+    }
+
+    /// `ItemDefinition::Delay` at 0x182 (0x182 within `ItemDefinition`).
+    #[inline]
+    pub fn Delay(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x182) }
+    }
+
+    /// `ItemDefinition::Delay` at 0x182 (0x182 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Delay(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x182, value) }
+    }
+
+    /// `ItemDefinition::ElementalFlag` at 0x183 (0x183 within `ItemDefinition`).
+    #[inline]
+    pub fn ElementalFlag(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x183) }
+    }
+
+    /// `ItemDefinition::ElementalFlag` at 0x183 (0x183 within `ItemDefinition`).
+    #[inline]
+    pub fn set_ElementalFlag(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x183, value) }
+    }
+
+    /// `ItemDefinition::ElementalDamage` at 0x184 (0x184 within `ItemDefinition`).
+    #[inline]
+    pub fn ElementalDamage(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `ItemDefinition::ElementalDamage` at 0x184 (0x184 within `ItemDefinition`).
+    #[inline]
+    pub fn set_ElementalDamage(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `ItemDefinition::Range` at 0x185 (0x185 within `ItemDefinition`).
+    #[inline]
+    pub fn Range(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x185) }
+    }
+
+    /// `ItemDefinition::Range` at 0x185 (0x185 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Range(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x185, value) }
+    }
+
+    /// `ItemDefinition::Damage` at 0x188 (0x188 within `ItemDefinition`).
+    #[inline]
+    pub fn Damage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `ItemDefinition::Damage` at 0x188 (0x188 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Damage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `ItemDefinition::BackstabDamage` at 0x18c (0x18c within `ItemDefinition`).
+    #[inline]
+    pub fn BackstabDamage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18c) }
+    }
+
+    /// `ItemDefinition::BackstabDamage` at 0x18c (0x18c within `ItemDefinition`).
+    #[inline]
+    pub fn set_BackstabDamage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, value) }
+    }
+
+    /// `ItemDefinition::DamageShieldMitigation` at 0x190 (0x190 within `ItemDefinition`).
+    #[inline]
+    pub fn DamageShieldMitigation(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `ItemDefinition::DamageShieldMitigation` at 0x190 (0x190 within `ItemDefinition`).
+    #[inline]
+    pub fn set_DamageShieldMitigation(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `ItemDefinition::HeroicSTR` at 0x194 (0x194 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSTR(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x194) }
+    }
+
+    /// `ItemDefinition::HeroicSTR` at 0x194 (0x194 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSTR(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x194, value) }
+    }
+
+    /// `ItemDefinition::HeroicINT` at 0x198 (0x198 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicINT(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `ItemDefinition::HeroicINT` at 0x198 (0x198 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicINT(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `ItemDefinition::HeroicWIS` at 0x19c (0x19c within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicWIS(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x19c) }
+    }
+
+    /// `ItemDefinition::HeroicWIS` at 0x19c (0x19c within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicWIS(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, value) }
+    }
+
+    /// `ItemDefinition::HeroicAGI` at 0x1a0 (0x1a0 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicAGI(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `ItemDefinition::HeroicAGI` at 0x1a0 (0x1a0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicAGI(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `ItemDefinition::HeroicDEX` at 0x1a4 (0x1a4 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicDEX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a4) }
+    }
+
+    /// `ItemDefinition::HeroicDEX` at 0x1a4 (0x1a4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicDEX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, value) }
+    }
+
+    /// `ItemDefinition::HeroicSTA` at 0x1a8 (0x1a8 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSTA(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `ItemDefinition::HeroicSTA` at 0x1a8 (0x1a8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSTA(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a8, value) }
+    }
+
+    /// `ItemDefinition::HeroicCHA` at 0x1ac (0x1ac within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicCHA(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `ItemDefinition::HeroicCHA` at 0x1ac (0x1ac within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicCHA(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `ItemDefinition::HeroicSvMagic` at 0x1b0 (0x1b0 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSvMagic(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `ItemDefinition::HeroicSvMagic` at 0x1b0 (0x1b0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSvMagic(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `ItemDefinition::HeroicSvFire` at 0x1b4 (0x1b4 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSvFire(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `ItemDefinition::HeroicSvFire` at 0x1b4 (0x1b4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSvFire(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b4, value) }
+    }
+
+    /// `ItemDefinition::HeroicSvCold` at 0x1b8 (0x1b8 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSvCold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b8) }
+    }
+
+    /// `ItemDefinition::HeroicSvCold` at 0x1b8 (0x1b8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSvCold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b8, value) }
+    }
+
+    /// `ItemDefinition::HeroicSvDisease` at 0x1bc (0x1bc within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSvDisease(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1bc) }
+    }
+
+    /// `ItemDefinition::HeroicSvDisease` at 0x1bc (0x1bc within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSvDisease(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1bc, value) }
+    }
+
+    /// `ItemDefinition::HeroicSvPoison` at 0x1c0 (0x1c0 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSvPoison(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c0) }
+    }
+
+    /// `ItemDefinition::HeroicSvPoison` at 0x1c0 (0x1c0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSvPoison(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c0, value) }
+    }
+
+    /// `ItemDefinition::HeroicSvCorruption` at 0x1c4 (0x1c4 within `ItemDefinition`).
+    #[inline]
+    pub fn HeroicSvCorruption(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c4) }
+    }
+
+    /// `ItemDefinition::HeroicSvCorruption` at 0x1c4 (0x1c4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HeroicSvCorruption(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, value) }
+    }
+
+    /// `ItemDefinition::HealAmount` at 0x1c8 (0x1c8 within `ItemDefinition`).
+    #[inline]
+    pub fn HealAmount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `ItemDefinition::HealAmount` at 0x1c8 (0x1c8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HealAmount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `ItemDefinition::SpellDamage` at 0x1cc (0x1cc within `ItemDefinition`).
+    #[inline]
+    pub fn SpellDamage(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1cc) }
+    }
+
+    /// `ItemDefinition::SpellDamage` at 0x1cc (0x1cc within `ItemDefinition`).
+    #[inline]
+    pub fn set_SpellDamage(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, value) }
+    }
+
+    /// `ItemDefinition::Prestige` at 0x1d0 (0x1d0 within `ItemDefinition`).
+    #[inline]
+    pub fn Prestige(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `ItemDefinition::Prestige` at 0x1d0 (0x1d0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Prestige(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `ItemDefinition::ItemClass` at 0x1d4 (0x1d4 within `ItemDefinition`).
+    #[inline]
+    pub fn ItemClass(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1d4) }
+    }
+
+    /// `ItemDefinition::ItemClass` at 0x1d4 (0x1d4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_ItemClass(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, value) }
+    }
+
+    /// `ItemDefinition::ArmorProps` at 0x1d8 (0x1d8 within `ItemDefinition`).
+    #[inline]
+    pub fn ArmorProps(&self) -> &ArmorProperties {
+        unsafe { at(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `ItemDefinition::AugData` at 0x1ec (0x1ec within `ItemDefinition`).
+    #[inline]
+    pub fn AugData(&self) -> &ItemSocketData {
+        unsafe { at(self._bytes.get().cast(), 0x1ec) }
+    }
+
+    /// `ItemDefinition::AugType` at 0x21c (0x21c within `ItemDefinition`).
+    #[inline]
+    pub fn AugType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `ItemDefinition::AugType` at 0x21c (0x21c within `ItemDefinition`).
+    #[inline]
+    pub fn set_AugType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, value) }
+    }
+
+    /// `ItemDefinition::AugSkinTypeMask` at 0x220 (0x220 within `ItemDefinition`).
+    #[inline]
+    pub fn AugSkinTypeMask(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `ItemDefinition::AugSkinTypeMask` at 0x220 (0x220 within `ItemDefinition`).
+    #[inline]
+    pub fn set_AugSkinTypeMask(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `ItemDefinition::AugRestrictions` at 0x224 (0x224 within `ItemDefinition`).
+    #[inline]
+    pub fn AugRestrictions(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `ItemDefinition::AugRestrictions` at 0x224 (0x224 within `ItemDefinition`).
+    #[inline]
+    pub fn set_AugRestrictions(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `ItemDefinition::SolventItemID` at 0x228 (0x228 within `ItemDefinition`).
+    #[inline]
+    pub fn SolventItemID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `ItemDefinition::SolventItemID` at 0x228 (0x228 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SolventItemID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `ItemDefinition::LDTheme` at 0x22c (0x22c within `ItemDefinition`).
+    #[inline]
+    pub fn LDTheme(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `ItemDefinition::LDTheme` at 0x22c (0x22c within `ItemDefinition`).
+    #[inline]
+    pub fn set_LDTheme(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `ItemDefinition::LDCost` at 0x230 (0x230 within `ItemDefinition`).
+    #[inline]
+    pub fn LDCost(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `ItemDefinition::LDCost` at 0x230 (0x230 within `ItemDefinition`).
+    #[inline]
+    pub fn set_LDCost(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `ItemDefinition::LDType` at 0x234 (0x234 within `ItemDefinition`).
+    #[inline]
+    pub fn LDType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `ItemDefinition::LDType` at 0x234 (0x234 within `ItemDefinition`).
+    #[inline]
+    pub fn set_LDType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x234, value) }
+    }
+
+    /// `ItemDefinition::Unknown0x0238` at 0x238 (0x238 within `ItemDefinition`).
+    #[inline]
+    pub fn Unknown0x0238(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x238) }
+    }
+
+    /// `ItemDefinition::Unknown0x0238` at 0x238 (0x238 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Unknown0x0238(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x238, value) }
+    }
+
+    /// `ItemDefinition::Unknown0x023c` at 0x23c (0x23c within `ItemDefinition`).
+    #[inline]
+    pub fn Unknown0x023c(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x23c) }
+    }
+
+    /// `ItemDefinition::Unknown0x023c` at 0x23c (0x23c within `ItemDefinition`).
+    #[inline]
+    pub fn set_Unknown0x023c(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, value) }
+    }
+
+    /// `ItemDefinition::FactionModType` at 0x240 (0x240 within `ItemDefinition`).
+    #[inline]
+    pub fn FactionModType(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x240) }
+    }
+
+    /// `ItemDefinition::FactionModType` at 0x240 (0x240 within `ItemDefinition`).
+    #[inline]
+    pub fn set_FactionModType(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x240, value) }
+    }
+
+    /// `ItemDefinition::FactionModType` at 0x240 (0x240 within `ItemDefinition`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FactionModType_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x240 + index * 0x4) }
+    }
+
+    /// `ItemDefinition::FactionModType` at 0x240 (0x240 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FactionModType_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x240 + index * 0x4, value) }
+    }
+
+    /// `ItemDefinition::FactionModValue` at 0x250 (0x250 within `ItemDefinition`).
+    #[inline]
+    pub fn FactionModValue(&self) -> [i32; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x250) }
+    }
+
+    /// `ItemDefinition::FactionModValue` at 0x250 (0x250 within `ItemDefinition`).
+    #[inline]
+    pub fn set_FactionModValue(&self, value: [i32; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x250, value) }
+    }
+
+    /// `ItemDefinition::FactionModValue` at 0x250 (0x250 within `ItemDefinition`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn FactionModValue_at(&self, index: usize) -> i32 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x250 + index * 0x4) }
+    }
+
+    /// `ItemDefinition::FactionModValue` at 0x250 (0x250 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_FactionModValue_at(&self, index: usize, value: i32) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x250 + index * 0x4, value) }
+    }
+
+    /// `ItemDefinition::CharmFile` at 0x260 (0x260 within `ItemDefinition`).
+    #[inline]
+    pub fn CharmFile(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x260) }
+    }
+
+    /// `ItemDefinition::CharmFile` at 0x260 (0x260 within `ItemDefinition`).
+    #[inline]
+    pub fn set_CharmFile(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x260, value) }
+    }
+
+    /// `ItemDefinition::CharmFile` at 0x260 (0x260 within `ItemDefinition`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn CharmFile_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x260 + index * 0x1) }
+    }
+
+    /// `ItemDefinition::CharmFile` at 0x260 (0x260 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_CharmFile_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x260 + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::MerchantGreedMod` at 0x280 (0x280 within `ItemDefinition`).
+    #[inline]
+    pub fn MerchantGreedMod(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x280) }
+    }
+
+    /// `ItemDefinition::MerchantGreedMod` at 0x280 (0x280 within `ItemDefinition`).
+    #[inline]
+    pub fn set_MerchantGreedMod(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x280, value) }
+    }
+
+    /// `ItemDefinition::SpellData` at 0x284 (0x284 within `ItemDefinition`).
+    #[inline]
+    pub fn SpellData(&self) -> &ItemSpellData {
+        unsafe { at(self._bytes.get().cast(), 0x284) }
+    }
+
+    /// `ItemDefinition::CombatEffects` at 0x4f0 (0x4f0 within `ItemDefinition`).
+    #[inline]
+    pub fn CombatEffects(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4f0) }
+    }
+
+    /// `ItemDefinition::CombatEffects` at 0x4f0 (0x4f0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_CombatEffects(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4f0, value) }
+    }
+
+    /// `ItemDefinition::Shielding` at 0x4f4 (0x4f4 within `ItemDefinition`).
+    #[inline]
+    pub fn Shielding(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4f4) }
+    }
+
+    /// `ItemDefinition::Shielding` at 0x4f4 (0x4f4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Shielding(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4f4, value) }
+    }
+
+    /// `ItemDefinition::StunResist` at 0x4f8 (0x4f8 within `ItemDefinition`).
+    #[inline]
+    pub fn StunResist(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4f8) }
+    }
+
+    /// `ItemDefinition::StunResist` at 0x4f8 (0x4f8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_StunResist(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4f8, value) }
+    }
+
+    /// `ItemDefinition::DoTShielding` at 0x4fc (0x4fc within `ItemDefinition`).
+    #[inline]
+    pub fn DoTShielding(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4fc) }
+    }
+
+    /// `ItemDefinition::DoTShielding` at 0x4fc (0x4fc within `ItemDefinition`).
+    #[inline]
+    pub fn set_DoTShielding(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4fc, value) }
+    }
+
+    /// `ItemDefinition::StrikeThrough` at 0x500 (0x500 within `ItemDefinition`).
+    #[inline]
+    pub fn StrikeThrough(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x500) }
+    }
+
+    /// `ItemDefinition::StrikeThrough` at 0x500 (0x500 within `ItemDefinition`).
+    #[inline]
+    pub fn set_StrikeThrough(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x500, value) }
+    }
+
+    /// `ItemDefinition::DmgBonusSkill` at 0x504 (0x504 within `ItemDefinition`).
+    #[inline]
+    pub fn DmgBonusSkill(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x504) }
+    }
+
+    /// `ItemDefinition::DmgBonusSkill` at 0x504 (0x504 within `ItemDefinition`).
+    #[inline]
+    pub fn set_DmgBonusSkill(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x504, value) }
+    }
+
+    /// `ItemDefinition::DmgBonusValue` at 0x508 (0x508 within `ItemDefinition`).
+    #[inline]
+    pub fn DmgBonusValue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x508) }
+    }
+
+    /// `ItemDefinition::DmgBonusValue` at 0x508 (0x508 within `ItemDefinition`).
+    #[inline]
+    pub fn set_DmgBonusValue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x508, value) }
+    }
+
+    /// `ItemDefinition::SpellShield` at 0x50c (0x50c within `ItemDefinition`).
+    #[inline]
+    pub fn SpellShield(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x50c) }
+    }
+
+    /// `ItemDefinition::SpellShield` at 0x50c (0x50c within `ItemDefinition`).
+    #[inline]
+    pub fn set_SpellShield(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x50c, value) }
+    }
+
+    /// `ItemDefinition::Avoidance` at 0x510 (0x510 within `ItemDefinition`).
+    #[inline]
+    pub fn Avoidance(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x510) }
+    }
+
+    /// `ItemDefinition::Avoidance` at 0x510 (0x510 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Avoidance(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x510, value) }
+    }
+
+    /// `ItemDefinition::Accuracy` at 0x514 (0x514 within `ItemDefinition`).
+    #[inline]
+    pub fn Accuracy(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x514) }
+    }
+
+    /// `ItemDefinition::Accuracy` at 0x514 (0x514 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Accuracy(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x514, value) }
+    }
+
+    /// `ItemDefinition::CharmFileID` at 0x518 (0x518 within `ItemDefinition`).
+    #[inline]
+    pub fn CharmFileID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x518) }
+    }
+
+    /// `ItemDefinition::CharmFileID` at 0x518 (0x518 within `ItemDefinition`).
+    #[inline]
+    pub fn set_CharmFileID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x518, value) }
+    }
+
+    /// `ItemDefinition::FoodDuration` at 0x51c (0x51c within `ItemDefinition`).
+    #[inline]
+    pub fn FoodDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x51c) }
+    }
+
+    /// `ItemDefinition::FoodDuration` at 0x51c (0x51c within `ItemDefinition`).
+    #[inline]
+    pub fn set_FoodDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x51c, value) }
+    }
+
+    /// `ItemDefinition::ContainerType` at 0x520 (0x520 within `ItemDefinition`).
+    #[inline]
+    pub fn ContainerType(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x520) }
+    }
+
+    /// `ItemDefinition::ContainerType` at 0x520 (0x520 within `ItemDefinition`).
+    #[inline]
+    pub fn set_ContainerType(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x520, value) }
+    }
+
+    /// `ItemDefinition::Slots` at 0x521 (0x521 within `ItemDefinition`).
+    #[inline]
+    pub fn Slots(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x521) }
+    }
+
+    /// `ItemDefinition::Slots` at 0x521 (0x521 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Slots(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x521, value) }
+    }
+
+    /// `ItemDefinition::SizeCapacity` at 0x522 (0x522 within `ItemDefinition`).
+    #[inline]
+    pub fn SizeCapacity(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x522) }
+    }
+
+    /// `ItemDefinition::SizeCapacity` at 0x522 (0x522 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SizeCapacity(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x522, value) }
+    }
+
+    /// `ItemDefinition::WeightReduction` at 0x523 (0x523 within `ItemDefinition`).
+    #[inline]
+    pub fn WeightReduction(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x523) }
+    }
+
+    /// `ItemDefinition::WeightReduction` at 0x523 (0x523 within `ItemDefinition`).
+    #[inline]
+    pub fn set_WeightReduction(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x523, value) }
+    }
+
+    /// `ItemDefinition::BookType` at 0x524 (0x524 within `ItemDefinition`).
+    #[inline]
+    pub fn BookType(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x524) }
+    }
+
+    /// `ItemDefinition::BookType` at 0x524 (0x524 within `ItemDefinition`).
+    #[inline]
+    pub fn set_BookType(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x524, value) }
+    }
+
+    /// `ItemDefinition::BookLang` at 0x525 (0x525 within `ItemDefinition`).
+    #[inline]
+    pub fn BookLang(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x525) }
+    }
+
+    /// `ItemDefinition::BookLang` at 0x525 (0x525 within `ItemDefinition`).
+    #[inline]
+    pub fn set_BookLang(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x525, value) }
+    }
+
+    /// `ItemDefinition::BookFile` at 0x526 (0x526 within `ItemDefinition`).
+    #[inline]
+    pub fn BookFile(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x526) }
+    }
+
+    /// `ItemDefinition::BookFile` at 0x526 (0x526 within `ItemDefinition`).
+    #[inline]
+    pub fn set_BookFile(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x526, value) }
+    }
+
+    /// `ItemDefinition::BookFile` at 0x526 (0x526 within `ItemDefinition`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn BookFile_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x526 + index * 0x1) }
+    }
+
+    /// `ItemDefinition::BookFile` at 0x526 (0x526 within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_BookFile_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x526 + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::Favor` at 0x544 (0x544 within `ItemDefinition`).
+    #[inline]
+    pub fn Favor(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x544) }
+    }
+
+    /// `ItemDefinition::Favor` at 0x544 (0x544 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Favor(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x544, value) }
+    }
+
+    /// `ItemDefinition::GuildFavor` at 0x548 (0x548 within `ItemDefinition`).
+    #[inline]
+    pub fn GuildFavor(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x548) }
+    }
+
+    /// `ItemDefinition::GuildFavor` at 0x548 (0x548 within `ItemDefinition`).
+    #[inline]
+    pub fn set_GuildFavor(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x548, value) }
+    }
+
+    /// `ItemDefinition::bIsFVNoDrop` at 0x54c (0x54c within `ItemDefinition`).
+    #[inline]
+    pub fn bIsFVNoDrop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x54c) != 0 }
+    }
+
+    /// `ItemDefinition::bIsFVNoDrop` at 0x54c (0x54c within `ItemDefinition`).
+    #[inline]
+    pub fn set_bIsFVNoDrop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x54c, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Endurance` at 0x550 (0x550 within `ItemDefinition`).
+    #[inline]
+    pub fn Endurance(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x550) }
+    }
+
+    /// `ItemDefinition::Endurance` at 0x550 (0x550 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Endurance(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x550, value) }
+    }
+
+    /// `ItemDefinition::Attack` at 0x554 (0x554 within `ItemDefinition`).
+    #[inline]
+    pub fn Attack(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x554) }
+    }
+
+    /// `ItemDefinition::Attack` at 0x554 (0x554 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Attack(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x554, value) }
+    }
+
+    /// `ItemDefinition::HPRegen` at 0x558 (0x558 within `ItemDefinition`).
+    #[inline]
+    pub fn HPRegen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x558) }
+    }
+
+    /// `ItemDefinition::HPRegen` at 0x558 (0x558 within `ItemDefinition`).
+    #[inline]
+    pub fn set_HPRegen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x558, value) }
+    }
+
+    /// `ItemDefinition::ManaRegen` at 0x55c (0x55c within `ItemDefinition`).
+    #[inline]
+    pub fn ManaRegen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x55c) }
+    }
+
+    /// `ItemDefinition::ManaRegen` at 0x55c (0x55c within `ItemDefinition`).
+    #[inline]
+    pub fn set_ManaRegen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x55c, value) }
+    }
+
+    /// `ItemDefinition::EnduranceRegen` at 0x560 (0x560 within `ItemDefinition`).
+    #[inline]
+    pub fn EnduranceRegen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x560) }
+    }
+
+    /// `ItemDefinition::EnduranceRegen` at 0x560 (0x560 within `ItemDefinition`).
+    #[inline]
+    pub fn set_EnduranceRegen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x560, value) }
+    }
+
+    /// `ItemDefinition::Haste` at 0x564 (0x564 within `ItemDefinition`).
+    #[inline]
+    pub fn Haste(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x564) }
+    }
+
+    /// `ItemDefinition::Haste` at 0x564 (0x564 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Haste(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x564, value) }
+    }
+
+    /// `ItemDefinition::DamShield` at 0x568 (0x568 within `ItemDefinition`).
+    #[inline]
+    pub fn DamShield(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x568) }
+    }
+
+    /// `ItemDefinition::DamShield` at 0x568 (0x568 within `ItemDefinition`).
+    #[inline]
+    pub fn set_DamShield(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x568, value) }
+    }
+
+    /// `ItemDefinition::AnimationOverride` at 0x56c (0x56c within `ItemDefinition`).
+    #[inline]
+    pub fn AnimationOverride(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x56c) }
+    }
+
+    /// `ItemDefinition::AnimationOverride` at 0x56c (0x56c within `ItemDefinition`).
+    #[inline]
+    pub fn set_AnimationOverride(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x56c, value) }
+    }
+
+    /// `ItemDefinition::PaletteTintIndex` at 0x570 (0x570 within `ItemDefinition`).
+    #[inline]
+    pub fn PaletteTintIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x570) }
+    }
+
+    /// `ItemDefinition::PaletteTintIndex` at 0x570 (0x570 within `ItemDefinition`).
+    #[inline]
+    pub fn set_PaletteTintIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x570, value) }
+    }
+
+    /// `ItemDefinition::bNoPetGive` at 0x574 (0x574 within `ItemDefinition`).
+    #[inline]
+    pub fn bNoPetGive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x574) != 0 }
+    }
+
+    /// `ItemDefinition::bNoPetGive` at 0x574 (0x574 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bNoPetGive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x574, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::bSomeProfile` at 0x575 (0x575 within `ItemDefinition`).
+    #[inline]
+    pub fn bSomeProfile(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x575) != 0 }
+    }
+
+    /// `ItemDefinition::bSomeProfile` at 0x575 (0x575 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bSomeProfile(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x575, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::bPotionBeltAllowed` at 0x576 (0x576 within `ItemDefinition`).
+    #[inline]
+    pub fn bPotionBeltAllowed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x576) != 0 }
+    }
+
+    /// `ItemDefinition::bPotionBeltAllowed` at 0x576 (0x576 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bPotionBeltAllowed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x576, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::NumPotionSlots` at 0x578 (0x578 within `ItemDefinition`).
+    #[inline]
+    pub fn NumPotionSlots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x578) }
+    }
+
+    /// `ItemDefinition::NumPotionSlots` at 0x578 (0x578 within `ItemDefinition`).
+    #[inline]
+    pub fn set_NumPotionSlots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x578, value) }
+    }
+
+    /// `ItemDefinition::SomeIDFlag` at 0x57c (0x57c within `ItemDefinition`).
+    #[inline]
+    pub fn SomeIDFlag(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x57c) }
+    }
+
+    /// `ItemDefinition::SomeIDFlag` at 0x57c (0x57c within `ItemDefinition`).
+    #[inline]
+    pub fn set_SomeIDFlag(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x57c, value) }
+    }
+
+    /// `ItemDefinition::StackSize` at 0x580 (0x580 within `ItemDefinition`).
+    #[inline]
+    pub fn StackSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x580) }
+    }
+
+    /// `ItemDefinition::StackSize` at 0x580 (0x580 within `ItemDefinition`).
+    #[inline]
+    pub fn set_StackSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x580, value) }
+    }
+
+    /// `ItemDefinition::bNoStorage` at 0x584 (0x584 within `ItemDefinition`).
+    #[inline]
+    pub fn bNoStorage(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x584) != 0 }
+    }
+
+    /// `ItemDefinition::bNoStorage` at 0x584 (0x584 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bNoStorage(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x584, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::MaxPower` at 0x588 (0x588 within `ItemDefinition`).
+    #[inline]
+    pub fn MaxPower(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x588) }
+    }
+
+    /// `ItemDefinition::MaxPower` at 0x588 (0x588 within `ItemDefinition`).
+    #[inline]
+    pub fn set_MaxPower(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x588, value) }
+    }
+
+    /// `ItemDefinition::Purity` at 0x58c (0x58c within `ItemDefinition`).
+    #[inline]
+    pub fn Purity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x58c) }
+    }
+
+    /// `ItemDefinition::Purity` at 0x58c (0x58c within `ItemDefinition`).
+    #[inline]
+    pub fn set_Purity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x58c, value) }
+    }
+
+    /// `ItemDefinition::bIsEpic` at 0x590 (0x590 within `ItemDefinition`).
+    #[inline]
+    pub fn bIsEpic(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x590) != 0 }
+    }
+
+    /// `ItemDefinition::bIsEpic` at 0x590 (0x590 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bIsEpic(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x590, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::RightClickScriptID` at 0x594 (0x594 within `ItemDefinition`).
+    #[inline]
+    pub fn RightClickScriptID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x594) }
+    }
+
+    /// `ItemDefinition::RightClickScriptID` at 0x594 (0x594 within `ItemDefinition`).
+    #[inline]
+    pub fn set_RightClickScriptID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x594, value) }
+    }
+
+    /// `ItemDefinition::ItemLaunchScriptID` at 0x598 (0x598 within `ItemDefinition`).
+    #[inline]
+    pub fn ItemLaunchScriptID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x598) }
+    }
+
+    /// `ItemDefinition::ItemLaunchScriptID` at 0x598 (0x598 within `ItemDefinition`).
+    #[inline]
+    pub fn set_ItemLaunchScriptID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x598, value) }
+    }
+
+    /// `ItemDefinition::QuestItem` at 0x59c (0x59c within `ItemDefinition`).
+    #[inline]
+    pub fn QuestItem(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x59c) != 0 }
+    }
+
+    /// `ItemDefinition::QuestItem` at 0x59c (0x59c within `ItemDefinition`).
+    #[inline]
+    pub fn set_QuestItem(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x59c, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Expendable` at 0x59d (0x59d within `ItemDefinition`).
+    #[inline]
+    pub fn Expendable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x59d) != 0 }
+    }
+
+    /// `ItemDefinition::Expendable` at 0x59d (0x59d within `ItemDefinition`).
+    #[inline]
+    pub fn set_Expendable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x59d, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Clairvoyance` at 0x5a0 (0x5a0 within `ItemDefinition`).
+    #[inline]
+    pub fn Clairvoyance(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5a0) }
+    }
+
+    /// `ItemDefinition::Clairvoyance` at 0x5a0 (0x5a0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_Clairvoyance(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5a0, value) }
+    }
+
+    /// `ItemDefinition::SubClass` at 0x5a4 (0x5a4 within `ItemDefinition`).
+    #[inline]
+    pub fn SubClass(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5a4) }
+    }
+
+    /// `ItemDefinition::SubClass` at 0x5a4 (0x5a4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SubClass(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5a4, value) }
+    }
+
+    /// `ItemDefinition::bLoginRegReqItem` at 0x5a8 (0x5a8 within `ItemDefinition`).
+    #[inline]
+    pub fn bLoginRegReqItem(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5a8) != 0 }
+    }
+
+    /// `ItemDefinition::bLoginRegReqItem` at 0x5a8 (0x5a8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bLoginRegReqItem(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5a8, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::Placeable` at 0x5ac (0x5ac within `ItemDefinition`).
+    #[inline]
+    pub fn Placeable(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5ac) }
+    }
+
+    /// `ItemDefinition::Placeable` at 0x5ac (0x5ac within `ItemDefinition`).
+    #[inline]
+    pub fn set_Placeable(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5ac, value) }
+    }
+
+    /// `ItemDefinition::bPlaceableIgnoreCollisions` at 0x5b0 (0x5b0 within `ItemDefinition`).
+    #[inline]
+    pub fn bPlaceableIgnoreCollisions(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5b0) != 0 }
+    }
+
+    /// `ItemDefinition::bPlaceableIgnoreCollisions` at 0x5b0 (0x5b0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bPlaceableIgnoreCollisions(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5b0, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::PlacementType` at 0x5b4 (0x5b4 within `ItemDefinition`).
+    #[inline]
+    pub fn PlacementType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5b4) }
+    }
+
+    /// `ItemDefinition::PlacementType` at 0x5b4 (0x5b4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlacementType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5b4, value) }
+    }
+
+    /// `ItemDefinition::RealEstateDefID` at 0x5b8 (0x5b8 within `ItemDefinition`).
+    #[inline]
+    pub fn RealEstateDefID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5b8) }
+    }
+
+    /// `ItemDefinition::RealEstateDefID` at 0x5b8 (0x5b8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_RealEstateDefID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5b8, value) }
+    }
+
+    /// `ItemDefinition::PlaceableScaleRangeMin` at 0x5bc (0x5bc within `ItemDefinition`).
+    #[inline]
+    pub fn PlaceableScaleRangeMin(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x5bc) }
+    }
+
+    /// `ItemDefinition::PlaceableScaleRangeMin` at 0x5bc (0x5bc within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlaceableScaleRangeMin(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x5bc, value) }
+    }
+
+    /// `ItemDefinition::PlaceableScaleRangeMax` at 0x5c0 (0x5c0 within `ItemDefinition`).
+    #[inline]
+    pub fn PlaceableScaleRangeMax(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c0) }
+    }
+
+    /// `ItemDefinition::PlaceableScaleRangeMax` at 0x5c0 (0x5c0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlaceableScaleRangeMax(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c0, value) }
+    }
+
+    /// `ItemDefinition::RealEstateUpkeepID` at 0x5c4 (0x5c4 within `ItemDefinition`).
+    #[inline]
+    pub fn RealEstateUpkeepID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c4) }
+    }
+
+    /// `ItemDefinition::RealEstateUpkeepID` at 0x5c4 (0x5c4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_RealEstateUpkeepID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c4, value) }
+    }
+
+    /// `ItemDefinition::MaxPerRealEstate` at 0x5c8 (0x5c8 within `ItemDefinition`).
+    #[inline]
+    pub fn MaxPerRealEstate(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c8) }
+    }
+
+    /// `ItemDefinition::MaxPerRealEstate` at 0x5c8 (0x5c8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_MaxPerRealEstate(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c8, value) }
+    }
+
+    /// `ItemDefinition::HousepetFileName` at 0x5cc (0x5cc within `ItemDefinition`).
+    #[inline]
+    pub fn HousepetFileName(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x5cc) }
+    }
+
+    /// `ItemDefinition::HousepetFileName` at 0x5cc (0x5cc within `ItemDefinition`).
+    #[inline]
+    pub fn set_HousepetFileName(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x5cc, value) }
+    }
+
+    /// `ItemDefinition::HousepetFileName` at 0x5cc (0x5cc within `ItemDefinition`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn HousepetFileName_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x5cc + index * 0x1) }
+    }
+
+    /// `ItemDefinition::HousepetFileName` at 0x5cc (0x5cc within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_HousepetFileName_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x5cc + index * 0x1, value) }
+    }
+
+    /// `ItemDefinition::TrophyBenefitID` at 0x5ec (0x5ec within `ItemDefinition`).
+    #[inline]
+    pub fn TrophyBenefitID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5ec) }
+    }
+
+    /// `ItemDefinition::TrophyBenefitID` at 0x5ec (0x5ec within `ItemDefinition`).
+    #[inline]
+    pub fn set_TrophyBenefitID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5ec, value) }
+    }
+
+    /// `ItemDefinition::bDisablePlacementRotation` at 0x5f0 (0x5f0 within `ItemDefinition`).
+    #[inline]
+    pub fn bDisablePlacementRotation(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5f0) != 0 }
+    }
+
+    /// `ItemDefinition::bDisablePlacementRotation` at 0x5f0 (0x5f0 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bDisablePlacementRotation(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5f0, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::bDisableFreePlacement` at 0x5f1 (0x5f1 within `ItemDefinition`).
+    #[inline]
+    pub fn bDisableFreePlacement(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5f1) != 0 }
+    }
+
+    /// `ItemDefinition::bDisableFreePlacement` at 0x5f1 (0x5f1 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bDisableFreePlacement(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5f1, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::NpcRespawnInterval` at 0x5f4 (0x5f4 within `ItemDefinition`).
+    #[inline]
+    pub fn NpcRespawnInterval(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5f4) }
+    }
+
+    /// `ItemDefinition::NpcRespawnInterval` at 0x5f4 (0x5f4 within `ItemDefinition`).
+    #[inline]
+    pub fn set_NpcRespawnInterval(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5f4, value) }
+    }
+
+    /// `ItemDefinition::PlaceableDefScale` at 0x5f8 (0x5f8 within `ItemDefinition`).
+    #[inline]
+    pub fn PlaceableDefScale(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x5f8) }
+    }
+
+    /// `ItemDefinition::PlaceableDefScale` at 0x5f8 (0x5f8 within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlaceableDefScale(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x5f8, value) }
+    }
+
+    /// `ItemDefinition::PlaceableDefHeading` at 0x5fc (0x5fc within `ItemDefinition`).
+    #[inline]
+    pub fn PlaceableDefHeading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x5fc) }
+    }
+
+    /// `ItemDefinition::PlaceableDefHeading` at 0x5fc (0x5fc within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlaceableDefHeading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x5fc, value) }
+    }
+
+    /// `ItemDefinition::PlaceableDefPitch` at 0x600 (0x600 within `ItemDefinition`).
+    #[inline]
+    pub fn PlaceableDefPitch(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x600) }
+    }
+
+    /// `ItemDefinition::PlaceableDefPitch` at 0x600 (0x600 within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlaceableDefPitch(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x600, value) }
+    }
+
+    /// `ItemDefinition::PlaceableDefRoll` at 0x604 (0x604 within `ItemDefinition`).
+    #[inline]
+    pub fn PlaceableDefRoll(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x604) }
+    }
+
+    /// `ItemDefinition::PlaceableDefRoll` at 0x604 (0x604 within `ItemDefinition`).
+    #[inline]
+    pub fn set_PlaceableDefRoll(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x604, value) }
+    }
+
+    /// `ItemDefinition::bInteractiveObject` at 0x608 (0x608 within `ItemDefinition`).
+    #[inline]
+    pub fn bInteractiveObject(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x608) != 0 }
+    }
+
+    /// `ItemDefinition::bInteractiveObject` at 0x608 (0x608 within `ItemDefinition`).
+    #[inline]
+    pub fn set_bInteractiveObject(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x608, u8::from(value)) }
+    }
+
+    /// `ItemDefinition::SocketSubClassCount` at 0x609 (0x609 within `ItemDefinition`).
+    #[inline]
+    pub fn SocketSubClassCount(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x609) }
+    }
+
+    /// `ItemDefinition::SocketSubClassCount` at 0x609 (0x609 within `ItemDefinition`).
+    #[inline]
+    pub fn set_SocketSubClassCount(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x609, value) }
+    }
+
+    /// `ItemDefinition::SocketSubClass` at 0x60c (0x60c within `ItemDefinition`).
+    #[inline]
+    pub fn SocketSubClass(&self) -> [i32; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x60c) }
+    }
+
+    /// `ItemDefinition::SocketSubClass` at 0x60c (0x60c within `ItemDefinition`).
+    #[inline]
+    pub fn set_SocketSubClass(&self, value: [i32; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x60c, value) }
+    }
+
+    /// `ItemDefinition::SocketSubClass` at 0x60c (0x60c within `ItemDefinition`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn SocketSubClass_at(&self, index: usize) -> i32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x60c + index * 0x4) }
+    }
+
+    /// `ItemDefinition::SocketSubClass` at 0x60c (0x60c within `ItemDefinition`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_SocketSubClass_at(&self, index: usize, value: i32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x60c + index * 0x4, value) }
+    }
+}
+
 /// C++ class `ItemGlobalIndex` (0xc bytes).
 #[repr(C)]
 pub struct ItemGlobalIndex {
@@ -9887,6 +15926,225 @@ impl ItemIndex {
     pub fn set_m_slots_at(&self, index: usize, value: i16) {
         assert!(index < 3, "index out of bounds");
         unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x2, value) }
+    }
+}
+
+/// C++ class `ItemSocketData` (0x30 bytes).
+#[repr(C)]
+pub struct ItemSocketData {
+    _bytes: UnsafeCell<[u8; 0x30]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemSocketData {
+    /// `ItemSocketData::Sockets` at 0x0 (0x0 within `ItemSocketData`).
+    /// Indexes the 6 elements in memory order.
+    #[inline]
+    pub fn Sockets(&self, index: usize) -> &ItemAugmentationSocket {
+        assert!(index < 6, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x0 + index * 0x8) }
+    }
+}
+
+/// C++ class `ItemSpellData` (0x26c bytes).
+#[repr(C)]
+pub struct ItemSpellData {
+    _bytes: UnsafeCell<[u8; 0x26c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemSpellData {
+    /// `ItemSpellData::Spells` at 0x0 (0x0 within `ItemSpellData`).
+    /// Indexes the 6 elements in memory order.
+    #[inline]
+    pub fn Spells(&self, index: usize) -> &ItemSpellData_SpellData {
+        assert!(index < 6, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x0 + index * 0x64) }
+    }
+
+    /// `ItemSpellData::SkillMask` at 0x258 (0x258 within `ItemSpellData`).
+    #[inline]
+    pub fn SkillMask(&self) -> [u32; 5] {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `ItemSpellData::SkillMask` at 0x258 (0x258 within `ItemSpellData`).
+    #[inline]
+    pub fn set_SkillMask(&self, value: [u32; 5]) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `ItemSpellData::SkillMask` at 0x258 (0x258 within `ItemSpellData`).
+    /// One element; panics if `index >= 5`.
+    #[inline]
+    pub fn SkillMask_at(&self, index: usize) -> u32 {
+        assert!(index < 5, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x258 + index * 0x4) }
+    }
+
+    /// `ItemSpellData::SkillMask` at 0x258 (0x258 within `ItemSpellData`).
+    /// Sets one element; panics if `index >= 5`.
+    #[inline]
+    pub fn set_SkillMask_at(&self, index: usize, value: u32) {
+        assert!(index < 5, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x258 + index * 0x4, value) }
+    }
+}
+
+/// C++ class `ItemSpellData::SpellData` (0x64 bytes).
+#[repr(C)]
+pub struct ItemSpellData_SpellData {
+    _bytes: UnsafeCell<[u8; 0x64]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemSpellData_SpellData {
+    /// `ItemSpellData::SpellData::SpellID` at 0x0 (0x0 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn SpellID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `ItemSpellData::SpellData::SpellID` at 0x0 (0x0 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_SpellID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ItemSpellData::SpellData::RequiredLevel` at 0x4 (0x4 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn RequiredLevel(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ItemSpellData::SpellData::RequiredLevel` at 0x4 (0x4 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_RequiredLevel(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ItemSpellData::SpellData::EffectType` at 0x5 (0x5 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn EffectType(&self) -> eItemEffectType {
+        unsafe { read(self._bytes.get().cast(), 0x5) }
+    }
+
+    /// `ItemSpellData::SpellData::EffectType` at 0x5 (0x5 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_EffectType(&self, value: eItemEffectType) {
+        unsafe { write(self._bytes.get().cast(), 0x5, value) }
+    }
+
+    /// `ItemSpellData::SpellData::EffectiveCasterLevel` at 0x8 (0x8 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn EffectiveCasterLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ItemSpellData::SpellData::EffectiveCasterLevel` at 0x8 (0x8 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_EffectiveCasterLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ItemSpellData::SpellData::MaxCharges` at 0xc (0xc within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn MaxCharges(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ItemSpellData::SpellData::MaxCharges` at 0xc (0xc within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_MaxCharges(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ItemSpellData::SpellData::CastTime` at 0x10 (0x10 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn CastTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ItemSpellData::SpellData::CastTime` at 0x10 (0x10 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_CastTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ItemSpellData::SpellData::RecastTime` at 0x14 (0x14 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn RecastTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ItemSpellData::SpellData::RecastTime` at 0x14 (0x14 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_RecastTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ItemSpellData::SpellData::RecastType` at 0x18 (0x18 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn RecastType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `ItemSpellData::SpellData::RecastType` at 0x18 (0x18 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_RecastType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `ItemSpellData::SpellData::ProcRate` at 0x1c (0x1c within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn ProcRate(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `ItemSpellData::SpellData::ProcRate` at 0x1c (0x1c within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_ProcRate(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `ItemSpellData::SpellData::OverrideName` at 0x20 (0x20 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn OverrideName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `ItemSpellData::SpellData::OverrideName` at 0x20 (0x20 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_OverrideName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `ItemSpellData::SpellData::OverrideName` at 0x20 (0x20 within `ItemSpellData::SpellData`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn OverrideName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x20 + index * 0x1) }
+    }
+
+    /// `ItemSpellData::SpellData::OverrideName` at 0x20 (0x20 within `ItemSpellData::SpellData`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_OverrideName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x20 + index * 0x1, value) }
+    }
+
+    /// `ItemSpellData::SpellData::OverrideDesc` at 0x60 (0x60 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn OverrideDesc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `ItemSpellData::SpellData::OverrideDesc` at 0x60 (0x60 within `ItemSpellData::SpellData`).
+    #[inline]
+    pub fn set_OverrideDesc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
     }
 }
 
@@ -15707,6 +21965,1631 @@ impl PcClient {
     }
 }
 
+/// C++ class `PcProfile` (0x9950 bytes).
+#[repr(C)]
+pub struct PcProfile {
+    _bytes: UnsafeCell<[u8; 0x9950]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl PcProfile {
+    /// `BaseProfile::__vfptr` at 0x0 (0x0 within `BaseProfile`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `BaseProfile::__vfptr` at 0x0 (0x0 within `BaseProfile`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `BaseProfile::padding` at 0x4 (0x4 within `BaseProfile`).
+    #[inline]
+    pub fn padding(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `BaseProfile::padding` at 0x4 (0x4 within `BaseProfile`).
+    #[inline]
+    pub fn set_padding(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `BaseProfile::nextProfile` at 0x8 (0x8 within `BaseProfile`).
+    #[inline]
+    pub fn nextProfile(&self) -> *mut PcProfile {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `BaseProfile::nextProfile` at 0x8 (0x8 within `BaseProfile`).
+    #[inline]
+    pub fn set_nextProfile(&self, value: *mut PcProfile) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `BaseProfile::prevProfile` at 0xc (0xc within `BaseProfile`).
+    #[inline]
+    pub fn prevProfile(&self) -> *mut PcProfile {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `BaseProfile::prevProfile` at 0xc (0xc within `BaseProfile`).
+    #[inline]
+    pub fn set_prevProfile(&self, value: *mut PcProfile) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `BaseProfile::profileListType` at 0x10 (0x10 within `BaseProfile`).
+    #[inline]
+    pub fn profileListType(&self) -> eProfileListType {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `BaseProfile::profileListType` at 0x10 (0x10 within `BaseProfile`).
+    #[inline]
+    pub fn set_profileListType(&self, value: eProfileListType) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `BaseProfile::Unknown0x14` at 0x14 (0x14 within `BaseProfile`).
+    #[inline]
+    pub fn Unknown0x14(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `BaseProfile::Unknown0x14` at 0x14 (0x14 within `BaseProfile`).
+    #[inline]
+    pub fn set_Unknown0x14(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `BaseProfile::InventoryContainer` at 0x18 (0x18 within `BaseProfile`).
+    #[inline]
+    pub fn InventoryContainer(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `BaseProfile::TributeBenefitItems` at 0x50 (0x50 within `BaseProfile`).
+    #[inline]
+    pub fn TributeBenefitItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x50) }
+    }
+
+    /// `BaseProfile::TrophyTributeBenefitItems` at 0x88 (0x88 within `BaseProfile`).
+    #[inline]
+    pub fn TrophyTributeBenefitItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `BaseProfile::Buffs` at 0xc0 (0xc0 within `BaseProfile`).
+    /// Indexes the 97 elements in memory order.
+    #[inline]
+    pub fn Buffs(&self, index: usize) -> &EQ_Affect {
+        assert!(index < 97, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0xc0 + index * 0x58) }
+    }
+
+    /// `BaseProfile::BuffCasterIDs` at 0x2218 (0x2218 within `BaseProfile`).
+    #[inline]
+    pub fn BuffCasterIDs(&self) -> [u32; 97] {
+        unsafe { read(self._bytes.get().cast(), 0x2218) }
+    }
+
+    /// `BaseProfile::BuffCasterIDs` at 0x2218 (0x2218 within `BaseProfile`).
+    #[inline]
+    pub fn set_BuffCasterIDs(&self, value: [u32; 97]) {
+        unsafe { write(self._bytes.get().cast(), 0x2218, value) }
+    }
+
+    /// `BaseProfile::BuffCasterIDs` at 0x2218 (0x2218 within `BaseProfile`).
+    /// One element; panics if `index >= 97`.
+    #[inline]
+    pub fn BuffCasterIDs_at(&self, index: usize) -> u32 {
+        assert!(index < 97, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2218 + index * 0x4) }
+    }
+
+    /// `BaseProfile::BuffCasterIDs` at 0x2218 (0x2218 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 97`.
+    #[inline]
+    pub fn set_BuffCasterIDs_at(&self, index: usize, value: u32) {
+        assert!(index < 97, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2218 + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::DiseaseSpreadTimers` at 0x239c (0x239c within `BaseProfile`).
+    #[inline]
+    pub fn DiseaseSpreadTimers(&self) -> [u32; 97] {
+        unsafe { read(self._bytes.get().cast(), 0x239c) }
+    }
+
+    /// `BaseProfile::DiseaseSpreadTimers` at 0x239c (0x239c within `BaseProfile`).
+    #[inline]
+    pub fn set_DiseaseSpreadTimers(&self, value: [u32; 97]) {
+        unsafe { write(self._bytes.get().cast(), 0x239c, value) }
+    }
+
+    /// `BaseProfile::DiseaseSpreadTimers` at 0x239c (0x239c within `BaseProfile`).
+    /// One element; panics if `index >= 97`.
+    #[inline]
+    pub fn DiseaseSpreadTimers_at(&self, index: usize) -> u32 {
+        assert!(index < 97, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x239c + index * 0x4) }
+    }
+
+    /// `BaseProfile::DiseaseSpreadTimers` at 0x239c (0x239c within `BaseProfile`).
+    /// Sets one element; panics if `index >= 97`.
+    #[inline]
+    pub fn set_DiseaseSpreadTimers_at(&self, index: usize, value: u32) {
+        assert!(index < 97, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x239c + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::SpellBook` at 0x2520 (0x2520 within `BaseProfile`).
+    #[inline]
+    pub fn SpellBook(&self) -> [i32; 720] {
+        unsafe { read(self._bytes.get().cast(), 0x2520) }
+    }
+
+    /// `BaseProfile::SpellBook` at 0x2520 (0x2520 within `BaseProfile`).
+    #[inline]
+    pub fn set_SpellBook(&self, value: [i32; 720]) {
+        unsafe { write(self._bytes.get().cast(), 0x2520, value) }
+    }
+
+    /// `BaseProfile::SpellBook` at 0x2520 (0x2520 within `BaseProfile`).
+    /// One element; panics if `index >= 720`.
+    #[inline]
+    pub fn SpellBook_at(&self, index: usize) -> i32 {
+        assert!(index < 720, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2520 + index * 0x4) }
+    }
+
+    /// `BaseProfile::SpellBook` at 0x2520 (0x2520 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 720`.
+    #[inline]
+    pub fn set_SpellBook_at(&self, index: usize, value: i32) {
+        assert!(index < 720, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2520 + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::MemorizedSpells` at 0x3060 (0x3060 within `BaseProfile`).
+    #[inline]
+    pub fn MemorizedSpells(&self) -> [i32; 16] {
+        unsafe { read(self._bytes.get().cast(), 0x3060) }
+    }
+
+    /// `BaseProfile::MemorizedSpells` at 0x3060 (0x3060 within `BaseProfile`).
+    #[inline]
+    pub fn set_MemorizedSpells(&self, value: [i32; 16]) {
+        unsafe { write(self._bytes.get().cast(), 0x3060, value) }
+    }
+
+    /// `BaseProfile::MemorizedSpells` at 0x3060 (0x3060 within `BaseProfile`).
+    /// One element; panics if `index >= 16`.
+    #[inline]
+    pub fn MemorizedSpells_at(&self, index: usize) -> i32 {
+        assert!(index < 16, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3060 + index * 0x4) }
+    }
+
+    /// `BaseProfile::MemorizedSpells` at 0x3060 (0x3060 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 16`.
+    #[inline]
+    pub fn set_MemorizedSpells_at(&self, index: usize, value: i32) {
+        assert!(index < 16, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3060 + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::Skill` at 0x30a0 (0x30a0 within `BaseProfile`).
+    #[inline]
+    pub fn Skill(&self) -> [i32; 100] {
+        unsafe { read(self._bytes.get().cast(), 0x30a0) }
+    }
+
+    /// `BaseProfile::Skill` at 0x30a0 (0x30a0 within `BaseProfile`).
+    #[inline]
+    pub fn set_Skill(&self, value: [i32; 100]) {
+        unsafe { write(self._bytes.get().cast(), 0x30a0, value) }
+    }
+
+    /// `BaseProfile::Skill` at 0x30a0 (0x30a0 within `BaseProfile`).
+    /// One element; panics if `index >= 100`.
+    #[inline]
+    pub fn Skill_at(&self, index: usize) -> i32 {
+        assert!(index < 100, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x30a0 + index * 0x4) }
+    }
+
+    /// `BaseProfile::Skill` at 0x30a0 (0x30a0 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 100`.
+    #[inline]
+    pub fn set_Skill_at(&self, index: usize, value: i32) {
+        assert!(index < 100, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x30a0 + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::InnateSkill` at 0x3230 (0x3230 within `BaseProfile`).
+    #[inline]
+    pub fn InnateSkill(&self) -> [i32; 25] {
+        unsafe { read(self._bytes.get().cast(), 0x3230) }
+    }
+
+    /// `BaseProfile::InnateSkill` at 0x3230 (0x3230 within `BaseProfile`).
+    #[inline]
+    pub fn set_InnateSkill(&self, value: [i32; 25]) {
+        unsafe { write(self._bytes.get().cast(), 0x3230, value) }
+    }
+
+    /// `BaseProfile::InnateSkill` at 0x3230 (0x3230 within `BaseProfile`).
+    /// One element; panics if `index >= 25`.
+    #[inline]
+    pub fn InnateSkill_at(&self, index: usize) -> i32 {
+        assert!(index < 25, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3230 + index * 0x4) }
+    }
+
+    /// `BaseProfile::InnateSkill` at 0x3230 (0x3230 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 25`.
+    #[inline]
+    pub fn set_InnateSkill_at(&self, index: usize, value: i32) {
+        assert!(index < 25, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3230 + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::ArmorProps` at 0x3294 (0x3294 within `BaseProfile`).
+    /// Indexes the 9 elements in memory order.
+    #[inline]
+    pub fn ArmorProps(&self, index: usize) -> &ArmorProperties {
+        assert!(index < 9, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x3294 + index * 0x14) }
+    }
+
+    /// `BaseProfile::CharacterTint` at 0x3348 (0x3348 within `BaseProfile`).
+    #[inline]
+    pub fn CharacterTint(&self) -> [u32; 9] {
+        unsafe { read(self._bytes.get().cast(), 0x3348) }
+    }
+
+    /// `BaseProfile::CharacterTint` at 0x3348 (0x3348 within `BaseProfile`).
+    #[inline]
+    pub fn set_CharacterTint(&self, value: [u32; 9]) {
+        unsafe { write(self._bytes.get().cast(), 0x3348, value) }
+    }
+
+    /// `BaseProfile::CharacterTint` at 0x3348 (0x3348 within `BaseProfile`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn CharacterTint_at(&self, index: usize) -> u32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3348 + index * 0x4) }
+    }
+
+    /// `BaseProfile::CharacterTint` at 0x3348 (0x3348 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_CharacterTint_at(&self, index: usize, value: u32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3348 + index * 0x4, value) }
+    }
+
+    /// `BaseProfile::Gender` at 0x336c (0x336c within `BaseProfile`).
+    #[inline]
+    pub fn Gender(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x336c) }
+    }
+
+    /// `BaseProfile::Gender` at 0x336c (0x336c within `BaseProfile`).
+    #[inline]
+    pub fn set_Gender(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x336c, value) }
+    }
+
+    /// `BaseProfile::Race` at 0x3370 (0x3370 within `BaseProfile`).
+    #[inline]
+    pub fn Race(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3370) }
+    }
+
+    /// `BaseProfile::Race` at 0x3370 (0x3370 within `BaseProfile`).
+    #[inline]
+    pub fn set_Race(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3370, value) }
+    }
+
+    /// `BaseProfile::Class` at 0x3374 (0x3374 within `BaseProfile`).
+    #[inline]
+    pub fn Class(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3374) }
+    }
+
+    /// `BaseProfile::Class` at 0x3374 (0x3374 within `BaseProfile`).
+    #[inline]
+    pub fn set_Class(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3374, value) }
+    }
+
+    /// `BaseProfile::properties` at 0x3378 (0x3378 within `BaseProfile`).
+    #[inline]
+    pub fn properties(&self) -> &CharacterPropertyHash {
+        unsafe { at(self._bytes.get().cast(), 0x3378) }
+    }
+
+    /// `BaseProfile::Level` at 0x3388 (0x3388 within `BaseProfile`).
+    #[inline]
+    pub fn Level(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3388) }
+    }
+
+    /// `BaseProfile::Level` at 0x3388 (0x3388 within `BaseProfile`).
+    #[inline]
+    pub fn set_Level(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3388, value) }
+    }
+
+    /// `BaseProfile::Mana` at 0x338c (0x338c within `BaseProfile`).
+    #[inline]
+    pub fn Mana(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x338c) }
+    }
+
+    /// `BaseProfile::Mana` at 0x338c (0x338c within `BaseProfile`).
+    #[inline]
+    pub fn set_Mana(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x338c, value) }
+    }
+
+    /// `BaseProfile::Endurance` at 0x3390 (0x3390 within `BaseProfile`).
+    #[inline]
+    pub fn Endurance(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3390) }
+    }
+
+    /// `BaseProfile::Endurance` at 0x3390 (0x3390 within `BaseProfile`).
+    #[inline]
+    pub fn set_Endurance(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3390, value) }
+    }
+
+    /// `BaseProfile::BaseHP` at 0x3394 (0x3394 within `BaseProfile`).
+    #[inline]
+    pub fn BaseHP(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3394) }
+    }
+
+    /// `BaseProfile::BaseHP` at 0x3394 (0x3394 within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseHP(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3394, value) }
+    }
+
+    /// `BaseProfile::BaseSTR` at 0x3398 (0x3398 within `BaseProfile`).
+    #[inline]
+    pub fn BaseSTR(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3398) }
+    }
+
+    /// `BaseProfile::BaseSTR` at 0x3398 (0x3398 within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseSTR(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3398, value) }
+    }
+
+    /// `BaseProfile::BaseSTA` at 0x339c (0x339c within `BaseProfile`).
+    #[inline]
+    pub fn BaseSTA(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x339c) }
+    }
+
+    /// `BaseProfile::BaseSTA` at 0x339c (0x339c within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseSTA(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x339c, value) }
+    }
+
+    /// `BaseProfile::BaseCHA` at 0x33a0 (0x33a0 within `BaseProfile`).
+    #[inline]
+    pub fn BaseCHA(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33a0) }
+    }
+
+    /// `BaseProfile::BaseCHA` at 0x33a0 (0x33a0 within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseCHA(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33a0, value) }
+    }
+
+    /// `BaseProfile::BaseDEX` at 0x33a4 (0x33a4 within `BaseProfile`).
+    #[inline]
+    pub fn BaseDEX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33a4) }
+    }
+
+    /// `BaseProfile::BaseDEX` at 0x33a4 (0x33a4 within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseDEX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33a4, value) }
+    }
+
+    /// `BaseProfile::BaseINT` at 0x33a8 (0x33a8 within `BaseProfile`).
+    #[inline]
+    pub fn BaseINT(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33a8) }
+    }
+
+    /// `BaseProfile::BaseINT` at 0x33a8 (0x33a8 within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseINT(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33a8, value) }
+    }
+
+    /// `BaseProfile::BaseAGI` at 0x33ac (0x33ac within `BaseProfile`).
+    #[inline]
+    pub fn BaseAGI(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33ac) }
+    }
+
+    /// `BaseProfile::BaseAGI` at 0x33ac (0x33ac within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseAGI(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33ac, value) }
+    }
+
+    /// `BaseProfile::BaseWIS` at 0x33b0 (0x33b0 within `BaseProfile`).
+    #[inline]
+    pub fn BaseWIS(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33b0) }
+    }
+
+    /// `BaseProfile::BaseWIS` at 0x33b0 (0x33b0 within `BaseProfile`).
+    #[inline]
+    pub fn set_BaseWIS(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33b0, value) }
+    }
+
+    /// `BaseProfile::Face` at 0x33b4 (0x33b4 within `BaseProfile`).
+    #[inline]
+    pub fn Face(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x33b4) }
+    }
+
+    /// `BaseProfile::Face` at 0x33b4 (0x33b4 within `BaseProfile`).
+    #[inline]
+    pub fn set_Face(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x33b4, value) }
+    }
+
+    /// `BaseProfile::Plat` at 0x33b8 (0x33b8 within `BaseProfile`).
+    #[inline]
+    pub fn Plat(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33b8) }
+    }
+
+    /// `BaseProfile::Plat` at 0x33b8 (0x33b8 within `BaseProfile`).
+    #[inline]
+    pub fn set_Plat(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33b8, value) }
+    }
+
+    /// `BaseProfile::Gold` at 0x33bc (0x33bc within `BaseProfile`).
+    #[inline]
+    pub fn Gold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33bc) }
+    }
+
+    /// `BaseProfile::Gold` at 0x33bc (0x33bc within `BaseProfile`).
+    #[inline]
+    pub fn set_Gold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33bc, value) }
+    }
+
+    /// `BaseProfile::Silver` at 0x33c0 (0x33c0 within `BaseProfile`).
+    #[inline]
+    pub fn Silver(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33c0) }
+    }
+
+    /// `BaseProfile::Silver` at 0x33c0 (0x33c0 within `BaseProfile`).
+    #[inline]
+    pub fn set_Silver(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33c0, value) }
+    }
+
+    /// `BaseProfile::Copper` at 0x33c4 (0x33c4 within `BaseProfile`).
+    #[inline]
+    pub fn Copper(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33c4) }
+    }
+
+    /// `BaseProfile::Copper` at 0x33c4 (0x33c4 within `BaseProfile`).
+    #[inline]
+    pub fn set_Copper(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33c4, value) }
+    }
+
+    /// `BaseProfile::CursorPlat` at 0x33c8 (0x33c8 within `BaseProfile`).
+    #[inline]
+    pub fn CursorPlat(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33c8) }
+    }
+
+    /// `BaseProfile::CursorPlat` at 0x33c8 (0x33c8 within `BaseProfile`).
+    #[inline]
+    pub fn set_CursorPlat(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33c8, value) }
+    }
+
+    /// `BaseProfile::CursorGold` at 0x33cc (0x33cc within `BaseProfile`).
+    #[inline]
+    pub fn CursorGold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33cc) }
+    }
+
+    /// `BaseProfile::CursorGold` at 0x33cc (0x33cc within `BaseProfile`).
+    #[inline]
+    pub fn set_CursorGold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33cc, value) }
+    }
+
+    /// `BaseProfile::CursorSilver` at 0x33d0 (0x33d0 within `BaseProfile`).
+    #[inline]
+    pub fn CursorSilver(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33d0) }
+    }
+
+    /// `BaseProfile::CursorSilver` at 0x33d0 (0x33d0 within `BaseProfile`).
+    #[inline]
+    pub fn set_CursorSilver(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33d0, value) }
+    }
+
+    /// `BaseProfile::CursorCopper` at 0x33d4 (0x33d4 within `BaseProfile`).
+    #[inline]
+    pub fn CursorCopper(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33d4) }
+    }
+
+    /// `BaseProfile::CursorCopper` at 0x33d4 (0x33d4 within `BaseProfile`).
+    #[inline]
+    pub fn set_CursorCopper(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33d4, value) }
+    }
+
+    /// `BaseProfile::max_allowed_spell_slots` at 0x33d8 (0x33d8 within `BaseProfile`).
+    #[inline]
+    pub fn max_allowed_spell_slots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33d8) }
+    }
+
+    /// `BaseProfile::max_allowed_spell_slots` at 0x33d8 (0x33d8 within `BaseProfile`).
+    #[inline]
+    pub fn set_max_allowed_spell_slots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33d8, value) }
+    }
+
+    /// `BaseProfile::practices` at 0x33dc (0x33dc within `BaseProfile`).
+    #[inline]
+    pub fn practices(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33dc) }
+    }
+
+    /// `BaseProfile::practices` at 0x33dc (0x33dc within `BaseProfile`).
+    #[inline]
+    pub fn set_practices(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33dc, value) }
+    }
+
+    /// `BaseProfile::height` at 0x33e0 (0x33e0 within `BaseProfile`).
+    #[inline]
+    pub fn height(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33e0) }
+    }
+
+    /// `BaseProfile::height` at 0x33e0 (0x33e0 within `BaseProfile`).
+    #[inline]
+    pub fn set_height(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33e0, value) }
+    }
+
+    /// `BaseProfile::width` at 0x33e4 (0x33e4 within `BaseProfile`).
+    #[inline]
+    pub fn width(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33e4) }
+    }
+
+    /// `BaseProfile::width` at 0x33e4 (0x33e4 within `BaseProfile`).
+    #[inline]
+    pub fn set_width(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33e4, value) }
+    }
+
+    /// `BaseProfile::length` at 0x33e8 (0x33e8 within `BaseProfile`).
+    #[inline]
+    pub fn length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33e8) }
+    }
+
+    /// `BaseProfile::length` at 0x33e8 (0x33e8 within `BaseProfile`).
+    #[inline]
+    pub fn set_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33e8, value) }
+    }
+
+    /// `BaseProfile::view_height` at 0x33ec (0x33ec within `BaseProfile`).
+    #[inline]
+    pub fn view_height(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33ec) }
+    }
+
+    /// `BaseProfile::view_height` at 0x33ec (0x33ec within `BaseProfile`).
+    #[inline]
+    pub fn set_view_height(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33ec, value) }
+    }
+
+    /// `BaseProfile::texture_type` at 0x33f0 (0x33f0 within `BaseProfile`).
+    #[inline]
+    pub fn texture_type(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x33f0) }
+    }
+
+    /// `BaseProfile::texture_type` at 0x33f0 (0x33f0 within `BaseProfile`).
+    #[inline]
+    pub fn set_texture_type(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x33f0, value) }
+    }
+
+    /// `BaseProfile::m_armorMat` at 0x33f1 (0x33f1 within `BaseProfile`).
+    #[inline]
+    pub fn m_armorMat(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x33f1) }
+    }
+
+    /// `BaseProfile::m_armorMat` at 0x33f1 (0x33f1 within `BaseProfile`).
+    #[inline]
+    pub fn set_m_armorMat(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x33f1, value) }
+    }
+
+    /// `BaseProfile::m_armorVariation` at 0x33f2 (0x33f2 within `BaseProfile`).
+    #[inline]
+    pub fn m_armorVariation(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x33f2) }
+    }
+
+    /// `BaseProfile::m_armorVariation` at 0x33f2 (0x33f2 within `BaseProfile`).
+    #[inline]
+    pub fn set_m_armorVariation(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x33f2, value) }
+    }
+
+    /// `BaseProfile::headType` at 0x33f3 (0x33f3 within `BaseProfile`).
+    #[inline]
+    pub fn headType(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x33f3) }
+    }
+
+    /// `BaseProfile::headType` at 0x33f3 (0x33f3 within `BaseProfile`).
+    #[inline]
+    pub fn set_headType(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x33f3, value) }
+    }
+
+    /// `BaseProfile::canEditFace` at 0x33f4 (0x33f4 within `BaseProfile`).
+    #[inline]
+    pub fn canEditFace(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x33f4) }
+    }
+
+    /// `BaseProfile::canEditFace` at 0x33f4 (0x33f4 within `BaseProfile`).
+    #[inline]
+    pub fn set_canEditFace(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x33f4, value) }
+    }
+
+    /// `BaseProfile::DisciplineTimer` at 0x33f8 (0x33f8 within `BaseProfile`).
+    #[inline]
+    pub fn DisciplineTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33f8) }
+    }
+
+    /// `BaseProfile::DisciplineTimer` at 0x33f8 (0x33f8 within `BaseProfile`).
+    #[inline]
+    pub fn set_DisciplineTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33f8, value) }
+    }
+
+    /// `BaseProfile::MendTimer` at 0x33fc (0x33fc within `BaseProfile`).
+    #[inline]
+    pub fn MendTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x33fc) }
+    }
+
+    /// `BaseProfile::MendTimer` at 0x33fc (0x33fc within `BaseProfile`).
+    #[inline]
+    pub fn set_MendTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x33fc, value) }
+    }
+
+    /// `BaseProfile::thirstlevel` at 0x3400 (0x3400 within `BaseProfile`).
+    #[inline]
+    pub fn thirstlevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3400) }
+    }
+
+    /// `BaseProfile::thirstlevel` at 0x3400 (0x3400 within `BaseProfile`).
+    #[inline]
+    pub fn set_thirstlevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3400, value) }
+    }
+
+    /// `BaseProfile::hungerlevel` at 0x3404 (0x3404 within `BaseProfile`).
+    #[inline]
+    pub fn hungerlevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3404) }
+    }
+
+    /// `BaseProfile::hungerlevel` at 0x3404 (0x3404 within `BaseProfile`).
+    #[inline]
+    pub fn set_hungerlevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3404, value) }
+    }
+
+    /// `BaseProfile::potionCount` at 0x3408 (0x3408 within `BaseProfile`).
+    #[inline]
+    pub fn potionCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3408) }
+    }
+
+    /// `BaseProfile::potionCount` at 0x3408 (0x3408 within `BaseProfile`).
+    #[inline]
+    pub fn set_potionCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3408, value) }
+    }
+
+    /// `BaseProfile::profileType` at 0x340c (0x340c within `BaseProfile`).
+    #[inline]
+    pub fn profileType(&self) -> eProfileType {
+        unsafe { read(self._bytes.get().cast(), 0x340c) }
+    }
+
+    /// `BaseProfile::profileType` at 0x340c (0x340c within `BaseProfile`).
+    #[inline]
+    pub fn set_profileType(&self, value: eProfileType) {
+        unsafe { write(self._bytes.get().cast(), 0x340c, value) }
+    }
+
+    /// `BaseProfile::Shrouded` at 0x3410 (0x3410 within `BaseProfile`).
+    #[inline]
+    pub fn Shrouded(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3410) }
+    }
+
+    /// `BaseProfile::Shrouded` at 0x3410 (0x3410 within `BaseProfile`).
+    #[inline]
+    pub fn set_Shrouded(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3410, value) }
+    }
+
+    /// `BaseProfile::systemId` at 0x3414 (0x3414 within `BaseProfile`).
+    #[inline]
+    pub fn systemId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3414) }
+    }
+
+    /// `BaseProfile::systemId` at 0x3414 (0x3414 within `BaseProfile`).
+    #[inline]
+    pub fn set_systemId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3414, value) }
+    }
+
+    /// `BaseProfile::designId` at 0x3418 (0x3418 within `BaseProfile`).
+    #[inline]
+    pub fn designId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3418) }
+    }
+
+    /// `BaseProfile::designId` at 0x3418 (0x3418 within `BaseProfile`).
+    #[inline]
+    pub fn set_designId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3418, value) }
+    }
+
+    /// `BaseProfile::InventorySlotBitmask` at 0x341c (0x341c within `BaseProfile`).
+    #[inline]
+    pub fn InventorySlotBitmask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x341c) }
+    }
+
+    /// `BaseProfile::InventorySlotBitmask` at 0x341c (0x341c within `BaseProfile`).
+    #[inline]
+    pub fn set_InventorySlotBitmask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x341c, value) }
+    }
+
+    /// `BaseProfile::CurrentProgressionID` at 0x3420 (0x3420 within `BaseProfile`).
+    #[inline]
+    pub fn CurrentProgressionID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3420) }
+    }
+
+    /// `BaseProfile::CurrentProgressionID` at 0x3420 (0x3420 within `BaseProfile`).
+    #[inline]
+    pub fn set_CurrentProgressionID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3420, value) }
+    }
+
+    /// `BaseProfile::Unknown0x3c28` at 0x3424 (0x3424 within `BaseProfile`).
+    #[inline]
+    pub fn Unknown0x3c28(&self) -> [u8; 87] {
+        unsafe { read(self._bytes.get().cast(), 0x3424) }
+    }
+
+    /// `BaseProfile::Unknown0x3c28` at 0x3424 (0x3424 within `BaseProfile`).
+    #[inline]
+    pub fn set_Unknown0x3c28(&self, value: [u8; 87]) {
+        unsafe { write(self._bytes.get().cast(), 0x3424, value) }
+    }
+
+    /// `BaseProfile::Unknown0x3c28` at 0x3424 (0x3424 within `BaseProfile`).
+    /// One element; panics if `index >= 87`.
+    #[inline]
+    pub fn Unknown0x3c28_at(&self, index: usize) -> u8 {
+        assert!(index < 87, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3424 + index * 0x1) }
+    }
+
+    /// `BaseProfile::Unknown0x3c28` at 0x3424 (0x3424 within `BaseProfile`).
+    /// Sets one element; panics if `index >= 87`.
+    #[inline]
+    pub fn set_Unknown0x3c28_at(&self, index: usize, value: u8) {
+        assert!(index < 87, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3424 + index * 0x1, value) }
+    }
+
+    /// `BaseProfile::ParentId` at 0x347c (0x347c within `BaseProfile`).
+    #[inline]
+    pub fn ParentId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x347c) }
+    }
+
+    /// `BaseProfile::ParentId` at 0x347c (0x347c within `BaseProfile`).
+    #[inline]
+    pub fn set_ParentId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x347c, value) }
+    }
+
+    /// `BaseProfile::TattooIndex` at 0x3480 (0x3480 within `BaseProfile`).
+    #[inline]
+    pub fn TattooIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3480) }
+    }
+
+    /// `BaseProfile::TattooIndex` at 0x3480 (0x3480 within `BaseProfile`).
+    #[inline]
+    pub fn set_TattooIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3480, value) }
+    }
+
+    /// `BaseProfile::FacialAttachmentIndex` at 0x3484 (0x3484 within `BaseProfile`).
+    #[inline]
+    pub fn FacialAttachmentIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3484) }
+    }
+
+    /// `BaseProfile::FacialAttachmentIndex` at 0x3484 (0x3484 within `BaseProfile`).
+    #[inline]
+    pub fn set_FacialAttachmentIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3484, value) }
+    }
+
+    /// `PcProfile::BoundLocations` at 0x3488 (0x3488 within `PcProfile`).
+    /// Indexes the 5 elements in memory order.
+    #[inline]
+    pub fn BoundLocations(&self, index: usize) -> &WorldLocation {
+        assert!(index < 5, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x3488 + index * 0x14) }
+    }
+
+    /// `PcProfile::ArmorType` at 0x34ec (0x34ec within `PcProfile`).
+    /// Indexes the 22 elements in memory order.
+    #[inline]
+    pub fn ArmorType(&self, index: usize) -> &ArmorProperties {
+        assert!(index < 22, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x34ec + index * 0x14) }
+    }
+
+    /// `PcProfile::AAList` at 0x36a4 (0x36a4 within `PcProfile`).
+    /// Indexes the 300 elements in memory order.
+    #[inline]
+    pub fn AAList(&self, index: usize) -> &AbilityInfo {
+        assert!(index < 300, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x36a4 + index * 0xc) }
+    }
+
+    /// `PcProfile::BodyColor` at 0x44b4 (0x44b4 within `PcProfile`).
+    #[inline]
+    pub fn BodyColor(&self) -> [u32; 9] {
+        unsafe { read(self._bytes.get().cast(), 0x44b4) }
+    }
+
+    /// `PcProfile::BodyColor` at 0x44b4 (0x44b4 within `PcProfile`).
+    #[inline]
+    pub fn set_BodyColor(&self, value: [u32; 9]) {
+        unsafe { write(self._bytes.get().cast(), 0x44b4, value) }
+    }
+
+    /// `PcProfile::BodyColor` at 0x44b4 (0x44b4 within `PcProfile`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn BodyColor_at(&self, index: usize) -> u32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x44b4 + index * 0x4) }
+    }
+
+    /// `PcProfile::BodyColor` at 0x44b4 (0x44b4 within `PcProfile`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_BodyColor_at(&self, index: usize, value: u32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x44b4 + index * 0x4, value) }
+    }
+
+    /// `PcProfile::FactionTable` at 0x44d8 (0x44d8 within `PcProfile`).
+    #[inline]
+    pub fn FactionTable(&self) -> [i32; 2048] {
+        unsafe { read(self._bytes.get().cast(), 0x44d8) }
+    }
+
+    /// `PcProfile::FactionTable` at 0x44d8 (0x44d8 within `PcProfile`).
+    #[inline]
+    pub fn set_FactionTable(&self, value: [i32; 2048]) {
+        unsafe { write(self._bytes.get().cast(), 0x44d8, value) }
+    }
+
+    /// `PcProfile::FactionTable` at 0x44d8 (0x44d8 within `PcProfile`).
+    /// One element; panics if `index >= 2048`.
+    #[inline]
+    pub fn FactionTable_at(&self, index: usize) -> i32 {
+        assert!(index < 2048, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x44d8 + index * 0x4) }
+    }
+
+    /// `PcProfile::FactionTable` at 0x44d8 (0x44d8 within `PcProfile`).
+    /// Sets one element; panics if `index >= 2048`.
+    #[inline]
+    pub fn set_FactionTable_at(&self, index: usize, value: i32) {
+        assert!(index < 2048, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x44d8 + index * 0x4, value) }
+    }
+
+    /// `PcProfile::CombatAbilities` at 0x64d8 (0x64d8 within `PcProfile`).
+    #[inline]
+    pub fn CombatAbilities(&self) -> [i32; 300] {
+        unsafe { read(self._bytes.get().cast(), 0x64d8) }
+    }
+
+    /// `PcProfile::CombatAbilities` at 0x64d8 (0x64d8 within `PcProfile`).
+    #[inline]
+    pub fn set_CombatAbilities(&self, value: [i32; 300]) {
+        unsafe { write(self._bytes.get().cast(), 0x64d8, value) }
+    }
+
+    /// `PcProfile::CombatAbilities` at 0x64d8 (0x64d8 within `PcProfile`).
+    /// One element; panics if `index >= 300`.
+    #[inline]
+    pub fn CombatAbilities_at(&self, index: usize) -> i32 {
+        assert!(index < 300, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x64d8 + index * 0x4) }
+    }
+
+    /// `PcProfile::CombatAbilities` at 0x64d8 (0x64d8 within `PcProfile`).
+    /// Sets one element; panics if `index >= 300`.
+    #[inline]
+    pub fn set_CombatAbilities_at(&self, index: usize, value: i32) {
+        assert!(index < 300, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x64d8 + index * 0x4, value) }
+    }
+
+    /// `PcProfile::SpellRecastTimer` at 0x6988 (0x6988 within `PcProfile`).
+    #[inline]
+    pub fn SpellRecastTimer(&self) -> [u32; 13] {
+        unsafe { read(self._bytes.get().cast(), 0x6988) }
+    }
+
+    /// `PcProfile::SpellRecastTimer` at 0x6988 (0x6988 within `PcProfile`).
+    #[inline]
+    pub fn set_SpellRecastTimer(&self, value: [u32; 13]) {
+        unsafe { write(self._bytes.get().cast(), 0x6988, value) }
+    }
+
+    /// `PcProfile::SpellRecastTimer` at 0x6988 (0x6988 within `PcProfile`).
+    /// One element; panics if `index >= 13`.
+    #[inline]
+    pub fn SpellRecastTimer_at(&self, index: usize) -> u32 {
+        assert!(index < 13, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x6988 + index * 0x4) }
+    }
+
+    /// `PcProfile::SpellRecastTimer` at 0x6988 (0x6988 within `PcProfile`).
+    /// Sets one element; panics if `index >= 13`.
+    #[inline]
+    pub fn set_SpellRecastTimer_at(&self, index: usize, value: u32) {
+        assert!(index < 13, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x6988 + index * 0x4, value) }
+    }
+
+    /// `PcProfile::CombatAbilityTimers` at 0x69bc (0x69bc within `PcProfile`).
+    #[inline]
+    pub fn CombatAbilityTimers(&self) -> [u32; 20] {
+        unsafe { read(self._bytes.get().cast(), 0x69bc) }
+    }
+
+    /// `PcProfile::CombatAbilityTimers` at 0x69bc (0x69bc within `PcProfile`).
+    #[inline]
+    pub fn set_CombatAbilityTimers(&self, value: [u32; 20]) {
+        unsafe { write(self._bytes.get().cast(), 0x69bc, value) }
+    }
+
+    /// `PcProfile::CombatAbilityTimers` at 0x69bc (0x69bc within `PcProfile`).
+    /// One element; panics if `index >= 20`.
+    #[inline]
+    pub fn CombatAbilityTimers_at(&self, index: usize) -> u32 {
+        assert!(index < 20, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x69bc + index * 0x4) }
+    }
+
+    /// `PcProfile::CombatAbilityTimers` at 0x69bc (0x69bc within `PcProfile`).
+    /// Sets one element; panics if `index >= 20`.
+    #[inline]
+    pub fn set_CombatAbilityTimers_at(&self, index: usize, value: u32) {
+        assert!(index < 20, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x69bc + index * 0x4, value) }
+    }
+
+    /// `PcProfile::LinkedSpellTimers` at 0x6a0c (0x6a0c within `PcProfile`).
+    #[inline]
+    pub fn LinkedSpellTimers(&self) -> [u32; 20] {
+        unsafe { read(self._bytes.get().cast(), 0x6a0c) }
+    }
+
+    /// `PcProfile::LinkedSpellTimers` at 0x6a0c (0x6a0c within `PcProfile`).
+    #[inline]
+    pub fn set_LinkedSpellTimers(&self, value: [u32; 20]) {
+        unsafe { write(self._bytes.get().cast(), 0x6a0c, value) }
+    }
+
+    /// `PcProfile::LinkedSpellTimers` at 0x6a0c (0x6a0c within `PcProfile`).
+    /// One element; panics if `index >= 20`.
+    #[inline]
+    pub fn LinkedSpellTimers_at(&self, index: usize) -> u32 {
+        assert!(index < 20, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x6a0c + index * 0x4) }
+    }
+
+    /// `PcProfile::LinkedSpellTimers` at 0x6a0c (0x6a0c within `PcProfile`).
+    /// Sets one element; panics if `index >= 20`.
+    #[inline]
+    pub fn set_LinkedSpellTimers_at(&self, index: usize, value: u32) {
+        assert!(index < 20, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x6a0c + index * 0x4, value) }
+    }
+
+    /// `PcProfile::ItemRecastTimers` at 0x6a5c (0x6a5c within `PcProfile`).
+    #[inline]
+    pub fn ItemRecastTimers(&self) -> [u32; 100] {
+        unsafe { read(self._bytes.get().cast(), 0x6a5c) }
+    }
+
+    /// `PcProfile::ItemRecastTimers` at 0x6a5c (0x6a5c within `PcProfile`).
+    #[inline]
+    pub fn set_ItemRecastTimers(&self, value: [u32; 100]) {
+        unsafe { write(self._bytes.get().cast(), 0x6a5c, value) }
+    }
+
+    /// `PcProfile::ItemRecastTimers` at 0x6a5c (0x6a5c within `PcProfile`).
+    /// One element; panics if `index >= 100`.
+    #[inline]
+    pub fn ItemRecastTimers_at(&self, index: usize) -> u32 {
+        assert!(index < 100, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x6a5c + index * 0x4) }
+    }
+
+    /// `PcProfile::ItemRecastTimers` at 0x6a5c (0x6a5c within `PcProfile`).
+    /// Sets one element; panics if `index >= 100`.
+    #[inline]
+    pub fn set_ItemRecastTimers_at(&self, index: usize, value: u32) {
+        assert!(index < 100, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x6a5c + index * 0x4, value) }
+    }
+
+    /// `PcProfile::AATimers` at 0x6bec (0x6bec within `PcProfile`).
+    #[inline]
+    pub fn AATimers(&self) -> [u32; 100] {
+        unsafe { read(self._bytes.get().cast(), 0x6bec) }
+    }
+
+    /// `PcProfile::AATimers` at 0x6bec (0x6bec within `PcProfile`).
+    #[inline]
+    pub fn set_AATimers(&self, value: [u32; 100]) {
+        unsafe { write(self._bytes.get().cast(), 0x6bec, value) }
+    }
+
+    /// `PcProfile::AATimers` at 0x6bec (0x6bec within `PcProfile`).
+    /// One element; panics if `index >= 100`.
+    #[inline]
+    pub fn AATimers_at(&self, index: usize) -> u32 {
+        assert!(index < 100, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x6bec + index * 0x4) }
+    }
+
+    /// `PcProfile::AATimers` at 0x6bec (0x6bec within `PcProfile`).
+    /// Sets one element; panics if `index >= 100`.
+    #[inline]
+    pub fn set_AATimers_at(&self, index: usize, value: u32) {
+        assert!(index < 100, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x6bec + index * 0x4, value) }
+    }
+
+    /// `PcProfile::Bandolier` at 0x6d7c (0x6d7c within `PcProfile`).
+    /// Indexes the 20 elements in memory order.
+    #[inline]
+    pub fn Bandolier(&self, index: usize) -> &BandolierSet {
+        assert!(index < 20, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x6d7c + index * 0x140) }
+    }
+
+    /// `PcProfile::PotionBelt` at 0x867c (0x867c within `PcProfile`).
+    /// Indexes the 5 elements in memory order.
+    #[inline]
+    pub fn PotionBelt(&self, index: usize) -> &BandolierItemInfo {
+        assert!(index < 5, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x867c + index * 0x48) }
+    }
+
+    /// `PcProfile::ActiveTrophyTributeBenefits` at 0x87e4 (0x87e4 within `PcProfile`).
+    /// Indexes the 10 elements in memory order.
+    #[inline]
+    pub fn ActiveTrophyTributeBenefits(&self, index: usize) -> &BenefitSelection {
+        assert!(index < 10, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x87e4 + index * 0x8) }
+    }
+
+    /// `PcProfile::Unknown0x8834` at 0x8834 (0x8834 within `PcProfile`).
+    #[inline]
+    pub fn Unknown0x8834(&self) -> [u32; 11] {
+        unsafe { read(self._bytes.get().cast(), 0x8834) }
+    }
+
+    /// `PcProfile::Unknown0x8834` at 0x8834 (0x8834 within `PcProfile`).
+    #[inline]
+    pub fn set_Unknown0x8834(&self, value: [u32; 11]) {
+        unsafe { write(self._bytes.get().cast(), 0x8834, value) }
+    }
+
+    /// `PcProfile::Unknown0x8834` at 0x8834 (0x8834 within `PcProfile`).
+    /// One element; panics if `index >= 11`.
+    #[inline]
+    pub fn Unknown0x8834_at(&self, index: usize) -> u32 {
+        assert!(index < 11, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8834 + index * 0x4) }
+    }
+
+    /// `PcProfile::Unknown0x8834` at 0x8834 (0x8834 within `PcProfile`).
+    /// Sets one element; panics if `index >= 11`.
+    #[inline]
+    pub fn set_Unknown0x8834_at(&self, index: usize, value: u32) {
+        assert!(index < 11, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8834 + index * 0x4, value) }
+    }
+
+    /// `PcProfile::GuildTributeBenefitItems` at 0x8860 (0x8860 within `PcProfile`).
+    #[inline]
+    pub fn GuildTributeBenefitItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x8860) }
+    }
+
+    /// `PcProfile::GuildTrophyTributeBenefitItems` at 0x8898 (0x8898 within `PcProfile`).
+    #[inline]
+    pub fn GuildTrophyTributeBenefitItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x8898) }
+    }
+
+    /// `PcProfile::MercenarySaveStrings` at 0x88d0 (0x88d0 within `PcProfile`).
+    #[inline]
+    pub fn MercenarySaveStrings(&self) -> &ArrayClass_CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x88d0) }
+    }
+
+    /// `PcProfile::PetSaveString` at 0x88e0 (0x88e0 within `PcProfile`).
+    #[inline]
+    pub fn PetSaveString(&self) -> *mut AssociatedNPCSaveStringNode {
+        unsafe { read(self._bytes.get().cast(), 0x88e0) }
+    }
+
+    /// `PcProfile::PetSaveString` at 0x88e0 (0x88e0 within `PcProfile`).
+    #[inline]
+    pub fn set_PetSaveString(&self, value: *mut AssociatedNPCSaveStringNode) {
+        unsafe { write(self._bytes.get().cast(), 0x88e0, value) }
+    }
+
+    /// `PcProfile::Deity` at 0x88e4 (0x88e4 within `PcProfile`).
+    #[inline]
+    pub fn Deity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x88e4) }
+    }
+
+    /// `PcProfile::Deity` at 0x88e4 (0x88e4 within `PcProfile`).
+    #[inline]
+    pub fn set_Deity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x88e4, value) }
+    }
+
+    /// `PcProfile::bPVPFlag` at 0x88e8 (0x88e8 within `PcProfile`).
+    #[inline]
+    pub fn bPVPFlag(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x88e8) != 0 }
+    }
+
+    /// `PcProfile::bPVPFlag` at 0x88e8 (0x88e8 within `PcProfile`).
+    #[inline]
+    pub fn set_bPVPFlag(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x88e8, u8::from(value)) }
+    }
+
+    /// `PcProfile::HighestLevel` at 0x88e9 (0x88e9 within `PcProfile`).
+    #[inline]
+    pub fn HighestLevel(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88e9) }
+    }
+
+    /// `PcProfile::HighestLevel` at 0x88e9 (0x88e9 within `PcProfile`).
+    #[inline]
+    pub fn set_HighestLevel(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88e9, value) }
+    }
+
+    /// `PcProfile::Drunkenness` at 0x88ec (0x88ec within `PcProfile`).
+    #[inline]
+    pub fn Drunkenness(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x88ec) }
+    }
+
+    /// `PcProfile::Drunkenness` at 0x88ec (0x88ec within `PcProfile`).
+    #[inline]
+    pub fn set_Drunkenness(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x88ec, value) }
+    }
+
+    /// `PcProfile::HairColor` at 0x88f0 (0x88f0 within `PcProfile`).
+    #[inline]
+    pub fn HairColor(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88f0) }
+    }
+
+    /// `PcProfile::HairColor` at 0x88f0 (0x88f0 within `PcProfile`).
+    #[inline]
+    pub fn set_HairColor(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88f0, value) }
+    }
+
+    /// `PcProfile::BeardColor` at 0x88f1 (0x88f1 within `PcProfile`).
+    #[inline]
+    pub fn BeardColor(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88f1) }
+    }
+
+    /// `PcProfile::BeardColor` at 0x88f1 (0x88f1 within `PcProfile`).
+    #[inline]
+    pub fn set_BeardColor(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88f1, value) }
+    }
+
+    /// `PcProfile::NpcTintIndex` at 0x88f4 (0x88f4 within `PcProfile`).
+    #[inline]
+    pub fn NpcTintIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x88f4) }
+    }
+
+    /// `PcProfile::NpcTintIndex` at 0x88f4 (0x88f4 within `PcProfile`).
+    #[inline]
+    pub fn set_NpcTintIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x88f4, value) }
+    }
+
+    /// `PcProfile::LeftEye` at 0x88f8 (0x88f8 within `PcProfile`).
+    #[inline]
+    pub fn LeftEye(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88f8) }
+    }
+
+    /// `PcProfile::LeftEye` at 0x88f8 (0x88f8 within `PcProfile`).
+    #[inline]
+    pub fn set_LeftEye(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88f8, value) }
+    }
+
+    /// `PcProfile::RightEye` at 0x88f9 (0x88f9 within `PcProfile`).
+    #[inline]
+    pub fn RightEye(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88f9) }
+    }
+
+    /// `PcProfile::RightEye` at 0x88f9 (0x88f9 within `PcProfile`).
+    #[inline]
+    pub fn set_RightEye(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88f9, value) }
+    }
+
+    /// `PcProfile::Hair` at 0x88fa (0x88fa within `PcProfile`).
+    #[inline]
+    pub fn Hair(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88fa) }
+    }
+
+    /// `PcProfile::Hair` at 0x88fa (0x88fa within `PcProfile`).
+    #[inline]
+    pub fn set_Hair(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88fa, value) }
+    }
+
+    /// `PcProfile::Beard` at 0x88fb (0x88fb within `PcProfile`).
+    #[inline]
+    pub fn Beard(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88fb) }
+    }
+
+    /// `PcProfile::Beard` at 0x88fb (0x88fb within `PcProfile`).
+    #[inline]
+    pub fn set_Beard(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88fb, value) }
+    }
+
+    /// `PcProfile::OldFace` at 0x88fc (0x88fc within `PcProfile`).
+    #[inline]
+    pub fn OldFace(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x88fc) }
+    }
+
+    /// `PcProfile::OldFace` at 0x88fc (0x88fc within `PcProfile`).
+    #[inline]
+    pub fn set_OldFace(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x88fc, value) }
+    }
+
+    /// `PcProfile::AAPoints` at 0x8900 (0x8900 within `PcProfile`).
+    #[inline]
+    pub fn AAPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8900) }
+    }
+
+    /// `PcProfile::AAPoints` at 0x8900 (0x8900 within `PcProfile`).
+    #[inline]
+    pub fn set_AAPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8900, value) }
+    }
+
+    /// `PcProfile::PocketPetSaveString` at 0x8904 (0x8904 within `PcProfile`).
+    #[inline]
+    pub fn PocketPetSaveString(&self) -> [c_char; 4096] {
+        unsafe { read(self._bytes.get().cast(), 0x8904) }
+    }
+
+    /// `PcProfile::PocketPetSaveString` at 0x8904 (0x8904 within `PcProfile`).
+    #[inline]
+    pub fn set_PocketPetSaveString(&self, value: [c_char; 4096]) {
+        unsafe { write(self._bytes.get().cast(), 0x8904, value) }
+    }
+
+    /// `PcProfile::PocketPetSaveString` at 0x8904 (0x8904 within `PcProfile`).
+    /// One element; panics if `index >= 4096`.
+    #[inline]
+    pub fn PocketPetSaveString_at(&self, index: usize) -> c_char {
+        assert!(index < 4096, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8904 + index * 0x1) }
+    }
+
+    /// `PcProfile::PocketPetSaveString` at 0x8904 (0x8904 within `PcProfile`).
+    /// Sets one element; panics if `index >= 4096`.
+    #[inline]
+    pub fn set_PocketPetSaveString_at(&self, index: usize, value: c_char) {
+        assert!(index < 4096, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8904 + index * 0x1, value) }
+    }
+
+    /// `PcProfile::ItemBuffer` at 0x9904 (0x9904 within `PcProfile`).
+    #[inline]
+    pub fn ItemBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x9904) }
+    }
+
+    /// `PcProfile::LastShield` at 0x9908 (0x9908 within `PcProfile`).
+    #[inline]
+    pub fn LastShield(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9908) }
+    }
+
+    /// `PcProfile::LastShield` at 0x9908 (0x9908 within `PcProfile`).
+    #[inline]
+    pub fn set_LastShield(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9908, value) }
+    }
+
+    /// `PcProfile::bSneak` at 0x990c (0x990c within `PcProfile`).
+    #[inline]
+    pub fn bSneak(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x990c) != 0 }
+    }
+
+    /// `PcProfile::bSneak` at 0x990c (0x990c within `PcProfile`).
+    #[inline]
+    pub fn set_bSneak(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x990c, u8::from(value)) }
+    }
+
+    /// `PcProfile::bHide` at 0x990d (0x990d within `PcProfile`).
+    #[inline]
+    pub fn bHide(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x990d) != 0 }
+    }
+
+    /// `PcProfile::bHide` at 0x990d (0x990d within `PcProfile`).
+    #[inline]
+    pub fn set_bHide(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x990d, u8::from(value)) }
+    }
+
+    /// `PcProfile::AAPointsSpent` at 0x9910 (0x9910 within `PcProfile`).
+    #[inline]
+    pub fn AAPointsSpent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x9910) }
+    }
+
+    /// `PcProfile::AAPointsSpent` at 0x9910 (0x9910 within `PcProfile`).
+    #[inline]
+    pub fn set_AAPointsSpent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x9910, value) }
+    }
+
+    /// `PcProfile::AAPointsAssigned` at 0x9914 (0x9914 within `PcProfile`).
+    #[inline]
+    pub fn AAPointsAssigned(&self) -> [i32; 6] {
+        unsafe { read(self._bytes.get().cast(), 0x9914) }
+    }
+
+    /// `PcProfile::AAPointsAssigned` at 0x9914 (0x9914 within `PcProfile`).
+    #[inline]
+    pub fn set_AAPointsAssigned(&self, value: [i32; 6]) {
+        unsafe { write(self._bytes.get().cast(), 0x9914, value) }
+    }
+
+    /// `PcProfile::AAPointsAssigned` at 0x9914 (0x9914 within `PcProfile`).
+    /// One element; panics if `index >= 6`.
+    #[inline]
+    pub fn AAPointsAssigned_at(&self, index: usize) -> i32 {
+        assert!(index < 6, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x9914 + index * 0x4) }
+    }
+
+    /// `PcProfile::AAPointsAssigned` at 0x9914 (0x9914 within `PcProfile`).
+    /// Sets one element; panics if `index >= 6`.
+    #[inline]
+    pub fn set_AAPointsAssigned_at(&self, index: usize, value: i32) {
+        assert!(index < 6, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x9914 + index * 0x4, value) }
+    }
+
+    /// `PcProfile::PrimaryActor` at 0x992c (0x992c within `PcProfile`).
+    #[inline]
+    pub fn PrimaryActor(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x992c) }
+    }
+
+    /// `PcProfile::PrimaryActor` at 0x992c (0x992c within `PcProfile`).
+    #[inline]
+    pub fn set_PrimaryActor(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x992c, value) }
+    }
+
+    /// `PcProfile::SecondaryActor` at 0x9930 (0x9930 within `PcProfile`).
+    #[inline]
+    pub fn SecondaryActor(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x9930) }
+    }
+
+    /// `PcProfile::SecondaryActor` at 0x9930 (0x9930 within `PcProfile`).
+    #[inline]
+    pub fn set_SecondaryActor(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x9930, value) }
+    }
+
+    /// `PcProfile::bUseTemplateFaction` at 0x9934 (0x9934 within `PcProfile`).
+    #[inline]
+    pub fn bUseTemplateFaction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x9934) != 0 }
+    }
+
+    /// `PcProfile::bUseTemplateFaction` at 0x9934 (0x9934 within `PcProfile`).
+    #[inline]
+    pub fn set_bUseTemplateFaction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x9934, u8::from(value)) }
+    }
+
+    /// `PcProfile::TitlePrefixID` at 0x9938 (0x9938 within `PcProfile`).
+    #[inline]
+    pub fn TitlePrefixID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x9938) }
+    }
+
+    /// `PcProfile::TitlePrefixID` at 0x9938 (0x9938 within `PcProfile`).
+    #[inline]
+    pub fn set_TitlePrefixID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x9938, value) }
+    }
+
+    /// `PcProfile::TitleSuffixID` at 0x993c (0x993c within `PcProfile`).
+    #[inline]
+    pub fn TitleSuffixID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x993c) }
+    }
+
+    /// `PcProfile::TitleSuffixID` at 0x993c (0x993c within `PcProfile`).
+    #[inline]
+    pub fn set_TitleSuffixID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x993c, value) }
+    }
+
+    /// `PcProfile::bAreHandsMagic` at 0x9940 (0x9940 within `PcProfile`).
+    #[inline]
+    pub fn bAreHandsMagic(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x9940) != 0 }
+    }
+
+    /// `PcProfile::bAreHandsMagic` at 0x9940 (0x9940 within `PcProfile`).
+    #[inline]
+    pub fn set_bAreHandsMagic(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x9940, u8::from(value)) }
+    }
+
+    /// `PcProfile::SoleEnabledZoneID` at 0x9944 (0x9944 within `PcProfile`).
+    #[inline]
+    pub fn SoleEnabledZoneID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x9944) }
+    }
+
+    /// `PcProfile::SoleEnabledZoneID` at 0x9944 (0x9944 within `PcProfile`).
+    #[inline]
+    pub fn set_SoleEnabledZoneID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x9944, value) }
+    }
+
+    /// `PcProfile::NewBodyTint` at 0x9948 (0x9948 within `PcProfile`).
+    #[inline]
+    pub fn NewBodyTint(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x9948) }
+    }
+
+    /// `PcProfile::NewBodyTint` at 0x9948 (0x9948 within `PcProfile`).
+    #[inline]
+    pub fn set_NewBodyTint(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x9948, value) }
+    }
+
+    /// `PcProfile::CurrentMercenaryIndex` at 0x994c (0x994c within `PcProfile`).
+    #[inline]
+    pub fn CurrentMercenaryIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x994c) }
+    }
+
+    /// `PcProfile::CurrentMercenaryIndex` at 0x994c (0x994c within `PcProfile`).
+    #[inline]
+    pub fn set_CurrentMercenaryIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x994c, value) }
+    }
+}
+
 /// C++ class `PendingRewardList` (0x2c bytes).
 #[repr(C)]
 pub struct PendingRewardList {
@@ -20227,6 +28110,75 @@ impl PointSystemBase {
     }
 }
 
+/// C++ class `ProfileList` (0x14 bytes).
+#[repr(C)]
+pub struct ProfileList {
+    _bytes: UnsafeCell<[u8; 0x14]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ProfileList {
+    /// `ProfileList::ListType` at 0x0 (0x0 within `ProfileList`).
+    #[inline]
+    pub fn ListType(&self) -> eProfileListType {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `ProfileList::ListType` at 0x0 (0x0 within `ProfileList`).
+    #[inline]
+    pub fn set_ListType(&self, value: eProfileListType) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ProfileList::pFirst` at 0x4 (0x4 within `ProfileList`).
+    #[inline]
+    pub fn pFirst(&self) -> *mut PcProfile {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ProfileList::pFirst` at 0x4 (0x4 within `ProfileList`).
+    #[inline]
+    pub fn set_pFirst(&self, value: *mut PcProfile) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ProfileList::pLast` at 0x8 (0x8 within `ProfileList`).
+    #[inline]
+    pub fn pLast(&self) -> *mut PcProfile {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ProfileList::pLast` at 0x8 (0x8 within `ProfileList`).
+    #[inline]
+    pub fn set_pLast(&self, value: *mut PcProfile) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ProfileList::pNext` at 0xc (0xc within `ProfileList`).
+    #[inline]
+    pub fn pNext(&self) -> *mut ProfileList {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ProfileList::pNext` at 0xc (0xc within `ProfileList`).
+    #[inline]
+    pub fn set_pNext(&self, value: *mut ProfileList) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ProfileList::pPrev` at 0x10 (0x10 within `ProfileList`).
+    #[inline]
+    pub fn pPrev(&self) -> *mut ProfileList {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ProfileList::pPrev` at 0x10 (0x10 within `ProfileList`).
+    #[inline]
+    pub fn set_pPrev(&self, value: *mut ProfileList) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+}
+
 /// C++ class `ProfileManager` (0x8 bytes).
 #[repr(C)]
 pub struct ProfileManager {
@@ -20475,6 +28427,79 @@ impl PvPKill {
     #[inline]
     pub fn set_PointsEarned(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0x54, value) }
+    }
+}
+
+/// C++ class `RequirementAssociationManager` (0x228 bytes).
+#[repr(C)]
+pub struct RequirementAssociationManager {
+    _bytes: UnsafeCell<[u8; 0x228]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl RequirementAssociationManager {
+    /// `RequirementAssociationManager::__vfptr` at 0x0 (0x0 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `RequirementAssociationManager::__vfptr` at 0x0 (0x0 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `FileStatMgr::FileStats` at 0x4 (0x0 within `FileStatMgr`).
+    #[inline]
+    pub fn FileStats(&self) -> &HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `RequirementAssociationManager::Requirements` at 0x14 (0x14 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn Requirements(&self) -> &HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `RequirementAssociationManager::AssocFilename` at 0x24 (0x24 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn AssocFilename(&self) -> [c_char; 512] {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `RequirementAssociationManager::AssocFilename` at 0x24 (0x24 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn set_AssocFilename(&self, value: [c_char; 512]) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `RequirementAssociationManager::AssocFilename` at 0x24 (0x24 within `RequirementAssociationManager`).
+    /// One element; panics if `index >= 512`.
+    #[inline]
+    pub fn AssocFilename_at(&self, index: usize) -> c_char {
+        assert!(index < 512, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x24 + index * 0x1) }
+    }
+
+    /// `RequirementAssociationManager::AssocFilename` at 0x24 (0x24 within `RequirementAssociationManager`).
+    /// Sets one element; panics if `index >= 512`.
+    #[inline]
+    pub fn set_AssocFilename_at(&self, index: usize, value: c_char) {
+        assert!(index < 512, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x24 + index * 0x1, value) }
+    }
+
+    /// `RequirementAssociationManager::LastFailReason` at 0x224 (0x224 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn LastFailReason(&self) -> ReqType {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `RequirementAssociationManager::LastFailReason` at 0x224 (0x224 within `RequirementAssociationManager`).
+    #[inline]
+    pub fn set_LastFailReason(&self, value: ReqType) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
     }
 }
 
@@ -20870,6 +28895,72 @@ impl SFellowshipMember {
     #[inline]
     pub fn set_LastOn(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0x50, value) }
+    }
+}
+
+/// C++ class `SlotData` (0x8 bytes).
+#[repr(C)]
+pub struct SlotData {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SlotData {
+    /// `SlotData::Slot` at 0x0 (0x0 within `SlotData`).
+    #[inline]
+    pub fn Slot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SlotData::Slot` at 0x0 (0x0 within `SlotData`).
+    #[inline]
+    pub fn set_Slot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `SlotData::Value` at 0x4 (0x4 within `SlotData`).
+    #[inline]
+    pub fn Value(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `SlotData::Value` at 0x4 (0x4 within `SlotData`).
+    #[inline]
+    pub fn set_Value(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+}
+
+/// C++ class `SoeUtil::SharedPtr<ItemDefinition>` (0x8 bytes).
+#[repr(C)]
+pub struct SoeUtil_SharedPtr_ItemDefinition {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SoeUtil_SharedPtr_ItemDefinition {
+    /// `SoeUtil::SharedPtr<ItemDefinition>::m_rep` at 0x0 (0x0 within `SoeUtil::SharedPtr<ItemDefinition>`).
+    #[inline]
+    pub fn m_rep(&self) -> *mut SoeUtil_Internal_SharedData {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SoeUtil::SharedPtr<ItemDefinition>::m_rep` at 0x0 (0x0 within `SoeUtil::SharedPtr<ItemDefinition>`).
+    #[inline]
+    pub fn set_m_rep(&self, value: *mut SoeUtil_Internal_SharedData) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `SoeUtil::SharedPtr<ItemDefinition>::m_ptr` at 0x4 (0x4 within `SoeUtil::SharedPtr<ItemDefinition>`).
+    #[inline]
+    pub fn m_ptr(&self) -> *mut ItemDefinition {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `SoeUtil::SharedPtr<ItemDefinition>::m_ptr` at 0x4 (0x4 within `SoeUtil::SharedPtr<ItemDefinition>`).
+    #[inline]
+    pub fn set_m_ptr(&self, value: *mut ItemDefinition) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
     }
 }
 
@@ -21461,6 +29552,42 @@ impl WorldLocation {
     #[inline]
     pub fn set_ZoneBoundHeading(&self, value: f32) {
         unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+}
+
+/// C++ class `std::_Atomic_padded<int>` (0x4 bytes).
+#[repr(C)]
+pub struct std__Atomic_padded_int {
+    _bytes: UnsafeCell<[u8; 0x4]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl std__Atomic_padded_int {
+    /// `std::_Atomic_padded<int>::_Value` at 0x0 (0x0 within `std::_Atomic_padded<int>`).
+    #[inline]
+    pub fn _Value(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `std::_Atomic_padded<int>::_Value` at 0x0 (0x0 within `std::_Atomic_padded<int>`).
+    #[inline]
+    pub fn set__Value(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+}
+
+/// C++ class `std::atomic<int>` (0x4 bytes).
+#[repr(C)]
+pub struct std_atomic_int {
+    _bytes: UnsafeCell<[u8; 0x4]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl std_atomic_int {
+    /// `std::_Atomic_storage<int,4>::_Storage` at 0x0 (0x0 within `std::_Atomic_storage<int,4>`).
+    #[inline]
+    pub fn _Storage(&self) -> &std__Atomic_padded_int {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
     }
 }
 
@@ -22939,6 +31066,17 @@ impl EQExpansion {
     pub const EQExpansionSOR: Self = Self(32);
 }
 
+/// C++ enum `EStringEncoding`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct EStringEncoding(pub i32);
+
+impl EStringEncoding {
+    pub const StringEncodingUtf8: Self = Self(0);
+    pub const StringEncodingUtf16: Self = Self(1);
+}
+
 /// C++ enum `GravityBehavior`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -23036,6 +31174,22 @@ impl ItemSpellTypes {
     pub const eFamiliarSpell: Self = Self(0);
 }
 
+/// C++ enum `ReqType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct ReqType(pub i32);
+
+impl ReqType {
+    pub const RT_None: Self = Self(0);
+    pub const RT_Sex: Self = Self(1);
+    pub const RT_MinLevel: Self = Self(2);
+    pub const RT_MaxLevel: Self = Self(3);
+    pub const RT_LevelRange: Self = Self(4);
+    pub const RT_Class: Self = Self(5);
+    pub const RT_Race: Self = Self(6);
+}
+
 /// C++ enum `ZONE_REQ_STATUS`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -23069,6 +31223,27 @@ impl eChatFilterValues {
     pub const FILTER_VALUE_ME: Self = Self(2);
     pub const FILTER_VALUE_GROUP: Self = Self(3);
     pub const FILTER_VALUE_COUNT: Self = Self(4);
+}
+
+/// C++ enum `eItemEffectType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eItemEffectType(pub u8);
+
+impl eItemEffectType {
+    pub const ItemEffectProc: Self = Self(0);
+    pub const ItemEffectClicky: Self = Self(1);
+    pub const ItemEffectWorn: Self = Self(2);
+    pub const ItemEffectConsumable: Self = Self(3);
+    pub const ItemEffectClickyWorn: Self = Self(4);
+    pub const ItemEffectClickyRestricted: Self = Self(5);
+    pub const ItemEffectFocus: Self = Self(6);
+    pub const ItemEffectSpell: Self = Self(7);
+    pub const ItemEffectFocus2: Self = Self(8);
+    pub const ItemEffectMount: Self = Self(9);
+    pub const ItemEffectIllusion: Self = Self(10);
+    pub const ItemEffectFamiliar: Self = Self(11);
 }
 
 /// C++ enum `eKeyboardMode`. A newtype rather than a Rust enum, since game memory may hold
@@ -23108,9 +31283,66 @@ impl eProfileListType {
     pub const eProfileTypeMonsterMission: Self = Self(1);
 }
 
+/// C++ enum `eProfileType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eProfileType(pub i32);
+
+impl eProfileType {
+    pub const eProfileTypeMain: Self = Self(0);
+    pub const eProfileTypeAlt: Self = Self(1);
+    pub const eProfileTypeMonster: Self = Self(2);
+    pub const eProfileTypeOther: Self = Self(3);
+}
+
+/// C++ enum `eSpellNoOverwrite`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eSpellNoOverwrite(pub i32);
+
+impl eSpellNoOverwrite {
+    pub const NoOverwrite_Default: Self = Self(0);
+    pub const NoOverwrite_OtherSpells: Self = Self(1);
+    pub const NoOverwrite_AllSpells: Self = Self(2);
+}
+
+/// C++ enum `eSpellRecourseType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eSpellRecourseType(pub i32);
+
+impl eSpellRecourseType {
+    pub const SpellRecourseType_AlwaysHit: Self = Self(0);
+    pub const SpellRecourseType_AlwaysHitNoResist: Self = Self(1);
+    pub const SpellRecourseType_OnceNoResist: Self = Self(2);
+    pub const SpellRecourseType_Once: Self = Self(3);
+}
+
+/// C++ enum `eSpellType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eSpellType(pub u8);
+
+impl eSpellType {
+    pub const SpellType_Detrimental: Self = Self(0);
+    pub const SpellType_Beneficial: Self = Self(1);
+    pub const SpellType_BeneficialGroupOnly: Self = Self(2);
+}
+
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct ActorAnimation {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct AssociatedNPCSaveStringNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -23138,13 +31370,6 @@ pub struct CBoneGroupInterface {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CGroup {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
 pub struct CLightInterface {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -23166,7 +31391,7 @@ pub struct CParticlePointInterface {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CStrRep {
+pub struct CXFreeList {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -23278,6 +31503,20 @@ pub struct HashTable_DynamicZoneData_int_ResizePolicyNoResize_HashNode {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize_HashNode {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize_HashNode {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink_HashNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -23348,13 +31587,6 @@ pub struct HashTable_int_int_ResizePolicyNoResize_HashNode {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct ItemClient {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
 pub struct LinkedListNode_PendingReward {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -23363,6 +31595,20 @@ pub struct LinkedListNode_PendingReward {
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct MonsterMissionTemplate {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct NewSpellEffect {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct OldSpellEffect {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -23397,7 +31643,7 @@ pub struct PointNamesEntry {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct ProfileList {
+pub struct SoeUtil_Internal_SharedData {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -23412,6 +31658,7 @@ pub struct TaskTimerData {
 /// Every generated record, keyed by its C++ name.
 pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ARGBCOLOR", rust_name: "ARGBCOLOR", size: 0x4 },
+    RecordInfo { name: "AbilityInfo", rust_name: "AbilityInfo", size: 0xc },
     RecordInfo { name: "ActorClient", rust_name: "ActorClient", size: 0x1b4 },
     RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
     RecordInfo { name: "ArrayClass2<unsigned int>", rust_name: "ArrayClass2_unsigned_int", size: 0x1c },
@@ -23424,23 +31671,36 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass<PointNamesEntry *>", rust_name: "ArrayClass_PointNamesEntry", size: 0x10 },
     RecordInfo { name: "ArrayClass<bool>", rust_name: "ArrayClass_bool", size: 0x10 },
     RecordInfo { name: "ArrayClass<int>", rust_name: "ArrayClass_int", size: 0x10 },
+    RecordInfo { name: "ArrayClass<unsigned int>", rust_name: "ArrayClass_unsigned_int", size: 0x10 },
+    RecordInfo { name: "BandolierItemInfo", rust_name: "BandolierItemInfo", size: 0x48 },
+    RecordInfo { name: "BandolierSet", rust_name: "BandolierSet", size: 0x140 },
     RecordInfo { name: "BenefitSelection", rust_name: "BenefitSelection", size: 0x8 },
     RecordInfo { name: "CCapsule", rust_name: "CCapsule", size: 0x1c },
+    RecordInfo { name: "CGroup", rust_name: "CGroup", size: 0x28 },
+    RecordInfo { name: "CGroupMember", rust_name: "CGroupMember", size: 0x30 },
     RecordInfo { name: "CPhysicsInfo", rust_name: "CPhysicsInfo", size: 0x30 },
     RecordInfo { name: "CPlayerPointManager", rust_name: "CPlayerPointManager", size: 0x14 },
+    RecordInfo { name: "CStrRep", rust_name: "CStrRep", size: 0x18 },
+    RecordInfo { name: "CVector2", rust_name: "CVector2", size: 0x8 },
     RecordInfo { name: "CVector3", rust_name: "CVector3", size: 0xc },
     RecordInfo { name: "CXStr", rust_name: "CXStr", size: 0x4 },
     RecordInfo { name: "CharacterPropertyHash", rust_name: "CharacterPropertyHash", size: 0x10 },
     RecordInfo { name: "ChatFilterData", rust_name: "ChatFilterData", size: 0x88 },
     RecordInfo { name: "ClaimDataCollection", rust_name: "ClaimDataCollection", size: 0x10 },
+    RecordInfo { name: "ClientSpellManager", rust_name: "ClientSpellManager", size: 0xafeec },
     RecordInfo { name: "EQCameraOptions", rust_name: "EQCameraOptions", size: 0x1c },
     RecordInfo { name: "EQGameOptions", rust_name: "EQGameOptions", size: 0x198 },
     RecordInfo { name: "EQGameOptions2", rust_name: "EQGameOptions2", size: 0x18 },
     RecordInfo { name: "EQGroundItem", rust_name: "EQGroundItem", size: 0x80 },
+    RecordInfo { name: "EQGroundItemListManager", rust_name: "EQGroundItemListManager", size: 0x4 },
     RecordInfo { name: "EQList<AlchemyBonusSkillData *>", rust_name: "EQList_AlchemyBonusSkillData", size: 0x10 },
     RecordInfo { name: "EQSocial", rust_name: "EQSocial", size: 0x51c },
+    RecordInfo { name: "EQSpellExtra", rust_name: "EQSpellExtra", size: 0x8 },
     RecordInfo { name: "EQUIPMENT", rust_name: "EQUIPMENT", size: 0xb4 },
+    RecordInfo { name: "EQWorldData", rust_name: "EQWorldData", size: 0xfc0 },
     RecordInfo { name: "EQZoneInfo", rust_name: "EQZoneInfo", size: 0x1f8 },
+    RecordInfo { name: "EQ_Affect", rust_name: "EQ_Affect", size: 0x58 },
+    RecordInfo { name: "EQ_Spell", rust_name: "EQ_Spell", size: 0x4ed },
     RecordInfo { name: "EqGuid", rust_name: "EqGuid", size: 0x8 },
     RecordInfo { name: "EqItemGuid", rust_name: "EqItemGuid", size: 0x12 },
     RecordInfo { name: "EverQuestinfo", rust_name: "EverQuestinfo", size: 0x83f9c },
@@ -23451,6 +31711,8 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "HashTable<CachedFocusAbility,__int64,ResizePolicyNoResize>", rust_name: "HashTable_CachedFocusAbility___int64_ResizePolicyNoResize", size: 0x10 },
     RecordInfo { name: "HashTable<CompletedAchievementData,int,ResizePolicyNoShrink>", rust_name: "HashTable_CompletedAchievementData_int_ResizePolicyNoShrink", size: 0x10 },
     RecordInfo { name: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", rust_name: "HashTable_DynamicZoneData_int_ResizePolicyNoResize", size: 0x10 },
+    RecordInfo { name: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", rust_name: "HashTable_FileStatMgr_FileStat_int_ResizePolicyNoResize", size: 0x10 },
+    RecordInfo { name: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", rust_name: "HashTable_HashTable_DoublyLinkedList_int_int_ResizePolicyNoResize_int_ResizePolicyNoResize", size: 0x10 },
     RecordInfo { name: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", rust_name: "HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink", size: 0x10 },
     RecordInfo { name: "HashTable<ProgressionExperience,int,ResizePolicyNoResize>", rust_name: "HashTable_ProgressionExperience_int_ResizePolicyNoResize", size: 0x10 },
     RecordInfo { name: "HashTable<PvPKill24HourData,int,ResizePolicyNoResize>", rust_name: "HashTable_PvPKill24HourData_int_ResizePolicyNoResize", size: 0x10 },
@@ -23460,9 +31722,15 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "HashTable<int,int,ResizePolicyNoResize>", rust_name: "HashTable_int_int_ResizePolicyNoResize", size: 0x10 },
     RecordInfo { name: "HotButtonData", rust_name: "HotButtonData", size: 0x6c },
     RecordInfo { name: "HotButtonLoadout", rust_name: "HotButtonLoadout", size: 0x20 },
+    RecordInfo { name: "ItemAugmentationSocket", rust_name: "ItemAugmentationSocket", size: 0x8 },
+    RecordInfo { name: "ItemClient", rust_name: "ItemClient", size: 0x150 },
     RecordInfo { name: "ItemContainer", rust_name: "ItemContainer", size: 0x38 },
+    RecordInfo { name: "ItemDefinition", rust_name: "ItemDefinition", size: 0x634 },
     RecordInfo { name: "ItemGlobalIndex", rust_name: "ItemGlobalIndex", size: 0xc },
     RecordInfo { name: "ItemIndex", rust_name: "ItemIndex", size: 0x6 },
+    RecordInfo { name: "ItemSocketData", rust_name: "ItemSocketData", size: 0x30 },
+    RecordInfo { name: "ItemSpellData", rust_name: "ItemSpellData", size: 0x26c },
+    RecordInfo { name: "ItemSpellData::SpellData", rust_name: "ItemSpellData_SpellData", size: 0x64 },
     RecordInfo { name: "KeyCombo", rust_name: "KeyCombo", size: 0x4 },
     RecordInfo { name: "KeypressHandler", rust_name: "KeypressHandler", size: 0x1194 },
     RecordInfo { name: "LaunchSpellData", rust_name: "LaunchSpellData", size: 0x50 },
@@ -23476,18 +31744,23 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "PCTaskStatus", rust_name: "PCTaskStatus", size: 0x70 },
     RecordInfo { name: "PZCPhysicsInfo", rust_name: "PZCPhysicsInfo", size: 0x24 },
     RecordInfo { name: "PcClient", rust_name: "PcClient", size: 0x5804 },
+    RecordInfo { name: "PcProfile", rust_name: "PcProfile", size: 0x9950 },
     RecordInfo { name: "PendingRewardList", rust_name: "PendingRewardList", size: 0x2c },
     RecordInfo { name: "PlayerClient", rust_name: "PlayerClient", size: 0x1f08 },
     RecordInfo { name: "PlayerManagerClient", rust_name: "PlayerManagerClient", size: 0x18 },
     RecordInfo { name: "PlayerPhysicsClient", rust_name: "PlayerPhysicsClient", size: 0x28 },
     RecordInfo { name: "PlayerRoleLoadout", rust_name: "PlayerRoleLoadout", size: 0x84 },
     RecordInfo { name: "PointSystemBase", rust_name: "PointSystemBase", size: 0x14 },
+    RecordInfo { name: "ProfileList", rust_name: "ProfileList", size: 0x14 },
     RecordInfo { name: "ProfileManager", rust_name: "ProfileManager", size: 0x8 },
     RecordInfo { name: "PvPDeath", rust_name: "PvPDeath", size: 0x58 },
     RecordInfo { name: "PvPKill", rust_name: "PvPKill", size: 0x58 },
+    RecordInfo { name: "RequirementAssociationManager", rust_name: "RequirementAssociationManager", size: 0x228 },
     RecordInfo { name: "SDoCollisionMovementStats", rust_name: "SDoCollisionMovementStats", size: 0x74 },
     RecordInfo { name: "SFellowship", rust_name: "SFellowship", size: 0x9e4 },
     RecordInfo { name: "SFellowshipMember", rust_name: "SFellowshipMember", size: 0x54 },
+    RecordInfo { name: "SlotData", rust_name: "SlotData", size: 0x8 },
+    RecordInfo { name: "SoeUtil::SharedPtr<ItemDefinition>", rust_name: "SoeUtil_SharedPtr_ItemDefinition", size: 0x8 },
     RecordInfo { name: "SpellCache", rust_name: "SpellCache", size: 0x58 },
     RecordInfo { name: "SpellLoadout", rust_name: "SpellLoadout", size: 0x4c },
     RecordInfo { name: "StatCounter", rust_name: "StatCounter", size: 0x4 },
@@ -23499,6 +31772,8 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "VeArray<VePointer<ItemClient> >", rust_name: "VeArray_VePointer_ItemClient", size: 0xc },
     RecordInfo { name: "VePointer<ItemClient>", rust_name: "VePointer_ItemClient", size: 0x4 },
     RecordInfo { name: "WorldLocation", rust_name: "WorldLocation", size: 0x14 },
+    RecordInfo { name: "std::_Atomic_padded<int>", rust_name: "std__Atomic_padded_int", size: 0x4 },
+    RecordInfo { name: "std::atomic<int>", rust_name: "std_atomic_int", size: 0x4 },
     RecordInfo { name: "zoneHeader", rust_name: "zoneHeader", size: 0x3b4 },
 ];
 
@@ -23513,6 +31788,9 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ARGBCOLOR", field: "R", accessor: "R", declared_in: "RGB", offset: 0x2, decl_offset: 0x2, size: 0x1, bits: None },
     FieldInfo { record: "ARGBCOLOR", field: "Alpha", accessor: "Alpha", declared_in: "RGB", offset: 0x3, decl_offset: 0x3, size: 0x1, bits: None },
     FieldInfo { record: "ARGBCOLOR", field: "A", accessor: "A", declared_in: "RGB", offset: 0x3, decl_offset: 0x3, size: 0x1, bits: None },
+    FieldInfo { record: "AbilityInfo", field: "AAIndex", accessor: "AAIndex", declared_in: "AbilityInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "AbilityInfo", field: "PointsSpent", accessor: "PointsSpent", declared_in: "AbilityInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "AbilityInfo", field: "ChargeSpent", accessor: "ChargeSpent", declared_in: "AbilityInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ActorClient", field: "__vfptr", accessor: "__vfptr", declared_in: "ActorBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ActorClient", field: "TextureType", accessor: "TextureType", declared_in: "ActorBase", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
     FieldInfo { record: "ActorClient", field: "Material", accessor: "Material", declared_in: "ActorBase", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
@@ -23600,6 +31878,15 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<int>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<int>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<int>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<int>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<unsigned int>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<unsigned int>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<unsigned int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<unsigned int>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<unsigned int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<unsigned int>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<unsigned int>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "BandolierItemInfo", field: "ItemID", accessor: "ItemID", declared_in: "BandolierItemInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "BandolierItemInfo", field: "IconID", accessor: "IconID", declared_in: "BandolierItemInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "BandolierItemInfo", field: "Name", accessor: "Name", declared_in: "BandolierItemInfo", offset: 0x8, decl_offset: 0x8, size: 0x40, bits: None },
+    FieldInfo { record: "BandolierSet", field: "Name", accessor: "Name", declared_in: "BandolierSet", offset: 0x0, decl_offset: 0x0, size: 0x20, bits: None },
+    FieldInfo { record: "BandolierSet", field: "Items", accessor: "Items", declared_in: "BandolierSet", offset: 0x20, decl_offset: 0x20, size: 0x120, bits: None },
     FieldInfo { record: "BenefitSelection", field: "BenefitID", accessor: "BenefitID", declared_in: "BenefitSelection", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "BenefitSelection", field: "BenefitTier", accessor: "BenefitTier", declared_in: "BenefitSelection", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "OriginY", accessor: "OriginY", declared_in: "CLineBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
@@ -23609,6 +31896,23 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CCapsule", field: "DirectionX", accessor: "DirectionX", declared_in: "CLineBase", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "DirectionZ", accessor: "DirectionZ", declared_in: "CLineBase", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "Radius", accessor: "Radius", declared_in: "CCapsule", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CGroup", field: "__vfptr", accessor: "__vfptr", declared_in: "CGroupBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CGroup", field: "m_groupMembers", accessor: "m_groupMembers", declared_in: "CGroupBase", offset: 0x4, decl_offset: 0x4, size: 0x18, bits: None },
+    FieldInfo { record: "CGroup", field: "m_groupLeader", accessor: "m_groupLeader", declared_in: "CGroupBase", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CGroup", field: "m_id", accessor: "m_id", declared_in: "CGroupBase", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CGroup", field: "GroupSelectID", accessor: "GroupSelectID", declared_in: "CGroup", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "__vfptr", accessor: "__vfptr", declared_in: "CGroupMemberBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "Name", accessor: "Name", declared_in: "CGroupMemberBase", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "Type", accessor: "Type", declared_in: "CGroupMemberBase", offset: 0x8, decl_offset: 0x8, size: 0x2, bits: None },
+    FieldInfo { record: "CGroupMember", field: "OwnerName", accessor: "OwnerName", declared_in: "CGroupMemberBase", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "Level", accessor: "Level", declared_in: "CGroupMemberBase", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "bIsOffline", accessor: "bIsOffline", declared_in: "CGroupMemberBase", offset: 0x14, decl_offset: 0x14, size: 0x1, bits: None },
+    FieldInfo { record: "CGroupMember", field: "bRoleStates", accessor: "bRoleStates", declared_in: "CGroupMemberBase", offset: 0x15, decl_offset: 0x15, size: 0x6, bits: None },
+    FieldInfo { record: "CGroupMember", field: "CurrentRoleBits", accessor: "CurrentRoleBits", declared_in: "CGroupMemberBase", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "OnlineTimestamp", accessor: "OnlineTimestamp", declared_in: "CGroupMemberBase", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "pCharacter", accessor: "pCharacter", declared_in: "CGroupMember", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "pPlayer", accessor: "pPlayer", declared_in: "CGroupMember", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CGroupMember", field: "GroupIndex", accessor: "GroupIndex", declared_in: "CGroupMember", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
     FieldInfo { record: "CPhysicsInfo", field: "Y", accessor: "Y", declared_in: "CPhysicsInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CPhysicsInfo", field: "X", accessor: "X", declared_in: "CPhysicsInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CPhysicsInfo", field: "Z", accessor: "Z", declared_in: "CPhysicsInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -23623,6 +31927,16 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CPhysicsInfo", field: "CameraAngle", accessor: "CameraAngle", declared_in: "CPhysicsInfo", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
     FieldInfo { record: "CPlayerPointManager", field: "vfTable", accessor: "vfTable", declared_in: "CPlayerPointManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CPlayerPointManager", field: "Points", accessor: "Points", declared_in: "CPlayerPointManager", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
+    FieldInfo { record: "CStrRep", field: "refCount", accessor: "refCount", declared_in: "CStrRep", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "alloc", accessor: "alloc", declared_in: "CStrRep", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "length", accessor: "length", declared_in: "CStrRep", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "encoding", accessor: "encoding", declared_in: "CStrRep", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "freeList", accessor: "freeList", declared_in: "CStrRep", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "utf8", accessor: "utf8", declared_in: "CStrRep", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "unicode", accessor: "unicode", declared_in: "CStrRep", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CStrRep", field: "next", accessor: "next", declared_in: "CStrRep", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CVector2", field: "X", accessor: "X", declared_in: "CVector2", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CVector2", field: "Y", accessor: "Y", declared_in: "CVector2", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "X", accessor: "X", declared_in: "CVector3", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "Y", accessor: "Y", declared_in: "CVector3", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "Z", accessor: "Z", declared_in: "CVector3", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -23633,6 +31947,17 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CharacterPropertyHash", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "ChatFilterData", field: "chatFilters", accessor: "chatFilters", declared_in: "ChatFilterData", offset: 0x0, decl_offset: 0x0, size: 0x88, bits: None },
     FieldInfo { record: "ClaimDataCollection", field: "claimData", accessor: "claimData", declared_in: "ClaimDataCollection", offset: 0x0, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "__vfptr", accessor: "__vfptr", declared_in: "SpellManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "FileStats", accessor: "FileStats", declared_in: "FileStatMgr", offset: 0x4, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "SpellsCrc32", accessor: "SpellsCrc32", declared_in: "SpellManager", offset: 0x14, decl_offset: 0x14, size: 0x2bf24, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "MissingSpell", accessor: "MissingSpell", declared_in: "SpellManager", offset: 0x2bf38, decl_offset: 0x2bf38, size: 0x4, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "MissingSpellCrc32", accessor: "MissingSpellCrc32", declared_in: "SpellManager", offset: 0x2bf3c, decl_offset: 0x2bf3c, size: 0x4, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "SpellFileCRC", accessor: "SpellFileCRC", declared_in: "SpellManager", offset: 0x2bf40, decl_offset: 0x2bf40, size: 0x4, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "SpellAssocFileCRC", accessor: "SpellAssocFileCRC", declared_in: "SpellManager", offset: 0x2bf44, decl_offset: 0x2bf44, size: 0x4, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "ReqAssocManager", accessor: "ReqAssocManager", declared_in: "SpellManager", offset: 0x2bf48, decl_offset: 0x2bf48, size: 0x228, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "SpellGroups", accessor: "SpellGroups", declared_in: "SpellManager", offset: 0x2c170, decl_offset: 0x2c170, size: 0x10, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "Spells", accessor: "Spells", declared_in: "ClientSpellManager", offset: 0x2c180, decl_offset: 0x2c180, size: 0x2bf24, bits: None },
+    FieldInfo { record: "ClientSpellManager", field: "SpellExtraData", accessor: "SpellExtraData", declared_in: "ClientSpellManager", offset: 0x580a4, decl_offset: 0x580a4, size: 0x57e48, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "distance", accessor: "distance", declared_in: "EQCameraOptions", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "dirHeading", accessor: "dirHeading", declared_in: "EQCameraOptions", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "height", accessor: "height", declared_in: "EQCameraOptions", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -23716,6 +32041,7 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "EQGroundItem", field: "X", accessor: "X", declared_in: "EQGroundItem", offset: 0x74, decl_offset: 0x74, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "Z", accessor: "Z", declared_in: "EQGroundItem", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
     FieldInfo { record: "EQGroundItem", field: "Weight", accessor: "Weight", declared_in: "EQGroundItem", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
+    FieldInfo { record: "EQGroundItemListManager", field: "Top", accessor: "Top", declared_in: "EQGroundItemListManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_numItems", accessor: "m_numItems", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_pHead", accessor: "m_pHead", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQList<AlchemyBonusSkillData *>", field: "m_pTail", accessor: "m_pTail", declared_in: "EQList<AlchemyBonusSkillData *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -23725,6 +32051,8 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "EQSocial", field: "Color", accessor: "Color", declared_in: "EQSocial", offset: 0x510, decl_offset: 0x510, size: 0x1, bits: None },
     FieldInfo { record: "EQSocial", field: "TimerBegin", accessor: "TimerBegin", declared_in: "EQSocial", offset: 0x514, decl_offset: 0x514, size: 0x4, bits: None },
     FieldInfo { record: "EQSocial", field: "TimerDuration", accessor: "TimerDuration", declared_in: "EQSocial", offset: 0x518, decl_offset: 0x518, size: 0x4, bits: None },
+    FieldInfo { record: "EQSpellExtra", field: "OldSpellEff", accessor: "OldSpellEff", declared_in: "EQSpellExtra", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQSpellExtra", field: "NewSpellEff", accessor: "NewSpellEff", declared_in: "EQSpellExtra", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Item", accessor: "Item", declared_in: "EQUIPMENT", offset: 0x0, decl_offset: 0x0, size: 0xb4, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Head", accessor: "Head", declared_in: "EQUIPMENT", offset: 0x0, decl_offset: 0x0, size: 0x14, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Chest", accessor: "Chest", declared_in: "EQUIPMENT", offset: 0x14, decl_offset: 0x14, size: 0x14, bits: None },
@@ -23735,6 +32063,21 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "EQUIPMENT", field: "Feet", accessor: "Feet", declared_in: "EQUIPMENT", offset: 0x78, decl_offset: 0x78, size: 0x14, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Primary", accessor: "Primary", declared_in: "EQUIPMENT", offset: 0x8c, decl_offset: 0x8c, size: 0x14, bits: None },
     FieldInfo { record: "EQUIPMENT", field: "Offhand", accessor: "Offhand", declared_in: "EQUIPMENT", offset: 0xa0, decl_offset: 0xa0, size: 0x14, bits: None },
+    FieldInfo { record: "EQWorldData", field: "__vfptr", accessor: "__vfptr", declared_in: "EQWorldData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQWorldData", field: "Hour", accessor: "Hour", declared_in: "EQWorldData", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "Minute", accessor: "Minute", declared_in: "EQWorldData", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "Day", accessor: "Day", declared_in: "EQWorldData", offset: 0x6, decl_offset: 0x6, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "Month", accessor: "Month", declared_in: "EQWorldData", offset: 0x7, decl_offset: 0x7, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "Year", accessor: "Year", declared_in: "EQWorldData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastHour", accessor: "LastHour", declared_in: "EQWorldData", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastMinute", accessor: "LastMinute", declared_in: "EQWorldData", offset: 0xd, decl_offset: 0xd, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastDay", accessor: "LastDay", declared_in: "EQWorldData", offset: 0xe, decl_offset: 0xe, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastMonth", accessor: "LastMonth", declared_in: "EQWorldData", offset: 0xf, decl_offset: 0xf, size: 0x1, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastYear", accessor: "LastYear", declared_in: "EQWorldData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastAdvance", accessor: "LastAdvance", declared_in: "EQWorldData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "EQWorldData", field: "LastTime", accessor: "LastTime", declared_in: "EQWorldData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "EQWorldData", field: "NextMercenaryId", accessor: "NextMercenaryId", declared_in: "EQWorldData", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "EQWorldData", field: "ZoneArray", accessor: "ZoneArray", declared_in: "EQWorldData", offset: 0x20, decl_offset: 0x20, size: 0xfa0, bits: None },
     FieldInfo { record: "EQZoneInfo", field: "__vfptr", accessor: "__vfptr", declared_in: "EQZoneInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQZoneInfo", field: "EQExpansion", accessor: "EQExpansion", declared_in: "EQZoneInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "EQZoneInfo", field: "Id", accessor: "Id", declared_in: "EQZoneInfo", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
@@ -23755,6 +32098,154 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "EQZoneInfo", field: "ActiveMercenaries", accessor: "ActiveMercenaries", declared_in: "EQZoneInfo", offset: 0x1cc, decl_offset: 0x1cc, size: 0x4, bits: None },
     FieldInfo { record: "EQZoneInfo", field: "SuspendedMercenaries", accessor: "SuspendedMercenaries", declared_in: "EQZoneInfo", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
     FieldInfo { record: "EQZoneInfo", field: "Unknown0x1D4", accessor: "Unknown0x1D4", declared_in: "EQZoneInfo", offset: 0x1d4, decl_offset: 0x1d4, size: 0x24, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Type", accessor: "Type", declared_in: "EQ_Affect", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Level", accessor: "Level", declared_in: "EQ_Affect", offset: 0x1, decl_offset: 0x1, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "ChargesRemaining", accessor: "ChargesRemaining", declared_in: "EQ_Affect", offset: 0x2, decl_offset: 0x2, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Activatable", accessor: "Activatable", declared_in: "EQ_Affect", offset: 0x3, decl_offset: 0x3, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Modifier", accessor: "Modifier", declared_in: "EQ_Affect", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "SpellID", accessor: "SpellID", declared_in: "EQ_Affect", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Duration", accessor: "Duration", declared_in: "EQ_Affect", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "CasterID", accessor: "CasterID", declared_in: "EQ_Affect", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "HitCount", accessor: "HitCount", declared_in: "EQ_Affect", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Y", accessor: "Y", declared_in: "EQ_Affect", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "X", accessor: "X", declared_in: "EQ_Affect", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Z", accessor: "Z", declared_in: "EQ_Affect", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "Flags", accessor: "Flags", declared_in: "EQ_Affect", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Affect", field: "SlotData", accessor: "SlotData", declared_in: "EQ_Affect", offset: 0x28, decl_offset: 0x28, size: 0x30, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Range", accessor: "Range", declared_in: "EQ_Spell", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "AERange", accessor: "AERange", declared_in: "EQ_Spell", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PushBack", accessor: "PushBack", declared_in: "EQ_Spell", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PushUp", accessor: "PushUp", declared_in: "EQ_Spell", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastTime", accessor: "CastTime", declared_in: "EQ_Spell", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "RecoveryTime", accessor: "RecoveryTime", declared_in: "EQ_Spell", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "RecastTime", accessor: "RecastTime", declared_in: "EQ_Spell", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DurationType", accessor: "DurationType", declared_in: "EQ_Spell", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DurationCap", accessor: "DurationCap", declared_in: "EQ_Spell", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "AEDuration", accessor: "AEDuration", declared_in: "EQ_Spell", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ManaCost", accessor: "ManaCost", declared_in: "EQ_Spell", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Base", accessor: "Base", declared_in: "EQ_Spell", offset: 0x2c, decl_offset: 0x2c, size: 0x30, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Base2", accessor: "Base2", declared_in: "EQ_Spell", offset: 0x5c, decl_offset: 0x5c, size: 0x30, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Max", accessor: "Max", declared_in: "EQ_Spell", offset: 0x8c, decl_offset: 0x8c, size: 0x30, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ReagentID", accessor: "ReagentID", declared_in: "EQ_Spell", offset: 0xbc, decl_offset: 0xbc, size: 0x10, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ReagentCount", accessor: "ReagentCount", declared_in: "EQ_Spell", offset: 0xcc, decl_offset: 0xcc, size: 0x10, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoExpendReagent", accessor: "NoExpendReagent", declared_in: "EQ_Spell", offset: 0xdc, decl_offset: 0xdc, size: 0x10, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Calc", accessor: "Calc", declared_in: "EQ_Spell", offset: 0xec, decl_offset: 0xec, size: 0x30, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Attrib", accessor: "Attrib", declared_in: "EQ_Spell", offset: 0x11c, decl_offset: 0x11c, size: 0x30, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "BookIcon", accessor: "BookIcon", declared_in: "EQ_Spell", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "GemIcon", accessor: "GemIcon", declared_in: "EQ_Spell", offset: 0x150, decl_offset: 0x150, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DescriptionIndex", accessor: "DescriptionIndex", declared_in: "EQ_Spell", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ResistAdj", accessor: "ResistAdj", declared_in: "EQ_Spell", offset: 0x158, decl_offset: 0x158, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Deity", accessor: "Deity", declared_in: "EQ_Spell", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "spaindex", accessor: "spaindex", declared_in: "EQ_Spell", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellAnim", accessor: "SpellAnim", declared_in: "EQ_Spell", offset: 0x164, decl_offset: 0x164, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellIcon", accessor: "SpellIcon", declared_in: "EQ_Spell", offset: 0x168, decl_offset: 0x168, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DurationParticleEffect", accessor: "DurationParticleEffect", declared_in: "EQ_Spell", offset: 0x16c, decl_offset: 0x16c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NPCUsefulness", accessor: "NPCUsefulness", declared_in: "EQ_Spell", offset: 0x170, decl_offset: 0x170, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ID", accessor: "ID", declared_in: "EQ_Spell", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Autocast", accessor: "Autocast", declared_in: "EQ_Spell", offset: 0x178, decl_offset: 0x178, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Category", accessor: "Category", declared_in: "EQ_Spell", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Subcategory", accessor: "Subcategory", declared_in: "EQ_Spell", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Subcategory2", accessor: "Subcategory2", declared_in: "EQ_Spell", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "HateMod", accessor: "HateMod", declared_in: "EQ_Spell", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ResistPerLevel", accessor: "ResistPerLevel", declared_in: "EQ_Spell", offset: 0x18c, decl_offset: 0x18c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ResistCap", accessor: "ResistCap", declared_in: "EQ_Spell", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "EnduranceCost", accessor: "EnduranceCost", declared_in: "EQ_Spell", offset: 0x194, decl_offset: 0x194, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ReuseTimerIndex", accessor: "ReuseTimerIndex", declared_in: "EQ_Spell", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "EnduranceUpkeep", accessor: "EnduranceUpkeep", declared_in: "EQ_Spell", offset: 0x19c, decl_offset: 0x19c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "HateGenerated", accessor: "HateGenerated", declared_in: "EQ_Spell", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "HitCountType", accessor: "HitCountType", declared_in: "EQ_Spell", offset: 0x1a4, decl_offset: 0x1a4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "HitCount", accessor: "HitCount", declared_in: "EQ_Spell", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ConeStartAngle", accessor: "ConeStartAngle", declared_in: "EQ_Spell", offset: 0x1ac, decl_offset: 0x1ac, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ConeEndAngle", accessor: "ConeEndAngle", declared_in: "EQ_Spell", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PvPResistBase", accessor: "PvPResistBase", declared_in: "EQ_Spell", offset: 0x1b4, decl_offset: 0x1b4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PvPCalc", accessor: "PvPCalc", declared_in: "EQ_Spell", offset: 0x1b8, decl_offset: 0x1b8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PvPResistCap", accessor: "PvPResistCap", declared_in: "EQ_Spell", offset: 0x1bc, decl_offset: 0x1bc, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PvPDuration", accessor: "PvPDuration", declared_in: "EQ_Spell", offset: 0x1c0, decl_offset: 0x1c0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PvPDurationCap", accessor: "PvPDurationCap", declared_in: "EQ_Spell", offset: 0x1c4, decl_offset: 0x1c4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "GlobalGroup", accessor: "GlobalGroup", declared_in: "EQ_Spell", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "PCNPCOnlyFlag", accessor: "PCNPCOnlyFlag", declared_in: "EQ_Spell", offset: 0x1cc, decl_offset: 0x1cc, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NPCMemCategory", accessor: "NPCMemCategory", declared_in: "EQ_Spell", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellGroup", accessor: "SpellGroup", declared_in: "EQ_Spell", offset: 0x1d4, decl_offset: 0x1d4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellSubGroup", accessor: "SpellSubGroup", declared_in: "EQ_Spell", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellRank", accessor: "SpellRank", declared_in: "EQ_Spell", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellClass", accessor: "SpellClass", declared_in: "EQ_Spell", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellSubClass", accessor: "SpellSubClass", declared_in: "EQ_Spell", offset: 0x1e4, decl_offset: 0x1e4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellReqAssociationID", accessor: "SpellReqAssociationID", declared_in: "EQ_Spell", offset: 0x1e8, decl_offset: 0x1e8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CasterRequirementID", accessor: "CasterRequirementID", declared_in: "EQ_Spell", offset: 0x1ec, decl_offset: 0x1ec, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "MaxResist", accessor: "MaxResist", declared_in: "EQ_Spell", offset: 0x1f0, decl_offset: 0x1f0, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "MinResist", accessor: "MinResist", declared_in: "EQ_Spell", offset: 0x1f4, decl_offset: 0x1f4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "MinSpreadTime", accessor: "MinSpreadTime", declared_in: "EQ_Spell", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "MaxSpreadTime", accessor: "MaxSpreadTime", declared_in: "EQ_Spell", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpreadRadius", accessor: "SpreadRadius", declared_in: "EQ_Spell", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "BaseEffectsFocusCap", accessor: "BaseEffectsFocusCap", declared_in: "EQ_Spell", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CritChanceOverride", accessor: "CritChanceOverride", declared_in: "EQ_Spell", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "MaxTargets", accessor: "MaxTargets", declared_in: "EQ_Spell", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "AIValidTargets", accessor: "AIValidTargets", declared_in: "EQ_Spell", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "BaseEffectsFocusOffset", accessor: "BaseEffectsFocusOffset", declared_in: "EQ_Spell", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "BaseEffectsFocusSlope", accessor: "BaseEffectsFocusSlope", declared_in: "EQ_Spell", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DistanceModStart", accessor: "DistanceModStart", declared_in: "EQ_Spell", offset: 0x21c, decl_offset: 0x21c, size: 0x8, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DistanceModEnd", accessor: "DistanceModEnd", declared_in: "EQ_Spell", offset: 0x224, decl_offset: 0x224, size: 0x8, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "MinRange", accessor: "MinRange", declared_in: "EQ_Spell", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoNPCLOS", accessor: "NoNPCLOS", declared_in: "EQ_Spell", offset: 0x230, decl_offset: 0x230, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Feedbackable", accessor: "Feedbackable", declared_in: "EQ_Spell", offset: 0x231, decl_offset: 0x231, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Reflectable", accessor: "Reflectable", declared_in: "EQ_Spell", offset: 0x232, decl_offset: 0x232, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoPartialSave", accessor: "NoPartialSave", declared_in: "EQ_Spell", offset: 0x233, decl_offset: 0x233, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoResist", accessor: "NoResist", declared_in: "EQ_Spell", offset: 0x234, decl_offset: 0x234, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "UsesPersistentParticles", accessor: "UsesPersistentParticles", declared_in: "EQ_Spell", offset: 0x235, decl_offset: 0x235, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SmallTargetsOnly", accessor: "SmallTargetsOnly", declared_in: "EQ_Spell", offset: 0x236, decl_offset: 0x236, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "DurationWindow", accessor: "DurationWindow", declared_in: "EQ_Spell", offset: 0x237, decl_offset: 0x237, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Uninterruptable", accessor: "Uninterruptable", declared_in: "EQ_Spell", offset: 0x238, decl_offset: 0x238, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NotStackableDot", accessor: "NotStackableDot", declared_in: "EQ_Spell", offset: 0x239, decl_offset: 0x239, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Deletable", accessor: "Deletable", declared_in: "EQ_Spell", offset: 0x23a, decl_offset: 0x23a, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "BypassRegenCheck", accessor: "BypassRegenCheck", declared_in: "EQ_Spell", offset: 0x23b, decl_offset: 0x23b, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CanCastInCombat", accessor: "CanCastInCombat", declared_in: "EQ_Spell", offset: 0x23c, decl_offset: 0x23c, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CanCastOutOfCombat", accessor: "CanCastOutOfCombat", declared_in: "EQ_Spell", offset: 0x23d, decl_offset: 0x23d, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoHealDamageItemMod", accessor: "NoHealDamageItemMod", declared_in: "EQ_Spell", offset: 0x23e, decl_offset: 0x23e, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "OnlyDuringFastRegen", accessor: "OnlyDuringFastRegen", declared_in: "EQ_Spell", offset: 0x23f, decl_offset: 0x23f, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastNotStanding", accessor: "CastNotStanding", declared_in: "EQ_Spell", offset: 0x240, decl_offset: 0x240, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CanMGB", accessor: "CanMGB", declared_in: "EQ_Spell", offset: 0x241, decl_offset: 0x241, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoDispell", accessor: "NoDispell", declared_in: "EQ_Spell", offset: 0x242, decl_offset: 0x242, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "AffectInanimate", accessor: "AffectInanimate", declared_in: "EQ_Spell", offset: 0x243, decl_offset: 0x243, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "IsSkill", accessor: "IsSkill", declared_in: "EQ_Spell", offset: 0x244, decl_offset: 0x244, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ShowDoTMessage", accessor: "ShowDoTMessage", declared_in: "EQ_Spell", offset: 0x245, decl_offset: 0x245, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ClassLevel", accessor: "ClassLevel", declared_in: "EQ_Spell", offset: 0x246, decl_offset: 0x246, size: 0x24, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "LightType", accessor: "LightType", declared_in: "EQ_Spell", offset: 0x26a, decl_offset: 0x26a, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellType", accessor: "SpellType", declared_in: "EQ_Spell", offset: 0x26b, decl_offset: 0x26b, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Activated", accessor: "Activated", declared_in: "EQ_Spell", offset: 0x26c, decl_offset: 0x26c, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Resist", accessor: "Resist", declared_in: "EQ_Spell", offset: 0x26d, decl_offset: 0x26d, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "TargetType", accessor: "TargetType", declared_in: "EQ_Spell", offset: 0x26e, decl_offset: 0x26e, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastDifficulty", accessor: "CastDifficulty", declared_in: "EQ_Spell", offset: 0x26f, decl_offset: 0x26f, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Skill", accessor: "Skill", declared_in: "EQ_Spell", offset: 0x270, decl_offset: 0x270, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ZoneType", accessor: "ZoneType", declared_in: "EQ_Spell", offset: 0x271, decl_offset: 0x271, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Environment", accessor: "Environment", declared_in: "EQ_Spell", offset: 0x272, decl_offset: 0x272, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "TimeOfDay", accessor: "TimeOfDay", declared_in: "EQ_Spell", offset: 0x273, decl_offset: 0x273, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastingAnim", accessor: "CastingAnim", declared_in: "EQ_Spell", offset: 0x274, decl_offset: 0x274, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "AnimVariation", accessor: "AnimVariation", declared_in: "EQ_Spell", offset: 0x275, decl_offset: 0x275, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "TargetAnim", accessor: "TargetAnim", declared_in: "EQ_Spell", offset: 0x276, decl_offset: 0x276, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "TravelType", accessor: "TravelType", declared_in: "EQ_Spell", offset: 0x277, decl_offset: 0x277, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CancelOnSit", accessor: "CancelOnSit", declared_in: "EQ_Spell", offset: 0x278, decl_offset: 0x278, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CountdownHeld", accessor: "CountdownHeld", declared_in: "EQ_Spell", offset: 0x279, decl_offset: 0x279, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Name", accessor: "Name", declared_in: "EQ_Spell", offset: 0x27a, decl_offset: 0x27a, size: 0x40, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Target", accessor: "Target", declared_in: "EQ_Spell", offset: 0x2ba, decl_offset: 0x2ba, size: 0x20, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Extra", accessor: "Extra", declared_in: "EQ_Spell", offset: 0x2da, decl_offset: 0x2da, size: 0x20, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastByMe", accessor: "CastByMe", declared_in: "EQ_Spell", offset: 0x2fa, decl_offset: 0x2fa, size: 0x60, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastByOther", accessor: "CastByOther", declared_in: "EQ_Spell", offset: 0x35a, decl_offset: 0x35a, size: 0x60, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastOnYou", accessor: "CastOnYou", declared_in: "EQ_Spell", offset: 0x3ba, decl_offset: 0x3ba, size: 0x60, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CastOnAnother", accessor: "CastOnAnother", declared_in: "EQ_Spell", offset: 0x41a, decl_offset: 0x41a, size: 0x60, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "WearOff", accessor: "WearOff", declared_in: "EQ_Spell", offset: 0x47a, decl_offset: 0x47a, size: 0x60, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "ShowWearOffMessage", accessor: "ShowWearOffMessage", declared_in: "EQ_Spell", offset: 0x4da, decl_offset: 0x4da, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NPCChanceofKnowingSpell", accessor: "NPCChanceofKnowingSpell", declared_in: "EQ_Spell", offset: 0x4db, decl_offset: 0x4db, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SneakAttack", accessor: "SneakAttack", declared_in: "EQ_Spell", offset: 0x4dc, decl_offset: 0x4dc, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NotFocusable", accessor: "NotFocusable", declared_in: "EQ_Spell", offset: 0x4dd, decl_offset: 0x4dd, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoHate", accessor: "NoHate", declared_in: "EQ_Spell", offset: 0x4de, decl_offset: 0x4de, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "StacksWithSelf", accessor: "StacksWithSelf", declared_in: "EQ_Spell", offset: 0x4df, decl_offset: 0x4df, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoBuffBlock", accessor: "NoBuffBlock", declared_in: "EQ_Spell", offset: 0x4e0, decl_offset: 0x4e0, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "Scribable", accessor: "Scribable", declared_in: "EQ_Spell", offset: 0x4e1, decl_offset: 0x4e1, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoStripOnDeath", accessor: "NoStripOnDeath", declared_in: "EQ_Spell", offset: 0x4e2, decl_offset: 0x4e2, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoRemove", accessor: "NoRemove", declared_in: "EQ_Spell", offset: 0x4e3, decl_offset: 0x4e3, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "NoOverwrite", accessor: "NoOverwrite", declared_in: "EQ_Spell", offset: 0x4e4, decl_offset: 0x4e4, size: 0x4, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "CRC32Marker", accessor: "CRC32Marker", declared_in: "EQ_Spell", offset: 0x4e8, decl_offset: 0x4e8, size: 0x1, bits: None },
+    FieldInfo { record: "EQ_Spell", field: "SpellRecourseType", accessor: "SpellRecourseType", declared_in: "EQ_Spell", offset: 0x4e9, decl_offset: 0x4e9, size: 0x4, bits: None },
     FieldInfo { record: "EqGuid", field: "GUID", accessor: "GUID", declared_in: "EqGuid", offset: 0x0, decl_offset: 0x0, size: 0x8, bits: None },
     FieldInfo { record: "EqGuid", field: "UniqueEntityID", accessor: "UniqueEntityID", declared_in: "EqGuid", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EqGuid", field: "WorldUniqueID", accessor: "WorldUniqueID", declared_in: "EqGuid", offset: 0x4, decl_offset: 0x4, size: 0x2, bits: None },
@@ -24188,6 +32679,14 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<DynamicZoneData,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", field: "m_table", accessor: "m_table", declared_in: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<FileStatMgr::FileStat *,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", field: "m_table", accessor: "m_table", declared_in: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<HashTable<DoublyLinkedList<int> *,int,ResizePolicyNoResize> *,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", field: "m_table", accessor: "m_table", declared_in: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<MailItemData,EqItemGuid,ResizePolicyNoShrink>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -24228,6 +32727,56 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "HotButtonLoadout", field: "inuse", accessor: "inuse", declared_in: "HotButtonLoadout", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
     FieldInfo { record: "HotButtonLoadout", field: "changed", accessor: "changed", declared_in: "HotButtonLoadout", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
     FieldInfo { record: "HotButtonLoadout", field: "id", accessor: "id", declared_in: "HotButtonLoadout", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemAugmentationSocket", field: "Type", accessor: "Type", declared_in: "ItemAugmentationSocket", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemAugmentationSocket", field: "bVisible", accessor: "bVisible", declared_in: "ItemAugmentationSocket", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
+    FieldInfo { record: "ItemAugmentationSocket", field: "bInfusible", accessor: "bInfusible", declared_in: "ItemAugmentationSocket", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "__vfptr", accessor: "__vfptr", declared_in: "VeBaseReferenceCount", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ReferenceCount", accessor: "ReferenceCount", declared_in: "VeBaseReferenceCount", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "__vfptr", accessor: "IChildItemContainer___vfptr", declared_in: "IChildItemContainer", offset: 0x8, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "AugFlag", accessor: "AugFlag", declared_in: "ItemBase", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "SaveString", accessor: "SaveString", declared_in: "ItemBase", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "Open", accessor: "Open", declared_in: "ItemBase", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ItemHash", accessor: "ItemHash", declared_in: "ItemBase", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "bCopied", accessor: "bCopied", declared_in: "ItemBase", offset: 0x1c, decl_offset: 0x1c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "EvolvingExpPct", accessor: "EvolvingExpPct", declared_in: "ItemBase", offset: 0x20, decl_offset: 0x20, size: 0x8, bits: None },
+    FieldInfo { record: "ItemClient", field: "Price", accessor: "Price", declared_in: "ItemBase", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "EvolvingMaxLevel", accessor: "EvolvingMaxLevel", declared_in: "ItemBase", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "bItemNeedsUpdate", accessor: "bItemNeedsUpdate", declared_in: "ItemBase", offset: 0x30, decl_offset: 0x30, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "LastCastTime", accessor: "LastCastTime", declared_in: "ItemBase", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "GlobalIndex", accessor: "GlobalIndex", declared_in: "ItemBase", offset: 0x38, decl_offset: 0x38, size: 0xc, bits: None },
+    FieldInfo { record: "ItemClient", field: "Charges", accessor: "Charges", declared_in: "ItemBase", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "NewArmorID", accessor: "NewArmorID", declared_in: "ItemBase", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ActorTag1", accessor: "ActorTag1", declared_in: "ItemBase", offset: 0x4c, decl_offset: 0x4c, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemClient", field: "NoteStatus", accessor: "NoteStatus", declared_in: "ItemBase", offset: 0x6c, decl_offset: 0x6c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ScriptIndex", accessor: "ScriptIndex", declared_in: "ItemBase", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "bRealEstateItemPlaceable", accessor: "bRealEstateItemPlaceable", declared_in: "ItemBase", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "RespawnTime", accessor: "RespawnTime", declared_in: "ItemBase", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "RealEstateID", accessor: "RealEstateID", declared_in: "ItemBase", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "NoDropFlag", accessor: "NoDropFlag", declared_in: "ItemBase", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "OrnamentationIcon", accessor: "OrnamentationIcon", declared_in: "ItemBase", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "RealEstateArray", accessor: "RealEstateArray", declared_in: "ItemBase", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "ItemClient", field: "StackCount", accessor: "StackCount", declared_in: "ItemBase", offset: 0x98, decl_offset: 0x98, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "Item1", accessor: "Item1", declared_in: "ItemBase", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "Contents", accessor: "Contents", declared_in: "ItemBase", offset: 0xa0, decl_offset: 0xa0, size: 0x38, bits: None },
+    FieldInfo { record: "ItemClient", field: "ItemGUID", accessor: "ItemGUID", declared_in: "ItemBase", offset: 0xd8, decl_offset: 0xd8, size: 0x12, bits: None },
+    FieldInfo { record: "ItemClient", field: "GroupID", accessor: "GroupID", declared_in: "ItemBase", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ArmorType", accessor: "ArmorType", declared_in: "ItemBase", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "LastEquipped", accessor: "LastEquipped", declared_in: "ItemBase", offset: 0xf4, decl_offset: 0xf4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "MerchantSlot", accessor: "MerchantSlot", declared_in: "ItemBase", offset: 0xf8, decl_offset: 0xf8, size: 0x8, bits: None },
+    FieldInfo { record: "ItemClient", field: "bDisableAugTexture", accessor: "bDisableAugTexture", declared_in: "ItemBase", offset: 0x100, decl_offset: 0x100, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "bRankDisabled", accessor: "bRankDisabled", declared_in: "ItemBase", offset: 0x101, decl_offset: 0x101, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "MerchantQuantity", accessor: "MerchantQuantity", declared_in: "ItemBase", offset: 0x104, decl_offset: 0x104, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "EvolvingCurrentLevel", accessor: "EvolvingCurrentLevel", declared_in: "ItemBase", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "IsEvolvingItem", accessor: "IsEvolvingItem", declared_in: "ItemBase", offset: 0x10c, decl_offset: 0x10c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "Power", accessor: "Power", declared_in: "ItemBase", offset: 0x110, decl_offset: 0x110, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ActorTag2", accessor: "ActorTag2", declared_in: "ItemBase", offset: 0x114, decl_offset: 0x114, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemClient", field: "EvolvingExpOn", accessor: "EvolvingExpOn", declared_in: "ItemBase", offset: 0x132, decl_offset: 0x132, size: 0x1, bits: None },
+    FieldInfo { record: "ItemClient", field: "ItemColor", accessor: "ItemColor", declared_in: "ItemBase", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "Tint", accessor: "Tint", declared_in: "ItemBase", offset: 0x138, decl_offset: 0x138, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "ID", accessor: "ID", declared_in: "ItemBase", offset: 0x13c, decl_offset: 0x13c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "Padding0x140", accessor: "Padding0x140", declared_in: "ItemClient", offset: 0x140, decl_offset: 0x140, size: 0x4, bits: None },
+    FieldInfo { record: "ItemClient", field: "SharedItemDef", accessor: "SharedItemDef", declared_in: "ItemClient", offset: 0x144, decl_offset: 0x144, size: 0x8, bits: None },
+    FieldInfo { record: "ItemClient", field: "ClientString", accessor: "ClientString", declared_in: "ItemClient", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_size", accessor: "m_size", declared_in: "ItemContainer", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_type", accessor: "m_type", declared_in: "ItemContainer", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_items", accessor: "m_items", declared_in: "ItemContainer", offset: 0x8, decl_offset: 0x8, size: 0xc, bits: None },
@@ -24235,9 +32784,196 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ItemContainer", field: "m_slots", accessor: "m_slots", declared_in: "ItemContainer", offset: 0x16, decl_offset: 0x16, size: 0x4, bits: None },
     FieldInfo { record: "ItemContainer", field: "m_bDynamic", accessor: "m_bDynamic", declared_in: "ItemContainer", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
     FieldInfo { record: "ItemContainer", field: "Uknown0xc0", accessor: "Uknown0xc0", declared_in: "ItemContainer", offset: 0x1c, decl_offset: 0x1c, size: 0x1c, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Name", accessor: "Name", declared_in: "ItemDefinition", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "LoreName", accessor: "LoreName", declared_in: "ItemDefinition", offset: 0x40, decl_offset: 0x40, size: 0x50, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AdvancedLoreName", accessor: "AdvancedLoreName", declared_in: "ItemDefinition", offset: 0x90, decl_offset: 0x90, size: 0x20, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "IDFile", accessor: "IDFile", declared_in: "ItemDefinition", offset: 0xb0, decl_offset: 0xb0, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "IDFile2", accessor: "IDFile2", declared_in: "ItemDefinition", offset: 0xce, decl_offset: 0xce, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ItemNumber", accessor: "ItemNumber", declared_in: "ItemDefinition", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "EquipSlots", accessor: "EquipSlots", declared_in: "ItemDefinition", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Cost", accessor: "Cost", declared_in: "ItemDefinition", offset: 0xf4, decl_offset: 0xf4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "IconNumber", accessor: "IconNumber", declared_in: "ItemDefinition", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "eGMRequirement", accessor: "eGMRequirement", declared_in: "ItemDefinition", offset: 0xfc, decl_offset: 0xfc, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bPoofOnDeath", accessor: "bPoofOnDeath", declared_in: "ItemDefinition", offset: 0xfd, decl_offset: 0xfd, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Unknown0x0100", accessor: "Unknown0x0100", declared_in: "ItemDefinition", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Unknown0x0104", accessor: "Unknown0x0104", declared_in: "ItemDefinition", offset: 0x104, decl_offset: 0x104, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Weight", accessor: "Weight", declared_in: "ItemDefinition", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "NoRent", accessor: "NoRent", declared_in: "ItemDefinition", offset: 0x10c, decl_offset: 0x10c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "IsDroppable", accessor: "IsDroppable", declared_in: "ItemDefinition", offset: 0x10d, decl_offset: 0x10d, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Attuneable", accessor: "Attuneable", declared_in: "ItemDefinition", offset: 0x10e, decl_offset: 0x10e, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Heirloom", accessor: "Heirloom", declared_in: "ItemDefinition", offset: 0x10f, decl_offset: 0x10f, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Collectible", accessor: "Collectible", declared_in: "ItemDefinition", offset: 0x110, decl_offset: 0x110, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "NoDestroy", accessor: "NoDestroy", declared_in: "ItemDefinition", offset: 0x111, decl_offset: 0x111, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "MarketPlace", accessor: "MarketPlace", declared_in: "ItemDefinition", offset: 0x112, decl_offset: 0x112, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "NoZone", accessor: "NoZone", declared_in: "ItemDefinition", offset: 0x113, decl_offset: 0x113, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "MakerID", accessor: "MakerID", declared_in: "ItemDefinition", offset: 0x114, decl_offset: 0x114, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "NoGround", accessor: "NoGround", declared_in: "ItemDefinition", offset: 0x118, decl_offset: 0x118, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Size", accessor: "Size", declared_in: "ItemDefinition", offset: 0x119, decl_offset: 0x119, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Type", accessor: "Type", declared_in: "ItemDefinition", offset: 0x11a, decl_offset: 0x11a, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "TradeSkills", accessor: "TradeSkills", declared_in: "ItemDefinition", offset: 0x11b, decl_offset: 0x11b, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Lore", accessor: "Lore", declared_in: "ItemDefinition", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Artifact", accessor: "Artifact", declared_in: "ItemDefinition", offset: 0x120, decl_offset: 0x120, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Summoned", accessor: "Summoned", declared_in: "ItemDefinition", offset: 0x121, decl_offset: 0x121, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SvCold", accessor: "SvCold", declared_in: "ItemDefinition", offset: 0x122, decl_offset: 0x122, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SvFire", accessor: "SvFire", declared_in: "ItemDefinition", offset: 0x123, decl_offset: 0x123, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SvMagic", accessor: "SvMagic", declared_in: "ItemDefinition", offset: 0x124, decl_offset: 0x124, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SvDisease", accessor: "SvDisease", declared_in: "ItemDefinition", offset: 0x125, decl_offset: 0x125, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SvPoison", accessor: "SvPoison", declared_in: "ItemDefinition", offset: 0x126, decl_offset: 0x126, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SvCorruption", accessor: "SvCorruption", declared_in: "ItemDefinition", offset: 0x127, decl_offset: 0x127, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "STR", accessor: "STR", declared_in: "ItemDefinition", offset: 0x128, decl_offset: 0x128, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "STA", accessor: "STA", declared_in: "ItemDefinition", offset: 0x129, decl_offset: 0x129, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AGI", accessor: "AGI", declared_in: "ItemDefinition", offset: 0x12a, decl_offset: 0x12a, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "DEX", accessor: "DEX", declared_in: "ItemDefinition", offset: 0x12b, decl_offset: 0x12b, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "CHA", accessor: "CHA", declared_in: "ItemDefinition", offset: 0x12c, decl_offset: 0x12c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "INT", accessor: "INT", declared_in: "ItemDefinition", offset: 0x12d, decl_offset: 0x12d, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "WIS", accessor: "WIS", declared_in: "ItemDefinition", offset: 0x12e, decl_offset: 0x12e, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HP", accessor: "HP", declared_in: "ItemDefinition", offset: 0x130, decl_offset: 0x130, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Mana", accessor: "Mana", declared_in: "ItemDefinition", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AC", accessor: "AC", declared_in: "ItemDefinition", offset: 0x138, decl_offset: 0x138, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "RequiredLevel", accessor: "RequiredLevel", declared_in: "ItemDefinition", offset: 0x13c, decl_offset: 0x13c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "RecommendedLevel", accessor: "RecommendedLevel", declared_in: "ItemDefinition", offset: 0x140, decl_offset: 0x140, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "RecommendedSkill", accessor: "RecommendedSkill", declared_in: "ItemDefinition", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SkillModType", accessor: "SkillModType", declared_in: "ItemDefinition", offset: 0x148, decl_offset: 0x148, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SkillModValue", accessor: "SkillModValue", declared_in: "ItemDefinition", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SkillModMax", accessor: "SkillModMax", declared_in: "ItemDefinition", offset: 0x150, decl_offset: 0x150, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SkillModBonus", accessor: "SkillModBonus", declared_in: "ItemDefinition", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BaneDMGRace", accessor: "BaneDMGRace", declared_in: "ItemDefinition", offset: 0x158, decl_offset: 0x158, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BaneDMGBodyType", accessor: "BaneDMGBodyType", declared_in: "ItemDefinition", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BaneDMGBodyTypeValue", accessor: "BaneDMGBodyTypeValue", declared_in: "ItemDefinition", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BaneDMGRaceValue", accessor: "BaneDMGRaceValue", declared_in: "ItemDefinition", offset: 0x164, decl_offset: 0x164, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "InstrumentType", accessor: "InstrumentType", declared_in: "ItemDefinition", offset: 0x168, decl_offset: 0x168, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "InstrumentMod", accessor: "InstrumentMod", declared_in: "ItemDefinition", offset: 0x16c, decl_offset: 0x16c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Classes", accessor: "Classes", declared_in: "ItemDefinition", offset: 0x170, decl_offset: 0x170, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Races", accessor: "Races", declared_in: "ItemDefinition", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Deity", accessor: "Deity", declared_in: "ItemDefinition", offset: 0x178, decl_offset: 0x178, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "MaterialTintIndex", accessor: "MaterialTintIndex", declared_in: "ItemDefinition", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Magic", accessor: "Magic", declared_in: "ItemDefinition", offset: 0x180, decl_offset: 0x180, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Light", accessor: "Light", declared_in: "ItemDefinition", offset: 0x181, decl_offset: 0x181, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Delay", accessor: "Delay", declared_in: "ItemDefinition", offset: 0x182, decl_offset: 0x182, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ElementalFlag", accessor: "ElementalFlag", declared_in: "ItemDefinition", offset: 0x183, decl_offset: 0x183, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ElementalDamage", accessor: "ElementalDamage", declared_in: "ItemDefinition", offset: 0x184, decl_offset: 0x184, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Range", accessor: "Range", declared_in: "ItemDefinition", offset: 0x185, decl_offset: 0x185, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Damage", accessor: "Damage", declared_in: "ItemDefinition", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BackstabDamage", accessor: "BackstabDamage", declared_in: "ItemDefinition", offset: 0x18c, decl_offset: 0x18c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "DamageShieldMitigation", accessor: "DamageShieldMitigation", declared_in: "ItemDefinition", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSTR", accessor: "HeroicSTR", declared_in: "ItemDefinition", offset: 0x194, decl_offset: 0x194, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicINT", accessor: "HeroicINT", declared_in: "ItemDefinition", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicWIS", accessor: "HeroicWIS", declared_in: "ItemDefinition", offset: 0x19c, decl_offset: 0x19c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicAGI", accessor: "HeroicAGI", declared_in: "ItemDefinition", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicDEX", accessor: "HeroicDEX", declared_in: "ItemDefinition", offset: 0x1a4, decl_offset: 0x1a4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSTA", accessor: "HeroicSTA", declared_in: "ItemDefinition", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicCHA", accessor: "HeroicCHA", declared_in: "ItemDefinition", offset: 0x1ac, decl_offset: 0x1ac, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSvMagic", accessor: "HeroicSvMagic", declared_in: "ItemDefinition", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSvFire", accessor: "HeroicSvFire", declared_in: "ItemDefinition", offset: 0x1b4, decl_offset: 0x1b4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSvCold", accessor: "HeroicSvCold", declared_in: "ItemDefinition", offset: 0x1b8, decl_offset: 0x1b8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSvDisease", accessor: "HeroicSvDisease", declared_in: "ItemDefinition", offset: 0x1bc, decl_offset: 0x1bc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSvPoison", accessor: "HeroicSvPoison", declared_in: "ItemDefinition", offset: 0x1c0, decl_offset: 0x1c0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HeroicSvCorruption", accessor: "HeroicSvCorruption", declared_in: "ItemDefinition", offset: 0x1c4, decl_offset: 0x1c4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HealAmount", accessor: "HealAmount", declared_in: "ItemDefinition", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SpellDamage", accessor: "SpellDamage", declared_in: "ItemDefinition", offset: 0x1cc, decl_offset: 0x1cc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Prestige", accessor: "Prestige", declared_in: "ItemDefinition", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ItemClass", accessor: "ItemClass", declared_in: "ItemDefinition", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ArmorProps", accessor: "ArmorProps", declared_in: "ItemDefinition", offset: 0x1d8, decl_offset: 0x1d8, size: 0x14, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AugData", accessor: "AugData", declared_in: "ItemDefinition", offset: 0x1ec, decl_offset: 0x1ec, size: 0x30, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AugType", accessor: "AugType", declared_in: "ItemDefinition", offset: 0x21c, decl_offset: 0x21c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AugSkinTypeMask", accessor: "AugSkinTypeMask", declared_in: "ItemDefinition", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AugRestrictions", accessor: "AugRestrictions", declared_in: "ItemDefinition", offset: 0x224, decl_offset: 0x224, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SolventItemID", accessor: "SolventItemID", declared_in: "ItemDefinition", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "LDTheme", accessor: "LDTheme", declared_in: "ItemDefinition", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "LDCost", accessor: "LDCost", declared_in: "ItemDefinition", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "LDType", accessor: "LDType", declared_in: "ItemDefinition", offset: 0x234, decl_offset: 0x234, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Unknown0x0238", accessor: "Unknown0x0238", declared_in: "ItemDefinition", offset: 0x238, decl_offset: 0x238, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Unknown0x023c", accessor: "Unknown0x023c", declared_in: "ItemDefinition", offset: 0x23c, decl_offset: 0x23c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "FactionModType", accessor: "FactionModType", declared_in: "ItemDefinition", offset: 0x240, decl_offset: 0x240, size: 0x10, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "FactionModValue", accessor: "FactionModValue", declared_in: "ItemDefinition", offset: 0x250, decl_offset: 0x250, size: 0x10, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "CharmFile", accessor: "CharmFile", declared_in: "ItemDefinition", offset: 0x260, decl_offset: 0x260, size: 0x20, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "MerchantGreedMod", accessor: "MerchantGreedMod", declared_in: "ItemDefinition", offset: 0x280, decl_offset: 0x280, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SpellData", accessor: "SpellData", declared_in: "ItemDefinition", offset: 0x284, decl_offset: 0x284, size: 0x26c, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "CombatEffects", accessor: "CombatEffects", declared_in: "ItemDefinition", offset: 0x4f0, decl_offset: 0x4f0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Shielding", accessor: "Shielding", declared_in: "ItemDefinition", offset: 0x4f4, decl_offset: 0x4f4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "StunResist", accessor: "StunResist", declared_in: "ItemDefinition", offset: 0x4f8, decl_offset: 0x4f8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "DoTShielding", accessor: "DoTShielding", declared_in: "ItemDefinition", offset: 0x4fc, decl_offset: 0x4fc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "StrikeThrough", accessor: "StrikeThrough", declared_in: "ItemDefinition", offset: 0x500, decl_offset: 0x500, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "DmgBonusSkill", accessor: "DmgBonusSkill", declared_in: "ItemDefinition", offset: 0x504, decl_offset: 0x504, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "DmgBonusValue", accessor: "DmgBonusValue", declared_in: "ItemDefinition", offset: 0x508, decl_offset: 0x508, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SpellShield", accessor: "SpellShield", declared_in: "ItemDefinition", offset: 0x50c, decl_offset: 0x50c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Avoidance", accessor: "Avoidance", declared_in: "ItemDefinition", offset: 0x510, decl_offset: 0x510, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Accuracy", accessor: "Accuracy", declared_in: "ItemDefinition", offset: 0x514, decl_offset: 0x514, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "CharmFileID", accessor: "CharmFileID", declared_in: "ItemDefinition", offset: 0x518, decl_offset: 0x518, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "FoodDuration", accessor: "FoodDuration", declared_in: "ItemDefinition", offset: 0x51c, decl_offset: 0x51c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ContainerType", accessor: "ContainerType", declared_in: "ItemDefinition", offset: 0x520, decl_offset: 0x520, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Slots", accessor: "Slots", declared_in: "ItemDefinition", offset: 0x521, decl_offset: 0x521, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SizeCapacity", accessor: "SizeCapacity", declared_in: "ItemDefinition", offset: 0x522, decl_offset: 0x522, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "WeightReduction", accessor: "WeightReduction", declared_in: "ItemDefinition", offset: 0x523, decl_offset: 0x523, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BookType", accessor: "BookType", declared_in: "ItemDefinition", offset: 0x524, decl_offset: 0x524, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BookLang", accessor: "BookLang", declared_in: "ItemDefinition", offset: 0x525, decl_offset: 0x525, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "BookFile", accessor: "BookFile", declared_in: "ItemDefinition", offset: 0x526, decl_offset: 0x526, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Favor", accessor: "Favor", declared_in: "ItemDefinition", offset: 0x544, decl_offset: 0x544, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "GuildFavor", accessor: "GuildFavor", declared_in: "ItemDefinition", offset: 0x548, decl_offset: 0x548, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bIsFVNoDrop", accessor: "bIsFVNoDrop", declared_in: "ItemDefinition", offset: 0x54c, decl_offset: 0x54c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Endurance", accessor: "Endurance", declared_in: "ItemDefinition", offset: 0x550, decl_offset: 0x550, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Attack", accessor: "Attack", declared_in: "ItemDefinition", offset: 0x554, decl_offset: 0x554, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HPRegen", accessor: "HPRegen", declared_in: "ItemDefinition", offset: 0x558, decl_offset: 0x558, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ManaRegen", accessor: "ManaRegen", declared_in: "ItemDefinition", offset: 0x55c, decl_offset: 0x55c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "EnduranceRegen", accessor: "EnduranceRegen", declared_in: "ItemDefinition", offset: 0x560, decl_offset: 0x560, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Haste", accessor: "Haste", declared_in: "ItemDefinition", offset: 0x564, decl_offset: 0x564, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "DamShield", accessor: "DamShield", declared_in: "ItemDefinition", offset: 0x568, decl_offset: 0x568, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "AnimationOverride", accessor: "AnimationOverride", declared_in: "ItemDefinition", offset: 0x56c, decl_offset: 0x56c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PaletteTintIndex", accessor: "PaletteTintIndex", declared_in: "ItemDefinition", offset: 0x570, decl_offset: 0x570, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bNoPetGive", accessor: "bNoPetGive", declared_in: "ItemDefinition", offset: 0x574, decl_offset: 0x574, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bSomeProfile", accessor: "bSomeProfile", declared_in: "ItemDefinition", offset: 0x575, decl_offset: 0x575, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bPotionBeltAllowed", accessor: "bPotionBeltAllowed", declared_in: "ItemDefinition", offset: 0x576, decl_offset: 0x576, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "NumPotionSlots", accessor: "NumPotionSlots", declared_in: "ItemDefinition", offset: 0x578, decl_offset: 0x578, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SomeIDFlag", accessor: "SomeIDFlag", declared_in: "ItemDefinition", offset: 0x57c, decl_offset: 0x57c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "StackSize", accessor: "StackSize", declared_in: "ItemDefinition", offset: 0x580, decl_offset: 0x580, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bNoStorage", accessor: "bNoStorage", declared_in: "ItemDefinition", offset: 0x584, decl_offset: 0x584, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "MaxPower", accessor: "MaxPower", declared_in: "ItemDefinition", offset: 0x588, decl_offset: 0x588, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Purity", accessor: "Purity", declared_in: "ItemDefinition", offset: 0x58c, decl_offset: 0x58c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bIsEpic", accessor: "bIsEpic", declared_in: "ItemDefinition", offset: 0x590, decl_offset: 0x590, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "RightClickScriptID", accessor: "RightClickScriptID", declared_in: "ItemDefinition", offset: 0x594, decl_offset: 0x594, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "ItemLaunchScriptID", accessor: "ItemLaunchScriptID", declared_in: "ItemDefinition", offset: 0x598, decl_offset: 0x598, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "QuestItem", accessor: "QuestItem", declared_in: "ItemDefinition", offset: 0x59c, decl_offset: 0x59c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Expendable", accessor: "Expendable", declared_in: "ItemDefinition", offset: 0x59d, decl_offset: 0x59d, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Clairvoyance", accessor: "Clairvoyance", declared_in: "ItemDefinition", offset: 0x5a0, decl_offset: 0x5a0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SubClass", accessor: "SubClass", declared_in: "ItemDefinition", offset: 0x5a4, decl_offset: 0x5a4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bLoginRegReqItem", accessor: "bLoginRegReqItem", declared_in: "ItemDefinition", offset: 0x5a8, decl_offset: 0x5a8, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "Placeable", accessor: "Placeable", declared_in: "ItemDefinition", offset: 0x5ac, decl_offset: 0x5ac, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bPlaceableIgnoreCollisions", accessor: "bPlaceableIgnoreCollisions", declared_in: "ItemDefinition", offset: 0x5b0, decl_offset: 0x5b0, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlacementType", accessor: "PlacementType", declared_in: "ItemDefinition", offset: 0x5b4, decl_offset: 0x5b4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "RealEstateDefID", accessor: "RealEstateDefID", declared_in: "ItemDefinition", offset: 0x5b8, decl_offset: 0x5b8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlaceableScaleRangeMin", accessor: "PlaceableScaleRangeMin", declared_in: "ItemDefinition", offset: 0x5bc, decl_offset: 0x5bc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlaceableScaleRangeMax", accessor: "PlaceableScaleRangeMax", declared_in: "ItemDefinition", offset: 0x5c0, decl_offset: 0x5c0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "RealEstateUpkeepID", accessor: "RealEstateUpkeepID", declared_in: "ItemDefinition", offset: 0x5c4, decl_offset: 0x5c4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "MaxPerRealEstate", accessor: "MaxPerRealEstate", declared_in: "ItemDefinition", offset: 0x5c8, decl_offset: 0x5c8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "HousepetFileName", accessor: "HousepetFileName", declared_in: "ItemDefinition", offset: 0x5cc, decl_offset: 0x5cc, size: 0x20, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "TrophyBenefitID", accessor: "TrophyBenefitID", declared_in: "ItemDefinition", offset: 0x5ec, decl_offset: 0x5ec, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bDisablePlacementRotation", accessor: "bDisablePlacementRotation", declared_in: "ItemDefinition", offset: 0x5f0, decl_offset: 0x5f0, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bDisableFreePlacement", accessor: "bDisableFreePlacement", declared_in: "ItemDefinition", offset: 0x5f1, decl_offset: 0x5f1, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "NpcRespawnInterval", accessor: "NpcRespawnInterval", declared_in: "ItemDefinition", offset: 0x5f4, decl_offset: 0x5f4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlaceableDefScale", accessor: "PlaceableDefScale", declared_in: "ItemDefinition", offset: 0x5f8, decl_offset: 0x5f8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlaceableDefHeading", accessor: "PlaceableDefHeading", declared_in: "ItemDefinition", offset: 0x5fc, decl_offset: 0x5fc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlaceableDefPitch", accessor: "PlaceableDefPitch", declared_in: "ItemDefinition", offset: 0x600, decl_offset: 0x600, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "PlaceableDefRoll", accessor: "PlaceableDefRoll", declared_in: "ItemDefinition", offset: 0x604, decl_offset: 0x604, size: 0x4, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "bInteractiveObject", accessor: "bInteractiveObject", declared_in: "ItemDefinition", offset: 0x608, decl_offset: 0x608, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SocketSubClassCount", accessor: "SocketSubClassCount", declared_in: "ItemDefinition", offset: 0x609, decl_offset: 0x609, size: 0x1, bits: None },
+    FieldInfo { record: "ItemDefinition", field: "SocketSubClass", accessor: "SocketSubClass", declared_in: "ItemDefinition", offset: 0x60c, decl_offset: 0x60c, size: 0x28, bits: None },
     FieldInfo { record: "ItemGlobalIndex", field: "Location", accessor: "Location", declared_in: "ItemGlobalIndex", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ItemGlobalIndex", field: "Index", accessor: "Index", declared_in: "ItemGlobalIndex", offset: 0x4, decl_offset: 0x4, size: 0x6, bits: None },
     FieldInfo { record: "ItemIndex", field: "m_slots", accessor: "m_slots", declared_in: "ItemIndex", offset: 0x0, decl_offset: 0x0, size: 0x6, bits: None },
+    FieldInfo { record: "ItemSocketData", field: "Sockets", accessor: "Sockets", declared_in: "ItemSocketData", offset: 0x0, decl_offset: 0x0, size: 0x30, bits: None },
+    FieldInfo { record: "ItemSpellData", field: "Spells", accessor: "Spells", declared_in: "ItemSpellData", offset: 0x0, decl_offset: 0x0, size: 0x258, bits: None },
+    FieldInfo { record: "ItemSpellData", field: "SkillMask", accessor: "SkillMask", declared_in: "ItemSpellData", offset: 0x258, decl_offset: 0x258, size: 0x14, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "SpellID", accessor: "SpellID", declared_in: "ItemSpellData::SpellData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "RequiredLevel", accessor: "RequiredLevel", declared_in: "ItemSpellData::SpellData", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "EffectType", accessor: "EffectType", declared_in: "ItemSpellData::SpellData", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "EffectiveCasterLevel", accessor: "EffectiveCasterLevel", declared_in: "ItemSpellData::SpellData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "MaxCharges", accessor: "MaxCharges", declared_in: "ItemSpellData::SpellData", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "CastTime", accessor: "CastTime", declared_in: "ItemSpellData::SpellData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "RecastTime", accessor: "RecastTime", declared_in: "ItemSpellData::SpellData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "RecastType", accessor: "RecastType", declared_in: "ItemSpellData::SpellData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "ProcRate", accessor: "ProcRate", declared_in: "ItemSpellData::SpellData", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "OverrideName", accessor: "OverrideName", declared_in: "ItemSpellData::SpellData", offset: 0x20, decl_offset: 0x20, size: 0x40, bits: None },
+    FieldInfo { record: "ItemSpellData::SpellData", field: "OverrideDesc", accessor: "OverrideDesc", declared_in: "ItemSpellData::SpellData", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
     FieldInfo { record: "KeyCombo", field: "Data", accessor: "Data", declared_in: "KeyCombo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "KeypressHandler", field: "NormalKey", accessor: "NormalKey", declared_in: "KeypressHandler", offset: 0x0, decl_offset: 0x0, size: 0x7d0, bits: None },
     FieldInfo { record: "KeypressHandler", field: "AltKey", accessor: "AltKey", declared_in: "KeypressHandler", offset: 0x7d0, decl_offset: 0x7d0, size: 0x7d0, bits: None },
@@ -24698,6 +33434,122 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PcClient", field: "NoBuffResistFire", accessor: "NoBuffResistFire", declared_in: "CharacterBase", offset: 0x3720, decl_offset: 0x534, size: 0x4, bits: None },
     FieldInfo { record: "PcClient", field: "NoBuffResistCold", accessor: "NoBuffResistCold", declared_in: "CharacterBase", offset: 0x3724, decl_offset: 0x538, size: 0x4, bits: None },
     FieldInfo { record: "PcClient", field: "Unknown0x31d8", accessor: "Unknown0x31d8", declared_in: "CharacterBase", offset: 0x3728, decl_offset: 0x53c, size: 0x20dc, bits: None },
+    FieldInfo { record: "PcProfile", field: "__vfptr", accessor: "__vfptr", declared_in: "BaseProfile", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "padding", accessor: "padding", declared_in: "BaseProfile", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "nextProfile", accessor: "nextProfile", declared_in: "BaseProfile", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "prevProfile", accessor: "prevProfile", declared_in: "BaseProfile", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "profileListType", accessor: "profileListType", declared_in: "BaseProfile", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Unknown0x14", accessor: "Unknown0x14", declared_in: "BaseProfile", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "InventoryContainer", accessor: "InventoryContainer", declared_in: "BaseProfile", offset: 0x18, decl_offset: 0x18, size: 0x38, bits: None },
+    FieldInfo { record: "PcProfile", field: "TributeBenefitItems", accessor: "TributeBenefitItems", declared_in: "BaseProfile", offset: 0x50, decl_offset: 0x50, size: 0x38, bits: None },
+    FieldInfo { record: "PcProfile", field: "TrophyTributeBenefitItems", accessor: "TrophyTributeBenefitItems", declared_in: "BaseProfile", offset: 0x88, decl_offset: 0x88, size: 0x38, bits: None },
+    FieldInfo { record: "PcProfile", field: "Buffs", accessor: "Buffs", declared_in: "BaseProfile", offset: 0xc0, decl_offset: 0xc0, size: 0x2158, bits: None },
+    FieldInfo { record: "PcProfile", field: "BuffCasterIDs", accessor: "BuffCasterIDs", declared_in: "BaseProfile", offset: 0x2218, decl_offset: 0x2218, size: 0x184, bits: None },
+    FieldInfo { record: "PcProfile", field: "DiseaseSpreadTimers", accessor: "DiseaseSpreadTimers", declared_in: "BaseProfile", offset: 0x239c, decl_offset: 0x239c, size: 0x184, bits: None },
+    FieldInfo { record: "PcProfile", field: "SpellBook", accessor: "SpellBook", declared_in: "BaseProfile", offset: 0x2520, decl_offset: 0x2520, size: 0xb40, bits: None },
+    FieldInfo { record: "PcProfile", field: "MemorizedSpells", accessor: "MemorizedSpells", declared_in: "BaseProfile", offset: 0x3060, decl_offset: 0x3060, size: 0x40, bits: None },
+    FieldInfo { record: "PcProfile", field: "Skill", accessor: "Skill", declared_in: "BaseProfile", offset: 0x30a0, decl_offset: 0x30a0, size: 0x190, bits: None },
+    FieldInfo { record: "PcProfile", field: "InnateSkill", accessor: "InnateSkill", declared_in: "BaseProfile", offset: 0x3230, decl_offset: 0x3230, size: 0x64, bits: None },
+    FieldInfo { record: "PcProfile", field: "ArmorProps", accessor: "ArmorProps", declared_in: "BaseProfile", offset: 0x3294, decl_offset: 0x3294, size: 0xb4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CharacterTint", accessor: "CharacterTint", declared_in: "BaseProfile", offset: 0x3348, decl_offset: 0x3348, size: 0x24, bits: None },
+    FieldInfo { record: "PcProfile", field: "Gender", accessor: "Gender", declared_in: "BaseProfile", offset: 0x336c, decl_offset: 0x336c, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "Race", accessor: "Race", declared_in: "BaseProfile", offset: 0x3370, decl_offset: 0x3370, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Class", accessor: "Class", declared_in: "BaseProfile", offset: 0x3374, decl_offset: 0x3374, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "properties", accessor: "properties", declared_in: "BaseProfile", offset: 0x3378, decl_offset: 0x3378, size: 0x10, bits: None },
+    FieldInfo { record: "PcProfile", field: "Level", accessor: "Level", declared_in: "BaseProfile", offset: 0x3388, decl_offset: 0x3388, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Mana", accessor: "Mana", declared_in: "BaseProfile", offset: 0x338c, decl_offset: 0x338c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Endurance", accessor: "Endurance", declared_in: "BaseProfile", offset: 0x3390, decl_offset: 0x3390, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseHP", accessor: "BaseHP", declared_in: "BaseProfile", offset: 0x3394, decl_offset: 0x3394, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseSTR", accessor: "BaseSTR", declared_in: "BaseProfile", offset: 0x3398, decl_offset: 0x3398, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseSTA", accessor: "BaseSTA", declared_in: "BaseProfile", offset: 0x339c, decl_offset: 0x339c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseCHA", accessor: "BaseCHA", declared_in: "BaseProfile", offset: 0x33a0, decl_offset: 0x33a0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseDEX", accessor: "BaseDEX", declared_in: "BaseProfile", offset: 0x33a4, decl_offset: 0x33a4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseINT", accessor: "BaseINT", declared_in: "BaseProfile", offset: 0x33a8, decl_offset: 0x33a8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseAGI", accessor: "BaseAGI", declared_in: "BaseProfile", offset: 0x33ac, decl_offset: 0x33ac, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BaseWIS", accessor: "BaseWIS", declared_in: "BaseProfile", offset: 0x33b0, decl_offset: 0x33b0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Face", accessor: "Face", declared_in: "BaseProfile", offset: 0x33b4, decl_offset: 0x33b4, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "Plat", accessor: "Plat", declared_in: "BaseProfile", offset: 0x33b8, decl_offset: 0x33b8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Gold", accessor: "Gold", declared_in: "BaseProfile", offset: 0x33bc, decl_offset: 0x33bc, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Silver", accessor: "Silver", declared_in: "BaseProfile", offset: 0x33c0, decl_offset: 0x33c0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Copper", accessor: "Copper", declared_in: "BaseProfile", offset: 0x33c4, decl_offset: 0x33c4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CursorPlat", accessor: "CursorPlat", declared_in: "BaseProfile", offset: 0x33c8, decl_offset: 0x33c8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CursorGold", accessor: "CursorGold", declared_in: "BaseProfile", offset: 0x33cc, decl_offset: 0x33cc, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CursorSilver", accessor: "CursorSilver", declared_in: "BaseProfile", offset: 0x33d0, decl_offset: 0x33d0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CursorCopper", accessor: "CursorCopper", declared_in: "BaseProfile", offset: 0x33d4, decl_offset: 0x33d4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "max_allowed_spell_slots", accessor: "max_allowed_spell_slots", declared_in: "BaseProfile", offset: 0x33d8, decl_offset: 0x33d8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "practices", accessor: "practices", declared_in: "BaseProfile", offset: 0x33dc, decl_offset: 0x33dc, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "height", accessor: "height", declared_in: "BaseProfile", offset: 0x33e0, decl_offset: 0x33e0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "width", accessor: "width", declared_in: "BaseProfile", offset: 0x33e4, decl_offset: 0x33e4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "length", accessor: "length", declared_in: "BaseProfile", offset: 0x33e8, decl_offset: 0x33e8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "view_height", accessor: "view_height", declared_in: "BaseProfile", offset: 0x33ec, decl_offset: 0x33ec, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "texture_type", accessor: "texture_type", declared_in: "BaseProfile", offset: 0x33f0, decl_offset: 0x33f0, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "m_armorMat", accessor: "m_armorMat", declared_in: "BaseProfile", offset: 0x33f1, decl_offset: 0x33f1, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "m_armorVariation", accessor: "m_armorVariation", declared_in: "BaseProfile", offset: 0x33f2, decl_offset: 0x33f2, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "headType", accessor: "headType", declared_in: "BaseProfile", offset: 0x33f3, decl_offset: 0x33f3, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "canEditFace", accessor: "canEditFace", declared_in: "BaseProfile", offset: 0x33f4, decl_offset: 0x33f4, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "DisciplineTimer", accessor: "DisciplineTimer", declared_in: "BaseProfile", offset: 0x33f8, decl_offset: 0x33f8, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "MendTimer", accessor: "MendTimer", declared_in: "BaseProfile", offset: 0x33fc, decl_offset: 0x33fc, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "thirstlevel", accessor: "thirstlevel", declared_in: "BaseProfile", offset: 0x3400, decl_offset: 0x3400, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "hungerlevel", accessor: "hungerlevel", declared_in: "BaseProfile", offset: 0x3404, decl_offset: 0x3404, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "potionCount", accessor: "potionCount", declared_in: "BaseProfile", offset: 0x3408, decl_offset: 0x3408, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "profileType", accessor: "profileType", declared_in: "BaseProfile", offset: 0x340c, decl_offset: 0x340c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Shrouded", accessor: "Shrouded", declared_in: "BaseProfile", offset: 0x3410, decl_offset: 0x3410, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "systemId", accessor: "systemId", declared_in: "BaseProfile", offset: 0x3414, decl_offset: 0x3414, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "designId", accessor: "designId", declared_in: "BaseProfile", offset: 0x3418, decl_offset: 0x3418, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "InventorySlotBitmask", accessor: "InventorySlotBitmask", declared_in: "BaseProfile", offset: 0x341c, decl_offset: 0x341c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CurrentProgressionID", accessor: "CurrentProgressionID", declared_in: "BaseProfile", offset: 0x3420, decl_offset: 0x3420, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Unknown0x3c28", accessor: "Unknown0x3c28", declared_in: "BaseProfile", offset: 0x3424, decl_offset: 0x3424, size: 0x57, bits: None },
+    FieldInfo { record: "PcProfile", field: "ParentId", accessor: "ParentId", declared_in: "BaseProfile", offset: 0x347c, decl_offset: 0x347c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "TattooIndex", accessor: "TattooIndex", declared_in: "BaseProfile", offset: 0x3480, decl_offset: 0x3480, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "FacialAttachmentIndex", accessor: "FacialAttachmentIndex", declared_in: "BaseProfile", offset: 0x3484, decl_offset: 0x3484, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "BoundLocations", accessor: "BoundLocations", declared_in: "PcProfile", offset: 0x3488, decl_offset: 0x3488, size: 0x64, bits: None },
+    FieldInfo { record: "PcProfile", field: "ArmorType", accessor: "ArmorType", declared_in: "PcProfile", offset: 0x34ec, decl_offset: 0x34ec, size: 0x1b8, bits: None },
+    FieldInfo { record: "PcProfile", field: "AAList", accessor: "AAList", declared_in: "PcProfile", offset: 0x36a4, decl_offset: 0x36a4, size: 0xe10, bits: None },
+    FieldInfo { record: "PcProfile", field: "BodyColor", accessor: "BodyColor", declared_in: "PcProfile", offset: 0x44b4, decl_offset: 0x44b4, size: 0x24, bits: None },
+    FieldInfo { record: "PcProfile", field: "FactionTable", accessor: "FactionTable", declared_in: "PcProfile", offset: 0x44d8, decl_offset: 0x44d8, size: 0x2000, bits: None },
+    FieldInfo { record: "PcProfile", field: "CombatAbilities", accessor: "CombatAbilities", declared_in: "PcProfile", offset: 0x64d8, decl_offset: 0x64d8, size: 0x4b0, bits: None },
+    FieldInfo { record: "PcProfile", field: "SpellRecastTimer", accessor: "SpellRecastTimer", declared_in: "PcProfile", offset: 0x6988, decl_offset: 0x6988, size: 0x34, bits: None },
+    FieldInfo { record: "PcProfile", field: "CombatAbilityTimers", accessor: "CombatAbilityTimers", declared_in: "PcProfile", offset: 0x69bc, decl_offset: 0x69bc, size: 0x50, bits: None },
+    FieldInfo { record: "PcProfile", field: "LinkedSpellTimers", accessor: "LinkedSpellTimers", declared_in: "PcProfile", offset: 0x6a0c, decl_offset: 0x6a0c, size: 0x50, bits: None },
+    FieldInfo { record: "PcProfile", field: "ItemRecastTimers", accessor: "ItemRecastTimers", declared_in: "PcProfile", offset: 0x6a5c, decl_offset: 0x6a5c, size: 0x190, bits: None },
+    FieldInfo { record: "PcProfile", field: "AATimers", accessor: "AATimers", declared_in: "PcProfile", offset: 0x6bec, decl_offset: 0x6bec, size: 0x190, bits: None },
+    FieldInfo { record: "PcProfile", field: "Bandolier", accessor: "Bandolier", declared_in: "PcProfile", offset: 0x6d7c, decl_offset: 0x6d7c, size: 0x1900, bits: None },
+    FieldInfo { record: "PcProfile", field: "PotionBelt", accessor: "PotionBelt", declared_in: "PcProfile", offset: 0x867c, decl_offset: 0x867c, size: 0x168, bits: None },
+    FieldInfo { record: "PcProfile", field: "ActiveTrophyTributeBenefits", accessor: "ActiveTrophyTributeBenefits", declared_in: "PcProfile", offset: 0x87e4, decl_offset: 0x87e4, size: 0x50, bits: None },
+    FieldInfo { record: "PcProfile", field: "Unknown0x8834", accessor: "Unknown0x8834", declared_in: "PcProfile", offset: 0x8834, decl_offset: 0x8834, size: 0x2c, bits: None },
+    FieldInfo { record: "PcProfile", field: "GuildTributeBenefitItems", accessor: "GuildTributeBenefitItems", declared_in: "PcProfile", offset: 0x8860, decl_offset: 0x8860, size: 0x38, bits: None },
+    FieldInfo { record: "PcProfile", field: "GuildTrophyTributeBenefitItems", accessor: "GuildTrophyTributeBenefitItems", declared_in: "PcProfile", offset: 0x8898, decl_offset: 0x8898, size: 0x38, bits: None },
+    FieldInfo { record: "PcProfile", field: "MercenarySaveStrings", accessor: "MercenarySaveStrings", declared_in: "PcProfile", offset: 0x88d0, decl_offset: 0x88d0, size: 0x10, bits: None },
+    FieldInfo { record: "PcProfile", field: "PetSaveString", accessor: "PetSaveString", declared_in: "PcProfile", offset: 0x88e0, decl_offset: 0x88e0, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "Deity", accessor: "Deity", declared_in: "PcProfile", offset: 0x88e4, decl_offset: 0x88e4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "bPVPFlag", accessor: "bPVPFlag", declared_in: "PcProfile", offset: 0x88e8, decl_offset: 0x88e8, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "HighestLevel", accessor: "HighestLevel", declared_in: "PcProfile", offset: 0x88e9, decl_offset: 0x88e9, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "Drunkenness", accessor: "Drunkenness", declared_in: "PcProfile", offset: 0x88ec, decl_offset: 0x88ec, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "HairColor", accessor: "HairColor", declared_in: "PcProfile", offset: 0x88f0, decl_offset: 0x88f0, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "BeardColor", accessor: "BeardColor", declared_in: "PcProfile", offset: 0x88f1, decl_offset: 0x88f1, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "NpcTintIndex", accessor: "NpcTintIndex", declared_in: "PcProfile", offset: 0x88f4, decl_offset: 0x88f4, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "LeftEye", accessor: "LeftEye", declared_in: "PcProfile", offset: 0x88f8, decl_offset: 0x88f8, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "RightEye", accessor: "RightEye", declared_in: "PcProfile", offset: 0x88f9, decl_offset: 0x88f9, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "Hair", accessor: "Hair", declared_in: "PcProfile", offset: 0x88fa, decl_offset: 0x88fa, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "Beard", accessor: "Beard", declared_in: "PcProfile", offset: 0x88fb, decl_offset: 0x88fb, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "OldFace", accessor: "OldFace", declared_in: "PcProfile", offset: 0x88fc, decl_offset: 0x88fc, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "AAPoints", accessor: "AAPoints", declared_in: "PcProfile", offset: 0x8900, decl_offset: 0x8900, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "PocketPetSaveString", accessor: "PocketPetSaveString", declared_in: "PcProfile", offset: 0x8904, decl_offset: 0x8904, size: 0x1000, bits: None },
+    FieldInfo { record: "PcProfile", field: "ItemBuffer", accessor: "ItemBuffer", declared_in: "PcProfile", offset: 0x9904, decl_offset: 0x9904, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "LastShield", accessor: "LastShield", declared_in: "PcProfile", offset: 0x9908, decl_offset: 0x9908, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "bSneak", accessor: "bSneak", declared_in: "PcProfile", offset: 0x990c, decl_offset: 0x990c, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "bHide", accessor: "bHide", declared_in: "PcProfile", offset: 0x990d, decl_offset: 0x990d, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "AAPointsSpent", accessor: "AAPointsSpent", declared_in: "PcProfile", offset: 0x9910, decl_offset: 0x9910, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "AAPointsAssigned", accessor: "AAPointsAssigned", declared_in: "PcProfile", offset: 0x9914, decl_offset: 0x9914, size: 0x18, bits: None },
+    FieldInfo { record: "PcProfile", field: "PrimaryActor", accessor: "PrimaryActor", declared_in: "PcProfile", offset: 0x992c, decl_offset: 0x992c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "SecondaryActor", accessor: "SecondaryActor", declared_in: "PcProfile", offset: 0x9930, decl_offset: 0x9930, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "bUseTemplateFaction", accessor: "bUseTemplateFaction", declared_in: "PcProfile", offset: 0x9934, decl_offset: 0x9934, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "TitlePrefixID", accessor: "TitlePrefixID", declared_in: "PcProfile", offset: 0x9938, decl_offset: 0x9938, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "TitleSuffixID", accessor: "TitleSuffixID", declared_in: "PcProfile", offset: 0x993c, decl_offset: 0x993c, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "bAreHandsMagic", accessor: "bAreHandsMagic", declared_in: "PcProfile", offset: 0x9940, decl_offset: 0x9940, size: 0x1, bits: None },
+    FieldInfo { record: "PcProfile", field: "SoleEnabledZoneID", accessor: "SoleEnabledZoneID", declared_in: "PcProfile", offset: 0x9944, decl_offset: 0x9944, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "NewBodyTint", accessor: "NewBodyTint", declared_in: "PcProfile", offset: 0x9948, decl_offset: 0x9948, size: 0x4, bits: None },
+    FieldInfo { record: "PcProfile", field: "CurrentMercenaryIndex", accessor: "CurrentMercenaryIndex", declared_in: "PcProfile", offset: 0x994c, decl_offset: 0x994c, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "__vfptr", accessor: "__vfptr", declared_in: "DoublyLinkedList<PendingReward *>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "m_pHead", accessor: "m_pHead", declared_in: "DoublyLinkedList<PendingReward *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "m_pTail", accessor: "m_pTail", declared_in: "DoublyLinkedList<PendingReward *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -25049,6 +33901,11 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PlayerRoleLoadout", field: "name", accessor: "name", declared_in: "PlayerRoleLoadout", offset: 0x4, decl_offset: 0x4, size: 0x80, bits: None },
     FieldInfo { record: "PointSystemBase", field: "vfTable", accessor: "vfTable", declared_in: "PointSystemBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PointSystemBase", field: "PointNameEntries", accessor: "PointNameEntries", declared_in: "PointSystemBase", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
+    FieldInfo { record: "ProfileList", field: "ListType", accessor: "ListType", declared_in: "ProfileList", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ProfileList", field: "pFirst", accessor: "pFirst", declared_in: "ProfileList", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ProfileList", field: "pLast", accessor: "pLast", declared_in: "ProfileList", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ProfileList", field: "pNext", accessor: "pNext", declared_in: "ProfileList", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ProfileList", field: "pPrev", accessor: "pPrev", declared_in: "ProfileList", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ProfileManager", field: "pFirst", accessor: "pFirst", declared_in: "ProfileManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ProfileManager", field: "CurProfileList", accessor: "CurProfileList", declared_in: "ProfileManager", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "PvPDeath", field: "KillerName", accessor: "KillerName", declared_in: "PvPDeath", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
@@ -25065,6 +33922,11 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PvPKill", field: "ZoneID", accessor: "ZoneID", declared_in: "PvPKill", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
     FieldInfo { record: "PvPKill", field: "Lastkilltime", accessor: "Lastkilltime", declared_in: "PvPKill", offset: 0x50, decl_offset: 0x50, size: 0x4, bits: None },
     FieldInfo { record: "PvPKill", field: "PointsEarned", accessor: "PointsEarned", declared_in: "PvPKill", offset: 0x54, decl_offset: 0x54, size: 0x4, bits: None },
+    FieldInfo { record: "RequirementAssociationManager", field: "__vfptr", accessor: "__vfptr", declared_in: "RequirementAssociationManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "RequirementAssociationManager", field: "FileStats", accessor: "FileStats", declared_in: "FileStatMgr", offset: 0x4, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "RequirementAssociationManager", field: "Requirements", accessor: "Requirements", declared_in: "RequirementAssociationManager", offset: 0x14, decl_offset: 0x14, size: 0x10, bits: None },
+    FieldInfo { record: "RequirementAssociationManager", field: "AssocFilename", accessor: "AssocFilename", declared_in: "RequirementAssociationManager", offset: 0x24, decl_offset: 0x24, size: 0x200, bits: None },
+    FieldInfo { record: "RequirementAssociationManager", field: "LastFailReason", accessor: "LastFailReason", declared_in: "RequirementAssociationManager", offset: 0x224, decl_offset: 0x224, size: 0x4, bits: None },
     FieldInfo { record: "SDoCollisionMovementStats", field: "Source", accessor: "Source", declared_in: "SDoCollisionMovementStats", offset: 0x0, decl_offset: 0x0, size: 0x30, bits: None },
     FieldInfo { record: "SDoCollisionMovementStats", field: "DestY", accessor: "DestY", declared_in: "SDoCollisionMovementStats", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
     FieldInfo { record: "SDoCollisionMovementStats", field: "DestX", accessor: "DestX", declared_in: "SDoCollisionMovementStats", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
@@ -25089,6 +33951,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "SFellowshipMember", field: "Level", accessor: "Level", declared_in: "SFellowshipMember", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
     FieldInfo { record: "SFellowshipMember", field: "Class", accessor: "Class", declared_in: "SFellowshipMember", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
     FieldInfo { record: "SFellowshipMember", field: "LastOn", accessor: "LastOn", declared_in: "SFellowshipMember", offset: 0x50, decl_offset: 0x50, size: 0x4, bits: None },
+    FieldInfo { record: "SlotData", field: "Slot", accessor: "Slot", declared_in: "SlotData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "SlotData", field: "Value", accessor: "Value", declared_in: "SlotData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "SoeUtil::SharedPtr<ItemDefinition>", field: "m_rep", accessor: "m_rep", declared_in: "SoeUtil::SharedPtr<ItemDefinition>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "SoeUtil::SharedPtr<ItemDefinition>", field: "m_ptr", accessor: "m_ptr", declared_in: "SoeUtil::SharedPtr<ItemDefinition>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "SpellCache", field: "pCachedEffects", accessor: "pCachedEffects", declared_in: "SpellCache", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "SpellCache", field: "bCachedSpellEffects", accessor: "bCachedSpellEffects", declared_in: "SpellCache", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
     FieldInfo { record: "SpellCache", field: "pCachedAltAbilityEffects", accessor: "pCachedAltAbilityEffects", declared_in: "SpellCache", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -25127,6 +33993,8 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "WorldLocation", field: "ZoneBoundX", accessor: "ZoneBoundX", declared_in: "WorldLocation", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "WorldLocation", field: "ZoneBoundZ", accessor: "ZoneBoundZ", declared_in: "WorldLocation", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "WorldLocation", field: "ZoneBoundHeading", accessor: "ZoneBoundHeading", declared_in: "WorldLocation", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "std::_Atomic_padded<int>", field: "_Value", accessor: "_Value", declared_in: "std::_Atomic_padded<int>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "std::atomic<int>", field: "_Storage", accessor: "_Storage", declared_in: "std::_Atomic_storage<int,4>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "zoneHeader", field: "CharacterName", accessor: "CharacterName", declared_in: "zoneHeader", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
     FieldInfo { record: "zoneHeader", field: "ShortName", accessor: "ShortName", declared_in: "zoneHeader", offset: 0x40, decl_offset: 0x40, size: 0x80, bits: None },
     FieldInfo { record: "zoneHeader", field: "LongName", accessor: "LongName", declared_in: "zoneHeader", offset: 0xc0, decl_offset: 0xc0, size: 0x80, bits: None },

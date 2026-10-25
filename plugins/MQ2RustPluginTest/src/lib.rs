@@ -13,6 +13,7 @@
 
 mod checks;
 mod data_checks;
+mod game_checks;
 mod lua_checks;
 mod peer_checks;
 mod window;
@@ -280,6 +281,8 @@ impl RustTest {
         let targeted = checks::targeting(mq, &mut report);
         report.section(mq, "Game data");
         checks::game_data(mq, &mut report);
+        report.section(mq, "Items, spells, group and zone");
+        game_checks::run(mq, &mut report);
         report.section(mq, "Spawn list");
         checks::spawn_list(mq, &mut report);
         if let Some(id) = targeted {

@@ -57,7 +57,22 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Reading TLOs and members (`tlo`, `tlo_at`, `data("Target.Name")`) as typed values
 - Providing TLOs from Rust (`add_tlo`) returning scalar values
 - Spawns: you, your target, the spawn list, lookup by ID or name, nearest with a filter; name, level,
-  type, position, heading, HP, mana, distance
+  type, position, heading, HP, mana, distance; pets and their owners
+- Items (`Item`): name, ID, stack, charges, type, container slots and contents, weight, value,
+  flags (lore, no drop, no rent, magic), levels, classes, equip slots, AC/HP/mana/endurance,
+  damage, delay, haste, and the clicky/proc/worn/focus/scroll effects
+- Inventory: worn slots (`InvSlot`, with MacroQuest's slot names), bags and their contents, the
+  cursor, finding items by name, ID or filter, counting stacks, free bag slots; bank and shared bank
+- Spells (`Spell`, by ID or by name, chosen among same-named spells as `${Spell[name]}` does):
+  name, levels per class, mana/endurance cost, cast/recovery/recast times, range, duration,
+  beneficial or not, target and resist type, skill, icons, categories, messages, effects
+- Your buffs and songs (`Buff`: spell, caster level, ticks left, hit count), spell gems and spell
+  book
+- Your group: members (name, level, mercenary, offline, roles, spawn when in the zone), leader
+- Zones: the zone you're in (ID, instance, names, type, gravity, safe point, clip planes) and every
+  zone the client knows, by ID or name
+- Ground items: the zone's list, lookup by ID, nearest with a filter; name, position, heading,
+  weight, and the item itself
 - Movement: movement keys, facing a heading or point (smooth or instant), stopping
 - Async tasks on the game thread: `delay`, `wait_until`, timeouts, cancellation
 - Actors messaging: mailboxes, send, reply, request with timeout, other characters and peers
@@ -69,13 +84,15 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   pair is a closure scope that always ends, even on a panic, and ImGui errors are caught and
   reported instead of pausing every plugin's overlay
 - Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
-- Generated raw layouts for spawns, your character, the spawn list, zone info, key state, ground items
-  and client state (via `sys`)
+- Generated raw layouts for spawns, your character and profile, the spawn list, items, spells,
+  groups, zones, key state, ground items and client state (via `sys`)
 
 **Missing**
 
-- Safe wrappers for items, inventory, spells, buffs, groups, pets, zone info and ground items (reachable
-  only as raw layouts or through TLO reads)
+- Game data beyond the bound set: target buffs, pet buffs, raids, mercenaries, extended targets,
+  alternate abilities, skills, merchants and loot windows (reachable as raw layouts or through TLO
+  reads)
+- Acting on items and spells: casting, clicking items, moving items (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
 - ImGui beyond the bound set: textures and images, the rest of draw lists (paths, polygons,
   foreground/background lists), drag and drop,
@@ -118,7 +135,8 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
 | `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, and every bound ImGui widget to try by hand |
 
-The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data, and
+The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
+(spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items), and
 exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also:
 
 - **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again.
@@ -208,7 +226,9 @@ config and only explicitly passed settings, to check what a downstream user will
 - **`tests/link.rs`**: compiles single-symbol probe DLLs against the import libraries.
 - **`examples/link_check.rs`**: a `cdylib` that references every import, so each one must resolve at link time.
 - **`tests/layouts.rs`**: every generated field offset and record size matches eqlib's header offset
-  comments and `*_size` constants, an independent source (about 980 fields are covered).
+  comments and `*_size` constants, an independent source (about 2,100 fields are covered; classes
+  whose comments are known not to describe the 32-bit build are listed, and the test fails if one
+  starts matching).
 - **`tests/accessors.rs`**: generated accessors read and write the right bytes, including bitfields,
   C++ `bool`, nested records and arrays of records.
 - **`tools/mq-emu-bindgen/tests`**: the committed layouts are up to date with `layouts.txt` and the PDB,
@@ -216,7 +236,8 @@ config and only explicitly passed settings, to check what a downstream user will
 - **`tests/plugin_loader.rs`**: the plugin exports we document match every name MacroQuest's loader
   looks up, in both directions.
 - **`tests/shim.rs`**: the C++ shim against a fake `MainInterface`: arguments, handles and callback
-  routing, without MacroQuest.
+  routing, without MacroQuest; and that item definitions come through the item's vtable (the game's
+  implementation), from the slot eqlib's headers give.
 - **`tests/imgui.rs`**: the ImGui shim against MacroQuest's real `imgui.dll`, in a headless
   context: every wrapper draws, simulated clicks register, and ImGui's C++ exceptions (calling `End`
   too often) are caught instead of crossing into Rust. A window left open makes the frame fail, as

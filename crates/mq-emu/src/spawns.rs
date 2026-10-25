@@ -65,6 +65,21 @@ impl<P: Plugin> Mq<P> {
         self.spawns().find(|spawn| spawn.name().eq_ignore_ascii_case(name))
     }
 
+    /// Your pet, if you have one in the zone.
+    pub fn pet(&self) -> Option<Spawn<'_>> {
+        self.pet_of(&self.me()?)
+    }
+
+    /// `owner`'s pet, if it has one in the zone.
+    pub fn pet_of(&self, owner: &Spawn<'_>) -> Option<Spawn<'_>> {
+        self.spawn(owner.pet_id()?)
+    }
+
+    /// A pet's owner, if they're in the zone.
+    pub fn master_of(&self, pet: &Spawn<'_>) -> Option<Spawn<'_>> {
+        self.spawn(pet.master_id()?)
+    }
+
     /// The spawn closest to you (the controlled spawn) that `filter` accepts,
     /// not counting yourself. Distance is 3D.
     pub fn nearest(&self, filter: impl Fn(&Spawn<'_>) -> bool) -> Option<Spawn<'_>> {
