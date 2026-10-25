@@ -12,7 +12,7 @@ mod checks;
 mod lua_checks;
 mod peer_checks;
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, VecDeque};
 use std::time::{Duration, Instant};
 
 use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
@@ -33,6 +33,8 @@ const TURN_TIMEOUT: Duration = Duration::from_secs(10);
 const WALK_TIME: Duration = Duration::from_millis(500);
 /// How long the selftest's deliberately slow pulse takes.
 const SLOW_PULSE: Duration = Duration::from_millis(50);
+/// How many recent pulse times are kept to measure the frame interval.
+const RECENT_PULSES: usize = 120;
 /// How long the safety-net checks wait for the runtime to react.
 const SAFETY_TIMEOUT: Duration = Duration::from_secs(2);
 
@@ -56,6 +58,8 @@ struct RustTest {
     lua_hello: Option<(LuaValue, Option<String>)>,
     /// Characters that answered "who", while the selftest is asking.
     peers: Option<BTreeSet<String>>,
+    /// When the latest pulses started, oldest first.
+    recent_pulses: VecDeque<Instant>,
 }
 
 impl Plugin for RustTest {
@@ -86,6 +90,10 @@ impl Plugin for RustTest {
     }
 
     fn on_pulse(&mut self, _mq: &Mq<Self>) {
+        if self.recent_pulses.len() == RECENT_PULSES {
+            self.recent_pulses.pop_front();
+        }
+        self.recent_pulses.push_back(Instant::now());
         self.flooding = false;
         if let Some(delay) = self.slow_next_pulse.take() {
             std::thread::sleep(delay);
@@ -136,6 +144,8 @@ impl Plugin for RustTest {
             return;
         } else if text == "ping" {
             format!("pong from {me}")
+        } else if text == "frame" {
+            self.frame_ms().map_or_else(|| "unknown".to_owned(), |ms| format!("{ms:.2}"))
         } else if let Some(line) = text.strip_prefix("show:") {
             say(mq, &format!("{YELLOW}{from}{RESET}: {line}"));
             "shown".to_owned()
@@ -150,6 +160,13 @@ impl Plugin for RustTest {
 }
 
 impl RustTest {
+    /// The average time between recent pulses, in milliseconds.
+    fn frame_ms(&self) -> Option<f64> {
+        let (first, last) = (self.recent_pulses.front()?, self.recent_pulses.back()?);
+        let gaps = self.recent_pulses.len().checked_sub(1).filter(|&n| n > 0)?;
+        Some((*last - *first).as_secs_f64() * 1000.0 / gaps as f64)
+    }
+
     /// Messages from Lua scripts, as Lua tables with an `id`.
     fn lua_message(&mut self, mq: &Mq<Self>, message: Message) {
         let sender = message.sender().and_then(|a| a.mailbox);
