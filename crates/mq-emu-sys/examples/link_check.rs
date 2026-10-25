@@ -36,6 +36,7 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const pLocalPlayer).cast(),
         (&raw const pControlledPlayer).cast(),
         (&raw const pTarget).cast(),
+        (&raw const pSpawnManager).cast(),
         (&raw const pKeypressHandler).cast(),
         (&raw const szEQMappableCommands).cast(),
         (&raw const pEverQuestInfo).cast(),

@@ -170,6 +170,26 @@ impl RustTest {
                     say(mq, "can't move outside the game");
                 }
             }
+            "spawns" => {
+                let n = words.next().and_then(|w| w.parse().ok()).unwrap_or(5);
+                let Some(here) = mq.controlled().map(|me| me.position()) else {
+                    say(mq, "no controlled spawn");
+                    return;
+                };
+                let mut spawns: Vec<_> = mq.spawns().map(|s| (s.position().distance(&here), s)).collect();
+                spawns.sort_by(|(a, _), (b, _)| a.total_cmp(b));
+                say(mq, &format!("{} spawns in zone; nearest {n}:", spawns.len()));
+                for (distance, spawn) in spawns.iter().take(n) {
+                    say(mq, &format!("  {:>7.1}  {} (id {}, {:?}, level {})", distance, spawn.name(), spawn.id(), spawn.spawn_type(), spawn.level()));
+                }
+            }
+            "find" => {
+                let name = words.collect::<Vec<_>>().join(" ");
+                match mq.spawn_by_name(&name) {
+                    Some(spawn) => describe(mq, "found", Some(spawn)),
+                    None => say(mq, &format!("no spawn named {name:?}")),
+                }
+            }
             "stop" => {
                 self.walk = None;
                 report_move(mq, "stopped", mq.stop_moving());
@@ -177,6 +197,7 @@ impl RustTest {
             _ => {
                 say(mq, &format!("{COMMAND} selftest | stats | reset | me | target"));
                 say(mq, "  movement: face | turn [degrees, + = left] | walk [ms] | stop");
+                say(mq, "  spawns: spawns [n] | find <name>");
                 say(mq, "  safety nets: panic | slow [ms] | flood");
             }
         }
@@ -197,6 +218,7 @@ impl RustTest {
         }
         let mut report = Report::new(mq);
         checks::game_data(mq, &mut report);
+        checks::spawn_list(mq, &mut report);
         checks::commands(mq, &mut report);
         checks::parsing(mq, &mut report);
         checks::keys(mq, &mut report);

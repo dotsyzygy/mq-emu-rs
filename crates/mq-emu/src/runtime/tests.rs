@@ -8,12 +8,12 @@ use std::ptr;
 use std::rc::Rc;
 use std::time::{Duration, Instant};
 
-use mq_emu_sys::layouts::EverQuestinfo;
+use mq_emu_sys::layouts::{EverQuestinfo, PlayerManagerClient};
 use mq_emu_sys::shim::MainInterface;
 use mq_emu_sys::shim::testing::*;
 
 use super::*;
-use crate::game::{Heading, Position};
+use crate::game::{Heading, Position, SpawnId};
 use crate::host::Host;
 use crate::movement::MoveKey;
 
@@ -45,6 +45,10 @@ thread_local! {
     /// Every EQExecuteCmd call, in order.
     static EXECUTED: RefCell<Vec<(u32, bool)>> = const { RefCell::new(Vec::new()) };
     static FACE_ANGLE: Cell<f64> = const { Cell::new(mq_emu_sys::constants::FACE_ANGLE_INACTIVE) };
+    static MANAGER: FakeObject<PlayerManagerClient> = FakeObject::new();
+    static HAS_MANAGER: Cell<bool> = const { Cell::new(true) };
+    /// The zone's other spawns; kept alive here so the list's pointers stay valid.
+    static ZONE: RefCell<Vec<FakeObject<PlayerClient>>> = const { RefCell::new(Vec::new()) };
 }
 
 /// Zeroed, aligned storage standing in for a game object.
@@ -103,6 +107,7 @@ const FAKE: Host = Host {
     local_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
     controlled_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
     target: || if HAS_TARGET.with(Cell::get) { TARGET.with(FakeObject::ptr) } else { ptr::null_mut() },
+    spawn_manager: || if HAS_MANAGER.with(Cell::get) { MANAGER.with(FakeObject::ptr) } else { ptr::null_mut() },
     everquest_info: || INFO.with(FakeObject::ptr),
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),
     execute_cmd: fake_execute_cmd,
@@ -680,4 +685,120 @@ fn disabled_commands_are_not_pressed_but_can_be_released() {
     assert_eq!(log_of(rt)[2..], ["Err(Disabled)", "Ok(())", "Ok(())"]);
     // Forward was never pressed; its release and Back went through.
     assert_eq!(executed(), [(2, false), (3, true)]);
+}
+
+// ----- spawn list -------------------------------------------------------------
+
+/// Fills the fake zone: you (the fake player) first, then `others` as
+/// (id, shown name, type, x, y), linked the way eqlib links them.
+fn set_zone(me: (u32, f32, f32), others: &[(u32, &str, u8, f32, f32)]) {
+    player().set_SpawnID(me.0);
+    player().set_X(me.1);
+    player().set_Y(me.2);
+    let mut nodes = vec![PLAYER.with(FakeObject::ptr)];
+    ZONE.with(|zone| {
+        let mut zone = zone.borrow_mut();
+        zone.clear();
+        for (id, name, kind, x, y) in others {
+            let spawn = FakeObject::<PlayerClient>::new();
+            let raw = unsafe { &*spawn.ptr() };
+            raw.set_SpawnID(*id);
+            raw.set_Type(*kind);
+            raw.set_X(*x);
+            raw.set_Y(*y);
+            let mut shown = raw.DisplayedName();
+            for (d, c) in shown.iter_mut().zip(name.bytes().chain([0])) {
+                *d = c as c_char;
+            }
+            raw.set_DisplayedName(shown);
+            nodes.push(spawn.ptr());
+            zone.push(spawn);
+        }
+    });
+    for pair in nodes.windows(2) {
+        unsafe {
+            (*pair[0]).set_m_pNext(pair[1]);
+            (*pair[1]).set_m_pPrev(pair[0]);
+        }
+    }
+    let last = *nodes.last().unwrap();
+    unsafe { (*last).set_m_pNext(ptr::null_mut()) };
+    let list = unsafe { (*MANAGER.with(FakeObject::ptr)).PlayerList() };
+    list.set_m_pFirstNode(nodes[0]);
+    list.set_m_pLastNode(last);
+}
+
+const ZONE_SPAWNS: &[(u32, &str, u8, f32, f32)] = &[
+    (10, "a rat", 1, 30.0, 0.0),
+    (11, "Soandso", 0, 5.0, 5.0),
+    (12, "a rat", 1, 8.0, 0.0),
+    (13, "a rat's corpse", 2, 1.0, 0.0),
+];
+
+#[test]
+fn spawns_walks_the_whole_list_in_order() {
+    set_zone((1, 0.0, 0.0), ZONE_SPAWNS);
+    let rt = in_pulse(|plugin, mq| {
+        let ids: Vec<u32> = mq.spawns().map(|s| s.id().0).collect();
+        plugin.log.push(format!("{ids:?}"));
+    });
+    assert_eq!(log_of(rt)[2..], ["[1, 10, 11, 12, 13]"]);
+}
+
+#[test]
+fn missing_or_empty_lists_have_no_spawns() {
+    HAS_MANAGER.with(|m| m.set(false));
+    let rt = in_pulse(|plugin, mq| plugin.log.push(format!("{}", mq.spawns().count())));
+    assert_eq!(log_of(rt)[2..], ["0"]);
+
+    HAS_MANAGER.with(|m| m.set(true));
+    let rt = in_pulse(|plugin, mq| plugin.log.push(format!("{}", mq.spawns().count())));
+    assert_eq!(log_of(rt)[2..], ["0"], "a zeroed manager has an empty list");
+}
+
+#[test]
+fn spawns_are_found_by_id_and_name() {
+    set_zone((1, 0.0, 0.0), ZONE_SPAWNS);
+    let rt = in_pulse(|plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.spawn(SpawnId(12)).map(|s| s.name())));
+        plugin.log.push(format!("{:?}", mq.spawn(SpawnId(99)).map(|s| s.name())));
+        plugin.log.push(format!("{:?}", mq.spawn_by_name("SOANDSO").map(|s| s.id().0)));
+        // The first match wins.
+        plugin.log.push(format!("{:?}", mq.spawn_by_name("a rat").map(|s| s.id().0)));
+        plugin.log.push(format!("{:?}", mq.spawn_by_name("nobody").map(|s| s.id().0)));
+    });
+    assert_eq!(log_of(rt)[2..], [r#"Some("a rat")"#, "None", "Some(11)", "Some(10)", "None"]);
+}
+
+#[test]
+fn nearest_excludes_you_and_honours_the_filter() {
+    set_zone((1, 0.0, 0.0), ZONE_SPAWNS);
+    let rt = in_pulse(|plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.nearest(|_| true).map(|s| s.id().0)));
+        plugin.log.push(format!("{:?}", mq.nearest(|s| s.is_npc()).map(|s| s.id().0)));
+        plugin.log.push(format!("{:?}", mq.nearest(|s| s.is_player()).map(|s| s.id().0)));
+        plugin.log.push(format!("{:?}", mq.nearest(|s| s.level() > 100).map(|s| s.id().0)));
+        let far_east = Position { x: 40.0, y: 0.0, z: 0.0 };
+        plugin.log.push(format!("{:?}", mq.nearest_to(&far_east, |s| s.is_npc()).map(|s| s.id().0)));
+    });
+    // Corpse 13 is closest overall; rat 12 beats rat 10; you (1) never count.
+    assert_eq!(log_of(rt)[2..], ["Some(13)", "Some(12)", "Some(11)", "None", "Some(10)"]);
+}
+
+#[test]
+fn nearest_needs_a_controlled_spawn() {
+    set_zone((1, 0.0, 0.0), ZONE_SPAWNS);
+    HAS_PLAYER.with(|p| p.set(false));
+    let rt = in_pulse(|plugin, mq| plugin.log.push(format!("{:?}", mq.nearest(|_| true).map(|s| s.id().0))));
+    assert_eq!(log_of(rt)[2..], ["None"]);
+}
+
+#[test]
+fn a_cyclic_list_stops_at_the_cap() {
+    // A damaged list must not hang the game.
+    set_zone((1, 0.0, 0.0), &ZONE_SPAWNS[..1]);
+    let rat = ZONE.with(|zone| zone.borrow()[0].ptr());
+    unsafe { (*rat).set_m_pNext(PLAYER.with(FakeObject::ptr)) };
+    let rt = in_pulse(|plugin, mq| plugin.log.push(format!("{}", mq.spawns().count())));
+    assert_eq!(log_of(rt)[2..], [crate::spawns::MAX_SPAWNS.to_string()]);
 }

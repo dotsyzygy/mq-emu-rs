@@ -38,6 +38,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data and exercises commands, re-entrancy and parsing; prints PASS/FAIL per check |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest me`, `/rusttest target` | What mq-emu reads for you and your target |
+| `/rusttest spawns [n]`, `find <name>` | The zone's spawn count and your nearest `n` spawns; look a spawn up by its shown name |
 | `/rusttest face`, `turn [deg]`, `walk [ms]`, `stop` | Movement: smoothly face your target, turn left by some degrees (negative for right), walk forward for a while, or stop everything |
 | `/rusttest panic`, `slow [ms]`, `flood` | Deliberately trigger the runtime's safety nets: a caught panic, a slow-pulse warning, a capped feedback loop |
 

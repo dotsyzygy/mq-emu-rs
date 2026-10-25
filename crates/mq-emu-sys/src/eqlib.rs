@@ -3,7 +3,7 @@
 use core::ffi::{c_char, c_uint, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
-use crate::layouts::{EverQuestinfo, KeyCombo, KeypressHandler};
+use crate::layouts::{EverQuestinfo, KeyCombo, KeypressHandler, PlayerManagerClient};
 use crate::types::{ForeignPointer, PlayerClient};
 
 imports! {
@@ -24,6 +24,9 @@ imports! {
         pub static mut pControlledPlayer: ForeignPointer<PlayerClient>;
         /// The current target, if any.
         pub static mut pTarget: ForeignPointer<PlayerClient>;
+        /// Every spawn in the zone, as a linked list (`PlayerList`, then each
+        /// spawn's `m_pNext`).
+        pub static mut pSpawnManager: ForeignPointer<PlayerManagerClient>;
         /// Key bindings, and which bound keys are physically held
         /// (`CommandState`; commands pressed by `EQExecuteCmd` don't show there,
         /// see `EverQuestinfo::keyDown`).

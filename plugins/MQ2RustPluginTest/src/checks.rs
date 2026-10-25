@@ -199,3 +199,44 @@ pub fn keys<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         format!("press {pressed:?}, held {held}, release {released:?}, held afterwards {held_after}")
     }));
 }
+
+/// The spawn list against MacroQuest's own spawn data.
+pub fn spawn_list<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
+    if mq.game_state() != GameState::InGame {
+        report.print(mq, "spawn list", Check::Skip("needs to be in game".into()));
+        return;
+    }
+    let count = mq.spawns().count();
+    report.print(mq, "spawns().count() = ${SpawnCount}", same_text(count, mq.parse("${SpawnCount}")));
+
+    if let Some(me) = mq.me() {
+        let id = me.id();
+        report.print(mq, "you are in the spawn list", Check::that(mq.spawns().any(|s| s.id() == id), || format!("id {id} missing")));
+        let name = me.name();
+        report.print(mq, "spawn_by_name(your name) finds you", match mq.spawn_by_name(&name) {
+            Some(found) => same_text(found.name(), name),
+            None => Check::Fail("not found".into()),
+        });
+    }
+    match mq.target() {
+        Some(target) => report.print(mq, "spawn(target id) is the target", match mq.spawn(target.id()) {
+            Some(found) => same_text(found.id(), target.id().to_string()),
+            None => Check::Fail(format!("id {} not found", target.id())),
+        }),
+        None => report.print(mq, "spawn(target id)", Check::Skip("no target".into())),
+    }
+    report.print(mq, "spawn(nonexistent id) is None", Check::that(mq.spawn(mq_emu::SpawnId(u32::MAX)).is_none(), || "found one".into()));
+
+    // A sample of spawns, each looked up through MacroQuest by ID.
+    for spawn in mq.spawns().take(8) {
+        let id = spawn.id();
+        let name = mq.parse(&format!("${{Spawn[id {id}].DisplayName}}"));
+        let x = mq.parse(&format!("${{Spawn[id {id}].X}}"));
+        let y = mq.parse(&format!("${{Spawn[id {id}].Y}}"));
+        let pos = spawn.position();
+        let ok = name == spawn.name() && matches!(same_float(pos.x, &x), Check::Pass) && matches!(same_float(pos.y, &y), Check::Pass);
+        report.print(mq, &format!("spawn {id} ({}) = ${{Spawn[id {id}]}}", spawn.name()), Check::that(ok, || {
+            format!("mq-emu {:?} at {:.2}, {:.2}; MacroQuest {name:?} at {x}, {y}", spawn.name(), pos.x, pos.y)
+        }));
+    }
+}

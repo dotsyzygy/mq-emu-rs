@@ -218,6 +218,19 @@ impl<'a> Spawn<'a> {
         SpawnType::from(self.raw.Type())
     }
 
+    pub fn is_player(&self) -> bool {
+        self.spawn_type() == SpawnType::Player
+    }
+
+    /// NPCs, including pets and mounts (the client counts those as NPCs too).
+    pub fn is_npc(&self) -> bool {
+        self.spawn_type() == SpawnType::Npc
+    }
+
+    pub fn is_corpse(&self) -> bool {
+        self.spawn_type() == SpawnType::Corpse
+    }
+
     pub fn position(&self) -> Position {
         Position { x: self.raw.X(), y: self.raw.Y(), z: self.raw.Z() }
     }

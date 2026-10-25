@@ -7,7 +7,7 @@ use std::time::Instant;
 
 use mq_emu_sys::constants::MAX_STRING;
 use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
-use mq_emu_sys::layouts::{EverQuestinfo, PlayerClient};
+use mq_emu_sys::layouts::{EverQuestinfo, PlayerClient, PlayerManagerClient};
 use mq_emu_sys::shim::MainInterface;
 use mq_emu_sys::types::ForeignPointer;
 
@@ -23,6 +23,8 @@ pub(crate) struct Host {
     /// The spawn whose movement the player controls (a mount when riding).
     pub controlled_player: fn() -> *mut PlayerClient,
     pub target: fn() -> *mut PlayerClient,
+    /// Owns the zone's spawn list.
+    pub spawn_manager: fn() -> *mut PlayerManagerClient,
     /// Client-wide state; `keyDown` says which game commands are down.
     pub everquest_info: fn() -> *mut EverQuestinfo,
     /// Whether the game currently allows a command (`EQbCommandStates`).
@@ -43,6 +45,7 @@ pub(crate) const REAL: Host = Host {
     local_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPlayer) },
     controlled_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pControlledPlayer) },
     target: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTarget) },
+    spawn_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpawnManager) },
     everquest_info: || unsafe { mq_emu_sys::eqlib::pEverQuestInfo },
     command_enabled: real_command_enabled,
     execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },

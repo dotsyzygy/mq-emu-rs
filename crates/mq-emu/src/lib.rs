@@ -63,6 +63,7 @@ mod movement;
 mod mq;
 mod plugin;
 mod runtime;
+mod spawns;
 mod stats;
 mod text;
 
@@ -75,6 +76,7 @@ pub use movement::{MoveError, MoveKey};
 pub use mq::{CommandError, Mq};
 pub use plugin::Plugin;
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
+pub use spawns::{MAX_SPAWNS, Spawns};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
 
 /// Used by [`plugin!`]; not part of the public API.
