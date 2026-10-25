@@ -112,6 +112,14 @@ impl Warnings {
         self.panics += 1;
     }
 
+    /// Forgets problems not yet reported. The rate limit still applies.
+    pub fn dismiss(&mut self) {
+        self.slow_pulses = 0;
+        self.worst_pulse = Duration::ZERO;
+        self.dropped = 0;
+        self.panics = 0;
+    }
+
     /// Returns a warning if anything is pending and the interval has passed.
     pub fn poll(&mut self, now: Instant) -> Option<String> {
         if self.slow_pulses == 0 && self.dropped == 0 && self.panics == 0 {

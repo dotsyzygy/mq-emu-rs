@@ -599,6 +599,10 @@ impl<P: Plugin> Runtime<P> {
         self.reported_panics.set(0);
     }
 
+    pub(crate) fn dismiss_pending_warnings(&self) {
+        self.warnings.borrow_mut().dismiss();
+    }
+
     pub(crate) fn set_slow_pulse_warning(&self, threshold: Option<Duration>) {
         self.warnings.borrow_mut().slow_threshold = threshold;
     }

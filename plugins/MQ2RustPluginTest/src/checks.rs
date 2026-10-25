@@ -3,6 +3,7 @@
 
 use mq_emu::color::{GREEN, RED, RESET, YELLOW};
 use std::ffi::{CStr, CString};
+use std::time::Instant;
 
 use mq_emu::{CommandError, GameState, MoveKey, Mq, Plugin, angle_difference};
 
@@ -25,11 +26,15 @@ pub struct Report {
     passed: u32,
     failed: u32,
     skipped: u32,
+    started: Instant,
+    /// When the previous line was printed.
+    last: Instant,
 }
 
 impl Report {
     pub fn new<P: Plugin>(mq: &Mq<P>) -> Report {
-        Report { name: mq.plugin_name(), passed: 0, failed: 0, skipped: 0 }
+        let now = Instant::now();
+        Report { name: mq.plugin_name(), passed: 0, failed: 0, skipped: 0, started: now, last: now }
     }
 
     pub fn print<P: Plugin>(&mut self, mq: &Mq<P>, label: &str, check: Check) {
@@ -47,14 +52,22 @@ impl Report {
                 format!("{YELLOW}[SKIP]{RESET} {label}: {reason}")
             }
         };
-        mq.chat(format!("[{}] {line}", self.name));
+        // Time since the selftest started, and since the previous line.
+        let now = Instant::now();
+        let stamp = format!("{:.2}s +{:.2}s", (now - self.started).as_secs_f64(), (now - self.last).as_secs_f64());
+        self.last = now;
+        mq.chat(format!("[{}] [{stamp}] {line}", self.name));
     }
 
     pub fn finish<P: Plugin>(self, mq: &Mq<P>) {
         let color = if self.failed == 0 { GREEN } else { RED };
         mq.chat(format!(
-            "[{}] {color}selftest: {} passed, {} failed, {} skipped{RESET}",
-            self.name, self.passed, self.failed, self.skipped
+            "[{}] {color}selftest: {} passed, {} failed, {} skipped in {:.2}s{RESET}",
+            self.name,
+            self.passed,
+            self.failed,
+            self.skipped,
+            self.started.elapsed().as_secs_f64()
         ));
     }
 }

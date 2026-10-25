@@ -10,8 +10,10 @@ use crate::RustTest;
 use crate::checks::{self, Check, Report};
 use crate::lua_checks;
 
-/// How long other characters get to answer "who".
+/// How long to wait for the first answer to "who".
 const DISCOVERY_TIME: Duration = Duration::from_millis(1500);
+/// Once someone has answered, how long without a new answer ends the wait.
+const DISCOVERY_QUIET: Duration = Duration::from_millis(250);
 const TIMEOUT: Duration = Duration::from_secs(5);
 
 /// `lua_here`: whether the rustpeer script runs on this character.
@@ -25,7 +27,21 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
     task.with_plugin(|plugin, _| plugin.peers = Some(Default::default()));
     let asked = task.with(|mq| mq.send(&Address::default(), "who"));
     if asked.is_ok() {
-        task.delay(DISCOVERY_TIME).await;
+        // Answers take milliseconds; stop once they've stopped coming.
+        let started = Instant::now();
+        let (mut seen, mut last_new) = (0, started);
+        loop {
+            let now = Instant::now();
+            let count = task.with_plugin(|plugin, _| plugin.peers.as_ref().map_or(0, |peers| peers.len()));
+            if count > seen {
+                (seen, last_new) = (count, now);
+            }
+            let done = if seen == 0 { now - started >= DISCOVERY_TIME } else { now - last_new >= DISCOVERY_QUIET };
+            if done {
+                break;
+            }
+            task.next_pulse().await;
+        }
     }
     let peers = task.with_plugin(|plugin, _| plugin.peers.take()).unwrap_or_default();
     let found = task.with(|mq| {

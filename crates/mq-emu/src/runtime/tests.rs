@@ -560,6 +560,35 @@ fn slow_pulses_warn_at_most_every_interval() {
 }
 
 #[test]
+fn dismissed_problems_are_not_warned_about() {
+    let rt = runtime();
+    let slow = Rc::new(Cell::new(true));
+    let flag = slow.clone();
+    set_hook(&ON_PULSE, move |_, mq| {
+        if flag.get() {
+            advance_clock(Duration::from_millis(20));
+        } else {
+            mq.dismiss_pending_warnings();
+        }
+    });
+    rt.initialize();
+    rt.pulse(); // warned at once
+    rt.pulse(); // pending, held back by the rate limit
+    slow.set(false);
+    rt.pulse(); // dismissed
+    advance_clock(Duration::from_secs(30));
+    rt.pulse();
+    let warnings = || chat_lines().into_iter().filter(|l| l.contains("warning")).collect::<Vec<_>>();
+    assert_eq!(warnings(), ["[test] warning: 1 slow pulse (worst 20.0 ms)"]);
+    assert_eq!(rt.stats().pulses, 4, "stats keep counting");
+
+    // Negative: problems after a dismissal are still reported.
+    slow.set(true);
+    rt.pulse();
+    assert_eq!(warnings().len(), 2, "{:?}", warnings());
+}
+
+#[test]
 fn fast_pulses_are_silent() {
     let rt = runtime();
     rt.initialize();

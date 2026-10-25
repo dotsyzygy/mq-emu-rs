@@ -167,6 +167,13 @@ impl<P: Plugin> Mq<P> {
         self.runtime.reset_stats()
     }
 
+    /// Forgets problems not yet reported in a warning, e.g. right after
+    /// causing them on purpose. [`Mq::stats`] still counts them, and later
+    /// problems are warned about as usual.
+    pub fn dismiss_pending_warnings(&self) {
+        self.runtime.dismiss_pending_warnings()
+    }
+
     /// Pulses slower than this produce a rate-limited chat warning (at most
     /// one every 30 seconds). `None` disables it. Default: 16 ms.
     pub fn set_slow_pulse_warning(&self, threshold: Option<Duration>) {

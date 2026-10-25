@@ -327,7 +327,9 @@ async fn safety_nets(task: &Task<RustTest>, report: &mut Report) {
         let after = mq.stats();
         report.print(mq, "a chat feedback loop is capped", Check::that(after.cap_hits > before.cap_hits && after.dropped > before.dropped, || {
             format!("cap hits {} -> {}, dropped {} -> {}", before.cap_hits, after.cap_hits, before.dropped, after.dropped)
-        }))
+        }));
+        // These problems were the point; don't warn about them later.
+        mq.dismiss_pending_warnings();
     });
 }
 
