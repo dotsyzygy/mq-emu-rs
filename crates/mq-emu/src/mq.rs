@@ -61,6 +61,10 @@ impl<P: Plugin> Mq<P> {
         self.runtime.host()
     }
 
+    pub(crate) fn runtime(&self) -> &'static Runtime<P> {
+        self.runtime
+    }
+
     /// The plugin's name (its crate name), as used in its chat messages.
     pub fn plugin_name(&self) -> &'static str {
         self.runtime.name()

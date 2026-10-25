@@ -24,6 +24,7 @@ use crate::host::Host;
 use crate::mq::{CommandError, Mq};
 use crate::plugin::Plugin;
 use crate::stats::{Stats, Warnings};
+use crate::tasks::Executor;
 use crate::text::{from_c, to_c};
 
 /// Most re-entrant events held at once; more are dropped.
@@ -95,6 +96,7 @@ impl Event {
 /// Kinds used only by the runtime itself, for once-per-kind panic reports.
 const KIND_NEW: (u32, &str) = (21, "Plugin::new");
 const KIND_SHUTDOWN: (u32, &str) = (22, "shutdown");
+const KIND_TASK: (u32, &str) = (23, "a task");
 
 pub(crate) type CommandHandler<P> = dyn Fn(&mut P, &Mq<P>, &str);
 
@@ -125,6 +127,9 @@ pub struct Runtime<P: Plugin> {
     /// True while the runtime writes its own diagnostics, which must not come
     /// back to the plugin as chat events (they could feed a loop they report).
     writing_diagnostic: Cell<bool>,
+    /// True while something holds `&mut P` (a callback or `Task::with_plugin`).
+    plugin_in_use: Cell<bool>,
+    executor: Executor,
 }
 
 // SAFETY: MacroQuest calls plugins only from the game thread, and plugin code
@@ -153,6 +158,8 @@ impl<P: Plugin> Runtime<P> {
             warnings: RefCell::new(Warnings::new()),
             reported_panics: Cell::new(0),
             writing_diagnostic: Cell::new(false),
+            plugin_in_use: Cell::new(false),
+            executor: Executor::new(),
         }
     }
 
@@ -201,8 +208,9 @@ impl<P: Plugin> Runtime<P> {
                     self.on_panic(KIND_SHUTDOWN, payload.as_ref());
                 }
             }
-            // Nothing is delivered after shutdown.
+            // Nothing is delivered after shutdown, and tasks go before the plugin.
             self.queue.borrow_mut().clear();
+            self.executor.clear();
             self.remove_all_commands();
             let plugin = unsafe { (*self.plugin.get()).take() };
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
@@ -222,7 +230,17 @@ impl<P: Plugin> Runtime<P> {
                 return;
             }
             let start = (self.host.now)();
-            self.enter(Event::Pulse);
+            self.busy.set(true);
+            self.run_one(Event::Pulse);
+            // Tasks run in the same busy section, after on_pulse; anything
+            // they cause for the plugin is delivered right after them.
+            self.executor.poll_all(
+                |failure| self.diagnostic(&format!("task failed: {failure}")),
+                |payload| self.on_panic(KIND_TASK, payload),
+            );
+            self.drain();
+            self.busy.set(false);
+            self.free_retired();
             let took = (self.host.now)().saturating_duration_since(start);
             self.record_pulse(took);
             let warning = self.warnings.borrow_mut().poll((self.host.now)());
@@ -375,7 +393,10 @@ impl<P: Plugin> Runtime<P> {
         };
         let mq = Mq::new(self);
         let kind = event.kind();
-        match catch_unwind(AssertUnwindSafe(|| self.deliver(plugin, &mq, event))) {
+        self.plugin_in_use.set(true);
+        let outcome = catch_unwind(AssertUnwindSafe(|| self.deliver(plugin, &mq, event)));
+        self.plugin_in_use.set(false);
+        match outcome {
             Ok(result) => result,
             Err(payload) => {
                 self.on_panic(kind, payload.as_ref());
@@ -487,9 +508,34 @@ impl<P: Plugin> Runtime<P> {
         self.stats.get()
     }
 
+    pub(crate) fn executor(&self) -> &Executor {
+        &self.executor
+    }
+
+    /// Lends the plugin to a task.
+    pub(crate) fn with_plugin<R>(&'static self, f: impl FnOnce(&mut P, &Mq<P>) -> R) -> R {
+        assert!(
+            !self.plugin_in_use.get(),
+            "with_plugin called while the plugin is already borrowed; call it from a task, not from a callback"
+        );
+        // SAFETY: plugin_in_use guards the only other way to reach `plugin`
+        // mutably, and everything runs on the game thread.
+        let plugin = unsafe { (*self.plugin.get()).as_mut() }.expect("the plugin exists while its tasks run");
+
+        struct Release<'a>(&'a Cell<bool>);
+        impl Drop for Release<'_> {
+            fn drop(&mut self) {
+                self.0.set(false);
+            }
+        }
+        self.plugin_in_use.set(true);
+        let _release = Release(&self.plugin_in_use);
+        f(plugin, &Mq::new(self))
+    }
+
     /// Runs `f` on the plugin between callbacks (tests only).
     #[cfg(test)]
-    pub(crate) fn with_plugin<R>(&self, f: impl FnOnce(&mut P) -> R) -> Option<R> {
+    pub(crate) fn peek_plugin<R>(&self, f: impl FnOnce(&mut P) -> R) -> Option<R> {
         assert!(!self.busy.get(), "with_plugin called during a callback");
         // SAFETY: not busy, so nothing else borrows `plugin`.
         unsafe { (*self.plugin.get()).as_mut() }.map(f)

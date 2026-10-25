@@ -42,6 +42,22 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
 - **Commands** as Rust closures that receive your plugin state.
 - **Game state**: `mq.me()`, `mq.target()`, positions, headings, HP/mana, and
   `mq.parse("${...}")` for any MacroQuest data.
+- **Movement and the spawn list**: hold movement keys, turn smoothly or instantly, face points;
+  iterate the zone's spawns, look them up by ID or name, find the nearest match.
+- **Async tasks** for logic that spans many pulses, without a state machine:
+
+  ```rust
+  mq.spawn_fallible_task(|task: Task<Hello>| async move {
+      task.with(|mq| mq.face_point(&destination))?;
+      task.wait_until(|mq| !mq.is_turning()).await;
+      task.with(|mq| mq.set_key(MoveKey::Forward, true))?;
+      task.delay(Duration::from_secs(2)).await;
+      task.with(|mq| mq.stop_moving())
+  });
+  ```
+
+  Tasks run once per pulse on the game thread (no threads, no async runtime) and reach the game
+  only inside `task.with(...)`, so nothing from the game can be held across an `.await`.
 - **Safety**:
   - Game access stays on the game thread, because `Mq` is `!Send`.
   - Spawns can't outlive the callback they came from.

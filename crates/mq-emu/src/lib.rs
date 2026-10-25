@@ -64,6 +64,7 @@ mod mq;
 mod plugin;
 mod runtime;
 mod spawns;
+mod tasks;
 mod stats;
 mod text;
 
@@ -77,6 +78,7 @@ pub use mq::{CommandError, Mq};
 pub use plugin::Plugin;
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
 pub use spawns::{MAX_SPAWNS, Spawns};
+pub use tasks::{NextPulse, Task, TaskId};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
 
 /// Used by [`plugin!`]; not part of the public API.

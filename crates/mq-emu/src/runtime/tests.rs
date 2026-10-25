@@ -15,7 +15,7 @@ use mq_emu_sys::shim::testing::*;
 use super::*;
 use crate::game::{Heading, Position, SpawnId};
 use crate::host::Host;
-use crate::movement::MoveKey;
+use crate::movement::{MoveError, MoveKey};
 
 // ----- fake host -----------------------------------------------------------
 
@@ -174,6 +174,8 @@ impl Drop for FakeMain {
 #[derive(Default)]
 struct Recorder {
     log: Vec<String>,
+    /// A task handle kept by the plugin, to misuse from a callback.
+    saved_task: Option<crate::tasks::Task<Recorder>>,
 }
 
 impl Plugin for Recorder {
@@ -209,7 +211,7 @@ impl Plugin for Recorder {
 }
 
 fn log_of(rt: &Runtime<Recorder>) -> Vec<String> {
-    rt.with_plugin(|p| p.log.clone()).unwrap_or_default()
+    rt.peek_plugin(|p| p.log.clone()).unwrap_or_default()
 }
 
 // ----- lifecycle -------------------------------------------------------------
@@ -229,13 +231,13 @@ fn callbacks_reach_the_plugin_and_pulses_are_counted() {
 fn nothing_is_delivered_before_initialize_or_after_shutdown() {
     let rt = runtime();
     rt.pulse();
-    assert!(rt.with_plugin(|_| ()).is_none());
+    assert!(rt.peek_plugin(|_| ()).is_none());
 
     rt.initialize();
     rt.shutdown();
-    assert!(rt.with_plugin(|_| ()).is_none(), "plugin dropped on shutdown");
+    assert!(rt.peek_plugin(|_| ()).is_none(), "plugin dropped on shutdown");
     rt.pulse();
-    assert!(rt.with_plugin(|_| ()).is_none());
+    assert!(rt.peek_plugin(|_| ()).is_none());
 }
 
 #[test]
@@ -377,7 +379,7 @@ fn panic_in_new_leaves_no_plugin() {
     let rt = runtime();
     set_hook(&ON_NEW, |_, _| panic!("bad config"));
     rt.initialize();
-    assert!(rt.with_plugin(|_| ()).is_none());
+    assert!(rt.peek_plugin(|_| ()).is_none());
     assert!(chat_lines().contains(&"[test] panicked in Plugin::new: bad config".to_owned()));
     rt.pulse(); // ignored, not a crash
 }
@@ -801,4 +803,267 @@ fn a_cyclic_list_stops_at_the_cap() {
     unsafe { (*rat).set_m_pNext(PLAYER.with(FakeObject::ptr)) };
     let rt = in_pulse(|plugin, mq| plugin.log.push(format!("{}", mq.spawns().count())));
     assert_eq!(log_of(rt)[2..], [crate::spawns::MAX_SPAWNS.to_string()]);
+}
+
+// ----- async tasks ----------------------------------------------------------------
+
+use crate::tasks::{Task, TaskId};
+
+fn note(task: &Task<Recorder>, text: &str) {
+    task.with_plugin(|plugin, _| plugin.log.push(text.to_owned()));
+}
+
+/// Starts `make` as a task from `Plugin::new`.
+fn with_task<Fut>(make: impl Fn(Task<Recorder>) -> Fut + 'static) -> &'static Runtime<Recorder>
+where
+    Fut: std::future::Future<Output = ()> + 'static,
+{
+    let make = Rc::new(make);
+    let rt = runtime();
+    set_hook(&ON_NEW, move |_, mq| {
+        let make = make.clone();
+        mq.spawn_task(move |task| make(task));
+    });
+    rt.initialize();
+    rt.with_plugin(|plugin, _| plugin.log.clear());
+    rt
+}
+
+#[test]
+fn tasks_resume_once_per_pulse_after_on_pulse() {
+    let rt = with_task(|task| async move {
+        note(&task, "t1");
+        task.next_pulse().await;
+        note(&task, "t2");
+        task.next_pulse().await;
+        note(&task, "t3");
+    });
+    assert_eq!(Mq::new(rt).task_count(), 1);
+    for _ in 0..4 {
+        rt.pulse();
+    }
+    assert_eq!(log_of(rt), ["pulse", "t1", "pulse", "t2", "pulse", "t3", "pulse"]);
+    assert_eq!(Mq::new(rt).task_count(), 0);
+}
+
+#[test]
+fn tasks_spawned_by_tasks_start_on_the_next_pulse() {
+    let rt = with_task(|task| async move {
+        note(&task, "outer");
+        task.with(|mq| {
+            mq.spawn_task(|inner: Task<Recorder>| async move { note(&inner, "inner") });
+        });
+    });
+    rt.pulse();
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "outer", "pulse", "inner"]);
+}
+
+#[test]
+fn delay_waits_on_the_clock() {
+    let rt = with_task(|task| async move {
+        note(&task, "start");
+        task.delay(Duration::from_secs(1)).await;
+        note(&task, "done");
+    });
+    rt.pulse();
+    advance_clock(Duration::from_millis(500));
+    rt.pulse();
+    assert!(!log_of(rt).contains(&"done".to_owned()));
+    advance_clock(Duration::from_millis(600));
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "start", "pulse", "pulse", "done"]);
+}
+
+#[test]
+fn wait_until_checks_every_pulse_and_can_time_out() {
+    let rt = with_task(|task| async move {
+        task.wait_until(|mq| mq.target().is_some()).await;
+        note(&task, "target seen");
+        let lost = task.wait_until_timeout(|mq| mq.target().is_none(), Duration::from_secs(2)).await;
+        note(&task, &format!("target lost: {lost}"));
+    });
+    rt.pulse();
+    rt.pulse();
+    HAS_TARGET.with(|t| t.set(true));
+    rt.pulse();
+    advance_clock(Duration::from_secs(3));
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "pulse", "pulse", "target seen", "pulse", "target lost: false"]);
+}
+
+#[test]
+fn a_failed_task_is_reported_and_removed() {
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.spawn_fallible_task(|task: Task<Recorder>| async move {
+            task.next_pulse().await;
+            Err::<(), _>("no target")
+        });
+    });
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+    assert!(chat_lines().contains(&"[test] task failed: no target".to_owned()));
+    assert_eq!(Mq::new(rt).task_count(), 0);
+}
+
+#[test]
+fn a_panicking_task_is_removed_and_others_keep_running() {
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.spawn_task(|_task: Task<Recorder>| async move { panic!("boom") });
+        mq.spawn_task(|task: Task<Recorder>| async move {
+            for i in 0..3 {
+                note(&task, &format!("still running {i}"));
+                task.next_pulse().await;
+            }
+        });
+    });
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+    assert!(chat_lines().contains(&"[test] panicked in a task: boom".to_owned()));
+    assert_eq!(rt.stats().panics, 1);
+    assert!(log_of(rt).contains(&"still running 1".to_owned()));
+    assert_eq!(Mq::new(rt).task_count(), 1);
+}
+
+thread_local! {
+    static TASK_ID: Cell<Option<TaskId>> = const { Cell::new(None) };
+    static DROPPED: Cell<u32> = const { Cell::new(0) };
+}
+
+#[test]
+fn cancelled_tasks_stop() {
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        let id = mq.spawn_task(|task: Task<Recorder>| async move {
+            loop {
+                note(&task, "tick");
+                task.next_pulse().await;
+            }
+        });
+        TASK_ID.with(|t| t.set(Some(id)));
+    });
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+    let id = TASK_ID.with(Cell::get).unwrap();
+    assert!(Mq::new(rt).cancel_task(id));
+    assert!(!Mq::new(rt).cancel_task(id), "already cancelled");
+    rt.pulse();
+    let ticks = log_of(rt).iter().filter(|e| *e == "tick").count();
+    assert_eq!(ticks, 2);
+    assert_eq!(Mq::new(rt).task_count(), 0);
+}
+
+#[test]
+fn a_task_can_cancel_itself() {
+    let rt = with_task(|task| async move {
+        note(&task, "before");
+        let id = task.id();
+        task.with(|mq| assert!(mq.cancel_task(id)));
+        task.next_pulse().await;
+        note(&task, "never");
+    });
+    rt.pulse();
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "before", "pulse"]);
+    assert_eq!(Mq::new(rt).task_count(), 0);
+}
+
+struct CountDrop;
+impl Drop for CountDrop {
+    fn drop(&mut self) {
+        DROPPED.with(|d| d.set(d.get() + 1));
+    }
+}
+
+#[test]
+fn shutdown_drops_running_tasks() {
+    let rt = with_task(|task| async move {
+        let _guard = CountDrop;
+        loop {
+            task.next_pulse().await;
+        }
+    });
+    rt.pulse();
+    assert_eq!(DROPPED.with(Cell::get), 0);
+    rt.shutdown();
+    assert_eq!(DROPPED.with(Cell::get), 1);
+}
+
+#[test]
+fn chat_from_a_task_is_delivered_after_the_tasks() {
+    let rt = with_task(|task| async move {
+        task.with(|mq| mq.chat("from task"));
+        note(&task, "task end");
+    });
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "task end", "chat:from task"]);
+}
+
+#[test]
+fn with_plugin_refuses_while_a_callback_holds_the_plugin() {
+    let rt = with_task(|task| async move {
+        let saved = task.clone();
+        task.with_plugin(move |plugin, _| plugin.saved_task = Some(saved));
+    });
+    rt.pulse();
+    set_hook(&ON_PULSE, |plugin, _| {
+        let task = plugin.saved_task.clone().unwrap();
+        task.with_plugin(|_, _| ());
+    });
+    rt.pulse();
+    let reports: Vec<_> = chat_lines().into_iter().filter(|l| l.contains("panicked in on_pulse")).collect();
+    assert_eq!(reports.len(), 1, "{reports:?}");
+    assert!(reports[0].contains("already borrowed"), "{reports:?}");
+}
+
+#[test]
+fn fallible_tasks_can_use_the_question_mark_and_succeed_quietly() {
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.spawn_fallible_task(|task: Task<Recorder>| async move {
+            task.with(|mq| mq.set_key(MoveKey::Forward, true))?;
+            task.next_pulse().await;
+            task.with(|mq| mq.stop_moving())
+        });
+    });
+    rt.initialize();
+    rt.pulse();
+    rt.pulse();
+    assert!(chat_lines().is_empty(), "{:?}", chat_lines());
+    assert_eq!(executed(), [(2, true), (2, false)]);
+
+    // And a `?` that fails ends the task with a report.
+    GAME_STATE.with(|state| state.set(mq_emu_sys::constants::GAMESTATE_CHARSELECT));
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.spawn_fallible_task(|task: Task<Recorder>| async move {
+            task.with(|mq| mq.set_key(MoveKey::Forward, true))?;
+            note(&task, "unreachable");
+            Ok::<(), MoveError>(())
+        });
+    });
+    rt.initialize();
+    rt.pulse();
+    assert!(chat_lines().contains(&"[test] task failed: not in game".to_owned()), "{:?}", chat_lines());
+}
+
+#[test]
+fn endless_tasks_need_no_annotation() {
+    // `loop {}` has type `!`; spawn_task's `()` output accepts it as is.
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.spawn_task(|task: Task<Recorder>| async move {
+            loop {
+                task.next_pulse().await;
+            }
+        });
+    });
+    rt.initialize();
+    rt.pulse();
+    assert_eq!(Mq::new(rt).task_count(), 1);
 }
