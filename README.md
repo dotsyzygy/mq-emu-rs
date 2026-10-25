@@ -11,6 +11,73 @@ Unofficial Rust bindings for writing [MacroQuest](https://github.com/macroquest/
 > intended for live EverQuest, and the crates refuse to build for anything
 > other than `i686-pc-windows-msvc`.
 
+## Why Rust for MacroQuest plugins
+
+Compared with writing the same plugin in C/C++ against MQ2Main directly:
+
+- **Game objects can't outlive the frame.** A `Spawn` borrows from the `Mq` handle a callback gets,
+  so holding one past the callback (when the game may free it) is a compile error, not a crash next
+  zone. Long-lived references are `SpawnId`s that are looked up again.
+- **A bug doesn't take the client down.** A panic in plugin code is caught at the boundary, reported
+  once in chat and counted in `Mq::stats`; EverQuest keeps running. In C++ the same
+  null dereference or out-of-range index crashes the game.
+- **Re-entrancy is handled for you.** Commands, chat and events that fire while the plugin is already
+  busy are queued and delivered right after, in order, with a cap against feedback loops, instead of
+  re-entering half-updated state.
+- **Async instead of hand-rolled state machines.** Multi-pulse logic ("turn, wait until facing, walk
+  for half a second, then stop") is a plain `async` task with `delay`/`wait_until`, run on the game
+  thread with no locking.
+- **Thread rules are in the types.** `Mq` can't leave the callback or the game thread, so game access
+  from another thread doesn't compile.
+- **Cargo.** The plugin builds with `cargo build` against an existing MacroQuest build, outside the
+  MacroQuest solution, can use crates.io libraries, and links the C runtime statically (no Visual C++
+  redistributable needed).
+- **Testable without the game.** The runtime's dispatch, queueing and panic handling are tested
+  against a fake host, and the bindings are checked against MacroQuest's own exports, headers and PDB
+  (see [Tests](#tests)).
+- **Raw access is still there.** Anything not wrapped yet is reachable through `mq_emu::sys`, with the
+  same `unsafe` freedom as C++, confined to the code that needs it.
+
+## Feature status
+
+What the framework (`mq-emu`) supports today and what it doesn't yet.
+
+> **Keep this current:** when a feature is added (or a gap is found), update these lists in the same
+> change.
+
+**Supported**
+
+- Plugin lifecycle via `plugin!` and the `Plugin` trait: init/shutdown, pulse, incoming and written
+  chat, zoning (begin/end/zoned), game state changes, spawns and ground items added/removed, UI
+  clean/reload, HUD draw, macro start/stop, other plugins loading/unloading
+- Chat output, with colors (`mq_emu::color`)
+- Running commands (queued, immediate, timed); adding and removing slash commands
+- Aliases, including ones saved to MacroQuest.ini
+- Parsing `${...}` text
+- Reading TLOs and members (`tlo`, `tlo_at`, `data("Target.Name")`) as typed values
+- Providing TLOs from Rust (`add_tlo`) returning scalar values
+- Spawns: you, your target, the spawn list, lookup by ID or name, nearest with a filter; name, level,
+  type, position, heading, HP, mana, distance
+- Movement: movement keys, facing a heading or point (smooth or instant), stopping
+- Async tasks on the game thread: `delay`, `wait_until`, timeouts, cancellation
+- Actors messaging: mailboxes, send, reply, request with timeout, other characters and peers
+- Lua interop: exchanging every actors value type with Lua scripts
+- Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
+- Generated raw layouts for spawns, your character, the spawn list, zone info, key state, ground items
+  and client state (via `sys`)
+
+**Missing**
+
+- ImGui: `on_update_imgui` is called, but there is no API to draw windows or widgets
+- Safe wrappers for items, inventory, spells, buffs, groups, pets, zone info and ground items (reachable
+  only as raw layouts or through TLO reads)
+- Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
+- MacroQuest events (`#Event`-style chat matching) and key binds
+- EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
+- Settings helpers for reading and writing plugin INI files
+- Hooks/detours on game functions
+- Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
+
 ## Crates
 
 | Crate | Published | Purpose |
