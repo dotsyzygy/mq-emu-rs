@@ -176,6 +176,8 @@ struct Recorder {
     log: Vec<String>,
     /// A task handle kept by the plugin, to misuse from a callback.
     saved_task: Option<crate::tasks::Task<Recorder>>,
+    /// A message kept to reply to later.
+    kept_message: Option<crate::actors::Message>,
 }
 
 impl Plugin for Recorder {
@@ -207,6 +209,17 @@ impl Plugin for Recorder {
 
     fn on_add_spawn(&mut self, _mq: &Mq<Self>, spawn: &Spawn<'_>) {
         self.log.push(format!("spawn:{}", spawn.id()));
+    }
+
+    fn on_message(&mut self, mq: &Mq<Self>, message: crate::actors::Message) {
+        let from = message.sender().and_then(|a| a.character);
+        self.log.push(format!("msg:{} from {from:?}", message.text()));
+        if message.text() == "ping" {
+            mq.reply(&message, "pong", 0).unwrap();
+        }
+        if message.text() == "panic" {
+            panic!("bad message");
+        }
     }
 }
 
@@ -410,7 +423,7 @@ fn register_echo_command(name: &'static str) {
 fn commands_route_to_their_closure_with_the_plugin_handle() {
     let main = FakeMain::install();
     let rt = runtime();
-    rt.init_handle(MQPluginHandle { pluginID: 0x42 });
+    rt.init_handle(ptr::null_mut(), MQPluginHandle { pluginID: 0x42 });
     register_echo_command("/rt");
     rt.initialize();
 
@@ -1066,4 +1079,244 @@ fn endless_tasks_need_no_annotation() {
     rt.initialize();
     rt.pulse();
     assert_eq!(Mq::new(rt).task_count(), 1);
+}
+
+// ----- actors (messaging) ------------------------------------------------------------
+
+use crate::actors::Address;
+
+impl FakeMain {
+    fn has_actor(&self, name: &str) -> bool {
+        let name = CString::new(name).unwrap();
+        unsafe { mqemu_test_fake_has_actor(self.0, name.as_ptr()) }
+    }
+
+    fn deliver(&self, mailbox: &str, from: Option<&str>, data: &str) -> bool {
+        let mailbox = CString::new(mailbox).unwrap();
+        let from = from.map(|f| CString::new(f).unwrap());
+        let from_ptr = from.as_ref().map_or(ptr::null(), |f| f.as_ptr());
+        unsafe { mqemu_test_fake_deliver(self.0, mailbox.as_ptr(), from_ptr, ptr::null(), data.as_ptr().cast(), data.len()) }
+    }
+
+    fn respond(&self, status: i32, data: &str) -> bool {
+        unsafe { mqemu_test_fake_respond(self.0, status, data.as_ptr().cast(), data.len()) }
+    }
+
+    fn last_sent(&self) -> String {
+        let mut buffer = [0 as c_char; 512];
+        unsafe { mqemu_test_fake_last_sent(self.0, buffer.as_mut_ptr(), buffer.len()) };
+        unsafe { std::ffi::CStr::from_ptr(buffer.as_ptr()) }.to_string_lossy().into_owned()
+    }
+
+    fn last_reply(&self) -> Option<(String, u8)> {
+        let mut buffer = [0 as c_char; 512];
+        let mut status = 0u8;
+        unsafe { mqemu_test_fake_last_reply(self.0, buffer.as_mut_ptr(), buffer.len(), &mut status) }
+            .then(|| (unsafe { std::ffi::CStr::from_ptr(buffer.as_ptr()) }.to_string_lossy().into_owned(), status))
+    }
+}
+
+#[test]
+fn the_default_mailbox_feeds_on_message() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    rt.initialize();
+    assert!(main.has_actor("test"), "registered under the plugin's name");
+    assert!(main.deliver("test", Some("Bob"), "hello"));
+    assert_eq!(log_of(rt), ["new", r#"msg:hello from Some("Bob")"#]);
+}
+
+#[test]
+fn named_mailboxes_route_to_their_handler() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |plugin, mq| {
+        mq.add_mailbox("follow", |plugin: &mut Recorder, _, message| plugin.log.push(format!("follow:{}", message.text()))).unwrap();
+        for name in ["follow", "", "two words", "Other:box"] {
+            plugin.log.push(format!("{name:?}={:?}", mq.add_mailbox(name, |_: &mut Recorder, _, _| {})));
+        }
+    });
+    rt.initialize();
+    assert!(main.has_actor("test:follow"));
+    assert!(main.deliver("test:follow", None, "come here"));
+    assert_eq!(
+        log_of(rt),
+        [
+            "new",
+            r#""follow"=Err(AlreadyRegistered)"#,
+            r#"""=Err(InvalidName)"#,
+            r#""two words"=Err(InvalidName)"#,
+            r#""Other:box"=Err(InvalidName)"#,
+            "follow:come here",
+        ]
+    );
+}
+
+#[test]
+fn removed_mailboxes_are_gone() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| mq.add_mailbox("temp", |_: &mut Recorder, _, _| {}).unwrap());
+    rt.initialize();
+    set_hook(&ON_PULSE, |plugin, mq| {
+        plugin.log.push(format!("{} {}", mq.remove_mailbox("temp"), mq.remove_mailbox("temp")));
+    });
+    rt.pulse();
+    assert!(!main.has_actor("test:temp"));
+    assert!(!main.deliver("test:temp", None, "x"));
+    assert_eq!(log_of(rt)[1..], ["pulse", "true false"]);
+}
+
+#[test]
+fn send_passes_the_address_through() {
+    let main = FakeMain::install();
+    in_pulse(|_, mq| {
+        mq.send(&Address::character("Bob").mailbox("follow"), "come").unwrap();
+    });
+    assert_eq!(main.last_sent(), "dropbox=0 callback=0 character=Bob mailbox=follow absolute=0 data=come");
+    in_pulse(|_, mq| {
+        mq.send(&Address::character("Bob").mailbox("lua_box").absolute(), [1u8, 2]).unwrap();
+    });
+    assert!(main.last_sent().starts_with("dropbox=0 callback=0 character=Bob mailbox=lua_box absolute=1 data="));
+}
+
+#[test]
+fn messages_can_be_replied_to() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    rt.initialize();
+    assert!(main.deliver("test", Some("Bob"), "ping"));
+    assert_eq!(main.last_reply(), Some(("pong".to_owned(), 0)));
+}
+
+#[test]
+fn replying_after_the_mailbox_is_removed_fails_cleanly() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        mq.add_mailbox("rpc", |plugin: &mut Recorder, _, message| plugin.kept_message = Some(message)).unwrap();
+    });
+    rt.initialize();
+    assert!(main.deliver("test:rpc", None, "later"));
+    set_hook(&ON_PULSE, |plugin, mq| {
+        let message = plugin.kept_message.take().unwrap();
+        plugin.log.push(format!("{:?}", mq.reply(&message, "now", 0)));
+        mq.remove_mailbox("rpc");
+        plugin.log.push(format!("{:?}", mq.reply(&message, "too late", 0)));
+    });
+    rt.pulse();
+    assert_eq!(log_of(rt)[1..], ["pulse", "Ok(())", "Err(MailboxGone)"]);
+    assert_eq!(unsafe { mqemu_test_fake_reply_count(main.0) }, 1);
+}
+
+fn request_task(timeout: Duration) -> &'static Runtime<Recorder> {
+    with_task(move |task| async move {
+        let result = task.request_timeout(&Address::character("Bob"), "ping", timeout).await;
+        note(&task, &format!("reply:{:?}", result.map(|m| m.text().into_owned())));
+    })
+}
+
+#[test]
+fn a_request_resolves_with_the_reply() {
+    let main = FakeMain::install();
+    let rt = request_task(Duration::from_secs(5));
+    rt.pulse();
+    assert_eq!(main.last_sent(), "dropbox=1 callback=1 character=Bob mailbox=- absolute=0 data=ping");
+    assert!(main.respond(0, "pong"));
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "pulse", r#"reply:Ok("pong")"#]);
+}
+
+#[test]
+fn a_request_reports_routing_failures() {
+    let main = FakeMain::install();
+    let rt = request_task(Duration::from_secs(5));
+    rt.pulse();
+    assert!(main.respond(-2, ""));
+    rt.pulse();
+    assert_eq!(log_of(rt)[2..], ["reply:Err(NoConnection)"]);
+}
+
+#[test]
+fn a_request_times_out_and_a_late_reply_is_harmless() {
+    let main = FakeMain::install();
+    let rt = request_task(Duration::from_secs(5));
+    rt.pulse();
+    advance_clock(Duration::from_secs(6));
+    rt.pulse();
+    assert_eq!(log_of(rt)[2..], ["reply:Err(Timeout)"]);
+    // The reply arrives after the task gave up: freed, not delivered anywhere.
+    assert!(main.respond(0, "pong"));
+    rt.pulse();
+    assert_eq!(unsafe { mqemu_test_fake_pending_count(main.0) }, 0);
+}
+
+#[test]
+fn a_message_arriving_mid_callback_is_queued() {
+    let main = FakeMain::install();
+    let fake = main.0;
+    let rt = runtime();
+    set_hook(&ON_PULSE, move |plugin, _| {
+        let (mailbox, data) = (CString::new("test").unwrap(), "while busy");
+        unsafe { mqemu_test_fake_deliver(fake, mailbox.as_ptr(), ptr::null(), ptr::null(), data.as_ptr().cast(), data.len()) };
+        plugin.log.push("pulse:end".into());
+    });
+    rt.initialize();
+    rt.pulse();
+    assert_eq!(log_of(rt), ["new", "pulse", "pulse:end", "msg:while busy from None"]);
+}
+
+#[test]
+fn shutdown_closes_every_mailbox() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| mq.add_mailbox("a", |_: &mut Recorder, _, _| {}).unwrap());
+    rt.initialize();
+    assert_eq!(unsafe { mqemu_test_fake_actor_count(main.0) }, 2);
+    rt.shutdown();
+    assert_eq!(unsafe { mqemu_test_fake_actor_count(main.0) }, 0);
+}
+
+#[test]
+fn messaging_is_unavailable_without_macroquest() {
+    let rt = with_task(|task| async move {
+        let request = task.request(&Address::character("Bob"), "x").await;
+        note(&task, &format!("{:?}", request.map(|_| ())));
+    });
+    set_hook(&ON_PULSE, |plugin, mq| {
+        plugin.log.push(format!("{:?}", mq.add_mailbox("box", |_: &mut Recorder, _, _| {})));
+        plugin.log.push(format!("{:?}", mq.send(&Address::character("Bob"), "x")));
+    });
+    rt.pulse();
+    assert_eq!(log_of(rt), ["pulse", "Err(Unavailable)", "Err(Unavailable)", "Err(Unavailable)"]);
+}
+
+#[test]
+fn a_panicking_mailbox_handler_is_contained() {
+    let main = FakeMain::install();
+    let rt = runtime();
+    rt.initialize();
+    assert!(main.deliver("test", None, "panic"));
+    assert!(chat_lines().contains(&"[test] panicked in a mailbox handler: bad message".to_owned()), "{:?}", chat_lines());
+    assert!(main.deliver("test", None, "after"));
+    assert_eq!(log_of(rt).last().unwrap(), "msg:after from None");
+}
+
+#[test]
+fn mailboxes_use_macroquests_name_for_the_plugin() {
+    // Found in game: MacroQuest calls MQ2RustPluginTest.dll "RustPluginTest"
+    // and addresses its mailboxes that way, so registering them under the
+    // crate name meant nothing was ever delivered.
+    let main = FakeMain::install();
+    let name = CString::new("RustPluginTest").unwrap();
+    let plugin = unsafe { mq_emu_sys::shim::testing::mqemu_test_new_plugin(name.as_ptr()) };
+    let rt = runtime();
+    rt.init_handle(plugin, MQPluginHandle { pluginID: 7 });
+    set_hook(&ON_NEW, |_, mq| mq.add_mailbox("follow", |_: &mut Recorder, _, _| {}).unwrap());
+    rt.initialize();
+    assert!(main.has_actor("RustPluginTest"));
+    assert!(main.has_actor("RustPluginTest:follow"));
+    assert!(!main.has_actor("test"), "not the crate name");
+    rt.shutdown();
+    unsafe { mq_emu_sys::shim::testing::mqemu_test_free_plugin(plugin) };
 }

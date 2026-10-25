@@ -44,6 +44,10 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   `mq.parse("${...}")` for any MacroQuest data.
 - **Movement and the spawn list**: hold movement keys, turn smoothly or instantly, face points;
   iterate the zone's spawns, look them up by ID or name, find the nearest match.
+- **Messaging between characters** through MacroQuest's actor system (via the launcher, on this PC
+  or others): every plugin has a default mailbox (`Plugin::on_message`), `mq.add_mailbox(name, ...)`
+  adds named ones, `mq.send(&Address::character("Bob").mailbox("follow"), bytes)` sends, and
+  `task.request(&address, bytes).await` waits for a reply (`mq.reply` answers).
 - **Async tasks** for logic that spans many pulses, without a state machine:
 
   ```rust

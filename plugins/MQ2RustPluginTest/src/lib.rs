@@ -13,7 +13,7 @@ mod checks;
 use std::time::{Duration, Instant};
 
 use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
-use mq_emu::{MoveKey, Mq, Plugin, Spawn, Task, TaskId};
+use mq_emu::{Address, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId};
 
 use crate::checks::{Check, Report};
 
@@ -40,12 +40,20 @@ struct RustTest {
     walk: Option<TaskId>,
     seen_marker_chat: bool,
     seen_marker_echo: bool,
+    /// What the `selftest` mailbox last received.
+    selftest_mailbox: Option<String>,
 }
 
 impl Plugin for RustTest {
     fn new(mq: &Mq<Self>) -> Self {
         if let Err(e) = mq.add_command(COMMAND, RustTest::command) {
             mq.chat(format!("{RED}[{}]{RESET} couldn't register {COMMAND}: {e}", mq.plugin_name()));
+        }
+        // The selftest sends itself a message here through the real post office.
+        if let Err(e) = mq.add_mailbox("selftest", |plugin: &mut RustTest, _, message| {
+            plugin.selftest_mailbox = Some(message.text().into_owned());
+        }) {
+            mq.chat(format!("{RED}[{}]{RESET} couldn't add the selftest mailbox: {e}", mq.plugin_name()));
         }
         mq.chat(format!("{GREEN}[{}]{RESET} loaded. Try {YELLOW}{COMMAND} help{RESET}.", mq.plugin_name()));
         RustTest::default()
@@ -92,6 +100,23 @@ impl Plugin for RustTest {
 
     fn on_remove_spawn(&mut self, _mq: &Mq<Self>, _spawn: &Spawn<'_>) {
         self.spawns_removed += 1;
+    }
+
+    /// Messages to this plugin's default mailbox, e.g. from the same plugin on
+    /// another character: "ping" is answered; "say:<text>" is shown.
+    fn on_message(&mut self, mq: &Mq<Self>, message: Message) {
+        let from = message.sender().and_then(|a| a.character).unwrap_or_else(|| "?".into());
+        let text = message.text().into_owned();
+        if text == "ping" {
+            let me = mq.me().map(|me| me.name()).unwrap_or_default();
+            if let Err(e) = mq.reply(&message, format!("pong from {me}"), 0) {
+                say(mq, &format!("{RED}couldn't answer {from}'s ping: {e}{RESET}"));
+            }
+        } else if let Some(said) = text.strip_prefix("say:") {
+            say(mq, &format!("{YELLOW}{from}{RESET} says: {said}"));
+        } else {
+            say(mq, &format!("message from {from}: {text:?}"));
+        }
     }
 }
 
@@ -169,6 +194,32 @@ impl RustTest {
                 }
                 self.walk = Some(mq.spawn_fallible_task(move |task| walk(task, Duration::from_millis(ms))));
             }
+            "ping" => {
+                let Some(name) = words.next().map(str::to_owned) else {
+                    say(mq, &format!("{COMMAND} ping <character>"));
+                    return;
+                };
+                mq.spawn_task(move |task| async move {
+                    let started = Instant::now();
+                    let reply = task.request(&Address::character(name.clone()), "ping").await;
+                    let took = started.elapsed();
+                    task.with(|mq| match reply {
+                        Ok(reply) => say(mq, &format!("{GREEN}{}{RESET} in {:.1} ms", reply.text(), took.as_secs_f64() * 1000.0)),
+                        Err(e) => say(mq, &format!("{RED}ping {name} failed: {e}{RESET}")),
+                    });
+                });
+            }
+            "tell" => {
+                let Some(name) = words.next() else {
+                    say(mq, &format!("{COMMAND} tell <character> <text>"));
+                    return;
+                };
+                let text = words.collect::<Vec<_>>().join(" ");
+                match mq.send(&Address::character(name), format!("say:{text}")) {
+                    Ok(()) => say(mq, &format!("sent to {name}")),
+                    Err(e) => say(mq, &format!("{RED}couldn't send: {e}{RESET}")),
+                }
+            }
             "stop" => {
                 for id in [self.walk.take(), self.selftest.take()].into_iter().flatten() {
                     mq.cancel_task(id);
@@ -179,6 +230,7 @@ impl RustTest {
                 say(mq, &format!("{COMMAND} selftest | stats | reset | me | target"));
                 say(mq, "  movement: face | turn [degrees, + = left] | walk [ms] | stop");
                 say(mq, "  spawns: spawns [n] | find <name>");
+                say(mq, "  messaging: ping <character> | tell <character> <text>");
                 say(mq, "  safety nets: panic | slow [ms] | flood");
             }
         }
@@ -263,10 +315,57 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     });
 
     turning(&task, &mut report).await;
+    messaging(&task, &mut report).await;
 
     task.with_plugin(|plugin, mq| {
         plugin.selftest = None;
         report.finish(mq);
+    });
+}
+
+/// Messaging through the real post office, to this same character.
+async fn messaging(task: &Task<RustTest>, report: &mut Report) {
+    let Some(me) = task.with(|mq| mq.me().map(|me| me.name())) else {
+        task.with(|mq| report.print(mq, "messaging", Check::Skip("needs to be in game".into())));
+        return;
+    };
+    let myself = Address::character(me.clone());
+
+    // A request to our own default mailbox, answered by on_message.
+    let reply = task.request_timeout(&myself, "ping", Duration::from_secs(5)).await;
+    task.with(|mq| {
+        report.print(mq, "a request to yourself is answered (round trip through the launcher)", match &reply {
+            Ok(reply) => checks::same_text(reply.text(), format!("pong from {me}")),
+            Err(e) => Check::Fail(e.to_string()),
+        })
+    });
+
+    // A plain message to our own named mailbox.
+    task.with_plugin(|plugin, _| plugin.selftest_mailbox = None);
+    let sent = task.with(|mq| mq.send(&myself.clone().mailbox("selftest"), "hello mailbox"));
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let received = loop {
+        let received = task.with_plugin(|plugin, _| plugin.selftest_mailbox.take());
+        if received.is_some() || sent.is_err() || Instant::now() >= deadline {
+            break received;
+        }
+        task.next_pulse().await;
+    };
+    task.with(|mq| {
+        report.print(mq, "a message reaches a named mailbox", match (&sent, &received) {
+            (Err(e), _) => Check::Fail(format!("send failed: {e}")),
+            (Ok(()), Some(text)) => checks::same_text(text.as_str(), "hello mailbox".to_owned()),
+            (Ok(()), None) => Check::Fail("nothing arrived".into()),
+        })
+    });
+
+    // Nobody there: the request must fail, not hang.
+    let nobody = task.request_timeout(&Address::character("Nobodyxyzzy"), "ping", Duration::from_secs(3)).await;
+    task.with(|mq| {
+        report.print(mq, "a request to a missing character fails cleanly", match nobody {
+            Err(_) => Check::Pass,
+            Ok(reply) => Check::Fail(format!("got a reply: {:?}", reply.text())),
+        })
     });
 }
 

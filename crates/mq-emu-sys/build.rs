@@ -61,7 +61,7 @@ fn main() {
 /// Compiles the C++ shim (shim/*.cpp) against MacroQuest's headers, with the
 /// language settings MacroQuest uses for its own plugins (src/Common.props).
 fn build_shim(mq_root: &Path) {
-    let sources = ["shim/commands.cpp", "shim/main_interface.cpp", "shim/test_fake.cpp"];
+    let sources = ["shim/commands.cpp", "shim/actors.cpp", "shim/main_interface.cpp", "shim/test_fake.cpp"];
     println!("cargo::rerun-if-changed=shim/mq_api.h");
     for source in sources {
         println!("cargo::rerun-if-changed={source}");

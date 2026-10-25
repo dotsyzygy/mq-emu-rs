@@ -2,6 +2,7 @@
 
 use mq_emu_sys::types::EQGroundItem;
 
+use crate::actors::Message;
 use crate::game::{GameState, Spawn};
 use crate::mq::Mq;
 
@@ -72,6 +73,11 @@ pub trait Plugin: Sized + 'static {
     fn on_unload_plugin(&mut self, mq: &Mq<Self>, name: &str) {}
     /// Another plugin finished unloading.
     fn on_post_unload_plugin(&mut self, mq: &Mq<Self>, name: &str) {}
+
+    /// A message arrived at this plugin's default mailbox (the one named after
+    /// the plugin; see [`Mq::add_mailbox`] for named ones). Reply with
+    /// [`Mq::reply`], now or later.
+    fn on_message(&mut self, mq: &Mq<Self>, message: Message) {}
 }
 
 /// Exports a [`Plugin`] type as a MacroQuest plugin.
@@ -121,8 +127,8 @@ macro_rules! plugin {
             use $crate::sys::types::{EQGroundItem, MQPlugin, PlayerClient};
 
             #[unsafe(no_mangle)]
-            pub extern "C" fn InitPluginHandle(_plugin: *mut MQPlugin, handle: MQPluginHandle) {
-                RT.init_handle(handle)
+            pub extern "C" fn InitPluginHandle(plugin: *mut MQPlugin, handle: MQPluginHandle) {
+                RT.init_handle(plugin, handle)
             }
             #[unsafe(no_mangle)]
             pub extern "C" fn InitializePlugin() {

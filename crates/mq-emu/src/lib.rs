@@ -56,6 +56,7 @@ compile_error!(
     "mq-emu targets MacroQuest emu (RoF2), which is 32-bit only. Build with --target i686-pc-windows-msvc."
 );
 
+mod actors;
 pub mod color;
 mod game;
 mod host;
@@ -70,6 +71,7 @@ mod text;
 
 pub use mq_emu_sys as sys;
 
+pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
 };

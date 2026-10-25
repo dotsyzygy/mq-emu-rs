@@ -17,8 +17,9 @@ use std::time::Duration;
 use mq_emu_sys::constants::CONCOLOR_RED;
 use mq_emu_sys::plugin::MQPluginHandle;
 use mq_emu_sys::shim;
-use mq_emu_sys::types::{EQGroundItem, PlayerClient};
+use mq_emu_sys::types::{EQGroundItem, MQPlugin, PlayerClient};
 
+use crate::actors::{MailboxSlot, Message};
 use crate::game::{GameState, Spawn};
 use crate::host::Host;
 use crate::mq::{CommandError, Mq};
@@ -59,6 +60,8 @@ pub(crate) enum Event {
     UnloadPlugin(String),
     PostUnloadPlugin(String),
     Command(u64, String),
+    /// A message for the mailbox with this id.
+    Message(u64, Message),
 }
 
 impl Event {
@@ -85,6 +88,7 @@ impl Event {
             Event::UnloadPlugin(_) => (18, "on_unload_plugin"),
             Event::PostUnloadPlugin(_) => (19, "on_post_unload_plugin"),
             Event::Command(..) => (20, "a command handler"),
+            Event::Message(..) => (24, "a mailbox handler"),
         }
     }
 
@@ -115,6 +119,8 @@ pub struct Runtime<P: Plugin> {
     /// True while a plugin callback runs; `plugin` is then exclusively borrowed.
     busy: Cell<bool>,
     handle: Cell<MQPluginHandle>,
+    /// MacroQuest's record for this plugin (null in tests).
+    mq_plugin: Cell<*mut MQPlugin>,
     queue: RefCell<VecDeque<Event>>,
     commands: RefCell<Vec<Rc<CommandSlot<P>>>>,
     /// Removed command slots, freed once no callback is running.
@@ -130,6 +136,8 @@ pub struct Runtime<P: Plugin> {
     /// True while something holds `&mut P` (a callback or `Task::with_plugin`).
     plugin_in_use: Cell<bool>,
     executor: Executor,
+    mailboxes: RefCell<Vec<Rc<MailboxSlot<P>>>>,
+    next_mailbox_id: Cell<u64>,
 }
 
 // SAFETY: MacroQuest calls plugins only from the game thread, and plugin code
@@ -150,6 +158,7 @@ impl<P: Plugin> Runtime<P> {
             plugin: UnsafeCell::new(None),
             busy: Cell::new(false),
             handle: Cell::new(MQPluginHandle { pluginID: 0 }),
+            mq_plugin: Cell::new(std::ptr::null_mut()),
             queue: RefCell::new(VecDeque::new()),
             commands: RefCell::new(Vec::new()),
             retired: RefCell::new(Vec::new()),
@@ -160,6 +169,8 @@ impl<P: Plugin> Runtime<P> {
             writing_diagnostic: Cell::new(false),
             plugin_in_use: Cell::new(false),
             executor: Executor::new(),
+            mailboxes: RefCell::new(Vec::new()),
+            next_mailbox_id: Cell::new(1),
         }
     }
 
@@ -176,8 +187,10 @@ impl<P: Plugin> Runtime<P> {
     // may unwind: a panic escaping an `extern "C"` function aborts the game.
     // ---------------------------------------------------------------------
 
-    pub fn init_handle(&'static self, handle: MQPluginHandle) {
+    /// Stores what MacroQuest's loader passes to `InitPluginHandle`.
+    pub fn init_handle(&'static self, plugin: *mut MQPlugin, handle: MQPluginHandle) {
         self.handle.set(handle);
+        self.mq_plugin.set(plugin);
     }
 
     pub fn initialize(&'static self) {
@@ -186,6 +199,10 @@ impl<P: Plugin> Runtime<P> {
                 return;
             }
             self.busy.set(true);
+            // The default mailbox ("<plugin>") feeds Plugin::on_message and
+            // receives replies to requests. Without MacroQuest's messaging
+            // (or in tests without it) the plugin simply has no mailbox.
+            let _ = self.register_mailbox("", None);
             let mq = Mq::new(self);
             match catch_unwind(AssertUnwindSafe(|| P::new(&mq))) {
                 // SAFETY: busy, so nothing else is using `plugin`.
@@ -212,6 +229,7 @@ impl<P: Plugin> Runtime<P> {
             self.queue.borrow_mut().clear();
             self.executor.clear();
             self.remove_all_commands();
+            self.unregister_all_mailboxes();
             let plugin = unsafe { (*self.plugin.get()).take() };
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
                 self.diagnostic("panicked while dropping the plugin");
@@ -340,7 +358,7 @@ impl<P: Plugin> Runtime<P> {
     /// Delivers `event`, or queues it if a callback is already running, then
     /// delivers whatever the callback queued. Returns the callback's result
     /// (only `on_incoming_chat` has one; a queued event returns false).
-    fn enter(&'static self, event: Event) -> bool {
+    pub(crate) fn enter(&'static self, event: Event) -> bool {
         if self.busy.get() {
             self.enqueue(event);
             return false;
@@ -444,6 +462,7 @@ impl<P: Plugin> Runtime<P> {
             Event::LoadPlugin(name) => plugin.on_load_plugin(mq, &name),
             Event::UnloadPlugin(name) => plugin.on_unload_plugin(mq, &name),
             Event::PostUnloadPlugin(name) => plugin.on_post_unload_plugin(mq, &name),
+            Event::Message(mailbox, message) => self.dispatch_message(plugin, mq, mailbox, message),
             Event::Command(id, line) => {
                 // Clone the handler out so it may add or remove commands itself.
                 let handler = self.commands.borrow().iter().find(|slot| slot.id == id).map(|slot| slot.handler.clone());
@@ -510,6 +529,40 @@ impl<P: Plugin> Runtime<P> {
 
     pub(crate) fn executor(&self) -> &Executor {
         &self.executor
+    }
+
+    pub(crate) fn handle(&self) -> MQPluginHandle {
+        self.handle.get()
+    }
+
+    /// The plugin's name as MacroQuest knows it (the DLL name without "MQ2"
+    /// and ".dll"), which MacroQuest uses to name and address its mailboxes.
+    /// Falls back to the crate name when MacroQuest hasn't said (tests).
+    pub(crate) fn mq_name(&self) -> String {
+        let name = unsafe { mq_emu_sys::shim::mqemu_plugin_name(self.mq_plugin.get()) };
+        if name.is_null() {
+            self.name.to_owned()
+        } else {
+            unsafe { std::ffi::CStr::from_ptr(name) }.to_string_lossy().into_owned()
+        }
+    }
+
+    pub(crate) fn mailboxes(&self) -> &RefCell<Vec<Rc<MailboxSlot<P>>>> {
+        &self.mailboxes
+    }
+
+    pub(crate) fn next_mailbox_id(&self) -> u64 {
+        let id = self.next_mailbox_id.get();
+        self.next_mailbox_id.set(id + 1);
+        id
+    }
+
+    /// The default mailbox's dropbox, which requests are sent from.
+    pub(crate) fn default_dropbox(&self) -> Option<*mut mq_emu_sys::shim::Dropbox> {
+        let mailboxes = self.mailboxes.borrow();
+        let slot = mailboxes.iter().find(|slot| slot.name.is_empty())?;
+        let dropbox = slot.dropbox();
+        (!dropbox.is_null()).then_some(dropbox)
     }
 
     /// Lends the plugin to a task.
@@ -662,7 +715,7 @@ unsafe extern "C" fn command_trampoline<P: Plugin>(user: *mut c_void, _player: *
 }
 
 /// Runs `f`, swallowing any panic: runtime code must never unwind into C++.
-fn guard(f: impl FnOnce()) {
+pub(crate) fn guard(f: impl FnOnce()) {
     let _ = catch_unwind(AssertUnwindSafe(f));
 }
 

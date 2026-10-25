@@ -75,7 +75,7 @@ fn same_angle(ours: f32, theirs: &str) -> Check {
     }
 }
 
-fn same_text(ours: impl ToString, theirs: String) -> Check {
+pub fn same_text(ours: impl ToString, theirs: String) -> Check {
     let ours = ours.to_string();
     Check::that(ours == theirs, || format!("mq-emu {ours:?}, MacroQuest {theirs:?}"))
 }
