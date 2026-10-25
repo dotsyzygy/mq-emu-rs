@@ -80,12 +80,26 @@ if (-not (Test-Path $dll)) {
     throw "$dll not found. Build it first (or drop -NoBuild)."
 }
 
+function Find-PluginHolders {
+    # The game clients are 32-bit, and a 64-bit process can't list their DLLs,
+    # so ask 32-bit Windows PowerShell.
+    $ps32 = Join-Path $env:SystemRoot "SysWOW64\WindowsPowerShell\v1.0\powershell.exe"
+    if (-not (Test-Path $ps32)) { return @() }
+    $script = "Get-Process -Name eqgame -ErrorAction SilentlyContinue | Where-Object { `$_.Modules.ModuleName -contains '$Plugin.dll' } | ForEach-Object { '{0} (started {1:t})' -f `$_.Id, `$_.StartTime }"
+    @(& $ps32 -NoProfile -Command $script)
+}
+
 try {
     Copy-Item $dll $destination -Force
     $pdb = Join-Path $built "$Plugin.pdb"
     if (Test-Path $pdb) { Copy-Item $pdb $destination -Force }
 }
 catch [System.IO.IOException] {
+    $holders = Find-PluginHolders
+    if ($holders.Count -gt 0) {
+        # A client started while the plugin was loaded auto-loads it too.
+        throw "Couldn't overwrite $Plugin.dll: still loaded in EverQuest client(s) $($holders -join ', '). Run '/plugin $Plugin unload' in each, then try again."
+    }
     throw "Couldn't overwrite $Plugin.dll; it's probably loaded. Run '/plugin $Plugin unload' in game, then try again."
 }
 
