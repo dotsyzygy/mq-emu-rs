@@ -1,0 +1,13 @@
+[package]
+name = "lua-proto-oracle"
+description = "Test-only: MQ2Lua's Actor.proto compiled with C++ protobuf, to check mq-emu's Lua encoding against"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+links = "lua_proto_oracle"
+
+[build-dependencies]
+cc = "1.2"

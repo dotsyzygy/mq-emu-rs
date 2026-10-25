@@ -47,6 +47,8 @@ thread_local! {
     static FACE_ANGLE: Cell<f64> = const { Cell::new(mq_emu_sys::constants::FACE_ANGLE_INACTIVE) };
     static MANAGER: FakeObject<PlayerManagerClient> = FakeObject::new();
     static HAS_MANAGER: Cell<bool> = const { Cell::new(true) };
+    /// The name MQ2Lua was loaded as, if it is.
+    static LUA_LOADED_AS: Cell<Option<&'static str>> = const { Cell::new(None) };
     /// The zone's other spawns; kept alive here so the list's pointers stay valid.
     static ZONE: RefCell<Vec<FakeObject<PlayerClient>>> = const { RefCell::new(Vec::new()) };
 }
@@ -113,6 +115,7 @@ const FAKE: Host = Host {
     execute_cmd: fake_execute_cmd,
     face_angle: || FACE_ANGLE.with(Cell::get),
     set_face_angle: |value| FACE_ANGLE.with(|angle| angle.set(value)),
+    loaded_plugin_name: |name| LUA_LOADED_AS.with(Cell::get).filter(|_| name.eq_ignore_ascii_case("lua")).map(str::to_owned),
 };
 
 fn chat_lines() -> Vec<String> {
@@ -1165,6 +1168,19 @@ fn removed_mailboxes_are_gone() {
     assert!(!main.has_actor("test:temp"));
     assert!(!main.deliver("test:temp", None, "x"));
     assert_eq!(log_of(rt)[1..], ["pulse", "true false"]);
+}
+
+#[test]
+fn sends_to_lua_scripts_use_the_name_mq2lua_was_loaded_as() {
+    let main = FakeMain::install();
+    for (loaded_as, mailbox) in [(Some("lua"), "lua:boxer"), (Some("Lua"), "Lua:boxer"), (None, "lua:boxer")] {
+        LUA_LOADED_AS.with(|name| name.set(loaded_as));
+        in_pulse(|_, mq| mq.send(&Address::lua_script("boxer").on_character("Bob"), "x").unwrap());
+        assert_eq!(main.last_sent(), format!("dropbox=0 callback=0 character=Bob mailbox={mailbox} absolute=1 data=x"), "loaded as {loaded_as:?}");
+    }
+    // Another plugin's mailbox is left alone.
+    in_pulse(|_, mq| mq.send(&Address::character("Bob").mailbox("Other:lua").absolute(), "x").unwrap());
+    assert_eq!(main.last_sent(), "dropbox=0 callback=0 character=Bob mailbox=Other:lua absolute=1 data=x");
 }
 
 #[test]

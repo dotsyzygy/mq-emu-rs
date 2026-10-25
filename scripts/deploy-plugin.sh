@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Bash wrapper for deploy-plugin.ps1: builds a plugin and copies it into
-# MacroQuest's plugins folder. See that script for details.
+# Bash wrapper for deploy-plugin.ps1: builds a plugin and copies it (and any
+# Lua scripts in its lua/ folder) into MacroQuest. See that script for details.
 #
 # Usage: scripts/deploy-plugin.sh [--plugin NAME] [--debug] [--no-build] [-h|--help]
 # PowerShell-style arguments (-Plugin NAME, -DebugBuild, -NoBuild) pass through unchanged.

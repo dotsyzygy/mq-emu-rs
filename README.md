@@ -19,6 +19,7 @@ Unofficial Rust bindings for writing [MacroQuest](https://github.com/macroquest/
 | `crates/mq-emu` | yes | Safe, idiomatic API on top of `mq-emu-sys`; what plugins depend on |
 | `plugins/MQ2RustPluginTest` | no | Test plugin exercising the bindings in-game (builds `MQ2RustPluginTest.dll`) |
 | `tools/mq-emu-bindgen` | no | Generates `mq-emu-sys`'s game-object layouts from `eqlib.pdb` |
+| `tools/lua-proto-oracle` | no | Test-only: MQ2Lua's message format via real C++ protobuf, to check `mq-emu::lua` against |
 
 ## Trying it in game
 
@@ -27,7 +28,8 @@ Unofficial Rust bindings for writing [MacroQuest](https://github.com/macroquest/
 ```
 
 This builds `MQ2RustPluginTest` in release and copies the DLL (and its `.pdb`) into
-`$MQ_ROOT/build/bin/release/plugins`, finding `MQ_ROOT` the same way the build does: from your
+`$MQ_ROOT/build/bin/release/plugins`, plus the plugin's Lua scripts (`plugins/<name>/lua/*.lua`)
+into `$MQ_ROOT/build/bin/release/lua`, finding `MQ_ROOT` the same way the build does: from your
 environment, or from `[env]` in `~/.cargo/config.toml`. Use `-Plugin <name>` for another plugin
 under `plugins/`, `-DebugBuild` for a debug build, and `-NoBuild` to only copy (from bash:
 `--plugin <name>`, `--debug`, `--no-build`). If the plugin is
@@ -36,15 +38,45 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | Command | What it does |
 |---|---|
 | `/plugin MQ2RustPluginTest` | Load it (`/plugin MQ2RustPluginTest unload` to unload) |
-| `/rusttest selftest` | Compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data and exercises commands, re-entrancy and parsing; prints PASS/FAIL per check |
+| `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
-| `/rusttest me`, `/rusttest target` | What mq-emu reads for you and your target |
-| `/rusttest spawns [n]`, `find <name>` | The zone's spawn count and your nearest `n` spawns; look a spawn up by its shown name |
-| `/rusttest ping <character>`, `tell <character> <text>` | Messaging between characters running the plugin: time a round trip, or show a line on the other character |
-| `/rusttest face`, `turn [deg]`, `walk [ms]`, `stop` | Movement: smoothly face your target, turn left by some degrees (negative for right), walk forward for a while, or stop everything |
-| `/rusttest panic`, `slow [ms]`, `flood` | Deliberately trigger the runtime's safety nets: a caught panic, a slow-pulse warning, a capped feedback loop |
+| `/rusttest stop` | Cancels a running selftest and stops all movement |
 
-Target something before `selftest` to include the target checks.
+The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data, and
+exercises commands, re-entrancy, parsing, keys and async tasks. It also:
+
+- **Moves you:** turns 100° and back, then walks forward and back for half a second each.
+- **Triggers the runtime's safety nets on purpose:** expect a caught-panic message, a slow-pulse
+  warning, and a burst of `flood` lines that the runtime cuts off.
+- **Messages:** sends to itself through the launcher.
+- **Lua:** when `/lua run rustpeer` is running, exchanges every Lua value type with that script, both
+  ways.
+- **Other characters:** finds every other character with the plugin loaded, then pings each one and
+  shows it a line. Where `rustpeer` runs on them too, it checks Rust and Lua across characters.
+
+Checks that can't run say why and are counted as skipped. Target something first to include the
+target checks.
+
+## Talking to Lua scripts
+
+Lua scripts that use MacroQuest's `actors` module send one value per message: a number, boolean,
+string, table or ImGui vector. `mq_emu::lua` reads and writes those as `LuaValue`/`LuaTable`:
+
+```rust
+use mq_emu::{Address, LuaTable, LuaValue};
+
+// To a script that called actors.register(handler), on character Bob.
+let hello = LuaTable::new().with("id", "hello").with("level", 65);
+mq.send(&Address::lua_script("myscript").on_character("Bob"), LuaValue::from(hello).encode())?;
+
+// From Lua: in a mailbox handler, or on a request's reply.
+let value = message.lua()?;
+let id = value.get("id").and_then(LuaValue::as_str);
+```
+
+A script reaches the plugin's default mailbox with
+`{ character = ..., mailbox = 'Example', absolute_mailbox = true }` (for `MQ2Example.dll`), or a named
+one with `mailbox = 'Example:name'`. `plugins/MQ2RustPluginTest/lua/rustpeer.lua` shows both directions.
 
 ## Game-object layouts
 
@@ -113,6 +145,9 @@ config and only explicitly passed settings, to check what a downstream user will
   against a fake host and clock.
 - **`mq-emu` `tests/plugin_exports.rs`**: a DLL built with `plugin!` exports everything the loader
   needs, carries the right `EverQuestVersion` bytes, and doesn't need the Visual C++ redistributable.
+- **`mq-emu` `tests/lua_oracle.rs`**: the Lua message encoding against real C++ protobuf, built
+  from MacroQuest's own `Actor.pb.cc` (what MQ2Lua uses), in both directions, including truncated and
+  invalid input both sides must reject.
 - **Unit tests**: type layouts (`ForeignPointer`, callback pointers), the `imports!` macro, the version
   byte array, the generator's naming and enum literal rules, text conversion, headings and stats.
 

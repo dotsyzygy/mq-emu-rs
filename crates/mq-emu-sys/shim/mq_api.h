@@ -13,3 +13,4 @@
 #include <string_view>
 
 #include "mq/api/Main.h"
+#include "mq/api/PluginAPI.h"

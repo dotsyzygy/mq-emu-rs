@@ -174,6 +174,12 @@ unsafe extern "C" {
     /// "MQ2"/"MQ" prefix and ".dll" (MQ2Example.dll is "Example"). MacroQuest
     /// names and addresses the plugin's mailboxes with it. Null for null.
     pub fn mqemu_plugin_name(plugin: *const crate::types::MQPlugin) -> *const c_char;
+
+    /// The name MacroQuest gave a loaded plugin, looked up by any name it
+    /// accepts for it (`"MQ2Lua"`, `"lua"`, `"Lua.dll"`...): it depends on how
+    /// the plugin was loaded, so `mq2lua=1` in MacroQuest.ini gives `"lua"`.
+    /// Null if it isn't loaded. Imports from MQ2Main.dll.
+    pub fn mqemu_loaded_plugin_name(name: *const c_char) -> *const c_char;
 }
 
 /// A fake `MainInterface` that records command API calls, for testing code

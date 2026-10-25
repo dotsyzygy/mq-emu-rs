@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
-    Builds a plugin from plugins/ and copies its DLL into MacroQuest's plugins folder.
+    Builds a plugin from plugins/ and copies its DLL into MacroQuest's plugins folder,
+    and any Lua scripts in plugins/<Plugin>/lua into MacroQuest's lua folder.
 
 .DESCRIPTION
     Finds MacroQuest through MQ_ROOT: the environment variable if set, otherwise the
@@ -104,4 +105,15 @@ catch [System.IO.IOException] {
 }
 
 Write-Host "Copied $Plugin.dll to $destination"
+
+# Lua scripts that go with the plugin (e.g. the other end of its Lua checks).
+# A running script keeps its old code until restarted with /lua run.
+$luaSource = Join-Path $repo "plugins/$Plugin/lua"
+$luaScripts = @(Get-ChildItem -Path $luaSource -Filter *.lua -File -ErrorAction SilentlyContinue)
+if ($luaScripts.Count -gt 0) {
+    $luaDestination = Join-Path $mqRoot "build/bin/$mqConfig/lua"
+    New-Item -ItemType Directory -Path $luaDestination -Force | Out-Null
+    $luaScripts | Copy-Item -Destination $luaDestination -Force
+    Write-Host "Copied $($luaScripts.Name -join ', ') to $luaDestination"
+}
 Write-Host "In game: /plugin $Plugin   (then e.g. /rusttest selftest)"

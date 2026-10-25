@@ -33,6 +33,8 @@ pub(crate) struct Host {
     pub execute_cmd: fn(u32, bool) -> bool,
     pub face_angle: fn() -> f64,
     pub set_face_angle: fn(f64),
+    /// The name MacroQuest gave a loaded plugin (see `mqemu_loaded_plugin_name`).
+    pub loaded_plugin_name: fn(&str) -> Option<String>,
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
@@ -51,6 +53,7 @@ pub(crate) const REAL: Host = Host {
     execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
     face_angle: || unsafe { mq_emu_sys::mq2main::gFaceAngle },
     set_face_angle: |value| unsafe { mq_emu_sys::mq2main::gFaceAngle = value },
+    loaded_plugin_name: real_loaded_plugin_name,
 };
 
 /// Reads an eqlib `ForeignPointer` global.
@@ -73,6 +76,12 @@ fn real_write_chat(text: &str, color: i32) {
 
 fn real_main_interface() -> *mut MainInterface {
     unsafe { mq_emu_sys::shim::mqemu_main_interface() }
+}
+
+fn real_loaded_plugin_name(name: &str) -> Option<String> {
+    let name = to_c(name);
+    let found = unsafe { mq_emu_sys::shim::mqemu_loaded_plugin_name(name.as_ptr()) };
+    (!found.is_null()).then(|| unsafe { std::ffi::CStr::from_ptr(found) }.to_string_lossy().into_owned())
 }
 
 fn real_game_state() -> i32 {

@@ -17,6 +17,9 @@ targets = ["i686-pc-windows-msvc"]
 mq-emu-sys.workspace = true
 
 [dev-dependencies]
+# Test-only C++ protobuf oracle for the Lua message format (path-only, so it's
+# dropped when mq-emu is published).
+lua-proto-oracle = { path = "../../tools/lua-proto-oracle" }
 object = { version = "0.36", default-features = false, features = ["std", "read_core", "pe"] }
 
 [[example]]

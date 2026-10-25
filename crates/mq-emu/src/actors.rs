@@ -417,7 +417,9 @@ impl<P: Plugin> Runtime<P> {
         if main.is_null() {
             return Err(ActorError::Unavailable);
         }
-        let address = to_c_address(to);
+        // Lua scripts' mailboxes carry MQ2Lua's name, which depends on how it was loaded.
+        let to = to.for_loaded_lua(|| (self.host().loaded_plugin_name)(crate::lua::LUA_PLUGIN));
+        let address = to_c_address(&to);
         let handle = self.handle();
         let (respond, user, drop): (Option<shim::mqemu_response_fn>, *mut c_void, Option<shim::mqemu_drop_fn>) = match pending {
             Some(pending) => (Some(request_respond), Rc::into_raw(pending).cast_mut().cast(), Some(request_drop)),

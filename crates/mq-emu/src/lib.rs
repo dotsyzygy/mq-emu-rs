@@ -60,6 +60,7 @@ mod actors;
 pub mod color;
 mod game;
 mod host;
+pub mod lua;
 mod movement;
 mod mq;
 mod plugin;
@@ -72,6 +73,7 @@ mod text;
 pub use mq_emu_sys as sys;
 
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
+pub use lua::{LuaTable, LuaValue};
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
 };
