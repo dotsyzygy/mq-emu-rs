@@ -29,6 +29,13 @@ param(
 $ErrorActionPreference = "Stop"
 $repo = Split-Path -Parent $PSScriptRoot
 
+# Report failures as one plain line (and exit code 1) rather than PowerShell's
+# full exception block.
+trap {
+    [Console]::Error.WriteLine("deploy-plugin: $($_.Exception.Message)")
+    exit 1
+}
+
 function Find-MqRoot {
     if ($env:MQ_ROOT) { return $env:MQ_ROOT }
 

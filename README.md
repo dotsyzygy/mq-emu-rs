@@ -23,13 +23,14 @@ Unofficial Rust bindings for writing [MacroQuest](https://github.com/macroquest/
 ## Trying it in game
 
 ```powershell
-./scripts/deploy-plugin.ps1
+./scripts/deploy-plugin.ps1        # or, from bash: scripts/deploy-plugin.sh
 ```
 
 This builds `MQ2RustPluginTest` in release and copies the DLL (and its `.pdb`) into
 `$MQ_ROOT/build/bin/release/plugins`, finding `MQ_ROOT` the same way the build does: from your
 environment, or from `[env]` in `~/.cargo/config.toml`. Use `-Plugin <name>` for another plugin
-under `plugins/`, `-DebugBuild` for a debug build, and `-NoBuild` to only copy. If the plugin is
+under `plugins/`, `-DebugBuild` for a debug build, and `-NoBuild` to only copy (from bash:
+`--plugin <name>`, `--debug`, `--no-build`). If the plugin is
 loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be replaced. Then in game:
 
 | Command | What it does |
