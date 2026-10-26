@@ -15,16 +15,30 @@
 //! Like ImGui's scopes, a plot is a closure: it always ends, and setup calls
 //! ([`Plot::setup_axis`] and the like) panic once something has been
 //! plotted or queried, where ImPlot no longer takes them.
+//!
+//! # Closures
+//!
+//! Items can come from a closure giving each point ([`Plot::line_fn`] and
+//! the like), called while the item is plotted. Axes can be labeled by one
+//! ([`Plot::setup_axis_format_fn`]) or scaled by a pair
+//! ([`Plot::setup_axis_scale_fn`]), which ImPlot calls until the plot ends:
+//! those may borrow from outside the plot, not from inside its closure.
+//!
+//! A panic in one of these closures is caught where ImPlot called it (it
+//! can't unwind through ImPlot), and resumed once the item or plot is done.
 
+use std::any::Any;
 use std::ffi::{c_char, c_void};
+use std::fmt::{self, Display, Write as _};
 use std::ops::RangeInclusive;
+use std::panic::{AssertUnwindSafe, catch_unwind, resume_unwind};
 
 use mq_emu_sys::imgui as imgui_sys;
 use mq_emu_sys::implot as sys;
 
 use super::dnd::{self, DragDropFlags, DragSource, DropTarget};
 use super::draw::{DrawList, Vec2};
-use super::{Color, Cond, EndOnDrop, OnDrop, TextureId, Ui, opt, printf_conversions, s};
+use super::{Color, Cond, EndOnDrop, KeyMods, MouseButton, OnDrop, TextureId, Ui, opt, printf_conversions, s};
 
 macro_rules! plot_flags {
     ($(#[$meta:meta])* $name:ident { $($(#[$flag_meta:meta])* $flag:ident = $value:ident,)* }) => {
@@ -655,6 +669,120 @@ fn auto_color(color: &Option<Color>) -> *const f32 {
 /// Most colors a colormap may have, and fewest.
 const MIN_COLORMAP_COLORS: usize = 2;
 
+/// A panic caught where ImPlot called a closure, to resume afterwards.
+type Panic = Box<dyn Any + Send>;
+
+/// A closure ImPlot calls, and the first panic it raised.
+struct Callback<F> {
+    f: F,
+    panic: Option<Panic>,
+}
+
+impl<F> Callback<F> {
+    fn new(f: F) -> Callback<F> {
+        Callback { f, panic: None }
+    }
+
+    /// Runs `call` on the closure, or returns `fallback` if it panics now or did before.
+    fn run<R>(&mut self, fallback: R, call: impl FnOnce(&mut F) -> R) -> R {
+        if self.panic.is_some() {
+            return fallback;
+        }
+        match catch_unwind(AssertUnwindSafe(|| call(&mut self.f))) {
+            Ok(result) => result,
+            Err(panic) => {
+                self.panic = Some(panic);
+                fallback
+            }
+        }
+    }
+
+    fn data(&mut self) -> *mut c_void {
+        (self as *mut Self).cast()
+    }
+}
+
+/// A [`Callback`] kept until its plot ends, whatever its closure's type.
+trait Kept {
+    fn take_panic(&mut self) -> Option<Panic>;
+}
+
+impl<F> Kept for Callback<F> {
+    fn take_panic(&mut self) -> Option<Panic> {
+        self.panic.take()
+    }
+}
+
+/// Resumes the first panic of `callbacks`, if any.
+fn resume_first_panic<const N: usize>(callbacks: [&mut dyn Kept; N]) {
+    if let Some(panic) = callbacks.into_iter().find_map(|c| c.take_panic()) {
+        resume_unwind(panic);
+    }
+}
+
+/// Writes into a C buffer, NUL-terminated, cutting what doesn't fit at a
+/// character boundary.
+struct CBuffer<'b> {
+    buffer: &'b mut [u8],
+    len: usize,
+}
+
+impl fmt::Write for CBuffer<'_> {
+    fn write_str(&mut self, text: &str) -> fmt::Result {
+        let room = self.buffer.len().saturating_sub(self.len + 1);
+        let mut end = text.len().min(room);
+        while !text.is_char_boundary(end) {
+            end -= 1;
+        }
+        self.buffer[self.len..self.len + end].copy_from_slice(&text.as_bytes()[..end]);
+        self.len += end;
+        Ok(())
+    }
+}
+
+/// ImPlot's formatter: `Callback<F>` writes `value`.
+unsafe extern "C" fn format_value<F: FnMut(f64) -> D, D: Display>(value: f64, buffer: *mut c_char, size: i32, data: *mut c_void) -> i32 {
+    let state = unsafe { &mut *data.cast::<Callback<F>>() };
+    let size = usize::try_from(size).unwrap_or(0);
+    if buffer.is_null() || size == 0 {
+        return 0;
+    }
+    let mut out = CBuffer { buffer: unsafe { std::slice::from_raw_parts_mut(buffer.cast(), size) }, len: 0 };
+    state.run((), |f| {
+        let _ = write!(out, "{}", f(value));
+    });
+    out.buffer[out.len] = 0;
+    out.len as i32
+}
+
+/// A custom scale's closures.
+struct Transform<F, I> {
+    forward: F,
+    inverse: I,
+}
+
+unsafe extern "C" fn transform_forward<F: FnMut(f64) -> f64, I: FnMut(f64) -> f64>(value: f64, data: *mut c_void) -> f64 {
+    let state = unsafe { &mut *data.cast::<Callback<Transform<F, I>>>() };
+    // After a panic, a linear scale: the plot still draws.
+    state.run(value, |t| (t.forward)(value))
+}
+
+unsafe extern "C" fn transform_inverse<F: FnMut(f64) -> f64, I: FnMut(f64) -> f64>(value: f64, data: *mut c_void) -> f64 {
+    let state = unsafe { &mut *data.cast::<Callback<Transform<F, I>>>() };
+    state.run(value, |t| (t.inverse)(value))
+}
+
+/// A getter: `Callback<F>` gives point `index`.
+unsafe extern "C" fn get_point<F: FnMut(usize) -> [f64; 2]>(data: *mut c_void, index: i32, x: *mut f64, y: *mut f64) {
+    let state = unsafe { &mut *data.cast::<Callback<F>>() };
+    // After a panic, points ImPlot skips.
+    let [px, py] = state.run([f64::NAN; 2], |f| f(usize::try_from(index).unwrap_or(0)));
+    unsafe {
+        *x = px;
+        *y = py;
+    }
+}
+
 impl Ui {
     /// The raw ImPlot functions, for tests that misuse them on purpose.
     #[cfg(test)]
@@ -814,7 +942,7 @@ enum NextAxis {
     Fit(Axis),
 }
 
-impl PlotBuilder<'_, '_> {
+impl<'ui> PlotBuilder<'ui, '_> {
     /// `[w, h]` in pixels; -1 fills the width (the default), 0 is ImPlot's default size.
     pub fn size(mut self, size: Vec2) -> Self {
         self.size = size;
@@ -840,12 +968,19 @@ impl PlotBuilder<'_, '_> {
 
     /// Draws the plot, with `f` setting it up and plotting through [`Plot`],
     /// if it's visible.
-    pub fn show<R>(self, f: impl FnOnce(&mut Plot<'_>) -> R) -> Option<R> {
+    pub fn show<R>(self, f: impl FnOnce(&mut Plot<'ui>) -> R) -> Option<R> {
         begin_plot(self.ui, self.title, self.size, self.flags, &self.next, f)
     }
 }
 
-fn begin_plot<R>(ui: &mut Ui, title: &str, size: Vec2, flags: PlotFlags, next: &[NextAxis], f: impl FnOnce(&mut Plot<'_>) -> R) -> Option<R> {
+fn begin_plot<'ui, R>(
+    ui: &'ui mut Ui,
+    title: &str,
+    size: Vec2,
+    flags: PlotFlags,
+    next: &[NextAxis],
+    f: impl FnOnce(&mut Plot<'ui>) -> R,
+) -> Option<R> {
     for &setting in next {
         match setting {
             NextAxis::Limits(axis, min, max, cond) => unsafe { (ui.plot.mqemu_implot_set_next_axis_limits)(axis as i32, min, max, cond as i32) },
@@ -856,8 +991,13 @@ fn begin_plot<R>(ui: &mut Ui, title: &str, size: Vec2, flags: PlotFlags, next: &
     if !unsafe { (ui.plot.mqemu_implot_begin_plot)(t, n, size[0], size[1], flags.bits()) } {
         return None;
     }
-    let _end = EndOnDrop(ui.plot.mqemu_implot_end_plot);
-    Some(f(&mut Plot { ui, locked: false }))
+    // Ends the plot when dropped, should `f` panic.
+    let mut plot = Plot { ui, locked: false, kept: Vec::new(), ended: false };
+    let result = f(&mut plot);
+    if let Some(panic) = plot.end() {
+        resume_unwind(panic);
+    }
+    Some(result)
 }
 
 /// A grid of plots being configured; see [`Ui::subplots`].
@@ -933,7 +1073,7 @@ impl Subplots<'_> {
     ///
     /// # Panics
     /// When every cell already has one.
-    pub fn plot<R>(&mut self, title: &str, flags: PlotFlags, f: impl FnOnce(&mut Plot<'_>) -> R) -> Option<R> {
+    pub fn plot<'s, R>(&'s mut self, title: &str, flags: PlotFlags, f: impl FnOnce(&mut Plot<'s>) -> R) -> Option<R> {
         assert!(self.remaining > 0, "every subplot cell already has a plot");
         self.remaining -= 1;
         begin_plot(self.ui, title, [0.0, 0.0], flags, &[], f)
@@ -950,9 +1090,43 @@ pub struct Plot<'ui> {
     ui: &'ui mut Ui,
     /// Whether ImPlot has finished setup (something was plotted or queried).
     locked: bool,
+    /// Formatters and transforms ImPlot calls until the plot ends, from
+    /// `Box::into_raw` (ImPlot holds pointers into them).
+    kept: Vec<*mut (dyn Kept + 'ui)>,
+    ended: bool,
 }
 
-impl Plot<'_> {
+impl Drop for Plot<'_> {
+    /// Ends the plot if its closure panicked (their panic wins over the callbacks').
+    fn drop(&mut self) {
+        self.end();
+    }
+}
+
+impl<'ui> Plot<'ui> {
+    /// Ends the plot (once), then frees what ImPlot no longer calls; the
+    /// first panic one of those caught.
+    fn end(&mut self) -> Option<Panic> {
+        if std::mem::replace(&mut self.ended, true) {
+            return None;
+        }
+        // Forgets the formatters and transforms, so nothing calls them once freed.
+        unsafe { (self.ui.plot.mqemu_implot_end_plot)() };
+        let mut first = None;
+        for kept in self.kept.drain(..) {
+            let mut kept = unsafe { Box::from_raw(kept) };
+            first = first.or_else(|| kept.take_panic());
+        }
+        first
+    }
+
+    /// Keeps `callback` until the plot ends; its address for ImPlot.
+    fn keep<F: 'ui>(&mut self, callback: Callback<F>) -> *mut c_void {
+        let raw = Box::into_raw(Box::new(callback));
+        self.kept.push(raw);
+        raw.cast()
+    }
+
     /// The raw functions, for tests that misuse them on purpose.
     #[cfg(test)]
     pub(crate) fn api(&self) -> &'static sys::Api {
@@ -1006,6 +1180,63 @@ impl Plot<'_> {
         check_format(format);
         let (f, fl) = s(format);
         unsafe { (self.setup().mqemu_implot_setup_axis_format)(axis as i32, f, fl) }
+    }
+
+    /// Labels an axis's ticks (and the mouse position on it) with what
+    /// `format` returns for each value: `|v| format!("{v:.0} HP")`, or names
+    /// for positions. ImPlot calls it until the plot ends. Axes other than X1
+    /// and Y1 must be set up first ([`Plot::setup_axis`]).
+    ///
+    /// ```no_run
+    /// # fn draw(ui: &mut mq_emu::Ui, names: &[&str]) {
+    /// use mq_emu::imgui::{Axis, BarsFlags};
+    /// ui.plot("Kills").show(|plot| {
+    ///     plot.setup_axis_format_fn(Axis::X1, |x| names.get(x as usize).copied().unwrap_or(""));
+    ///     plot.bars_fn("kills", names.len(), |i| [i as f64, (i * 2) as f64], 0.6, BarsFlags::NONE);
+    /// });
+    /// # }
+    /// ```
+    ///
+    /// A formatter can't borrow what the plot's closure owns, which is gone
+    /// before ImPlot is done calling it:
+    ///
+    /// ```compile_fail,E0597
+    /// # fn draw(ui: &mut mq_emu::Ui) {
+    /// use mq_emu::imgui::Axis;
+    /// ui.plot("Kills").show(|plot| {
+    ///     let names = vec!["a", "b"];
+    ///     plot.setup_axis_format_fn(Axis::X1, |x| names[x as usize]);
+    /// });
+    /// # }
+    /// ```
+    ///
+    /// # Panics
+    /// After something was plotted or queried.
+    pub fn setup_axis_format_fn<F, D>(&mut self, axis: Axis, format: F)
+    where
+        F: FnMut(f64) -> D + 'ui,
+        D: Display,
+    {
+        let api = self.setup();
+        let data = self.keep(Callback::new(format));
+        unsafe { (api.mqemu_implot_setup_axis_format_fn)(axis as i32, format_value::<F, D>, data) }
+    }
+
+    /// A custom scale: `forward` maps a value to where it goes on a linear
+    /// scale (`f64::ln` for a natural log scale), `inverse` maps back
+    /// (`f64::exp`). ImPlot calls them until the plot ends. Axes other than X1
+    /// and Y1 must be set up first.
+    ///
+    /// # Panics
+    /// After something was plotted or queried.
+    pub fn setup_axis_scale_fn<F, I>(&mut self, axis: Axis, forward: F, inverse: I)
+    where
+        F: FnMut(f64) -> f64 + 'ui,
+        I: FnMut(f64) -> f64 + 'ui,
+    {
+        let api = self.setup();
+        let data = self.keep(Callback::new(Transform { forward, inverse }));
+        unsafe { (api.mqemu_implot_setup_axis_scale_fn)(axis as i32, transform_forward::<F, I>, transform_inverse::<F, I>, data) }
     }
 
     /// Ticks at `values`, labeled with `labels` if given (one per value);
@@ -1325,6 +1556,108 @@ impl Plot<'_> {
         unsafe { (self.lock().mqemu_implot_dummy)(l, ln, flags.bits()) }
     }
 
+    // ----- items from closures -----
+
+    /// A line through `count` points, `point(i)` giving point `i` as `[x, y]`.
+    /// ImPlot calls it while plotting, as often as it needs and in any order.
+    pub fn line_fn(&mut self, label: &str, count: usize, point: impl FnMut(usize) -> [f64; 2], flags: LineFlags) {
+        self.getter_item(label, count, point, |api, l, ln, get, data, n| unsafe { (api.mqemu_implot_line_g)(l, ln, get, data, n, flags.bits()) });
+    }
+
+    /// Markers at points from a closure, as for [`Plot::line_fn`].
+    pub fn scatter_fn(&mut self, label: &str, count: usize, point: impl FnMut(usize) -> [f64; 2], flags: ScatterFlags) {
+        self.getter_item(label, count, point, |api, l, ln, get, data, n| unsafe { (api.mqemu_implot_scatter_g)(l, ln, get, data, n, flags.bits()) });
+    }
+
+    /// A step line through points from a closure, as for [`Plot::line_fn`].
+    pub fn stairs_fn(&mut self, label: &str, count: usize, point: impl FnMut(usize) -> [f64; 2], flags: StairsFlags) {
+        self.getter_item(label, count, point, |api, l, ln, get, data, n| unsafe { (api.mqemu_implot_stairs_g)(l, ln, get, data, n, flags.bits()) });
+    }
+
+    /// Bars `bar_size` plot units wide at points from a closure, as for [`Plot::line_fn`].
+    pub fn bars_fn(&mut self, label: &str, count: usize, point: impl FnMut(usize) -> [f64; 2], bar_size: f64, flags: BarsFlags) {
+        self.getter_item(label, count, point, |api, l, ln, get, data, n| unsafe {
+            (api.mqemu_implot_bars_g)(l, ln, get, data, n, bar_size, flags.bits())
+        });
+    }
+
+    /// A digital signal from a closure's points, as for [`Plot::line_fn`] and [`Plot::digital`].
+    pub fn digital_fn(&mut self, label: &str, count: usize, point: impl FnMut(usize) -> [f64; 2], flags: DigitalFlags) {
+        self.getter_item(label, count, point, |api, l, ln, get, data, n| unsafe { (api.mqemu_implot_digital_g)(l, ln, get, data, n, flags.bits()) });
+    }
+
+    /// The area between two lines of `count` points each, from two closures
+    /// as for [`Plot::line_fn`].
+    pub fn shaded_fn(
+        &mut self,
+        label: &str,
+        count: usize,
+        line1: impl FnMut(usize) -> [f64; 2],
+        line2: impl FnMut(usize) -> [f64; 2],
+        flags: ShadedFlags,
+    ) {
+        fn shaded<F1: FnMut(usize) -> [f64; 2], F2: FnMut(usize) -> [f64; 2]>(plot: &mut Plot<'_>, label: &str, n: usize, f1: F1, f2: F2, flags: i32) {
+            let (mut first, mut second) = (Callback::new(f1), Callback::new(f2));
+            let (l, ln) = s(label);
+            let api = plot.lock();
+            let n = i32::try_from(n).unwrap_or(i32::MAX);
+            unsafe { (api.mqemu_implot_shaded_g)(l, ln, get_point::<F1>, first.data(), get_point::<F2>, second.data(), n, flags) };
+            resume_first_panic([&mut first, &mut second]);
+        }
+        shaded(self, label, count, line1, line2, flags.bits());
+    }
+
+    fn getter_item<F: FnMut(usize) -> [f64; 2]>(
+        &mut self,
+        label: &str,
+        count: usize,
+        point: F,
+        plot: impl FnOnce(&sys::Api, *const c_char, usize, sys::mqemu_implot_getter, *mut c_void, i32),
+    ) {
+        let mut state = Callback::new(point);
+        let (l, ln) = s(label);
+        let api = self.lock();
+        plot(api, l, ln, get_point::<F>, state.data(), i32::try_from(count).unwrap_or(i32::MAX));
+        resume_first_panic([&mut state]);
+    }
+
+    /// [`Plot::pie_chart`] labeling each slice with what `format` returns for
+    /// its value (called while plotting).
+    ///
+    /// # Panics
+    /// If there isn't a label per value.
+    #[allow(clippy::too_many_arguments)]
+    pub fn pie_chart_fn<T, S, F, D>(&mut self, labels: &[S], values: &[T], center: [f64; 2], radius: f64, format: F, angle0: f64, flags: PieChartFlags)
+    where
+        T: PlotValue,
+        S: AsRef<str>,
+        F: FnMut(f64) -> D,
+        D: Display,
+    {
+        assert_eq!(labels.len(), values.len(), "a pie chart needs a label per value");
+        let (names, lens) = label_arrays(labels);
+        let mut state = Callback::new(format);
+        let api = self.lock();
+        let [x, y] = center;
+        unsafe {
+            (api.mqemu_implot_pie_chart_fn)(
+                names.as_ptr(),
+                lens.as_ptr(),
+                T::KIND,
+                values.as_ptr().cast(),
+                count(values),
+                x,
+                y,
+                radius,
+                format_value::<F, D>,
+                state.data(),
+                angle0,
+                flags.bits(),
+            )
+        }
+        resume_first_panic([&mut state]);
+    }
+
     // ----- tools -----
 
     /// A point the user can drag, `size` pixels; `pos` follows it.
@@ -1559,4 +1892,132 @@ impl Plot<'_> {
 
 fn drag_state(changed: bool, [clicked, hovered, held]: [bool; 3]) -> DragState {
     DragState { changed, clicked, hovered, held }
+}
+
+/// Which mouse buttons and modifier keys do what in a plot (ImPlot's
+/// `ImPlotInputMap`). ImPlot has one map for every plot in the game.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PlotInputMap {
+    /// Held to pan (by default the left button).
+    pub pan: MouseButton,
+    /// Held with `pan` to pan, and with `fit` to fit (none).
+    pub pan_mod: KeyMods,
+    /// Double-clicked to fit the data (left).
+    pub fit: MouseButton,
+    /// Dragged to select a box (right).
+    pub select: MouseButton,
+    /// Pressed to cancel a box selection (left). Not the same as `select`.
+    pub select_cancel: MouseButton,
+    /// Held with `select` to select (none).
+    pub select_mod: KeyMods,
+    /// Held to stretch the box to the plot's left and right edges (alt).
+    pub select_horz_mod: KeyMods,
+    /// Held to stretch it to the top and bottom (shift).
+    pub select_vert_mod: KeyMods,
+    /// Clicked for the plot's menus (right).
+    pub menu: MouseButton,
+    /// Held to make plots ignore the mouse, so they can be dragged (ctrl).
+    pub override_mod: KeyMods,
+    /// Held to zoom with the wheel (none).
+    pub zoom_mod: KeyMods,
+    /// How far a wheel click zooms: 0.1 is 10% of the range; negative zooms
+    /// the other way (0.1).
+    pub zoom_rate: f32,
+}
+
+impl PlotInputMap {
+    fn from_raw(raw: sys::mqemu_plot_input_map) -> PlotInputMap {
+        // Only another plugin could have set one that isn't a button; it
+        // couldn't have stayed, as ImPlot would crash on it.
+        let button = |b| MouseButton::from_index(b).unwrap_or(MouseButton::Left);
+        let mods = |m: i32| KeyMods(m & (KeyMods::CTRL | KeyMods::SHIFT | KeyMods::ALT | KeyMods::SUPER).bits());
+        PlotInputMap {
+            pan: button(raw.pan),
+            pan_mod: mods(raw.pan_mod),
+            fit: button(raw.fit),
+            select: button(raw.select),
+            select_cancel: button(raw.select_cancel),
+            select_mod: mods(raw.select_mod),
+            select_horz_mod: mods(raw.select_horz_mod),
+            select_vert_mod: mods(raw.select_vert_mod),
+            menu: button(raw.menu),
+            override_mod: mods(raw.override_mod),
+            zoom_mod: mods(raw.zoom_mod),
+            zoom_rate: raw.zoom_rate,
+        }
+    }
+
+    fn raw(&self) -> sys::mqemu_plot_input_map {
+        sys::mqemu_plot_input_map {
+            pan: self.pan as i32,
+            pan_mod: self.pan_mod.bits(),
+            fit: self.fit as i32,
+            select: self.select as i32,
+            select_cancel: self.select_cancel as i32,
+            select_mod: self.select_mod.bits(),
+            select_horz_mod: self.select_horz_mod.bits(),
+            select_vert_mod: self.select_vert_mod.bits(),
+            menu: self.menu as i32,
+            override_mod: self.override_mod.bits(),
+            zoom_mod: self.zoom_mod.bits(),
+            zoom_rate: self.zoom_rate,
+        }
+    }
+}
+
+impl Ui {
+    /// What the mouse does in plots now.
+    pub fn plot_input_map(&self) -> PlotInputMap {
+        let mut raw = sys::mqemu_plot_input_map::default();
+        unsafe { (self.plot.mqemu_implot_input_map)(&mut raw) };
+        PlotInputMap::from_raw(raw)
+    }
+
+    /// ImPlot's default map (left button pans, right selects).
+    pub fn default_plot_input_map(&self) -> PlotInputMap {
+        self.plot_input_map_preset(false)
+    }
+
+    /// ImPlot's alternative map (right button pans, left selects).
+    pub fn reverse_plot_input_map(&self) -> PlotInputMap {
+        self.plot_input_map_preset(true)
+    }
+
+    fn plot_input_map_preset(&self, reverse: bool) -> PlotInputMap {
+        let mut raw = sys::mqemu_plot_input_map::default();
+        unsafe { (self.plot.mqemu_implot_input_map_preset)(reverse, &mut raw) };
+        PlotInputMap::from_raw(raw)
+    }
+
+    /// Draws `f` with `map` deciding what the mouse does in the plots it
+    /// draws, and the map as it was afterwards (for everyone else's plots).
+    ///
+    /// # Panics
+    /// If `select_cancel` is `select`.
+    pub fn with_plot_input_map<R>(&mut self, map: &PlotInputMap, f: impl FnOnce(&mut Ui) -> R) -> R {
+        let before = self.plot_input_map();
+        self.set_plot_input_map(map);
+        let (api, before) = (self.plot, before.raw());
+        let _restore = OnDrop(move || unsafe { (api.mqemu_implot_set_input_map)(&before) });
+        f(self)
+    }
+
+    /// Makes `map` decide what the mouse does in every plot in the game:
+    /// MacroQuest's and other plugins' too, until something changes it again
+    /// (this plugin unloading doesn't). [`Ui::with_plot_input_map`] changes
+    /// only this plugin's plots.
+    ///
+    /// # Panics
+    /// If `select_cancel` is `select`.
+    pub fn set_plot_input_map(&mut self, map: &PlotInputMap) {
+        assert!(map.select_cancel != map.select, "a plot's box selection can't be cancelled with the button that makes it");
+        unsafe { (self.plot.mqemu_implot_set_input_map)(&map.raw()) }
+    }
+
+    /// ImPlot's combo box choosing its default or alternative map, for every
+    /// plot in the game (as [`Ui::set_plot_input_map`]); true when changed.
+    pub fn plot_input_map_selector(&mut self, label: &str) -> bool {
+        let (l, ln) = s(label);
+        unsafe { (self.plot.mqemu_implot_input_map_selector)(l, ln) }
+    }
 }

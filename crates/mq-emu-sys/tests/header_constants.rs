@@ -93,6 +93,7 @@ fn game_limits_match() {
         NUM_LONG_BUFFS,
         NUM_TEMP_BUFFS,
         MAX_MEMORIZED_SPELLS,
+        NUM_SPELL_GEMS,
         NUM_BOOK_SLOTS,
         MAX_GROUP_SIZE,
     ]);

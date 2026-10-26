@@ -1,7 +1,8 @@
 // ImGui drawing that needs MacroQuest itself (MQ2Main.dll and eqlib.dll):
 // textures loaded through the game's renderer, the game's own UI textures
-// (CTextureAnimation: item and spell icons, window art), and EQ's fonts.
-// Conventions as in imgui.cpp. Only plugins can link this file's functions.
+// (CTextureAnimation: item and spell icons, window art), EQ's fonts, and
+// MacroQuest's EQ-styled widgets (spell gems, item link text). Conventions as
+// in imgui.cpp. Only plugins can link this file's functions.
 
 #include "imgui_shim.h"
 
@@ -132,4 +133,67 @@ extern "C" bool mqemu_imgui_draw_texture_animation(ImDrawList* list, const eqlib
 extern "C" ImFont* mqemu_imgui_eq_font(int style)
 {
 	return guarded<ImFont*>(nullptr, [&] { return mq::imgui::GetEQImFont(style); });
+}
+
+// Draws `text` as the game would in EQ font style `style`, wrapped and
+// clipped to the rectangle (x0, y0)-(x1, y1); `flags` are eqlib's
+// DrawTextFlags. Nothing if there's no such font.
+extern "C" void mqemu_imgui_draw_eq_text(ImDrawList* list, int style, const char* text, size_t len, int x0, int y0, int x1,
+	int y1, ImU32 col, int flags)
+{
+	guarded_void([&] {
+		mq::imgui::DrawEQText(list, style, CString(text, len), eqlib::CXRect(x0, y0, x1, y1), mq_color(col),
+			static_cast<uint16_t>(flags));
+	});
+}
+
+// ----- EQ-styled widgets -----
+
+namespace {
+
+// The game's window for spell gem `gem` (0-based), or null without one.
+eqlib::CSpellGemWnd* spell_gem(int gem)
+{
+	eqlib::CCastSpellWnd* window = eqlib::pCastSpellWnd;
+	if (!window || gem < 0 || gem >= eqlib::NUM_SPELL_GEMS)
+		return nullptr;
+	return window->SpellSlots[gem];
+}
+
+} // namespace
+
+// Draws spell gem `gem` (0-based) as the game does, as an item of its size
+// on the game's screen. Clicks cast, unmemorize or pick up the spell as
+// `flags` (ImGuiSpellGemFlags_) allow, as clicking the game's gem would.
+// True when clicked; *drawn false (and nothing drawn) if there's no such gem.
+extern "C" bool mqemu_imgui_spell_gem(const char* id, size_t id_len, int gem, int flags, bool* drawn)
+{
+	*drawn = false;
+	return guarded(false, [&] {
+		eqlib::CSpellGemWnd* window = spell_gem(gem);
+		if (!window)
+			return false;
+		*drawn = true;
+		return mq::imgui::SpellGem(CString(id, id_len), window, flags);
+	});
+}
+
+// Draws spell gem `gem` on a draw list at (x, y), highlighted if `hovered`.
+// False if there's no such gem.
+extern "C" bool mqemu_imgui_draw_spell_gem(ImDrawList* list, int gem, int x, int y, bool hovered)
+{
+	return guarded(false, [&] {
+		eqlib::CSpellGemWnd* window = spell_gem(gem);
+		if (!window)
+			return false;
+		mq::imgui::DrawSpellGem(list, window, eqlib::CXPoint(x, y), hovered);
+		return true;
+	});
+}
+
+// Text as is, styled like an item link: `col`, or `hovered` under the mouse.
+// Its ID is the text's. True when clicked.
+extern "C" bool mqemu_imgui_item_link_text(const char* text, size_t len, ImU32 col, ImU32 hovered)
+{
+	return guarded(false, [&] { return mq::imgui::ItemLinkText(std::string_view(text, len), mq_color(col), mq_color(hovered)); });
 }

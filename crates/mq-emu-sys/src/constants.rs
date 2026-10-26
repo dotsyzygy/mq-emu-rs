@@ -59,6 +59,8 @@ pub const NUM_LONG_BUFFS: usize = 42;
 pub const NUM_TEMP_BUFFS: usize = 55;
 /// Spell gems.
 pub const MAX_MEMORIZED_SPELLS: usize = 16;
+/// Spell gems in the game's spell gem window (`CCastSpellWnd::SpellSlots`).
+pub const NUM_SPELL_GEMS: usize = 12;
 pub const NUM_BOOK_SLOTS: usize = 720;
 /// Size of `ClientSpellManager::Spells`; spell IDs are below this.
 pub const TOTAL_SPELL_COUNT: usize = 45001;

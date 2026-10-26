@@ -1,6 +1,7 @@
 //! ImGui drawing that needs MacroQuest itself, from `shim/imgui_mq.cpp`:
 //! textures loaded through the game's renderer, the game's own UI textures
-//! (item and spell icons, window art), and EQ's fonts in ImGui.
+//! (item and spell icons, window art), EQ's fonts in ImGui, and MacroQuest's
+//! EQ-styled widgets (spell gems, item link text, text in EQ's fonts).
 //!
 //! These import `MQ2Main.dll` and `eqlib.dll`, so unlike [`imgui`](crate::imgui)
 //! they only run inside the game. Conventions as in [`imgui`](crate::imgui).
@@ -71,4 +72,61 @@ function_table! {
     // ----- EQ fonts -----
     /// The ImGui copy of EQ font style `style` (0 to 9). Null if there's none.
     pub fn mqemu_imgui_eq_font(style: i32) -> *mut ImFont;
+    /// `text` as the game draws it in font style `style`, wrapped and clipped
+    /// to (x0, y0)-(x1, y1); `flags` are `DrawText_` values. Nothing without the font.
+    pub fn mqemu_imgui_draw_eq_text(
+        list: *mut ImDrawList,
+        style: i32,
+        text: *const c_char,
+        len: usize,
+        x0: i32,
+        y0: i32,
+        x1: i32,
+        y1: i32,
+        col: u32,
+        flags: i32,
+    );
+
+    // ----- EQ-styled widgets -----
+    /// Spell gem `gem` (0-based, below [`NUM_SPELL_GEMS`](crate::NUM_SPELL_GEMS)) as the game draws it, as an item; clicks
+    /// cast, unmemorize or pick up the spell as `flags` (`ImGuiSpellGemFlags_`)
+    /// allow. True when clicked; `*drawn` false if there's no such gem (no UI).
+    pub fn mqemu_imgui_spell_gem(id: *const c_char, id_len: usize, gem: i32, flags: i32, drawn: *mut bool) -> bool;
+    /// Spell gem `gem` on `list` at (x, y). False if there's no such gem.
+    pub fn mqemu_imgui_draw_spell_gem(list: *mut ImDrawList, gem: i32, x: i32, y: i32, hovered: bool) -> bool;
+    /// Text as is, styled like an item link (`col`, `hovered` under the mouse).
+    /// Its ID is the text's. True when clicked.
+    pub fn mqemu_imgui_item_link_text(text: *const c_char, len: usize, col: u32, hovered: u32) -> bool;
+}
+
+macro_rules! mq_constants {
+    ($list:ident, $header:literal; $($name:ident = $value:expr,)*) => {
+        $( pub const $name: i32 = $value; )*
+
+        #[doc = concat!("Every constant in this group with its name, for checking against `", $header, "`.")]
+        #[doc(hidden)]
+        pub const $list: &[(&str, i32)] = &[$( (stringify!($name), $name) ),*];
+    };
+}
+
+// From MacroQuest's include/mq/imgui/Widgets.h. tests/imgui_constants.rs
+// checks these against it, and the text flags against eqlib's
+// graphics/GraphicsEngine.h.
+mq_constants! {
+    SPELL_GEM_CONSTANTS, "mq/imgui/Widgets.h";
+    ImGuiSpellGemFlags_None = 0,
+    ImGuiSpellGemFlags_AllowSpellCast = 1 << 0,
+    ImGuiSpellGemFlags_AllowUnmemorize = 1 << 1,
+    ImGuiSpellGemFlags_AllowSpellDrag = 1 << 2,
+    ImGuiSpellGemFlags_AllowAll = 7,
+}
+
+mq_constants! {
+    DRAW_TEXT_CONSTANTS, "eqlib/graphics/GraphicsEngine.h";
+    DrawText_NoWrap = 0x01,
+    DrawText_CalcOnly = 0x02,
+    DrawText_Elide = 0x04,
+    DrawText_RightJustify = 0x08,
+    DrawText_HCenter = 0x10,
+    DrawText_VCenter = 0x20,
 }

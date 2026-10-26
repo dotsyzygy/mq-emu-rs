@@ -22,6 +22,9 @@
 #include "imgui/ImGuiUtils.h"
 #include "imgui/imgui_internal.h"
 
+#include <cstdint>
+#include <vector>
+
 using namespace mqemu;
 
 namespace {
@@ -978,4 +981,339 @@ extern "C" ImGuiID mqemu_imgui_window_dock_id()
 extern "C" bool mqemu_imgui_is_window_docked()
 {
 	return guarded(false, [] { return ImGui::IsWindowDocked(); });
+}
+
+// ----- docking: the dock builder -----
+// ImGui's internal DockBuilder* functions (imgui_internal.h), which lay out
+// dock nodes in code. To several of them node 0 means every node, which would
+// undo every plugin's docking and MacroQuest's; here it's refused.
+
+namespace {
+
+ImGuiDockNode* dock_node(ImGuiID id)
+{
+	if (id == 0)
+		throw ImGuiException("dock node 0 isn't a node");
+	return ImGui::DockBuilderGetNode(id);
+}
+
+ImGuiDockNode* existing_dock_node(ImGuiID id)
+{
+	ImGuiDockNode* node = dock_node(id);
+	if (!node)
+		throw ImGuiException("no such dock node");
+	return node;
+}
+
+// Refuses to change the tree `node` is in while a window being drawn is
+// docked in it or hosts it: ImGui would free nodes that window still uses.
+void check_tree_not_in_use(ImGuiDockNode* node)
+{
+	if (!node)
+		return;
+	ImGuiDockNode* root = ImGui::DockNodeGetRootNode(node);
+	for (const ImGuiWindowStackData& entry : GImGui->CurrentWindowStack)
+	{
+		for (ImGuiDockNode* used : { entry.Window->DockNode, entry.Window->DockNodeAsHost })
+		{
+			if (used && ImGui::DockNodeGetRootNode(used) == root)
+				throw ImGuiException("can't change dock nodes from inside a window docked in them");
+		}
+	}
+}
+
+// Removes `dst` ahead of copying `src` over it, as ImGui would first thing,
+// and checks that didn't take `src` with it (an ancestor, or a sibling merged
+// away), which ImGui would then dereference.
+void remove_copy_destination(ImGuiID src, ImGuiID dst)
+{
+	if (src == dst)
+		throw ImGuiException("can't copy a dock node onto itself");
+	check_tree_not_in_use(existing_dock_node(src));
+	check_tree_not_in_use(dock_node(dst));
+	ImGui::DockBuilderRemoveNode(dst);
+	if (!ImGui::DockBuilderGetNode(src))
+		throw ImGuiException("removing the destination dock node removed the source node too");
+}
+
+} // namespace
+
+// A new node (replacing any node `id`; 0 picks an ID), or with `dock_space`
+// a dock space node (`id` must not be 0). `flags` mustn't include DockSpace or
+// CentralNode, which ImGui sets. Returns its ID, or 0 for a dock space when
+// docking is off.
+extern "C" ImGuiID mqemu_imgui_dock_builder_add_node(ImGuiID id, int flags, bool dock_space)
+{
+	return guarded<ImGuiID>(0, [&]() -> ImGuiID {
+		if (flags & (ImGuiDockNodeFlags_DockSpace | ImGuiDockNodeFlags_CentralNode))
+			throw ImGuiException("DockSpace and CentralNode aren't flags to pass to DockBuilderAddNode() here");
+		if (dock_space)
+		{
+			if (id == 0)
+				throw ImGuiException("a dock space node needs an ID other than 0");
+			// DockSpace() does nothing then, and ImGui would dereference the node it didn't make.
+			if (!(ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))
+				return 0;
+		}
+		if (id != 0)
+			check_tree_not_in_use(ImGui::DockBuilderGetNode(id));
+		return ImGui::DockBuilderAddNode(id, dock_space ? flags | ImGuiDockNodeFlags_DockSpace : flags);
+	});
+}
+
+// Removes the node and the nodes in it, undocking their windows.
+extern "C" void mqemu_imgui_dock_builder_remove_node(ImGuiID id)
+{
+	guarded_void([&] {
+		check_tree_not_in_use(dock_node(id));
+		ImGui::DockBuilderRemoveNode(id);
+	});
+}
+
+// Removes the nodes split from root node `id`, moving their windows into it.
+extern "C" void mqemu_imgui_dock_builder_remove_node_child_nodes(ImGuiID id)
+{
+	guarded_void([&] {
+		check_tree_not_in_use(dock_node(id));
+		ImGui::DockBuilderRemoveNodeChildNodes(id);
+	});
+}
+
+// Undocks the windows of root node `id` and the nodes in it; with
+// `clear_settings_refs`, they also forget they were docked there.
+extern "C" void mqemu_imgui_dock_builder_remove_node_docked_windows(ImGuiID id, bool clear_settings_refs)
+{
+	guarded_void([&] {
+		check_tree_not_in_use(dock_node(id));
+		ImGui::DockBuilderRemoveNodeDockedWindows(id, clear_settings_refs);
+	});
+}
+
+// For floating nodes; nothing if there's no such node.
+extern "C" void mqemu_imgui_dock_builder_set_node_pos(ImGuiID id, float x, float y)
+{
+	guarded_void([&] {
+		dock_node(id);
+		ImGui::DockBuilderSetNodePos(id, ImVec2(x, y));
+	});
+}
+
+// Both sizes must be > 0. Set it before splitting a new node.
+extern "C" void mqemu_imgui_dock_builder_set_node_size(ImGuiID id, float w, float h)
+{
+	guarded_void([&] {
+		if (!(w > 0.0f && h > 0.0f))
+			throw ImGuiException("a dock node's size must be more than 0");
+		dock_node(id);
+		ImGui::DockBuilderSetNodeSize(id, ImVec2(w, h));
+	});
+}
+
+// Splits leaf node `id` in two: `ratio` (0 to 1) of it towards `dir` (an
+// ImGuiDir, not None), the rest opposite. Writes both new nodes' IDs and
+// returns the one towards `dir`; 0 on an error.
+extern "C" ImGuiID mqemu_imgui_dock_builder_split_node(ImGuiID id, int dir, float ratio, ImGuiID* at_dir, ImGuiID* opposite)
+{
+	return guarded<ImGuiID>(0, [&] {
+		if (dir < ImGuiDir_Left || dir > ImGuiDir_Down)
+			throw ImGuiException("a dock node splits Left, Right, Up or Down");
+		ImGuiDockNode* node = existing_dock_node(id);
+		if (node->IsSplitNode())
+			throw ImGuiException("the dock node is already split; split one of its children");
+		check_tree_not_in_use(node);
+		return ImGui::DockBuilderSplitNode(id, static_cast<ImGuiDir>(dir), ratio, at_dir, opposite);
+	});
+}
+
+// Docks the window called `name` (drawn yet or not) into node `id`, from its
+// next Begin; 0 undocks it.
+extern "C" void mqemu_imgui_dock_builder_dock_window(const char* name, size_t name_len, ImGuiID id)
+{
+	guarded_void([&] {
+		CString window_name(name, name_len);
+		// Moving a window out of its node can free the node.
+		if (ImGuiWindow* window = ImGui::FindWindowByName(window_name))
+			check_tree_not_in_use(window->DockNode);
+		ImGui::DockBuilderDockWindow(window_name, id);
+	});
+}
+
+// Gives the window `dst` the position, size and collapsed state of `src`.
+extern "C" void mqemu_imgui_dock_builder_copy_window_settings(const char* src, size_t src_len, const char* dst, size_t dst_len)
+{
+	guarded_void([&] { ImGui::DockBuilderCopyWindowSettings(CString(src, src_len), CString(dst, dst_len)); });
+}
+
+// Replaces node `dst` with a copy of node `src` and the nodes in it. Writes up
+// to `cap` (source, copy) ID pairs to `pairs` (2 IDs each) and returns how
+// many there are; -1 on an error.
+extern "C" int mqemu_imgui_dock_builder_copy_node(ImGuiID src, ImGuiID dst, ImGuiID* pairs, int cap)
+{
+	return guarded(-1, [&] {
+		remove_copy_destination(src, dst);
+		ImVector<ImGuiID> remap;
+		ImGui::DockBuilderCopyNode(src, dst, &remap);
+		int count = remap.Size / 2;
+		for (int i = 0; i < count && i < cap; ++i)
+		{
+			pairs[i * 2] = remap[i * 2];
+			pairs[i * 2 + 1] = remap[i * 2 + 1];
+		}
+		return count;
+	});
+}
+
+// Copies dock space `src`'s layout to dock space `dst`. `windows` names
+// `pair_count` (source window, destination window) pairs, as 2 strings each:
+// the destination windows go where the source ones are.
+extern "C" void mqemu_imgui_dock_builder_copy_dock_space(ImGuiID src, ImGuiID dst, const char* const* windows,
+	const size_t* window_lens, int pair_count)
+{
+	guarded_void([&] {
+		std::vector<std::string> names;
+		names.reserve(pair_count * 2);
+		for (int i = 0; i < pair_count * 2; ++i)
+			names.emplace_back(windows[i], window_lens[i]);
+		ImVector<const char*> remap;
+		for (const std::string& name : names)
+			remap.push_back(name.c_str());
+		remove_copy_destination(src, dst);
+		ImGui::DockBuilderCopyDockSpace(src, dst, &remap);
+	});
+}
+
+// Applies the layout built under root node `id` to the windows docked there.
+extern "C" void mqemu_imgui_dock_builder_finish(ImGuiID id)
+{
+	guarded_void([&] {
+		dock_node(id);
+		ImGui::DockBuilderFinish(id);
+	});
+}
+
+// What a dock node is (mqemu_imgui_dock_node).
+struct mqemu_dock_node_info
+{
+	ImGuiID parent;
+	ImGuiID children[2];
+	// The central node of its tree (the part a dock space keeps for itself).
+	ImGuiID central;
+	float x, y, w, h;
+	// Its own and inherited flags.
+	int flags;
+	int windows;
+	bool dock_space;
+	bool central_node;
+	bool floating;
+	bool visible;
+};
+
+// Describes node `id` into `out`; false if there's no such node.
+extern "C" bool mqemu_imgui_dock_node(ImGuiID id, mqemu_dock_node_info* out)
+{
+	return guarded(false, [&] {
+		ImGuiDockNode* node = dock_node(id);
+		if (!node)
+			return false;
+		ImGuiDockNode* central = ImGui::DockNodeGetRootNode(node)->CentralNode;
+		out->parent = node->ParentNode ? node->ParentNode->ID : 0;
+		for (int i = 0; i < 2; ++i)
+			out->children[i] = node->ChildNodes[i] ? node->ChildNodes[i]->ID : 0;
+		out->central = central ? central->ID : 0;
+		out->x = node->Pos.x;
+		out->y = node->Pos.y;
+		out->w = node->Size.x;
+		out->h = node->Size.y;
+		out->flags = node->MergedFlags;
+		out->windows = node->Windows.Size;
+		out->dock_space = node->IsDockSpace();
+		out->central_node = node->IsCentralNode();
+		out->floating = node->IsFloatingNode();
+		out->visible = node->IsVisible;
+		return true;
+	});
+}
+
+// The title of window `index` docked in node `id`, copied to `out`
+// (NUL-terminated, truncated to `cap`); false if there's none.
+extern "C" bool mqemu_imgui_dock_node_window(ImGuiID id, int index, char* out, size_t cap)
+{
+	return guarded(false, [&] {
+		ImGuiDockNode* node = dock_node(id);
+		if (!node || index < 0 || index >= node->Windows.Size)
+			return false;
+		if (out && cap)
+			strncpy_s(out, cap, node->Windows[index]->Name, _TRUNCATE);
+		return true;
+	});
+}
+
+// ----- multi-select -----
+// Items in a BeginMultiSelect()/EndMultiSelect() scope (selectables, tree
+// nodes) each get an index with SetNextItemSelectionUserData, and ImGui hands
+// back requests to apply to the caller's selection.
+
+// Begins a scope; always end it. Returns the requests to apply now (read with
+// mqemu_imgui_multi_select_io, before anything else begins one), or null on
+// an error (then don't end it). -1 for an unknown size or count.
+extern "C" ImGuiMultiSelectIO* mqemu_imgui_begin_multi_select(int flags, int selection_size, int items_count)
+{
+	return guarded<ImGuiMultiSelectIO*>(nullptr, [&] { return ImGui::BeginMultiSelect(flags, selection_size, items_count); });
+}
+
+// Ends the scope, returning the requests to apply afterwards (null on an
+// error), valid until a scope next begins.
+extern "C" ImGuiMultiSelectIO* mqemu_imgui_end_multi_select()
+{
+	return guarded<ImGuiMultiSelectIO*>(nullptr, [] { return ImGui::EndMultiSelect(); });
+}
+
+// The IO's fields; returns its number of requests. Items are -1 for none.
+extern "C" int mqemu_imgui_multi_select_io(const ImGuiMultiSelectIO* io, int64_t* range_src_item, int64_t* nav_id_item,
+	bool* nav_id_selected, int* items_count)
+{
+	*range_src_item = io->RangeSrcItem;
+	*nav_id_item = io->NavIdItem;
+	*nav_id_selected = io->NavIdSelected;
+	*items_count = io->ItemsCount;
+	return io->Requests.Size;
+}
+
+// Request `index` of the IO: an ImGuiSelectionRequestType, and for SetRange
+// its first and last items (inclusive) and direction (+1 or -1).
+extern "C" void mqemu_imgui_multi_select_request(const ImGuiMultiSelectIO* io, int index, int* type, bool* selected,
+	int* direction, int64_t* first, int64_t* last)
+{
+	const ImGuiSelectionRequest& request = io->Requests[index];
+	*type = request.Type;
+	*selected = request.Selected;
+	*direction = request.RangeDirection;
+	*first = request.RangeFirstItem;
+	*last = request.RangeLastItem;
+}
+
+// In the current scope: forget the item shift-clicks extend from (when it was
+// deleted, say).
+extern "C" void mqemu_imgui_multi_select_reset_range_src()
+{
+	guarded_void([] {
+		if (!GImGui->CurrentMultiSelect)
+			throw ImGuiException("not in a multi-select scope");
+		GImGui->CurrentMultiSelect->IO.RangeSrcReset = true;
+	});
+}
+
+extern "C" void mqemu_imgui_set_next_item_selection_user_data(int64_t data)
+{
+	guarded_void([&] { ImGui::SetNextItemSelectionUserData(data); });
+}
+
+// Whether the last item's selection was toggled this frame. Only in a scope.
+extern "C" bool mqemu_imgui_is_item_toggled_selection()
+{
+	return guarded(false, [] {
+		if (!GImGui->CurrentMultiSelect)
+			throw ImGuiException("IsItemToggledSelection() is only for inside a multi-select scope");
+		return ImGui::IsItemToggledSelection();
+	});
 }

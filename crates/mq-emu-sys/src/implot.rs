@@ -16,6 +16,11 @@
 //!
 //! Format strings (`format`) are printf formats for one `double`.
 //!
+//! The callback forms take a function and its `data`. Getters and pie chart
+//! formatters are called during the call only; axis formatters and transforms
+//! until the plot ends, after which [`mqemu_implot_end_plot`] makes ImPlot
+//! forget them. None of them may unwind.
+//!
 //! [`mqemu_imgui_take_error`]: crate::imgui::mqemu_imgui_take_error
 
 use core::ffi::{c_char, c_void};
@@ -38,10 +43,41 @@ pub const MQEMU_PLOT_U64: i32 = 9;
 /// ImPlot's "choose automatically" (`IMPLOT_AUTO`), for axes, sizes and weights.
 pub const IMPLOT_AUTO: i32 = -1;
 
+/// Writes point `index` of a series to `*x` and `*y`, from the caller's `data`.
+pub type mqemu_implot_getter = unsafe extern "C" fn(data: *mut c_void, index: i32, x: *mut f64, y: *mut f64);
+
+/// ImPlot's `ImPlotFormatter`: writes `value` as text into `buffer` (`size`
+/// bytes), NUL-terminated. The return value is unused.
+pub type ImPlotFormatter = unsafe extern "C" fn(value: f64, buffer: *mut c_char, size: i32, data: *mut c_void) -> i32;
+
+/// ImPlot's `ImPlotTransform`: maps a value onto (or back from) a linear scale.
+pub type ImPlotTransform = unsafe extern "C" fn(value: f64, data: *mut c_void) -> f64;
+
+/// ImPlot's `ImPlotInputMap`: which mouse buttons (`ImGuiMouseButton_`) and
+/// modifier keys (`ImGuiMod_` chords) do what in a plot.
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct mqemu_plot_input_map {
+    pub pan: i32,
+    pub pan_mod: i32,
+    pub fit: i32,
+    pub select: i32,
+    pub select_cancel: i32,
+    pub select_mod: i32,
+    pub select_horz_mod: i32,
+    pub select_vert_mod: i32,
+    pub menu: i32,
+    pub override_mod: i32,
+    pub zoom_mod: i32,
+    pub zoom_rate: f32,
+}
+
 function_table! {
     // ----- plots -----
     /// Call [`mqemu_implot_end_plot`] only if this returns true.
     pub fn mqemu_implot_begin_plot(title: *const c_char, title_len: usize, w: f32, h: f32, flags: i32) -> bool;
+    /// Ends the plot, then makes ImPlot forget the formatters and transforms
+    /// it was given (ImPlot's own `EndPlot` keeps them until the plot next begins).
     pub fn mqemu_implot_end_plot();
     /// A `rows` x `cols` grid of plots, each begun with [`mqemu_implot_begin_plot`].
     /// `row_ratios`/`col_ratios` (`rows`/`cols` floats, or null) are updated
@@ -68,6 +104,12 @@ function_table! {
     pub fn mqemu_implot_setup_axis(axis: i32, label: *const c_char, label_len: usize, flags: i32);
     pub fn mqemu_implot_setup_axis_limits(axis: i32, min: f64, max: f64, cond: i32);
     pub fn mqemu_implot_setup_axis_format(axis: i32, format: *const c_char, format_len: usize);
+    /// Labels the axis with `formatter(value, buffer, size, data)`, called
+    /// until the plot ends; [`mqemu_implot_end_plot`] then forgets it.
+    pub fn mqemu_implot_setup_axis_format_fn(axis: i32, formatter: ImPlotFormatter, data: *mut c_void);
+    /// A custom scale: `forward` maps values onto a linear scale, `inverse`
+    /// back; called until the plot ends, as for the formatter.
+    pub fn mqemu_implot_setup_axis_scale_fn(axis: i32, forward: ImPlotTransform, inverse: ImPlotTransform, data: *mut c_void);
     /// Ticks at `count` `values`, or with `values` null evenly from `min` to
     /// `max`; `labels`/`label_lens` (`count` each, or null) name them.
     pub fn mqemu_implot_setup_axis_ticks(
@@ -260,6 +302,49 @@ function_table! {
     pub fn mqemu_implot_text(text: *const c_char, len: usize, x: f64, y: f64, dx: f32, dy: f32, flags: i32);
     pub fn mqemu_implot_dummy(label: *const c_char, label_len: usize, flags: i32);
 
+    // ----- items from getters -----
+    // `count` points from `getter(data, i, ...)`, called during the call only,
+    // as often as ImPlot needs and in any order.
+    pub fn mqemu_implot_line_g(label: *const c_char, label_len: usize, getter: mqemu_implot_getter, data: *mut c_void, count: i32, flags: i32);
+    pub fn mqemu_implot_scatter_g(label: *const c_char, label_len: usize, getter: mqemu_implot_getter, data: *mut c_void, count: i32, flags: i32);
+    pub fn mqemu_implot_stairs_g(label: *const c_char, label_len: usize, getter: mqemu_implot_getter, data: *mut c_void, count: i32, flags: i32);
+    /// The area between two getters' points.
+    pub fn mqemu_implot_shaded_g(
+        label: *const c_char,
+        label_len: usize,
+        getter1: mqemu_implot_getter,
+        data1: *mut c_void,
+        getter2: mqemu_implot_getter,
+        data2: *mut c_void,
+        count: i32,
+        flags: i32,
+    );
+    pub fn mqemu_implot_bars_g(
+        label: *const c_char,
+        label_len: usize,
+        getter: mqemu_implot_getter,
+        data: *mut c_void,
+        count: i32,
+        bar_size: f64,
+        flags: i32,
+    );
+    pub fn mqemu_implot_digital_g(label: *const c_char, label_len: usize, getter: mqemu_implot_getter, data: *mut c_void, count: i32, flags: i32);
+    /// [`mqemu_implot_pie_chart`] labeling slices with `formatter`, called during the call only.
+    pub fn mqemu_implot_pie_chart_fn(
+        labels: *const *const c_char,
+        label_lens: *const usize,
+        kind: i32,
+        values: *const c_void,
+        count: i32,
+        x: f64,
+        y: f64,
+        radius: f64,
+        formatter: ImPlotFormatter,
+        data: *mut c_void,
+        angle0: f64,
+        flags: i32,
+    );
+
     // ----- tools -----
     /// True while dragged; `state` (3 bools) gets clicked, hovered, held.
     pub fn mqemu_implot_drag_point(id: i32, x: *mut f64, y: *mut f64, col: *const f32, size: f32, flags: i32, state: *mut bool) -> bool;
@@ -369,6 +454,17 @@ function_table! {
         cmap: i32,
     ) -> bool;
     pub fn mqemu_implot_colormap_button(label: *const c_char, label_len: usize, w: f32, h: f32, cmap: i32) -> bool;
+
+    // ----- input mapping -----
+    // ImPlot has one input map, shared by MacroQuest and every plugin.
+    pub fn mqemu_implot_input_map(out: *mut mqemu_plot_input_map);
+    /// ImPlot's default map, or with `reverse` its alternative, without applying it.
+    pub fn mqemu_implot_input_map_preset(reverse: bool, out: *mut mqemu_plot_input_map);
+    /// Buttons must be `ImGuiMouseButton_` values (0 to 4) and modifiers only
+    /// `ImGuiMod_` bits, or nothing changes (an ImGui error).
+    pub fn mqemu_implot_set_input_map(map: *const mqemu_plot_input_map);
+    /// ImPlot's combo box choosing the default or reversed map; true when changed.
+    pub fn mqemu_implot_input_map_selector(label: *const c_char, label_len: usize) -> bool;
 }
 
 macro_rules! implot_constants {

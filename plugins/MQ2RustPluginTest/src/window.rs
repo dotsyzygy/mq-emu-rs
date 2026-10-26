@@ -8,7 +8,9 @@
 
 use std::time::Instant;
 
-use mq_emu::imgui::{Cond, PlotOptions, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags};
+use mq_emu::imgui::{
+    Cond, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags,
+};
 use mq_emu::{GameState, Mq, SpawnType};
 
 use crate::checks::{Counts, Outcome};
@@ -55,6 +57,7 @@ struct Sampler {
     color: [f32; 4],
     clicks: u32,
     selected: Option<usize>,
+    many: Selection,
 }
 
 impl Default for Sampler {
@@ -71,6 +74,7 @@ impl Default for Sampler {
             color: [0.4, 0.7, 1.0, 1.0],
             clicks: 0,
             selected: None,
+            many: Selection::new(),
         }
     }
 }
@@ -486,6 +490,17 @@ impl RustTest {
                 s.selected = Some(index);
             }
         }
+        ui.text_disabled("Multi-select: ctrl+click, shift+click, ctrl+A, or drag a box from the space beside them");
+        const KINDS: [&str; 6] = ["Bats", "Gnolls", "Orcs", "Skeletons", "Spiders", "Wolves"];
+        let flags = MultiSelectFlags::BOX_SELECT_1D | MultiSelectFlags::CLEAR_ON_ESCAPE | MultiSelectFlags::SCOPE_RECT;
+        ui.multi_select(flags, &mut s.many, KINDS.len(), |list, selection| {
+            for (index, kind) in KINDS.iter().enumerate() {
+                list.set_next_item_index(index);
+                list.selectable_with(kind, selection.contains(index), mq_emu::imgui::SelectableFlags::NONE, [160.0, 0.0]);
+            }
+        });
+        let picked: Vec<&str> = s.many.iter().map(|i| KINDS[i]).collect();
+        ui.text(format!("= {}", if picked.is_empty() { "none".to_owned() } else { picked.join(", ") }));
         ui.group(|ui| {
             ui.text("A group,");
             ui.text("hover it");

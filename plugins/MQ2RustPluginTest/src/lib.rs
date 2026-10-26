@@ -425,9 +425,11 @@ async fn imgui(task: &Task<RustTest>, report: &mut Report) {
 /// Frames the graphics exercise draws.
 const EXERCISE_FRAMES: u32 = 10;
 
-/// Draws every graphics feature (ImPlot, draw lists, textures, the game's
-/// icons, fonts, drag and drop, docking) in a window for a few frames, then
-/// checks nothing went wrong and that the game's resources were there.
+/// Draws every graphics feature (ImPlot and its closures, draw lists,
+/// textures, the game's icons, fonts, drag and drop, docking and the dock
+/// builder, multi-select, spell gems and EQ text) in a window for a few
+/// frames, then checks nothing went wrong and that the game's resources were
+/// there.
 async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
     let errors_before = task.with_plugin(|plugin, mq| {
         plugin.graphics.exercise = Some(graphics::Exercise::new(EXERCISE_FRAMES));
@@ -444,7 +446,7 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         (exercise, mq.stats().imgui_errors - errors_before, mq.game_state() == mq_emu::GameState::InGame)
     });
     task.with(|mq| {
-        let label = "ImPlot, draw lists, images, fonts and drag and drop draw without ImGui errors";
+        let label = "ImPlot, draw lists, images, fonts, drag and drop, multi-select and EQ widgets draw without ImGui errors";
         if !done {
             report.print(mq, label, Check::Skip(format!("only {} ImGui frames arrived (is the overlay hidden?)", exercise.frames_drawn)));
             return;
@@ -476,6 +478,21 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
             _ => Check::Pass,
         };
         report.print(mq, "EverQuest's fonts are available in ImGui", eq_fonts);
+        let docked = match exercise.docked {
+            None => Check::Skip("docking is off in MacroQuest's overlay settings".into()),
+            Some(docked) => Check::that(docked, || "the window wasn't in the dock space the builder made".into()),
+        };
+        report.print(mq, "the dock builder docks a window where it says", docked);
+        let closures = exercise.getter_points > 0 && exercise.formatted && exercise.scaled;
+        report.print(mq, "ImPlot calls item closures, axis formatters and custom scales", Check::that(closures, || {
+            format!("{} points asked for; formatted: {}; scaled: {}", exercise.getter_points, exercise.formatted, exercise.scaled)
+        }));
+        let gems = match exercise.spell_gems {
+            _ if !in_game => Check::Skip("needs you in game".into()),
+            0 => Check::Fail("the game's spell gem window has no gems".into()),
+            _ => Check::Pass,
+        };
+        report.print(mq, "spell gems draw as the game draws them", gems);
     });
 }
 

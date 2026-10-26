@@ -55,6 +55,41 @@ pub struct ImFont {
 /// ImGui's `ImGuiID`.
 pub type ImGuiID = u32;
 
+/// ImGui's `ImGuiMultiSelectIO`: a multi-select scope's requests, read with
+/// [`mqemu_imgui_multi_select_io`].
+#[repr(C)]
+pub struct ImGuiMultiSelectIO {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// ImGui's `ImGuiSelectionUserData_Invalid`: no item.
+pub const ImGuiSelectionUserData_Invalid: i64 = -1;
+
+/// A dock node, as [`mqemu_imgui_dock_node`] describes it.
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct mqemu_dock_node_info {
+    /// 0 for a root node.
+    pub parent: ImGuiID,
+    /// Both 0 unless it's split.
+    pub children: [ImGuiID; 2],
+    /// The central node of its tree (the part a dock space keeps for itself), or 0.
+    pub central: ImGuiID,
+    pub x: f32,
+    pub y: f32,
+    pub w: f32,
+    pub h: f32,
+    /// Its own and inherited `ImGuiDockNodeFlags_`.
+    pub flags: i32,
+    /// Windows docked in it.
+    pub windows: i32,
+    pub dock_space: bool,
+    pub central_node: bool,
+    pub floating: bool,
+    pub visible: bool,
+}
+
 /// Grows a text buffer for [`mqemu_imgui_input_text`] to hold at least `size`
 /// bytes (including the NUL) and returns it, possibly moved, with its capacity
 /// in `*capacity`. Null leaves the buffer as it was.
@@ -484,6 +519,71 @@ function_table! {
     pub fn mqemu_imgui_window_dock_id() -> ImGuiID;
     pub fn mqemu_imgui_is_window_docked() -> bool;
 
+    // ----- docking: the dock builder -----
+    // ImGui's internal DockBuilder* functions. Node 0 (ImGui's "every node")
+    // is an ImGui error here, as is changing a node tree from inside a window
+    // docked in it (ImGui would free nodes the window uses).
+    /// A new node replacing any node `id` (0 picks an ID), or with
+    /// `dock_space` a dock space node (`id` not 0). `flags` must not include
+    /// `DockSpace` or `CentralNode`. Its ID; 0 for a dock space with docking off.
+    pub fn mqemu_imgui_dock_builder_add_node(id: ImGuiID, flags: i32, dock_space: bool) -> ImGuiID;
+    /// Removes the node and the nodes in it, undocking their windows.
+    pub fn mqemu_imgui_dock_builder_remove_node(id: ImGuiID);
+    /// Removes the nodes split from root node `id`, moving their windows into it.
+    pub fn mqemu_imgui_dock_builder_remove_node_child_nodes(id: ImGuiID);
+    pub fn mqemu_imgui_dock_builder_remove_node_docked_windows(id: ImGuiID, clear_settings_refs: bool);
+    pub fn mqemu_imgui_dock_builder_set_node_pos(id: ImGuiID, x: f32, y: f32);
+    /// Both sizes > 0. Set it before splitting a new node.
+    pub fn mqemu_imgui_dock_builder_set_node_size(id: ImGuiID, w: f32, h: f32);
+    /// Splits leaf node `id`: `ratio` of it towards `dir` (an `ImGuiDir_`, not
+    /// None). Writes both new IDs; returns the one towards `dir`, 0 on an error.
+    pub fn mqemu_imgui_dock_builder_split_node(id: ImGuiID, dir: i32, ratio: f32, at_dir: *mut ImGuiID, opposite: *mut ImGuiID) -> ImGuiID;
+    /// From its next `Begin`; `id` 0 undocks it.
+    pub fn mqemu_imgui_dock_builder_dock_window(name: *const c_char, name_len: usize, id: ImGuiID);
+    pub fn mqemu_imgui_dock_builder_copy_window_settings(src: *const c_char, src_len: usize, dst: *const c_char, dst_len: usize);
+    /// Replaces `dst` with a copy of `src`. Writes up to `cap` (source, copy)
+    /// pairs to `pairs` (2 IDs each); returns how many there are, -1 on an error.
+    pub fn mqemu_imgui_dock_builder_copy_node(src: ImGuiID, dst: ImGuiID, pairs: *mut ImGuiID, cap: i32) -> i32;
+    /// `windows`/`window_lens`: `pair_count` (source, destination) window title pairs, 2 strings each.
+    pub fn mqemu_imgui_dock_builder_copy_dock_space(src: ImGuiID, dst: ImGuiID, windows: *const *const c_char, window_lens: *const usize, pair_count: i32);
+    pub fn mqemu_imgui_dock_builder_finish(id: ImGuiID);
+    /// False if there's no node `id`.
+    pub fn mqemu_imgui_dock_node(id: ImGuiID, out: *mut mqemu_dock_node_info) -> bool;
+    /// The title of window `index` docked in node `id` (NUL-terminated, truncated to `cap`).
+    pub fn mqemu_imgui_dock_node_window(id: ImGuiID, index: i32, out: *mut c_char, cap: usize) -> bool;
+
+    // ----- multi-select -----
+    /// Always end it, unless this returns null (an error). The IO holds the
+    /// requests to apply now; read it before anything else begins a scope.
+    /// -1 for an unknown selection size or item count.
+    pub fn mqemu_imgui_begin_multi_select(flags: i32, selection_size: i32, items_count: i32) -> *mut ImGuiMultiSelectIO;
+    /// The requests to apply afterwards (null on an error), valid until a scope next begins.
+    pub fn mqemu_imgui_end_multi_select() -> *mut ImGuiMultiSelectIO;
+    /// The IO's fields (items [`ImGuiSelectionUserData_Invalid`] for none); returns its request count.
+    pub fn mqemu_imgui_multi_select_io(
+        io: *const ImGuiMultiSelectIO,
+        range_src_item: *mut i64,
+        nav_id_item: *mut i64,
+        nav_id_selected: *mut bool,
+        items_count: *mut i32,
+    ) -> i32;
+    /// Request `index` (below the count): an `ImGuiSelectionRequestType_`,
+    /// and for `SetRange` its inclusive range and direction.
+    pub fn mqemu_imgui_multi_select_request(
+        io: *const ImGuiMultiSelectIO,
+        index: i32,
+        r#type: *mut i32,
+        selected: *mut bool,
+        direction: *mut i32,
+        first: *mut i64,
+        last: *mut i64,
+    );
+    /// In the current scope (an ImGui error outside one).
+    pub fn mqemu_imgui_multi_select_reset_range_src();
+    pub fn mqemu_imgui_set_next_item_selection_user_data(data: i64);
+    /// Only in a scope (an ImGui error outside one).
+    pub fn mqemu_imgui_is_item_toggled_selection() -> bool;
+
     // ----- frame info -----
     pub fn mqemu_imgui_frame_count() -> i32;
     /// Seconds since ImGui started.
@@ -535,22 +635,34 @@ pub mod testing {
         pub fn mqemu_imgui_test_texture() -> *mut core::ffi::c_void;
         /// The size of the payload being dragged, or -1.
         pub fn mqemu_imgui_test_payload_size() -> i32;
+        /// Turns docking on or off, as MacroQuest's overlay setting does.
+        pub fn mqemu_imgui_test_set_docking(enabled: bool);
+        /// Holds ctrl and shift (or not), from the next frame.
+        pub fn mqemu_imgui_test_modifiers(ctrl: bool, shift: bool);
+        /// Presses or releases the key for `letter` (b'A' to b'Z'), from the next frame.
+        pub fn mqemu_imgui_test_letter_key(letter: c_char, down: bool);
+        /// ImPlot's own `EndPlot`, which keeps the plot's formatters and transforms.
+        pub fn mqemu_implot_test_end_plot_raw();
+        /// Whether `axis` of the plot titled `title` (NUL-terminated, in the
+        /// current window) still has a formatter or a transform.
+        pub fn mqemu_implot_test_axis_callbacks(title: *const c_char, axis: i32, formatter: *mut bool, transform: *mut bool);
     }
 }
 
 macro_rules! imgui_constants {
-    ($($name:ident = $value:expr,)*) => {
+    ($list:ident, $header:literal; $($name:ident = $value:expr,)*) => {
         $( pub const $name: i32 = $value; )*
 
-        /// Every constant above with its name, for checking against `imgui.h`.
+        #[doc = concat!("Every constant in this group with its name, for checking against `", $header, "`.")]
         #[doc(hidden)]
-        pub const ALL_CONSTANTS: &[(&str, i32)] = &[$( (stringify!($name), $name) ),*];
+        pub const $list: &[(&str, i32)] = &[$( (stringify!($name), $name) ),*];
     };
 }
 
 // Values from MacroQuest's contrib/imgui/imgui.h (1.92.5), without obsolete
 // and deprecated names. tests/imgui_constants.rs checks them against it.
 imgui_constants! {
+    ALL_CONSTANTS, "imgui.h";
     // ImGuiWindowFlags
     ImGuiWindowFlags_None = 0,
     ImGuiWindowFlags_NoTitleBar = 1 << 0,
@@ -960,6 +1072,45 @@ imgui_constants! {
     ImGuiDockNodeFlags_AutoHideTabBar = 1 << 6,
     ImGuiDockNodeFlags_NoUndocking = 1 << 7,
 
+    // ImGuiDir
+    ImGuiDir_None = -1,
+    ImGuiDir_Left = 0,
+    ImGuiDir_Right = 1,
+    ImGuiDir_Up = 2,
+    ImGuiDir_Down = 3,
+
+    // ImGuiMultiSelectFlags
+    ImGuiMultiSelectFlags_None = 0,
+    ImGuiMultiSelectFlags_SingleSelect = 1 << 0,
+    ImGuiMultiSelectFlags_NoSelectAll = 1 << 1,
+    ImGuiMultiSelectFlags_NoRangeSelect = 1 << 2,
+    ImGuiMultiSelectFlags_NoAutoSelect = 1 << 3,
+    ImGuiMultiSelectFlags_NoAutoClear = 1 << 4,
+    ImGuiMultiSelectFlags_NoAutoClearOnReselect = 1 << 5,
+    ImGuiMultiSelectFlags_BoxSelect1d = 1 << 6,
+    ImGuiMultiSelectFlags_BoxSelect2d = 1 << 7,
+    ImGuiMultiSelectFlags_BoxSelectNoScroll = 1 << 8,
+    ImGuiMultiSelectFlags_ClearOnEscape = 1 << 9,
+    ImGuiMultiSelectFlags_ClearOnClickVoid = 1 << 10,
+    ImGuiMultiSelectFlags_ScopeWindow = 1 << 11,
+    ImGuiMultiSelectFlags_ScopeRect = 1 << 12,
+    ImGuiMultiSelectFlags_SelectOnClick = 1 << 13,
+    ImGuiMultiSelectFlags_SelectOnClickRelease = 1 << 14,
+    ImGuiMultiSelectFlags_NavWrapX = 1 << 16,
+    ImGuiMultiSelectFlags_NoSelectOnRightClick = 1 << 17,
+
+    // ImGuiSelectionRequestType
+    ImGuiSelectionRequestType_None = 0,
+    ImGuiSelectionRequestType_SetAll = 1,
+    ImGuiSelectionRequestType_SetRange = 2,
+
+    // ImGuiMod (the modifier keys of ImGuiKey)
+    ImGuiMod_None = 0,
+    ImGuiMod_Ctrl = 1 << 12,
+    ImGuiMod_Shift = 1 << 13,
+    ImGuiMod_Alt = 1 << 14,
+    ImGuiMod_Super = 1 << 15,
+
     // ImDrawFlags
     ImDrawFlags_None = 0,
     ImDrawFlags_Closed = 1 << 0,
@@ -1000,4 +1151,24 @@ imgui_constants! {
     ImGuiColorEditFlags_PickerHueWheel = 1 << 26,
     ImGuiColorEditFlags_InputRGB = 1 << 27,
     ImGuiColorEditFlags_InputHSV = 1 << 28,
+}
+
+// ImGui's internal dock node flags, from imgui_internal.h
+// (`ImGuiDockNodeFlagsPrivate_`), for nodes made with the dock builder.
+imgui_constants! {
+    INTERNAL_CONSTANTS, "imgui_internal.h";
+    ImGuiDockNodeFlags_DockSpace = 1 << 10,
+    ImGuiDockNodeFlags_CentralNode = 1 << 11,
+    ImGuiDockNodeFlags_NoTabBar = 1 << 12,
+    ImGuiDockNodeFlags_HiddenTabBar = 1 << 13,
+    ImGuiDockNodeFlags_NoWindowMenuButton = 1 << 14,
+    ImGuiDockNodeFlags_NoCloseButton = 1 << 15,
+    ImGuiDockNodeFlags_NoResizeX = 1 << 16,
+    ImGuiDockNodeFlags_NoResizeY = 1 << 17,
+    ImGuiDockNodeFlags_DockedWindowsInFocusRoute = 1 << 18,
+    ImGuiDockNodeFlags_NoDockingSplitOther = 1 << 19,
+    ImGuiDockNodeFlags_NoDockingOverMe = 1 << 20,
+    ImGuiDockNodeFlags_NoDockingOverOther = 1 << 21,
+    ImGuiDockNodeFlags_NoDockingOverEmpty = 1 << 22,
+    ImGuiDockNodeFlags_NoDocking = 0x780010,
 }

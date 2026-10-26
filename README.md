@@ -93,12 +93,27 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Drag and drop between items and plots, carrying bytes of a named kind
 - Fonts: MacroQuest's default, console and large fonts, EverQuest's fonts, font files a plugin
   loads (removed when it unloads), and any size
-- Docking: dock spaces (in a window or over the screen) and docking windows into them
+- Docking: dock spaces (in a window or over the screen) and docking windows into them; layouts
+  built in code with ImGui's dock builder (`Ui::dock_builder`: dock space and floating nodes,
+  splits, docking windows, copying nodes and dock spaces, ImGui's internal node flags) and read back
+  (`Ui::dock_node`). Node 0, which ImGui takes as every node, and rebuilding nodes from inside a
+  window docked in them are refused rather than undoing everyone's docking or crashing
+- Multi-select (`Ui::multi_select`): lists whose items are selected with ctrl+click, shift+click,
+  ctrl+A, the keyboard or a dragged box, into a `Selection` or a selection kept elsewhere
 - ImPlot (`Ui::plot`, `Ui::subplots`): line, scatter, stairs, shaded, bar, bar group, error bar,
   stem, infinite line, pie, heatmap, histogram (1D and 2D), digital, image, text and dummy items
   over every numeric type; axis setup (labels, limits, formats, ticks, scales, constraints),
   legends, drag points/lines/rectangles, annotations, tags, queries, legend popups, drawing in the
   plot, plot styles and colormaps. Setup after plotting panics before ImPlot sees it
+- ImPlot's callback forms: items whose points come from a closure (`Plot::line_fn` and the
+  like), axis tick formatters and custom scales from closures (`Plot::setup_axis_format_fn`,
+  `Plot::setup_axis_scale_fn`, which may borrow from outside the plot but not from inside it, and
+  which ImPlot forgets when the plot ends), and pie chart labels. A panic in one is caught where
+  ImPlot called it and resumed once the item or plot is done. ImPlot's input map (which buttons pan,
+  select, fit and open menus), for this plugin's plots or everyone's
+- MacroQuest's EQ-styled widgets: spell gems as the game draws them (`Ui::spell_gem`, optionally
+  casting, forgetting or picking up the spell when clicked, and on draw lists), item link text
+  (`Ui::item_link_text`) and text laid out in EverQuest's fonts (`DrawList::add_eq_text`)
 - Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
 - Generated raw layouts for spawns, your character and profile, the spawn list, items, spells,
   groups, zones, key state, ground items and client state (via `sys`)
@@ -110,9 +125,10 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   reads)
 - Acting on items and spells: casting, clicking items, moving items (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
-- ImGui beyond the bound set: ImGui's internal docking builder (`DockBuilder*`), multi-select,
-  ImPlot's callback forms (custom getters, formatters and axis transforms) and input mapping,
-  MacroQuest's EQ-styled widgets (spell gems, item link text) (reachable as raw `ImGui::*` C++ only)
+- ImGui beyond the bound set: the list clipper (`ImGuiListClipper`), the rest of ImGui's internal
+  API (`imgui_internal.h`), MacroQuest's other EQ UI drawing (`DrawUITexture`, `DrawTexturePiece`,
+  `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory editors) (reachable as raw
+  `ImGui::*` C++ only)
 - MacroQuest events (`#Event`-style chat matching) and key binds
 - EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
 - Settings helpers for reading and writing plugin INI files
@@ -149,7 +165,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
-| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand, and tabs for ImPlot, draw lists, images and icons (with drag and drop), fonts and docking |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items), and
@@ -162,8 +178,10 @@ exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also
 - **Opens the debug window**, to check it draws without ImGui errors, and leaves it open with the
   results.
 - **Flashes a graphics window** for a few frames, drawing every ImPlot item, draw list feature,
-  font, image and drag and drop, with a yellow outline around the screen; it writes a small BMP to
-  the temp directory to load as a texture.
+  font, image and drag and drop, a multi-select list, plots from closures, your spell gems and EQ
+  text, with a yellow outline around the screen; it writes a small BMP to the temp directory to load
+  as a texture. With docking on, it lays out a small dock space with the dock builder (which ImGui
+  keeps in MacroQuest's ImGui ini, like any dock space).
 - **Messages:** sends to itself through the launcher.
 - **Lua:** when `/lua run rustpeer` is running, exchanges every Lua value type with that script, both
   ways.
@@ -262,7 +280,8 @@ config and only explicitly passed settings, to check what a downstream user will
   too often) are caught instead of crossing into Rust. A window left open makes the frame fail, as
   it would pause ImGui in game.
 - **`tests/imgui_constants.rs`**: every ImGui and ImPlot flag and enum value matches MacroQuest's
-  `imgui.h` and `implot.h`, and every public name of the bound enums is bound.
+  `imgui.h`, `imgui_internal.h` (the dock builder's node flags) and `implot.h`, and MacroQuest's
+  spell gem and EQ text flags their headers; every public name of the bound enums is bound.
 - **`tests/consumer.rs`**: builds mq-emu-sys as an outside crate would, checking each requirement
   (`MQ_ROOT`, 32-bit target, static C runtime, docs.rs) gives a clear error when missing.
 - **`mq-emu` runtime tests**: dispatch, re-entrant events queued and delivered in order, the feedback
@@ -280,7 +299,17 @@ config and only explicitly passed settings, to check what a downstream user will
   textures and EQ fonts run against stand-ins for MacroQuest's functions: dropped textures are
   freed only once the next frame starts, and icons stop drawing once the UI unloads. Each guard
   has a negative test showing what ImGui or ImPlot does without it (`End()` throwing after
-  `SetCursorScreenPos`, popping ImGui's own clip rectangle, a wrong-kind style variable).
+  `SetCursorScreenPos`, popping ImGui's own clip rectangle, a wrong-kind style variable, ImPlot
+  keeping a freed formatter after its plot). Dock builder layouts dock windows where they say,
+  copies keep their shape, and the shim refuses node 0, changes from inside a docked window,
+  splitting a split node and copying a node over its own source (a layout built first survives).
+  Multi-select: simulated clicks, shift and ctrl clicks, ctrl+A and a dragged box reach a
+  `Selection`, which applies requests as ImGui's own storage does. ImPlot's closures: every point
+  asked for and none past the count, formatters and custom scales take effect and are forgotten
+  when the plot ends, panics in them resume afterwards, and a doctest shows a formatter borrowing
+  from inside the plot doesn't compile. The input map changes for a scope and is restored, and
+  maps ImGui would index out of bounds with are refused. Spell gems, item links and EQ text reach
+  MacroQuest's stand-ins, and gems past the game's last aren't asked for.
 - **`mq-emu` `tests/plugin_exports.rs`**: a DLL built with `plugin!` exports everything the loader
   needs, carries the right `EverQuestVersion` bytes, doesn't need the Visual C++ redistributable, and
   imports `imgui.dll`.

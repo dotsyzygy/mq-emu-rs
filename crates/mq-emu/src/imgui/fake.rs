@@ -18,6 +18,13 @@ pub(crate) struct Log {
     pub animations_freed: usize,
     /// `(cell, w, h, tint, border, on a draw list)` per animation drawn.
     pub animations_drawn: Vec<(i32, i32, i32, u32, u32, bool)>,
+    /// `(gem, flags, at)` per spell gem drawn: flags -1 and the position for
+    /// one on a draw list.
+    pub spell_gems: Vec<(i32, i32, Option<[i32; 2]>)>,
+    /// `(text, color, hovered color)` per item link.
+    pub item_links: Vec<(String, u32, u32)>,
+    /// `(font style, text, rectangle, color, flags)` per EQ text drawn.
+    pub eq_texts: Vec<(i32, String, [i32; 4], u32, i32)>,
 }
 
 thread_local! {
@@ -119,6 +126,39 @@ unsafe extern "C" fn eq_font(_: i32) -> *mut ImFont {
     std::ptr::null_mut()
 }
 
+fn text(text: *const c_char, len: usize) -> String {
+    String::from_utf8_lossy(unsafe { std::slice::from_raw_parts(text.cast(), len) }).into_owned()
+}
+
+unsafe extern "C" fn eq_text(_: *mut ImDrawList, style: i32, t: *const c_char, len: usize, x0: i32, y0: i32, x1: i32, y1: i32, col: u32, flags: i32) {
+    let entry = (style, text(t, len), [x0, y0, x1, y1], col, flags);
+    LOG.with(|l| l.borrow_mut().eq_texts.push(entry));
+}
+
+/// Gems the fake has: the first 8 (a level 1 character's).
+pub(crate) const FAKE_GEMS: i32 = 8;
+
+unsafe extern "C" fn spell_gem(_: *const c_char, _: usize, gem: i32, flags: i32, drawn: *mut bool) -> bool {
+    unsafe { *drawn = gem < FAKE_GEMS };
+    if gem < FAKE_GEMS {
+        LOG.with(|l| l.borrow_mut().spell_gems.push((gem, flags, None)));
+    }
+    false
+}
+
+unsafe extern "C" fn draw_spell_gem(_: *mut ImDrawList, gem: i32, x: i32, y: i32, _: bool) -> bool {
+    if gem < FAKE_GEMS {
+        LOG.with(|l| l.borrow_mut().spell_gems.push((gem, -1, Some([x, y]))));
+    }
+    gem < FAKE_GEMS
+}
+
+unsafe extern "C" fn item_link_text(t: *const c_char, len: usize, col: u32, hovered: u32) -> bool {
+    let entry = (text(t, len), col, hovered);
+    LOG.with(|l| l.borrow_mut().item_links.push(entry));
+    false
+}
+
 pub(crate) const FAKE_MQ: Api = Api {
     mqemu_texture_create: texture_create,
     mqemu_texture_destroy: texture_destroy,
@@ -132,6 +172,10 @@ pub(crate) const FAKE_MQ: Api = Api {
     mqemu_imgui_texture_animation: draw_animation,
     mqemu_imgui_draw_texture_animation: draw_list_animation,
     mqemu_imgui_eq_font: eq_font,
+    mqemu_imgui_draw_eq_text: eq_text,
+    mqemu_imgui_spell_gem: spell_gem,
+    mqemu_imgui_draw_spell_gem: draw_spell_gem,
+    mqemu_imgui_item_link_text: item_link_text,
 };
 
 /// Real ImGui and ImPlot (imgui.dll), fake MacroQuest.

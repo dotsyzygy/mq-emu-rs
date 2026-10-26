@@ -1,13 +1,15 @@
 //! Checks mq-emu-sys's ImGui and ImPlot constants against MacroQuest's
-//! `imgui.h` and `implot.h`: every value matches, and every public name of the
-//! bound enums is bound.
+//! `imgui.h`, `imgui_internal.h` and `implot.h` (and MacroQuest's own ImGui
+//! widget flags): every value matches, and every public name of the bound
+//! enums is bound.
 
 use std::collections::BTreeMap;
 use std::path::PathBuf;
 
 use mq_emu_sys::imgui::ALL_CONSTANTS;
 
-/// The enums mq-emu-sys binds, by name prefix.
+/// The enums mq-emu-sys binds, by name prefix; `Enum:Prefix_` for the names
+/// with that prefix in `enum Enum`.
 const ENUMS: &[&str] = &[
     "ImGuiWindowFlags_",
     "ImGuiChildFlags_",
@@ -32,7 +34,14 @@ const ENUMS: &[&str] = &[
     "ImGuiDragDropFlags_",
     "ImGuiDockNodeFlags_",
     "ImDrawFlags_",
+    "ImGuiDir_",
+    "ImGuiMultiSelectFlags_",
+    "ImGuiSelectionRequestType_",
+    "ImGuiKey:ImGuiMod_",
 ];
+
+/// The `imgui_internal.h` enums mq-emu-sys binds.
+const INTERNAL_ENUMS: &[&str] = &["ImGuiDockNodeFlagsPrivate_:ImGuiDockNodeFlags_"];
 
 /// The ImPlot enums mq-emu-sys binds.
 const IMPLOT_ENUMS: &[&str] = &[
@@ -80,6 +89,10 @@ fn header() -> String {
     read("contrib/imgui/imgui.h")
 }
 
+fn internal_header() -> String {
+    read("contrib/imgui/imgui_internal.h")
+}
+
 fn implot_header() -> String {
     read("src/imgui/implot/implot.h")
 }
@@ -104,14 +117,17 @@ fn strip(header: &str) -> String {
 }
 
 /// Evaluates an enum value as written in imgui.h and implot.h: numbers
-/// (possibly negative), `a << b`, earlier names, and `|` of those, possibly in
-/// parentheses.
+/// (possibly negative), `a << b`, `a - b`, earlier names, and `|` of those,
+/// possibly in parentheses.
 fn eval(expr: &str, known: &BTreeMap<String, i64>) -> Result<i64, String> {
     let expr = expr.trim().trim_start_matches('(').trim_end_matches(')');
     expr.split('|').try_fold(0, |acc, term| {
         let term = term.trim();
         let value = if let Some((a, b)) = term.split_once("<<") {
             eval_atom(a, known)? << eval_atom(b, known)?
+        } else if let Some((a, b)) = term.get(1..).and_then(|rest| rest.split_once('-')) {
+            // After the first character, so a leading minus stays a negative number.
+            eval_atom(&term[..1 + a.len()], known)? - eval_atom(b, known)?
         } else {
             eval_atom(term, known)?
         };
@@ -138,20 +154,43 @@ fn header_constants(header: &str) -> Vec<(String, i64)> {
     header_constants_of(header, ENUMS, &mut BTreeMap::new())
 }
 
+/// The body of `enum name` in `text` (between its braces), skipping forward
+/// declarations (`enum ImGuiDir : int;`) and longer names.
+fn enum_body<'t>(text: &'t str, name: &str) -> Option<&'t str> {
+    let declaration = format!("enum {name}");
+    text.match_indices(&declaration).find_map(|(start, _)| {
+        let rest = &text[start + declaration.len()..];
+        if rest.starts_with(|c: char| c.is_ascii_alphanumeric() || c == '_') {
+            return None;
+        }
+        let open = rest.find('{')?;
+        if rest.find(';').is_some_and(|semicolon| semicolon < open) {
+            return None;
+        }
+        Some(&rest[open + 1..open + rest[open..].find("};")?])
+    })
+}
+
 /// Every entry of `enums` in `header`. `known` holds the values of names seen
 /// so far (ImPlot's refer to ImGui's) and gets this header's.
 fn header_constants_of(header: &str, enums: &[&str], known: &mut BTreeMap<String, i64>) -> Vec<(String, i64)> {
     let text = strip(header);
     let mut found = Vec::new();
-    for prefix in enums {
-        let start = text.find(&format!("enum {prefix}")).or_else(|| text.find(&format!("enum {}", &prefix[..prefix.len() - 1])));
-        let start = start.unwrap_or_else(|| panic!("enum for {prefix} not found"));
-        let body = &text[start..];
-        let body = &body[body.find('{').expect("enum body") + 1..body.find("};").expect("enum end")];
+    for spec in enums {
+        let (body, prefix) = match spec.split_once(':') {
+            Some((name, prefix)) => (enum_body(&text, name), prefix),
+            None => (enum_body(&text, spec).or_else(|| enum_body(&text, &spec[..spec.len() - 1])), *spec),
+        };
+        let body = body.unwrap_or_else(|| panic!("enum for {spec} not found"));
         let mut next = 0;
         for entry in body.split(',').map(str::trim).filter(|e| !e.is_empty()) {
             let (name, value) = match entry.split_once('=') {
-                Some((name, expr)) => (name.trim(), eval(expr, known).unwrap_or_else(|e| panic!("{entry}: {e}"))),
+                Some((name, expr)) => match eval(expr, known) {
+                    Ok(value) => (name.trim(), value),
+                    // ImGui's private masks use forms this doesn't evaluate (`~0`, casts).
+                    Err(_) if name.trim().ends_with('_') => continue,
+                    Err(e) => panic!("{entry}: {e}"),
+                },
                 None => (entry, next),
             };
             next = value + 1;
@@ -210,6 +249,27 @@ fn implot_constants_match_the_header() {
 }
 
 #[test]
+fn internal_dock_node_flags_match_the_header() {
+    let mut known = BTreeMap::new();
+    header_constants_of(&header(), &["ImGuiDockNodeFlags_"], &mut known);
+    let header = header_constants_of(&internal_header(), INTERNAL_ENUMS, &mut known);
+    assert!(header.len() > 10, "parsed only {} constants", header.len());
+    let problems = mismatches(mq_emu_sys::imgui::INTERNAL_CONSTANTS, &header);
+    assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+}
+
+#[test]
+fn macroquest_widget_flags_match_their_headers() {
+    let widgets = header_constants_of(&read("include/mq/imgui/Widgets.h"), &["ImGuiSpellGemFlags_"], &mut BTreeMap::new());
+    let problems = mismatches(mq_emu_sys::imgui_mq::SPELL_GEM_CONSTANTS, &widgets);
+    assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+    let graphics = read("src/eqlib/include/eqlib/graphics/GraphicsEngine.h");
+    let text = header_constants_of(&graphics, &["DrawTextFlags:DrawText_"], &mut BTreeMap::new());
+    let problems = mismatches(mq_emu_sys::imgui_mq::DRAW_TEXT_CONSTANTS, &text);
+    assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+}
+
+#[test]
 fn a_wrong_implot_value_is_caught() {
     let mut known = BTreeMap::new();
     header_constants_of(&header(), &["ImGuiCond_"], &mut known);
@@ -231,6 +291,32 @@ fn a_wrong_value_a_stray_name_and_a_missing_name_are_all_caught() {
         "ImGuiCond_Sometimes: not in the header",
         "ImGuiCond_Once: in the header but not bound",
     ]);
+}
+
+#[test]
+fn the_parser_skips_forward_declarations_and_longer_names() {
+    let text = "enum ImGuiDir : int; enum ImGuiDirection { ImGuiDir_Wrong = 9 };\n\
+                enum ImGuiDir : int { ImGuiDir_None = -1, ImGuiDir_Left = 0, ImGuiDir_COUNT };";
+    let found = header_constants_of(text, &["ImGuiDir_"], &mut BTreeMap::new());
+    assert_eq!(found, [("ImGuiDir_None".to_owned(), -1), ("ImGuiDir_Left".to_owned(), 0)]);
+    assert_eq!(enum_body("enum ImGuiDir : int;", "ImGuiDir"), None);
+}
+
+#[test]
+fn the_parser_takes_a_prefix_within_an_enum_and_skips_masks_it_cannot_evaluate() {
+    let text = "enum ImGuiKey : int { ImGuiKey_None = 0, ImGuiKey_Begin = 512, ImGuiKey_Tab = 512, ImGuiKey_A, ImGuiKey_End,\n\
+                ImGuiKey_Count = ImGuiKey_End - ImGuiKey_Begin, ImGuiMod_None = 0, ImGuiMod_Ctrl = 1 << 12,\n\
+                ImGuiMod_All_ = ~0, ImGuiMod_Cast_ = (int)ImGuiMod_Ctrl };";
+    let mut known = BTreeMap::new();
+    let found = header_constants_of(text, &["ImGuiKey:ImGuiMod_"], &mut known);
+    assert_eq!(found, [("ImGuiMod_None".to_owned(), 0), ("ImGuiMod_Ctrl".to_owned(), 4096)]);
+    assert_eq!(known.get("ImGuiKey_Count"), Some(&2), "a - b");
+}
+
+#[test]
+#[should_panic(expected = "unknown name")]
+fn a_value_the_parser_cannot_evaluate_fails_unless_it_is_a_mask() {
+    header_constants_of("enum ImGuiCond_ { ImGuiCond_Bad = ~0 };", &["ImGuiCond_"], &mut BTreeMap::new());
 }
 
 #[test]

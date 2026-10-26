@@ -71,8 +71,17 @@
 //!   the last item.
 //! - Fonts: [`Ui::with_font`] with MacroQuest's, EverQuest's or a loaded
 //!   [`Font`]; [`Ui::with_font_size`] for size alone.
-//! - Docking: [`Ui::dock_space`] and [`Window::dock`].
-//! - ImPlot: [`Ui::plot`] and [`Ui::subplots`] (see [`Plot`]).
+//! - Docking: [`Ui::dock_space`] and [`Window::dock`], and layouts built in
+//!   code with [`Ui::dock_builder`].
+//! - Multi-select: [`Ui::multi_select`] lets the user select many items at
+//!   once (ctrl+click, shift+click, box select) into a [`Selection`].
+//! - ImPlot: [`Ui::plot`] and [`Ui::subplots`] (see [`Plot`]), with items
+//!   from closures ([`Plot::line_fn`]), axis formatters and custom scales
+//!   ([`Plot::setup_axis_format_fn`], [`Plot::setup_axis_scale_fn`]), and
+//!   which buttons do what ([`PlotInputMap`]).
+//! - The game's look: spell gems ([`Ui::spell_gem`]), item link text
+//!   ([`Ui::item_link_text`]) and text in EverQuest's fonts
+//!   ([`DrawList::add_eq_text`]).
 
 use std::ffi::{c_char, c_void};
 use std::marker::PhantomData;
@@ -154,6 +163,18 @@ pub enum MouseButton {
     Left = sys::ImGuiMouseButton_Left,
     Right = sys::ImGuiMouseButton_Right,
     Middle = sys::ImGuiMouseButton_Middle,
+    /// The first extra button (back, on most mice), which ImGui numbers 3.
+    Extra1 = 3,
+    /// The second extra button (forward), 4.
+    Extra2 = 4,
+}
+
+impl MouseButton {
+    /// The button ImGui numbers `index`.
+    pub fn from_index(index: i32) -> Option<MouseButton> {
+        use MouseButton::*;
+        [Left, Right, Middle, Extra1, Extra2].into_iter().find(|b| *b as i32 == index)
+    }
 }
 
 /// A dock space or dock node ([`Ui::dock_id`], [`Ui::dock_space`]).
@@ -198,20 +219,26 @@ macro_rules! flags {
 }
 
 mod dnd;
+mod dock;
 mod draw;
+mod eq;
 mod font;
 mod plot;
+mod select;
 mod texture;
 
 pub use dnd::{DragDropFlags, DragSource, DropTarget, MAX_PAYLOAD_KIND, Payload};
+pub use dock::{Dir, DockBuilder, DockNode};
 pub use draw::{Channels, Corners, DrawList, Path, Vec2, pack_color};
+pub use eq::{EqTextFlags, SpellGemFlags};
 pub use font::{Font, LoadedFont};
 pub use plot::{
     Axis, AxisFlags, BarGroupsFlags, BarsFlags, Bins, Colormap, ColormapScaleFlags, DigitalFlags, DragState, DragToolFlags, DummyFlags,
     ErrorBarsFlags, HeatmapFlags, HistogramFlags, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MouseTextFlags, PieChartFlags,
-    Plot, PlotBuilder, PlotFlags, PlotImageFlags, PlotRect, PlotStyleColor, PlotStyleVar, PlotValue, Scale, ScatterFlags, Series,
-    ShadedFlags, StairsFlags, StemsFlags, SubplotFlags, Subplots, SubplotsBuilder,
+    Plot, PlotBuilder, PlotFlags, PlotImageFlags, PlotInputMap, PlotRect, PlotStyleColor, PlotStyleVar, PlotValue, Scale, ScatterFlags,
+    Series, ShadedFlags, StairsFlags, StemsFlags, SubplotFlags, Subplots, SubplotsBuilder,
 };
+pub use select::{MultiSelect, MultiSelectFlags, MultiSelectIo, Selection, SelectionRequest};
 pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId};
 pub(crate) use font::remove_loaded_fonts;
 pub(crate) use texture::{free_retired_textures, ui_unloaded};
@@ -260,7 +287,9 @@ flags! {
 }
 
 flags! {
-    /// Options for [`Ui::dock_space`] (`ImGuiDockNodeFlags_`).
+    /// Options for [`Ui::dock_space`] and the [`DockBuilder`]'s nodes
+    /// (`ImGuiDockNodeFlags_`). The ones after [`DockNodeFlags::NO_UNDOCKING`]
+    /// are ImGui's internal flags, meant for nodes the dock builder makes.
     DockNodeFlags {
         /// Keep the dock space (and what's docked in it) without showing it.
         KEEP_ALIVE_ONLY = ImGuiDockNodeFlags_KeepAliveOnly,
@@ -271,6 +300,37 @@ flags! {
         NO_RESIZE = ImGuiDockNodeFlags_NoResize,
         AUTO_HIDE_TAB_BAR = ImGuiDockNodeFlags_AutoHideTabBar,
         NO_UNDOCKING = ImGuiDockNodeFlags_NoUndocking,
+        /// No tab bar, and no way to bring it back.
+        NO_TAB_BAR = ImGuiDockNodeFlags_NoTabBar,
+        /// The tab bar hidden, with a triangle in the corner to show it.
+        HIDDEN_TAB_BAR = ImGuiDockNodeFlags_HiddenTabBar,
+        NO_WINDOW_MENU_BUTTON = ImGuiDockNodeFlags_NoWindowMenuButton,
+        NO_CLOSE_BUTTON = ImGuiDockNodeFlags_NoCloseButton,
+        NO_RESIZE_X = ImGuiDockNodeFlags_NoResizeX,
+        NO_RESIZE_Y = ImGuiDockNodeFlags_NoResizeY,
+        /// Shortcuts of the docking window work while any window docked in it has focus.
+        DOCKED_WINDOWS_IN_FOCUS_ROUTE = ImGuiDockNodeFlags_DockedWindowsInFocusRoute,
+        /// The node can't split other windows or nodes.
+        NO_DOCKING_SPLIT_OTHER = ImGuiDockNodeFlags_NoDockingSplitOther,
+        /// Nothing can be docked over this node.
+        NO_DOCKING_OVER_ME = ImGuiDockNodeFlags_NoDockingOverMe,
+        /// The node can't be docked over another window or non-empty node.
+        NO_DOCKING_OVER_OTHER = ImGuiDockNodeFlags_NoDockingOverOther,
+        /// The node can't be docked over an empty node.
+        NO_DOCKING_OVER_EMPTY = ImGuiDockNodeFlags_NoDockingOverEmpty,
+        /// No docking or undocking in or out of this node at all.
+        NO_DOCKING = ImGuiDockNodeFlags_NoDocking,
+    }
+}
+
+flags! {
+    /// Modifier keys (`ImGuiMod_`), as [`PlotInputMap`] takes them.
+    KeyMods {
+        CTRL = ImGuiMod_Ctrl,
+        SHIFT = ImGuiMod_Shift,
+        ALT = ImGuiMod_Alt,
+        /// The Windows key.
+        SUPER = ImGuiMod_Super,
     }
 }
 

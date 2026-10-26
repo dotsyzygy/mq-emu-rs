@@ -1,14 +1,16 @@
 //! ImGui beyond widgets: ImPlot, draw lists, textures and the game's icons,
-//! drag and drop, fonts and docking. The debug window's graphics tabs, and the
-//! selftest's exercise window, which draws all of it for a few frames.
+//! drag and drop, fonts, docking and the dock builder, and MacroQuest's
+//! EQ-styled widgets. The debug window's graphics tabs, and the selftest's
+//! exercise window, which draws all of it for a few frames.
 
+use std::cell::Cell;
 use std::collections::VecDeque;
 use std::time::Instant;
 
 use mq_emu::imgui::{
-    Axis, AxisFlags, BarsFlags, Bins, Colormap, Cond, Corners, DockNodeFlags, DragDropFlags, DragToolFlags, Font, HeatmapFlags,
-    HistogramFlags, ImageOptions, InfLinesFlags, ITEM_ICONS, LegendFlags, LineFlags, Location, Marker, PieChartFlags, PlotFlags,
-    SPELL_ICONS, ScatterFlags, SubplotFlags, Texture, TextureAnimation, Ui, WindowFlags,
+    Axis, AxisFlags, BarsFlags, Bins, Colormap, Cond, Corners, Dir, DockNodeFlags, DragDropFlags, DragToolFlags, EqTextFlags, Font,
+    HeatmapFlags, HistogramFlags, ITEM_ICONS, ImageOptions, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MultiSelectFlags,
+    PieChartFlags, PlotFlags, SPELL_ICONS, ScatterFlags, Selection, SpellGemFlags, StairsFlags, SubplotFlags, Texture, TextureAnimation, Ui, WindowFlags,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -25,6 +27,13 @@ const ICON_PAYLOAD: &str = "RUSTTEST_ITEM";
 const HISTORY_SECONDS: f64 = 60.0;
 /// The test image's side, in pixels.
 const TEST_IMAGE_SIZE: usize = 16;
+/// The dock demo's windows.
+const DOCKED: &str = "Rust docked window";
+const DOCKED_2: &str = "Rust docked window 2";
+/// The window the exercise docks with the dock builder.
+const EXERCISE_DOCKED: &str = "Rust plugin test: docked by the dock builder";
+/// Spell gems the game's spell gem window has.
+const SPELL_GEMS: usize = mq_emu::sys::NUM_SPELL_GEMS;
 
 /// The graphics tabs' state, kept across frames.
 pub struct Graphics {
@@ -41,8 +50,16 @@ pub struct Graphics {
     crosshair: bool,
     hud: bool,
     dock_demo: bool,
-    /// What was last dropped on the drop box.
+    /// Lay the dock demo out with the dock builder next frame.
+    rebuild_dock: bool,
+    /// The plots tab's plots with ImPlot's other mouse buttons.
+    reverse_mouse: bool,
+    /// Let the images tab's spell gems cast and forget spells.
+    gems_act: bool,
+    /// What was last dropped on the drop box, or the item link last clicked.
     dropped: Option<String>,
+    /// The exercise's multi-select list.
+    exercise_selection: Selection,
     /// The selftest's exercise, while it runs.
     pub exercise: Option<Exercise>,
 }
@@ -61,7 +78,11 @@ impl Default for Graphics {
             crosshair: false,
             hud: false,
             dock_demo: false,
+            rebuild_dock: false,
+            reverse_mouse: false,
+            gems_act: false,
             dropped: None,
+            exercise_selection: Selection::new(),
             exercise: None,
         }
     }
@@ -84,6 +105,16 @@ pub struct Exercise {
     pub docking: bool,
     /// Whether the plot drew (it's skipped when the window is collapsed).
     pub plotted: bool,
+    /// Whether the dock builder's window ended up docked where it said (None
+    /// with docking off).
+    pub docked: Option<bool>,
+    /// Points ImPlot asked an item's closure for, and whether it called the
+    /// axis formatter and custom scale.
+    pub getter_points: usize,
+    pub formatted: bool,
+    pub scaled: bool,
+    /// Spell gems that drew (the game has a window for each).
+    pub spell_gems: usize,
 }
 
 impl Exercise {
@@ -166,16 +197,32 @@ impl RustTest {
         }
         if g.dock_demo {
             let id = ui.dock_id("rusttest dock space");
+            if std::mem::take(&mut g.rebuild_dock) {
+                // Before the dock space and its windows draw this frame.
+                ui.dock_builder(|dock| {
+                    let root = dock.add_dock_space(id, DockNodeFlags::NONE)?;
+                    dock.set_node_size(root, [420.0, 240.0]);
+                    let (left, right) = dock.split(root, Dir::Left, 0.4)?;
+                    dock.dock_window(DOCKED, left);
+                    dock.dock_window(DOCKED_2, right);
+                    Some(())
+                });
+            }
             let mut open = true;
             ui.window("Rust dock host").open(&mut open).size([420.0, 260.0], Cond::FirstUseEver).show(|ui| {
                 if ui.dock_space(id, [0.0, 0.0], DockNodeFlags::NONE).is_none() {
                     ui.text_wrapped("Docking is off in MacroQuest's overlay settings.");
                 }
             });
-            ui.window("Rust docked window").dock(id, Cond::FirstUseEver).show(|ui| {
-                ui.text(format!("Docked: {}", ui.is_window_docked()));
-                ui.text("Drag my tab out to undock me.");
-            });
+            for title in [DOCKED, DOCKED_2] {
+                ui.window(title).dock(id, Cond::FirstUseEver).show(|ui| {
+                    ui.text(format!("Docked: {}", ui.is_window_docked()));
+                    ui.text("Drag my tab out to undock me.");
+                    if let Some(node) = ui.window_dock_id().and_then(|node| ui.dock_node(node)) {
+                        ui.text_disabled(format!("Node {:08X}, {:.0}x{:.0}, {} window(s)", node.id.0, node.size[0], node.size[1], node.windows.len()));
+                    }
+                });
+            }
             g.dock_demo = open;
         }
         if g.exercise.as_ref().is_some_and(|e| e.frames_left > 0) {
@@ -195,12 +242,64 @@ impl RustTest {
         let eq_fonts: Vec<u8> = (0..10).filter(|&style| ui.has_font(Font::Eq(style))).collect();
         let docking = ui.is_docking_enabled();
         let mut plotted = false;
+        let dock_id = ui.dock_id("rusttest exercise dock space");
+        let first_frame = g.exercise.as_ref().is_some_and(|e| e.frames_drawn == 0);
+        if first_frame {
+            ui.dock_builder(|dock| {
+                let root = dock.add_dock_space(dock_id, DockNodeFlags::NO_TAB_BAR)?;
+                dock.set_node_size(root, [200.0, 60.0]);
+                dock.dock_window(EXERCISE_DOCKED, root);
+                Some(())
+            });
+        }
+        let (getter_points, formatted, scaled) = (Cell::new(0), Cell::new(false), Cell::new(false));
+        let mut spell_gems = 0;
+        let selection = &mut g.exercise_selection;
         ui.window("Rust plugin test: graphics selftest")
             .position([40.0, 40.0], Cond::Appearing)
             .size([520.0, 560.0], Cond::Appearing)
             .flags(WindowFlags::NO_SAVED_SETTINGS | WindowFlags::NO_FOCUS_ON_APPEARING)
             .show(|ui| {
                 ui.text("Drawing every graphics feature for a few frames...");
+                // First: ImPlot skips a plot scrolled out of view, and the rest is tall.
+                let xs: Vec<f64> = (0..50).map(|i| f64::from(i) * 0.2).collect();
+                let ys: Vec<f64> = xs.iter().map(|x| x.sin()).collect();
+                plotted = ui
+                    .plot("exercise plot")
+                    .size([-1.0, 180.0])
+                    .show(|plot| {
+                        plot.setup_axes(Some("x"), Some("sin x"));
+                        plot.setup_legend(Location::NorthEast, LegendFlags::NONE);
+                        plot.line("line", (&xs, &ys));
+                        plot.scatter("scatter", (&xs[..10], &ys[..10]));
+                        plot.bars("bars", &[0.2f32, 0.5, 0.3], 0.5);
+                        plot.shaded("shaded", (&xs, &ys), 0.0);
+                        plot.histogram("histogram", &ys, Bins::Count(8), 0.1, None, HistogramFlags::NONE);
+                        plot.pie_chart(&["a", "b"], &[1.0f32, 2.0], [8.0, 0.0], 0.5, Some("%.0f"), 90.0, PieChartFlags::NONE);
+                        plot.heatmap("heat", &[0.0f32, 0.5, 1.0, 0.25], 2, None, None, [[5.0, -1.0], [6.0, -0.5]], HeatmapFlags::NONE);
+                        plot.drag_line_x(1, &mut g.drag_x, YELLOW, 1.0, DragToolFlags::NONE);
+                        plot.tag_x(g.drag_x, YELLOW, None);
+                        plot.draw(|draw| draw.add_circle([0.0, 0.0], 4.0, [1.0; 4], 1.0));
+                    })
+                    .is_some();
+                ui.plot("exercise closures").size([-1.0, 160.0]).show(|plot| {
+                    plot.setup_axis_scale_fn(Axis::X1, |x| {
+                        scaled.set(true);
+                        x.max(0.0).sqrt()
+                    }, |x| x * x);
+                    plot.setup_axis_format_fn(Axis::Y1, |y| {
+                        formatted.set(true);
+                        format!("{:.0}%", y * 100.0)
+                    });
+                    plot.line_fn("from a closure", 50, |i| {
+                        getter_points.set(getter_points.get() + 1);
+                        let x = i as f64 * 0.5;
+                        [x, (x * 0.4).cos() * 0.5 + 0.5]
+                    }, LineFlags::NONE);
+                    plot.pie_chart_fn(&["a", "b"], &[1.0f64, 3.0], [20.0, 0.5], 0.3, |v| format!("{v} kills"), 90.0, PieChartFlags::NORMALIZE);
+                });
+                // In view too: a dock space out of view hides what's docked in it.
+                ui.dock_space(dock_id, [-1.0, 60.0], DockNodeFlags::NONE);
                 if let Some(id) = g.texture.as_ref().and_then(Option::as_ref).and_then(Texture::id) {
                     ui.image(id, [32.0, 32.0]);
                     ui.same_line();
@@ -233,27 +332,31 @@ impl RustTest {
                 });
                 ui.dummy([200.0, 28.0]);
                 ui.drag_drop_target(|drop| drop.accept(ICON_PAYLOAD).map(|p| p.data().len()));
-                let xs: Vec<f64> = (0..50).map(|i| f64::from(i) * 0.2).collect();
-                let ys: Vec<f64> = xs.iter().map(|x| x.sin()).collect();
-                plotted = ui
-                    .plot("exercise plot")
-                    .size([-1.0, 180.0])
-                    .show(|plot| {
-                        plot.setup_axes(Some("x"), Some("sin x"));
-                        plot.setup_legend(Location::NorthEast, LegendFlags::NONE);
-                        plot.line("line", (&xs, &ys));
-                        plot.scatter("scatter", (&xs[..10], &ys[..10]));
-                        plot.bars("bars", &[0.2f32, 0.5, 0.3], 0.5);
-                        plot.shaded("shaded", (&xs, &ys), 0.0);
-                        plot.histogram("histogram", &ys, Bins::Count(8), 0.1, None, HistogramFlags::NONE);
-                        plot.pie_chart(&["a", "b"], &[1.0f32, 2.0], [8.0, 0.0], 0.5, Some("%.0f"), 90.0, PieChartFlags::NONE);
-                        plot.heatmap("heat", &[0.0f32, 0.5, 1.0, 0.25], 2, None, None, [[5.0, -1.0], [6.0, -0.5]], HeatmapFlags::NONE);
-                        plot.drag_line_x(1, &mut g.drag_x, YELLOW, 1.0, DragToolFlags::NONE);
-                        plot.tag_x(g.drag_x, YELLOW, None);
-                        plot.draw(|draw| draw.add_circle([0.0, 0.0], 4.0, [1.0; 4], 1.0));
-                    })
-                    .is_some();
+                ui.multi_select(MultiSelectFlags::BOX_SELECT_1D | MultiSelectFlags::SCOPE_RECT, selection, 3, |list, selection| {
+                    for index in 0..3 {
+                        list.set_next_item_index(index);
+                        list.selectable(&format!("Selectable {index}"), selection.contains(index));
+                    }
+                });
+                if in_game {
+                    for gem in 0..SPELL_GEMS {
+                        if gem > 0 {
+                            ui.same_line();
+                        }
+                        spell_gems += usize::from(ui.with_id(gem, |ui| ui.spell_gem("exercise gem", gem, SpellGemFlags::NONE)).is_some());
+                    }
+                    ui.item_link_text("An item link", [0.3, 0.8, 1.0, 1.0], None);
+                    let [x, y] = ui.cursor_screen_pos();
+                    ui.draw_list().add_eq_text(2, "EQ font text", [x, y], [x + 200.0, y + 20.0], YELLOW, EqTextFlags::NO_WRAP);
+                    ui.dummy([200.0, 20.0]);
+                }
             });
+        let docked = docking.then(|| {
+            let inside = ui.window(EXERCISE_DOCKED).flags(WindowFlags::NO_SAVED_SETTINGS).show(|ui| ui.window_dock_id()).flatten();
+            // The node knows its windows even on a frame the window skips drawing.
+            let held = ui.dock_node(dock_id).is_some_and(|node| node.windows.iter().any(|w| w == EXERCISE_DOCKED));
+            inside == Some(dock_id) || held
+        });
         // Outlines the screen while the exercise runs, over and under every window.
         let ([sx, sy], [sw, sh]) = ui.screen_rect();
         ui.foreground_draw_list().add_rect([sx + 2.0, sy + 2.0], [sx + sw - 2.0, sy + sh - 2.0], YELLOW, 0.0, 2.0);
@@ -268,6 +371,12 @@ impl RustTest {
             exercise.eq_fonts = eq_fonts;
             exercise.docking = docking;
             exercise.plotted |= plotted;
+            // A docked window may skip a frame as it docks: any frame counts.
+            exercise.docked = docked.map(|now| now || exercise.docked == Some(true));
+            exercise.getter_points += getter_points.get();
+            exercise.formatted |= formatted.get();
+            exercise.scaled |= scaled.get();
+            exercise.spell_gems = exercise.spell_gems.max(spell_gems);
         }
     }
 
@@ -294,27 +403,42 @@ impl RustTest {
             .collect();
         let average = if gaps.is_empty() { 0.0 } else { gaps.iter().sum::<f64>() / gaps.len() as f64 };
         let g = &mut self.graphics;
+        ui.checkbox("Pan with the right button, select with the left (these plots only)", &mut g.reverse_mouse);
+        ui.same_line();
+        ui.plot_input_map_selector("Every plot");
+        ui.item_tooltip_text("ImPlot's map for every plot in the game, MacroQuest's and other plugins' too");
+        let map = if g.reverse_mouse { ui.reverse_plot_input_map() } else { ui.plot_input_map() };
+        ui.with_plot_input_map(&map, |ui| Self::plots(g, mq, ui, &gaps, average));
+    }
+
+    fn plots(g: &mut Graphics, mq: &Mq<Self>, ui: &mut Ui, gaps: &[f64], average: f64) {
         ui.subplots("##timing and vitals", 1, 2).size([-1.0, 220.0]).flags(SubplotFlags::NO_RESIZE).show(|grid| {
             grid.plot("Pulse gaps", PlotFlags::NONE, |plot| {
                 plot.setup_axes(Some("pulse"), Some("ms"));
                 plot.setup_axis_limits(Axis::Y1, 0.0..=60.0, Cond::Once);
                 plot.setup_axis_format(Axis::Y1, "%.0f ms");
                 plot.next_fill_style(None, Some(0.25));
-                plot.line_with("gap", &gaps, LineFlags::SHADED);
+                plot.line_with("gap", gaps, LineFlags::SHADED);
                 plot.inf_lines("average", &[average], InfLinesFlags::HORIZONTAL);
                 plot.annotation([gaps.len() as f64, average], YELLOW, [-10.0, -10.0], true, Some(format!("avg {average:.1} ms").as_str()));
             });
             grid.plot("HP and mana", PlotFlags::NONE, |plot| {
-                plot.setup_axes(Some("seconds"), Some("%"));
+                plot.setup_axes(Some("seconds ago"), None);
                 plot.setup_axis_limits(Axis::Y1, 0.0..=105.0, Cond::Always);
-                plot.setup_axis(Axis::X1, Some("seconds"), AxisFlags::AUTO_FIT);
-                let t: Vec<f64> = g.history.iter().map(|h| h.0).collect();
-                let hp: Vec<f64> = g.history.iter().map(|h| f64::from(h.1)).collect();
-                let mana: Vec<f64> = g.history.iter().map(|h| f64::from(h.2)).collect();
+                plot.setup_axis(Axis::X1, Some("seconds ago"), AxisFlags::AUTO_FIT);
+                // Labels and points from closures: no copies of the history.
+                let newest = g.history.back().map_or(0.0, |h| h.0);
+                plot.setup_axis_format_fn(Axis::X1, move |t| format!("{:.0}", newest - t));
+                plot.setup_axis_format_fn(Axis::Y1, |pct| match pct {
+                    p if p >= 100.0 => "full".to_owned(),
+                    p if p <= 0.0 => "empty".to_owned(),
+                    p => format!("{p:.0}%"),
+                });
+                let history = &g.history;
                 plot.next_line_style(Some(HP_RED), Some(2.0));
-                plot.line("HP", (&t, &hp));
+                plot.line_fn("HP", history.len(), |i| [history[i].0, f64::from(history[i].1)], LineFlags::NONE);
                 plot.next_line_style(Some(MANA_BLUE), Some(2.0));
-                plot.line("Mana", (&t, &mana));
+                plot.line_fn("Mana", history.len(), |i| [history[i].0, f64::from(history[i].2)], LineFlags::NONE);
             });
         });
 
@@ -378,8 +502,20 @@ impl RustTest {
                 plot.setup_axis(Axis::Y1, None, AxisFlags::NO_DECORATIONS);
                 plot.setup_axis_limits(Axis::X1, 0.0..=1.0, Cond::Always);
                 plot.setup_axis_limits(Axis::Y1, 0.0..=1.0, Cond::Always);
-                plot.pie_chart(&["players", "NPCs", "other"], &counts, [0.5, 0.5], 0.4, Some("%.0f"), 90.0, PieChartFlags::NORMALIZE);
+                let total: f64 = counts.iter().sum();
+                plot.pie_chart_fn(&["players", "NPCs", "other"], &counts, [0.5, 0.5], 0.4, |n| {
+                    if total > 0.0 { format!("{n:.0} ({:.0}%)", n / total * 100.0) } else { String::new() }
+                }, 90.0, PieChartFlags::NORMALIZE);
             });
+        });
+        // Distances on a square-root scale: the near spawns get the room.
+        let mut distances: Vec<f64> = (xs.iter().zip(&ys)).chain(npc_x.iter().zip(&npc_y)).map(|(x, y)| x.hypot(*y)).collect();
+        distances.sort_by(f64::total_cmp);
+        ui.plot("Spawn distances (square-root scale)").size([-1.0, 160.0]).show(|plot| {
+            plot.setup_axis_scale_fn(Axis::X1, |d| d.max(0.0).sqrt(), |s| s * s);
+            plot.setup_axis_limits(Axis::X1, 0.0..=300.0, Cond::Always);
+            plot.setup_axis_format_fn(Axis::Y1, |n| format!("{n:.0}"));
+            plot.stairs_fn("spawns within", distances.len(), |i| [distances[i], (i + 1) as f64], StairsFlags::NONE);
         });
         ui.with_colormap(Colormap::VIRIDIS, |ui| ui.colormap_scale("Viridis", 0.0..=100.0, [0.0, 200.0], "%.0f", None));
     }
@@ -504,6 +640,37 @@ impl RustTest {
         }
         ui.same_line();
         ui.text(g.dropped.as_deref().map_or("Nothing dropped yet.".to_owned(), |n| format!("Dropped: {n}")));
+
+        ui.separator_text("MacroQuest's EQ-styled widgets");
+        ui.checkbox("Let the gems cast (left click) and forget spells (right click)", &mut g.gems_act);
+        let flags = if g.gems_act { SpellGemFlags::ALLOW_SPELL_CAST | SpellGemFlags::ALLOW_UNMEMORIZE } else { SpellGemFlags::NONE };
+        let mut clicked = None;
+        for gem in 0..SPELL_GEMS {
+            if gem > 0 {
+                ui.same_line();
+            }
+            if ui.with_id(gem, |ui| ui.spell_gem("gem", gem, flags)) == Some(true) {
+                clicked = Some(gem);
+            }
+            ui.item_tooltip_text(format!("Gem {}", gem + 1));
+        }
+        if let Some(gem) = clicked {
+            g.dropped = Some(format!("gem {} clicked", gem + 1));
+        }
+        if let Some(inventory) = mq.inventory() {
+            for (slot, item) in inventory.worn().take(4) {
+                if ui.item_link_text(&format!("{slot}: {}", item.name()), [0.3, 0.8, 1.0, 1.0], None) {
+                    g.dropped = Some(format!("link to {}", item.name()));
+                }
+            }
+        }
+        let [x, y] = ui.cursor_screen_pos();
+        let draw = ui.draw_list();
+        for style in 0..4u8 {
+            let top = y + f32::from(style) * 18.0;
+            draw.add_eq_text(style, &format!("EQ font style {style}, laid out by the game"), [x, top], [x + 400.0, top + 18.0], YELLOW, EqTextFlags::NO_WRAP);
+        }
+        ui.dummy([400.0, 72.0]);
     }
 
     /// MacroQuest's and EQ's fonts, sizes, and docking.
@@ -534,7 +701,13 @@ impl RustTest {
 
         ui.separator_text("Docking");
         ui.text(format!("Docking is {}.", if ui.is_docking_enabled() { "on" } else { "off (MacroQuest's overlay settings)" }));
-        ui.checkbox("Show a dock space with a window docked in it", &mut g.dock_demo);
+        ui.checkbox("Show a dock space with windows docked in it", &mut g.dock_demo);
+        ui.same_line();
+        if ui.button("Lay it out with the dock builder") {
+            g.dock_demo = true;
+            g.rebuild_dock = true;
+        }
+        ui.item_tooltip_text("Splits the dock space in two and docks a window in each half");
         ui.text(format!("This window docked: {}", ui.is_window_docked()));
     }
 }

@@ -191,3 +191,42 @@ extern "C" int mqemu_imgui_test_payload_size()
 	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
 	return payload ? payload->DataSize : -1;
 }
+
+// Turns docking on or off, as MacroQuest's overlay setting does.
+extern "C" void mqemu_imgui_test_set_docking(bool enabled)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	if (enabled)
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	else
+		io.ConfigFlags &= ~ImGuiConfigFlags_DockingEnable;
+}
+
+// Holds (or lets go of) ctrl and shift, from the next frame.
+extern "C" void mqemu_imgui_test_modifiers(bool ctrl, bool shift)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddKeyEvent(ImGuiMod_Ctrl, ctrl);
+	io.AddKeyEvent(ImGuiMod_Shift, shift);
+}
+
+// Presses (or releases) the key for letter 'A' to 'Z', from the next frame.
+extern "C" void mqemu_imgui_test_letter_key(char letter, bool down)
+{
+	ImGui::GetIO().AddKeyEvent(static_cast<ImGuiKey>(ImGuiKey_A + (letter - 'A')), down);
+}
+
+// ImPlot's own EndPlot, without the shim forgetting the plot's callbacks.
+extern "C" void mqemu_implot_test_end_plot_raw()
+{
+	ImPlot::EndPlot();
+}
+
+// Whether `axis` of the plot titled `title` (NUL-terminated, in the current
+// window) still has a formatter or transform set.
+extern "C" void mqemu_implot_test_axis_callbacks(const char* title, int axis, bool* formatter, bool* transform)
+{
+	ImPlotPlot* plot = ImPlot::GetPlot(title);
+	*formatter = plot && plot->Axes[axis].Formatter != nullptr;
+	*transform = plot && plot->Axes[axis].TransformForward != nullptr;
+}

@@ -59,6 +59,15 @@ impl<'ui> DrawList<'ui> {
         self.list
     }
 
+    /// The list, unless ImGui gave none (it reported an error instead).
+    pub(super) fn raw(&self) -> Option<*mut sys::ImDrawList> {
+        (!self.list.is_null()).then_some(self.list)
+    }
+
+    pub(super) fn mq_api(&self) -> &'static mq_sys::Api {
+        self.mq
+    }
+
     /// Calls `f` with the list, unless ImGui gave none (it reported an error instead).
     fn with(&self, f: impl FnOnce(&sys::Api, *mut sys::ImDrawList)) {
         if !self.list.is_null() {

@@ -5,10 +5,16 @@
 // ImPlot's plotting functions are templates over the value type. Here each
 // takes a `kind` (MQEMU_PLOT_*) saying what its arrays hold, and the arrays
 // are contiguous. Optional colors are null for ImPlot's automatic choice.
+//
+// The callback forms (getters, formatters, transforms) take a function and its
+// `data`, the caller's state. ImPlot keeps an axis's formatter and transform
+// for the rest of the plot; mqemu_implot_end_plot forgets them, so nothing
+// can call them once that state is gone.
 
 #include "imgui_shim.h"
 
 #include "imgui/implot/implot.h"
+#include "imgui/implot/implot_internal.h"
 
 #include <cstdint>
 #include <vector>
@@ -96,6 +102,57 @@ private:
 	std::vector<const char*> m_pointers;
 };
 
+// Writes point `index` of a series to *x and *y (ImPlotGetter returns a C++
+// struct, so the callers' functions take this form instead).
+using mqemu_implot_getter = void (*)(void* data, int index, double* x, double* y);
+
+struct Getter
+{
+	mqemu_implot_getter fn;
+	void* data;
+};
+
+ImPlotPoint call_getter(int index, void* getter)
+{
+	auto* g = static_cast<Getter*>(getter);
+	double x = 0.0, y = 0.0;
+	g->fn(g->data, index, &x, &y);
+	return ImPlotPoint(x, y);
+}
+
+// Axes of the current plot (a bit per ImAxis) given a caller's formatter or
+// transform, which mqemu_implot_end_plot forgets.
+int s_callback_axes = 0;
+
+ImPlotAxis& setup_axis_for_callback(int axis)
+{
+	if (axis < 0 || axis >= ImAxis_COUNT)
+		throw ImGuiException("not an ImAxis_ value");
+	ImPlotPlot* plot = ImPlot::GetCurrentPlot();
+	if (!plot)
+		throw ImGuiException("axis setup needs a plot");
+	return plot->Axes[axis];
+}
+
+void forget_callbacks(ImPlotPlot* plot)
+{
+	if (plot)
+	{
+		for (int axis = 0; axis < ImAxis_COUNT; ++axis)
+		{
+			if (s_callback_axes & (1 << axis))
+			{
+				ImPlotAxis& a = plot->Axes[axis];
+				a.Formatter = nullptr;
+				a.FormatterData = nullptr;
+				a.TransformForward = a.TransformInverse = nullptr;
+				a.TransformData = nullptr;
+			}
+		}
+	}
+	s_callback_axes = 0;
+}
+
 } // namespace
 
 // ----- plots -----
@@ -103,12 +160,16 @@ private:
 // Call mqemu_implot_end_plot only if this returns true.
 extern "C" bool mqemu_implot_begin_plot(const char* title, size_t title_len, float w, float h, int flags)
 {
+	s_callback_axes = 0;
 	return guarded(false, [&] { return ImPlot::BeginPlot(CString(title, title_len), ImVec2(w, h), flags); });
 }
 
+// Ends the plot, then forgets the formatters and transforms it was given.
 extern "C" void mqemu_implot_end_plot()
 {
+	ImPlotPlot* plot = ImPlot::GetCurrentPlot();
 	guarded_void([] { ImPlot::EndPlot(); });
+	forget_callbacks(plot);
 }
 
 // A grid of `rows` x `cols` plots, each begun with mqemu_implot_begin_plot.
@@ -155,6 +216,29 @@ extern "C" void mqemu_implot_setup_axis_limits(int axis, double min, double max,
 extern "C" void mqemu_implot_setup_axis_format(int axis, const char* format, size_t format_len)
 {
 	guarded_void([&] { ImPlot::SetupAxisFormat(axis, CString(format, format_len)); });
+}
+
+// Labels the axis's ticks (and the mouse position) with `formatter(value,
+// buffer, size, data)`, which must NUL-terminate what it writes. ImPlot calls
+// it until the plot ends.
+extern "C" void mqemu_implot_setup_axis_format_fn(int axis, ImPlotFormatter formatter, void* data)
+{
+	guarded_void([&] {
+		setup_axis_for_callback(axis);
+		ImPlot::SetupAxisFormat(axis, formatter, data);
+		s_callback_axes |= 1 << axis;
+	});
+}
+
+// A custom scale: `forward(value, data)` maps plot values onto a linear
+// scale, `inverse` maps back. ImPlot calls them until the plot ends.
+extern "C" void mqemu_implot_setup_axis_scale_fn(int axis, ImPlotTransform forward, ImPlotTransform inverse, void* data)
+{
+	guarded_void([&] {
+		setup_axis_for_callback(axis);
+		ImPlot::SetupAxisScale(axis, forward, inverse, data);
+		s_callback_axes |= 1 << axis;
+	});
 }
 
 // Ticks at `count` `values` or, with `values` null, evenly from `min` to
@@ -454,6 +538,76 @@ extern "C" void mqemu_implot_text(const char* text, size_t len, double x, double
 extern "C" void mqemu_implot_dummy(const char* label, size_t label_len, int flags)
 {
 	guarded_void([&] { ImPlot::PlotDummy(CString(label, label_len), flags); });
+}
+
+// ----- items from getters -----
+// `count` points, point i from `getter(data, i, &x, &y)`, called during the
+// call only (as often as ImPlot needs, in any order).
+
+extern "C" void mqemu_implot_line_g(const char* label, size_t label_len, mqemu_implot_getter getter, void* data, int count, int flags)
+{
+	guarded_void([&] {
+		Getter g{ getter, data };
+		ImPlot::PlotLineG(CString(label, label_len), call_getter, &g, count, flags);
+	});
+}
+
+extern "C" void mqemu_implot_scatter_g(const char* label, size_t label_len, mqemu_implot_getter getter, void* data, int count, int flags)
+{
+	guarded_void([&] {
+		Getter g{ getter, data };
+		ImPlot::PlotScatterG(CString(label, label_len), call_getter, &g, count, flags);
+	});
+}
+
+extern "C" void mqemu_implot_stairs_g(const char* label, size_t label_len, mqemu_implot_getter getter, void* data, int count, int flags)
+{
+	guarded_void([&] {
+		Getter g{ getter, data };
+		ImPlot::PlotStairsG(CString(label, label_len), call_getter, &g, count, flags);
+	});
+}
+
+// The area between the points of two getters.
+extern "C" void mqemu_implot_shaded_g(const char* label, size_t label_len, mqemu_implot_getter getter1, void* data1,
+	mqemu_implot_getter getter2, void* data2, int count, int flags)
+{
+	guarded_void([&] {
+		Getter g1{ getter1, data1 };
+		Getter g2{ getter2, data2 };
+		ImPlot::PlotShadedG(CString(label, label_len), call_getter, &g1, call_getter, &g2, count, flags);
+	});
+}
+
+extern "C" void mqemu_implot_bars_g(const char* label, size_t label_len, mqemu_implot_getter getter, void* data, int count,
+	double bar_size, int flags)
+{
+	guarded_void([&] {
+		Getter g{ getter, data };
+		ImPlot::PlotBarsG(CString(label, label_len), call_getter, &g, count, bar_size, flags);
+	});
+}
+
+extern "C" void mqemu_implot_digital_g(const char* label, size_t label_len, mqemu_implot_getter getter, void* data, int count, int flags)
+{
+	guarded_void([&] {
+		Getter g{ getter, data };
+		ImPlot::PlotDigitalG(CString(label, label_len), call_getter, &g, count, flags);
+	});
+}
+
+// A pie chart labeling its slices with `formatter`, as for
+// mqemu_implot_setup_axis_format_fn but called during the call only.
+extern "C" void mqemu_implot_pie_chart_fn(const char* const* labels, const size_t* label_lens, int kind, const void* values,
+	int count, double x, double y, double radius, ImPlotFormatter formatter, void* data, double angle0, int flags)
+{
+	guarded_void([&] {
+		Labels names(labels, label_lens, count);
+		dispatch(kind, [&](auto t) {
+			using T = typename decltype(t)::type;
+			ImPlot::PlotPieChart(names.get(), typed<T>(values), count, x, y, radius, formatter, data, angle0, flags);
+		});
+	});
 }
 
 // ----- tools -----
@@ -879,4 +1033,82 @@ extern "C" bool mqemu_implot_colormap_button(const char* label, size_t label_len
 		check_colormap(cmap);
 		return ImPlot::ColormapButton(CString(label, label_len), ImVec2(w, h), cmap);
 	});
+}
+
+// ----- input mapping -----
+// Which mouse buttons and modifier keys pan, fit, select and open menus in
+// every plot. ImPlot has one map, shared by MacroQuest and every plugin.
+
+// ImPlotInputMap's fields: ImGuiMouseButton_ values and ImGuiMod_ key chords.
+struct mqemu_plot_input_map
+{
+	int pan, pan_mod, fit, select, select_cancel, select_mod, select_horz_mod, select_vert_mod, menu, override_mod, zoom_mod;
+	float zoom_rate;
+};
+
+namespace {
+
+void to_c(const ImPlotInputMap& map, mqemu_plot_input_map* out)
+{
+	*out = { map.Pan, map.PanMod, map.Fit, map.Select, map.SelectCancel, map.SelectMod, map.SelectHorzMod, map.SelectVertMod,
+		map.Menu, map.OverrideMod, map.ZoomMod, map.ZoomRate };
+}
+
+} // namespace
+
+extern "C" void mqemu_implot_input_map(mqemu_plot_input_map* out)
+{
+	guarded_void([&] { to_c(ImPlot::GetInputMap(), out); });
+}
+
+// ImPlot's default map, or with `reverse` its alternative (right button pans,
+// left selects), without applying it.
+extern "C" void mqemu_implot_input_map_preset(bool reverse, mqemu_plot_input_map* out)
+{
+	guarded_void([&] {
+		ImPlotInputMap map;
+		if (reverse)
+			ImPlot::MapInputReverse(&map);
+		else
+			ImPlot::MapInputDefault(&map);
+		to_c(map, out);
+	});
+}
+
+// Buttons must be ImGuiMouseButton_ values (ImGui indexes arrays with them),
+// and modifiers only ImGuiMod_ bits.
+extern "C" void mqemu_implot_set_input_map(const mqemu_plot_input_map* in)
+{
+	guarded_void([&] {
+		for (int button : { in->pan, in->fit, in->select, in->select_cancel, in->menu })
+		{
+			if (button < 0 || button >= ImGuiMouseButton_COUNT)
+				throw ImGuiException("not a mouse button");
+		}
+		for (int mods : { in->pan_mod, in->select_mod, in->select_horz_mod, in->select_vert_mod, in->override_mod, in->zoom_mod })
+		{
+			if (mods & ~ImGuiMod_Mask_)
+				throw ImGuiException("not ImGuiMod_ modifier keys");
+		}
+		ImPlotInputMap& map = ImPlot::GetInputMap();
+		map.Pan = in->pan;
+		map.PanMod = in->pan_mod;
+		map.Fit = in->fit;
+		map.Select = in->select;
+		map.SelectCancel = in->select_cancel;
+		map.SelectMod = in->select_mod;
+		map.SelectHorzMod = in->select_horz_mod;
+		map.SelectVertMod = in->select_vert_mod;
+		map.Menu = in->menu;
+		map.OverrideMod = in->override_mod;
+		map.ZoomMod = in->zoom_mod;
+		map.ZoomRate = in->zoom_rate;
+	});
+}
+
+// ImPlot's combo box choosing the default or reversed map (applied to
+// everyone); true when changed.
+extern "C" bool mqemu_implot_input_map_selector(const char* label, size_t label_len)
+{
+	return guarded(false, [&] { return ImPlot::ShowInputMapSelector(CString(label, label_len)); });
 }
