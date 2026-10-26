@@ -73,6 +73,9 @@
 //!   [`Font`]; [`Ui::with_font_size`] for size alone.
 //! - Docking: [`Ui::dock_space`] and [`Window::dock`], and layouts built in
 //!   code with [`Ui::dock_builder`].
+//! - Long lists: [`Ui::list_clipper`] only draws the items in view, in a
+//!   window, a [table](Table::list_clipper) or a
+//!   [multi-select list](MultiSelect::list_clipper).
 //! - Multi-select: [`Ui::multi_select`] lets the user select many items at
 //!   once (ctrl+click, shift+click, box select) into a [`Selection`].
 //! - ImPlot: [`Ui::plot`] and [`Ui::subplots`] (see [`Plot`]), with items
@@ -218,6 +221,7 @@ macro_rules! flags {
     };
 }
 
+mod clip;
 mod dnd;
 mod dock;
 mod draw;
@@ -227,6 +231,7 @@ mod plot;
 mod select;
 mod texture;
 
+pub use clip::ListClipper;
 pub use dnd::{DragDropFlags, DragSource, DropTarget, MAX_PAYLOAD_KIND, Payload};
 pub use dock::{Dir, DockBuilder, DockNode};
 pub use draw::{Channels, Corners, DrawList, Path, Vec2, pack_color};
@@ -1391,6 +1396,27 @@ impl Ui {
     }
 
     // ----- cursor, mouse and window geometry -----
+
+    /// The current font's line height.
+    pub fn text_line_height(&self) -> f32 {
+        unsafe { (self.api.mqemu_imgui_text_line_height)(false) }
+    }
+
+    /// From one line of text to the next: the line height plus the spacing
+    /// between items.
+    pub fn text_line_height_with_spacing(&self) -> f32 {
+        unsafe { (self.api.mqemu_imgui_text_line_height)(true) }
+    }
+
+    /// A framed widget's height (a button, an input).
+    pub fn frame_height(&self) -> f32 {
+        unsafe { (self.api.mqemu_imgui_frame_height)(false) }
+    }
+
+    /// From one framed widget to the next below it.
+    pub fn frame_height_with_spacing(&self) -> f32 {
+        unsafe { (self.api.mqemu_imgui_frame_height)(true) }
+    }
 
     /// Where the next item goes, in screen coordinates.
     pub fn cursor_screen_pos(&self) -> Vec2 {

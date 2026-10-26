@@ -9,7 +9,7 @@
 use std::time::Instant;
 
 use mq_emu::imgui::{
-    Cond, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags,
+    ChildFlags, Cond, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -501,6 +501,17 @@ impl RustTest {
         });
         let picked: Vec<&str> = s.many.iter().map(|i| KINDS[i]).collect();
         ui.text(format!("= {}", if picked.is_empty() { "none".to_owned() } else { picked.join(", ") }));
+        const LINES: usize = 100_000;
+        let mut drawn = 0;
+        ui.child("clipped list").size([-1.0, 100.0]).flags(ChildFlags::BORDERS).show(|ui| {
+            ui.list_clipper(LINES).show(|ui, visible| {
+                for line in visible {
+                    ui.text(format!("Line {line} of a clipped list"));
+                    drawn += 1;
+                }
+            });
+        });
+        ui.text_disabled(format!("The list clipper drew {drawn} of {LINES} lines"));
         ui.group(|ui| {
             ui.text("A group,");
             ui.text("hover it");

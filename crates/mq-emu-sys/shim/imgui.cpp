@@ -680,6 +680,18 @@ extern "C" ImU32 mqemu_imgui_color_convert(float r, float g, float b, float a)
 
 // ----- cursor, mouse and window geometry -----
 
+// The current font's line height, or a framed widget's height (a button, an
+// input), each plus the spacing between items if `with_spacing`.
+extern "C" float mqemu_imgui_text_line_height(bool with_spacing)
+{
+	return guarded(0.0f, [&] { return with_spacing ? ImGui::GetTextLineHeightWithSpacing() : ImGui::GetTextLineHeight(); });
+}
+
+extern "C" float mqemu_imgui_frame_height(bool with_spacing)
+{
+	return guarded(0.0f, [&] { return with_spacing ? ImGui::GetFrameHeightWithSpacing() : ImGui::GetFrameHeight(); });
+}
+
 extern "C" void mqemu_imgui_cursor_screen_pos(float* x, float* y)
 {
 	guarded_void([&] {
@@ -1316,4 +1328,72 @@ extern "C" bool mqemu_imgui_is_item_toggled_selection()
 			throw ImGuiException("IsItemToggledSelection() is only for inside a multi-select scope");
 		return ImGui::IsItemToggledSelection();
 	});
+}
+
+// ----- list clipper -----
+// ImGuiListClipper, on the heap so Rust can hold it. Each step gives a range
+// of items to draw; the rest of a long list is skipped by moving the cursor.
+// A release imgui.dll doesn't check its asserts, so the misuse they catch
+// (stepping an ended clipper, including items after stepping) is refused here.
+
+// Begins a clipper over `items_count` items, `items_height` apart (0 or less
+// to measure the first item). Always end it, unless this returns null (an
+// error). Clippers must end in the reverse order they began, in the window
+// they began in.
+extern "C" ImGuiListClipper* mqemu_imgui_list_clipper_begin(int items_count, float items_height, int flags)
+{
+	return guarded<ImGuiListClipper*>(nullptr, [&] {
+		if (!GImGui->CurrentWindow)
+			throw ImGuiException("a list clipper needs a current window");
+		if (items_count < 0 || items_count == INT_MAX)
+			throw ImGuiException("a list clipper's item count must be 0 or more, below INT_MAX");
+		ImGuiListClipper* clipper = new ImGuiListClipper();
+		clipper->Flags = flags;
+		clipper->Begin(items_count, items_height > 0.0f ? items_height : -1.0f);
+		return clipper;
+	});
+}
+
+// Draws items [item_begin, item_end) whether they're visible or not. Only
+// before the first step.
+extern "C" void mqemu_imgui_list_clipper_include(ImGuiListClipper* clipper, int item_begin, int item_end)
+{
+	guarded_void([&] {
+		if (!clipper->TempData || clipper->DisplayStart >= 0)
+			throw ImGuiException("items can only be included before a list clipper's first step");
+		if (item_begin < 0 || item_begin > item_end)
+			throw ImGuiException("a list clipper's included items must be a range of indices");
+		clipper->IncludeItemsByIndex(item_begin, item_end);
+	});
+}
+
+// The next range of items to draw, [*display_start, *display_end); false once
+// there are no more (the clipper has then moved the cursor past the list).
+// False from then on, rather than ImGui's crash.
+extern "C" bool mqemu_imgui_list_clipper_step(ImGuiListClipper* clipper, int* display_start, int* display_end)
+{
+	*display_start = 0;
+	*display_end = 0;
+	return guarded(false, [&] {
+		const ImGuiListClipperData* data = static_cast<const ImGuiListClipperData*>(clipper->TempData);
+		if (!data)
+			return false;
+		// This step measures the first item, which ImGui only asserts moved the cursor.
+		bool measuring = data->StepNo == 1 && clipper->ItemsHeight <= 0.0f;
+		bool more = clipper->Step();
+		if (measuring && !(clipper->ItemsHeight > 0.0f))
+		{
+			clipper->End();
+			throw ImGuiException("a list clipper's first item didn't move the cursor down: draw something for every item");
+		}
+		*display_start = clipper->DisplayStart;
+		*display_end = clipper->DisplayEnd;
+		return more;
+	});
+}
+
+// Ends the clipper (moving the cursor past the list) and frees it.
+extern "C" void mqemu_imgui_list_clipper_end(ImGuiListClipper* clipper)
+{
+	guarded_void([&] { delete clipper; });
 }

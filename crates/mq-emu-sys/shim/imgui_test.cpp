@@ -166,6 +166,11 @@ extern "C" int mqemu_imgui_test_font_depth()
 	return GImGui->FontStack.Size;
 }
 
+extern "C" int mqemu_imgui_test_clipper_depth()
+{
+	return GImGui->ClipperTempDataStacked;
+}
+
 // Whether ImPlot is inside a plot or subplots, and its style and colormap
 // stack depths.
 extern "C" void mqemu_implot_test_state(bool* in_plot, bool* in_subplots, int* style_depth, int* colormap_depth)

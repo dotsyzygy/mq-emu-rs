@@ -32,6 +32,8 @@ const DOCKED: &str = "Rust docked window";
 const DOCKED_2: &str = "Rust docked window 2";
 /// The window the exercise docks with the dock builder.
 const EXERCISE_DOCKED: &str = "Rust plugin test: docked by the dock builder";
+/// Lines in the exercise's clipped list.
+pub const CLIPPED_LINES: usize = 100_000;
 /// Spell gems the game's spell gem window has.
 const SPELL_GEMS: usize = mq_emu::sys::NUM_SPELL_GEMS;
 
@@ -115,6 +117,8 @@ pub struct Exercise {
     pub scaled: bool,
     /// Spell gems that drew (the game has a window for each).
     pub spell_gems: usize,
+    /// The most lines of the clipped list drawn in a frame.
+    pub clipped_lines: usize,
 }
 
 impl Exercise {
@@ -254,6 +258,7 @@ impl RustTest {
         }
         let (getter_points, formatted, scaled) = (Cell::new(0), Cell::new(false), Cell::new(false));
         let mut spell_gems = 0;
+        let mut clipped_lines = 0;
         let selection = &mut g.exercise_selection;
         ui.window("Rust plugin test: graphics selftest")
             .position([40.0, 40.0], Cond::Appearing)
@@ -282,6 +287,15 @@ impl RustTest {
                         plot.draw(|draw| draw.add_circle([0.0, 0.0], 4.0, [1.0; 4], 1.0));
                     })
                     .is_some();
+                // In view too: a child out of view skips its contents.
+                ui.child("exercise clipped list").size([-1.0, 80.0]).show(|ui| {
+                    ui.list_clipper(CLIPPED_LINES).show(|ui, visible| {
+                        for line in visible {
+                            ui.text(format!("Clipped line {line}"));
+                            clipped_lines += 1;
+                        }
+                    });
+                });
                 ui.plot("exercise closures").size([-1.0, 160.0]).show(|plot| {
                     plot.setup_axis_scale_fn(Axis::X1, |x| {
                         scaled.set(true);
@@ -377,6 +391,7 @@ impl RustTest {
             exercise.formatted |= formatted.get();
             exercise.scaled |= scaled.get();
             exercise.spell_gems = exercise.spell_gems.max(spell_gems);
+            exercise.clipped_lines = exercise.clipped_lines.max(clipped_lines);
         }
     }
 

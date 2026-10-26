@@ -63,6 +63,13 @@ pub struct ImGuiMultiSelectIO {
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
+/// ImGui's `ImGuiListClipper`, made by [`mqemu_imgui_list_clipper_begin`].
+#[repr(C)]
+pub struct ImGuiListClipper {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
 /// ImGui's `ImGuiSelectionUserData_Invalid`: no item.
 pub const ImGuiSelectionUserData_Invalid: i64 = -1;
 
@@ -339,6 +346,10 @@ function_table! {
     pub fn mqemu_imgui_color_convert(r: f32, g: f32, b: f32, a: f32) -> u32;
 
     // ----- cursor, mouse and window geometry -----
+    /// The current font's line height, plus the spacing between items if `with_spacing`.
+    pub fn mqemu_imgui_text_line_height(with_spacing: bool) -> f32;
+    /// A framed widget's height (a button, an input), plus the spacing between items if `with_spacing`.
+    pub fn mqemu_imgui_frame_height(with_spacing: bool) -> f32;
     pub fn mqemu_imgui_cursor_screen_pos(x: *mut f32, y: *mut f32);
     /// Past the content, the content grows to there (ImGui's behavior before
     /// 1.89; this one throws when the scope ends without an item after it).
@@ -584,6 +595,21 @@ function_table! {
     /// Only in a scope (an ImGui error outside one).
     pub fn mqemu_imgui_is_item_toggled_selection() -> bool;
 
+    // ----- list clipper -----
+    /// `items_count` 0 or more, below `i32::MAX`; `items_height` 0 or less to
+    /// measure the first item; `flags` `ImGuiListClipperFlags_`. Always end it,
+    /// unless this returns null (an error). Clippers end in the reverse order
+    /// they began, in the window they began in.
+    pub fn mqemu_imgui_list_clipper_begin(items_count: i32, items_height: f32, flags: i32) -> *mut ImGuiListClipper;
+    /// Always draws items `item_begin..item_end`. Only before the first step (an ImGui error after).
+    pub fn mqemu_imgui_list_clipper_include(clipper: *mut ImGuiListClipper, item_begin: i32, item_end: i32);
+    /// The next items to draw, `*display_start..*display_end`; false once
+    /// there are none left, and from then on. An ImGui error (and false) if
+    /// the first item didn't move the cursor down.
+    pub fn mqemu_imgui_list_clipper_step(clipper: *mut ImGuiListClipper, display_start: *mut i32, display_end: *mut i32) -> bool;
+    /// Ends and frees it.
+    pub fn mqemu_imgui_list_clipper_end(clipper: *mut ImGuiListClipper);
+
     // ----- frame info -----
     pub fn mqemu_imgui_frame_count() -> i32;
     /// Seconds since ImGui started.
@@ -629,6 +655,8 @@ pub mod testing {
         pub fn mqemu_imgui_test_list_state(list: *mut super::ImDrawList, clip_depth: *mut i32, path_points: *mut i32, channels: *mut i32);
         /// The font stack's depth.
         pub fn mqemu_imgui_test_font_depth() -> i32;
+        /// List clippers begun and not ended.
+        pub fn mqemu_imgui_test_clipper_depth() -> i32;
         /// Whether ImPlot is in a plot or subplots, and its style and colormap stack depths.
         pub fn mqemu_implot_test_state(in_plot: *mut bool, in_subplots: *mut bool, style_depth: *mut i32, colormap_depth: *mut i32);
         /// A fake texture ID, for drawing images headlessly.
@@ -1078,6 +1106,10 @@ imgui_constants! {
     ImGuiDir_Right = 1,
     ImGuiDir_Up = 2,
     ImGuiDir_Down = 3,
+
+    // ImGuiListClipperFlags
+    ImGuiListClipperFlags_None = 0,
+    ImGuiListClipperFlags_NoSetTableRowCounters = 1 << 0,
 
     // ImGuiMultiSelectFlags
     ImGuiMultiSelectFlags_None = 0,

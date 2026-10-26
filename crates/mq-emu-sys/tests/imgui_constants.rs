@@ -35,6 +35,7 @@ const ENUMS: &[&str] = &[
     "ImGuiDockNodeFlags_",
     "ImDrawFlags_",
     "ImGuiDir_",
+    "ImGuiListClipperFlags_",
     "ImGuiMultiSelectFlags_",
     "ImGuiSelectionRequestType_",
     "ImGuiKey:ImGuiMod_",

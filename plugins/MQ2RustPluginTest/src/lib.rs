@@ -493,6 +493,10 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
             _ => Check::Pass,
         };
         report.print(mq, "spell gems draw as the game draws them", gems);
+        let clipped = exercise.clipped_lines;
+        report.print(mq, "the list clipper draws only the lines in view", Check::that((1..100).contains(&clipped), || {
+            format!("{clipped} of {} lines drawn in a frame", graphics::CLIPPED_LINES)
+        }));
     });
 }
 

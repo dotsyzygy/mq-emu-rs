@@ -100,6 +100,12 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   window docked in them are refused rather than undoing everyone's docking or crashing
 - Multi-select (`Ui::multi_select`): lists whose items are selected with ctrl+click, shift+click,
   ctrl+A, the keyboard or a dragged box, into a `Selection` or a selection kept elsewhere
+- The list clipper (`Ui::list_clipper`, `Table::list_clipper`, `MultiSelect::list_clipper`): long
+  lists of evenly spaced items that only draw the ones in view, in a window, over a table's rows or
+  in a multi-select list (always drawing the item shift+click selects from, as ImGui needs).
+  Stepping a clipper that has ended, including items after the first step and a first item that
+  doesn't move the cursor are refused rather than crashing or misdrawing. A list of unknown length
+  isn't supported
 - ImPlot (`Ui::plot`, `Ui::subplots`): line, scatter, stairs, shaded, bar, bar group, error bar,
   stem, infinite line, pie, heatmap, histogram (1D and 2D), digital, image, text and dummy items
   over every numeric type; axis setup (labels, limits, formats, ticks, scales, constraints),
@@ -125,8 +131,8 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   reads)
 - Acting on items and spells: casting, clicking items, moving items (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
-- ImGui beyond the bound set: the list clipper (`ImGuiListClipper`), the rest of ImGui's internal
-  API (`imgui_internal.h`), MacroQuest's other EQ UI drawing (`DrawUITexture`, `DrawTexturePiece`,
+- ImGui beyond the bound set: the rest of ImGui's internal API (`imgui_internal.h`), MacroQuest's
+  other EQ UI drawing (`DrawUITexture`, `DrawTexturePiece`,
   `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory editors) (reachable as raw
   `ImGui::*` C++ only)
 - MacroQuest events (`#Event`-style chat matching) and key binds
@@ -165,7 +171,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
-| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select and a clipped list too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items), and
@@ -178,7 +184,7 @@ exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also
 - **Opens the debug window**, to check it draws without ImGui errors, and leaves it open with the
   results.
 - **Flashes a graphics window** for a few frames, drawing every ImPlot item, draw list feature,
-  font, image and drag and drop, a multi-select list, plots from closures, your spell gems and EQ
+  font, image and drag and drop, a multi-select list, a clipped list, plots from closures, your spell gems and EQ
   text, with a yellow outline around the screen; it writes a small BMP to the temp directory to load
   as a texture. With docking on, it lays out a small dock space with the dock builder (which ImGui
   keeps in MacroQuest's ImGui ini, like any dock space).
@@ -304,7 +310,12 @@ config and only explicitly passed settings, to check what a downstream user will
   copies keep their shape, and the shim refuses node 0, changes from inside a docked window,
   splitting a split node and copying a node over its own source (a layout built first survives).
   Multi-select: simulated clicks, shift and ctrl clicks, ctrl+A and a dragged box reach a
-  `Selection`, which applies requests as ImGui's own storage does. ImPlot's closures: every point
+  `Selection`, which applies requests as ImGui's own storage does. The list clipper draws only the
+  items in view (following the view down a 10,000-item list) and moves the cursor past the whole
+  list, draws included items out of view, clips table rows, keeps a multi-select list's
+  shift+click item drawn, ends when its closure panics (ImGui's clipper stack is back to empty)
+  and nests; the shim refuses stepping an ended clipper and late or backwards included items.
+  ImPlot's closures: every point
   asked for and none past the count, formatters and custom scales take effect and are forgotten
   when the plot ends, panics in them resume afterwards, and a doctest shows a formatter borrowing
   from inside the plot doesn't compile. The input map changes for a scope and is restored, and

@@ -459,6 +459,7 @@ fn style_color_reads_what_is_pushed() {
     assert_ne!(after, pushed, "popped again");
 }
 
+mod clip;
 mod dock;
 mod draw;
 mod eq;
