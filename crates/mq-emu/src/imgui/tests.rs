@@ -7,6 +7,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::sync::{Mutex, MutexGuard};
 
 use mq_emu_sys::imgui::testing::*;
+use mq_emu_sys::implot as sys_plot;
 
 use super::*;
 
@@ -28,7 +29,7 @@ fn take_error() -> Option<String> {
 /// Draws one frame with the mouse at `mouse`; Err with what ImGui::Render threw.
 fn frame_at<R>(mouse: [f32; 2], down: bool, draw: impl FnOnce(&mut Ui) -> R) -> Result<R, String> {
     assert!(unsafe { mqemu_imgui_test_new_frame(mouse[0], mouse[1], down) }, "NewFrame threw");
-    let result = draw(&mut Ui::new(&sys::API));
+    let result = draw(&mut Ui::new(&fake::APIS));
     let mut error = [0 as c_char; 512];
     if unsafe { mqemu_imgui_test_end_frame(error.as_mut_ptr(), error.len()) } {
         Ok(result)
@@ -299,7 +300,7 @@ fn table_columns_must_be_set_up_first_and_within_the_count() {
 #[test]
 #[should_panic(expected = "1 to 512 columns, not 0")]
 fn a_table_needs_a_column() {
-    let mut ui = Ui::new(&sys::API);
+    let mut ui = Ui::new(&fake::APIS);
     let _ = ui.table("empty", 0);
 }
 
@@ -358,7 +359,7 @@ fn every_widget_draws_cleanly() {
             ui.progress_bar(0.25);
             ui.progress_bar_with(0.5, [100.0, 0.0], Some("half"));
             ui.plot_lines("lines", &[1.0, 3.0, 2.0]);
-            ui.plot_histogram_with("bars", &[1.0, 3.0, 2.0], Plot { scale: Some(0.0..=5.0), size: [0.0, 40.0], overlay: Some("bars") });
+            ui.plot_histogram_with("bars", &[1.0, 3.0, 2.0], PlotOptions { scale: Some(0.0..=5.0), size: [0.0, 40.0], overlay: Some("bars") });
             ui.plot_lines("empty", &[]);
             ui.combo_list("combo", &mut choice, &["a", "b", "c"]);
             ui.collapsing_header_with("header", TreeNodeFlags::DEFAULT_OPEN);
@@ -457,3 +458,7 @@ fn style_color_reads_what_is_pushed() {
     assert_eq!(inside, pushed);
     assert_ne!(after, pushed, "popped again");
 }
+
+mod draw;
+mod interaction;
+mod plot;

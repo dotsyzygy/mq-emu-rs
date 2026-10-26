@@ -13,15 +13,16 @@
 // release imgui.dll (TableNextRow outside a table dereferences null), so the
 // safe API in mq-emu must make them impossible; this layer can't.
 //
-// This file imports imgui.dll, so only binaries that call it link it.
+// This file imports imgui.dll, so only binaries that call it link it. Draw
+// lists and images are in imgui_draw.cpp, ImPlot in implot.cpp, and what
+// needs MQ2Main.dll (game textures, EQ fonts) in imgui_mq.cpp.
 
-#include "mq_api.h"
+#include "imgui_shim.h"
 
-#include "imgui/imgui.h"
+#include "imgui/ImGuiUtils.h"
+#include "imgui/imgui_internal.h"
 
-#include <cstring>
-#include <exception>
-#include <string>
+using namespace mqemu;
 
 namespace {
 
@@ -29,7 +30,9 @@ namespace {
 std::string s_error;
 bool s_has_error = false;
 
-void note_error(const char* what)
+} // namespace
+
+void mqemu::note_error(const char* what)
 {
 	// Keep the first one: later errors are usually its consequences.
 	if (!s_has_error)
@@ -38,84 +41,6 @@ void note_error(const char* what)
 		s_has_error = true;
 	}
 }
-
-template <typename R, typename F>
-R guarded(R fallback, F&& body)
-{
-	try
-	{
-		return body();
-	}
-	catch (const std::exception& e)
-	{
-		note_error(e.what());
-	}
-	catch (...)
-	{
-		note_error(nullptr);
-	}
-	return fallback;
-}
-
-template <typename F>
-void guarded_void(F&& body)
-{
-	guarded(0, [&] { body(); return 0; });
-}
-
-// A (pointer, length) string as the NUL-terminated one ImGui wants. Short
-// strings (nearly every label) stay on the stack.
-class CString
-{
-public:
-	CString(const char* text, size_t len)
-	{
-		if (len < sizeof(m_small))
-		{
-			if (len)
-				memcpy(m_small, text, len);
-			m_small[len] = 0;
-			m_ptr = m_small;
-		}
-		else
-		{
-			m_big.assign(text, len);
-			m_ptr = m_big.c_str();
-		}
-	}
-
-	CString(const CString&) = delete;
-	CString& operator=(const CString&) = delete;
-
-	operator const char*() const { return m_ptr; }
-
-private:
-	char m_small[128];
-	std::string m_big;
-	const char* m_ptr;
-};
-
-// Null for an absent optional string (len == SIZE_MAX).
-class OptionalCString
-{
-public:
-	OptionalCString(const char* text, size_t len)
-	{
-		if (text && len != SIZE_MAX)
-		{
-			m_text.assign(text, len);
-			m_present = true;
-		}
-	}
-
-	operator const char*() const { return m_present ? m_text.c_str() : nullptr; }
-
-private:
-	std::string m_text;
-	bool m_present = false;
-};
-
-} // namespace
 
 // ----- errors -----
 
@@ -743,44 +668,314 @@ extern "C" void mqemu_imgui_style_color(int idx, float* rgba)
 	});
 }
 
-// Drawing on the current window's draw list, in screen coordinates. These
-// don't move the cursor or affect layout.
+// ImGui's own float-to-packed color conversion (no style alpha), for checking
+// mq-emu's, which draw lists take.
+extern "C" ImU32 mqemu_imgui_color_convert(float r, float g, float b, float a)
+{
+	return ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a));
+}
 
-extern "C" void mqemu_imgui_draw_line(float x1, float y1, float x2, float y2, float r, float g, float b, float a, float thickness)
+// ----- cursor, mouse and window geometry -----
+
+extern "C" void mqemu_imgui_cursor_screen_pos(float* x, float* y)
 {
 	guarded_void([&] {
-		ImGui::GetWindowDrawList()->AddLine(ImVec2(x1, y1), ImVec2(x2, y2), ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a)), thickness);
+		ImVec2 pos = ImGui::GetCursorScreenPos();
+		*x = pos.x;
+		*y = pos.y;
 	});
 }
 
-extern "C" void mqemu_imgui_draw_rect(float x1, float y1, float x2, float y2, float r, float g, float b, float a,
-	float rounding, float thickness, bool filled)
+// Moving the cursor past the content grows the content to there, as ImGui did
+// before 1.89. This ImGui instead throws when the window, group or table cell
+// ends without an item after the move, leaving that scope half ended (and
+// MacroQuest pausing ImGui for every plugin).
+extern "C" void mqemu_imgui_set_cursor_screen_pos(float x, float y)
 {
 	guarded_void([&] {
-		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a));
-		ImDrawList* list = ImGui::GetWindowDrawList();
-		if (filled)
-			list->AddRectFilled(ImVec2(x1, y1), ImVec2(x2, y2), color, rounding);
-		else
-			list->AddRect(ImVec2(x1, y1), ImVec2(x2, y2), color, rounding, 0, thickness);
+		ImGui::SetCursorScreenPos(ImVec2(x, y));
+		ImGuiWindow* window = ImGui::GetCurrentWindow();
+		window->DC.CursorMaxPos = ImMax(window->DC.CursorMaxPos, window->DC.CursorPos);
+		window->DC.IsSetPos = false;
 	});
 }
 
-extern "C" void mqemu_imgui_draw_circle(float x, float y, float radius, float r, float g, float b, float a, float thickness, bool filled)
+extern "C" void mqemu_imgui_window_pos(float* x, float* y)
 {
 	guarded_void([&] {
-		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a));
-		ImDrawList* list = ImGui::GetWindowDrawList();
-		if (filled)
-			list->AddCircleFilled(ImVec2(x, y), radius, color);
-		else
-			list->AddCircle(ImVec2(x, y), radius, color, 0, thickness);
+		ImVec2 pos = ImGui::GetWindowPos();
+		*x = pos.x;
+		*y = pos.y;
 	});
 }
 
-extern "C" void mqemu_imgui_draw_text(float x, float y, float r, float g, float b, float a, const char* text, size_t len)
+extern "C" void mqemu_imgui_window_size(float* w, float* h)
 {
 	guarded_void([&] {
-		ImGui::GetWindowDrawList()->AddText(ImVec2(x, y), ImGui::ColorConvertFloat4ToU32(ImVec4(r, g, b, a)), text, text + len);
+		ImVec2 size = ImGui::GetWindowSize();
+		*w = size.x;
+		*h = size.y;
 	});
+}
+
+// The main viewport's work area (the game's window, less any menu bars).
+extern "C" void mqemu_imgui_main_viewport_rect(float* x, float* y, float* w, float* h)
+{
+	guarded_void([&] {
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		*x = viewport->WorkPos.x;
+		*y = viewport->WorkPos.y;
+		*w = viewport->WorkSize.x;
+		*h = viewport->WorkSize.y;
+	});
+}
+
+extern "C" void mqemu_imgui_mouse_pos(float* x, float* y)
+{
+	guarded_void([&] {
+		ImVec2 pos = ImGui::GetMousePos();
+		*x = pos.x;
+		*y = pos.y;
+	});
+}
+
+// `button` 0 left, 1 right, 2 middle.
+extern "C" bool mqemu_imgui_is_mouse_down(int button)
+{
+	return guarded(false, [&] { return ImGui::IsMouseDown(button); });
+}
+
+extern "C" bool mqemu_imgui_is_mouse_clicked(int button)
+{
+	return guarded(false, [&] { return ImGui::IsMouseClicked(button); });
+}
+
+extern "C" bool mqemu_imgui_is_mouse_hovering_rect(float min_x, float min_y, float max_x, float max_y)
+{
+	return guarded(false, [&] { return ImGui::IsMouseHoveringRect(ImVec2(min_x, min_y), ImVec2(max_x, max_y)); });
+}
+
+// An item with an ID and size but nothing drawn: a hit area for custom
+// drawing, or a drag source. Neither `w` nor `h` may be 0 (negative fills
+// the space left but that much).
+extern "C" bool mqemu_imgui_invisible_button(const char* id, size_t id_len, float w, float h, int flags)
+{
+	return guarded(false, [&] {
+		if (w == 0.0f || h == 0.0f)
+			throw ImGuiException("InvisibleButton() can't be 0 wide or tall");
+		return ImGui::InvisibleButton(CString(id, id_len), ImVec2(w, h), flags);
+	});
+}
+
+// ----- drag and drop -----
+
+namespace {
+
+// ImGui keeps payload types in a 33-byte buffer, and a release imgui.dll
+// doesn't check the length.
+bool payload_type_ok(const char* type, size_t len)
+{
+	return len > 0 && len <= 32 && type[0] != '_' && !memchr(type, 0, len);
+}
+
+void read_payload(const ImGuiPayload* payload, const void** data, size_t* size, bool* preview, bool* delivery)
+{
+	*data = payload->Data;
+	*size = payload->Data ? static_cast<size_t>(payload->DataSize) : 0;
+	*preview = payload->IsPreview();
+	*delivery = payload->IsDelivery();
+}
+
+} // namespace
+
+// Call after the item to drag. Call mqemu_imgui_end_drag_drop_source only if
+// this returns true.
+extern "C" bool mqemu_imgui_begin_drag_drop_source(int flags)
+{
+	return guarded(false, [&] { return ImGui::BeginDragDropSource(flags); });
+}
+
+// Copies `size` bytes of `data` as the payload, of `type`: 1 to 32 bytes, no
+// NUL, not starting with '_' (ImGui's own types). False if a target hasn't
+// accepted it yet. Only between a drag source's begin and end.
+extern "C" bool mqemu_imgui_set_drag_drop_payload(const char* type, size_t type_len, const void* data, size_t size, int cond)
+{
+	return guarded(false, [&] {
+		if (!payload_type_ok(type, type_len))
+			throw ImGuiException("drag and drop payload types are 1 to 32 bytes and don't start with '_'");
+		return ImGui::SetDragDropPayload(CString(type, type_len), size ? data : nullptr, size, cond);
+	});
+}
+
+extern "C" void mqemu_imgui_end_drag_drop_source()
+{
+	guarded_void([] { ImGui::EndDragDropSource(); });
+}
+
+// Call after the item to drop on. Call mqemu_imgui_end_drag_drop_target only
+// if this returns true.
+extern "C" bool mqemu_imgui_begin_drag_drop_target()
+{
+	return guarded(false, [] { return ImGui::BeginDragDropTarget(); });
+}
+
+// A payload of `type` over the target: its data (owned by ImGui, valid this
+// frame) and whether it's only hovering (`preview`) or dropped (`delivery`).
+// Only between a drop target's begin and end.
+extern "C" bool mqemu_imgui_accept_drag_drop_payload(const char* type, size_t type_len, int flags, const void** data,
+	size_t* size, bool* preview, bool* delivery)
+{
+	return guarded(false, [&] {
+		if (!payload_type_ok(type, type_len))
+			return false;
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(CString(type, type_len), flags);
+		if (!payload)
+			return false;
+		read_payload(payload, data, size, preview, delivery);
+		return true;
+	});
+}
+
+extern "C" void mqemu_imgui_end_drag_drop_target()
+{
+	guarded_void([] { ImGui::EndDragDropTarget(); });
+}
+
+// The payload being dragged anywhere, if any, its type copied to `type`
+// (NUL-terminated, truncated to `cap`).
+extern "C" bool mqemu_imgui_drag_drop_payload(char* type, size_t cap, const void** data, size_t* size, bool* preview, bool* delivery)
+{
+	return guarded(false, [&] {
+		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		if (!payload || payload->DataFrameCount == -1)
+			return false;
+		if (type && cap)
+			strncpy_s(type, cap, payload->DataType, _TRUNCATE);
+		read_payload(payload, data, size, preview, delivery);
+		return true;
+	});
+}
+
+// ----- fonts -----
+
+// MacroQuest's fonts (src/imgui/ImGuiUtils.cpp): 0 its default (Roboto 16
+// with icons), 1 its console font, 2 large text (Roboto 22 with icons). Null
+// if absent.
+extern "C" ImFont* mqemu_imgui_mq_font(int which)
+{
+	switch (which)
+	{
+	case 0: return mq::imgui::DefaultFont;
+	case 1: return mq::imgui::ConsoleFont;
+	case 2: return mq::imgui::LargeTextFont;
+	default: return nullptr;
+	}
+}
+
+// Null `font` keeps the current one; `size` 0 keeps the current size. Sizes
+// are unscaled pixels, >= 0.
+extern "C" void mqemu_imgui_push_font(ImFont* font, float size)
+{
+	guarded_void([&] {
+		if (!(size >= 0.0f))
+			throw ImGuiException("PushFont() needs a size of 0 or more");
+		ImGui::PushFont(font, size);
+	});
+}
+
+extern "C" void mqemu_imgui_pop_font()
+{
+	guarded_void([] { ImGui::PopFont(); });
+}
+
+extern "C" ImFont* mqemu_imgui_current_font()
+{
+	return guarded<ImFont*>(nullptr, [] { return ImGui::GetFont(); });
+}
+
+// The size `font` was added at, its natural size.
+extern "C" float mqemu_imgui_font_own_size(const ImFont* font)
+{
+	return font->LegacySize;
+}
+
+// The current font size in pixels, after global scaling.
+extern "C" float mqemu_imgui_font_size()
+{
+	return guarded(0.0f, [] { return ImGui::GetFontSize(); });
+}
+
+// The current font size before global scaling, as mqemu_imgui_push_font takes it.
+extern "C" float mqemu_imgui_font_size_base()
+{
+	return guarded(0.0f, [] { return ImGui::GetStyle().FontSizeBase; });
+}
+
+// Adds a TrueType/OpenType font file to the font atlas at `size` pixels.
+// Null if the file can't be read.
+extern "C" ImFont* mqemu_imgui_add_font_file(const char* path, size_t path_len, float size)
+{
+	return guarded<ImFont*>(nullptr, [&] {
+		ImFontConfig config;
+		config.Flags |= ImFontFlags_NoLoadError;
+		return ImGui::GetIO().Fonts->AddFontFromFileTTF(CString(path, path_len), size, &config);
+	});
+}
+
+// Removes a font added with mqemu_imgui_add_font_file. Never while it's
+// pushed, or drawing with it.
+extern "C" void mqemu_imgui_remove_font(ImFont* font)
+{
+	guarded_void([&] {
+		// When the game exits, MacroQuest may have destroyed ImGui (and its
+		// fonts) before unloading plugins.
+		if (ImGui::GetCurrentContext())
+			ImGui::GetIO().Fonts->RemoveFont(font);
+	});
+}
+
+// ----- docking -----
+
+// Whether docking is on (MacroQuest's overlay setting).
+extern "C" bool mqemu_imgui_docking_enabled()
+{
+	return guarded(false, [] { return (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable) != 0; });
+}
+
+// The ID `id` gets on the current ID stack, as a widget labeled `id` would.
+extern "C" ImGuiID mqemu_imgui_get_id(const char* id, size_t id_len)
+{
+	return guarded<ImGuiID>(0, [&] { return ImGui::GetID(id, id + id_len); });
+}
+
+// A dock space in the current window, which windows can be docked into. `id`
+// must not be 0. Returns `id`, or 0 if docking is off.
+extern "C" ImGuiID mqemu_imgui_dock_space(ImGuiID id, float w, float h, int flags)
+{
+	return guarded<ImGuiID>(0, [&] {
+		if (id == 0)
+			throw ImGuiException("DockSpace() needs an ID other than 0");
+		return ImGui::DockSpace(id, ImVec2(w, h), flags);
+	});
+}
+
+// A dock space covering the main viewport (0 picks an ID).
+extern "C" ImGuiID mqemu_imgui_dock_space_over_viewport(ImGuiID id, int flags)
+{
+	return guarded<ImGuiID>(0, [&] { return ImGui::DockSpaceOverViewport(id, nullptr, flags); });
+}
+
+extern "C" void mqemu_imgui_set_next_window_dock_id(ImGuiID id, int cond)
+{
+	guarded_void([&] { ImGui::SetNextWindowDockID(id, cond); });
+}
+
+extern "C" ImGuiID mqemu_imgui_window_dock_id()
+{
+	return guarded<ImGuiID>(0, [] { return ImGui::GetWindowDockID(); });
+}
+
+extern "C" bool mqemu_imgui_is_window_docked()
+{
+	return guarded(false, [] { return ImGui::IsWindowDocked(); });
 }

@@ -58,12 +58,29 @@
 //! Labels follow ImGui's ID rules: `"Save##settings"` shows "Save" with an ID
 //! of the whole label, and `"###id"` keeps an ID while the text changes. Use
 //! [`Ui::with_id`] to tell apart widgets with the same label.
+//!
+//! # Beyond widgets
+//!
+//! - Drawing: [`Ui::draw_list`] (on the window), [`Ui::foreground_draw_list`]
+//!   and [`Ui::background_draw_list`] give a [`DrawList`]: shapes, text,
+//!   images and [paths](DrawList::path), with an [`Ui::invisible_button`]
+//!   as the hit area of something custom.
+//! - Images: [`Ui::load_texture`] loads a file; [`Ui::find_texture_animation`]
+//!   finds the game's own art, such as item and spell icons ([`ITEM_ICONS`]).
+//! - Drag and drop: [`Ui::drag_drop_source`] and [`Ui::drag_drop_target`] on
+//!   the last item.
+//! - Fonts: [`Ui::with_font`] with MacroQuest's, EverQuest's or a loaded
+//!   [`Font`]; [`Ui::with_font_size`] for size alone.
+//! - Docking: [`Ui::dock_space`] and [`Window::dock`].
+//! - ImPlot: [`Ui::plot`] and [`Ui::subplots`] (see [`Plot`]).
 
 use std::ffi::{c_char, c_void};
 use std::marker::PhantomData;
-use std::ops::{BitOr, BitOrAssign, Deref, DerefMut, RangeInclusive};
+use std::ops::{Deref, DerefMut, RangeInclusive};
 
 use mq_emu_sys::imgui as sys;
+use mq_emu_sys::imgui_mq;
+use mq_emu_sys::implot;
 
 /// An RGBA color, each component 0.0 to 1.0.
 pub type Color = [f32; 4];
@@ -73,7 +90,19 @@ pub type Color = [f32; 4];
 /// MacroQuest's ImGui frame.
 pub struct Ui {
     api: &'static sys::Api,
+    plot: &'static implot::Api,
+    mq: &'static imgui_mq::Api,
     _not_send: PhantomData<*const ()>,
+}
+
+/// The shim's function tables a [`Ui`] draws through: ImGui, ImPlot, and
+/// MacroQuest's own (textures, EQ fonts). See `mq_emu_sys::imgui::Api` for
+/// why they're tables.
+#[derive(Clone, Copy)]
+pub(crate) struct Apis {
+    pub imgui: &'static sys::Api,
+    pub implot: &'static implot::Api,
+    pub mq: &'static imgui_mq::Api,
 }
 
 /// Calls an ImGui end function when dropped, so scopes end even on a panic.
@@ -118,15 +147,31 @@ pub enum Cond {
     Appearing = sys::ImGuiCond_Appearing,
 }
 
+/// A mouse button (`ImGuiMouseButton_`).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[repr(i32)]
+pub enum MouseButton {
+    Left = sys::ImGuiMouseButton_Left,
+    Right = sys::ImGuiMouseButton_Right,
+    Middle = sys::ImGuiMouseButton_Middle,
+}
+
+/// A dock space or dock node ([`Ui::dock_id`], [`Ui::dock_space`]).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct DockId(pub u32);
+
 macro_rules! flags {
     ($(#[$meta:meta])* $name:ident { $($(#[$flag_meta:meta])* $flag:ident = $value:ident,)* }) => {
+        flags! { $(#[$meta])* $name { $($(#[$flag_meta])* $flag = $value,)* } in sys }
+    };
+    ($(#[$meta:meta])* $name:ident { $($(#[$flag_meta:meta])* $flag:ident = $value:ident,)* } in $module:ident) => {
         $(#[$meta])*
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
         pub struct $name(i32);
 
         impl $name {
             pub const NONE: $name = $name(0);
-            $( $(#[$flag_meta])* pub const $flag: $name = $name(sys::$value); )*
+            $( $(#[$flag_meta])* pub const $flag: $name = $name($module::$value); )*
 
             pub const fn bits(self) -> i32 {
                 self.0
@@ -137,20 +182,39 @@ macro_rules! flags {
             }
         }
 
-        impl BitOr for $name {
+        impl ::std::ops::BitOr for $name {
             type Output = $name;
             fn bitor(self, other: $name) -> $name {
                 $name(self.0 | other.0)
             }
         }
 
-        impl BitOrAssign for $name {
+        impl ::std::ops::BitOrAssign for $name {
             fn bitor_assign(&mut self, other: $name) {
                 self.0 |= other.0;
             }
         }
     };
 }
+
+mod dnd;
+mod draw;
+mod font;
+mod plot;
+mod texture;
+
+pub use dnd::{DragDropFlags, DragSource, DropTarget, MAX_PAYLOAD_KIND, Payload};
+pub use draw::{Channels, Corners, DrawList, Path, Vec2, pack_color};
+pub use font::{Font, LoadedFont};
+pub use plot::{
+    Axis, AxisFlags, BarGroupsFlags, BarsFlags, Bins, Colormap, ColormapScaleFlags, DigitalFlags, DragState, DragToolFlags, DummyFlags,
+    ErrorBarsFlags, HeatmapFlags, HistogramFlags, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MouseTextFlags, PieChartFlags,
+    Plot, PlotBuilder, PlotFlags, PlotImageFlags, PlotRect, PlotStyleColor, PlotStyleVar, PlotValue, Scale, ScatterFlags, Series,
+    ShadedFlags, StairsFlags, StemsFlags, SubplotFlags, Subplots, SubplotsBuilder,
+};
+pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId};
+pub(crate) use font::remove_loaded_fonts;
+pub(crate) use texture::{free_retired_textures, ui_unloaded};
 
 flags! {
     /// Options for [`Ui::window`] (`ImGuiWindowFlags_`).
@@ -180,6 +244,33 @@ flags! {
         NO_NAV = ImGuiWindowFlags_NoNav,
         NO_DECORATION = ImGuiWindowFlags_NoDecoration,
         NO_INPUTS = ImGuiWindowFlags_NoInputs,
+    }
+}
+
+flags! {
+    /// Options for [`Ui::invisible_button_with`] (`ImGuiButtonFlags_`).
+    ButtonFlags {
+        /// React to the left button (the default when none is given).
+        MOUSE_BUTTON_LEFT = ImGuiButtonFlags_MouseButtonLeft,
+        MOUSE_BUTTON_RIGHT = ImGuiButtonFlags_MouseButtonRight,
+        MOUSE_BUTTON_MIDDLE = ImGuiButtonFlags_MouseButtonMiddle,
+        /// Reachable with keyboard navigation.
+        ENABLE_NAV = ImGuiButtonFlags_EnableNav,
+    }
+}
+
+flags! {
+    /// Options for [`Ui::dock_space`] (`ImGuiDockNodeFlags_`).
+    DockNodeFlags {
+        /// Keep the dock space (and what's docked in it) without showing it.
+        KEEP_ALIVE_ONLY = ImGuiDockNodeFlags_KeepAliveOnly,
+        NO_DOCKING_OVER_CENTRAL_NODE = ImGuiDockNodeFlags_NoDockingOverCentralNode,
+        /// Clicks go through the empty middle, and nothing is drawn there.
+        PASSTHRU_CENTRAL_NODE = ImGuiDockNodeFlags_PassthruCentralNode,
+        NO_DOCKING_SPLIT = ImGuiDockNodeFlags_NoDockingSplit,
+        NO_RESIZE = ImGuiDockNodeFlags_NoResize,
+        AUTO_HIDE_TAB_BAR = ImGuiDockNodeFlags_AutoHideTabBar,
+        NO_UNDOCKING = ImGuiDockNodeFlags_NoUndocking,
     }
 }
 
@@ -675,8 +766,8 @@ fn edit_text(text: &mut String, edit: impl FnOnce(*mut c_char, usize, *mut c_voi
 
 impl Ui {
     /// Only the runtime makes one, for a frame.
-    pub(crate) fn new(api: &'static sys::Api) -> Ui {
-        Ui { api, _not_send: PhantomData }
+    pub(crate) fn new(apis: &'static Apis) -> Ui {
+        Ui { api: apis.imgui, plot: apis.implot, mq: apis.mq, _not_send: PhantomData }
     }
 
     // ----- windows -----
@@ -684,7 +775,7 @@ impl Ui {
     /// A top-level window; configure it, then [`Window::show`] its contents.
     /// Its title is also its ID (see the module docs for `##`).
     pub fn window<'ui, 'a>(&'ui mut self, title: &'a str) -> Window<'ui, 'a> {
-        Window { ui: self, title, open: None, flags: WindowFlags::NONE, pos: None, size: None, constraints: None, collapsed: None }
+        Window { ui: self, title, open: None, flags: WindowFlags::NONE, pos: None, size: None, constraints: None, collapsed: None, dock: None }
     }
 
     /// A scrolling region inside the current window. `size` 0 on an axis
@@ -987,24 +1078,24 @@ impl Ui {
 
     /// A line graph of `values`, scaled to fit them.
     pub fn plot_lines(&mut self, label: &str, values: &[f32]) {
-        self.plot(label, values, Plot::default(), false);
+        self.simple_plot(label, values, PlotOptions::default(), false);
     }
 
     /// [`Ui::plot_lines`] with a scale, size and overlay text.
-    pub fn plot_lines_with(&mut self, label: &str, values: &[f32], options: Plot<'_>) {
-        self.plot(label, values, options, false);
+    pub fn plot_lines_with(&mut self, label: &str, values: &[f32], options: PlotOptions<'_>) {
+        self.simple_plot(label, values, options, false);
     }
 
     /// A bar graph of `values`, scaled to fit them.
     pub fn plot_histogram(&mut self, label: &str, values: &[f32]) {
-        self.plot(label, values, Plot::default(), true);
+        self.simple_plot(label, values, PlotOptions::default(), true);
     }
 
-    pub fn plot_histogram_with(&mut self, label: &str, values: &[f32], options: Plot<'_>) {
-        self.plot(label, values, options, true);
+    pub fn plot_histogram_with(&mut self, label: &str, values: &[f32], options: PlotOptions<'_>) {
+        self.simple_plot(label, values, options, true);
     }
 
-    fn plot(&mut self, label: &str, values: &[f32], options: Plot<'_>, histogram: bool) {
+    fn simple_plot(&mut self, label: &str, values: &[f32], options: PlotOptions<'_>, histogram: bool) {
         let ((l, ln), (o, on)) = (s(label), opt(options.overlay));
         let count = i32::try_from(values.len()).unwrap_or(i32::MAX);
         let (min, max) = options.scale.map_or((f32::MAX, f32::MAX), |r| (*r.start(), *r.end()));
@@ -1226,7 +1317,131 @@ impl Ui {
     /// [`Ui::item_rect`]. Borrows the `Ui`, so the window can't change while
     /// it's held.
     pub fn draw_list(&self) -> DrawList<'_> {
-        DrawList { api: self.api, _ui: PhantomData }
+        DrawList::new(self, unsafe { (self.api.mqemu_imgui_window_draw_list)() })
+    }
+
+    /// Draws over every window (anywhere on the screen).
+    pub fn foreground_draw_list(&self) -> DrawList<'_> {
+        DrawList::new(self, unsafe { (self.api.mqemu_imgui_foreground_draw_list)() })
+    }
+
+    /// Draws under every window, over the game: a HUD, say.
+    pub fn background_draw_list(&self) -> DrawList<'_> {
+        DrawList::new(self, unsafe { (self.api.mqemu_imgui_background_draw_list)() })
+    }
+
+    // ----- cursor, mouse and window geometry -----
+
+    /// Where the next item goes, in screen coordinates.
+    pub fn cursor_screen_pos(&self) -> Vec2 {
+        let (mut x, mut y) = (0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_cursor_screen_pos)(&mut x, &mut y) };
+        [x, y]
+    }
+
+    /// Moves where the next item goes, in screen coordinates.
+    pub fn set_cursor_screen_pos(&mut self, pos: Vec2) {
+        unsafe { (self.api.mqemu_imgui_set_cursor_screen_pos)(pos[0], pos[1]) }
+    }
+
+    /// The current window's top left, on the screen.
+    pub fn window_pos(&self) -> Vec2 {
+        let (mut x, mut y) = (0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_window_pos)(&mut x, &mut y) };
+        [x, y]
+    }
+
+    /// The current window's size, `[w, h]`.
+    pub fn window_size(&self) -> Vec2 {
+        let (mut w, mut h) = (0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_window_size)(&mut w, &mut h) };
+        [w, h]
+    }
+
+    /// The part of the game's window ImGui can use: top left and size.
+    pub fn screen_rect(&self) -> (Vec2, Vec2) {
+        let (mut x, mut y, mut w, mut h) = (0.0, 0.0, 0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_main_viewport_rect)(&mut x, &mut y, &mut w, &mut h) };
+        ([x, y], [w, h])
+    }
+
+    pub fn mouse_pos(&self) -> Vec2 {
+        let (mut x, mut y) = (0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_mouse_pos)(&mut x, &mut y) };
+        [x, y]
+    }
+
+    pub fn is_mouse_down(&self, button: MouseButton) -> bool {
+        unsafe { (self.api.mqemu_imgui_is_mouse_down)(button as i32) }
+    }
+
+    /// Whether `button` went down this frame.
+    pub fn is_mouse_clicked(&self, button: MouseButton) -> bool {
+        unsafe { (self.api.mqemu_imgui_is_mouse_clicked)(button as i32) }
+    }
+
+    /// Whether the mouse is in the rectangle (and the current clip rectangle).
+    pub fn is_mouse_hovering_rect(&self, min: Vec2, max: Vec2) -> bool {
+        unsafe { (self.api.mqemu_imgui_is_mouse_hovering_rect)(min[0], min[1], max[0], max[1]) }
+    }
+
+    /// An item of `size` that shows nothing but can be clicked, hovered and
+    /// dragged: the hit area of something drawn with [`Ui::draw_list`].
+    /// True when clicked. A negative size fills the space left but that much.
+    ///
+    /// # Panics
+    /// If either size is 0.
+    pub fn invisible_button(&mut self, id: &str, size: Vec2) -> bool {
+        self.invisible_button_with(id, size, ButtonFlags::NONE)
+    }
+
+    /// # Panics
+    /// If either size is 0.
+    pub fn invisible_button_with(&mut self, id: &str, size: Vec2, flags: ButtonFlags) -> bool {
+        assert!(size[0] != 0.0 && size[1] != 0.0, "an invisible button can't be 0 wide or tall: {size:?}");
+        let (i, n) = s(id);
+        unsafe { (self.api.mqemu_imgui_invisible_button)(i, n, size[0], size[1], flags.bits()) }
+    }
+
+    // ----- docking -----
+
+    /// Whether docking is on (a MacroQuest overlay setting). Without it,
+    /// dock spaces do nothing.
+    pub fn is_docking_enabled(&self) -> bool {
+        unsafe { (self.api.mqemu_imgui_docking_enabled)() }
+    }
+
+    /// The dock ID `name` gets here (it depends on the ID stack, like a
+    /// widget's ID).
+    pub fn dock_id(&self, name: &str) -> DockId {
+        let (p, n) = s(name);
+        DockId(unsafe { (self.api.mqemu_imgui_get_id)(p, n) })
+    }
+
+    /// A dock space in the current window: an area other windows can be
+    /// docked into ([`Window::dock`] puts one there). A `size` of 0 fills the
+    /// space left. None if docking is off.
+    pub fn dock_space(&mut self, id: DockId, size: Vec2, flags: DockNodeFlags) -> Option<DockId> {
+        let id = unsafe { (self.api.mqemu_imgui_dock_space)(id.0, size[0], size[1], flags.bits()) };
+        (id != 0).then_some(DockId(id))
+    }
+
+    /// A dock space covering the whole screen, behind every window (with
+    /// [`DockNodeFlags::PASSTHRU_CENTRAL_NODE`], clicks go through where
+    /// nothing is docked). `id` None picks one. None if docking is off.
+    pub fn dock_space_over_screen(&mut self, id: Option<DockId>, flags: DockNodeFlags) -> Option<DockId> {
+        let id = unsafe { (self.api.mqemu_imgui_dock_space_over_viewport)(id.map_or(0, |id| id.0), flags.bits()) };
+        (id != 0).then_some(DockId(id))
+    }
+
+    /// The dock node the current window is docked in, if any.
+    pub fn window_dock_id(&self) -> Option<DockId> {
+        let id = unsafe { (self.api.mqemu_imgui_window_dock_id)() };
+        (id != 0).then_some(DockId(id))
+    }
+
+    pub fn is_window_docked(&self) -> bool {
+        unsafe { (self.api.mqemu_imgui_is_window_docked)() }
     }
 
     // ----- frame info -----
@@ -1252,51 +1467,10 @@ impl Ui {
     }
 }
 
-/// Draws on the current window; see [`Ui::draw_list`]. Positions are screen
-/// coordinates, `[x, y]`.
-pub struct DrawList<'ui> {
-    api: &'static sys::Api,
-    _ui: PhantomData<&'ui Ui>,
-}
-
-impl DrawList<'_> {
-    pub fn add_line(&self, from: [f32; 2], to: [f32; 2], color: Color, thickness: f32) {
-        let [r, g, b, a] = color;
-        unsafe { (self.api.mqemu_imgui_draw_line)(from[0], from[1], to[0], to[1], r, g, b, a, thickness) }
-    }
-
-    /// A rectangle's outline from `min` (top left) to `max`.
-    pub fn add_rect(&self, min: [f32; 2], max: [f32; 2], color: Color, rounding: f32, thickness: f32) {
-        let [r, g, b, a] = color;
-        unsafe { (self.api.mqemu_imgui_draw_rect)(min[0], min[1], max[0], max[1], r, g, b, a, rounding, thickness, false) }
-    }
-
-    pub fn add_rect_filled(&self, min: [f32; 2], max: [f32; 2], color: Color, rounding: f32) {
-        let [r, g, b, a] = color;
-        unsafe { (self.api.mqemu_imgui_draw_rect)(min[0], min[1], max[0], max[1], r, g, b, a, rounding, 0.0, true) }
-    }
-
-    pub fn add_circle(&self, center: [f32; 2], radius: f32, color: Color, thickness: f32) {
-        let [r, g, b, a] = color;
-        unsafe { (self.api.mqemu_imgui_draw_circle)(center[0], center[1], radius, r, g, b, a, thickness, false) }
-    }
-
-    pub fn add_circle_filled(&self, center: [f32; 2], radius: f32, color: Color) {
-        let [r, g, b, a] = color;
-        unsafe { (self.api.mqemu_imgui_draw_circle)(center[0], center[1], radius, r, g, b, a, 0.0, true) }
-    }
-
-    /// `text` with its top left at `pos`, as is (no formatting).
-    pub fn add_text(&self, pos: [f32; 2], color: Color, text: impl AsRef<str>) {
-        let [r, g, b, a] = color;
-        let (t, n) = s(text.as_ref());
-        unsafe { (self.api.mqemu_imgui_draw_text)(pos[0], pos[1], r, g, b, a, t, n) }
-    }
-}
-
-/// Options for [`Ui::plot_lines_with`] and [`Ui::plot_histogram_with`].
+/// Options for [`Ui::plot_lines_with`] and [`Ui::plot_histogram_with`], ImGui's
+/// simple graphs ([`Ui::plot`] draws ImPlot's).
 #[derive(Debug, Clone, Default)]
-pub struct Plot<'a> {
+pub struct PlotOptions<'a> {
     /// The values at the bottom and top; None fits the data.
     pub scale: Option<RangeInclusive<f32>>,
     /// `[w, h]`; 0 for defaults.
@@ -1316,6 +1490,7 @@ pub struct Window<'ui, 'a> {
     size: Option<([f32; 2], Cond)>,
     constraints: Option<([f32; 2], [f32; 2])>,
     collapsed: Option<(bool, Cond)>,
+    dock: Option<(DockId, Cond)>,
 }
 
 impl<'a> Window<'_, 'a> {
@@ -1360,6 +1535,12 @@ impl<'a> Window<'_, 'a> {
         self
     }
 
+    /// Docks the window into the dock space or node `id` ([`Ui::dock_space`]).
+    pub fn dock(mut self, id: DockId, cond: Cond) -> Self {
+        self.dock = Some((id, cond));
+        self
+    }
+
     /// Draws the window, with `f` drawing its contents unless it's collapsed
     /// or scrolled off. Returns `f`'s result if it ran.
     pub fn show<R>(self, f: impl FnOnce(&mut Ui) -> R) -> Option<R> {
@@ -1378,6 +1559,9 @@ impl<'a> Window<'_, 'a> {
             }
             if let Some((collapsed, cond)) = self.collapsed {
                 (self.ui.api.mqemu_imgui_set_next_window_collapsed)(collapsed, cond as i32);
+            }
+            if let Some((id, cond)) = self.dock {
+                (self.ui.api.mqemu_imgui_set_next_window_dock_id)(id.0, cond as i32);
             }
         }
         let (t, n) = s(self.title);
@@ -1600,5 +1784,7 @@ impl DerefMut for Table<'_> {
     }
 }
 
+#[cfg(test)]
+pub(crate) mod fake;
 #[cfg(test)]
 mod tests;

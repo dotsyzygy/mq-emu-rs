@@ -7,6 +7,9 @@
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "imgui/ImGuiUtils.h"
+#include "imgui/implot/implot.h"
+#include "imgui/implot/implot_internal.h"
 
 #include <cstring>
 #include <exception>
@@ -17,14 +20,18 @@ ImGuiContext* s_context = nullptr;
 
 } // namespace
 
-// Creates a context (once) with a fixed-size display, no ini file and a
-// built font atlas.
+// Creates a context (once) as MacroQuest does: with an ImPlot context,
+// MacroQuest's fonts and docking on; plus a fixed-size display and no ini file.
 extern "C" void mqemu_imgui_test_init()
 {
 	if (s_context)
 		return;
 	s_context = ImGui::CreateContext();
+	if (!ImPlot::GetCurrentContext())
+		ImPlot::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
+	mq::imgui::ConfigureFonts(io.Fonts);
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.IniFilename = nullptr;
 	io.LogFilename = nullptr;
 	io.DisplaySize = ImVec2(1280, 800);
@@ -75,9 +82,11 @@ extern "C" bool mqemu_imgui_test_end_frame(char* error, size_t cap)
 		if (error && cap)
 			strncpy_s(error, cap, "unknown C++ exception", _TRUNCATE);
 	}
-	// The frame is broken; start the next one from a fresh context.
+	// The frame is broken; start the next one from a fresh context (and
+	// ImPlot state, which may be mid-plot).
 	try
 	{
+		ImPlot::DestroyContext();
 		ImGui::DestroyContext(s_context);
 	}
 	catch (...)
@@ -119,4 +128,66 @@ extern "C" void mqemu_imgui_test_type(const char* utf8)
 extern "C" int mqemu_imgui_test_window_vertices()
 {
 	return ImGui::GetWindowDrawList()->VtxBuffer.Size;
+}
+
+// ImGui's own SetCursorScreenPos, without what mqemu_imgui_set_cursor_screen_pos
+// adds.
+extern "C" void mqemu_imgui_test_set_cursor_screen_pos_raw(float x, float y)
+{
+	ImGui::SetCursorScreenPos(ImVec2(x, y));
+}
+
+// How many vertices `list` has so far.
+extern "C" int mqemu_imgui_test_list_vertices(ImDrawList* list)
+{
+	return list->VtxBuffer.Size;
+}
+
+// Whether any of `list`'s draw commands so far uses `texture`.
+extern "C" bool mqemu_imgui_test_list_uses_texture(ImDrawList* list, void* texture)
+{
+	for (const ImDrawCmd& cmd : list->CmdBuffer)
+		if (cmd.TexRef._TexData == nullptr && cmd.TexRef._TexID == static_cast<ImTextureID>(texture))
+			return true;
+	return list->_CmdHeader.TexRef._TexData == nullptr && list->_CmdHeader.TexRef._TexID == static_cast<ImTextureID>(texture);
+}
+
+// `list`'s clip rectangle stack depth, path length and channel count.
+extern "C" void mqemu_imgui_test_list_state(ImDrawList* list, int* clip_depth, int* path_points, int* channels)
+{
+	*clip_depth = list->_ClipRectStack.Size;
+	*path_points = list->_Path.Size;
+	*channels = list->_Splitter._Count;
+}
+
+// The font stack depth and current font.
+extern "C" int mqemu_imgui_test_font_depth()
+{
+	return GImGui->FontStack.Size;
+}
+
+// Whether ImPlot is inside a plot or subplots, and its style and colormap
+// stack depths.
+extern "C" void mqemu_implot_test_state(bool* in_plot, bool* in_subplots, int* style_depth, int* colormap_depth)
+{
+	ImPlotContext& gp = *ImPlot::GetCurrentContext();
+	*in_plot = gp.CurrentPlot != nullptr;
+	*in_subplots = gp.CurrentSubplot != nullptr;
+	*style_depth = gp.ColorModifiers.Size + gp.StyleModifiers.Size;
+	*colormap_depth = gp.ColormapModifiers.Size;
+}
+
+// A fake ImTextureID for drawing images headlessly: nothing renders it.
+extern "C" void* mqemu_imgui_test_texture()
+{
+	static int fake_texture;
+	return &fake_texture;
+}
+
+// The bytes of the payload being dragged, if any (for checking what a drag
+// source sent).
+extern "C" int mqemu_imgui_test_payload_size()
+{
+	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+	return payload ? payload->DataSize : -1;
 }

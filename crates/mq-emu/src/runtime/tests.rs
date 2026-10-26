@@ -138,7 +138,7 @@ const FAKE: Host = Host {
     data: data::FAKE_DATA,
     take_imgui_error: || IMGUI_ERROR.with(RefCell::take),
     // Recorder never draws; nothing calls these.
-    imgui: &mq_emu_sys::imgui::API,
+    imgui: &crate::imgui::fake::APIS,
 };
 
 fn chat_lines() -> Vec<String> {

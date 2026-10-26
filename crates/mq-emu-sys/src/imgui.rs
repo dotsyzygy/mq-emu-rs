@@ -22,8 +22,38 @@
 //!
 //! Format strings (`format` arguments of sliders and drags) are printf
 //! formats: they must contain exactly one conversion, of the value's type.
+//!
+//! # Drawing
+//!
+//! Draw lists ([`ImDrawList`]) come from [`mqemu_imgui_window_draw_list`] and
+//! its foreground and background siblings, and are valid until the end of the
+//! frame. Points are arrays of `[x, y]` float pairs in screen coordinates;
+//! colors are packed `ImU32`s (red in the low byte, alpha in the high one).
+//! Textures are `ImTextureID`s: on emu (Direct3D 9) texture pointers, such as
+//! [`imgui_mq::mqemu_texture_id`](crate::imgui_mq::mqemu_texture_id) returns.
+//!
+//! ImPlot is in [`implot`](crate::implot), and what needs MacroQuest itself
+//! (game textures, EQ fonts) in [`imgui_mq`](crate::imgui_mq).
 
-use core::ffi::c_char;
+use core::ffi::{c_char, c_void};
+use core::marker::{PhantomData, PhantomPinned};
+
+/// ImGui's `ImDrawList`.
+#[repr(C)]
+pub struct ImDrawList {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// ImGui's `ImFont`.
+#[repr(C)]
+pub struct ImFont {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// ImGui's `ImGuiID`.
+pub type ImGuiID = u32;
 
 /// Grows a text buffer for [`mqemu_imgui_input_text`] to hold at least `size`
 /// bytes (including the NUL) and returns it, possibly moved, with its capacity
@@ -33,34 +63,7 @@ pub type mqemu_imgui_resize_fn = unsafe extern "C" fn(user: *mut core::ffi::c_vo
 /// Length that marks an optional string argument as absent.
 pub const NO_STRING: usize = usize::MAX;
 
-/// Declares the shim's functions, and [`Api`]: the same functions as a table
-/// of pointers.
-macro_rules! imgui_functions {
-    ($( $(#[$meta:meta])* pub fn $name:ident($($arg:ident: $ty:ty),* $(,)?) $(-> $ret:ty)?; )*) => {
-        unsafe extern "C" {
-            $( $(#[$meta])* pub fn $name($($arg: $ty),*) $(-> $ret)?; )*
-        }
-
-        /// Every function of this module as a pointer.
-        ///
-        /// Calling through a table keeps `imgui.dll` out of programs that
-        /// don't draw. Code calling the functions directly lands in some
-        /// object file, and every program linking that object file imports
-        /// `imgui.dll`, used or not; it then won't start without it. The
-        /// pointers in [`API`] are only materialized where it's used, so code
-        /// that takes it in a plugin (say, through a generic function only the
-        /// plugin instantiates) adds the import to the plugin alone.
-        #[derive(Clone, Copy)]
-        pub struct Api {
-            $( pub $name: unsafe extern "C" fn($($ty),*) $(-> $ret)?, )*
-        }
-
-        /// The real functions; see [`Api`].
-        pub const API: Api = Api { $( $name, )* };
-    };
-}
-
-imgui_functions! {
+function_table! {
     /// Copies the first ImGui error caught since the last call (truncated,
     /// NUL-terminated) into `out` and forgets it. False if there was none.
     pub fn mqemu_imgui_take_error(out: *mut c_char, cap: usize) -> bool;
@@ -292,29 +295,194 @@ imgui_functions! {
         enabled: bool,
     ) -> bool;
 
-    // ----- items, style and drawing -----
+    // ----- items and style -----
     /// The last item's rectangle, in screen coordinates.
     pub fn mqemu_imgui_item_rect(min_x: *mut f32, min_y: *mut f32, max_x: *mut f32, max_y: *mut f32);
     /// Writes the style's color `idx` (an `ImGuiCol_` value, unchecked) to `rgba`, 4 floats.
     pub fn mqemu_imgui_style_color(idx: i32, rgba: *mut f32);
-    /// The `draw_*` functions draw on the current window's draw list, in
-    /// screen coordinates, without affecting layout.
-    pub fn mqemu_imgui_draw_line(x1: f32, y1: f32, x2: f32, y2: f32, r: f32, g: f32, b: f32, a: f32, thickness: f32);
-    pub fn mqemu_imgui_draw_rect(
-        x1: f32,
-        y1: f32,
-        x2: f32,
-        y2: f32,
-        r: f32,
-        g: f32,
-        b: f32,
-        a: f32,
-        rounding: f32,
+    /// ImGui's own `ColorConvertFloat4ToU32` (no style alpha applied).
+    pub fn mqemu_imgui_color_convert(r: f32, g: f32, b: f32, a: f32) -> u32;
+
+    // ----- cursor, mouse and window geometry -----
+    pub fn mqemu_imgui_cursor_screen_pos(x: *mut f32, y: *mut f32);
+    /// Past the content, the content grows to there (ImGui's behavior before
+    /// 1.89; this one throws when the scope ends without an item after it).
+    pub fn mqemu_imgui_set_cursor_screen_pos(x: f32, y: f32);
+    pub fn mqemu_imgui_window_pos(x: *mut f32, y: *mut f32);
+    pub fn mqemu_imgui_window_size(w: *mut f32, h: *mut f32);
+    /// The main viewport's work area: the game's window, less any menu bars.
+    pub fn mqemu_imgui_main_viewport_rect(x: *mut f32, y: *mut f32, w: *mut f32, h: *mut f32);
+    pub fn mqemu_imgui_mouse_pos(x: *mut f32, y: *mut f32);
+    /// `button` 0 left, 1 right, 2 middle.
+    pub fn mqemu_imgui_is_mouse_down(button: i32) -> bool;
+    pub fn mqemu_imgui_is_mouse_clicked(button: i32) -> bool;
+    pub fn mqemu_imgui_is_mouse_hovering_rect(min_x: f32, min_y: f32, max_x: f32, max_y: f32) -> bool;
+    /// An item with an ID and size but nothing drawn. Neither `w` nor `h` may
+    /// be 0 (an ImGui error). `flags` are `ImGuiButtonFlags_`.
+    pub fn mqemu_imgui_invisible_button(id: *const c_char, id_len: usize, w: f32, h: f32, flags: i32) -> bool;
+
+    // ----- images -----
+    /// `uv` is 2 points (top left, bottom right texture coordinates); `bg`
+    /// and `tint` are RGBA, 4 floats each.
+    pub fn mqemu_imgui_image(texture: *mut c_void, w: f32, h: f32, uv: *const f32, bg: *const f32, tint: *const f32);
+    pub fn mqemu_imgui_image_button(
+        id: *const c_char,
+        id_len: usize,
+        texture: *mut c_void,
+        w: f32,
+        h: f32,
+        uv: *const f32,
+        bg: *const f32,
+        tint: *const f32,
+    ) -> bool;
+
+    // ----- draw lists -----
+    /// The current window's draw list: drawn with the window, clipped to it.
+    pub fn mqemu_imgui_window_draw_list() -> *mut ImDrawList;
+    /// Drawn over every window.
+    pub fn mqemu_imgui_foreground_draw_list() -> *mut ImDrawList;
+    /// Drawn under every window (and over the game).
+    pub fn mqemu_imgui_background_draw_list() -> *mut ImDrawList;
+    /// `p`: 2 points. Shapes with a thickness are outlines when it's > 0 and filled otherwise.
+    pub fn mqemu_imgui_draw_line(list: *mut ImDrawList, p: *const f32, col: u32, thickness: f32);
+    /// `p`: top left and bottom right. `flags` are `ImDrawFlags_RoundCorners*`.
+    pub fn mqemu_imgui_draw_rect(list: *mut ImDrawList, p: *const f32, col: u32, rounding: f32, flags: i32, thickness: f32);
+    /// Filled; `cols` (4) for the top left, top right, bottom right and bottom left corners.
+    pub fn mqemu_imgui_draw_rect_multicolor(list: *mut ImDrawList, p: *const f32, cols: *const u32);
+    /// `count` 3 (a triangle) or 4 (a quad) points, clockwise; other counts draw nothing.
+    pub fn mqemu_imgui_draw_triangle_or_quad(list: *mut ImDrawList, p: *const f32, count: i32, col: u32, thickness: f32);
+    /// A circle (`segments` 0 picks a smooth count) or, with `ngon`, a regular
+    /// polygon of `segments` sides (at least 3, or an ImGui error).
+    pub fn mqemu_imgui_draw_circle(list: *mut ImDrawList, x: f32, y: f32, radius: f32, col: u32, segments: i32, ngon: bool, thickness: f32);
+    /// `rotation` in radians.
+    pub fn mqemu_imgui_draw_ellipse(
+        list: *mut ImDrawList,
+        x: f32,
+        y: f32,
+        radius_x: f32,
+        radius_y: f32,
+        col: u32,
+        rotation: f32,
+        segments: i32,
         thickness: f32,
-        filled: bool,
     );
-    pub fn mqemu_imgui_draw_circle(x: f32, y: f32, radius: f32, r: f32, g: f32, b: f32, a: f32, thickness: f32, filled: bool);
-    pub fn mqemu_imgui_draw_text(x: f32, y: f32, r: f32, g: f32, b: f32, a: f32, text: *const c_char, len: usize);
+    /// A cubic (`count` 4) or quadratic (3) Bezier curve.
+    pub fn mqemu_imgui_draw_bezier(list: *mut ImDrawList, p: *const f32, count: i32, col: u32, thickness: f32, segments: i32);
+    /// Lines through `count` points; `ImDrawFlags_Closed` joins the last to the first.
+    pub fn mqemu_imgui_draw_polyline(list: *mut ImDrawList, p: *const f32, count: i32, col: u32, flags: i32, thickness: f32);
+    /// A filled polygon (clockwise, no holes or crossings); `convex` for ImGui's cheaper fill.
+    pub fn mqemu_imgui_draw_poly_filled(list: *mut ImDrawList, p: *const f32, count: i32, col: u32, convex: bool);
+    /// Text as is, top left at (x, y). Null `font` and 0 `size` for the
+    /// current ones; `wrap_width` > 0 wraps.
+    pub fn mqemu_imgui_draw_text(
+        list: *mut ImDrawList,
+        font: *mut ImFont,
+        size: f32,
+        x: f32,
+        y: f32,
+        col: u32,
+        text: *const c_char,
+        len: usize,
+        wrap_width: f32,
+    );
+    /// `p` and `uv`: 2 points each. Rounded when `rounding` > 0.
+    pub fn mqemu_imgui_draw_image(list: *mut ImDrawList, texture: *mut c_void, p: *const f32, uv: *const f32, col: u32, rounding: f32, flags: i32);
+    /// `p` and `uv`: 4 points each, clockwise from the top left.
+    pub fn mqemu_imgui_draw_image_quad(list: *mut ImDrawList, texture: *mut c_void, p: *const f32, uv: *const f32, col: u32);
+    /// The path: points added, then stroked or filled by [`mqemu_imgui_path_finish`], which clears it.
+    pub fn mqemu_imgui_path_clear(list: *mut ImDrawList);
+    pub fn mqemu_imgui_path_line_to(list: *mut ImDrawList, x: f32, y: f32);
+    /// An arc of a circle (`radius_y` < 0) or of an ellipse rotated by
+    /// `rotation`, from angle `from` to `to` (radians, clockwise from +x).
+    pub fn mqemu_imgui_path_arc_to(
+        list: *mut ImDrawList,
+        x: f32,
+        y: f32,
+        radius_x: f32,
+        radius_y: f32,
+        rotation: f32,
+        from: f32,
+        to: f32,
+        segments: i32,
+    );
+    /// A cubic (`count` 3 more points) or quadratic (2) Bezier curve from the path's last point.
+    pub fn mqemu_imgui_path_bezier_to(list: *mut ImDrawList, p: *const f32, count: i32, segments: i32);
+    pub fn mqemu_imgui_path_rect(list: *mut ImDrawList, p: *const f32, rounding: f32, flags: i32);
+    /// Strokes the path (`thickness` > 0) or fills it, then clears it.
+    pub fn mqemu_imgui_path_finish(list: *mut ImDrawList, col: u32, flags: i32, thickness: f32, convex: bool);
+    /// Clips what's drawn next to `p` (2 points) until the matching pop.
+    pub fn mqemu_imgui_draw_push_clip_rect(list: *mut ImDrawList, p: *const f32, intersect: bool);
+    /// Popping ImGui's own clip rectangle is caught as an ImGui error.
+    pub fn mqemu_imgui_draw_pop_clip_rect(list: *mut ImDrawList);
+    /// Splits the list into `count` (2 or more) channels, merged in order.
+    /// False (nothing split) if it's split already or `count` is too small.
+    pub fn mqemu_imgui_draw_channels_split(list: *mut ImDrawList, count: i32) -> bool;
+    /// False (nothing changed) unless `channel` is one of the split channels.
+    pub fn mqemu_imgui_draw_channels_set_current(list: *mut ImDrawList, channel: i32) -> bool;
+    pub fn mqemu_imgui_draw_channels_merge(list: *mut ImDrawList);
+
+    // ----- drag and drop -----
+    /// After the item to drag. Call [`mqemu_imgui_end_drag_drop_source`] only if this returns true.
+    pub fn mqemu_imgui_begin_drag_drop_source(flags: i32) -> bool;
+    /// Copies the payload. `type` is 1 to 32 bytes, without NUL, not starting
+    /// with `_` (an ImGui error otherwise). Only inside a drag source.
+    pub fn mqemu_imgui_set_drag_drop_payload(r#type: *const c_char, type_len: usize, data: *const c_void, size: usize, cond: i32) -> bool;
+    pub fn mqemu_imgui_end_drag_drop_source();
+    /// After the item to drop on. Call [`mqemu_imgui_end_drag_drop_target`] only if this returns true.
+    pub fn mqemu_imgui_begin_drag_drop_target() -> bool;
+    /// A payload of `type` over the target: its data (ImGui's, valid this
+    /// frame), and whether it's hovering or dropped. Only inside a drop target.
+    pub fn mqemu_imgui_accept_drag_drop_payload(
+        r#type: *const c_char,
+        type_len: usize,
+        flags: i32,
+        data: *mut *const c_void,
+        size: *mut usize,
+        preview: *mut bool,
+        delivery: *mut bool,
+    ) -> bool;
+    pub fn mqemu_imgui_end_drag_drop_target();
+    /// The payload being dragged anywhere, its type copied to `type` (NUL-terminated, truncated to `cap`).
+    pub fn mqemu_imgui_drag_drop_payload(
+        r#type: *mut c_char,
+        cap: usize,
+        data: *mut *const c_void,
+        size: *mut usize,
+        preview: *mut bool,
+        delivery: *mut bool,
+    ) -> bool;
+
+    // ----- fonts -----
+    /// MacroQuest's fonts: 0 default, 1 console, 2 large text. Null if absent.
+    pub fn mqemu_imgui_mq_font(which: i32) -> *mut ImFont;
+    /// Null `font` keeps the current one, `size` 0 the current size (unscaled
+    /// pixels; negative is an ImGui error). Pop it with [`mqemu_imgui_pop_font`].
+    pub fn mqemu_imgui_push_font(font: *mut ImFont, size: f32);
+    pub fn mqemu_imgui_pop_font();
+    pub fn mqemu_imgui_current_font() -> *mut ImFont;
+    /// The size `font` (not null) was added at, its natural size.
+    pub fn mqemu_imgui_font_own_size(font: *const ImFont) -> f32;
+    /// The current font size in pixels, after global scaling.
+    pub fn mqemu_imgui_font_size() -> f32;
+    /// The current font size before global scaling, as [`mqemu_imgui_push_font`] takes it.
+    pub fn mqemu_imgui_font_size_base() -> f32;
+    /// Adds a TrueType/OpenType file to the font atlas. Null if it can't be read.
+    pub fn mqemu_imgui_add_font_file(path: *const c_char, path_len: usize, size: f32) -> *mut ImFont;
+    /// Removes a font [`mqemu_imgui_add_font_file`] added. Never while it's in use.
+    pub fn mqemu_imgui_remove_font(font: *mut ImFont);
+
+    // ----- docking -----
+    /// Whether docking is on (a MacroQuest overlay setting).
+    pub fn mqemu_imgui_docking_enabled() -> bool;
+    /// The ID `id` gets on the current ID stack.
+    pub fn mqemu_imgui_get_id(id: *const c_char, id_len: usize) -> ImGuiID;
+    /// A dock space in the current window. `id` 0 is an ImGui error. Returns 0 when docking is off.
+    pub fn mqemu_imgui_dock_space(id: ImGuiID, w: f32, h: f32, flags: i32) -> ImGuiID;
+    /// A dock space over the main viewport (`id` 0 picks one).
+    pub fn mqemu_imgui_dock_space_over_viewport(id: ImGuiID, flags: i32) -> ImGuiID;
+    pub fn mqemu_imgui_set_next_window_dock_id(id: ImGuiID, cond: i32);
+    pub fn mqemu_imgui_window_dock_id() -> ImGuiID;
+    pub fn mqemu_imgui_is_window_docked() -> bool;
 
     // ----- frame info -----
     pub fn mqemu_imgui_frame_count() -> i32;
@@ -351,6 +519,22 @@ pub mod testing {
         pub fn mqemu_imgui_test_type(text: *const c_char);
         /// Vertices in the current window's draw list so far.
         pub fn mqemu_imgui_test_window_vertices() -> i32;
+        /// ImGui's own `SetCursorScreenPos`, which throws later if nothing follows it.
+        pub fn mqemu_imgui_test_set_cursor_screen_pos_raw(x: f32, y: f32);
+        /// Vertices in `list` so far.
+        pub fn mqemu_imgui_test_list_vertices(list: *mut super::ImDrawList) -> i32;
+        /// Whether any of `list`'s draw commands so far uses `texture`.
+        pub fn mqemu_imgui_test_list_uses_texture(list: *mut super::ImDrawList, texture: *mut core::ffi::c_void) -> bool;
+        /// `list`'s clip rectangle stack depth, path length and channel count.
+        pub fn mqemu_imgui_test_list_state(list: *mut super::ImDrawList, clip_depth: *mut i32, path_points: *mut i32, channels: *mut i32);
+        /// The font stack's depth.
+        pub fn mqemu_imgui_test_font_depth() -> i32;
+        /// Whether ImPlot is in a plot or subplots, and its style and colormap stack depths.
+        pub fn mqemu_implot_test_state(in_plot: *mut bool, in_subplots: *mut bool, style_depth: *mut i32, colormap_depth: *mut i32);
+        /// A fake texture ID, for drawing images headlessly.
+        pub fn mqemu_imgui_test_texture() -> *mut core::ffi::c_void;
+        /// The size of the payload being dragged, or -1.
+        pub fn mqemu_imgui_test_payload_size() -> i32;
     }
 }
 
@@ -737,6 +921,58 @@ imgui_constants! {
     ImGuiStyleVar_SeparatorTextAlign = 38,
     ImGuiStyleVar_SeparatorTextPadding = 39,
     ImGuiStyleVar_DockingSeparatorSize = 40,
+
+    // ImGuiButtonFlags
+    ImGuiButtonFlags_None = 0,
+    ImGuiButtonFlags_MouseButtonLeft = 1 << 0,
+    ImGuiButtonFlags_MouseButtonRight = 1 << 1,
+    ImGuiButtonFlags_MouseButtonMiddle = 1 << 2,
+    ImGuiButtonFlags_EnableNav = 1 << 3,
+
+    // ImGuiMouseButton
+    ImGuiMouseButton_Left = 0,
+    ImGuiMouseButton_Right = 1,
+    ImGuiMouseButton_Middle = 2,
+
+    // ImGuiDragDropFlags
+    ImGuiDragDropFlags_None = 0,
+    ImGuiDragDropFlags_SourceNoPreviewTooltip = 1 << 0,
+    ImGuiDragDropFlags_SourceNoDisableHover = 1 << 1,
+    ImGuiDragDropFlags_SourceNoHoldToOpenOthers = 1 << 2,
+    ImGuiDragDropFlags_SourceAllowNullID = 1 << 3,
+    ImGuiDragDropFlags_SourceExtern = 1 << 4,
+    ImGuiDragDropFlags_PayloadAutoExpire = 1 << 5,
+    ImGuiDragDropFlags_PayloadNoCrossContext = 1 << 6,
+    ImGuiDragDropFlags_PayloadNoCrossProcess = 1 << 7,
+    ImGuiDragDropFlags_AcceptBeforeDelivery = 1 << 10,
+    ImGuiDragDropFlags_AcceptNoDrawDefaultRect = 1 << 11,
+    ImGuiDragDropFlags_AcceptNoPreviewTooltip = 1 << 12,
+    ImGuiDragDropFlags_AcceptDrawAsHovered = 1 << 13,
+    ImGuiDragDropFlags_AcceptPeekOnly = 0xc00,
+
+    // ImGuiDockNodeFlags
+    ImGuiDockNodeFlags_None = 0,
+    ImGuiDockNodeFlags_KeepAliveOnly = 1 << 0,
+    ImGuiDockNodeFlags_NoDockingOverCentralNode = 1 << 2,
+    ImGuiDockNodeFlags_PassthruCentralNode = 1 << 3,
+    ImGuiDockNodeFlags_NoDockingSplit = 1 << 4,
+    ImGuiDockNodeFlags_NoResize = 1 << 5,
+    ImGuiDockNodeFlags_AutoHideTabBar = 1 << 6,
+    ImGuiDockNodeFlags_NoUndocking = 1 << 7,
+
+    // ImDrawFlags
+    ImDrawFlags_None = 0,
+    ImDrawFlags_Closed = 1 << 0,
+    ImDrawFlags_RoundCornersTopLeft = 1 << 4,
+    ImDrawFlags_RoundCornersTopRight = 1 << 5,
+    ImDrawFlags_RoundCornersBottomLeft = 1 << 6,
+    ImDrawFlags_RoundCornersBottomRight = 1 << 7,
+    ImDrawFlags_RoundCornersNone = 1 << 8,
+    ImDrawFlags_RoundCornersTop = 0x30,
+    ImDrawFlags_RoundCornersBottom = 0xc0,
+    ImDrawFlags_RoundCornersLeft = 0x50,
+    ImDrawFlags_RoundCornersRight = 0xa0,
+    ImDrawFlags_RoundCornersAll = 0xf0,
 
     // ImGuiColorEditFlags
     ImGuiColorEditFlags_None = 0,

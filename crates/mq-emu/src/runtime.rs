@@ -258,6 +258,9 @@ impl<P: Plugin> Runtime<P> {
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
                 self.diagnostic("panicked while dropping the plugin");
             }
+            // After the plugin, which may hold textures; frames are over.
+            crate::imgui::free_retired_textures();
+            crate::imgui::remove_loaded_fonts();
             self.busy.set(was_busy);
             if !was_busy {
                 self.retired.borrow_mut().clear();
@@ -316,6 +319,9 @@ impl<P: Plugin> Runtime<P> {
         self.event(Event::Zoned)
     }
     pub fn clean_ui(&'static self) {
+        // The game frees its UI textures next, whether or not the event is
+        // delivered now.
+        crate::imgui::ui_unloaded();
         self.event(Event::CleanUi)
     }
     pub fn reload_ui(&'static self) {
@@ -347,6 +353,9 @@ impl<P: Plugin> Runtime<P> {
     }
     pub fn update_imgui(&'static self) {
         guard(|| {
+            // The last frame has been rendered: textures dropped before now
+            // aren't drawn anymore.
+            crate::imgui::free_retired_textures();
             self.enter(Event::UpdateImGui);
             // Errors in what the plugin drew, which the shim caught; queued
             // callbacks that ran after it can't draw, so this covers them too.

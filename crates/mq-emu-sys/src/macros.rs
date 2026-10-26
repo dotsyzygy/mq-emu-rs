@@ -24,6 +24,34 @@ macro_rules! imports {
     };
 }
 
+/// Declares shim functions and `Api`: the same functions as a table of
+/// pointers, with `API` holding the real ones.
+///
+/// Calling through a table keeps a DLL the shim imports (imgui.dll,
+/// MQ2Main.dll) out of programs that don't use it. Code calling the functions
+/// directly lands in some object file, and every program linking that object
+/// file imports the DLL, used or not; it then won't start without it. The
+/// pointers in `API` are only materialized where it's used, so code that takes
+/// it in a plugin (say, through a generic function only the plugin
+/// instantiates) adds the import to the plugin alone.
+macro_rules! function_table {
+    ($( $(#[$meta:meta])* pub fn $name:ident($($arg:ident: $ty:ty),* $(,)?) $(-> $ret:ty)?; )*) => {
+        unsafe extern "C" {
+            $( $(#[$meta])* pub fn $name($($arg: $ty),*) $(-> $ret)?; )*
+        }
+
+        /// Every function of this module as a pointer; see [`API`].
+        #[derive(Clone, Copy)]
+        pub struct Api {
+            $( pub $name: unsafe extern "C" fn($($ty),*) $(-> $ret)?, )*
+        }
+
+        /// The real functions. Taking this in code every program links (rather
+        /// than only plugins) makes those programs import the shim's DLLs.
+        pub const API: Api = Api { $( $name, )* };
+    };
+}
+
 #[cfg(test)]
 mod tests {
     #![allow(dead_code)]

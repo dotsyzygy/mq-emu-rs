@@ -61,8 +61,8 @@ pub(crate) struct Host {
     pub data: crate::data::DataApi,
     /// The first ImGui error the shim caught since the last call, if any.
     pub take_imgui_error: fn() -> Option<String>,
-    /// The ImGui shim's functions, for drawing (see `mq_emu_sys::imgui::Api`).
-    pub imgui: &'static mq_emu_sys::imgui::Api,
+    /// The ImGui, ImPlot and MacroQuest drawing shims' functions (see `mq_emu_sys::imgui::Api`).
+    pub imgui: &'static crate::imgui::Apis,
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
@@ -90,7 +90,11 @@ pub(crate) const fn real<P>() -> Host {
         loaded_plugin_name: real_loaded_plugin_name::<P>,
         data: crate::data::real::<P>(),
         take_imgui_error: real_take_imgui_error::<P>,
-        imgui: &mq_emu_sys::imgui::API,
+        imgui: &crate::imgui::Apis {
+            imgui: &mq_emu_sys::imgui::API,
+            implot: &mq_emu_sys::implot::API,
+            mq: &mq_emu_sys::imgui_mq::API,
+        },
     }
 }
 

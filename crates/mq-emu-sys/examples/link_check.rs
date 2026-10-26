@@ -7,6 +7,8 @@ use core::ffi::c_void;
 
 use mq_emu_sys::*;
 
+static IMGUI_MQ: mq_emu_sys::imgui_mq::Api = mq_emu_sys::imgui_mq::API;
+
 #[unsafe(no_mangle)]
 pub extern "C" fn mq_emu_sys_link_check() -> usize {
     let functions: &[*const c_void] = &[
@@ -52,11 +54,14 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         MQ2MAIN_IMPORTS.len() + EQLIB_IMPORTS.len(),
         "link_check is missing an import"
     );
-    // The shim's only MQ2Main import is the C++-mangled mq::GetMainInterface.
+    // The shim's MQ2Main and eqlib imports are C++-mangled: mq::GetMainInterface,
+    // and for ImGui the texture, texture animation and font functions (every
+    // one of them reached through the table).
     let shim: &[*const c_void] = &[
         mq_emu_sys::shim::mqemu_main_interface as *const c_void,
         mq_emu_sys::shim::mqemu_add_command as *const c_void,
         mq_emu_sys::shim::mqemu_do_command as *const c_void,
+        (&raw const IMGUI_MQ).cast(),
     ];
     functions.iter().chain(statics).chain(shim).map(|p| *p as usize).fold(0, usize::wrapping_add)
 }

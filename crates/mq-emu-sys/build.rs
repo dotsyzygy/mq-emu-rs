@@ -72,17 +72,26 @@ fn build_shim(mq_root: &Path) {
         "shim/main_interface.cpp",
         "shim/test_fake.cpp",
         "shim/imgui.cpp",
+        "shim/imgui_draw.cpp",
+        "shim/imgui_mq.cpp",
+        "shim/implot.cpp",
         "shim/imgui_test.cpp",
         "shim/items.cpp",
     ];
     println!("cargo::rerun-if-changed=shim/mq_api.h");
+    println!("cargo::rerun-if-changed=shim/imgui_shim.h");
     for source in sources {
         println!("cargo::rerun-if-changed={source}");
     }
 
+    // Both vcpkg triplets, as MacroQuest's src/Common.props has them: some
+    // headers (eqlib's graphics ones, for D3DX) come from the dynamic one.
     let vcpkg_include = mq_root.join("contrib/vcpkg/installed/x86-windows-static/include");
-    if !vcpkg_include.is_dir() {
-        fail(&format!("{} not found. Build MacroQuest first so vcpkg installs its dependencies.", vcpkg_include.display()));
+    let vcpkg_include_dynamic = mq_root.join("contrib/vcpkg/installed/x86-windows/include");
+    for dir in [&vcpkg_include, &vcpkg_include_dynamic] {
+        if !dir.is_dir() {
+            fail(&format!("{} not found. Build MacroQuest first so vcpkg installs its dependencies.", dir.display()));
+        }
     }
 
     cc::Build::new()
@@ -94,6 +103,7 @@ fn build_shim(mq_root: &Path) {
         .include(mq_root.join("contrib"))
         .include(mq_root.join("contrib/imgui"))
         .include(vcpkg_include)
+        .include(vcpkg_include_dynamic)
         .flag("/std:c++20")
         .flag("/utf-8")
         .flag("/EHsc")

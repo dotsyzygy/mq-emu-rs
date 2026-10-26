@@ -1,13 +1,14 @@
 //! The debug window (`/rusttest window`): the latest selftest's results, the
 //! runtime's stats, what mq-emu sees of the game, and a sampler of every
-//! ImGui widget mq-emu binds, to try them by hand.
+//! ImGui widget mq-emu binds, to try them by hand (plots, drawing, images,
+//! fonts and docking are in graphics.rs).
 //!
 //! Buttons don't act mid-frame: they run `/rusttest` commands, which
 //! MacroQuest delivers on the next pulse.
 
 use std::time::Instant;
 
-use mq_emu::imgui::{Cond, Plot, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags};
+use mq_emu::imgui::{Cond, PlotOptions, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags};
 use mq_emu::{GameState, Mq, SpawnType};
 
 use crate::checks::{Counts, Outcome};
@@ -90,6 +91,10 @@ impl RustTest {
                     tabs.tab("Runtime", |ui| self.runtime_tab(mq, ui));
                     tabs.tab("Game", |ui| self.game_tab(mq, ui));
                     tabs.tab("Widgets", |ui| self.widgets_tab(ui));
+                    tabs.tab("Plots", |ui| self.plots_tab(mq, ui));
+                    tabs.tab("Drawing", |ui| self.drawing_tab(ui));
+                    tabs.tab("Images", |ui| self.images_tab(mq, ui));
+                    tabs.tab("Fonts & docking", |ui| self.fonts_tab(ui));
                 });
             });
         self.window.open = open;
@@ -232,7 +237,7 @@ impl RustTest {
         let average = if gaps.is_empty() { 0.0 } else { gaps.iter().sum::<f32>() / gaps.len() as f32 };
         let overlay = format!("avg {average:.1} ms");
         ui.set_next_item_width(-f32::MIN_POSITIVE);
-        ui.plot_lines_with("##pulse gaps", &gaps, Plot { scale: Some(0.0..=50.0), size: [0.0, 80.0], overlay: Some(&overlay) });
+        ui.plot_lines_with("##pulse gaps", &gaps, PlotOptions { scale: Some(0.0..=50.0), size: [0.0, 80.0], overlay: Some(&overlay) });
         ui.text(format!(
             "Time between the last {} pulses; ImGui: {:.0} fps, frame {}",
             gaps.len(),

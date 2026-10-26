@@ -14,6 +14,7 @@
 mod checks;
 mod data_checks;
 mod game_checks;
+mod graphics;
 mod lua_checks;
 mod peer_checks;
 mod window;
@@ -75,6 +76,8 @@ struct RustTest {
     /// The latest selftest's results, for the debug window.
     selftest_log: SharedLog,
     window: window::DebugWindow,
+    /// The debug window's graphics tabs and the selftest's graphics exercise.
+    graphics: graphics::Graphics,
 }
 
 impl Plugin for RustTest {
@@ -140,6 +143,7 @@ impl Plugin for RustTest {
 
     fn on_update_imgui(&mut self, mq: &Mq<Self>, ui: &mut Ui) {
         self.draw_window(mq, ui);
+        self.draw_graphics_overlays(mq, ui);
     }
 
     fn on_add_spawn(&mut self, _mq: &Mq<Self>, _spawn: &Spawn<'_>) {
@@ -414,6 +418,64 @@ async fn imgui(task: &Task<RustTest>, report: &mut Report) {
         report.print(mq, "the debug window draws without ImGui errors", Check::that(drawn > 0 && errors == 0, || {
             format!("drawn {drawn} times in 5 pulses, {errors} ImGui errors (collapsed windows don't draw)")
         }));
+    });
+    graphics_exercise(task, report).await;
+}
+
+/// Frames the graphics exercise draws.
+const EXERCISE_FRAMES: u32 = 10;
+
+/// Draws every graphics feature (ImPlot, draw lists, textures, the game's
+/// icons, fonts, drag and drop, docking) in a window for a few frames, then
+/// checks nothing went wrong and that the game's resources were there.
+async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
+    let errors_before = task.with_plugin(|plugin, mq| {
+        plugin.graphics.exercise = Some(graphics::Exercise::new(EXERCISE_FRAMES));
+        mq.stats().imgui_errors
+    });
+    let started = Instant::now();
+    let mut done = false;
+    while !done && started.elapsed() < Duration::from_secs(5) {
+        task.next_pulse().await;
+        done = task.with_plugin(|plugin, _| plugin.graphics.exercise.as_ref().is_some_and(|e| e.frames_left == 0));
+    }
+    let (exercise, errors, in_game) = task.with_plugin(|plugin, mq| {
+        let exercise = plugin.graphics.exercise.take().unwrap_or_default();
+        (exercise, mq.stats().imgui_errors - errors_before, mq.game_state() == mq_emu::GameState::InGame)
+    });
+    task.with(|mq| {
+        let label = "ImPlot, draw lists, images, fonts and drag and drop draw without ImGui errors";
+        if !done {
+            report.print(mq, label, Check::Skip(format!("only {} ImGui frames arrived (is the overlay hidden?)", exercise.frames_drawn)));
+            return;
+        }
+        report.print(mq, label, Check::that(errors == 0 && exercise.plotted, || {
+            format!("{errors} ImGui errors in {} frames; plotted: {}", exercise.frames_drawn, exercise.plotted)
+        }));
+        report.print(mq, "an image file loads as a texture of its size", Check::that(exercise.texture_size == Some([16.0, 16.0]), || {
+            format!("texture size {:?}", exercise.texture_size)
+        }));
+        report.print(mq, "MacroQuest's default, console and large fonts are available", Check::that(exercise.mq_fonts, || {
+            "one of them is missing".into()
+        }));
+        let ui_checks = [
+            ("the game's item icon sheet (A_DragItem) is found, as a grid", exercise.item_icon_cell),
+            ("the game's spell icon sheet (A_SpellIcons) is found, as a grid", exercise.spell_icon_cell),
+        ];
+        for (label, cell) in ui_checks {
+            let check = match cell {
+                _ if !in_game => Check::Skip("needs you in game".into()),
+                Some(_) => Check::Pass,
+                None => Check::Fail("not found, or not a grid".into()),
+            };
+            report.print(mq, label, check);
+        }
+        let eq_fonts = match &exercise.eq_fonts {
+            _ if !in_game => Check::Skip("needs you in game".into()),
+            fonts if fonts.is_empty() => Check::Fail("none of styles 0 to 9".into()),
+            _ => Check::Pass,
+        };
+        report.print(mq, "EverQuest's fonts are available in ImGui", eq_fonts);
     });
 }
 
