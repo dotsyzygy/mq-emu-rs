@@ -610,6 +610,48 @@ function_table! {
     /// Ends and frees it.
     pub fn mqemu_imgui_list_clipper_end(clipper: *mut ImGuiListClipper);
 
+    // ----- custom widgets (imgui_internal.h) -----
+    /// Lays out a `w` x `h` item at the cursor and adds it with `id` (0 for
+    /// none). Writes its rectangle; false if it's clipped (it still takes its space).
+    pub fn mqemu_imgui_item_add(w: f32, h: f32, id: ImGuiID, x0: *mut f32, y0: *mut f32, x1: *mut f32, y1: *mut f32) -> bool;
+    /// Whether the item was pressed, as `flags` (`ImGuiButtonFlags_`, private
+    /// ones too) say. `id` 0 is an ImGui error.
+    pub fn mqemu_imgui_button_behavior(x0: f32, y0: f32, x1: f32, y1: f32, id: ImGuiID, flags: i32, hovered: *mut bool, held: *mut bool) -> bool;
+    /// The active, hovered and keyboard-focused items' IDs (0 for none).
+    pub fn mqemu_imgui_item_ids(active: *mut ImGuiID, hovered: *mut ImGuiID, focus: *mut ImGuiID);
+    pub fn mqemu_imgui_clear_active_id();
+    pub fn mqemu_imgui_keep_alive_id(id: ImGuiID);
+    pub fn mqemu_imgui_mark_item_edited(id: ImGuiID);
+    /// `axis` `ImGuiAxis_X` or `ImGuiAxis_Y`; `id` 0 is an ImGui error. True while dragged.
+    pub fn mqemu_imgui_splitter(
+        x0: f32,
+        y0: f32,
+        x1: f32,
+        y1: f32,
+        id: ImGuiID,
+        axis: i32,
+        size1: *mut f32,
+        size2: *mut f32,
+        min_size1: f32,
+        min_size2: f32,
+        hover_extend: f32,
+        hover_visibility_delay: f32,
+    ) -> bool;
+    pub fn mqemu_imgui_render_frame(x0: f32, y0: f32, x1: f32, y1: f32, fill: u32, borders: bool, rounding: f32);
+    pub fn mqemu_imgui_render_frame_border(x0: f32, y0: f32, x1: f32, y1: f32, rounding: f32);
+    pub fn mqemu_imgui_render_nav_cursor(x0: f32, y0: f32, x1: f32, y1: f32, id: ImGuiID);
+    /// Aligned 0 to 1 on each axis; stops at a `##`.
+    pub fn mqemu_imgui_render_text_clipped(x0: f32, y0: f32, x1: f32, y1: f32, text: *const c_char, len: usize, align_x: f32, align_y: f32);
+    /// `dir` an `ImGuiDir` other than None (an ImGui error).
+    pub fn mqemu_imgui_render_arrow(list: *mut ImDrawList, x: f32, y: f32, col: u32, dir: i32, scale: f32);
+    pub fn mqemu_imgui_render_bullet(list: *mut ImDrawList, x: f32, y: f32, col: u32);
+    pub fn mqemu_imgui_render_check_mark(list: *mut ImDrawList, x: f32, y: f32, col: u32, size: f32);
+    pub fn mqemu_imgui_button_ex(label: *const c_char, label_len: usize, w: f32, h: f32, flags: i32) -> bool;
+    /// `dir` an `ImGuiDir` other than None (an ImGui error).
+    pub fn mqemu_imgui_arrow_button_ex(id: *const c_char, id_len: usize, dir: i32, w: f32, h: f32, flags: i32) -> bool;
+    /// `thickness` 0 or less is an ImGui error.
+    pub fn mqemu_imgui_separator_ex(vertical: bool, thickness: f32);
+
     // ----- frame info -----
     pub fn mqemu_imgui_frame_count() -> i32;
     /// Seconds since ImGui started.
@@ -1185,8 +1227,9 @@ imgui_constants! {
     ImGuiColorEditFlags_InputHSV = 1 << 28,
 }
 
-// ImGui's internal dock node flags, from imgui_internal.h
-// (`ImGuiDockNodeFlagsPrivate_`), for nodes made with the dock builder.
+// From imgui_internal.h: ImGui's internal dock node flags
+// (`ImGuiDockNodeFlagsPrivate_`), for nodes made with the dock builder, and
+// what custom widgets use (private button flags, axes).
 imgui_constants! {
     INTERNAL_CONSTANTS, "imgui_internal.h";
     ImGuiDockNodeFlags_DockSpace = 1 << 10,
@@ -1203,4 +1246,27 @@ imgui_constants! {
     ImGuiDockNodeFlags_NoDockingOverOther = 1 << 21,
     ImGuiDockNodeFlags_NoDockingOverEmpty = 1 << 22,
     ImGuiDockNodeFlags_NoDocking = 0x780010,
+
+    // ImGuiButtonFlagsPrivate_
+    ImGuiButtonFlags_PressedOnClick = 1 << 4,
+    ImGuiButtonFlags_PressedOnClickRelease = 1 << 5,
+    ImGuiButtonFlags_PressedOnClickReleaseAnywhere = 1 << 6,
+    ImGuiButtonFlags_PressedOnRelease = 1 << 7,
+    ImGuiButtonFlags_PressedOnDoubleClick = 1 << 8,
+    ImGuiButtonFlags_PressedOnDragDropHold = 1 << 9,
+    ImGuiButtonFlags_FlattenChildren = 1 << 11,
+    ImGuiButtonFlags_AllowOverlap = 1 << 12,
+    ImGuiButtonFlags_AlignTextBaseLine = 1 << 15,
+    ImGuiButtonFlags_NoKeyModsAllowed = 1 << 16,
+    ImGuiButtonFlags_NoHoldingActiveId = 1 << 17,
+    ImGuiButtonFlags_NoNavFocus = 1 << 18,
+    ImGuiButtonFlags_NoHoveredOnFocus = 1 << 19,
+    ImGuiButtonFlags_NoSetKeyOwner = 1 << 20,
+    ImGuiButtonFlags_NoTestKeyOwner = 1 << 21,
+    ImGuiButtonFlags_NoFocus = 1 << 22,
+
+    // ImGuiAxis
+    ImGuiAxis_None = -1,
+    ImGuiAxis_X = 0,
+    ImGuiAxis_Y = 1,
 }

@@ -1397,3 +1397,164 @@ extern "C" void mqemu_imgui_list_clipper_end(ImGuiListClipper* clipper)
 {
 	guarded_void([&] { delete clipper; });
 }
+
+// ----- custom widgets (imgui_internal.h) -----
+// What ImGui's own widgets are made of: an item laid out and added with an
+// ID, its button behavior, splitters, and the helpers that draw frames, text
+// and arrows in the style's colors. Rectangles are in screen coordinates.
+
+static ImRect rect(float x0, float y0, float x1, float y1)
+{
+	return ImRect(x0, y0, x1, y1);
+}
+
+static void check_dir(int dir)
+{
+	if (dir < ImGuiDir_Left || dir > ImGuiDir_Down)
+		throw ImGuiException("not a direction (ImGuiDir_Left to ImGuiDir_Down)");
+}
+
+// Lays out an item of `w` x `h` at the cursor and adds it with `id` (0 for
+// one nothing interacts with). Writes its rectangle; false if it's clipped
+// (it still takes its space).
+extern "C" bool mqemu_imgui_item_add(float w, float h, ImGuiID id, float* x0, float* y0, float* x1, float* y1)
+{
+	return guarded(false, [&] {
+		ImGuiWindow* window = ImGui::GetCurrentWindow();
+		ImRect bb(window->DC.CursorPos, window->DC.CursorPos + ImVec2(w, h));
+		*x0 = bb.Min.x;
+		*y0 = bb.Min.y;
+		*x1 = bb.Max.x;
+		*y1 = bb.Max.y;
+		ImGui::ItemSize(bb.GetSize());
+		return ImGui::ItemAdd(bb, id);
+	});
+}
+
+// ImGui::ButtonBehavior: whether the item at the rectangle was pressed (as
+// `flags`, ImGuiButtonFlags_ and the private ones, say), and whether it's
+// hovered and held. `id` must not be 0.
+extern "C" bool mqemu_imgui_button_behavior(float x0, float y0, float x1, float y1, ImGuiID id, int flags, bool* hovered, bool* held)
+{
+	*hovered = false;
+	*held = false;
+	return guarded(false, [&] {
+		if (id == 0)
+			throw ImGuiException("ButtonBehavior() needs an item ID other than 0");
+		return ImGui::ButtonBehavior(rect(x0, y0, x1, y1), id, hovered, held, flags);
+	});
+}
+
+// The item being interacted with, under the mouse and with keyboard focus (0 for none).
+extern "C" void mqemu_imgui_item_ids(ImGuiID* active, ImGuiID* hovered, ImGuiID* focus)
+{
+	*active = GImGui->ActiveId;
+	*hovered = GImGui->HoveredId;
+	*focus = GImGui->NavId;
+}
+
+// Lets go of the active item (ends a drag, say).
+extern "C" void mqemu_imgui_clear_active_id()
+{
+	guarded_void([] { ImGui::ClearActiveID(); });
+}
+
+// Keeps `id` active or hovered on a frame its item isn't drawn.
+extern "C" void mqemu_imgui_keep_alive_id(ImGuiID id)
+{
+	guarded_void([&] { ImGui::KeepAliveID(id); });
+}
+
+// Marks the item's value as edited, for IsItemEdited and IsItemDeactivatedAfterEdit.
+extern "C" void mqemu_imgui_mark_item_edited(ImGuiID id)
+{
+	guarded_void([&] { ImGui::MarkItemEdited(id); });
+}
+
+// ImGui::SplitterBehavior: a bar at the rectangle that, dragged along `axis`
+// (ImGuiAxis_X or ImGuiAxis_Y), moves size from one side to the other, never
+// below the minimums. True while it's dragged.
+extern "C" bool mqemu_imgui_splitter(float x0, float y0, float x1, float y1, ImGuiID id, int axis, float* size1, float* size2,
+	float min_size1, float min_size2, float hover_extend, float hover_visibility_delay)
+{
+	return guarded(false, [&] {
+		if (id == 0)
+			throw ImGuiException("a splitter needs an item ID other than 0");
+		if (axis != ImGuiAxis_X && axis != ImGuiAxis_Y)
+			throw ImGuiException("a splitter's axis is ImGuiAxis_X or ImGuiAxis_Y");
+		return ImGui::SplitterBehavior(rect(x0, y0, x1, y1), id, static_cast<ImGuiAxis>(axis), size1, size2, min_size1, min_size2,
+			hover_extend, hover_visibility_delay);
+	});
+}
+
+// A frame in the current window, as widgets draw theirs: `fill`, the style's
+// border if `borders` and it has one.
+extern "C" void mqemu_imgui_render_frame(float x0, float y0, float x1, float y1, ImU32 fill, bool borders, float rounding)
+{
+	guarded_void([&] { ImGui::RenderFrame(ImVec2(x0, y0), ImVec2(x1, y1), fill, borders, rounding); });
+}
+
+extern "C" void mqemu_imgui_render_frame_border(float x0, float y0, float x1, float y1, float rounding)
+{
+	guarded_void([&] { ImGui::RenderFrameBorder(ImVec2(x0, y0), ImVec2(x1, y1), rounding); });
+}
+
+// The keyboard navigation cursor around item `id`, when it has focus.
+extern "C" void mqemu_imgui_render_nav_cursor(float x0, float y0, float x1, float y1, ImGuiID id)
+{
+	guarded_void([&] { ImGui::RenderNavCursor(rect(x0, y0, x1, y1), id); });
+}
+
+// Text in the style's text color, clipped to the rectangle and aligned in it
+// (0 to 1 on each axis). Stops at a ## as labels do.
+extern "C" void mqemu_imgui_render_text_clipped(float x0, float y0, float x1, float y1, const char* text, size_t len, float align_x, float align_y)
+{
+	guarded_void([&] { ImGui::RenderTextClipped(ImVec2(x0, y0), ImVec2(x1, y1), text, text + len, nullptr, ImVec2(align_x, align_y)); });
+}
+
+// A triangle pointing `dir` (ImGuiDir), a font size wide times `scale`, its
+// top left at (x, y).
+extern "C" void mqemu_imgui_render_arrow(ImDrawList* list, float x, float y, ImU32 col, int dir, float scale)
+{
+	guarded_void([&] {
+		check_dir(dir);
+		ImGui::RenderArrow(list, ImVec2(x, y), col, static_cast<ImGuiDir>(dir), scale);
+	});
+}
+
+// A bullet centered at (x, y).
+extern "C" void mqemu_imgui_render_bullet(ImDrawList* list, float x, float y, ImU32 col)
+{
+	guarded_void([&] { ImGui::RenderBullet(list, ImVec2(x, y), col); });
+}
+
+// A check mark `size` wide, its top left at (x, y).
+extern "C" void mqemu_imgui_render_check_mark(ImDrawList* list, float x, float y, ImU32 col, float size)
+{
+	guarded_void([&] { ImGui::RenderCheckMark(list, ImVec2(x, y), col, size); });
+}
+
+// A button with ImGuiButtonFlags_ (and the private ones).
+extern "C" bool mqemu_imgui_button_ex(const char* label, size_t label_len, float w, float h, int flags)
+{
+	return guarded(false, [&] { return ImGui::ButtonEx(CString(label, label_len), ImVec2(w, h), flags); });
+}
+
+// A square button with an arrow pointing `dir` (ImGuiDir), `w` x `h`.
+extern "C" bool mqemu_imgui_arrow_button_ex(const char* id, size_t id_len, int dir, float w, float h, int flags)
+{
+	return guarded(false, [&] {
+		check_dir(dir);
+		return ImGui::ArrowButtonEx(CString(id, id_len), static_cast<ImGuiDir>(dir), ImVec2(w, h), flags);
+	});
+}
+
+// A separator across (or with `vertical`, down) the line, `thickness` pixels.
+extern "C" void mqemu_imgui_separator_ex(bool vertical, float thickness)
+{
+	guarded_void([&] {
+		if (!(thickness > 0.0f))
+			throw ImGuiException("a separator's thickness must be more than 0");
+		ImGui::SeparatorEx(vertical ? ImGuiSeparatorFlags_Vertical : ImGuiSeparatorFlags_Horizontal, thickness);
+	});
+}

@@ -407,6 +407,8 @@ async fn imgui(task: &Task<RustTest>, report: &mut Report) {
 
     let (drawn_before, errors_before) = task.with_plugin(|plugin, mq| {
         plugin.window.open = true;
+        // A collapsed window doesn't draw its contents.
+        plugin.window.expand = true;
         (plugin.window.drawn, mq.stats().imgui_errors)
     });
     for _ in 0..5 {
@@ -416,7 +418,7 @@ async fn imgui(task: &Task<RustTest>, report: &mut Report) {
         let drawn = plugin.window.drawn - drawn_before;
         let errors = mq.stats().imgui_errors - errors_before;
         report.print(mq, "the debug window draws without ImGui errors", Check::that(drawn > 0 && errors == 0, || {
-            format!("drawn {drawn} times in 5 pulses, {errors} ImGui errors (collapsed windows don't draw)")
+            format!("drawn {drawn} times in 5 pulses, {errors} ImGui errors")
         }));
     });
     graphics_exercise(task, report).await;
@@ -496,6 +498,9 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         let clipped = exercise.clipped_lines;
         report.print(mq, "the list clipper draws only the lines in view", Check::that((1..100).contains(&clipped), || {
             format!("{clipped} of {} lines drawn in a frame", graphics::CLIPPED_LINES)
+        }));
+        report.print(mq, "a custom widget lays out, takes the mouse and draws with ImGui's internals", Check::that(exercise.custom_item, || {
+            "its item was never in view".into()
         }));
     });
 }

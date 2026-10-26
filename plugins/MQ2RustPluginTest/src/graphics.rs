@@ -9,8 +9,8 @@ use std::time::Instant;
 
 use mq_emu::imgui::{
     Axis, AxisFlags, BarsFlags, Bins, Colormap, Cond, Corners, Dir, DockNodeFlags, DragDropFlags, DragToolFlags, EqTextFlags, Font,
-    HeatmapFlags, HistogramFlags, ITEM_ICONS, ImageOptions, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MultiSelectFlags,
-    PieChartFlags, PlotFlags, SPELL_ICONS, ScatterFlags, Selection, SpellGemFlags, StairsFlags, SubplotFlags, Texture, TextureAnimation, Ui, WindowFlags,
+    ButtonFlags, HeatmapFlags, HistogramFlags, ITEM_ICONS, ImageOptions, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MultiSelectFlags,
+    PieChartFlags, PlotFlags, SPELL_ICONS, ScatterFlags, Selection, SpellGemFlags, Split, StairsFlags, SubplotFlags, Texture, TextureAnimation, Ui, WindowFlags,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -119,6 +119,8 @@ pub struct Exercise {
     pub spell_gems: usize,
     /// The most lines of the clipped list drawn in a frame.
     pub clipped_lines: usize,
+    /// Whether the custom item was laid out in view and drawn.
+    pub custom_item: bool,
 }
 
 impl Exercise {
@@ -259,6 +261,7 @@ impl RustTest {
         let (getter_points, formatted, scaled) = (Cell::new(0), Cell::new(false), Cell::new(false));
         let mut spell_gems = 0;
         let mut clipped_lines = 0;
+        let mut custom_item = false;
         let selection = &mut g.exercise_selection;
         ui.window("Rust plugin test: graphics selftest")
             .position([40.0, 40.0], Cond::Appearing)
@@ -296,6 +299,17 @@ impl RustTest {
                         }
                     });
                 });
+                // A custom widget: an item, its behavior, a frame and text, and a splitter.
+                if let Some(item) = ui.add_item("exercise custom item", [160.0, 24.0]) {
+                    let state = ui.button_behavior(&item, ButtonFlags::PRESSED_ON_CLICK);
+                    ui.render_frame(item.min, item.max, if state.hovered { YELLOW } else { GREY }, true, 4.0);
+                    ui.render_text_clipped(item.min, item.max, "Custom item##hidden", [0.5, 0.5]);
+                    ui.draw_list().add_arrow([item.min[0] + 4.0, item.min[1] + 4.0], [1.0; 4], Dir::Right, 0.8);
+                    let [x, y] = [item.max[0] + 8.0, item.min[1]];
+                    let mut sizes = [40.0, 40.0];
+                    ui.splitter("##exercise splitter", Split::Columns, [x + 40.0, y], [x + 44.0, y + 24.0], &mut sizes, [10.0, 10.0]);
+                    custom_item = true;
+                }
                 ui.plot("exercise closures").size([-1.0, 160.0]).show(|plot| {
                     plot.setup_axis_scale_fn(Axis::X1, |x| {
                         scaled.set(true);
@@ -392,6 +406,7 @@ impl RustTest {
             exercise.scaled |= scaled.get();
             exercise.spell_gems = exercise.spell_gems.max(spell_gems);
             exercise.clipped_lines = exercise.clipped_lines.max(clipped_lines);
+            exercise.custom_item |= custom_item;
         }
     }
 

@@ -142,10 +142,11 @@ impl Heading {
     }
 
     /// The heading from `from` towards `to`, as MacroQuest's `/face` and
-    /// `${Spawn.HeadingTo}` compute it. North if the points coincide.
+    /// `${Spawn.HeadingTo}` compute it, with its formula. West if the points
+    /// coincide (from yourself to yourself, say), as MacroQuest has it.
     pub fn between(from: &Position, to: &Position) -> Heading {
-        let radians = (to.x - from.x).atan2(to.y - from.y);
-        Heading::from_units(radians * Self::FULL_TURN / std::f32::consts::TAU)
+        let radians = (from.y - to.y).atan2(to.x - from.x);
+        Heading::from_degrees_ccw(radians.to_degrees() + 90.0)
     }
 }
 
@@ -347,7 +348,8 @@ mod tests {
     #[test]
     fn heading_between_matches_macroquest_heading_to() {
         let me = Position { x: 10.0, y: -20.0, z: 0.0 };
-        for (x, y) in [(10.0, 0.0), (30.0, -20.0), (10.0, -40.0), (-5.0, -20.0), (17.0, 3.0), (-40.0, -90.0)] {
+        // Last, the same point: the bug found in game, targeting yourself.
+        for (x, y) in [(10.0, 0.0), (30.0, -20.0), (10.0, -40.0), (-5.0, -20.0), (17.0, 3.0), (-40.0, -90.0), (10.0, -20.0)] {
             let target = Position { x, y, z: 5.0 };
             let ours = Heading::between(&me, &target);
             let theirs_ccw = macroquest::heading_to_ccw((me.x, me.y), (x, y));

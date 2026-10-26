@@ -460,6 +460,7 @@ fn style_color_reads_what_is_pushed() {
 }
 
 mod clip;
+mod custom;
 mod dock;
 mod draw;
 mod eq;

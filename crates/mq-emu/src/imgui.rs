@@ -73,6 +73,10 @@
 //!   [`Font`]; [`Ui::with_font_size`] for size alone.
 //! - Docking: [`Ui::dock_space`] and [`Window::dock`], and layouts built in
 //!   code with [`Ui::dock_builder`].
+//! - Custom widgets: [`Ui::add_item`] lays out an item of your own and
+//!   [`Ui::button_behavior`] makes it clickable, as ImGui's widgets are
+//!   made; [`Ui::splitter`], [`Ui::render_frame`] and the like, and
+//!   [`Ui::button_with`] for ImGui's private button flags.
 //! - Long lists: [`Ui::list_clipper`] only draws the items in view, in a
 //!   window, a [table](Table::list_clipper) or a
 //!   [multi-select list](MultiSelect::list_clipper).
@@ -222,6 +226,7 @@ macro_rules! flags {
 }
 
 mod clip;
+mod custom;
 mod dnd;
 mod dock;
 mod draw;
@@ -232,6 +237,7 @@ mod select;
 mod texture;
 
 pub use clip::ListClipper;
+pub use custom::{ButtonState, Item, ItemId, Split};
 pub use dnd::{DragDropFlags, DragSource, DropTarget, MAX_PAYLOAD_KIND, Payload};
 pub use dock::{Dir, DockBuilder, DockNode};
 pub use draw::{Channels, Corners, DrawList, Path, Vec2, pack_color};
@@ -288,6 +294,38 @@ flags! {
         MOUSE_BUTTON_MIDDLE = ImGuiButtonFlags_MouseButtonMiddle,
         /// Reachable with keyboard navigation.
         ENABLE_NAV = ImGuiButtonFlags_EnableNav,
+        // ImGui's private flags (imgui_internal.h), for custom widgets.
+        /// Pressed when the mouse goes down on it.
+        PRESSED_ON_CLICK = ImGuiButtonFlags_PressedOnClick,
+        /// Pressed when the mouse goes down and back up on it (the default).
+        PRESSED_ON_CLICK_RELEASE = ImGuiButtonFlags_PressedOnClickRelease,
+        /// Pressed when the mouse goes down on it and back up anywhere.
+        PRESSED_ON_CLICK_RELEASE_ANYWHERE = ImGuiButtonFlags_PressedOnClickReleaseAnywhere,
+        /// Pressed when the mouse is released on it, wherever it went down.
+        PRESSED_ON_RELEASE = ImGuiButtonFlags_PressedOnRelease,
+        PRESSED_ON_DOUBLE_CLICK = ImGuiButtonFlags_PressedOnDoubleClick,
+        /// Pressed when something dragged is held over it (as tree nodes open).
+        PRESSED_ON_DRAG_DROP_HOLD = ImGuiButtonFlags_PressedOnDragDropHold,
+        /// Works even with a child window over it.
+        FLATTEN_CHILDREN = ImGuiButtonFlags_FlattenChildren,
+        /// Lets an item drawn after it, over it, take the mouse.
+        ALLOW_OVERLAP = ImGuiButtonFlags_AllowOverlap,
+        /// Lines the button up with text on the line ([`Ui::button_with`] only).
+        ALIGN_TEXT_BASE_LINE = ImGuiButtonFlags_AlignTextBaseLine,
+        /// Ignores the mouse while ctrl, shift or alt is held.
+        NO_KEY_MODS_ALLOWED = ImGuiButtonFlags_NoKeyModsAllowed,
+        /// Doesn't become the active item while held (with PRESSED_ON_CLICK).
+        NO_HOLDING_ACTIVE_ID = ImGuiButtonFlags_NoHoldingActiveId,
+        /// Doesn't take keyboard navigation focus when clicked.
+        NO_NAV_FOCUS = ImGuiButtonFlags_NoNavFocus,
+        /// Not reported hovered while it has keyboard focus.
+        NO_HOVERED_ON_FOCUS = ImGuiButtonFlags_NoHoveredOnFocus,
+        /// Doesn't claim the mouse button when clicked.
+        NO_SET_KEY_OWNER = ImGuiButtonFlags_NoSetKeyOwner,
+        /// Reacts to the mouse button even if something else claimed it.
+        NO_TEST_KEY_OWNER = ImGuiButtonFlags_NoTestKeyOwner,
+        /// Clicking it doesn't focus its window (experimental in ImGui).
+        NO_FOCUS = ImGuiButtonFlags_NoFocus,
     }
 }
 

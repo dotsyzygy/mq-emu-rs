@@ -100,6 +100,13 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   window docked in them are refused rather than undoing everyone's docking or crashing
 - Multi-select (`Ui::multi_select`): lists whose items are selected with ctrl+click, shift+click,
   ctrl+A, the keyboard or a dragged box, into a `Selection` or a selection kept elsewhere
+- Custom widgets, from ImGui's internal API: items laid out with an ID (`Ui::add_item`), their
+  button behavior with ImGui's private press modes (`Ui::button_behavior`), the active, hovered and
+  focused items, splitters (`Ui::splitter`), frames, clipped text and the nav cursor in the
+  style's look (`Ui::render_frame` and the like), arrows, bullets and check marks on draw lists,
+  buttons with private flags (`Ui::button_with`, `Ui::arrow_button_with`) and vertical separators.
+  ID 0, bad axes and directions and separators without thickness, which a release `imgui.dll` only
+  asserts on, are refused
 - The list clipper (`Ui::list_clipper`, `Table::list_clipper`, `MultiSelect::list_clipper`): long
   lists of evenly spaced items that only draw the ones in view, in a window, over a table's rows or
   in a multi-select list (always drawing the item shift+click selects from, as ImGui needs).
@@ -131,15 +138,50 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   reads)
 - Acting on items and spells: casting, clicking items, moving items (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
-- ImGui beyond the bound set: the rest of ImGui's internal API (`imgui_internal.h`), MacroQuest's
-  other EQ UI drawing (`DrawUITexture`, `DrawTexturePiece`,
-  `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory editors) (reachable as raw
-  `ImGui::*` C++ only)
+- ImGui beyond the bound set: MacroQuest's other EQ UI drawing (`DrawUITexture`,
+  `DrawTexturePiece`, `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory
+  editors) (reachable as raw `ImGui::*` C++ only)
+- The rest of ImGui's internal API (`imgui_internal.h`), in the pieces planned to bind next (custom
+  widgets are done):
+  - Windows and scrolling: finding windows by name, focus and display order, bringing a window to
+    the front, moving and sizing other windows, scrolling to an item or rectangle
+    (`FindWindowByName`, `FocusWindow`, `BringWindowToDisplayFront`, `ScrollToItem`,
+    `ScrollToRect`, `SetScrollFromPosX/Y`)
+  - Input ownership and focus: key owners, shortcut routing, keyboard navigation and focusing or
+    activating items by ID, typing-select (`SetKeyOwner`, `TestKeyOwner`, `SetShortcutRouting`,
+    `FocusItem`, `ActivateItemByID`, `SetNavID`, `GetTypingSelectRequest`)
+  - Lower-level widget behaviors: `DragBehavior`, `SliderBehavior`, `TreeNodeBehavior`,
+    `TempInputText`/`TempInputScalar`, `ScrollbarEx`, `CloseButton`, `CollapseButton`,
+    `ImageButtonEx`, `TextEx`/`TextAligned`, wrapped and ellipsized text rendering and the
+    `ShadeVerts*` helpers
+  - Popup, tooltip, menu and combo internals: `OpenPopupEx`, `BeginPopupEx`, `ClosePopupToLevel`,
+    `BeginTooltipEx`, `BeginComboPopup`, `MenuItemEx`/`BeginMenuEx` (with icons)
+  - Table and tab bar internals: column widths, sorting and settings, and finding, closing and
+    reordering tabs (`TableGetColumn*`, `TableSetColumnWidth`, `TabBarFindTabByID`,
+    `TabBarCloseTab`, `TabBarQueueReorder`, `TabItemEx`)
+  - Ini settings handlers: a plugin's own data saved in MacroQuest's ImGui ini, next to window
+    positions (`AddSettingsHandler`, `MarkIniSettingsDirty`). The handler calls into the plugin, so
+    it must be removed when the plugin unloads, as loaded fonts and textures are
+  - Debug tools for building plugins: outlining the last item, writing to ImGui's debug log, the
+    ID stack tool (`DebugDrawItemRect`, `DebugLog`, `DebugLocateItem`, `ShowIDStackToolWindow`)
+  - Not planned: what acts on the ImGui context every plugin shares, which MacroQuest sets up,
+    runs and renders. A plugin calling these would break other plugins' windows or crash the
+    game, or change what isn't its to change (context setup, `NewFrame`/`Render`, viewports,
+    localization, garbage collection, error recovery, the font atlas builder). Also not planned:
+    context hooks (`Plugin::on_update_imgui` already runs every frame) and the legacy Columns API
+    (tables replace it)
 - MacroQuest events (`#Event`-style chat matching) and key binds
 - EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
 - Settings helpers for reading and writing plugin INI files
 - Hooks/detours on game functions
 - Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
+
+**Long term**
+
+- Better UI than raw ImGui: once ImGui is bound, look at the UI problems plugins actually have
+  (layouts, forms, live lists and tables, settings screens, HUDs, theming, state that survives
+  reloads) and see whether `mq-emu` can offer its own higher-level API for them, built on ImGui or
+  giving access to better UI systems, rather than only mirroring ImGui's calls
 
 ## Crates
 
@@ -171,7 +213,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
-| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select and a clipped list too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items), and
@@ -181,10 +223,10 @@ exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
 - **Triggers the runtime's safety nets on purpose:** expect a caught-panic message, a slow-pulse
   warning, and a burst of `flood` lines that the runtime cuts off.
-- **Opens the debug window**, to check it draws without ImGui errors, and leaves it open with the
-  results.
+- **Opens the debug window** (expanding it if it's collapsed), to check it draws without ImGui
+  errors, and leaves it open with the results.
 - **Flashes a graphics window** for a few frames, drawing every ImPlot item, draw list feature,
-  font, image and drag and drop, a multi-select list, a clipped list, plots from closures, your spell gems and EQ
+  font, image and drag and drop, a multi-select list, a clipped list, a custom widget and a splitter, plots from closures, your spell gems and EQ
   text, with a yellow outline around the screen; it writes a small BMP to the temp directory to load
   as a texture. With docking on, it lays out a small dock space with the dock builder (which ImGui
   keeps in MacroQuest's ImGui ini, like any dock space).
@@ -315,6 +357,11 @@ config and only explicitly passed settings, to check what a downstream user will
   list, draws included items out of view, clips table rows, keeps a multi-select list's
   shift+click item drawn, ends when its closure panics (ImGui's clipper stack is back to empty)
   and nests; the shim refuses stepping an ended clipper and late or backwards included items.
+  Custom widgets: items take their space at the cursor and are the last item, simulated clicks
+  give hover, hold and press (on release, or as the mouse goes down), clearing the active item
+  lets go, a dragged splitter moves size between its sides down to a minimum, private-flag and
+  arrow buttons press, and the render helpers draw (text after `##` hidden); the shim refuses ID 0,
+  bad axes and directions and separators without thickness.
   ImPlot's closures: every point
   asked for and none past the count, formatters and custom scales take effect and are forgotten
   when the plot ends, panics in them resume afterwards, and a doctest shows a formatter borrowing

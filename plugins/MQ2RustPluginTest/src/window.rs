@@ -9,7 +9,7 @@
 use std::time::Instant;
 
 use mq_emu::imgui::{
-    ChildFlags, Cond, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags,
+    ButtonFlags, ChildFlags, Cond, Dir, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -33,6 +33,8 @@ pub struct DebugWindow {
     pub frames: u64,
     /// Frames the window's contents were drawn.
     pub drawn: u64,
+    /// Expands the window next frame if it's collapsed (for the selftest).
+    pub expand: bool,
     failures_only: bool,
     spawn_range: f32,
     sampler: Sampler,
@@ -40,7 +42,7 @@ pub struct DebugWindow {
 
 impl Default for DebugWindow {
     fn default() -> Self {
-        DebugWindow { open: false, frames: 0, drawn: 0, failures_only: false, spawn_range: 100.0, sampler: Sampler::default() }
+        DebugWindow { open: false, frames: 0, drawn: 0, expand: false, failures_only: false, spawn_range: 100.0, sampler: Sampler::default() }
     }
 }
 
@@ -83,24 +85,24 @@ impl RustTest {
     pub(crate) fn draw_window(&mut self, mq: &Mq<Self>, ui: &mut Ui) {
         self.window.frames += 1;
         let mut open = self.window.open;
-        ui.window("Rust plugin test")
-            .open(&mut open)
-            .size([560.0, 480.0], Cond::FirstUseEver)
-            .flags(WindowFlags::MENU_BAR)
-            .show(|ui| {
-                self.window.drawn += 1;
-                self.menu_bar(mq, ui);
-                ui.tab_bar("tabs", |tabs| {
-                    tabs.tab("Selftest", |ui| self.selftest_tab(mq, ui));
-                    tabs.tab("Runtime", |ui| self.runtime_tab(mq, ui));
-                    tabs.tab("Game", |ui| self.game_tab(mq, ui));
-                    tabs.tab("Widgets", |ui| self.widgets_tab(ui));
-                    tabs.tab("Plots", |ui| self.plots_tab(mq, ui));
-                    tabs.tab("Drawing", |ui| self.drawing_tab(ui));
-                    tabs.tab("Images", |ui| self.images_tab(mq, ui));
-                    tabs.tab("Fonts & docking", |ui| self.fonts_tab(ui));
-                });
+        let mut window = ui.window("Rust plugin test").open(&mut open).size([560.0, 480.0], Cond::FirstUseEver).flags(WindowFlags::MENU_BAR);
+        if std::mem::take(&mut self.window.expand) {
+            window = window.collapsed(false, Cond::Always);
+        }
+        window.show(|ui| {
+            self.window.drawn += 1;
+            self.menu_bar(mq, ui);
+            ui.tab_bar("tabs", |tabs| {
+                tabs.tab("Selftest", |ui| self.selftest_tab(mq, ui));
+                tabs.tab("Runtime", |ui| self.runtime_tab(mq, ui));
+                tabs.tab("Game", |ui| self.game_tab(mq, ui));
+                tabs.tab("Widgets", |ui| self.widgets_tab(ui));
+                tabs.tab("Plots", |ui| self.plots_tab(mq, ui));
+                tabs.tab("Drawing", |ui| self.drawing_tab(ui));
+                tabs.tab("Images", |ui| self.images_tab(mq, ui));
+                tabs.tab("Fonts & docking", |ui| self.fonts_tab(ui));
             });
+        });
         self.window.open = open;
     }
 
@@ -512,6 +514,44 @@ impl RustTest {
             });
         });
         ui.text_disabled(format!("The list clipper drew {drawn} of {LINES} lines"));
+
+        ui.separator_text("Custom widgets");
+        // A toggle switch built from ImGui's internals: an item, its button
+        // behavior, and the style's frame.
+        let height = ui.frame_height();
+        if let Some(item) = ui.add_item("switch", [height * 1.8, height]) {
+            let state = ui.button_behavior(&item, ButtonFlags::NONE);
+            if state.pressed {
+                s.checked = !s.checked;
+                ui.mark_item_edited(item.id);
+            }
+            let track = match (s.checked, state.hovered) {
+                (true, _) => StyleColor::ButtonActive,
+                (false, true) => StyleColor::FrameBgHovered,
+                (false, false) => StyleColor::FrameBg,
+            };
+            ui.render_frame(item.min, item.max, ui.style_color(track), true, height / 2.0);
+            let x = if s.checked { item.max[0] - height / 2.0 } else { item.min[0] + height / 2.0 };
+            ui.draw_list().add_circle_filled([x, item.min[1] + height / 2.0], height / 2.0 - 3.0, [1.0; 4]);
+            ui.render_nav_cursor(&item);
+        }
+        ui.same_line();
+        ui.text("A switch (the same value as the checkbox)");
+        if ui.arrow_button_with("less", Dir::Left, [height, height], ButtonFlags::NONE) {
+            s.count -= 1;
+        }
+        ui.same_line();
+        if ui.arrow_button_with("more", Dir::Right, [height, height], ButtonFlags::NONE) {
+            s.count += 1;
+        }
+        ui.same_line();
+        ui.vertical_separator();
+        ui.same_line();
+        if ui.button_with("Press on click", [0.0, 0.0], ButtonFlags::PRESSED_ON_CLICK) {
+            s.clicks += 1;
+        }
+        ui.same_line();
+        ui.text(format!("count {}, clicks {}", s.count, s.clicks));
         ui.group(|ui| {
             ui.text("A group,");
             ui.text("hover it");

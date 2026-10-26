@@ -6,7 +6,7 @@ use std::ptr;
 use mq_emu_sys::imgui as sys;
 use mq_emu_sys::imgui_mq as mq_sys;
 
-use super::{Color, Font, OnDrop, TextureAnimation, TextureId, Ui, s};
+use super::{Color, Dir, Font, OnDrop, TextureAnimation, TextureId, Ui, s};
 
 /// A point or size, `[x, y]` in pixels.
 pub type Vec2 = [f32; 2];
@@ -132,6 +132,22 @@ impl<'ui> DrawList<'ui> {
         self.with(|api, list| unsafe {
             (api.mqemu_imgui_draw_triangle_or_quad)(list, points.as_ptr().cast(), points.len() as i32, pack_color(color), thickness)
         });
+    }
+
+    /// A triangle pointing `dir`, as ImGui's arrows and collapsed tree nodes
+    /// draw it: the font size times `scale` across, its top left at `pos`.
+    pub fn add_arrow(&self, pos: Vec2, color: Color, dir: Dir, scale: f32) {
+        self.with(|api, list| unsafe { (api.mqemu_imgui_render_arrow)(list, pos[0], pos[1], pack_color(color), dir as i32, scale) });
+    }
+
+    /// A bullet centered at `center`, as [`Ui::bullet_text`] draws it.
+    pub fn add_bullet(&self, center: Vec2, color: Color) {
+        self.with(|api, list| unsafe { (api.mqemu_imgui_render_bullet)(list, center[0], center[1], pack_color(color)) });
+    }
+
+    /// A check mark `size` across, its top left at `pos`, as checkboxes draw it.
+    pub fn add_check_mark(&self, pos: Vec2, color: Color, size: f32) {
+        self.with(|api, list| unsafe { (api.mqemu_imgui_render_check_mark)(list, pos[0], pos[1], pack_color(color), size) });
     }
 
     pub fn add_circle(&self, center: Vec2, radius: f32, color: Color, thickness: f32) {
