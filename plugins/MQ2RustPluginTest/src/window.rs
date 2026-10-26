@@ -362,6 +362,74 @@ impl RustTest {
                 ui.text(format!("{name} ({:.0} away)", item.position().distance(&here)));
             }
         }
+        if ui.collapsing_header("Target and pet buffs") {
+            let remaining = |left: Option<std::time::Duration>| left.map_or("permanent".to_owned(), |d| format!("{}s", d.as_secs()));
+            if mq.target().is_some() && !mq.target_buffs_populated() {
+                ui.text_disabled("Waiting for the target's buffs.");
+            }
+            for buff in mq.target_buffs() {
+                ui.bullet_text(format!("{} ({}, from {})", buff.name(), remaining(buff.remaining()), buff.caster()));
+            }
+            ui.separator();
+            for buff in mq.pet_buffs() {
+                ui.bullet_text(format!("pet: {} ({})", buff.name(), remaining(buff.remaining())));
+            }
+        }
+        if ui.collapsing_header("Raid and mercenary") {
+            match mq.raid() {
+                Some(raid) => {
+                    ui.text(format!("{} members, led by {}, {:?} loot", raid.len(), raid.leader_name(), raid.loot_type()));
+                    for member in raid.members() {
+                        let group = member.group().map_or("ungrouped".to_owned(), |g| format!("group {}", g + 1));
+                        ui.bullet_text(format!("{}, level {}, {group}", member.name(), member.level()));
+                    }
+                }
+                None => ui.text_disabled(if mq.raid_invite_pending() { "Invited to a raid." } else { "Not in a raid." }),
+            }
+            match mq.mercenary() {
+                Some(merc) => {
+                    let stance = merc.stance().map_or("no stance".to_owned(), |s| s.name);
+                    ui.text(format!("Mercenary {}: {:?}, {stance}", merc.name(), merc.state()));
+                }
+                None => ui.text_disabled("No mercenary."),
+            }
+        }
+        if ui.collapsing_header("Extended targets") {
+            for xtarget in mq.xtargets().filter(|x| x.is_set()) {
+                let aggro = xtarget.aggro_percent().map_or(String::new(), |a| format!(", {a}% aggro"));
+                ui.text(format!("{}: {} ({}{aggro})", xtarget.slot() + 1, xtarget.name(), xtarget.role_name()));
+            }
+        }
+        if ui.collapsing_header("Alternate abilities") {
+            ui.text(format!("{} points, {} spent", mq.alt_ability_points(), mq.alt_ability_points_spent()));
+            for aa in mq.alt_abilities().filter(|aa| !aa.is_passive()) {
+                let (ready, reuse) = aa.readiness();
+                let state = if ready { "ready".to_owned() } else { format!("{}s", reuse.as_secs()) };
+                ui.bullet_text(format!("{} (rank {}/{}, {state})", aa.name(), aa.rank(), aa.max_rank()));
+            }
+        }
+        if ui.collapsing_header("Skills") {
+            for skill in mq.skills().filter(|s| s.value() > 0) {
+                let ready = if skill.is_ability() { if skill.is_ready() { ", ready" } else { ", not ready" } } else { "" };
+                ui.text(format!("{}: {} / {}{ready}", skill.name(), skill.value(), skill.cap()));
+            }
+        }
+        if let Some(merchant) = mq.merchant() {
+            if ui.collapsing_header("Merchant") {
+                ui.text(format!("{} (markup {:.2})", merchant.spawn().name(), merchant.markup()));
+                for (i, item) in merchant.items().iter() {
+                    ui.text(format!("{}: {} ({} copper)", i + 1, item.name(), item.value()));
+                }
+            }
+        }
+        if let Some(loot) = mq.loot_window() {
+            if ui.collapsing_header("Loot") {
+                ui.text(loot.corpse().name());
+                for (i, item) in loot.items().iter() {
+                    ui.text(format!("{}: {}", i + 1, item.name()));
+                }
+            }
+        }
 
         ui.separator_text("Nearby spawns");
         ui.set_next_item_width(200.0);

@@ -69,6 +69,22 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Your buffs and songs (`Buff`: spell, caster level, ticks left, hit count), spell gems and spell
   book
 - Your group: members (name, level, mercenary, offline, roles, spawn when in the zone), leader
+- Buffs on others: your target's and your pet's buffs as their windows show them (`WindowBuff`:
+  spell, time left, caster), whether the target's buffs have arrived, and MacroQuest's cache of the
+  buffs of every spawn you've targeted (`CachedBuff`, as `${Spawn[...].Buff[n]}` reads them)
+- Your raid: members (name, level, class, group, leader, main assist, marker, note), leader,
+  loot type and looters (and who may loot under them), message of the day, pending invites
+- Your mercenary: state (active, suspended, dead), name, stance and stances, its spawn, the
+  mercenaries you own
+- Extended targets: every slot's role (with the window's name for it), status, spawn and name,
+  your aggro on it, and the spawns hating you
+- Alternate abilities: the ones you own (by ID, name or rank index) and any the game knows;
+  name, description, category, rank, cost, spell, reuse time, whether it's ready and how long
+  until it is; AA points
+- Skills: value with and without modifiers, cap at your level, name; abilities (the activated
+  skills), whether they're ready and their reuse time
+- The merchant window (what's for sale, buyback, markup, the selected item, whether it's full) and
+  the loot window (the corpse and its items)
 - Zones: the zone you're in (ID, instance, names, type, gravity, safe point, clip planes) and every
   zone the client knows, by ID or name
 - Ground items: the zone's list, lookup by ID, nearest with a filter; name, position, heading,
@@ -129,13 +145,13 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   (`Ui::item_link_text`) and text laid out in EverQuest's fonts (`DrawList::add_eq_text`)
 - Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
 - Generated raw layouts for spawns, your character and profile, the spawn list, items, spells,
-  groups, zones, key state, ground items and client state (via `sys`)
+  groups, zones, key state, ground items, client state, the target, pet, merchant and loot windows,
+  raids, mercenaries, extended targets, aggro, alternate abilities and skills (via `sys`)
 
 **Missing**
 
-- Game data beyond the bound set: target buffs, pet buffs, raids, mercenaries, extended targets,
-  alternate abilities, skills, merchants and loot windows (reachable as raw layouts or through TLO
-  reads)
+- Game data beyond the bound set: advanced loot, tasks, achievements, the friends list, tribute,
+  other EQ windows' contents (reachable as TLO reads)
 - Acting on items and spells: casting, clicking items, moving items (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
 - ImGui beyond the bound set: MacroQuest's other EQ UI drawing (`DrawUITexture`,
@@ -216,11 +232,20 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
-(spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items), and
+(spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
+target and pet buffs, raid, mercenary, extended targets, AAs, skills, and the merchant and loot
+windows when open), and
 exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also:
 
 - **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
+- **Targets something** when nothing is targeted (the nearest spawn, then the nearest NPC for the
+  target buff checks, waiting for its buffs to arrive), and clears that target afterwards.
+- **Forms a raid** when you aren't in one: invites the other characters running the plugin, has
+  them accept, checks the raid, and disbands it. The server won't raid-invite your own group, so
+  grouped characters leave the group first and are invited back afterwards: you end up leading the
+  group, and group roles (main assist and the like) need setting again. Mercenary checks are
+  skipped (none on the server it's tested on).
 - **Triggers the runtime's safety nets on purpose:** expect a caught-panic message, a slow-pulse
   warning, and a burst of `flood` lines that the runtime cuts off.
 - **Opens the debug window** (expanding it if it's collapsed), to check it draws without ImGui
@@ -311,7 +336,7 @@ config and only explicitly passed settings, to check what a downstream user will
 - **`tests/link.rs`**: compiles single-symbol probe DLLs against the import libraries.
 - **`examples/link_check.rs`**: a `cdylib` that references every import, so each one must resolve at link time.
 - **`tests/layouts.rs`**: every generated field offset and record size matches eqlib's header offset
-  comments and `*_size` constants, an independent source (about 2,100 fields are covered; classes
+  comments and `*_size` constants, an independent source (about 2,500 fields are covered; classes
   whose comments are known not to describe the 32-bit build are listed, and the test fails if one
   starts matching).
 - **`tests/accessors.rs`**: generated accessors read and write the right bytes, including bitfields,
@@ -335,6 +360,15 @@ config and only explicitly passed settings, to check what a downstream user will
 - **`mq-emu` runtime tests**: dispatch, re-entrant events queued and delivered in order, the feedback
   loop cap, caught panics reported once, commands routed to closures, rate-limited warnings, all
   against a fake host and clock.
+- **`mq-emu` game data tests**: each area against fake game objects and a stand-in for the shim's
+  game functions, with missing data reading as nothing. Target and pet buffs only count with a
+  target or pet (the windows keep stale ones), the windows' arrays are as long as the game's buff
+  slots, caster names are found through the game's hash table chains (an empty or looping table
+  finds nothing), and MacroQuest's cached buffs come back complete however many there are. A raid
+  only exists once joined, and loot rules follow the loot type; mercenary states read as
+  `${Mercenary.State}` names them; extended target aggro stops where the aggro meter does;
+  untrained skills read 0, and abilities are only ready when known, activated and off cooldown;
+  passive AAs are never ready; the merchant window needs to be shown and a merchant open.
 - **`mq-emu` ImGui tests**: against the real `imgui.dll`, every scope ends when its closure panics,
   closed and collapsed windows skip their contents, clicks and typing (multi-byte, growing the
   buffer) reach Rust values, style variables have the right kinds, and table setup misuse panics

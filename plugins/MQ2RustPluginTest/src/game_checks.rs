@@ -8,13 +8,12 @@ use mq_emu::{GameState, InvSlot, Mq, Plugin, Spell};
 use crate::checks::{Check, Report, same_text};
 
 /// What MacroQuest shows for a missing value.
-const NULL: &str = "NULL";
+pub const NULL: &str = "NULL";
 
-fn id_or_null(id: Option<impl ToString>) -> String {
+pub fn id_or_null(id: Option<impl ToString>) -> String {
     id.map_or_else(|| NULL.to_owned(), |id| id.to_string())
 }
 
-/// Compares every `(what, ours, path)`, naming the first few that differ.
 /// Your class's level for `spell` as `${Spell[id].Level}` shows it. When
 /// your class can't use it, mq-emu says None, and MacroQuest shows whichever
 /// of the game's "can't use" markers (255, 254, 127) the spell has.
@@ -28,7 +27,8 @@ fn level_text<P: Plugin>(mq: &Mq<P>, spell: &Spell<'_>) -> String {
     }
 }
 
-fn all_match<P: Plugin>(mq: &Mq<P>, rows: impl IntoIterator<Item = (String, String, String)>) -> Check {
+/// Compares every `(what, ours, path)`, naming the first few that differ.
+pub fn all_match<P: Plugin>(mq: &Mq<P>, rows: impl IntoIterator<Item = (String, String, String)>) -> Check {
     let mut compared = 0;
     let mut wrong = Vec::new();
     for (what, ours, path) in rows {

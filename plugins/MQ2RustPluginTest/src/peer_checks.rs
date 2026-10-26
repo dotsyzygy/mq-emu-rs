@@ -93,11 +93,12 @@ async fn report_latency(task: &Task<RustTest>, report: &mut Report, name: &str, 
     });
 }
 
-/// `lua_here`: whether the rustpeer script runs on this character.
-pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
+/// `lua_here`: whether the rustpeer script runs on this character. Returns
+/// the other characters found running the plugin.
+pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) -> Vec<String> {
     let Some(me) = task.with(|mq| mq.me().map(|me| me.name())) else {
         task.with(|mq| report.print(mq, "other characters", Check::Skip("needs to be in game".into())));
-        return;
+        return Vec::new();
     };
 
     // A baseline: this client to itself, through the same post office.
@@ -123,22 +124,22 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
             task.next_pulse().await;
         }
     }
-    let peers = task.with_plugin(|plugin, _| plugin.peers.take()).unwrap_or_default();
+    let peers: Vec<String> = task.with_plugin(|plugin, _| plugin.peers.take()).unwrap_or_default().into_iter().collect();
     let found = task.with(|mq| {
         let check = match &asked {
             Err(e) => Check::Fail(format!("couldn't ask: {e}")),
             Ok(()) if peers.is_empty() => Check::Skip("none found; load the plugin on another character to check messaging between them".into()),
             Ok(()) => Check::Pass,
         };
-        let names = peers.iter().cloned().collect::<Vec<_>>().join(", ");
+        let names = peers.join(", ");
         report.print(mq, &format!("other characters running the plugin: {names}"), check);
         !peers.is_empty()
     });
     if !found {
-        return;
+        return peers;
     }
 
-    for peer in peers {
+    for peer in &peers {
         let them = Address::character(peer.clone());
 
         let started = Instant::now();
@@ -151,7 +152,7 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
             })
         });
 
-        report_latency(task, report, &peer, &peer).await;
+        report_latency(task, report, peer, peer).await;
 
         let shown = task.request_timeout(&them, format!("show:selftest line from {me}"), TIMEOUT).await;
         task.with(|mq| {
@@ -161,7 +162,7 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
             })
         });
 
-        let echo = lua_checks::ask(task, &lua_checks::peer(&peer), lua_checks::request("echo").with("value", "probe")).await;
+        let echo = lua_checks::ask(task, &lua_checks::peer(peer), lua_checks::request("echo").with("value", "probe")).await;
         task.with(|mq| {
             report.print(mq, &format!("{peer}: Rust here -> Lua there"), match &echo {
                 Ok(value) => Check::that(value.as_str() == Some("probe"), || format!("got {value:?}")),
@@ -171,7 +172,7 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
 
         if lua_here {
             let token = lua_checks::token();
-            let last = lua_checks::lua_calls_rust(task, &lua_checks::peer(&me), &peer, token).await;
+            let last = lua_checks::lua_calls_rust(task, &lua_checks::peer(&me), peer, token).await;
             task.with(|mq| {
                 report.print(mq, &format!("{peer}: Lua here -> Rust there, and the reply back"), match &last {
                     Ok(value) => Check::that(*value == lua_checks::expected_hello_back(token), || format!("Lua got {value:?}")),
@@ -180,4 +181,5 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report, lua_here: bool) {
             });
         }
     }
+    peers
 }

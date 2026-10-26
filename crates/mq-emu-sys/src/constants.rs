@@ -71,3 +71,30 @@ pub const MAX_EFFECT_SLOTS: usize = 12;
 pub const MAX_GROUP_SIZE: usize = 6;
 /// Size of `EQWorldData::ZoneArray`; zone IDs are below this.
 pub const MAX_ZONES: usize = 1000;
+
+// Target, pet, raid, extended target and aggro (eqlib `game/Constants.h`,
+// `game/EQClasses.h`).
+/// Buff slots in the target and pet windows (`CTargetWnd::BuffSpellID`,
+/// `CPetInfoWnd::Buff`): every long and short buff slot.
+pub const MAX_TOTAL_BUFFS: usize = NUM_LONG_BUFFS + NUM_TEMP_BUFFS;
+pub const MAX_RAID_SIZE: usize = 72;
+pub const MAX_RAID_LOOTERS: usize = 19;
+/// Size of `AggroMeterManagerClient::aggroData`.
+pub const MAX_AGGRO_METER_SIZE: usize = 27;
+/// `aggroData` index of extended target 1 (`AggroDataTypes::AD_xTarget1`);
+/// the others follow it.
+pub const AD_XTARGET1: usize = 7;
+
+// Skills and alternate abilities (eqlib `game/Constants.h`).
+pub const NUM_SKILLS: usize = 100;
+/// Owned alternate ability slots (`PcProfile::AAList`).
+pub const AA_CHAR_MAX_REAL: usize = 300;
+/// Alternate ability indexes (`AltAdvManager::GetAAById`) are below this.
+pub const NUM_ALT_ABILITIES: usize = 49999;
+
+// The game's string table (eqlib `game/EQClasses.h`, `enum eDatabaseStringType`).
+pub const DB_STRING_ALT_ABILITY_NAME: i32 = 1;
+pub const DB_STRING_ALT_ABILITY_DESCRIPTION: i32 = 4;
+pub const DB_STRING_ALT_ABILITY_CATEGORY: i32 = 19;
+pub const DB_STRING_EXPANSION_NAME: i32 = 20;
+pub const DB_STRING_MERCENARY_STANCE_NAME: i32 = 24;

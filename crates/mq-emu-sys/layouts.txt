@@ -21,3 +21,18 @@ EQ_Spell                # one spell
 CGroup                  # your group (PcClient::Group)
 CGroupMember            # one group member
 CStrRep                 # the text behind a CXStr
+CTargetWnd              # the target window: your target's buffs as the game shows them (pTargetWnd)
+CPetInfoWnd             # the pet window: your pet's buffs and commands (pPetInfoWnd)
+CRaid                   # your raid (pRaid)
+CMercenaryManager       # your mercenary (pMercManager)
+ExtendedTargetList      # the extended target window's slots (PcClient::pExtendedTargetList)
+AggroMeterManagerClient # aggro percentages (pAggroInfo)
+AltAdvManager           # every alternate ability (pAltAdvManager)
+CAltAbilityData         # one alternate ability rank
+SkillManager            # skill definitions and caps (pSkillMgr)
+EQ_Skill                # one skill
+CMerchantWnd            # the merchant window (pMerchantWnd)
+MerchantPageHandler     # one merchant window page: the items for sale, buyback
+CLootWnd                # the loot window (pLootWnd)
+ExtendedTargetSlot      # one extended target slot
+HashTable<CXStr,int,ResizePolicyNoResize>::HashNode # a buff window's caster names, by spell ID

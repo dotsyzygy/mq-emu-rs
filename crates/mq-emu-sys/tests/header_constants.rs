@@ -104,6 +104,34 @@ fn game_limits_match() {
 }
 
 #[test]
+fn raid_skill_and_alt_ability_limits_match() {
+    let file = "src/eqlib/include/eqlib/game/Constants.h";
+    let header = read_header(file);
+    check!(header, file, [MAX_RAID_SIZE, MAX_RAID_LOOTERS, NUM_SKILLS, AA_CHAR_MAX_REAL, NUM_ALT_ABILITIES]);
+    // Defined as sums of other constants, which find_value can't evaluate.
+    assert_eq!(find_value(&header, "MAX_TOTAL_BUFFS"), Some("NUM_LONG_BUFFS + NUM_TEMP_BUFFS"));
+    assert_eq!(find_value(&header, "MAX_TOTAL_BUFFS_NPC"), Some("MAX_TOTAL_BUFFS"));
+    let file = "src/eqlib/include/eqlib/game/EQClasses.h";
+    let header = read_header(file);
+    check!(header, file, [MAX_AGGRO_METER_SIZE]);
+    let aggro = enum_values(&header, "AggroDataTypes");
+    assert_eq!(aggro.iter().find(|(n, _)| n == "AD_xTarget1").map(|(_, v)| *v), Some(mq_emu_sys::constants::AD_XTARGET1 as i64));
+
+    let strings = enum_values(&header, "eDatabaseStringType");
+    let ours = [
+        ("eAltAbilityName", mq_emu_sys::constants::DB_STRING_ALT_ABILITY_NAME),
+        ("eAltAbilityDescription", mq_emu_sys::constants::DB_STRING_ALT_ABILITY_DESCRIPTION),
+        ("eAltAbilityCategory", mq_emu_sys::constants::DB_STRING_ALT_ABILITY_CATEGORY),
+        ("eExpansionName", mq_emu_sys::constants::DB_STRING_EXPANSION_NAME),
+        ("eMercenaryStanceName", mq_emu_sys::constants::DB_STRING_MERCENARY_STANCE_NAME),
+    ];
+    for (name, value) in ours {
+        let header_value = strings.iter().find(|(n, _)| n == name).unwrap_or_else(|| panic!("{name} not in enum")).1;
+        assert_eq!(i64::from(value), header_value, "{name}");
+    }
+}
+
+#[test]
 fn everquest_version_matches_eqgame_header() {
     let header = read_header("src/eqlib/include/eqlib/offsets/eqgame.h");
     let unquote = |name| {

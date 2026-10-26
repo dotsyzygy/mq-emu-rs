@@ -4,8 +4,9 @@ use core::ffi::{c_char, c_uint, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient,
-    PlayerManagerClient, zoneHeader,
+    AggroMeterManagerClient, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, ClientSpellManager,
+    EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SkillManager,
+    zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
 
@@ -53,5 +54,25 @@ imports! {
         /// The game's name for each bindable command, indexed by `CMD_*`
         /// (e.g. "forward"); entries may be null.
         pub static mut szEQMappableCommands: [*const c_char; N_EQ_MAPPABLE_COMMANDS];
+        /// The target window: your target's buffs as the game shows them.
+        pub static mut pTargetWnd: ForeignPointer<CTargetWnd>;
+        /// The pet window: your pet's buffs and commands.
+        pub static mut pPetInfoWnd: ForeignPointer<CPetInfoWnd>;
+        /// Your raid; `raidMembers[i]` is used where `locations[i]` is set.
+        pub static mut pRaid: *mut CRaid;
+        /// Your mercenary and the mercenaries you own.
+        pub static mut pMercManager: ForeignPointer<CMercenaryManager>;
+        /// Aggro percentages, indexed by `AggroDataTypes` (`AD_*`).
+        pub static mut pAggroInfo: ComputedPointer<AggroMeterManagerClient>;
+        /// Skill definitions (`pSkill`, indexed by skill number) and reuse timers.
+        pub static mut pSkillMgr: ForeignPointer<SkillManager>;
+        /// The merchant window, open or not; its first page lists what's for sale.
+        pub static mut pMerchantWnd: ForeignPointer<CMerchantWnd>;
+        /// The loot window, open or not.
+        pub static mut pLootWnd: ForeignPointer<CLootWnd>;
+        /// The merchant whose window is open, if any.
+        pub static mut pActiveMerchant: ForeignPointer<PlayerClient>;
+        /// The corpse being looted, if any.
+        pub static mut pActiveCorpse: ForeignPointer<PlayerClient>;
     }
 }

@@ -8,6 +8,7 @@ use core::ffi::c_void;
 use mq_emu_sys::*;
 
 static IMGUI_MQ: mq_emu_sys::imgui_mq::Api = mq_emu_sys::imgui_mq::API;
+static GAME: mq_emu_sys::game::Api = mq_emu_sys::game::API;
 
 #[unsafe(no_mangle)]
 pub extern "C" fn mq_emu_sys_link_check() -> usize {
@@ -35,6 +36,7 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const gPathLogs).cast(),
         (&raw const gPathPlugins).cast(),
         (&raw const gPathResources).cast(),
+        (&raw const gTargetbuffs).cast(),
         (&raw const pLocalPlayer).cast(),
         (&raw const pControlledPlayer).cast(),
         (&raw const pTarget).cast(),
@@ -48,6 +50,16 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const pWorldData).cast(),
         (&raw const pZoneInfo).cast(),
         (&raw const pItemList).cast(),
+        (&raw const pTargetWnd).cast(),
+        (&raw const pPetInfoWnd).cast(),
+        (&raw const pRaid).cast(),
+        (&raw const pMercManager).cast(),
+        (&raw const pAggroInfo).cast(),
+        (&raw const pSkillMgr).cast(),
+        (&raw const pMerchantWnd).cast(),
+        (&raw const pLootWnd).cast(),
+        (&raw const pActiveMerchant).cast(),
+        (&raw const pActiveCorpse).cast(),
     ];
     assert_eq!(
         functions.len() + statics.len(),
@@ -56,12 +68,14 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
     );
     // The shim's MQ2Main and eqlib imports are C++-mangled: mq::GetMainInterface,
     // and for ImGui the texture, texture animation and font functions (every
-    // one of them reached through the table).
+    // one of them reached through the table), and the game data functions
+    // (cached buffs, alternate abilities, skills, the string table).
     let shim: &[*const c_void] = &[
         mq_emu_sys::shim::mqemu_main_interface as *const c_void,
         mq_emu_sys::shim::mqemu_add_command as *const c_void,
         mq_emu_sys::shim::mqemu_do_command as *const c_void,
         (&raw const IMGUI_MQ).cast(),
+        (&raw const GAME).cast(),
     ];
     functions.iter().chain(statics).chain(shim).map(|p| *p as usize).fold(0, usize::wrapping_add)
 }

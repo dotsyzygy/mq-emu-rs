@@ -17,6 +17,7 @@ mod game_checks;
 mod graphics;
 mod lua_checks;
 mod peer_checks;
+mod play_checks;
 mod window;
 
 use std::collections::{BTreeSet, VecDeque};
@@ -69,6 +70,11 @@ struct RustTest {
     lua_hello: Option<(LuaValue, Option<String>)>,
     /// Characters that answered "who", while the selftest is asking.
     peers: Option<BTreeSet<String>>,
+    /// Who last invited us to a raid, from the invite's chat line. The game
+    /// shows it as a dialog; nothing in the raid or player state says so.
+    raid_invite_from: Option<String>,
+    /// Who last invited us to a group, the same way.
+    group_invite_from: Option<String>,
     /// When the latest pulses started, oldest first.
     recent_pulses: VecDeque<Instant>,
     /// The selftest's `/echo` of the RustTest TLO, once it arrives.
@@ -123,6 +129,16 @@ impl Plugin for RustTest {
         if std::mem::take(&mut self.panic_next_pulse) {
             panic!("deliberate, from {COMMAND} selftest");
         }
+    }
+
+    fn on_incoming_chat(&mut self, _mq: &Mq<Self>, line: &str, _color: u32) -> bool {
+        // "Syzygy invites you to join a raid." (what MQ2AutoAccept watches for)
+        if let Some((name, _)) = line.split_once(" invites you to join a raid") {
+            self.raid_invite_from = Some(name.trim().to_owned());
+        } else if let Some((name, _)) = line.split_once(" invites you to join a group") {
+            self.group_invite_from = Some(name.trim().to_owned());
+        }
+        false
     }
 
     fn on_write_chat_color(&mut self, mq: &Mq<Self>, line: &str, _color: u32) {
@@ -182,6 +198,37 @@ impl Plugin for RustTest {
         } else if let Some(line) = text.strip_prefix("show:") {
             say(mq, &format!("{YELLOW}{from}{RESET}: {line}"));
             "shown".to_owned()
+        } else if text == "group:leave" {
+            // Another character's selftest is forming a raid with us; the
+            // server won't deliver its invite while we're in its group.
+            if mq.group().is_some() {
+                mq.command_now("/disband");
+                "left".to_owned()
+            } else {
+                "not grouped".to_owned()
+            }
+        } else if text == "group:accept" {
+            // ...and invites us back afterwards.
+            if self.group_invite_from.take().is_some_and(|name| name.eq_ignore_ascii_case(&from)) {
+                mq.command_now("/invite");
+                "accepted".to_owned()
+            } else {
+                "no invite".to_owned()
+            }
+        } else if text == "raid:accept" {
+            // Another character's selftest invited us to a raid.
+            if mq.raid().is_some() {
+                "accepted".to_owned()
+            } else if self.raid_invite_from.take().is_some_and(|name| name.eq_ignore_ascii_case(&from)) {
+                mq.command_now("/raidaccept");
+                "accepted".to_owned()
+            } else {
+                "no invite".to_owned()
+            }
+        } else if text == "raid:leave" {
+            // Whatever raid() says: leaving must work even if reading the raid doesn't.
+            mq.command_now("/raiddisband");
+            "left".to_owned()
         } else {
             say(mq, &format!("message from {from}: {text:?}"));
             return;
@@ -287,6 +334,8 @@ impl RustTest {
         checks::game_data(mq, &mut report);
         report.section(mq, "Items, spells, group and zone");
         game_checks::run(mq, &mut report);
+        report.section(mq, "Pet buffs, raid, mercenary, AAs, skills, merchant and loot");
+        play_checks::run(mq, &mut report);
         report.section(mq, "Spawn list");
         checks::spawn_list(mq, &mut report);
         if let Some(id) = targeted {
@@ -359,6 +408,9 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
         ))
     });
 
+    task.with(|mq| report.section(mq, "Target buffs"));
+    play_checks::target_buffs(&task, &mut report).await;
+
     task.with(|mq| report.section(mq, "ImGui"));
     imgui(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Providing a TLO"));
@@ -373,7 +425,9 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     task.with(|mq| report.section(mq, "Lua"));
     let lua_here = lua_checks::run(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Other characters"));
-    peer_checks::run(&task, &mut report, lua_here).await;
+    let peers = peer_checks::run(&task, &mut report, lua_here).await;
+    task.with(|mq| report.section(mq, "Raid"));
+    play_checks::raid_with_others(&task, &mut report, &peers).await;
 
     task.with_plugin(|plugin, mq| {
         plugin.selftest = None;

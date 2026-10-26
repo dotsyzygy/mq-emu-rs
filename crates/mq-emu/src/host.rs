@@ -17,8 +17,8 @@ use std::time::Instant;
 use mq_emu_sys::constants::MAX_STRING;
 use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
 use mq_emu_sys::layouts::{
-    ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient, PlayerManagerClient,
-    zoneHeader,
+    AggroMeterManagerClient, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, ClientSpellManager,
+    EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient, PlayerManagerClient, zoneHeader,
 };
 use mq_emu_sys::shim::MainInterface;
 use mq_emu_sys::types::{ComputedPointer, ForeignPointer};
@@ -49,6 +49,28 @@ pub(crate) struct Host {
     pub ground_items: fn() -> *mut EQGroundItemListManager,
     /// Client-wide state; `keyDown` says which game commands are down.
     pub everquest_info: fn() -> *mut EverQuestinfo,
+    /// Whether the server has sent the current target's buffs (`gTargetbuffs`).
+    pub target_buffs_populated: fn() -> bool,
+    /// The target window (`pTargetWnd`).
+    pub target_window: fn() -> *mut CTargetWnd,
+    /// The pet window (`pPetInfoWnd`).
+    pub pet_window: fn() -> *mut CPetInfoWnd,
+    /// Your raid (`pRaid`).
+    pub raid: fn() -> *mut CRaid,
+    /// Your mercenary (`pMercManager`).
+    pub mercenary_manager: fn() -> *mut CMercenaryManager,
+    /// Aggro percentages (`pAggroInfo`).
+    pub aggro: fn() -> *mut AggroMeterManagerClient,
+    /// The merchant window (`pMerchantWnd`).
+    pub merchant_window: fn() -> *mut CMerchantWnd,
+    /// The loot window (`pLootWnd`).
+    pub loot_window: fn() -> *mut CLootWnd,
+    /// The merchant whose window is open (`pActiveMerchant`).
+    pub active_merchant: fn() -> *mut PlayerClient,
+    /// The corpse being looted (`pActiveCorpse`).
+    pub active_corpse: fn() -> *mut PlayerClient,
+    /// The game's own functions for what layouts can't answer (`mq_emu_sys::game`).
+    pub game_fns: &'static mq_emu_sys::game::Api,
     /// Whether the game currently allows a command (`EQbCommandStates`).
     pub command_enabled: fn(u32) -> bool,
     /// `EQExecuteCmd(command, key_down, null, null)`.
@@ -83,6 +105,17 @@ pub(crate) const fn real<P>() -> Host {
         zone_info: || unsafe { mq_emu_sys::eqlib::pZoneInfo },
         ground_items: || unsafe { computed(&raw const mq_emu_sys::eqlib::pItemList) },
         everquest_info: || unsafe { mq_emu_sys::eqlib::pEverQuestInfo },
+        target_buffs_populated: || unsafe { mq_emu_sys::mq2main::gTargetbuffs },
+        target_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTargetWnd) },
+        pet_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pPetInfoWnd) },
+        raid: || unsafe { mq_emu_sys::eqlib::pRaid },
+        mercenary_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pMercManager) },
+        aggro: || unsafe { computed(&raw const mq_emu_sys::eqlib::pAggroInfo) },
+        merchant_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pMerchantWnd) },
+        loot_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLootWnd) },
+        active_merchant: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pActiveMerchant) },
+        active_corpse: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pActiveCorpse) },
+        game_fns: &mq_emu_sys::game::API,
         command_enabled: real_command_enabled::<P>,
         execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
         face_angle: || unsafe { mq_emu_sys::mq2main::gFaceAngle },

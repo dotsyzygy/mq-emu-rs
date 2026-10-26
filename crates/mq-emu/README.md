@@ -49,6 +49,9 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   find items by name or ID, count stacks), `mq.bank()`, `mq.buffs()`/`mq.songs()`, spell gems
   and book, `mq.spell(id)`/`mq.spell_by_name(..)`, `mq.group()`, `mq.pet()`, `mq.zone()` and the
   zone list, and `mq.ground_items()`.
+- **The world around you**: `mq.target_buffs()`, `mq.pet_buffs()` and `mq.cached_buffs(&spawn)`,
+  `mq.raid()`, `mq.mercenary()`, `mq.xtargets()` and `mq.haters()`, `mq.alt_abilities()`,
+  `mq.skills()` and `mq.abilities()`, `mq.merchant()` and `mq.loot_window()`.
 - **Messaging between characters** through MacroQuest's actor system (via the launcher, on this PC
   or others): every plugin has a default mailbox (`Plugin::on_message`), `mq.add_mailbox(name, ...)`
   adds named ones, `mq.send(&Address::character("Bob").mailbox("follow"), bytes)` sends, and

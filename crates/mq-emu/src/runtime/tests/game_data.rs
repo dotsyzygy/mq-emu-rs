@@ -1,15 +1,23 @@
-//! Inventory, spells, buffs, group, zone, ground items and pets through `Mq`,
-//! against fake game objects: what each finds, and that missing game data
-//! reads as nothing rather than crashing.
+//! Inventory, spells, buffs, group, zone, ground items, pets, other spawns'
+//! buffs, raids, mercenaries, extended targets, alternate abilities, skills
+//! and the merchant and loot windows through `Mq`, against fake game
+//! objects: what each finds, and that missing game data reads as nothing
+//! rather than crashing.
 
+use mq_emu_sys::constants::{DB_STRING_ALT_ABILITY_NAME, MAX_TOTAL_BUFFS};
+use mq_emu_sys::game::{SKILL_ACTIVATABLE, SKILL_HAS, mqemu_cached_buff};
 use mq_emu_sys::layouts::{
-    CGroup, CGroupMember, ClientSpellManager, EQGroundItem, EQGroundItemListManager, EQWorldData, EQZoneInfo, PcClient,
-    PcProfile, ProfileList, VePointer_ItemClient, zoneHeader,
+    CAltAbilityData, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd,
+    ClientSpellManager, EQGroundItem, EQGroundItemListManager, EQWorldData, EQZoneInfo, ExtendedTargetList, ExtendedTargetSlot,
+    PcClient, PcProfile, ProfileList, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
 };
 
 use super::*;
+use crate::game_fns::fake::{self as fake_game, FakeSkill};
 use crate::inventory::InvSlot;
 use crate::items::tests::{Fake, FakeItem, fill, set_name};
+use crate::skills::SkillId;
+use crate::xtarget::XTARGET_AUTO_HATER;
 use crate::spells::SpellId;
 use crate::spells::tests::fake_spell;
 use crate::zone::ZoneId;
@@ -233,4 +241,217 @@ fn pets_and_their_masters() {
         ));
     });
     assert_eq!(log_of(rt)[2..], ["Gabober Some(SpawnId(1)) false None"]);
+}
+
+/// Runs one pulse with a fresh runtime and returns what `log` wrote.
+fn pulse_log(log: impl Fn(&Mq<Recorder>) -> String + 'static) -> Vec<String> {
+    log_of(in_pulse(move |plugin, mq| plugin.log.push(log(mq))))[2..].to_vec()
+}
+
+#[test]
+fn without_more_game_data_everything_is_empty() {
+    let log = pulse_log(|mq| {
+        let me = mq.me().unwrap();
+        format!(
+            "{} {} {} {} {} {} {} {} {}",
+            mq.target_buffs().count() + mq.pet_buffs().count() + mq.cached_buffs(&me).len(),
+            mq.target_buffs_populated(),
+            mq.raid().is_none() && !mq.raid_invite_pending(),
+            mq.mercenary().is_none() && mq.mercenary_spawn().is_none(),
+            mq.xtargets().count() + mq.haters().count(),
+            mq.alt_abilities().count() as i32 + mq.alt_ability_points() + mq.alt_ability_points_spent(),
+            mq.alt_ability_by_index(-1).is_none() && mq.alt_ability_by_index(i32::MAX).is_none(),
+            mq.skill(SkillId(0)).is_none() && mq.skills().count() == 0,
+            mq.merchant().is_none() && mq.loot_window().is_none(),
+        )
+    });
+    assert_eq!(log, ["0 false true true 0 0 true true true"]);
+}
+
+#[test]
+fn target_buffs_need_a_target_and_pet_buffs_a_pet() {
+    let target = Box::leak(Box::new(Fake::<CTargetWnd>::new()));
+    let pet = Box::leak(Box::new(Fake::<CPetInfoWnd>::new()));
+    target.get().set_BuffSpellID_at(2, 1200);
+    pet.get().set_Buff_at(0, 2510);
+    pet.get().set_PetBuffTimer_at(0, u32::MAX);
+    set_windows(|w| {
+        w.target_window = target.ptr();
+        w.pet_window = pet.ptr();
+        w.target_buffs_populated = true;
+    });
+    set_zone((1, 0.0, 0.0), &[(20, "Gabober", 1, 5.0, 0.0)]);
+    let log = |mq: &Mq<Recorder>| {
+        format!(
+            "{:?} {} {:?}",
+            mq.target_buffs().map(|b| (b.slot(), b.spell_id().0)).collect::<Vec<_>>(),
+            mq.target_buffs_populated(),
+            mq.pet_buffs().map(|b| (b.spell_id().0, b.remaining())).collect::<Vec<_>>(),
+        )
+    };
+
+    assert_eq!(pulse_log(log), ["[] false []"], "no target, no pet: the windows' leftovers don't count");
+    HAS_TARGET.with(|t| t.set(true));
+    player().set_PetID(20);
+    let log = pulse_log(log);
+    HAS_TARGET.with(|t| t.set(false));
+    assert_eq!(log, ["[(2, 1200)] true [(2510, None)]"], "a pet's u32::MAX timer is a permanent buff");
+}
+
+#[test]
+fn cached_buffs_come_from_macroquest_in_its_order() {
+    set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0)]);
+    let rat = ZONE.with(|zone| zone.borrow()[0].ptr());
+    let buff = |slot, spell_id| mqemu_cached_buff { slot, spell_id, duration: 5, count: 0, remaining_ms: 30_000, age_ms: 0, caster: [0; 64] };
+    // More than any first guess at the size: the call is repeated with room for all.
+    let many: Vec<mqemu_cached_buff> = (0..MAX_TOTAL_BUFFS as i32 + 3).map(|i| buff(i, 1000 + i)).collect();
+    fake_game::with(|game| game.cached_buffs.insert(rat as usize, many));
+
+    let log = pulse_log(|mq| {
+        let buffs = mq.cached_buffs(&mq.spawn(SpawnId(20)).unwrap());
+        let mine = mq.cached_buffs(&mq.me().unwrap()).len();
+        format!("{} {:?} {:?} {mine}", buffs.len(), buffs.first().map(|b| b.spell_id().0), buffs.last().map(|b| b.slot()))
+    });
+    assert_eq!(log, [format!("{} Some(1000) Some({}) 0", MAX_TOTAL_BUFFS + 3, MAX_TOTAL_BUFFS + 2)]);
+}
+
+#[test]
+fn a_raid_is_only_there_once_joined() {
+    let raid = Box::leak(Box::new(Fake::<CRaid>::new()));
+    raid.get().set_locations_at(4, 1);
+    raid.get().raidMembers(4).set_Name(set_name("Ann"));
+    set_windows(|w| w.raid = raid.ptr());
+    let log = |mq: &Mq<Recorder>| format!("{:?} {}", mq.raid().map(|r| r.members().map(|m| m.name()).collect::<Vec<_>>()), mq.raid_invite_pending());
+
+    raid.get().set_raidState(eRaidState(4));
+    assert_eq!(pulse_log(log), ["None false"], "no members: not in a raid, whatever the state says");
+    raid.get().set_raidState(eRaidState(2));
+    assert_eq!(pulse_log(log), ["None true"], "invited");
+    // On emulator servers the state stays "not in a raid" (1) while you're in one.
+    raid.get().set_raidState(eRaidState(1));
+    raid.get().set_RaidMemberCount(1);
+    assert_eq!(pulse_log(log), ["Some([\"Ann\"]) false"]);
+}
+
+#[test]
+fn a_mercenary_is_there_out_or_suspended() {
+    let manager = Box::leak(Box::new(Fake::<CMercenaryManager>::new()));
+    manager.get().set_currMercenaryIndex(-1);
+    set_windows(|w| w.mercenary_manager = manager.ptr());
+    set_zone((1, 0.0, 0.0), &[(30, "Fred", 1, 5.0, 0.0)]);
+    let log = |mq: &Mq<Recorder>| format!("{:?} {:?}", mq.mercenary().map(|m| m.state()), mq.mercenary_spawn().map(|s| s.id().0));
+
+    assert_eq!(pulse_log(log), ["None None"], "none");
+    manager.get().set_currMercenaryIndex(0);
+    assert_eq!(pulse_log(log), ["Some(Suspended) None"]);
+    manager.get().currentMercenary().set_hasMercenary(true);
+    manager.get().currentMercenary().set_suspendedState(eMercenaryState(5));
+    manager.get().set_mercenarySpawnId(30);
+    assert_eq!(pulse_log(log), ["Some(Active) Some(30)"]);
+}
+
+#[test]
+fn extended_targets_and_haters() {
+    let game = game();
+    let list = Box::leak(Box::new(Fake::<ExtendedTargetList>::new()));
+    // The game's slots are one contiguous array.
+    let block: &mut Vec<u8> = Box::leak(Box::new(vec![0u8; size_of::<ExtendedTargetSlot>() * 3]));
+    let array = block.as_mut_ptr().cast::<ExtendedTargetSlot>();
+    let slot = |i: usize| unsafe { &*array.add(i) };
+    slot(0).set_xTargetType(XTARGET_AUTO_HATER);
+    slot(0).set_SpawnID(20);
+    slot(1).set_xTargetType(2);
+    slot(1).set_SpawnID(99);
+    slot(2).set_xTargetType(XTARGET_AUTO_HATER);
+    list.get().m_targetSlots().set_m_array(array);
+    list.get().m_targetSlots().set_m_length(3);
+    game.pc.get().set_pExtendedTargetList(list.ptr());
+    set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0)]);
+
+    let log = pulse_log(|mq| {
+        let roles: Vec<u32> = mq.xtargets().map(|x| x.role()).collect();
+        let haters: Vec<u32> = mq.haters().map(|s| s.id().0).collect();
+        format!("{roles:?} {haters:?} {:?}", mq.xtarget(1).and_then(|x| x.spawn_id()))
+    });
+    assert_eq!(log, ["[1, 2, 1] [20] Some(SpawnId(99))"], "an empty auto hater slot isn't a hater");
+}
+
+#[test]
+fn alt_abilities_come_from_the_profile_list() {
+    let game = game();
+    let (rank1, rank3) = (Box::leak(Box::new(Fake::<CAltAbilityData>::new())), Box::leak(Box::new(Fake::<CAltAbilityData>::new())));
+    rank1.get().set_GroupID(35);
+    rank1.get().set_nName(1);
+    rank3.get().set_GroupID(36);
+    rank3.get().set_nName(2);
+    fake_game::with(|g| {
+        g.alt_abilities.insert(500, rank1.ptr());
+        g.alt_abilities.insert(612, rank3.ptr());
+        g.strings.insert((1, DB_STRING_ALT_ABILITY_NAME), "Innate Run Speed".into());
+        g.strings.insert((2, DB_STRING_ALT_ABILITY_NAME), "Mass Group Buff".into());
+    });
+    let profile = game.profile.get();
+    profile.AAList(0).set_AAIndex(500);
+    profile.AAList(7).set_AAIndex(612);
+    profile.AAList(8).set_AAIndex(999); // the game doesn't know it
+    profile.set_AAPoints(4);
+    profile.set_AAPointsSpent(21);
+
+    let log = pulse_log(|mq| {
+        let ids: Vec<i32> = mq.alt_abilities().map(|aa| aa.group_id()).collect();
+        format!(
+            "{ids:?} {:?} {:?} {:?} {} {}",
+            mq.alt_ability(36).map(|aa| aa.name()),
+            mq.alt_ability_by_name("innate run speed").map(|aa| aa.group_id()),
+            mq.alt_ability_by_index(612).map(|aa| aa.group_id()),
+            mq.alt_ability_points(),
+            mq.alt_ability_points_spent(),
+        )
+    });
+    assert_eq!(log, ["[35, 36] Some(\"Mass Group Buff\") Some(35) Some(36) 4 21"]);
+}
+
+#[test]
+fn skills_are_the_ones_your_class_has() {
+    let game = game();
+    game.profile.get().set_Skill_at(40, 50);
+    game.profile.get().set_Skill_at(10, 200);
+    fake_game::with(|g| {
+        g.skills.insert(40, FakeSkill { name: "Sneak".into(), values: [55, 50, 75], flags: SKILL_HAS | SKILL_ACTIVATABLE, timer: (0, 0) });
+        g.skills.insert(10, FakeSkill { name: "Defense".into(), values: [210, 200, 210], flags: SKILL_HAS, timer: (0, 0) });
+        g.skills.insert(11, FakeSkill { name: "Divination".into(), ..FakeSkill::default() });
+    });
+
+    let log = pulse_log(|mq| {
+        let skills: Vec<(i32, i32)> = mq.skills().map(|s| (s.id().0, s.value())).collect();
+        let abilities: Vec<String> = mq.abilities().map(|s| s.name()).collect();
+        format!(
+            "{skills:?} {abilities:?} {:?} {:?}",
+            mq.skill_by_name("DIVINATION").map(|s| (s.id().0, s.is_known())),
+            mq.skill(SkillId(100)).map(|s| s.id()),
+        )
+    });
+    assert_eq!(log, ["[(10, 210), (40, 55)] [\"Sneak\"] Some((11, false)) None"]);
+}
+
+#[test]
+fn merchant_and_loot_windows_need_their_spawn() {
+    let merchant = Box::leak(Box::new(Fake::<CMerchantWnd>::new()));
+    let loot = Box::leak(Box::new(Fake::<CLootWnd>::new()));
+    set_zone((1, 0.0, 0.0), &[(40, "Merchant Jo", 1, 5.0, 0.0), (41, "a rat's corpse", 2, 5.0, 0.0)]);
+    let (jo, corpse) = ZONE.with(|zone| (zone.borrow()[0].ptr(), zone.borrow()[1].ptr()));
+    set_windows(|w| {
+        w.merchant_window = merchant.ptr();
+        w.loot_window = loot.ptr();
+    });
+    let log = |mq: &Mq<Recorder>| format!("{:?} {:?}", mq.merchant().map(|m| m.spawn().id().0), mq.loot_window().map(|l| l.corpse().id().0));
+
+    assert_eq!(pulse_log(log), ["None None"], "no merchant or corpse");
+    set_windows(|w| {
+        w.active_merchant = jo;
+        w.active_corpse = corpse;
+    });
+    assert_eq!(pulse_log(log), ["None Some(41)"], "the merchant window is hidden");
+    merchant.get().set_dShow(true);
+    assert_eq!(pulse_log(log), ["Some(40) Some(41)"]);
 }

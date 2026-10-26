@@ -59,6 +59,7 @@ thread_local! {
     static IMGUI_ERROR: RefCell<Option<String>> = const { RefCell::new(None) };
     /// What the game-data hosts return; null unless a test points them at its fakes.
     static LOCAL_PC: Cell<*mut mq_emu_sys::layouts::PcClient> = const { Cell::new(ptr::null_mut()) };
+    static WINDOWS: Cell<Windows> = const { Cell::new(Windows::NONE) };
     static SPELL_MANAGER: Cell<*mut mq_emu_sys::layouts::ClientSpellManager> = const { Cell::new(ptr::null_mut()) };
     static WORLD_DATA: Cell<*mut mq_emu_sys::layouts::EQWorldData> = const { Cell::new(ptr::null_mut()) };
     static ZONE_INFO: Cell<*mut mq_emu_sys::layouts::zoneHeader> = const { Cell::new(ptr::null_mut()) };
@@ -115,6 +116,45 @@ fn advance_clock(by: Duration) {
     CLOCK.with(|clock| clock.set(clock.get() + by));
 }
 
+/// The fake game's windows and managers; all missing unless a test sets them.
+#[derive(Clone, Copy)]
+struct Windows {
+    target_buffs_populated: bool,
+    target_window: *mut mq_emu_sys::layouts::CTargetWnd,
+    pet_window: *mut mq_emu_sys::layouts::CPetInfoWnd,
+    raid: *mut mq_emu_sys::layouts::CRaid,
+    mercenary_manager: *mut mq_emu_sys::layouts::CMercenaryManager,
+    aggro: *mut mq_emu_sys::layouts::AggroMeterManagerClient,
+    merchant_window: *mut mq_emu_sys::layouts::CMerchantWnd,
+    loot_window: *mut mq_emu_sys::layouts::CLootWnd,
+    active_merchant: *mut PlayerClient,
+    active_corpse: *mut PlayerClient,
+}
+
+impl Windows {
+    const NONE: Windows = Windows {
+        target_buffs_populated: false,
+        target_window: ptr::null_mut(),
+        pet_window: ptr::null_mut(),
+        raid: ptr::null_mut(),
+        mercenary_manager: ptr::null_mut(),
+        aggro: ptr::null_mut(),
+        merchant_window: ptr::null_mut(),
+        loot_window: ptr::null_mut(),
+        active_merchant: ptr::null_mut(),
+        active_corpse: ptr::null_mut(),
+    };
+}
+
+/// Changes the fake game's windows and managers for this thread.
+fn set_windows(f: impl FnOnce(&mut Windows)) {
+    WINDOWS.with(|windows| {
+        let mut value = windows.get();
+        f(&mut value);
+        windows.set(value);
+    });
+}
+
 const FAKE: Host = Host {
     write_chat: fake_write_chat,
     main_interface: || MAIN.with(Cell::get),
@@ -130,6 +170,17 @@ const FAKE: Host = Host {
     zone_info: || ZONE_INFO.with(Cell::get),
     ground_items: || GROUND_ITEMS.with(Cell::get),
     everquest_info: || INFO.with(FakeObject::ptr),
+    target_buffs_populated: || WINDOWS.with(Cell::get).target_buffs_populated,
+    target_window: || WINDOWS.with(Cell::get).target_window,
+    pet_window: || WINDOWS.with(Cell::get).pet_window,
+    raid: || WINDOWS.with(Cell::get).raid,
+    mercenary_manager: || WINDOWS.with(Cell::get).mercenary_manager,
+    aggro: || WINDOWS.with(Cell::get).aggro,
+    merchant_window: || WINDOWS.with(Cell::get).merchant_window,
+    loot_window: || WINDOWS.with(Cell::get).loot_window,
+    active_merchant: || WINDOWS.with(Cell::get).active_merchant,
+    active_corpse: || WINDOWS.with(Cell::get).active_corpse,
+    game_fns: &crate::game_fns::fake::API,
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),
     execute_cmd: fake_execute_cmd,
     face_angle: || FACE_ANGLE.with(Cell::get),

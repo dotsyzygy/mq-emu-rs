@@ -61,5 +61,8 @@ imports! {
         pub static mut gPathLogs: [c_char; MAX_PATH];
         pub static mut gPathPlugins: [c_char; MAX_PATH];
         pub static mut gPathResources: [c_char; MAX_PATH];
+        /// Set once the server has sent the current target's buffs
+        /// (`${Target.BuffsPopulated}`); cleared when the target changes.
+        pub static mut gTargetbuffs: bool;
     }
 }

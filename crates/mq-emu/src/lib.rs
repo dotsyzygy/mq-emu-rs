@@ -57,30 +57,39 @@ compile_error!(
 );
 
 mod actors;
+mod alt_abilities;
 pub mod color;
 mod data;
 mod game;
+mod game_fns;
 mod ground;
 mod group;
 mod host;
 pub mod imgui;
 mod inventory;
 mod items;
+mod mercenary;
+mod merchant;
 pub mod lua;
 mod movement;
 mod mq;
 mod plugin;
+mod raid;
 mod runtime;
+mod skills;
+mod spawn_buffs;
 mod spawns;
 mod spells;
 mod tasks;
 mod stats;
 mod text;
+mod xtarget;
 mod zone;
 
 pub use mq_emu_sys as sys;
 
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
+pub use alt_abilities::AltAbility;
 pub use data::{Data, PathError, TloError, Value};
 pub use ground::{GroundItem, GroundItems, MAX_GROUND_ITEMS};
 pub use group::{Group, GroupMember, GroupRole};
@@ -88,17 +97,23 @@ pub use imgui::Ui;
 pub use inventory::{InvSlot, Inventory};
 pub use items::{Item, ItemEffect, ItemLocation, ItemSlots, ItemSpell, MAX_CONTAINER_SLOTS};
 pub use lua::{LuaTable, LuaValue};
+pub use mercenary::{Mercenary, MercenaryStance, MercenaryState, OwnedMercenary};
+pub use merchant::{LootWindow, Merchant};
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
 };
 pub use movement::{MoveError, MoveKey};
 pub use mq::{AliasError, CommandError, Mq};
 pub use plugin::Plugin;
+pub use raid::{Raid, RaidLootType, RaidMember};
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
+pub use skills::{Skill, SkillId};
+pub use spawn_buffs::{CachedBuff, WindowBuff};
 pub use spawns::{MAX_SPAWNS, Spawns};
 pub use spells::{Buff, Spell, SpellEffect, SpellId};
 pub use tasks::{NextPulse, Task, TaskId};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
+pub use xtarget::{XTARGET_AUTO_HATER, XTarget, XTargetStatus};
 pub use zone::{CurrentZone, ZoneId, ZoneInfo, ZoneType};
 
 /// Used by [`plugin!`]; not part of the public API.

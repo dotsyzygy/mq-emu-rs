@@ -38,6 +38,7 @@ mod macros;
 
 pub mod constants;
 pub mod eqlib;
+pub mod game;
 pub mod imgui;
 pub mod imgui_mq;
 pub mod implot;
