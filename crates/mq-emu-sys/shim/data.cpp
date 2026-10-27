@@ -1,5 +1,6 @@
 // C wrappers around MacroQuest's macro data API: reading top-level objects
-// (${Me.Level}) as typed values, and adding top-level objects of our own.
+// (${Me.Level}) as typed values, and adding top-level objects and datatypes
+// of our own.
 //
 // This file imports MQ2Main.dll and eqlib.dll (an MQTypeVar can hold an
 // eqlib CXStr), so only plugins link it; mq-emu's tests use fakes instead.
@@ -9,14 +10,21 @@
 #include "mq_api.h"
 
 #include "mq/api/MacroAPI.h"
+// Macro variables (pGlobalVariables, gMacroStack) and CDataArray.
+#include "main/MQ2Main.h"
 
+#include <cerrno>
+#include <cstdlib>
 #include <cstring>
+#include <memory>
+#include <string>
 #include <type_traits>
 #include <variant>
 
 using mq::MainInterface;
 using mq::MQPluginHandle;
 using mq::MQTypeVar;
+using mq::MQVarPtr;
 using mq::datatypes::MQ2Type;
 
 // An evaluated value (a TLO's or a member's), owned by Rust until freed.
@@ -268,6 +276,297 @@ extern "C" bool mqemu_tlo_set(mqemu_tlo_result* result, int kind, int64_t intege
 			dest.Set<void*>(result->text->data());
 			break;
 		}
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// ----- datatypes -------------------------------------------------------------
+//
+// A plugin's own datatype, as C++ plugins derive from MQ2Type: its members,
+// methods and text are answered by Rust.
+//
+// A value of the type is a key the members look up: an integer (in the
+// uint64 slot) or text (a CXStr, which eqlib frees). Neither runs plugin code
+// when MacroQuest frees the value, which may be after the plugin unloads: a
+// Lua script's member objects (mq.TLO.X.Member) wait for garbage collection.
+// Using one after that would still call into the unloaded plugin, as with
+// any C++ plugin's type.
+
+// Key kinds; mirrors `key_kind` in mq-emu-sys.
+enum mqemu_key_kind : int32_t
+{
+	MQEMU_KEY_INT = 0,
+	MQEMU_KEY_TEXT = 1,
+};
+
+// Mirrors `mqemu_key` in mq-emu-sys. `text` is valid during the call it's passed to.
+struct mqemu_key
+{
+	int32_t kind;
+	int64_t integer;
+	const char* text;
+	size_t len;
+};
+
+using mqemu_member_fn = bool (*)(void* user, const mqemu_key* key, int32_t member, const char* index,
+	mqemu_tlo_result* result);
+using mqemu_type_text_fn = bool (*)(void* user, const mqemu_key* key, char* out, size_t cap);
+
+namespace {
+
+// Reads a value's key into `key`; text is copied to `text`. False for a value
+// that holds no key (a /declare'd variable never set).
+bool read_key(const mq::MQVarPtr& var, mqemu_key& key, std::string& text)
+{
+	if (var.IsType(mq::MQVarPtr::VariantIdx::UInt64))
+	{
+		key = { MQEMU_KEY_INT, static_cast<int64_t>(std::get<uint64_t>(var.Data)), nullptr, 0 };
+		return true;
+	}
+	if (var.IsType(mq::MQVarPtr::VariantIdx::String))
+	{
+		text = std::string_view(std::get<eqlib::CXStr>(var.Data));
+		key = { MQEMU_KEY_TEXT, 0, text.data(), text.size() };
+		return true;
+	}
+	return false;
+}
+
+void write_key(mq::MQVarPtr& var, const mqemu_key& key)
+{
+	if (key.kind == MQEMU_KEY_TEXT)
+		var.SetString(std::string_view(key.text ? key.text : "", key.text ? key.len : 0));
+	else
+		var.Set<uint64_t>(static_cast<uint64_t>(key.integer));
+}
+
+// Turns a variable holding a value of `type` (or an array of them) into a
+// string, when the type is removed: deleting a variable calls its type, and
+// a variable can outlive the plugin (a global, or a macro's local while the
+// macro runs). A value keeps its key, which /varset would take back; an
+// array becomes empty.
+void detach_variable(MQTypeVar& var, MQ2Type* type)
+{
+	std::string text;
+	if (var.Type == type)
+	{
+		mqemu_key key;
+		if (read_key(var, key, text) && key.kind == MQEMU_KEY_INT)
+			text = std::to_string(key.integer);
+		type->FreeVariable(var);
+	}
+	else if (var.Type == mq::datatypes::pArrayType)
+	{
+		auto array = var.Get<mq::datatypes::CDataArray>();
+		if (!array || array->GetType() != type)
+			return;
+		array.reset();
+		// MacroQuest's array frees its elements through `type`, now, while the plugin is loaded.
+		var.Set<void*>(nullptr);
+	}
+	else
+	{
+		return;
+	}
+	var.Type = mq::datatypes::pStringType;
+	var.Type->InitVariable(var);
+	var.Type->FromString(var, text.c_str());
+}
+
+void detach_variables(mq::MQDataVar* list, MQ2Type* type)
+{
+	for (mq::MQDataVar* var = list; var != nullptr; var = var->pNext)
+		detach_variable(var->Var, type);
+}
+
+// Every variable MacroQuest has: globals, macro-wide (outer) ones, and each
+// running macro frame's parameters and locals.
+void detach_all_variables(MQ2Type* type)
+{
+	detach_variables(mq::pGlobalVariables, type);
+	detach_variables(mq::pMacroVariables, type);
+	for (mq::MQMacroStack* frame = mq::gMacroStack; frame != nullptr; frame = frame->pNext)
+	{
+		detach_variables(frame->Parameters, type);
+		detach_variables(frame->LocalVariables, type);
+	}
+}
+
+} // namespace
+
+struct mqemu_type final : MQ2Type
+{
+	mqemu_type(const char* name, const MQPluginHandle& handle, int32_t key_kind, mqemu_member_fn member,
+		mqemu_type_text_fn text, std::shared_ptr<void> user)
+		: MQ2Type(name, handle), m_keyKind(key_kind), m_member(member), m_text(text), m_user(std::move(user))
+	{
+	}
+
+	bool Registered() const { return m_owned; }
+
+	bool Add(int32_t id, const char* name, bool method)
+	{
+		return method ? AddMethod(id, name) : AddMember(id, name);
+	}
+
+	// MacroQuest stops finding the type, its variables become strings, and
+	// its members answer NULL. Values that still point here (a Lua script's)
+	// keep working (as NULL) until it's freed.
+	void Unregister()
+	{
+		if (m_owned)
+		{
+			mq::RemoveMQ2Type(*this);
+			m_owned = false; // so the destructor doesn't remove another type by this name
+			detach_all_variables(this);
+		}
+		m_user.reset();
+	}
+
+	bool GetMember(MQVarPtr VarPtr, const char* Member, char* Index, MQTypeVar& Dest) override
+	{
+		auto keep = m_user; // the type may be removed while its member runs
+		mqemu_key key;
+		std::string text;
+		if (!keep || !read_key(VarPtr, key, text))
+			return false;
+		const mq::MQTypeMember* found = FindMember(Member);
+		if (found == nullptr)
+			found = FindMethod(Member);
+		if (found == nullptr)
+			return false;
+		mqemu_tlo_result result{ &Dest, &m_buffer };
+		return m_member(keep.get(), &key, found->ID, Index ? Index : "", &result);
+	}
+
+	bool ToString(MQVarPtr VarPtr, char* Destination) override
+	{
+		auto keep = m_user;
+		mqemu_key key;
+		std::string text;
+		if (!keep || !read_key(VarPtr, key, text))
+			return false;
+		return m_text(keep.get(), &key, Destination, MAX_STRING);
+	}
+
+	// /varset of a variable of this type: another value of it, or a key.
+	bool FromData(MQVarPtr& VarPtr, const MQTypeVar& Source) override
+	{
+		if (Source.Type != this)
+			return false;
+		mqemu_key key;
+		std::string text;
+		if (!read_key(Source, key, text))
+			return false;
+		write_key(VarPtr, key);
+		return true;
+	}
+
+	bool FromString(MQVarPtr& VarPtr, const char* Source) override
+	{
+		if (Source == nullptr)
+			return false;
+		if (m_keyKind == MQEMU_KEY_TEXT)
+		{
+			VarPtr.SetString(Source);
+			return true;
+		}
+		char* end = nullptr;
+		errno = 0;
+		long long n = std::strtoll(Source, &end, 10);
+		if (end == Source || *end != 0 || errno == ERANGE)
+			return false;
+		VarPtr.Set<uint64_t>(static_cast<uint64_t>(n));
+		return true;
+	}
+
+private:
+	int32_t m_keyKind;
+	mqemu_member_fn m_member;
+	mqemu_type_text_fn m_text;
+	std::shared_ptr<void> m_user;
+	// String members' text, valid until the type is evaluated again (as
+	// MacroQuest's own types share DataTypeTemp).
+	std::string m_buffer;
+};
+
+// Adds datatype `name`, whose values hold keys of `key_kind`. Null if
+// MacroQuest refuses it (the name is taken). Ownership of `user` passes here:
+// `drop` is called exactly once, by mqemu_remove_type or mqemu_free_type (at
+// once if adding fails).
+extern "C" mqemu_type* mqemu_add_type(const MQPluginHandle* handle, const char* name, int32_t key_kind,
+	mqemu_member_fn member, mqemu_type_text_fn text, void* user, mqemu_drop_fn drop)
+{
+	std::shared_ptr<void> held(user, [drop](void* p) { if (drop) drop(p); });
+	try
+	{
+		auto type = std::make_unique<mqemu_type>(name, *handle, key_kind, member, text, std::move(held));
+		if (!type->Registered())
+			return nullptr;
+		return type.release();
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+// Adds a member (or a method) with `id`, which its callback gets. False if
+// the type already has one by that name.
+extern "C" bool mqemu_type_add_member(mqemu_type* type, int32_t id, const char* name, bool method)
+{
+	try
+	{
+		return type->Add(id, name, method);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Unregisters the type (turning its variables into strings) and drops its
+// user pointer. The type stays allocated for values that still point at it;
+// free it with mqemu_free_type when the plugin unloads.
+extern "C" void mqemu_remove_type(mqemu_type* type)
+{
+	try
+	{
+		type->Unregister();
+	}
+	catch (...)
+	{
+	}
+}
+
+
+extern "C" void mqemu_free_type(mqemu_type* type)
+{
+	try
+	{
+		type->Unregister();
+		delete type;
+	}
+	catch (...)
+	{
+	}
+}
+
+// Sets a TLO or member callback's value to a value of `type` holding `key`.
+// False if the type was removed.
+extern "C" bool mqemu_tlo_set_key(mqemu_tlo_result* result, mqemu_type* type, const mqemu_key* key)
+{
+	try
+	{
+		if (!type->Registered())
+			return false;
+		MQTypeVar& dest = *result->dest;
+		dest.Type = type;
+		write_key(dest, *key);
 		return true;
 	}
 	catch (...)

@@ -1,11 +1,13 @@
 //! Reading MacroQuest's data and providing TLOs, against a fake data system:
 //! a few values (`Me`, `Spawn[id 7]`, members, a buff) and a TLO registry
-//! that holds callbacks the way MacroQuest does.
+//! that holds callbacks the way MacroQuest does. Datatypes have their own
+//! fakes, in `datatypes`.
 
 use std::ffi::{c_char, c_void};
 
 use mq_emu_sys::shim::{mqemu_data, mqemu_drop_fn, mqemu_scalar, mqemu_tlo_fn, mqemu_tlo_result};
 
+use super::datatypes::{self, FakeVal};
 use super::*;
 use crate::data::{DataApi, TloError, Value};
 
@@ -46,13 +48,21 @@ thread_local! {
 
 /// Evaluates a TLO added through the fake, as a macro would (from outside
 /// the plugin's callbacks). None for NULL or no such TLO.
-fn fake_eval_tlo(name: &str, index: &str) -> Option<Value> {
+pub(super) fn fake_eval(name: &str, index: &str) -> Option<FakeVal> {
     let found = FAKE_TLOS.with(|tlos| tlos.borrow().iter().find(|t| t.name.eq_ignore_ascii_case(name)).map(|t| (t.callback, t.user)));
     let (callback, user) = found?;
     let index = CString::new(index).unwrap();
-    let mut result: Option<Value> = None;
+    let mut result: Option<FakeVal> = None;
     let set = unsafe { callback(user, index.as_ptr(), (&raw mut result).cast()) };
     if set { result } else { None }
+}
+
+/// [`fake_eval`] of a TLO that gives MacroQuest's own types.
+fn fake_eval_tlo(name: &str, index: &str) -> Option<Value> {
+    match fake_eval(name, index)? {
+        FakeVal::Plain(value) => Some(value),
+        keyed => panic!("{name}[{index}] gave {keyed:?}"),
+    }
 }
 
 fn fake_tlo_names() -> Vec<String> {
@@ -83,7 +93,7 @@ pub(super) const FAKE_DATA: DataApi = DataApi {
     tlo: |_, name, index| match (name, index) {
         ("Me", "") => FakeData::boxed("spawn", "Syzygy", 0x2000, 0.0, true),
         ("Spawn", "id 7") => FakeData::boxed("spawn", "Qtee", 0x3000, 0.0, true),
-        _ => match fake_eval_tlo(name, index) {
+        _ => match fake_eval(name, index).map(FakeVal::plain) {
             Some(Value::String(s)) => FakeData::boxed("string", &s, 0, 0.0, false),
             Some(Value::Int(n)) => FakeData::boxed("int", &n.to_string(), n, n as f64, n != 0),
             Some(other) => panic!("the fake doesn't model {other:?}"),
@@ -115,12 +125,21 @@ pub(super) const FAKE_DATA: DataApi = DataApi {
         removed.map(|tlo| counted_drop(tlo.drop, tlo.user)).is_some()
     },
     set_result: |result, value| {
-        if matches!(value, Value::Object { .. }) {
-            return false;
-        }
-        unsafe { *result.cast::<Option<Value>>() = Some(value.clone()) };
+        let value = match value {
+            Value::Object { .. } => return false,
+            Value::Custom(custom) => match datatypes::fake_keyed(custom) {
+                Some(keyed) => keyed,
+                None => return false,
+            },
+            plain => FakeVal::Plain(plain.clone()),
+        };
+        unsafe { *result.cast::<Option<FakeVal>>() = Some(value) };
         true
     },
+    add_type: datatypes::fake_add_type,
+    type_add_member: datatypes::fake_type_add_member,
+    remove_type: datatypes::fake_remove_type,
+    free_type: datatypes::fake_free_type,
 };
 
 /// A TLO that "another plugin" registered.

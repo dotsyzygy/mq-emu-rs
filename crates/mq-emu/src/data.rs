@@ -1,6 +1,7 @@
 //! MacroQuest's data: the top-level objects behind `${...}` (`Me`, `Target`,
 //! `Spawn[...]`, `Zone`...), read as typed values, and TLOs of your own that
-//! macros and Lua scripts can read.
+//! macros and Lua scripts can read (with datatypes of your own, see
+//! [`Mq::add_type`]).
 //!
 //! ```ignore
 //! let level = mq.tlo("Me").and_then(|me| me.member("Level")).and_then(|l| l.as_int());
@@ -25,11 +26,12 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::rc::Rc;
 
 use mq_emu_sys::plugin::MQPluginHandle;
-use mq_emu_sys::shim::{self, MainInterface, mqemu_data, mqemu_scalar, mqemu_tlo_result, tlo_kind};
+use mq_emu_sys::shim::{self, MainInterface, mqemu_data, mqemu_scalar, mqemu_tlo_result, mqemu_type, tlo_kind};
 
+use crate::datatypes::CustomValue;
 use crate::mq::Mq;
 use crate::plugin::Plugin;
-use crate::runtime::Runtime;
+use crate::runtime::{KIND_TLO, Runtime};
 use crate::text::{from_c, to_c};
 
 /// A value from MacroQuest's data system, converted the way Lua's `mq.TLO`
@@ -44,6 +46,9 @@ pub enum Value {
     String(String),
     /// Any other type (`spawn`, `buff`...), as `${...}` shows it.
     Object { type_name: String, text: String },
+    /// A value of one of the plugin's own datatypes, for its TLOs and
+    /// members to return: see [`DataType::value`](crate::DataType::value).
+    Custom(CustomValue),
 }
 
 impl Value {
@@ -105,6 +110,9 @@ impl fmt::Display for Value {
             Value::Float(x) => write!(f, "{x:.2}"),
             Value::String(s) => f.write_str(s),
             Value::Object { text, .. } => f.write_str(text),
+            // Its text handler needs the plugin, so the type's name, as
+            // MacroQuest shows a type without one.
+            Value::Custom(custom) => f.write_str(custom.type_name()),
         }
     }
 }
@@ -144,6 +152,11 @@ pub(crate) struct DataApi {
     pub add_tlo: fn(*mut MainInterface, &MQPluginHandle, &str, shim::mqemu_tlo_fn, *mut c_void, shim::mqemu_drop_fn) -> bool,
     pub remove_tlo: fn(*mut MainInterface, &MQPluginHandle, &str) -> bool,
     pub set_result: fn(*mut mqemu_tlo_result, &Value) -> bool,
+    /// Ownership of the user pointer passes over; see `mqemu_add_type`.
+    pub add_type: fn(&MQPluginHandle, &str, i32, shim::mqemu_member_fn, shim::mqemu_type_text_fn, *mut c_void, shim::mqemu_drop_fn) -> *mut mqemu_type,
+    pub type_add_member: fn(*mut mqemu_type, i32, &str, bool) -> bool,
+    pub remove_type: fn(*mut mqemu_type),
+    pub free_type: fn(*mut mqemu_type),
 }
 
 /// The real data API; generic for the reason given in `host`.
@@ -168,6 +181,12 @@ pub(crate) const fn real<P>() -> DataApi {
         },
         remove_tlo: |main, handle, name| unsafe { shim::mqemu_remove_tlo(main, handle, to_c(name).as_ptr()) },
         set_result: real_set_result::<P>,
+        add_type: |handle, name, key_kind, member, text, user, drop| unsafe {
+            shim::mqemu_add_type(handle, to_c(name).as_ptr(), key_kind, member, text, user, Some(drop))
+        },
+        type_add_member: |ty, id, name, method| unsafe { shim::mqemu_type_add_member(ty, id, to_c(name).as_ptr(), method) },
+        remove_type: |ty| unsafe { shim::mqemu_remove_type(ty) },
+        free_type: |ty| unsafe { shim::mqemu_free_type(ty) },
     }
 }
 
@@ -181,6 +200,10 @@ fn real_set_result<P>(result: *mut mqemu_tlo_result, value: &Value) -> bool {
         Value::Float(x) => set(tlo_kind::FLOAT, 0, *x, ""),
         Value::String(s) => set(tlo_kind::STRING, 0, 0.0, s),
         Value::Object { .. } => false,
+        Value::Custom(custom) => {
+            let ty = custom.raw_type();
+            !ty.is_null() && custom.with_c_key(|key| unsafe { shim::mqemu_tlo_set_key(result, ty, key) })
+        }
     }
 }
 
@@ -325,7 +348,7 @@ unsafe extern "C" fn tlo_call<P: Plugin>(user: *mut c_void, index: *const c_char
         // SAFETY: `user` is the slot's Rc, alive until tlo_drop.
         let slot = unsafe { &*user.cast::<TloSlot<P>>() };
         let index = unsafe { from_c(index) };
-        match slot.runtime.call_tlo(&*slot.handler, &index) {
+        match slot.runtime.call_data(KIND_TLO, |plugin, mq| (slot.handler)(plugin, mq, &index)) {
             Some(value) => (slot.runtime.host().data.set_result)(result, &value),
             None => false,
         }
@@ -363,7 +386,7 @@ impl fmt::Display for TloError {
 
 impl std::error::Error for TloError {}
 
-fn valid_tlo_name(name: &str) -> bool {
+pub(crate) fn valid_tlo_name(name: &str) -> bool {
     name.chars().next().is_some_and(|c| c.is_ascii_alphabetic()) && name.chars().all(|c| c.is_ascii_alphanumeric() || c == '_')
 }
 
@@ -443,7 +466,9 @@ impl<P: Plugin> Mq<P> {
     /// Adds a top-level object that macros and Lua read as `${Name}` or
     /// `${Name[index]}` (`mq.TLO.Name(index)()`): `handler` gets the index
     /// (`""` for none) and returns the value, or None for NULL. It's removed
-    /// when the plugin unloads. [`Value::Object`] can't be returned (gives NULL).
+    /// when the plugin unloads. A value with members is one of the plugin's
+    /// own datatypes ([`Mq::add_type`]); MacroQuest's ([`Value::Object`])
+    /// can't be returned (gives NULL).
     ///
     /// While one of this plugin's callbacks runs, the plugin can't be
     /// borrowed again, so its own TLOs read as NULL from inside it (e.g.

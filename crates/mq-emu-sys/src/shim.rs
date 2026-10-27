@@ -254,6 +254,72 @@ unsafe extern "C" {
     pub fn mqemu_tlo_set(result: *mut mqemu_tlo_result, kind: i32, integer: i64, real: f64, text: *const c_char, len: usize) -> bool;
 }
 
+/// A plugin's own datatype (an `MQ2Type` whose members call back into Rust),
+/// owned by the caller until [`mqemu_free_type`].
+#[repr(C)]
+pub struct mqemu_type {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// What a value of a plugin's datatype holds: an integer or text, which the
+/// type's members look up. `text` is valid during the call it's passed to.
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
+pub struct mqemu_key {
+    /// From [`key_kind`].
+    pub kind: i32,
+    pub integer: i64,
+    pub text: *const c_char,
+    pub len: usize,
+}
+
+/// Kinds of [`mqemu_key`].
+pub mod key_kind {
+    pub const INT: i32 = 0;
+    pub const TEXT: i32 = 1;
+}
+
+/// Member (or method) `member` of a value holding `key` was evaluated with
+/// `index` ("" for none). Return true after setting a value with
+/// [`mqemu_tlo_set`] or [`mqemu_tlo_set_key`] (a method may set none), false for NULL.
+pub type mqemu_member_fn =
+    unsafe extern "C" fn(user: *mut c_void, key: *const mqemu_key, member: i32, index: *const c_char, result: *mut mqemu_tlo_result) -> bool;
+/// A value holding `key` is shown as text: write it NUL-terminated to `out`
+/// (`cap` bytes) and return true, or false for NULL.
+pub type mqemu_type_text_fn = unsafe extern "C" fn(user: *mut c_void, key: *const mqemu_key, out: *mut c_char, cap: usize) -> bool;
+
+// shim/data.cpp, so plugins only (see above).
+unsafe extern "C" {
+    /// Adds datatype `name`, whose values hold keys of `key_kind` (for
+    /// `/varset` from text). Null if MacroQuest refuses it (the name is
+    /// taken). Ownership of `user` passes to the shim: `drop` is called
+    /// exactly once, by [`mqemu_remove_type`] or [`mqemu_free_type`] (at once
+    /// if adding fails).
+    pub fn mqemu_add_type(
+        handle: *const MQPluginHandle,
+        name: *const c_char,
+        key_kind: i32,
+        member: mqemu_member_fn,
+        text: mqemu_type_text_fn,
+        user: *mut c_void,
+        drop: Option<mqemu_drop_fn>,
+    ) -> *mut mqemu_type;
+    /// Adds a member (or a method) whose callback gets `id`. False if the
+    /// type has one by that name.
+    pub fn mqemu_type_add_member(ty: *mut mqemu_type, id: i32, name: *const c_char, method: bool) -> bool;
+    /// MacroQuest stops finding the type, its macro variables become strings
+    /// (holding their keys; arrays empty) and its members answer NULL; drops
+    /// `user`. The type stays allocated for values that still point at it.
+    pub fn mqemu_remove_type(ty: *mut mqemu_type);
+    /// Removes the type if needed and frees it, when the plugin unloads (a
+    /// value a Lua script kept would still point at it).
+    pub fn mqemu_free_type(ty: *mut mqemu_type);
+    /// Sets a TLO or member callback's value to a value of `ty` holding
+    /// `key`. False if the type was removed.
+    pub fn mqemu_tlo_set_key(result: *mut mqemu_tlo_result, ty: *mut mqemu_type, key: *const mqemu_key) -> bool;
+}
+
 // shim/items.cpp: game objects through their virtual functions. No DLL
 // imports, so tests may call these.
 unsafe extern "C" {

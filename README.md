@@ -67,7 +67,18 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   commands read, listed and set. Keys and combos (`Key`, `KeyCombo`) in `/bind`'s notation
 - Parsing `${...}` text
 - Reading TLOs and members (`tlo`, `tlo_at`, `data("Target.Name")`) as typed values
-- Providing TLOs from Rust (`add_tlo`) returning scalar values
+- Providing TLOs from Rust (`add_tlo`) returning scalar values or values of the plugin's own
+  datatypes
+- Datatypes of the plugin's own (`Mq::add_type`), as a C++ plugin's `MQ2Type` or Lua's
+  `mq.DataType`: members (with an index), methods and text, answered by the plugin, for macros
+  and Lua scripts (`${Bot[Tank].HP}`, `mq.TLO.Bot('Tank').HP()`); members return values of the
+  types too. A value is a key (an integer or text) that the members look up, so MacroQuest frees
+  it without the plugin, even after the plugin unloads (a Lua script's member objects wait for
+  garbage collection). Macro variables of them (`/declare`, set from a key with `/varset` or from a
+  value with `/vardata`); when a type is removed or the plugin unloads, they become strings holding
+  their keys (arrays of them, empty strings), because MacroQuest deletes a variable through its
+  type and would call into the unloaded plugin. As with a C++ plugin's types, a value a Lua script
+  keeps can't be used after the plugin unloads
 - Spawns: you, your target, the spawn list, lookup by ID or name, nearest with a filter; name, level,
   type, position, heading, HP, mana, distance; pets and their owners
 - Items (`Item`): name, ID, stack, charges, type, container slots and contents, weight, value,
@@ -215,7 +226,9 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   (reachable as TLO reads, or through their windows)
 - Acting on spells (casting, memorizing) and on items beyond moving whole stacks and using them
   (splitting stacks, auto-inventory, selling) (only by running commands)
-- Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
+- Datatypes beyond the bound set: returning MacroQuest's own objects (spawns, items...) from TLOs
+  and members (`Value::Object` gives NULL), types inheriting another's members
+  (`SetInheritance`), and members added to MacroQuest's own types (`AddMQ2TypeExtension`)
 - ImGui beyond the bound set: MacroQuest's other EQ UI drawing (`DrawUITexture`,
   `DrawTexturePiece`, `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory
   editors) (reachable as raw `ImGui::*` C++ only)
@@ -309,6 +322,9 @@ tasks. It also:
   `config\rusttest-binds.cfg`, which it compares with mq-emu's and deletes. Skipped when a game
   command is bound to a key MacroQuest has no name for, which would crash `/dumpbinds`.
 - **Echoes test lines** for the chat events, one of them with a link to an item you carry.
+- **Declares global macro variables** (`rusttest_v1`, `rusttest_v2`, `rusttest_v3`, `rusttest_va`,
+  `rusttest_t`, `rusttest_ta`) of its `RustTestCounter` and `RustTestTemp` datatypes, then deletes
+  them.
 - **Touches its own INI file:** writes a `[RustTestSelftest]` section to
   `config\MQ2RustPluginTest.ini` (also through `/ini`), compares it with `${Ini}`, and removes it.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.

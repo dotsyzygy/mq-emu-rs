@@ -1,15 +1,23 @@
 //! Selftest checks for MacroQuest's data system: typed reads against `${...}`
-//! text, and the plugin's own `RustTest` TLO as macros see it.
+//! text, and the plugin's own `RustTest` TLO and `RustTestCounter` datatype
+//! as macros see them.
 
 use std::time::Duration;
 
-use mq_emu::{GameState, Mq, Plugin, Task, Value};
+use mq_emu::color::{RED, RESET};
+use mq_emu::{DataType, DataTypeDef, GameState, Mq, Plugin, Task, Value};
 
 use crate::RustTest;
 use crate::checks::{Check, Report, same_text};
 
 /// The TLO this plugin provides (see `RustTest::tlo`).
 pub const TLO: &str = "RustTest";
+/// The datatype this plugin provides; `${RustTest[counter N]}` is one.
+pub const COUNTER_TYPE: &str = "RustTestCounter";
+/// A datatype the selftest adds and removes.
+const TEMP_TYPE: &str = "RustTestTemp";
+/// Macro variables the selftest declares.
+const VARIABLES: &[&str] = &["rusttest_v1", "rusttest_v2", "rusttest_v3", "rusttest_va", "rusttest_t", "rusttest_ta"];
 /// Marks the `/echo` line that reads the TLO.
 const MARKER: &str = "rusttest-tlo";
 const TIMEOUT: Duration = Duration::from_secs(3);
@@ -36,6 +44,7 @@ fn kind_of(value: &Value) -> &'static str {
         Value::Float(_) => "float",
         Value::String(_) => "string",
         Value::Object { .. } => "object",
+        Value::Custom(_) => "custom",
     }
 }
 
@@ -107,6 +116,94 @@ pub async fn provided_tlo(task: &Task<RustTest>, report: &mut Report) {
             Some(line) => same_text(expected, line),
             None => Check::Fail("the /echo never arrived".into()),
         })
+    });
+}
+
+/// Adds `RustTestCounter`: values keyed by an i32, whose members do
+/// arithmetic on it, with a method that counts its calls.
+pub fn add_counter_type(mq: &Mq<RustTest>) -> Option<DataType<i32>> {
+    let def = DataTypeDef::new()
+        .member("Value", |_, _, n: &i32, _| Some((*n).into()))
+        .member("Label", |_, _, n, _| Some(format!("counter {n}").into()))
+        .member("Plus", |_, _, n, index| Some(n.checked_add(index.parse().ok()?)?.into()))
+        .member("Next", |plugin: &mut RustTest, _, n, _| Some(plugin.counter_type.as_ref()?.value(n.checked_add(1)?)))
+        .method("Bump", |plugin, _, _, _| plugin.counter_bumps += 1)
+        .text(|_, _, n| format!("#{n}"));
+    match mq.add_type(COUNTER_TYPE, def) {
+        Ok(ty) => Some(ty),
+        Err(e) => {
+            mq.chat(format!("{RED}[{}]{RESET} couldn't add the {COUNTER_TYPE} datatype: {e}", mq.plugin_name()));
+            None
+        }
+    }
+}
+
+/// The plugin's `RustTestCounter` datatype as macros see it (from queued
+/// commands, which run outside the plugin): members, methods and text, macro
+/// variables of it set from text and from data, and a removed type's
+/// variables turned into strings.
+pub async fn provided_type(task: &Task<RustTest>, report: &mut Report) {
+    let bumps_before = task.with_plugin(|plugin, mq| {
+        plugin.tlo_echo = None;
+        for command in [
+            "/declare rusttest_v1 RustTestCounter global 7",
+            "/declare rusttest_v2 RustTestCounter global",
+            "/varset rusttest_v2 4",
+            "/declare rusttest_v3 RustTestCounter global",
+            "/vardata rusttest_v3 RustTest[counter 9]",
+            "/declare rusttest_va[2] RustTestCounter global",
+            "/varset rusttest_va[2] 5",
+        ] {
+            mq.command(command);
+        }
+        let five = format!("{TLO}[counter 5]");
+        mq.command(format!(
+            "/echo {MARKER} ${{{five}}} ${{{five}.Label}} ${{{five}.Plus[10]}} ${{{five}.Plus[x]}} ${{{five}.Next.Next.Value}} \
+             ${{{five}.Bump}} ${{rusttest_v1.Value}} ${{rusttest_v2.Value}} ${{rusttest_v3.Value}} ${{rusttest_va[2].Value}} ${{rusttest_v2}}"
+        ));
+        plugin.counter_bumps
+    });
+    let read = wait_for_echo(task).await;
+    task.with_plugin(|plugin, mq| {
+        report.print(mq, &format!("macros read {COUNTER_TYPE}: members, a method, text, variables of it"), match read {
+            Some(line) => same_text(format!("{MARKER} #5 counter 5 15 NULL 7 #5 7 4 9 5 #4"), line),
+            None => Check::Fail("the /echo never arrived".into()),
+        });
+        report.print(mq, "a method runs once per read", Check::that(plugin.counter_bumps == bumps_before + 1, || {
+            format!("ran {} times", plugin.counter_bumps - bumps_before)
+        }));
+    });
+
+    // A removed type's variables become strings holding their keys.
+    let added = task.with_plugin(|plugin, mq| {
+        plugin.tlo_echo = None;
+        let def = DataTypeDef::new().member("Key", |_: &mut RustTest, _, key: &String, _| Some(key.as_str().into()));
+        let added = mq.add_type(TEMP_TYPE, def).map(|_| ());
+        mq.command(format!("/declare rusttest_t {TEMP_TYPE} global Tank"));
+        mq.command(format!("/declare rusttest_ta[2] {TEMP_TYPE} global"));
+        mq.command(format!("/echo {MARKER} ${{rusttest_t.Key}}"));
+        added
+    });
+    let declared = wait_for_echo(task).await;
+    let removed = task.with_plugin(|plugin, mq| {
+        plugin.tlo_echo = None;
+        let removed = mq.remove_type(TEMP_TYPE);
+        mq.command(format!("/echo {MARKER} ${{rusttest_t}} ${{rusttest_t.Length}} [${{rusttest_ta}}] ${{rusttest_va[2].Value}}"));
+        removed
+    });
+    let after = wait_for_echo(task).await;
+    task.with(|mq| {
+        report.print(mq, "a removed datatype's variables become strings holding their keys", match (added, removed, declared, after) {
+            (Err(e), ..) => Check::Fail(format!("couldn't add {TEMP_TYPE}: {e}")),
+            (_, false, ..) => Check::Fail(format!("{TEMP_TYPE} wasn't removed")),
+            (_, _, Some(declared), Some(after)) => {
+                same_text(format!("{MARKER} Tank / {MARKER} Tank 4 [] 5"), format!("{declared} / {after}"))
+            }
+            _ => Check::Fail("an /echo never arrived".into()),
+        });
+        for variable in VARIABLES {
+            mq.command(format!("/deletevar {variable}"));
+        }
     });
 }
 

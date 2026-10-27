@@ -57,9 +57,15 @@ function handlers.call_rust(content)
     return { id = 'sent' }
 end
 
--- The Rust plugin's TLO, read the way scripts read any TLO.
+-- The Rust plugin's TLO, read the way scripts read any TLO, and its
+-- RustTestCounter datatype (Bump counts its calls in the plugin).
 function handlers.tlo()
+    local five = mq.TLO.RustTest('counter 5')
+    five.Bump()
     return {
+        counter = tostring(five),
+        counter_label = five.Label(),
+        counter_plus = five.Next.Plus(2)(),
         name = mq.TLO.RustTest(),
         answer = mq.TLO.RustTest('answer')(),
         half = mq.TLO.RustTest('half')(),

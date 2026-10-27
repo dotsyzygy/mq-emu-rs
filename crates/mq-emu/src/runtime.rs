@@ -123,7 +123,8 @@ impl Event {
 const KIND_NEW: (u32, &str) = (21, "Plugin::new");
 const KIND_SHUTDOWN: (u32, &str) = (22, "shutdown");
 const KIND_TASK: (u32, &str) = (23, "a task");
-const KIND_TLO: (u32, &str) = (24, "a TLO");
+pub(crate) const KIND_TLO: (u32, &str) = (24, "a TLO");
+pub(crate) const KIND_DATATYPE: (u32, &str) = (25, "a datatype");
 
 pub(crate) type CommandHandler<P> = dyn Fn(&mut P, &Mq<P>, &str);
 
@@ -168,6 +169,11 @@ pub struct Runtime<P: Plugin> {
     next_mailbox_id: Cell<u64>,
     /// Names of the TLOs this plugin added.
     tlos: RefCell<Vec<String>>,
+    /// The datatypes this plugin added, removed at shutdown.
+    pub(crate) datatypes: RefCell<Vec<Rc<crate::datatypes::TypeShared>>>,
+    /// Removed datatypes, which values in MacroQuest may still point at;
+    /// freed at shutdown.
+    pub(crate) removed_datatypes: RefCell<Vec<*mut mq_emu_sys::shim::mqemu_type>>,
     /// Names of the temporary aliases this plugin added, removed at shutdown.
     aliases: RefCell<Vec<String>>,
     events: RefCell<Events<P>>,
@@ -220,6 +226,8 @@ impl<P: Plugin> Runtime<P> {
             mailboxes: RefCell::new(Vec::new()),
             next_mailbox_id: Cell::new(1),
             tlos: RefCell::new(Vec::new()),
+            datatypes: RefCell::new(Vec::new()),
+            removed_datatypes: RefCell::new(Vec::new()),
             aliases: RefCell::new(Vec::new()),
             events: RefCell::new(Events::new()),
             key_binds: RefCell::new(Vec::new()),
@@ -288,6 +296,7 @@ impl<P: Plugin> Runtime<P> {
             self.remove_all_commands();
             self.unregister_all_mailboxes();
             self.remove_all_tlos();
+            self.free_all_datatypes();
             self.remove_temporary_aliases();
             self.remove_all_key_binds();
             // Their code is in this DLL.
@@ -685,10 +694,11 @@ impl<P: Plugin> Runtime<P> {
         &self.tlos
     }
 
-    /// Asks a TLO handler for its value, synchronously: MacroQuest needs the
-    /// answer now, so unlike events this can't be queued. None (NULL) if a
-    /// callback is already running (the plugin is borrowed) or it panics.
-    pub(crate) fn call_tlo(&'static self, handler: &crate::data::TloHandler<P>, index: &str) -> Option<crate::data::Value> {
+    /// Asks a TLO or datatype handler for its value, synchronously:
+    /// MacroQuest needs the answer now, so unlike events this can't be
+    /// queued. None (NULL) if a callback is already running (the plugin is
+    /// borrowed) or it panics (reported as `kind`).
+    pub(crate) fn call_data<R>(&'static self, kind: (u32, &str), handler: impl FnOnce(&mut P, &Mq<P>) -> Option<R>) -> Option<R> {
         if self.busy.get() || !self.has_plugin() {
             let mut stats = self.stats.get();
             stats.dropped += 1;
@@ -701,12 +711,12 @@ impl<P: Plugin> Runtime<P> {
         let plugin = unsafe { (*self.plugin.get()).as_mut() }.expect("checked above");
         let mq = Mq::new(self);
         self.plugin_in_use.set(true);
-        let outcome = catch_unwind(AssertUnwindSafe(|| handler(plugin, &mq, index)));
+        let outcome = catch_unwind(AssertUnwindSafe(|| handler(plugin, &mq)));
         self.plugin_in_use.set(false);
         let value = match outcome {
             Ok(value) => value,
             Err(payload) => {
-                self.on_panic(KIND_TLO, payload.as_ref());
+                self.on_panic(kind, payload.as_ref());
                 None
             }
         };

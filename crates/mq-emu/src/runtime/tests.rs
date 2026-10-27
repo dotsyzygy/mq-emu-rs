@@ -19,6 +19,7 @@ use crate::movement::{MoveError, MoveKey};
 
 mod aliases;
 mod data;
+mod datatypes;
 mod events;
 mod game_data;
 mod imgui;

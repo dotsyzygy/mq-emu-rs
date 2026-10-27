@@ -84,6 +84,9 @@ struct RustTest {
     recent_pulses: VecDeque<Instant>,
     /// The selftest's `/echo` of the RustTest TLO, once it arrives.
     tlo_echo: Option<String>,
+    /// The `RustTestCounter` datatype, and how often its `Bump` method ran.
+    counter_type: Option<mq_emu::DataType<i32>>,
+    counter_bumps: u32,
     /// What the selftest's events matched, by event.
     events_seen: Vec<(String, EventMatch)>,
     /// The selftest's key bind going down (true) and up.
@@ -130,8 +133,9 @@ impl Plugin for RustTest {
         // when it next loads.
         mq.add_xml_file(plugin_window_checks::XML_FILE);
         let plugin_window = Some(plugin_window_checks::add(mq));
+        let counter_type = data_checks::add_counter_type(mq);
         mq.chat(format!("{GREEN}[{}]{RESET} loaded. Try {YELLOW}{COMMAND} selftest{RESET}.", mq.plugin_name()));
-        RustTest { plugin_window, ..RustTest::default() }
+        RustTest { plugin_window, counter_type, ..RustTest::default() }
     }
 
     fn shutdown(&mut self, mq: &Mq<Self>) {
@@ -266,7 +270,8 @@ impl Plugin for RustTest {
 
 impl RustTest {
     /// The `RustTest` TLO: `${RustTest}` is the plugin's name; indexes give
-    /// one value of each kind; anything else is NULL.
+    /// one value of each kind, and `counter N` a `RustTestCounter`; anything
+    /// else is NULL.
     fn tlo(&mut self, mq: &Mq<Self>, index: &str) -> Option<Value> {
         match index {
             "" => Some(mq.plugin_name().into()),
@@ -275,7 +280,7 @@ impl RustTest {
             "yes" => Some(true.into()),
             "big" => Some(Value::Int(1 << 40)),
             "pulses" => Some(Value::Int(mq.stats().pulses as i64)),
-            _ => None,
+            _ => Some(self.counter_type.as_ref()?.value(index.strip_prefix("counter ")?.parse().ok()?)),
         }
     }
 
@@ -460,6 +465,8 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     imgui(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Providing a TLO"));
     data_checks::provided_tlo(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Providing a datatype"));
+    data_checks::provided_type(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Turning and walking"));
     turning(&task, &mut report).await;
     walking(&task, &mut report).await;

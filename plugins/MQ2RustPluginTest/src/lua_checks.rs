@@ -153,21 +153,28 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) -> bool {
         })
     });
 
-    // Lua reads the plugin's TLO (mq.TLO.RustTest(...)()), with types intact.
+    // Lua reads the plugin's TLO (mq.TLO.RustTest(...)()), with types intact,
+    // and its datatype's members, method and text.
+    let bumps_before = task.with_plugin(|plugin, _| plugin.counter_bumps);
     let tlo = ask(task, &script, request("tlo")).await;
-    task.with(|mq| {
+    task.with_plugin(|plugin, mq| {
         let expected = LuaValue::from(
             LuaTable::new()
+                .with("counter", "#5")
+                .with("counter_label", "counter 5")
+                .with("counter_plus", 8)
                 .with("name", mq.plugin_name())
                 .with("answer", 42)
                 .with("half", 2.5)
                 .with("yes", true)
                 .with("nope_is_nil", true),
         );
-        report.print(mq, "Lua reads the plugin's TLO", match &tlo {
+        report.print(mq, "Lua reads the plugin's TLO and datatype", match &tlo {
             Ok(value) => Check::that(*value == expected, || format!("Lua read {value:?}")),
             Err(e) => Check::Fail(e.clone()),
-        })
+        });
+        let bumps = plugin.counter_bumps - bumps_before;
+        report.print(mq, "Lua calls the datatype's method once", Check::that(tlo.is_ok() && bumps == 1, || format!("ran {bumps} times")));
     });
 
     // Negative: requests Lua can't make sense of are refused, not dropped.
