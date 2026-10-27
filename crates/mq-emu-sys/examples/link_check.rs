@@ -9,6 +9,7 @@ use mq_emu_sys::*;
 
 static IMGUI_MQ: mq_emu_sys::imgui_mq::Api = mq_emu_sys::imgui_mq::API;
 static GAME: mq_emu_sys::game::Api = mq_emu_sys::game::API;
+static WINDOWS: mq_emu_sys::windows::Api = mq_emu_sys::windows::API;
 
 #[unsafe(no_mangle)]
 pub extern "C" fn mq_emu_sys_link_check() -> usize {
@@ -70,6 +71,8 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const pLootWnd).cast(),
         (&raw const pActiveMerchant).cast(),
         (&raw const pActiveCorpse).cast(),
+        (&raw const pWndMgr).cast(),
+        (&raw const pContextMenuManager).cast(),
     ];
     assert_eq!(
         functions.len() + statics.len(),
@@ -79,13 +82,15 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
     // The shim's MQ2Main and eqlib imports are C++-mangled: mq::GetMainInterface,
     // and for ImGui the texture, texture animation and font functions (every
     // one of them reached through the table), and the game data functions
-    // (cached buffs, alternate abilities, skills, the string table).
+    // (cached buffs, alternate abilities, skills, the string table) and EQ UI
+    // window functions.
     let shim: &[*const c_void] = &[
         mq_emu_sys::shim::mqemu_main_interface as *const c_void,
         mq_emu_sys::shim::mqemu_add_command as *const c_void,
         mq_emu_sys::shim::mqemu_do_command as *const c_void,
         (&raw const IMGUI_MQ).cast(),
         (&raw const GAME).cast(),
+        (&raw const WINDOWS).cast(),
     ];
     functions.iter().chain(statics).chain(shim).map(|p| *p as usize).fold(0, usize::wrapping_add)
 }

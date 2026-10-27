@@ -78,6 +78,7 @@ fn build_shim(mq_root: &Path) {
         "shim/imgui_test.cpp",
         "shim/items.cpp",
         "shim/game.cpp",
+        "shim/windows.cpp",
         "shim/events.cpp",
     ];
     println!("cargo::rerun-if-changed=shim/mq_api.h");

@@ -23,6 +23,7 @@ mod events;
 mod game_data;
 mod imgui;
 mod key_binds;
+mod windows;
 
 // ----- fake host -----------------------------------------------------------
 
@@ -131,6 +132,8 @@ struct Windows {
     loot_window: *mut mq_emu_sys::layouts::CLootWnd,
     active_merchant: *mut PlayerClient,
     active_corpse: *mut PlayerClient,
+    window_manager: *mut mq_emu_sys::layouts::CXWndManager,
+    context_menu_manager: *mut mq_emu_sys::layouts::CContextMenuManager,
 }
 
 impl Windows {
@@ -145,6 +148,8 @@ impl Windows {
         loot_window: ptr::null_mut(),
         active_merchant: ptr::null_mut(),
         active_corpse: ptr::null_mut(),
+        window_manager: ptr::null_mut(),
+        context_menu_manager: ptr::null_mut(),
     };
 }
 
@@ -182,6 +187,9 @@ const FAKE: Host = Host {
     loot_window: || WINDOWS.with(Cell::get).loot_window,
     active_merchant: || WINDOWS.with(Cell::get).active_merchant,
     active_corpse: || WINDOWS.with(Cell::get).active_corpse,
+    window_manager: || WINDOWS.with(Cell::get).window_manager,
+    context_menu_manager: || WINDOWS.with(Cell::get).context_menu_manager,
+    windows: &crate::windows::fake::API,
     game_fns: &crate::game_fns::fake::API,
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),
     execute_cmd: fake_execute_cmd,

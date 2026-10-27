@@ -61,6 +61,10 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
 - **The world around you**: `mq.target_buffs()`, `mq.pet_buffs()` and `mq.cached_buffs(&spawn)`,
   `mq.raid()`, `mq.mercenary()`, `mq.xtargets()` and `mq.haters()`, `mq.alt_abilities()`,
   `mq.skills()` and `mq.abilities()`, `mq.merchant()` and `mq.loot_window()`.
+- **EverQuest's UI windows**: `mq.window("InventoryWindow/IW_DoneButton")` finds a window or
+  control as `${Window[...]}` does; read its state, text, lists, tabs and gauges, and act on it as
+  `/notify` does: `button.click(Click::Left)`, `list.select(row)`, `edit.set_text(..)`,
+  `window.notify(Some(control), Notification::NewValue, 5)`, and the open `mq.context_menu()`.
 - **Messaging between characters** through MacroQuest's actor system (via the launcher, on this PC
   or others): every plugin has a default mailbox (`Plugin::on_message`), `mq.add_mailbox(name, ...)`
   adds named ones, `mq.send(&Address::character("Bob").mailbox("follow"), bytes)` sends, and

@@ -87,6 +87,7 @@ mod spells;
 mod tasks;
 mod stats;
 mod text;
+mod windows;
 mod xtarget;
 mod zone;
 
@@ -122,6 +123,9 @@ pub use spawns::{MAX_SPAWNS, Spawns};
 pub use spells::{Buff, Spell, SpellEffect, SpellId};
 pub use tasks::{NextPulse, Task, TaskId};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
+pub use windows::{
+    Click, ContextMenu, ListWindow, MAX_DESCENDANTS, Notification, Scroll, TabWindow, Window, WindowKind, WindowRect,
+};
 pub use xtarget::{XTARGET_AUTO_HATER, XTarget, XTargetStatus};
 pub use zone::{CurrentZone, ZoneId, ZoneInfo, ZoneType};
 

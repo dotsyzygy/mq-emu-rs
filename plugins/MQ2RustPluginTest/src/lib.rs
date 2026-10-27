@@ -13,6 +13,7 @@
 
 mod checks;
 mod data_checks;
+mod eq_window_checks;
 mod event_checks;
 mod game_checks;
 mod graphics;
@@ -426,6 +427,9 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     task.with(|mq| report.section(mq, "Target buffs"));
     play_checks::target_buffs(&task, &mut report).await;
 
+    task.with(|mq| report.section(mq, "EQ UI windows"));
+    eq_window_checks::run(&task, &mut report).await;
+
     task.with(|mq| report.section(mq, "ImGui"));
     imgui(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Providing a TLO"));
@@ -551,7 +555,7 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         report.print(mq, "EverQuest's fonts are available in ImGui", eq_fonts);
         let docked = match exercise.docked {
             None => Check::Skip("docking is off in MacroQuest's overlay settings".into()),
-            Some(docked) => Check::that(docked, || "the window wasn't in the dock space the builder made".into()),
+            Some(docked) => Check::that(docked, || format!("the window wasn't in the dock space the builder made; {}", exercise.dock_detail)),
         };
         report.print(mq, "the dock builder docks a window where it says", docked);
         let closures = exercise.getter_points > 0 && exercise.formatted && exercise.scaled;

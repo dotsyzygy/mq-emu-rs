@@ -110,6 +110,9 @@ pub struct Exercise {
     /// Whether the dock builder's window ended up docked where it said (None
     /// with docking off).
     pub docked: Option<bool>,
+    /// What ImGui had on the last frame the window wasn't docked: the node,
+    /// its windows, and where the window said it was docked.
+    pub dock_detail: String,
     /// Points ImPlot asked an item's closure for, and whether it called the
     /// axis formatter and custom scale.
     pub getter_points: usize,
@@ -379,11 +382,18 @@ impl RustTest {
                     ui.dummy([200.0, 20.0]);
                 }
             });
+        let mut dock_detail = String::new();
         let docked = docking.then(|| {
             let inside = ui.window(EXERCISE_DOCKED).flags(WindowFlags::NO_SAVED_SETTINGS).show(|ui| ui.window_dock_id()).flatten();
             // The node knows its windows even on a frame the window skips drawing.
-            let held = ui.dock_node(dock_id).is_some_and(|node| node.windows.iter().any(|w| w == EXERCISE_DOCKED));
-            inside == Some(dock_id) || held
+            let node = ui.dock_node(dock_id);
+            let held = node.as_ref().is_some_and(|node| node.windows.iter().any(|w| w == EXERCISE_DOCKED));
+            let docked = inside == Some(dock_id) || held;
+            if !docked {
+                let node = node.map_or("no node".to_owned(), |n| format!("node windows {:?}, visible {}", n.windows, n.is_visible));
+                dock_detail = format!("frame {}: {node}; the window's dock id {inside:?}, the dock space's {dock_id:?}", g.exercise.as_ref().map_or(0, |e| e.frames_drawn));
+            }
+            docked
         });
         // Outlines the screen while the exercise runs, over and under every window.
         let ([sx, sy], [sw, sh]) = ui.screen_rect();
@@ -401,6 +411,9 @@ impl RustTest {
             exercise.plotted |= plotted;
             // A docked window may skip a frame as it docks: any frame counts.
             exercise.docked = docked.map(|now| now || exercise.docked == Some(true));
+            if !dock_detail.is_empty() {
+                exercise.dock_detail = dock_detail;
+            }
             exercise.getter_points += getter_points.get();
             exercise.formatted |= formatted.get();
             exercise.scaled |= scaled.get();

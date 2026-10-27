@@ -132,6 +132,76 @@ fn raid_skill_and_alt_ability_limits_match() {
 }
 
 #[test]
+fn window_constants_match() {
+    use mq_emu_sys::constants::*;
+    let file = "src/eqlib/include/eqlib/game/XMLData.h";
+    let types = enum_values(&read_header(file), "UIType");
+    let ours = [
+        ("UI_Unknown", UI_UNKNOWN),
+        ("UI_StaticScreenPiece", UI_STATIC_SCREEN_PIECE),
+        ("UI_StaticAnimation", UI_STATIC_ANIMATION),
+        ("UI_StaticTintedBlendAnimation", UI_STATIC_TINTED_BLEND_ANIMATION),
+        ("UI_StaticText", UI_STATIC_TEXT),
+        ("UI_StaticFrame", UI_STATIC_FRAME),
+        ("UI_StaticHeader", UI_STATIC_HEADER),
+        ("UI_Listbox", UI_LISTBOX),
+        ("UI_Button", UI_BUTTON),
+        ("UI_Gauge", UI_GAUGE),
+        ("UI_SpellGem", UI_SPELL_GEM),
+        ("UI_HtmlComponent", UI_HTML_COMPONENT),
+        ("UI_InvSlot", UI_INV_SLOT),
+        ("UI_EditBox", UI_EDIT_BOX),
+        ("UI_Slider", UI_SLIDER),
+        ("UI_Label", UI_LABEL),
+        ("UI_STMLBox", UI_STML_BOX),
+        ("UI_TreeView", UI_TREE_VIEW),
+        ("UI_Combobox", UI_COMBOBOX),
+        ("UI_Page", UI_PAGE),
+        ("UI_TabBox", UI_TAB_BOX),
+        ("UI_LayoutBox", UI_LAYOUT_BOX),
+        ("UI_HorizontalLayoutBox", UI_HORIZONTAL_LAYOUT_BOX),
+        ("UI_VerticalLayoutBox", UI_VERTICAL_LAYOUT_BOX),
+        ("UI_FinderBox", UI_FINDER_BOX),
+        ("UI_TileLayoutBox", UI_TILE_LAYOUT_BOX),
+        ("UI_Screen", UI_SCREEN),
+        ("UI_HotButton", UI_HOT_BUTTON),
+    ];
+    for (name, value) in ours {
+        let header_value = types.iter().find(|(n, _)| n == name).unwrap_or_else(|| panic!("{name} not in UIType")).1;
+        assert_eq!(i64::from(value), header_value, "{name}");
+    }
+
+    // The enum ends in entries defined by expressions (`XWM_USER_DEFINED + 1`)
+    // that enum_values can't evaluate; the ones bound come before them.
+    let file = "src/eqlib/include/eqlib/game/CXWnd.h";
+    let header = read_header(file);
+    let start = header.find("enum eWndNotification").expect("enum eWndNotification");
+    let end = start + header[start..].find("XWM_USER_DEFINED").expect("XWM_USER_DEFINED");
+    let notifications = enum_values(&format!("{}}};", &header[start..end]), "eWndNotification");
+    let ours = [
+        ("XWM_LCLICK", XWM_LCLICK),
+        ("XWM_LMOUSEUP", XWM_LMOUSEUP),
+        ("XWM_RCLICK", XWM_RCLICK),
+        ("XWM_HITENTER", XWM_HITENTER),
+        ("XWM_QMARKBOX", XWM_QMARKBOX),
+        ("XWM_CLOSE", XWM_CLOSE),
+        ("XWM_NEWVALUE", XWM_NEWVALUE),
+        ("XWM_MENUSELECT", XWM_MENUSELECT),
+        ("XWM_MOUSEOVER", XWM_MOUSEOVER),
+        ("XWM_HISTORY", XWM_HISTORY),
+        ("XWM_LCLICKHOLD", XWM_LCLICKHOLD),
+        ("XWM_MAXIMIZEBOX", XWM_MAXIMIZEBOX),
+    ];
+    for (name, value) in ours {
+        let header_value = notifications.iter().find(|(n, _)| n == name).unwrap_or_else(|| panic!("{name} not in eWndNotification")).1;
+        assert_eq!(i64::from(value), header_value, "{name}");
+    }
+
+    let file = "src/eqlib/include/eqlib/game/UI.h";
+    check!(read_header(file), file, [MAX_CONTEXT_MENU_DEPTH]);
+}
+
+#[test]
 fn everquest_version_matches_eqgame_header() {
     let header = read_header("src/eqlib/include/eqlib/offsets/eqgame.h");
     let unquote = |name| {

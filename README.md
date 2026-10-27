@@ -97,6 +97,16 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   skills), whether they're ready and their reuse time
 - The merchant window (what's for sale, buyback, markup, the selected item, whether it's full) and
   the loot window (the corpse and its items)
+- EverQuest's own UI windows (`Window`): found as `${Window[...]}` finds them (by name, a bag's
+  window as `pack1`, or a path to a control), every top-level window, the focused one; read (shown,
+  enabled, place on screen and in the parent, text as `${Window.Text}` reads it, tooltip, colors,
+  style, scrolling, XML name, screen ID and type, the window tree), and by kind: lists, tree views
+  and combo boxes (rows, cells, a cell's window, the selection), tabs, checked buttons, gauge values.
+  Acted on as `/notify` and `${Window}` do: clicks (left and right, down, up, held), notifications
+  from a control, selecting rows and tabs, typing into edit boxes, opening, closing, moving, colors
+  and alpha; the open context menu read, picked from and closed (MacroQuest's `${Menu.Items}` and
+  `menuselect` find nothing on emu: the client leaves the count they use at 0). A control is
+  looked for only inside its window (MacroQuest's `Child[]` carries on into the windows after it)
 - Zones: the zone you're in (ID, instance, names, type, gravity, safe point, clip planes) and every
   zone the client knows, by ID or name
 - Ground items: the zone's list, lookup by ID, nearest with a filter; name, position, heading,
@@ -158,12 +168,13 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
 - Generated raw layouts for spawns, your character and profile, the spawn list, items, spells,
   groups, zones, key state, ground items, client state, the target, pet, merchant and loot windows,
-  raids, mercenaries, extended targets, aggro, alternate abilities and skills (via `sys`)
+  raids, mercenaries, extended targets, aggro, alternate abilities and skills, and UI windows (the
+  window manager, buttons, lists, combo boxes, tabs, gauges, rich text, context menus) (via `sys`)
 
 **Missing**
 
-- Game data beyond the bound set: advanced loot, tasks, achievements, the friends list, tribute,
-  other EQ windows' contents (reachable as TLO reads)
+- Game data beyond the bound set: advanced loot, tasks, achievements, the friends list, tribute
+  (reachable as TLO reads, or through their windows)
 - Acting on items and spells: casting, clicking items, moving items (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
 - ImGui beyond the bound set: MacroQuest's other EQ UI drawing (`DrawUITexture`,
@@ -198,7 +209,10 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
     localization, garbage collection, error recovery, the font atlas builder). Also not planned:
     context hooks (`Plugin::on_update_imgui` already runs every frame) and the legacy Columns API
     (tables replace it)
-- EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
+- EQ UI windows beyond the bound set: what an item slot or hot button window holds
+  (`${Window.InvSlot}`, `${Window.HotButton}`), the trade window's ready flags, `/itemnotify`'s
+  item slots, `link` notifications (their data is text), and adding windows of a plugin's own
+  (`AddXMLFile`)
 - Hooks/detours on game functions
 - Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
 
@@ -239,12 +253,12 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
-| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it, every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it (with every open EQ window's controls), every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
-target and pet buffs, raid, mercenary, extended targets, AAs, skills, and the merchant and loot
-windows when open), and
+target and pet buffs, raid, mercenary, extended targets, AAs, skills, the merchant and loot
+windows when open, and every EQ window and the controls of the open ones against `${Window}`), and
 exercises commands, aliases, settings, chat events, key binds, re-entrancy, parsing, keys and async
 tasks. It also:
 
@@ -258,6 +272,10 @@ tasks. It also:
 - **Touches its own INI file:** writes a `[RustTestSelftest]` section to
   `config\MQ2RustPluginTest.ini` (also through `/ini`), compares it with `${Ini}`, and removes it.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
+- **Works your windows:** opens the inventory window, moves it a pixel and back, switches one of its
+  tabs and back, closes it with its done button, right-clicks it for its context menu (closed
+  again), and types into the chat input (put back as it was). The inventory window ends up open or
+  closed as it was.
 - **Targets something** when nothing is targeted (the nearest spawn, then the nearest NPC for the
   target buff checks, waiting for its buffs to arrive), and clears that target afterwards.
 - **Forms a raid** when you aren't in one: invites the other characters running the plugin, has
@@ -380,6 +398,8 @@ config and only explicitly passed settings, to check what a downstream user will
   context: every wrapper draws, simulated clicks register, and ImGui's C++ exceptions (calling `End`
   too often) are caught instead of crossing into Rust. A window left open makes the frame fail, as
   it would pause ImGui in game.
+- **`tests/header_constants.rs`** also checks the window kinds (`UIType`), the notifications
+  `/notify` sends (`eWndNotification`) and the context menu depth.
 - **`tests/imgui_constants.rs`**: every ImGui and ImPlot flag and enum value matches MacroQuest's
   `imgui.h`, `imgui_internal.h` (the dock builder's node flags) and `implot.h`, and MacroQuest's
   spell gem and EQ text flags their headers; every public name of the bound enums is bound.
@@ -432,6 +452,16 @@ config and only explicitly passed settings, to check what a downstream user will
   from inside the plot doesn't compile. The input map changes for a scope and is restored, and
   maps ImGui would index out of bounds with are refused. Spell gems, item links and EQ text reach
   MacroQuest's stand-ins, and gems past the game's last aren't asked for.
+- **`mq-emu` window tests**: against fake windows and a stand-in for the shim's window functions:
+  the window tree is walked depth first, and a loop in it ends the walk; controls are found by name
+  or screen ID ignoring case, only inside their window (a negative test shows the sibling MacroQuest
+  would find); `window("Top/Control")` walks paths, skipping empty steps; text follows the kind
+  (rich text's markup, a page's tab text); checked and gauge values are only read from their kinds;
+  lists read rows, cells and a cell's window and find rows through either, a combo box is its
+  drop-down; tabs read and select pages; long text grows the buffer to fit; the window list has only
+  top-level screens; the open context menu is the current one, and past the array or with none
+  visible there's none. Clicks, notifications, opening, moving, colors and typing reach the game as
+  `/notify` names them.
 - **`mq-emu` INI tests**: against real files through Windows' INI functions: values, parsed values
   and MacroQuest's switch words read back; a missing key is told apart from an empty one; values
   Windows would change on reading (spaces at either end, surrounding quotes) are quoted so they come

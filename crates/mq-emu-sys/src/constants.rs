@@ -241,3 +241,54 @@ pub const DB_STRING_ALT_ABILITY_DESCRIPTION: i32 = 4;
 pub const DB_STRING_ALT_ABILITY_CATEGORY: i32 = 19;
 pub const DB_STRING_EXPANSION_NAME: i32 = 20;
 pub const DB_STRING_MERCENARY_STANCE_NAME: i32 = 24;
+
+// EQ UI windows (eqlib `game/XMLData.h`, `enum UIType`): what kind of window
+// `CXWnd::GetType` says one is. Only the kinds a window can be are here; the
+// rest of the enum names other parts of the UI's XML.
+pub const UI_UNKNOWN: i32 = -1;
+pub const UI_STATIC_SCREEN_PIECE: i32 = 15;
+pub const UI_STATIC_ANIMATION: i32 = 16;
+pub const UI_STATIC_TINTED_BLEND_ANIMATION: i32 = 17;
+pub const UI_STATIC_TEXT: i32 = 18;
+pub const UI_STATIC_FRAME: i32 = 19;
+pub const UI_STATIC_HEADER: i32 = 20;
+pub const UI_LISTBOX: i32 = 28;
+pub const UI_BUTTON: i32 = 29;
+pub const UI_GAUGE: i32 = 30;
+pub const UI_SPELL_GEM: i32 = 31;
+pub const UI_HTML_COMPONENT: i32 = 32;
+pub const UI_INV_SLOT: i32 = 33;
+pub const UI_EDIT_BOX: i32 = 34;
+pub const UI_SLIDER: i32 = 35;
+pub const UI_LABEL: i32 = 36;
+pub const UI_STML_BOX: i32 = 37;
+pub const UI_TREE_VIEW: i32 = 38;
+pub const UI_COMBOBOX: i32 = 39;
+pub const UI_PAGE: i32 = 40;
+pub const UI_TAB_BOX: i32 = 41;
+pub const UI_LAYOUT_BOX: i32 = 42;
+pub const UI_HORIZONTAL_LAYOUT_BOX: i32 = 43;
+pub const UI_VERTICAL_LAYOUT_BOX: i32 = 44;
+pub const UI_FINDER_BOX: i32 = 45;
+pub const UI_TILE_LAYOUT_BOX: i32 = 46;
+pub const UI_SCREEN: i32 = 49;
+pub const UI_HOT_BUTTON: i32 = 53;
+
+// Window notifications (eqlib `game/CXWnd.h`, `enum eWndNotification`): the
+// messages `CXWnd::WndNotification` gets, the ones `/notify` can send.
+pub const XWM_LCLICK: u32 = 1;
+pub const XWM_LMOUSEUP: u32 = 2;
+pub const XWM_RCLICK: u32 = 3;
+pub const XWM_HITENTER: u32 = 6;
+pub const XWM_QMARKBOX: u32 = 9;
+pub const XWM_CLOSE: u32 = 10;
+pub const XWM_NEWVALUE: u32 = 14;
+pub const XWM_MENUSELECT: u32 = 20;
+pub const XWM_MOUSEOVER: u32 = 21;
+pub const XWM_HISTORY: u32 = 22;
+pub const XWM_LCLICKHOLD: u32 = 23;
+pub const XWM_MAXIMIZEBOX: u32 = 29;
+
+/// Open context menus at once (eqlib `game/UI.h`): the size of
+/// `CContextMenuManager::pCurrMenus`.
+pub const MAX_CONTEXT_MENU_DEPTH: usize = 8;

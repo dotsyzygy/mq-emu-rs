@@ -873,6 +873,192 @@ impl ArmorProperties {
     }
 }
 
+/// C++ class `ArrayClass2<SHistoryElement>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_SHistoryElement {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_SHistoryElement {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_binShift` at 0xc (0xc within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_binShift` at 0xc (0xc within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_array` at 0x10 (0x10 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut SHistoryElement {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_array` at 0x10 (0x10 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut SHistoryElement) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_binCount` at 0x14 (0x14 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_binCount` at 0x14 (0x14 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_valid` at 0x18 (0x18 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<SHistoryElement>::m_valid` at 0x18 (0x18 within `ArrayClass2<SHistoryElement>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<SLinkInfo>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_SLinkInfo {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_SLinkInfo {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_binShift` at 0xc (0xc within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_binShift` at 0xc (0xc within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_array` at 0x10 (0x10 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut SLinkInfo {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_array` at 0x10 (0x10 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut SLinkInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_binCount` at 0x14 (0x14 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_binCount` at 0x14 (0x14 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_valid` at 0x18 (0x18 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<SLinkInfo>::m_valid` at 0x18 (0x18 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass2<unsigned int>` (0x1c bytes).
 #[repr(C)]
 pub struct ArrayClass2_unsigned_int {
@@ -966,6 +1152,63 @@ impl ArrayClass2_unsigned_int {
     }
 }
 
+/// C++ class `ArrayClass<CPageWnd *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CPageWnd {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CPageWnd {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CPageWnd *>::m_array` at 0x4 (0x4 within `ArrayClass<CPageWnd *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CPageWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CPageWnd *>::m_array` at 0x4 (0x4 within `ArrayClass<CPageWnd *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CPageWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CPageWnd *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CPageWnd *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CPageWnd *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CPageWnd *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CPageWnd *>::m_isValid` at 0xc (0xc within `ArrayClass<CPageWnd *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CPageWnd *>::m_isValid` at 0xc (0xc within `ArrayClass<CPageWnd *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass<CRadioGroup *>` (0x10 bytes).
 #[repr(C)]
 pub struct ArrayClass_CRadioGroup {
@@ -1023,6 +1266,63 @@ impl ArrayClass_CRadioGroup {
     }
 }
 
+/// C++ class `ArrayClass<CTextureFont *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CTextureFont {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CTextureFont {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CTextureFont *>::m_array` at 0x4 (0x4 within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CTextureFont *>::m_array` at 0x4 (0x4 within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CTextureFont *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CTextureFont *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CTextureFont *>::m_isValid` at 0xc (0xc within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CTextureFont *>::m_isValid` at 0xc (0xc within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass<CXStr>` (0x10 bytes).
 #[repr(C)]
 pub struct ArrayClass_CXStr {
@@ -1074,6 +1374,63 @@ impl ArrayClass_CXStr {
     }
 
     /// `ArrayClass<CXStr>::m_isValid` at 0xc (0xc within `ArrayClass<CXStr>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CXWnd *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CXWnd {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CXWnd {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CXWnd *>::m_array` at 0x4 (0x4 within `ArrayClass<CXWnd *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CXWnd *>::m_array` at 0x4 (0x4 within `ArrayClass<CXWnd *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CXWnd *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CXWnd *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CXWnd *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CXWnd *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CXWnd *>::m_isValid` at 0xc (0xc within `ArrayClass<CXWnd *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CXWnd *>::m_isValid` at 0xc (0xc within `ArrayClass<CXWnd *>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -1587,6 +1944,234 @@ impl ArrayClass_PointNamesEntry {
     }
 
     /// `ArrayClass<PointNamesEntry *>::m_isValid` at 0xc (0xc within `ArrayClass<PointNamesEntry *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<SListWndCell>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_SListWndCell {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_SListWndCell {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<SListWndCell>::m_array` at 0x4 (0x4 within `ArrayClass<SListWndCell>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut SListWndCell {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<SListWndCell>::m_array` at 0x4 (0x4 within `ArrayClass<SListWndCell>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut SListWndCell) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<SListWndCell>::m_alloc` at 0x8 (0x8 within `ArrayClass<SListWndCell>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<SListWndCell>::m_alloc` at 0x8 (0x8 within `ArrayClass<SListWndCell>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<SListWndCell>::m_isValid` at 0xc (0xc within `ArrayClass<SListWndCell>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<SListWndCell>::m_isValid` at 0xc (0xc within `ArrayClass<SListWndCell>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<SListWndColumn>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_SListWndColumn {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_SListWndColumn {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<SListWndColumn>::m_array` at 0x4 (0x4 within `ArrayClass<SListWndColumn>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut SListWndColumn {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<SListWndColumn>::m_array` at 0x4 (0x4 within `ArrayClass<SListWndColumn>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut SListWndColumn) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<SListWndColumn>::m_alloc` at 0x8 (0x8 within `ArrayClass<SListWndColumn>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<SListWndColumn>::m_alloc` at 0x8 (0x8 within `ArrayClass<SListWndColumn>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<SListWndColumn>::m_isValid` at 0xc (0xc within `ArrayClass<SListWndColumn>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<SListWndColumn>::m_isValid` at 0xc (0xc within `ArrayClass<SListWndColumn>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<SListWndLine>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_SListWndLine {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_SListWndLine {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<SListWndLine>::m_array` at 0x4 (0x4 within `ArrayClass<SListWndLine>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut SListWndLine {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<SListWndLine>::m_array` at 0x4 (0x4 within `ArrayClass<SListWndLine>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut SListWndLine) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<SListWndLine>::m_alloc` at 0x8 (0x8 within `ArrayClass<SListWndLine>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<SListWndLine>::m_alloc` at 0x8 (0x8 within `ArrayClass<SListWndLine>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<SListWndLine>::m_isValid` at 0xc (0xc within `ArrayClass<SListWndLine>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<SListWndLine>::m_isValid` at 0xc (0xc within `ArrayClass<SListWndLine>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<STable>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_STable {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_STable {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<STable>::m_array` at 0x4 (0x4 within `ArrayClass<STable>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut STable {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<STable>::m_array` at 0x4 (0x4 within `ArrayClass<STable>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut STable) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<STable>::m_alloc` at 0x8 (0x8 within `ArrayClass<STable>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<STable>::m_alloc` at 0x8 (0x8 within `ArrayClass<STable>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<STable>::m_isValid` at 0xc (0xc within `ArrayClass<STable>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<STable>::m_isValid` at 0xc (0xc within `ArrayClass<STable>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -2284,6 +2869,1554 @@ impl CAltAbilityData {
     }
 }
 
+/// C++ class `CButtonDrawTemplate` (0x34 bytes).
+#[repr(C)]
+pub struct CButtonDrawTemplate {
+    _bytes: UnsafeCell<[u8; 0x34]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CButtonDrawTemplate {
+    /// `CButtonDrawTemplate::strName` at 0x0 (0x0 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn strName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CButtonDrawTemplate::ptaNormal` at 0x4 (0x4 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaNormal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CButtonDrawTemplate::ptaNormal` at 0x4 (0x4 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaNormal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressed` at 0x8 (0x8 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaPressed(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressed` at 0x8 (0x8 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaPressed(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaFlyby` at 0xc (0xc within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaFlyby(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CButtonDrawTemplate::ptaFlyby` at 0xc (0xc within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaFlyby(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaDisabled` at 0x10 (0x10 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaDisabled(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CButtonDrawTemplate::ptaDisabled` at 0x10 (0x10 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaDisabled(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedFlyby` at 0x14 (0x14 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaPressedFlyby(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedFlyby` at 0x14 (0x14 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaPressedFlyby(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedDisabled` at 0x18 (0x18 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaPressedDisabled(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedDisabled` at 0x18 (0x18 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaPressedDisabled(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaNormalDecal` at 0x1c (0x1c within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaNormalDecal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CButtonDrawTemplate::ptaNormalDecal` at 0x1c (0x1c within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaNormalDecal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedDecal` at 0x20 (0x20 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaPressedDecal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedDecal` at 0x20 (0x20 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaPressedDecal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaFlybyDecal` at 0x24 (0x24 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaFlybyDecal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CButtonDrawTemplate::ptaFlybyDecal` at 0x24 (0x24 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaFlybyDecal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaDisabledDecal` at 0x28 (0x28 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaDisabledDecal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CButtonDrawTemplate::ptaDisabledDecal` at 0x28 (0x28 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaDisabledDecal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedFlybyDecal` at 0x2c (0x2c within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaPressedFlybyDecal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedFlybyDecal` at 0x2c (0x2c within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaPressedFlybyDecal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedDisabledDecal` at 0x30 (0x30 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn ptaPressedDisabledDecal(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CButtonDrawTemplate::ptaPressedDisabledDecal` at 0x30 (0x30 within `CButtonDrawTemplate`).
+    #[inline]
+    pub fn set_ptaPressedDisabledDecal(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+}
+
+/// C++ class `CButtonWnd` (0x260 bytes).
+#[repr(C)]
+pub struct CButtonWnd {
+    _bytes: UnsafeCell<[u8; 0x260]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CButtonWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CButtonWnd::MouseButtonState` at 0x1d8 (0x1d8 within `CButtonWnd`).
+    #[inline]
+    pub fn MouseButtonState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CButtonWnd::MouseButtonState` at 0x1d8 (0x1d8 within `CButtonWnd`).
+    #[inline]
+    pub fn set_MouseButtonState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `CButtonWnd::bPicture` at 0x1dc (0x1dc within `CButtonWnd`).
+    #[inline]
+    pub fn bPicture(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1dc) != 0 }
+    }
+
+    /// `CButtonWnd::bPicture` at 0x1dc (0x1dc within `CButtonWnd`).
+    #[inline]
+    pub fn set_bPicture(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, u8::from(value)) }
+    }
+
+    /// `CButtonWnd::pGroup` at 0x1e0 (0x1e0 within `CButtonWnd`).
+    #[inline]
+    pub fn pGroup(&self) -> *mut CRadioGroup {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CButtonWnd::pGroup` at 0x1e0 (0x1e0 within `CButtonWnd`).
+    #[inline]
+    pub fn set_pGroup(&self, value: *mut CRadioGroup) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CButtonWnd::Checked` at 0x1e4 (0x1e4 within `CButtonWnd`).
+    #[inline]
+    pub fn Checked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1e4) != 0 }
+    }
+
+    /// `CButtonWnd::Checked` at 0x1e4 (0x1e4 within `CButtonWnd`).
+    #[inline]
+    pub fn set_Checked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1e4, u8::from(value)) }
+    }
+
+    /// `CButtonWnd::bMouseOverLastFrame` at 0x1e5 (0x1e5 within `CButtonWnd`).
+    #[inline]
+    pub fn bMouseOverLastFrame(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1e5) != 0 }
+    }
+
+    /// `CButtonWnd::bMouseOverLastFrame` at 0x1e5 (0x1e5 within `CButtonWnd`).
+    #[inline]
+    pub fn set_bMouseOverLastFrame(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1e5, u8::from(value)) }
+    }
+
+    /// `CButtonWnd::DecalOffset` at 0x1e8 (0x1e8 within `CButtonWnd`).
+    #[inline]
+    pub fn DecalOffset(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0x1e8) }
+    }
+
+    /// `CButtonWnd::DecalSize` at 0x1f0 (0x1f0 within `CButtonWnd`).
+    #[inline]
+    pub fn DecalSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x1f0) }
+    }
+
+    /// `CButtonWnd::DecalTint` at 0x1f8 (0x1f8 within `CButtonWnd`).
+    #[inline]
+    pub fn DecalTint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CButtonWnd::DecalTint` at 0x1f8 (0x1f8 within `CButtonWnd`).
+    #[inline]
+    pub fn set_DecalTint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CButtonWnd::TextOffsets` at 0x1fc (0x1fc within `CButtonWnd`).
+    #[inline]
+    pub fn TextOffsets(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CButtonWnd::TextModeBits` at 0x20c (0x20c within `CButtonWnd`).
+    #[inline]
+    pub fn TextModeBits(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CButtonWnd::TextModeBits` at 0x20c (0x20c within `CButtonWnd`).
+    #[inline]
+    pub fn set_TextModeBits(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CButtonWnd::Mouseover` at 0x210 (0x210 within `CButtonWnd`).
+    #[inline]
+    pub fn Mouseover(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CButtonWnd::Mouseover` at 0x210 (0x210 within `CButtonWnd`).
+    #[inline]
+    pub fn set_Mouseover(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CButtonWnd::Pressed` at 0x214 (0x214 within `CButtonWnd`).
+    #[inline]
+    pub fn Pressed(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `CButtonWnd::Pressed` at 0x214 (0x214 within `CButtonWnd`).
+    #[inline]
+    pub fn set_Pressed(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `CButtonWnd::Disabled` at 0x218 (0x218 within `CButtonWnd`).
+    #[inline]
+    pub fn Disabled(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `CButtonWnd::Disabled` at 0x218 (0x218 within `CButtonWnd`).
+    #[inline]
+    pub fn set_Disabled(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `CButtonWnd::CoolDownBeginTime` at 0x21c (0x21c within `CButtonWnd`).
+    #[inline]
+    pub fn CoolDownBeginTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `CButtonWnd::CoolDownBeginTime` at 0x21c (0x21c within `CButtonWnd`).
+    #[inline]
+    pub fn set_CoolDownBeginTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, value) }
+    }
+
+    /// `CButtonWnd::CoolDownDuration` at 0x220 (0x220 within `CButtonWnd`).
+    #[inline]
+    pub fn CoolDownDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `CButtonWnd::CoolDownDuration` at 0x220 (0x220 within `CButtonWnd`).
+    #[inline]
+    pub fn set_CoolDownDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `CButtonWnd::DrawTemplate` at 0x224 (0x224 within `CButtonWnd`).
+    #[inline]
+    pub fn CButtonWnd_DrawTemplate(&self) -> &CButtonDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `CButtonWnd::bIsCheckbox` at 0x258 (0x258 within `CButtonWnd`).
+    #[inline]
+    pub fn bIsCheckbox(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x258) != 0 }
+    }
+
+    /// `CButtonWnd::bIsCheckbox` at 0x258 (0x258 within `CButtonWnd`).
+    #[inline]
+    pub fn set_bIsCheckbox(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x258, u8::from(value)) }
+    }
+
+    /// `CButtonWnd::bIsDrawLasso` at 0x259 (0x259 within `CButtonWnd`).
+    #[inline]
+    pub fn bIsDrawLasso(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x259) != 0 }
+    }
+
+    /// `CButtonWnd::bIsDrawLasso` at 0x259 (0x259 within `CButtonWnd`).
+    #[inline]
+    pub fn set_bIsDrawLasso(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x259, u8::from(value)) }
+    }
+
+    /// `CButtonWnd::ButtonStyle` at 0x25c (0x25c within `CButtonWnd`).
+    #[inline]
+    pub fn ButtonStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x25c) }
+    }
+
+    /// `CButtonWnd::ButtonStyle` at 0x25c (0x25c within `CButtonWnd`).
+    #[inline]
+    pub fn set_ButtonStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x25c, value) }
+    }
+}
+
 /// C++ class `CCapsule` (0x1c bytes).
 #[repr(C)]
 pub struct CCapsule {
@@ -2374,6 +4507,5744 @@ impl CCapsule {
     #[inline]
     pub fn set_Radius(&self, value: f32) {
         unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+}
+
+/// C++ class `CClickStickInfo` (0x24 bytes).
+#[repr(C)]
+pub struct CClickStickInfo {
+    _bytes: UnsafeCell<[u8; 0x24]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CClickStickInfo {
+    /// `CClickStickInfo::__vfptr` at 0x0 (0x0 within `CClickStickInfo`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CClickStickInfo::__vfptr` at 0x0 (0x0 within `CClickStickInfo`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CClickStickInfo::sourceWnd` at 0x4 (0x4 within `CClickStickInfo`).
+    #[inline]
+    pub fn sourceWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CClickStickInfo::sourceWnd` at 0x4 (0x4 within `CClickStickInfo`).
+    #[inline]
+    pub fn set_sourceWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CClickStickInfo::targetWnd` at 0x8 (0x8 within `CClickStickInfo`).
+    #[inline]
+    pub fn targetWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CClickStickInfo::targetWnd` at 0x8 (0x8 within `CClickStickInfo`).
+    #[inline]
+    pub fn set_targetWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CClickStickInfo::sourcePos` at 0xc (0xc within `CClickStickInfo`).
+    #[inline]
+    pub fn sourcePos(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CClickStickInfo::targetPos` at 0x14 (0x14 within `CClickStickInfo`).
+    #[inline]
+    pub fn targetPos(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CClickStickInfo::message` at 0x1c (0x1c within `CClickStickInfo`).
+    #[inline]
+    pub fn message(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CClickStickInfo::message` at 0x1c (0x1c within `CClickStickInfo`).
+    #[inline]
+    pub fn set_message(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CClickStickInfo::data` at 0x20 (0x20 within `CClickStickInfo`).
+    #[inline]
+    pub fn data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CClickStickInfo::data` at 0x20 (0x20 within `CClickStickInfo`).
+    #[inline]
+    pub fn set_data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+}
+
+/// C++ class `CComboWnd` (0x218 bytes).
+#[repr(C)]
+pub struct CComboWnd {
+    _bytes: UnsafeCell<[u8; 0x218]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CComboWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CComboWnd::pListWnd` at 0x1d8 (0x1d8 within `CComboWnd`).
+    #[inline]
+    pub fn pListWnd(&self) -> *mut CListWnd {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CComboWnd::pListWnd` at 0x1d8 (0x1d8 within `CComboWnd`).
+    #[inline]
+    pub fn set_pListWnd(&self, value: *mut CListWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `CComboWnd::ListHeightMax` at 0x1dc (0x1dc within `CComboWnd`).
+    #[inline]
+    pub fn ListHeightMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CComboWnd::ListHeightMax` at 0x1dc (0x1dc within `CComboWnd`).
+    #[inline]
+    pub fn set_ListHeightMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, value) }
+    }
+
+    /// `CComboWnd::ListHeight` at 0x1e0 (0x1e0 within `CComboWnd`).
+    #[inline]
+    pub fn ListHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CComboWnd::ListHeight` at 0x1e0 (0x1e0 within `CComboWnd`).
+    #[inline]
+    pub fn set_ListHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CComboWnd::ButtonDrawTemplate` at 0x1e4 (0x1e4 within `CComboWnd`).
+    #[inline]
+    pub fn ButtonDrawTemplate(&self) -> &CButtonDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x1e4) }
+    }
+}
+
+/// C++ class `CContextMenu` (0x284 bytes).
+#[repr(C)]
+pub struct CContextMenu {
+    _bytes: UnsafeCell<[u8; 0x284]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CContextMenu {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CListWnd::ItemsArray` at 0x1d8 (0x1d8 within `CListWnd`).
+    #[inline]
+    pub fn ItemsArray(&self) -> &ArrayClass_SListWndLine {
+        unsafe { at(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CListWnd::Columns` at 0x1e8 (0x1e8 within `CListWnd`).
+    #[inline]
+    pub fn Columns(&self) -> &ArrayClass_SListWndColumn {
+        unsafe { at(self._bytes.get().cast(), 0x1e8) }
+    }
+
+    /// `CListWnd::CurSel` at 0x1f8 (0x1f8 within `CListWnd`).
+    #[inline]
+    pub fn CurSel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CListWnd::CurSel` at 0x1f8 (0x1f8 within `CListWnd`).
+    #[inline]
+    pub fn set_CurSel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CListWnd::CurCol` at 0x1fc (0x1fc within `CListWnd`).
+    #[inline]
+    pub fn CurCol(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CListWnd::CurCol` at 0x1fc (0x1fc within `CListWnd`).
+    #[inline]
+    pub fn set_CurCol(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1fc, value) }
+    }
+
+    /// `CListWnd::DownItem` at 0x200 (0x200 within `CListWnd`).
+    #[inline]
+    pub fn DownItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CListWnd::DownItem` at 0x200 (0x200 within `CListWnd`).
+    #[inline]
+    pub fn set_DownItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CListWnd::ScrollOffsetY` at 0x204 (0x204 within `CListWnd`).
+    #[inline]
+    pub fn ScrollOffsetY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CListWnd::ScrollOffsetY` at 0x204 (0x204 within `CListWnd`).
+    #[inline]
+    pub fn set_ScrollOffsetY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CListWnd::HeaderHeight` at 0x208 (0x208 within `CListWnd`).
+    #[inline]
+    pub fn HeaderHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CListWnd::HeaderHeight` at 0x208 (0x208 within `CListWnd`).
+    #[inline]
+    pub fn set_HeaderHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CListWnd::FirstVisibleLine` at 0x20c (0x20c within `CListWnd`).
+    #[inline]
+    pub fn FirstVisibleLine(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CListWnd::FirstVisibleLine` at 0x20c (0x20c within `CListWnd`).
+    #[inline]
+    pub fn set_FirstVisibleLine(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CListWnd::SortCol` at 0x210 (0x210 within `CListWnd`).
+    #[inline]
+    pub fn SortCol(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CListWnd::SortCol` at 0x210 (0x210 within `CListWnd`).
+    #[inline]
+    pub fn set_SortCol(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CListWnd::bSortAsc` at 0x214 (0x214 within `CListWnd`).
+    #[inline]
+    pub fn bSortAsc(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x214) != 0 }
+    }
+
+    /// `CListWnd::bSortAsc` at 0x214 (0x214 within `CListWnd`).
+    #[inline]
+    pub fn set_bSortAsc(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x214, u8::from(value)) }
+    }
+
+    /// `CListWnd::bFixedHeight` at 0x215 (0x215 within `CListWnd`).
+    #[inline]
+    pub fn bFixedHeight(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x215) != 0 }
+    }
+
+    /// `CListWnd::bFixedHeight` at 0x215 (0x215 within `CListWnd`).
+    #[inline]
+    pub fn set_bFixedHeight(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x215, u8::from(value)) }
+    }
+
+    /// `CListWnd::bOwnerDraw` at 0x216 (0x216 within `CListWnd`).
+    #[inline]
+    pub fn bOwnerDraw(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x216) != 0 }
+    }
+
+    /// `CListWnd::bOwnerDraw` at 0x216 (0x216 within `CListWnd`).
+    #[inline]
+    pub fn set_bOwnerDraw(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x216, u8::from(value)) }
+    }
+
+    /// `CListWnd::bCalcHeights` at 0x217 (0x217 within `CListWnd`).
+    #[inline]
+    pub fn bCalcHeights(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x217) != 0 }
+    }
+
+    /// `CListWnd::bCalcHeights` at 0x217 (0x217 within `CListWnd`).
+    #[inline]
+    pub fn set_bCalcHeights(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x217, u8::from(value)) }
+    }
+
+    /// `CListWnd::bColumnSizable` at 0x218 (0x218 within `CListWnd`).
+    #[inline]
+    pub fn bColumnSizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x218) != 0 }
+    }
+
+    /// `CListWnd::bColumnSizable` at 0x218 (0x218 within `CListWnd`).
+    #[inline]
+    pub fn set_bColumnSizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x218, u8::from(value)) }
+    }
+
+    /// `CListWnd::LineHeight` at 0x21c (0x21c within `CListWnd`).
+    #[inline]
+    pub fn LineHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `CListWnd::LineHeight` at 0x21c (0x21c within `CListWnd`).
+    #[inline]
+    pub fn set_LineHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, value) }
+    }
+
+    /// `CListWnd::ColumnSepDragged` at 0x220 (0x220 within `CListWnd`).
+    #[inline]
+    pub fn ColumnSepDragged(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `CListWnd::ColumnSepDragged` at 0x220 (0x220 within `CListWnd`).
+    #[inline]
+    pub fn set_ColumnSepDragged(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `CListWnd::ColumnSepMouseOver` at 0x224 (0x224 within `CListWnd`).
+    #[inline]
+    pub fn ColumnSepMouseOver(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `CListWnd::ColumnSepMouseOver` at 0x224 (0x224 within `CListWnd`).
+    #[inline]
+    pub fn set_ColumnSepMouseOver(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `CListWnd::HeaderText` at 0x228 (0x228 within `CListWnd`).
+    #[inline]
+    pub fn HeaderText(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `CListWnd::HeaderText` at 0x228 (0x228 within `CListWnd`).
+    #[inline]
+    pub fn set_HeaderText(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `CListWnd::Highlight` at 0x22c (0x22c within `CListWnd`).
+    #[inline]
+    pub fn Highlight(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CListWnd::Highlight` at 0x22c (0x22c within `CListWnd`).
+    #[inline]
+    pub fn set_Highlight(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `CListWnd::Selected` at 0x230 (0x230 within `CListWnd`).
+    #[inline]
+    pub fn Selected(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `CListWnd::Selected` at 0x230 (0x230 within `CListWnd`).
+    #[inline]
+    pub fn set_Selected(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `CListWnd::BGHeader` at 0x234 (0x234 within `CListWnd`).
+    #[inline]
+    pub fn BGHeader(&self) -> &CUITextureInfo {
+        unsafe { at(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `CListWnd::BGHeaderTint` at 0x24c (0x24c within `CListWnd`).
+    #[inline]
+    pub fn BGHeaderTint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x24c) }
+    }
+
+    /// `CListWnd::BGHeaderTint` at 0x24c (0x24c within `CListWnd`).
+    #[inline]
+    pub fn set_BGHeaderTint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x24c, value) }
+    }
+
+    /// `CListWnd::pRowSep` at 0x250 (0x250 within `CListWnd`).
+    #[inline]
+    pub fn pRowSep(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x250) }
+    }
+
+    /// `CListWnd::pRowSep` at 0x250 (0x250 within `CListWnd`).
+    #[inline]
+    pub fn set_pRowSep(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x250, value) }
+    }
+
+    /// `CListWnd::pColumnSep` at 0x254 (0x254 within `CListWnd`).
+    #[inline]
+    pub fn pColumnSep(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x254) }
+    }
+
+    /// `CListWnd::pColumnSep` at 0x254 (0x254 within `CListWnd`).
+    #[inline]
+    pub fn set_pColumnSep(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x254, value) }
+    }
+
+    /// `CListWnd::pEditCell` at 0x258 (0x258 within `CListWnd`).
+    #[inline]
+    pub fn pEditCell(&self) -> *mut CEditBaseWnd {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `CListWnd::pEditCell` at 0x258 (0x258 within `CListWnd`).
+    #[inline]
+    pub fn set_pEditCell(&self, value: *mut CEditBaseWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `CListWnd::pItemDataHandler` at 0x25c (0x25c within `CListWnd`).
+    #[inline]
+    pub fn pItemDataHandler(&self) -> *mut IListItemDataHandler {
+        unsafe { read(self._bytes.get().cast(), 0x25c) }
+    }
+
+    /// `CListWnd::pItemDataHandler` at 0x25c (0x25c within `CListWnd`).
+    #[inline]
+    pub fn set_pItemDataHandler(&self, value: *mut IListItemDataHandler) {
+        unsafe { write(self._bytes.get().cast(), 0x25c, value) }
+    }
+
+    /// `CListWnd::bHasItemTooltips` at 0x260 (0x260 within `CListWnd`).
+    #[inline]
+    pub fn bHasItemTooltips(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x260) != 0 }
+    }
+
+    /// `CListWnd::bHasItemTooltips` at 0x260 (0x260 within `CListWnd`).
+    #[inline]
+    pub fn set_bHasItemTooltips(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x260, u8::from(value)) }
+    }
+
+    /// `CListWnd::PrevInsideRect` at 0x264 (0x264 within `CListWnd`).
+    #[inline]
+    pub fn PrevInsideRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x264) }
+    }
+
+    /// `CListWnd::ListWndStyle` at 0x274 (0x274 within `CListWnd`).
+    #[inline]
+    pub fn ListWndStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x274) }
+    }
+
+    /// `CListWnd::ListWndStyle` at 0x274 (0x274 within `CListWnd`).
+    #[inline]
+    pub fn set_ListWndStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x274, value) }
+    }
+
+    /// `CListWnd::LastVisibleTime` at 0x278 (0x278 within `CListWnd`).
+    #[inline]
+    pub fn LastVisibleTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x278) }
+    }
+
+    /// `CListWnd::LastVisibleTime` at 0x278 (0x278 within `CListWnd`).
+    #[inline]
+    pub fn set_LastVisibleTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x278, value) }
+    }
+
+    /// `CContextMenu::NumItems` at 0x27c (0x27c within `CContextMenu`).
+    #[inline]
+    pub fn NumItems(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x27c) }
+    }
+
+    /// `CContextMenu::NumItems` at 0x27c (0x27c within `CContextMenu`).
+    #[inline]
+    pub fn set_NumItems(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x27c, value) }
+    }
+
+    /// `CContextMenu::Unknown0x28C` at 0x280 (0x280 within `CContextMenu`).
+    #[inline]
+    pub fn Unknown0x28C(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x280) }
+    }
+
+    /// `CContextMenu::Unknown0x28C` at 0x280 (0x280 within `CContextMenu`).
+    #[inline]
+    pub fn set_Unknown0x28C(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x280, value) }
+    }
+}
+
+/// C++ class `CContextMenuManager` (0x122c bytes).
+#[repr(C)]
+pub struct CContextMenuManager {
+    _bytes: UnsafeCell<[u8; 0x122c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CContextMenuManager {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CContextMenuManager::pParentMenuWnd` at 0x1d8 (0x1d8 within `CContextMenuManager`).
+    #[inline]
+    pub fn pParentMenuWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CContextMenuManager::pParentMenuWnd` at 0x1d8 (0x1d8 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_pParentMenuWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `CContextMenuManager::pCurrMenus` at 0x1dc (0x1dc within `CContextMenuManager`).
+    #[inline]
+    pub fn pCurrMenus(&self) -> [*mut CContextMenu; 8] {
+        unsafe { read(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CContextMenuManager::pCurrMenus` at 0x1dc (0x1dc within `CContextMenuManager`).
+    #[inline]
+    pub fn set_pCurrMenus(&self, value: [*mut CContextMenu; 8]) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, value) }
+    }
+
+    /// `CContextMenuManager::pCurrMenus` at 0x1dc (0x1dc within `CContextMenuManager`).
+    /// One element; panics if `index >= 8`.
+    #[inline]
+    pub fn pCurrMenus_at(&self, index: usize) -> *mut CContextMenu {
+        assert!(index < 8, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1dc + index * 0x4) }
+    }
+
+    /// `CContextMenuManager::pCurrMenus` at 0x1dc (0x1dc within `CContextMenuManager`).
+    /// Sets one element; panics if `index >= 8`.
+    #[inline]
+    pub fn set_pCurrMenus_at(&self, index: usize, value: *mut CContextMenu) {
+        assert!(index < 8, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1dc + index * 0x4, value) }
+    }
+
+    /// `CContextMenuManager::NumVisibleMenus` at 0x1fc (0x1fc within `CContextMenuManager`).
+    #[inline]
+    pub fn NumVisibleMenus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CContextMenuManager::NumVisibleMenus` at 0x1fc (0x1fc within `CContextMenuManager`).
+    #[inline]
+    pub fn set_NumVisibleMenus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1fc, value) }
+    }
+
+    /// `CContextMenuManager::CurrMenu` at 0x200 (0x200 within `CContextMenuManager`).
+    #[inline]
+    pub fn CurrMenu(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CContextMenuManager::CurrMenu` at 0x200 (0x200 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_CurrMenu(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CContextMenuManager::pMenus` at 0x204 (0x204 within `CContextMenuManager`).
+    #[inline]
+    pub fn pMenus(&self) -> [*mut CContextMenu; 1024] {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CContextMenuManager::pMenus` at 0x204 (0x204 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_pMenus(&self, value: [*mut CContextMenu; 1024]) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CContextMenuManager::pMenus` at 0x204 (0x204 within `CContextMenuManager`).
+    /// One element; panics if `index >= 1024`.
+    #[inline]
+    pub fn pMenus_at(&self, index: usize) -> *mut CContextMenu {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x204 + index * 0x4) }
+    }
+
+    /// `CContextMenuManager::pMenus` at 0x204 (0x204 within `CContextMenuManager`).
+    /// Sets one element; panics if `index >= 1024`.
+    #[inline]
+    pub fn set_pMenus_at(&self, index: usize, value: *mut CContextMenu) {
+        assert!(index < 1024, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x204 + index * 0x4, value) }
+    }
+
+    /// `CContextMenuManager::NumMenus` at 0x1204 (0x1204 within `CContextMenuManager`).
+    #[inline]
+    pub fn NumMenus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1204) }
+    }
+
+    /// `CContextMenuManager::NumMenus` at 0x1204 (0x1204 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_NumMenus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1204, value) }
+    }
+
+    /// `CContextMenuManager::pHandlerWnd` at 0x1208 (0x1208 within `CContextMenuManager`).
+    #[inline]
+    pub fn pHandlerWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x1208) }
+    }
+
+    /// `CContextMenuManager::pHandlerWnd` at 0x1208 (0x1208 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_pHandlerWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x1208, value) }
+    }
+
+    /// `CContextMenuManager::HandlerCmd` at 0x120c (0x120c within `CContextMenuManager`).
+    #[inline]
+    pub fn HandlerCmd(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120c) }
+    }
+
+    /// `CContextMenuManager::HandlerCmd` at 0x120c (0x120c within `CContextMenuManager`).
+    #[inline]
+    pub fn set_HandlerCmd(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120c, value) }
+    }
+
+    /// `CContextMenuManager::DefaultMenuIndex` at 0x1210 (0x1210 within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultMenuIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1210) }
+    }
+
+    /// `CContextMenuManager::DefaultMenuIndex` at 0x1210 (0x1210 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultMenuIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1210, value) }
+    }
+
+    /// `CContextMenuManager::DefaultHelpItem` at 0x1214 (0x1214 within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultHelpItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1214) }
+    }
+
+    /// `CContextMenuManager::DefaultHelpItem` at 0x1214 (0x1214 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultHelpItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1214, value) }
+    }
+
+    /// `CContextMenuManager::DefaultBGItem` at 0x1218 (0x1218 within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultBGItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1218) }
+    }
+
+    /// `CContextMenuManager::DefaultBGItem` at 0x1218 (0x1218 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultBGItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1218, value) }
+    }
+
+    /// `CContextMenuManager::DefaultMinItem` at 0x121c (0x121c within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultMinItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x121c) }
+    }
+
+    /// `CContextMenuManager::DefaultMinItem` at 0x121c (0x121c within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultMinItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x121c, value) }
+    }
+
+    /// `CContextMenuManager::DefaultCloseItem` at 0x1220 (0x1220 within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultCloseItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1220) }
+    }
+
+    /// `CContextMenuManager::DefaultCloseItem` at 0x1220 (0x1220 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultCloseItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1220, value) }
+    }
+
+    /// `CContextMenuManager::DefaultLockItem` at 0x1224 (0x1224 within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultLockItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1224) }
+    }
+
+    /// `CContextMenuManager::DefaultLockItem` at 0x1224 (0x1224 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultLockItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1224, value) }
+    }
+
+    /// `CContextMenuManager::DefaultEscapeItem` at 0x1228 (0x1228 within `CContextMenuManager`).
+    #[inline]
+    pub fn DefaultEscapeItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1228) }
+    }
+
+    /// `CContextMenuManager::DefaultEscapeItem` at 0x1228 (0x1228 within `CContextMenuManager`).
+    #[inline]
+    pub fn set_DefaultEscapeItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1228, value) }
+    }
+}
+
+/// C++ class `CGaugeDrawTemplate` (0x1c bytes).
+#[repr(C)]
+pub struct CGaugeDrawTemplate {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CGaugeDrawTemplate {
+    /// `CGaugeDrawTemplate::strName` at 0x0 (0x0 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn strName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaBackground` at 0x4 (0x4 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn ptaBackground(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaBackground` at 0x4 (0x4 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn set_ptaBackground(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaFill` at 0x8 (0x8 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn ptaFill(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaFill` at 0x8 (0x8 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn set_ptaFill(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaLines` at 0xc (0xc within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn ptaLines(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaLines` at 0xc (0xc within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn set_ptaLines(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaLinesFill` at 0x10 (0x10 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn ptaLinesFill(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaLinesFill` at 0x10 (0x10 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn set_ptaLinesFill(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaEndCapLeft` at 0x14 (0x14 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn ptaEndCapLeft(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaEndCapLeft` at 0x14 (0x14 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn set_ptaEndCapLeft(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaEndCapRight` at 0x18 (0x18 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn ptaEndCapRight(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CGaugeDrawTemplate::ptaEndCapRight` at 0x18 (0x18 within `CGaugeDrawTemplate`).
+    #[inline]
+    pub fn set_ptaEndCapRight(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+}
+
+/// C++ class `CGaugeWnd` (0x240 bytes).
+#[repr(C)]
+pub struct CGaugeWnd {
+    _bytes: UnsafeCell<[u8; 0x240]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CGaugeWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CGaugeWnd::EQType` at 0x1d8 (0x1d8 within `CGaugeWnd`).
+    #[inline]
+    pub fn EQType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CGaugeWnd::EQType` at 0x1d8 (0x1d8 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_EQType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `CGaugeWnd::FillTint` at 0x1dc (0x1dc within `CGaugeWnd`).
+    #[inline]
+    pub fn FillTint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CGaugeWnd::FillTint` at 0x1dc (0x1dc within `CGaugeWnd`).
+    #[inline]
+    pub fn set_FillTint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, value) }
+    }
+
+    /// `CGaugeWnd::LinesFillTint` at 0x1e0 (0x1e0 within `CGaugeWnd`).
+    #[inline]
+    pub fn LinesFillTint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CGaugeWnd::LinesFillTint` at 0x1e0 (0x1e0 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_LinesFillTint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CGaugeWnd::bDrawLinesFill` at 0x1e4 (0x1e4 within `CGaugeWnd`).
+    #[inline]
+    pub fn bDrawLinesFill(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1e4) != 0 }
+    }
+
+    /// `CGaugeWnd::bDrawLinesFill` at 0x1e4 (0x1e4 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_bDrawLinesFill(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1e4, u8::from(value)) }
+    }
+
+    /// `CGaugeWnd::TextOffsetX` at 0x1e8 (0x1e8 within `CGaugeWnd`).
+    #[inline]
+    pub fn TextOffsetX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1e8) }
+    }
+
+    /// `CGaugeWnd::TextOffsetX` at 0x1e8 (0x1e8 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_TextOffsetX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1e8, value) }
+    }
+
+    /// `CGaugeWnd::TextOffsetY` at 0x1ec (0x1ec within `CGaugeWnd`).
+    #[inline]
+    pub fn TextOffsetY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1ec) }
+    }
+
+    /// `CGaugeWnd::TextOffsetY` at 0x1ec (0x1ec within `CGaugeWnd`).
+    #[inline]
+    pub fn set_TextOffsetY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1ec, value) }
+    }
+
+    /// `CGaugeWnd::GaugeOffsetX` at 0x1f0 (0x1f0 within `CGaugeWnd`).
+    #[inline]
+    pub fn GaugeOffsetX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f0) }
+    }
+
+    /// `CGaugeWnd::GaugeOffsetX` at 0x1f0 (0x1f0 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_GaugeOffsetX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f0, value) }
+    }
+
+    /// `CGaugeWnd::GaugeOffsetY` at 0x1f4 (0x1f4 within `CGaugeWnd`).
+    #[inline]
+    pub fn GaugeOffsetY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f4) }
+    }
+
+    /// `CGaugeWnd::GaugeOffsetY` at 0x1f4 (0x1f4 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_GaugeOffsetY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, value) }
+    }
+
+    /// `CGaugeWnd::LastFrameVal` at 0x1f8 (0x1f8 within `CGaugeWnd`).
+    #[inline]
+    pub fn LastFrameVal(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CGaugeWnd::LastFrameVal` at 0x1f8 (0x1f8 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_LastFrameVal(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CGaugeWnd::LastFrameName` at 0x1fc (0x1fc within `CGaugeWnd`).
+    #[inline]
+    pub fn LastFrameName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CGaugeWnd::LastFrameTime` at 0x200 (0x200 within `CGaugeWnd`).
+    #[inline]
+    pub fn LastFrameTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CGaugeWnd::LastFrameTime` at 0x200 (0x200 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_LastFrameTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CGaugeWnd::LastFrameTarget` at 0x204 (0x204 within `CGaugeWnd`).
+    #[inline]
+    pub fn LastFrameTarget(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CGaugeWnd::LastFrameTarget` at 0x204 (0x204 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_LastFrameTarget(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CGaugeWnd::GaugeTooltip` at 0x208 (0x208 within `CGaugeWnd`).
+    #[inline]
+    pub fn GaugeTooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CGaugeWnd::TooltipVal` at 0x20c (0x20c within `CGaugeWnd`).
+    #[inline]
+    pub fn TooltipVal(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CGaugeWnd::TooltipVal` at 0x20c (0x20c within `CGaugeWnd`).
+    #[inline]
+    pub fn set_TooltipVal(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CGaugeWnd::DrawTemplate` at 0x210 (0x210 within `CGaugeWnd`).
+    #[inline]
+    pub fn CGaugeWnd_DrawTemplate(&self) -> &CGaugeDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CGaugeWnd::pTextObject` at 0x22c (0x22c within `CGaugeWnd`).
+    #[inline]
+    pub fn CGaugeWnd_pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CGaugeWnd::pTextObject` at 0x22c (0x22c within `CGaugeWnd`).
+    #[inline]
+    pub fn set_CGaugeWnd_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `CGaugeWnd::NextDrawStr` at 0x230 (0x230 within `CGaugeWnd`).
+    #[inline]
+    pub fn NextDrawStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `CGaugeWnd::bSmooth` at 0x234 (0x234 within `CGaugeWnd`).
+    #[inline]
+    pub fn bSmooth(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x234) != 0 }
+    }
+
+    /// `CGaugeWnd::bSmooth` at 0x234 (0x234 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_bSmooth(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x234, u8::from(value)) }
+    }
+
+    /// `CGaugeWnd::TargetVal` at 0x238 (0x238 within `CGaugeWnd`).
+    #[inline]
+    pub fn TargetVal(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x238) }
+    }
+
+    /// `CGaugeWnd::TargetVal` at 0x238 (0x238 within `CGaugeWnd`).
+    #[inline]
+    pub fn set_TargetVal(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x238, value) }
+    }
+
+    /// `CGaugeWnd::bUseTargetVal` at 0x23c (0x23c within `CGaugeWnd`).
+    #[inline]
+    pub fn bUseTargetVal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23c) != 0 }
+    }
+
+    /// `CGaugeWnd::bUseTargetVal` at 0x23c (0x23c within `CGaugeWnd`).
+    #[inline]
+    pub fn set_bUseTargetVal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, u8::from(value)) }
     }
 }
 
@@ -2616,6 +10487,1527 @@ impl CGroupMember {
     #[inline]
     pub fn set_GroupIndex(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+}
+
+/// C++ class `CListWnd` (0x27c bytes).
+#[repr(C)]
+pub struct CListWnd {
+    _bytes: UnsafeCell<[u8; 0x27c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CListWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CListWnd::ItemsArray` at 0x1d8 (0x1d8 within `CListWnd`).
+    #[inline]
+    pub fn ItemsArray(&self) -> &ArrayClass_SListWndLine {
+        unsafe { at(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CListWnd::Columns` at 0x1e8 (0x1e8 within `CListWnd`).
+    #[inline]
+    pub fn Columns(&self) -> &ArrayClass_SListWndColumn {
+        unsafe { at(self._bytes.get().cast(), 0x1e8) }
+    }
+
+    /// `CListWnd::CurSel` at 0x1f8 (0x1f8 within `CListWnd`).
+    #[inline]
+    pub fn CurSel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CListWnd::CurSel` at 0x1f8 (0x1f8 within `CListWnd`).
+    #[inline]
+    pub fn set_CurSel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CListWnd::CurCol` at 0x1fc (0x1fc within `CListWnd`).
+    #[inline]
+    pub fn CurCol(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CListWnd::CurCol` at 0x1fc (0x1fc within `CListWnd`).
+    #[inline]
+    pub fn set_CurCol(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1fc, value) }
+    }
+
+    /// `CListWnd::DownItem` at 0x200 (0x200 within `CListWnd`).
+    #[inline]
+    pub fn DownItem(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CListWnd::DownItem` at 0x200 (0x200 within `CListWnd`).
+    #[inline]
+    pub fn set_DownItem(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CListWnd::ScrollOffsetY` at 0x204 (0x204 within `CListWnd`).
+    #[inline]
+    pub fn ScrollOffsetY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CListWnd::ScrollOffsetY` at 0x204 (0x204 within `CListWnd`).
+    #[inline]
+    pub fn set_ScrollOffsetY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CListWnd::HeaderHeight` at 0x208 (0x208 within `CListWnd`).
+    #[inline]
+    pub fn HeaderHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CListWnd::HeaderHeight` at 0x208 (0x208 within `CListWnd`).
+    #[inline]
+    pub fn set_HeaderHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CListWnd::FirstVisibleLine` at 0x20c (0x20c within `CListWnd`).
+    #[inline]
+    pub fn FirstVisibleLine(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CListWnd::FirstVisibleLine` at 0x20c (0x20c within `CListWnd`).
+    #[inline]
+    pub fn set_FirstVisibleLine(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CListWnd::SortCol` at 0x210 (0x210 within `CListWnd`).
+    #[inline]
+    pub fn SortCol(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CListWnd::SortCol` at 0x210 (0x210 within `CListWnd`).
+    #[inline]
+    pub fn set_SortCol(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CListWnd::bSortAsc` at 0x214 (0x214 within `CListWnd`).
+    #[inline]
+    pub fn bSortAsc(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x214) != 0 }
+    }
+
+    /// `CListWnd::bSortAsc` at 0x214 (0x214 within `CListWnd`).
+    #[inline]
+    pub fn set_bSortAsc(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x214, u8::from(value)) }
+    }
+
+    /// `CListWnd::bFixedHeight` at 0x215 (0x215 within `CListWnd`).
+    #[inline]
+    pub fn bFixedHeight(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x215) != 0 }
+    }
+
+    /// `CListWnd::bFixedHeight` at 0x215 (0x215 within `CListWnd`).
+    #[inline]
+    pub fn set_bFixedHeight(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x215, u8::from(value)) }
+    }
+
+    /// `CListWnd::bOwnerDraw` at 0x216 (0x216 within `CListWnd`).
+    #[inline]
+    pub fn bOwnerDraw(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x216) != 0 }
+    }
+
+    /// `CListWnd::bOwnerDraw` at 0x216 (0x216 within `CListWnd`).
+    #[inline]
+    pub fn set_bOwnerDraw(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x216, u8::from(value)) }
+    }
+
+    /// `CListWnd::bCalcHeights` at 0x217 (0x217 within `CListWnd`).
+    #[inline]
+    pub fn bCalcHeights(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x217) != 0 }
+    }
+
+    /// `CListWnd::bCalcHeights` at 0x217 (0x217 within `CListWnd`).
+    #[inline]
+    pub fn set_bCalcHeights(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x217, u8::from(value)) }
+    }
+
+    /// `CListWnd::bColumnSizable` at 0x218 (0x218 within `CListWnd`).
+    #[inline]
+    pub fn bColumnSizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x218) != 0 }
+    }
+
+    /// `CListWnd::bColumnSizable` at 0x218 (0x218 within `CListWnd`).
+    #[inline]
+    pub fn set_bColumnSizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x218, u8::from(value)) }
+    }
+
+    /// `CListWnd::LineHeight` at 0x21c (0x21c within `CListWnd`).
+    #[inline]
+    pub fn LineHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `CListWnd::LineHeight` at 0x21c (0x21c within `CListWnd`).
+    #[inline]
+    pub fn set_LineHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, value) }
+    }
+
+    /// `CListWnd::ColumnSepDragged` at 0x220 (0x220 within `CListWnd`).
+    #[inline]
+    pub fn ColumnSepDragged(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `CListWnd::ColumnSepDragged` at 0x220 (0x220 within `CListWnd`).
+    #[inline]
+    pub fn set_ColumnSepDragged(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `CListWnd::ColumnSepMouseOver` at 0x224 (0x224 within `CListWnd`).
+    #[inline]
+    pub fn ColumnSepMouseOver(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `CListWnd::ColumnSepMouseOver` at 0x224 (0x224 within `CListWnd`).
+    #[inline]
+    pub fn set_ColumnSepMouseOver(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `CListWnd::HeaderText` at 0x228 (0x228 within `CListWnd`).
+    #[inline]
+    pub fn HeaderText(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `CListWnd::HeaderText` at 0x228 (0x228 within `CListWnd`).
+    #[inline]
+    pub fn set_HeaderText(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `CListWnd::Highlight` at 0x22c (0x22c within `CListWnd`).
+    #[inline]
+    pub fn Highlight(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CListWnd::Highlight` at 0x22c (0x22c within `CListWnd`).
+    #[inline]
+    pub fn set_Highlight(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `CListWnd::Selected` at 0x230 (0x230 within `CListWnd`).
+    #[inline]
+    pub fn Selected(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `CListWnd::Selected` at 0x230 (0x230 within `CListWnd`).
+    #[inline]
+    pub fn set_Selected(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `CListWnd::BGHeader` at 0x234 (0x234 within `CListWnd`).
+    #[inline]
+    pub fn BGHeader(&self) -> &CUITextureInfo {
+        unsafe { at(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `CListWnd::BGHeaderTint` at 0x24c (0x24c within `CListWnd`).
+    #[inline]
+    pub fn BGHeaderTint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x24c) }
+    }
+
+    /// `CListWnd::BGHeaderTint` at 0x24c (0x24c within `CListWnd`).
+    #[inline]
+    pub fn set_BGHeaderTint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x24c, value) }
+    }
+
+    /// `CListWnd::pRowSep` at 0x250 (0x250 within `CListWnd`).
+    #[inline]
+    pub fn pRowSep(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x250) }
+    }
+
+    /// `CListWnd::pRowSep` at 0x250 (0x250 within `CListWnd`).
+    #[inline]
+    pub fn set_pRowSep(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x250, value) }
+    }
+
+    /// `CListWnd::pColumnSep` at 0x254 (0x254 within `CListWnd`).
+    #[inline]
+    pub fn pColumnSep(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x254) }
+    }
+
+    /// `CListWnd::pColumnSep` at 0x254 (0x254 within `CListWnd`).
+    #[inline]
+    pub fn set_pColumnSep(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x254, value) }
+    }
+
+    /// `CListWnd::pEditCell` at 0x258 (0x258 within `CListWnd`).
+    #[inline]
+    pub fn pEditCell(&self) -> *mut CEditBaseWnd {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `CListWnd::pEditCell` at 0x258 (0x258 within `CListWnd`).
+    #[inline]
+    pub fn set_pEditCell(&self, value: *mut CEditBaseWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `CListWnd::pItemDataHandler` at 0x25c (0x25c within `CListWnd`).
+    #[inline]
+    pub fn pItemDataHandler(&self) -> *mut IListItemDataHandler {
+        unsafe { read(self._bytes.get().cast(), 0x25c) }
+    }
+
+    /// `CListWnd::pItemDataHandler` at 0x25c (0x25c within `CListWnd`).
+    #[inline]
+    pub fn set_pItemDataHandler(&self, value: *mut IListItemDataHandler) {
+        unsafe { write(self._bytes.get().cast(), 0x25c, value) }
+    }
+
+    /// `CListWnd::bHasItemTooltips` at 0x260 (0x260 within `CListWnd`).
+    #[inline]
+    pub fn bHasItemTooltips(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x260) != 0 }
+    }
+
+    /// `CListWnd::bHasItemTooltips` at 0x260 (0x260 within `CListWnd`).
+    #[inline]
+    pub fn set_bHasItemTooltips(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x260, u8::from(value)) }
+    }
+
+    /// `CListWnd::PrevInsideRect` at 0x264 (0x264 within `CListWnd`).
+    #[inline]
+    pub fn PrevInsideRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x264) }
+    }
+
+    /// `CListWnd::ListWndStyle` at 0x274 (0x274 within `CListWnd`).
+    #[inline]
+    pub fn ListWndStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x274) }
+    }
+
+    /// `CListWnd::ListWndStyle` at 0x274 (0x274 within `CListWnd`).
+    #[inline]
+    pub fn set_ListWndStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x274, value) }
+    }
+
+    /// `CListWnd::LastVisibleTime` at 0x278 (0x278 within `CListWnd`).
+    #[inline]
+    pub fn LastVisibleTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x278) }
+    }
+
+    /// `CListWnd::LastVisibleTime` at 0x278 (0x278 within `CListWnd`).
+    #[inline]
+    pub fn set_LastVisibleTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x278, value) }
     }
 }
 
@@ -6188,6 +15580,1419 @@ impl CMerchantWnd {
     }
 }
 
+/// C++ class `CPageWnd` (0x234 bytes).
+#[repr(C)]
+pub struct CPageWnd {
+    _bytes: UnsafeCell<[u8; 0x234]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CPageWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bControlsCreated(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d8) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bControlsCreated(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::SidlText` at 0x1dc (0x1dc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlPiece(&self) -> *mut CScreenTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_SidlPiece(&self, value: *mut CScreenTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CSidlScreenWnd::RadioGroup` at 0x1e4 (0x1e4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn RadioGroup(&self) -> &ArrayClass_CRadioGroup {
+        unsafe { at(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bInitVisibility(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f4) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bInitVisibility(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bVisibleBeforeResize(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f5) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bVisibleBeforeResize(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f5, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniFlags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniFlags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CSidlScreenWnd::IniStorageName` at 0x1fc (0x1fc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniStorageName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bLastResFullscreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bLastResFullscreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn pFirstVScrollChild(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_pFirstVScrollChild(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuTipID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuTipID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bHasActivatedFirstTimeAlert(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bHasActivatedFirstTimeAlert(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, u8::from(value)) }
+    }
+
+    /// `CPageWnd::TabText` at 0x220 (0x220 within `CPageWnd`).
+    #[inline]
+    pub fn TabText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `CPageWnd::CRTabText` at 0x224 (0x224 within `CPageWnd`).
+    #[inline]
+    pub fn CRTabText(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `CPageWnd::CRTabText` at 0x224 (0x224 within `CPageWnd`).
+    #[inline]
+    pub fn set_CRTabText(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `CPageWnd::CRTabTextActive` at 0x228 (0x228 within `CPageWnd`).
+    #[inline]
+    pub fn CRTabTextActive(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `CPageWnd::CRTabTextActive` at 0x228 (0x228 within `CPageWnd`).
+    #[inline]
+    pub fn set_CRTabTextActive(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `CPageWnd::pTATabIcon` at 0x22c (0x22c within `CPageWnd`).
+    #[inline]
+    pub fn pTATabIcon(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CPageWnd::pTATabIcon` at 0x22c (0x22c within `CPageWnd`).
+    #[inline]
+    pub fn set_pTATabIcon(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `CPageWnd::pTATabIconActive` at 0x230 (0x230 within `CPageWnd`).
+    #[inline]
+    pub fn pTATabIconActive(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `CPageWnd::pTATabIconActive` at 0x230 (0x230 within `CPageWnd`).
+    #[inline]
+    pub fn set_pTATabIconActive(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+}
+
 /// C++ class `CPetInfoWnd` (0x920 bytes).
 #[repr(C)]
 pub struct CPetInfoWnd {
@@ -8594,6 +19399,1497 @@ impl CRaid {
     }
 }
 
+/// C++ class `CStmlWnd` (0x2a0 bytes).
+#[repr(C)]
+pub struct CStmlWnd {
+    _bytes: UnsafeCell<[u8; 0x2a0]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CStmlWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CStmlWnd::STMLText` at 0x1d8 (0x1d8 within `CStmlWnd`).
+    #[inline]
+    pub fn STMLText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CStmlWnd::TextLines` at 0x1dc (0x1dc within `CStmlWnd`).
+    #[inline]
+    pub fn TextLines(&self) -> &CircularArrayClass2_STextLine {
+        unsafe { at(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CStmlWnd::TextTotalHeight` at 0x204 (0x204 within `CStmlWnd`).
+    #[inline]
+    pub fn TextTotalHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CStmlWnd::TextTotalHeight` at 0x204 (0x204 within `CStmlWnd`).
+    #[inline]
+    pub fn set_TextTotalHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CStmlWnd::TextTotalWidth` at 0x208 (0x208 within `CStmlWnd`).
+    #[inline]
+    pub fn TextTotalWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CStmlWnd::TextTotalWidth` at 0x208 (0x208 within `CStmlWnd`).
+    #[inline]
+    pub fn set_TextTotalWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CStmlWnd::Unknown0x224` at 0x20c (0x20c within `CStmlWnd`).
+    #[inline]
+    pub fn Unknown0x224(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CStmlWnd::Unknown0x224` at 0x20c (0x20c within `CStmlWnd`).
+    #[inline]
+    pub fn set_Unknown0x224(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CStmlWnd::Links` at 0x210 (0x210 within `CStmlWnd`).
+    #[inline]
+    pub fn Links(&self) -> &ArrayClass2_SLinkInfo {
+        unsafe { at(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CStmlWnd::Tables` at 0x22c (0x22c within `CStmlWnd`).
+    #[inline]
+    pub fn Tables(&self) -> &ArrayClass_STable {
+        unsafe { at(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CStmlWnd::bReparseNow` at 0x23c (0x23c within `CStmlWnd`).
+    #[inline]
+    pub fn bReparseNow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23c) != 0 }
+    }
+
+    /// `CStmlWnd::bReparseNow` at 0x23c (0x23c within `CStmlWnd`).
+    #[inline]
+    pub fn set_bReparseNow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, u8::from(value)) }
+    }
+
+    /// `CStmlWnd::bResized` at 0x23d (0x23d within `CStmlWnd`).
+    #[inline]
+    pub fn bResized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23d) != 0 }
+    }
+
+    /// `CStmlWnd::bResized` at 0x23d (0x23d within `CStmlWnd`).
+    #[inline]
+    pub fn set_bResized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23d, u8::from(value)) }
+    }
+
+    /// `CStmlWnd::bAlignCenter` at 0x23e (0x23e within `CStmlWnd`).
+    #[inline]
+    pub fn bAlignCenter(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x23e) != 0 }
+    }
+
+    /// `CStmlWnd::bAlignCenter` at 0x23e (0x23e within `CStmlWnd`).
+    #[inline]
+    pub fn set_bAlignCenter(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x23e, u8::from(value)) }
+    }
+
+    /// `CStmlWnd::LineSpacingAdjust` at 0x240 (0x240 within `CStmlWnd`).
+    #[inline]
+    pub fn LineSpacingAdjust(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x240) }
+    }
+
+    /// `CStmlWnd::LineSpacingAdjust` at 0x240 (0x240 within `CStmlWnd`).
+    #[inline]
+    pub fn set_LineSpacingAdjust(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x240, value) }
+    }
+
+    /// `CStmlWnd::CapturedLinkID` at 0x244 (0x244 within `CStmlWnd`).
+    #[inline]
+    pub fn CapturedLinkID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x244) }
+    }
+
+    /// `CStmlWnd::CapturedLinkID` at 0x244 (0x244 within `CStmlWnd`).
+    #[inline]
+    pub fn set_CapturedLinkID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x244, value) }
+    }
+
+    /// `CStmlWnd::MousedOverLinkID` at 0x248 (0x248 within `CStmlWnd`).
+    #[inline]
+    pub fn MousedOverLinkID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x248) }
+    }
+
+    /// `CStmlWnd::MousedOverLinkID` at 0x248 (0x248 within `CStmlWnd`).
+    #[inline]
+    pub fn set_MousedOverLinkID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x248, value) }
+    }
+
+    /// `CStmlWnd::BackGroundColor` at 0x24c (0x24c within `CStmlWnd`).
+    #[inline]
+    pub fn BackGroundColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x24c) }
+    }
+
+    /// `CStmlWnd::BackGroundColor` at 0x24c (0x24c within `CStmlWnd`).
+    #[inline]
+    pub fn set_BackGroundColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x24c, value) }
+    }
+
+    /// `CStmlWnd::TextColor` at 0x250 (0x250 within `CStmlWnd`).
+    #[inline]
+    pub fn TextColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x250) }
+    }
+
+    /// `CStmlWnd::TextColor` at 0x250 (0x250 within `CStmlWnd`).
+    #[inline]
+    pub fn set_TextColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x250, value) }
+    }
+
+    /// `CStmlWnd::LinkColor` at 0x254 (0x254 within `CStmlWnd`).
+    #[inline]
+    pub fn LinkColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x254) }
+    }
+
+    /// `CStmlWnd::LinkColor` at 0x254 (0x254 within `CStmlWnd`).
+    #[inline]
+    pub fn set_LinkColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x254, value) }
+    }
+
+    /// `CStmlWnd::VLinkColor` at 0x258 (0x258 within `CStmlWnd`).
+    #[inline]
+    pub fn VLinkColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `CStmlWnd::VLinkColor` at 0x258 (0x258 within `CStmlWnd`).
+    #[inline]
+    pub fn set_VLinkColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `CStmlWnd::ALinkColor` at 0x25c (0x25c within `CStmlWnd`).
+    #[inline]
+    pub fn ALinkColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x25c) }
+    }
+
+    /// `CStmlWnd::ALinkColor` at 0x25c (0x25c within `CStmlWnd`).
+    #[inline]
+    pub fn set_ALinkColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x25c, value) }
+    }
+
+    /// `CStmlWnd::MLinkColor` at 0x260 (0x260 within `CStmlWnd`).
+    #[inline]
+    pub fn MLinkColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x260) }
+    }
+
+    /// `CStmlWnd::MLinkColor` at 0x260 (0x260 within `CStmlWnd`).
+    #[inline]
+    pub fn set_MLinkColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x260, value) }
+    }
+
+    /// `CStmlWnd::CurrentParseState` at 0x264 (0x264 within `CStmlWnd`).
+    #[inline]
+    pub fn CurrentParseState(&self) -> ESTMLParseState {
+        unsafe { read(self._bytes.get().cast(), 0x264) }
+    }
+
+    /// `CStmlWnd::CurrentParseState` at 0x264 (0x264 within `CStmlWnd`).
+    #[inline]
+    pub fn set_CurrentParseState(&self, value: ESTMLParseState) {
+        unsafe { write(self._bytes.get().cast(), 0x264, value) }
+    }
+
+    /// `CStmlWnd::HistoryArray` at 0x268 (0x268 within `CStmlWnd`).
+    #[inline]
+    pub fn HistoryArray(&self) -> &ArrayClass2_SHistoryElement {
+        unsafe { at(self._bytes.get().cast(), 0x268) }
+    }
+
+    /// `CStmlWnd::HistoryIndex` at 0x284 (0x284 within `CStmlWnd`).
+    #[inline]
+    pub fn HistoryIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x284) }
+    }
+
+    /// `CStmlWnd::HistoryIndex` at 0x284 (0x284 within `CStmlWnd`).
+    #[inline]
+    pub fn set_HistoryIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x284, value) }
+    }
+
+    /// `CStmlWnd::pStmlReport` at 0x288 (0x288 within `CStmlWnd`).
+    #[inline]
+    pub fn pStmlReport(&self) -> *mut CStmlReport {
+        unsafe { read(self._bytes.get().cast(), 0x288) }
+    }
+
+    /// `CStmlWnd::pStmlReport` at 0x288 (0x288 within `CStmlWnd`).
+    #[inline]
+    pub fn set_pStmlReport(&self, value: *mut CStmlReport) {
+        unsafe { write(self._bytes.get().cast(), 0x288, value) }
+    }
+
+    /// `CStmlWnd::MaxLines` at 0x28c (0x28c within `CStmlWnd`).
+    #[inline]
+    pub fn MaxLines(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28c) }
+    }
+
+    /// `CStmlWnd::MaxLines` at 0x28c (0x28c within `CStmlWnd`).
+    #[inline]
+    pub fn set_MaxLines(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28c, value) }
+    }
+
+    /// `CStmlWnd::PlayerContextMenuIndex` at 0x290 (0x290 within `CStmlWnd`).
+    #[inline]
+    pub fn PlayerContextMenuIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x290) }
+    }
+
+    /// `CStmlWnd::PlayerContextMenuIndex` at 0x290 (0x290 within `CStmlWnd`).
+    #[inline]
+    pub fn set_PlayerContextMenuIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x290, value) }
+    }
+
+    /// `CStmlWnd::Unknown0x2ac` at 0x294 (0x294 within `CStmlWnd`).
+    #[inline]
+    pub fn Unknown0x2ac(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x294) }
+    }
+
+    /// `CStmlWnd::Unknown0x2ac` at 0x294 (0x294 within `CStmlWnd`).
+    #[inline]
+    pub fn set_Unknown0x2ac(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x294, value) }
+    }
+
+    /// `CStmlWnd::Unknown0x2b0` at 0x298 (0x298 within `CStmlWnd`).
+    #[inline]
+    pub fn Unknown0x2b0(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x298) }
+    }
+
+    /// `CStmlWnd::Unknown0x2b0` at 0x298 (0x298 within `CStmlWnd`).
+    #[inline]
+    pub fn set_Unknown0x2b0(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x298, value) }
+    }
+
+    /// `CStmlWnd::Unknown0x2b4` at 0x29c (0x29c within `CStmlWnd`).
+    #[inline]
+    pub fn Unknown0x2b4(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x29c) }
+    }
+
+    /// `CStmlWnd::Unknown0x2b4` at 0x29c (0x29c within `CStmlWnd`).
+    #[inline]
+    pub fn set_Unknown0x2b4(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x29c, value) }
+    }
+}
+
 /// C++ class `CStrRep` (0x18 bytes).
 #[repr(C)]
 pub struct CStrRep {
@@ -8722,6 +21018,1287 @@ impl CStrRep {
     #[inline]
     pub fn set_next(&self, value: *mut CStrRep) {
         unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+}
+
+/// C++ class `CTabWnd` (0x214 bytes).
+#[repr(C)]
+pub struct CTabWnd {
+    _bytes: UnsafeCell<[u8; 0x214]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTabWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CTabWnd::pTabBorder` at 0x1d8 (0x1d8 within `CTabWnd`).
+    #[inline]
+    pub fn pTabBorder(&self) -> *mut CTAFrameDraw {
+        unsafe { read(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CTabWnd::pTabBorder` at 0x1d8 (0x1d8 within `CTabWnd`).
+    #[inline]
+    pub fn set_pTabBorder(&self, value: *mut CTAFrameDraw) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, value) }
+    }
+
+    /// `CTabWnd::pPageBorder` at 0x1dc (0x1dc within `CTabWnd`).
+    #[inline]
+    pub fn pPageBorder(&self) -> *mut CTAFrameDraw {
+        unsafe { read(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CTabWnd::pPageBorder` at 0x1dc (0x1dc within `CTabWnd`).
+    #[inline]
+    pub fn set_pPageBorder(&self, value: *mut CTAFrameDraw) {
+        unsafe { write(self._bytes.get().cast(), 0x1dc, value) }
+    }
+
+    /// `CTabWnd::PageArray` at 0x1e0 (0x1e0 within `CTabWnd`).
+    #[inline]
+    pub fn PageArray(&self) -> &ArrayClass_CPageWnd {
+        unsafe { at(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CTabWnd::CurTabIndex` at 0x1f0 (0x1f0 within `CTabWnd`).
+    #[inline]
+    pub fn CurTabIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f0) }
+    }
+
+    /// `CTabWnd::CurTabIndex` at 0x1f0 (0x1f0 within `CTabWnd`).
+    #[inline]
+    pub fn set_CurTabIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f0, value) }
+    }
+
+    /// `CTabWnd::TabHeight` at 0x1f4 (0x1f4 within `CTabWnd`).
+    #[inline]
+    pub fn TabHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f4) }
+    }
+
+    /// `CTabWnd::TabHeight` at 0x1f4 (0x1f4 within `CTabWnd`).
+    #[inline]
+    pub fn set_TabHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, value) }
+    }
+
+    /// `CTabWnd::PageRect` at 0x1f8 (0x1f8 within `CTabWnd`).
+    #[inline]
+    pub fn PageRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CTabWnd::bShowTabs` at 0x208 (0x208 within `CTabWnd`).
+    #[inline]
+    pub fn bShowTabs(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x208) != 0 }
+    }
+
+    /// `CTabWnd::bShowTabs` at 0x208 (0x208 within `CTabWnd`).
+    #[inline]
+    pub fn set_bShowTabs(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x208, u8::from(value)) }
+    }
+
+    /// `CTabWnd::TabStyle` at 0x20c (0x20c within `CTabWnd`).
+    #[inline]
+    pub fn TabStyle(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CTabWnd::TabStyle` at 0x20c (0x20c within `CTabWnd`).
+    #[inline]
+    pub fn set_TabStyle(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CTabWnd::TabWidth` at 0x210 (0x210 within `CTabWnd`).
+    #[inline]
+    pub fn TabWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CTabWnd::TabWidth` at 0x210 (0x210 within `CTabWnd`).
+    #[inline]
+    pub fn set_TabWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
     }
 }
 
@@ -10362,6 +23939,63 @@ impl CTargetWnd {
     }
 }
 
+/// C++ class `CUITextureInfo` (0x18 bytes).
+#[repr(C)]
+pub struct CUITextureInfo {
+    _bytes: UnsafeCell<[u8; 0x18]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CUITextureInfo {
+    /// `CUITextureInfo::bValid` at 0x0 (0x0 within `CUITextureInfo`).
+    #[inline]
+    pub fn bValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x0) != 0 }
+    }
+
+    /// `CUITextureInfo::bValid` at 0x0 (0x0 within `CUITextureInfo`).
+    #[inline]
+    pub fn set_bValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x0, u8::from(value)) }
+    }
+
+    /// `CUITextureInfo::Directory` at 0x4 (0x4 within `CUITextureInfo`).
+    #[inline]
+    pub fn Directory(&self) -> enDir {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CUITextureInfo::Directory` at 0x4 (0x4 within `CUITextureInfo`).
+    #[inline]
+    pub fn set_Directory(&self, value: enDir) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CUITextureInfo::Name` at 0x8 (0x8 within `CUITextureInfo`).
+    #[inline]
+    pub fn Name(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CUITextureInfo::TextureSize` at 0xc (0xc within `CUITextureInfo`).
+    #[inline]
+    pub fn TextureSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CUITextureInfo::TextureId` at 0x14 (0x14 within `CUITextureInfo`).
+    #[inline]
+    pub fn TextureId(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CUITextureInfo::TextureId` at 0x14 (0x14 within `CUITextureInfo`).
+    #[inline]
+    pub fn set_TextureId(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+}
+
 /// C++ class `CVector2` (0x8 bytes).
 #[repr(C)]
 pub struct CVector2 {
@@ -10437,6 +24071,39 @@ impl CVector3 {
     #[inline]
     pub fn set_Z(&self, value: f32) {
         unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+}
+
+/// C++ class `CXPoint` (0x8 bytes).
+#[repr(C)]
+pub struct CXPoint {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CXPoint {
+    /// `CXPoint::x` at 0x0 (0x0 within `CXPoint`).
+    #[inline]
+    pub fn x(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXPoint::x` at 0x0 (0x0 within `CXPoint`).
+    #[inline]
+    pub fn set_x(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXPoint::y` at 0x4 (0x4 within `CXPoint`).
+    #[inline]
+    pub fn y(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXPoint::y` at 0x4 (0x4 within `CXPoint`).
+    #[inline]
+    pub fn set_y(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
     }
 }
 
@@ -10551,6 +24218,1702 @@ impl CXStr {
     }
 }
 
+/// C++ class `CXWnd` (0x1d8 bytes).
+#[repr(C)]
+pub struct CXWnd {
+    _bytes: UnsafeCell<[u8; 0x1d8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CXWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+}
+
+/// C++ class `CXWndManager` (0x178 bytes).
+#[repr(C)]
+pub struct CXWndManager {
+    _bytes: UnsafeCell<[u8; 0x178]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CXWndManager {
+    /// `CXWndManager::__vfptr` at 0x0 (0x0 within `CXWndManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWndManager::__vfptr` at 0x0 (0x0 within `CXWndManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXWndManager::pWindows` at 0x4 (0x4 within `CXWndManager`).
+    #[inline]
+    pub fn pWindows(&self) -> &ArrayClass_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXWndManager::ParentAndContextMenuWindows` at 0x14 (0x14 within `CXWndManager`).
+    #[inline]
+    pub fn ParentAndContextMenuWindows(&self) -> &ArrayClass_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CXWndManager::TransitionWindows` at 0x24 (0x24 within `CXWndManager`).
+    #[inline]
+    pub fn TransitionWindows(&self) -> &ArrayClass_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWndManager::PendingDeletionWindows` at 0x34 (0x34 within `CXWndManager`).
+    #[inline]
+    pub fn PendingDeletionWindows(&self) -> &ArrayClass_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWndManager::TypematicKey` at 0x44 (0x44 within `CXWndManager`).
+    #[inline]
+    pub fn TypematicKey(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWndManager::TypematicKey` at 0x44 (0x44 within `CXWndManager`).
+    #[inline]
+    pub fn set_TypematicKey(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `CXWndManager::LastKeyDownTime` at 0x48 (0x48 within `CXWndManager`).
+    #[inline]
+    pub fn LastKeyDownTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `CXWndManager::LastKeyDownTime` at 0x48 (0x48 within `CXWndManager`).
+    #[inline]
+    pub fn set_LastKeyDownTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `CXWndManager::LastMouseClickTime` at 0x4c (0x4c within `CXWndManager`).
+    #[inline]
+    pub fn LastMouseClickTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `CXWndManager::LastMouseClickTime` at 0x4c (0x4c within `CXWndManager`).
+    #[inline]
+    pub fn set_LastMouseClickTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `CXWndManager::MouseMoveTimeStamp` at 0x50 (0x50 within `CXWndManager`).
+    #[inline]
+    pub fn MouseMoveTimeStamp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x50) }
+    }
+
+    /// `CXWndManager::MouseMoveTimeStamp` at 0x50 (0x50 within `CXWndManager`).
+    #[inline]
+    pub fn set_MouseMoveTimeStamp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x50, value) }
+    }
+
+    /// `CXWndManager::StrokesSent` at 0x54 (0x54 within `CXWndManager`).
+    #[inline]
+    pub fn StrokesSent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x54) }
+    }
+
+    /// `CXWndManager::StrokesSent` at 0x54 (0x54 within `CXWndManager`).
+    #[inline]
+    pub fn set_StrokesSent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x54, value) }
+    }
+
+    /// `CXWndManager::ToolTipHitTest` at 0x58 (0x58 within `CXWndManager`).
+    #[inline]
+    pub fn ToolTipHitTest(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `CXWndManager::ToolTipHitTest` at 0x58 (0x58 within `CXWndManager`).
+    #[inline]
+    pub fn set_ToolTipHitTest(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+
+    /// `CXWndManager::LastClickedWindow` at 0x5c (0x5c within `CXWndManager`).
+    #[inline]
+    pub fn LastClickedWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x5c) }
+    }
+
+    /// `CXWndManager::LastClickedWindow` at 0x5c (0x5c within `CXWndManager`).
+    #[inline]
+    pub fn set_LastClickedWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, value) }
+    }
+
+    /// `CXWndManager::MainWindow` at 0x60 (0x60 within `CXWndManager`).
+    #[inline]
+    pub fn MainWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWndManager::MainWindow` at 0x60 (0x60 within `CXWndManager`).
+    #[inline]
+    pub fn set_MainWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+
+    /// `CXWndManager::FocusWindow` at 0x64 (0x64 within `CXWndManager`).
+    #[inline]
+    pub fn FocusWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x64) }
+    }
+
+    /// `CXWndManager::FocusWindow` at 0x64 (0x64 within `CXWndManager`).
+    #[inline]
+    pub fn set_FocusWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x64, value) }
+    }
+
+    /// `CXWndManager::CurrDraggedWindow` at 0x68 (0x68 within `CXWndManager`).
+    #[inline]
+    pub fn CurrDraggedWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `CXWndManager::CurrDraggedWindow` at 0x68 (0x68 within `CXWndManager`).
+    #[inline]
+    pub fn set_CurrDraggedWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x68, value) }
+    }
+
+    /// `CXWndManager::ActiveWindow` at 0x6c (0x6c within `CXWndManager`).
+    #[inline]
+    pub fn ActiveWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x6c) }
+    }
+
+    /// `CXWndManager::ActiveWindow` at 0x6c (0x6c within `CXWndManager`).
+    #[inline]
+    pub fn set_ActiveWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x6c, value) }
+    }
+
+    /// `CXWndManager::LastMouseOver` at 0x70 (0x70 within `CXWndManager`).
+    #[inline]
+    pub fn LastMouseOver(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWndManager::LastMouseOver` at 0x70 (0x70 within `CXWndManager`).
+    #[inline]
+    pub fn set_LastMouseOver(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWndManager::Tooltip` at 0x74 (0x74 within `CXWndManager`).
+    #[inline]
+    pub fn Tooltip(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x74) }
+    }
+
+    /// `CXWndManager::Tooltip` at 0x74 (0x74 within `CXWndManager`).
+    #[inline]
+    pub fn set_Tooltip(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x74, value) }
+    }
+
+    /// `CXWndManager::GlobalFocusWindows` at 0x78 (0x78 within `CXWndManager`).
+    #[inline]
+    pub fn GlobalFocusWindows(&self) -> &ArrayClass_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWndManager::bReadingLog` at 0x88 (0x88 within `CXWndManager`).
+    #[inline]
+    pub fn bReadingLog(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x88) != 0 }
+    }
+
+    /// `CXWndManager::bReadingLog` at 0x88 (0x88 within `CXWndManager`).
+    #[inline]
+    pub fn set_bReadingLog(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x88, u8::from(value)) }
+    }
+
+    /// `CXWndManager::bSidlManagerOwner` at 0x89 (0x89 within `CXWndManager`).
+    #[inline]
+    pub fn bSidlManagerOwner(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x89) != 0 }
+    }
+
+    /// `CXWndManager::bSidlManagerOwner` at 0x89 (0x89 within `CXWndManager`).
+    #[inline]
+    pub fn set_bSidlManagerOwner(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x89, u8::from(value)) }
+    }
+
+    /// `CXWndManager::CaptureCount` at 0x8c (0x8c within `CXWndManager`).
+    #[inline]
+    pub fn CaptureCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8c) }
+    }
+
+    /// `CXWndManager::CaptureCount` at 0x8c (0x8c within `CXWndManager`).
+    #[inline]
+    pub fn set_CaptureCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8c, value) }
+    }
+
+    /// `CXWndManager::bMouseMoveRelative` at 0x90 (0x90 within `CXWndManager`).
+    #[inline]
+    pub fn bMouseMoveRelative(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x90) != 0 }
+    }
+
+    /// `CXWndManager::bMouseMoveRelative` at 0x90 (0x90 within `CXWndManager`).
+    #[inline]
+    pub fn set_bMouseMoveRelative(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x90, u8::from(value)) }
+    }
+
+    /// `CXWndManager::MousePoint` at 0x94 (0x94 within `CXWndManager`).
+    #[inline]
+    pub fn MousePoint(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0x94) }
+    }
+
+    /// `CXWndManager::bCapsLock` at 0x9c (0x9c within `CXWndManager`).
+    #[inline]
+    pub fn bCapsLock(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x9c) != 0 }
+    }
+
+    /// `CXWndManager::bCapsLock` at 0x9c (0x9c within `CXWndManager`).
+    #[inline]
+    pub fn set_bCapsLock(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, u8::from(value)) }
+    }
+
+    /// `CXWndManager::KeyboardFlags` at 0x9d (0x9d within `CXWndManager`).
+    #[inline]
+    pub fn KeyboardFlags(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x9d) }
+    }
+
+    /// `CXWndManager::KeyboardFlags` at 0x9d (0x9d within `CXWndManager`).
+    #[inline]
+    pub fn set_KeyboardFlags(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x9d, value) }
+    }
+
+    /// `CXWndManager::KeyboardFlags` at 0x9d (0x9d within `CXWndManager`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn KeyboardFlags_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x9d + index * 0x1) }
+    }
+
+    /// `CXWndManager::KeyboardFlags` at 0x9d (0x9d within `CXWndManager`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_KeyboardFlags_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x9d + index * 0x1, value) }
+    }
+
+    /// `CXWndManager::bChatMessage` at 0xa1 (0xa1 within `CXWndManager`).
+    #[inline]
+    pub fn bChatMessage(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa1) != 0 }
+    }
+
+    /// `CXWndManager::bChatMessage` at 0xa1 (0xa1 within `CXWndManager`).
+    #[inline]
+    pub fn set_bChatMessage(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa1, u8::from(value)) }
+    }
+
+    /// `CXWndManager::bDrawWindows` at 0xa2 (0xa2 within `CXWndManager`).
+    #[inline]
+    pub fn bDrawWindows(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa2) != 0 }
+    }
+
+    /// `CXWndManager::bDrawWindows` at 0xa2 (0xa2 within `CXWndManager`).
+    #[inline]
+    pub fn set_bDrawWindows(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa2, u8::from(value)) }
+    }
+
+    /// `CXWndManager::MouseMoveFlags` at 0xa3 (0xa3 within `CXWndManager`).
+    #[inline]
+    pub fn MouseMoveFlags(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xa3) }
+    }
+
+    /// `CXWndManager::MouseMoveFlags` at 0xa3 (0xa3 within `CXWndManager`).
+    #[inline]
+    pub fn set_MouseMoveFlags(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xa3, value) }
+    }
+
+    /// `CXWndManager::ManagerMode` at 0xa4 (0xa4 within `CXWndManager`).
+    #[inline]
+    pub fn ManagerMode(&self) -> EWndManagerMode {
+        unsafe { read(self._bytes.get().cast(), 0xa4) }
+    }
+
+    /// `CXWndManager::ManagerMode` at 0xa4 (0xa4 within `CXWndManager`).
+    #[inline]
+    pub fn set_ManagerMode(&self, value: EWndManagerMode) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, value) }
+    }
+
+    /// `CXWndManager::DecorButtonHitTest` at 0xa8 (0xa8 within `CXWndManager`).
+    #[inline]
+    pub fn DecorButtonHitTest(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWndManager::DecorButtonHitTest` at 0xa8 (0xa8 within `CXWndManager`).
+    #[inline]
+    pub fn set_DecorButtonHitTest(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xa8, value) }
+    }
+
+    /// `CXWndManager::MoveResize` at 0xac (0xac within `CXWndManager`).
+    #[inline]
+    pub fn MoveResize(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0xac) }
+    }
+
+    /// `CXWndManager::DragDropInfo` at 0xb4 (0xb4 within `CXWndManager`).
+    #[inline]
+    pub fn DragDropInfo(&self) -> &SDragDropInfo {
+        unsafe { at(self._bytes.get().cast(), 0xb4) }
+    }
+
+    /// `CXWndManager::ClickStickInfo` at 0xd8 (0xd8 within `CXWndManager`).
+    #[inline]
+    pub fn ClickStickInfo(&self) -> &CClickStickInfo {
+        unsafe { at(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWndManager::bModal` at 0xfc (0xfc within `CXWndManager`).
+    #[inline]
+    pub fn bModal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xfc) != 0 }
+    }
+
+    /// `CXWndManager::bModal` at 0xfc (0xfc within `CXWndManager`).
+    #[inline]
+    pub fn set_bModal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, u8::from(value)) }
+    }
+
+    /// `CXWndManager::TTCheckTimer` at 0x100 (0x100 within `CXWndManager`).
+    #[inline]
+    pub fn TTCheckTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWndManager::TTCheckTimer` at 0x100 (0x100 within `CXWndManager`).
+    #[inline]
+    pub fn set_TTCheckTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWndManager::Flags` at 0x104 (0x104 within `CXWndManager`).
+    #[inline]
+    pub fn Flags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x104) }
+    }
+
+    /// `CXWndManager::Flags` at 0x104 (0x104 within `CXWndManager`).
+    #[inline]
+    pub fn set_Flags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x104, value) }
+    }
+
+    /// `CXWndManager::ClipText` at 0x108 (0x108 within `CXWndManager`).
+    #[inline]
+    pub fn ClipText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWndManager::ScreenExtentX` at 0x10c (0x10c within `CXWndManager`).
+    #[inline]
+    pub fn ScreenExtentX(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWndManager::ScreenExtentX` at 0x10c (0x10c within `CXWndManager`).
+    #[inline]
+    pub fn set_ScreenExtentX(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x10c, value) }
+    }
+
+    /// `CXWndManager::ScreenExtentY` at 0x110 (0x110 within `CXWndManager`).
+    #[inline]
+    pub fn ScreenExtentY(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x110) }
+    }
+
+    /// `CXWndManager::ScreenExtentY` at 0x110 (0x110 within `CXWndManager`).
+    #[inline]
+    pub fn set_ScreenExtentY(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x110, value) }
+    }
+
+    /// `CXWndManager::FontsArray` at 0x114 (0x114 within `CXWndManager`).
+    #[inline]
+    pub fn FontsArray(&self) -> &ArrayClass_CTextureFont {
+        unsafe { at(self._bytes.get().cast(), 0x114) }
+    }
+
+    /// `CXWndManager::pSystemFont` at 0x124 (0x124 within `CXWndManager`).
+    #[inline]
+    pub fn pSystemFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWndManager::pSystemFont` at 0x124 (0x124 within `CXWndManager`).
+    #[inline]
+    pub fn set_pSystemFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x124, value) }
+    }
+
+    /// `CXWndManager::bToggleWindowMode` at 0x128 (0x128 within `CXWndManager`).
+    #[inline]
+    pub fn bToggleWindowMode(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x128) != 0 }
+    }
+
+    /// `CXWndManager::bToggleWindowMode` at 0x128 (0x128 within `CXWndManager`).
+    #[inline]
+    pub fn set_bToggleWindowMode(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x128, u8::from(value)) }
+    }
+
+    /// `CXWndManager::pGlobalHwnd` at 0x12c (0x12c within `CXWndManager`).
+    #[inline]
+    pub fn pGlobalHwnd(&self) -> *mut *mut HWND__ {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWndManager::pGlobalHwnd` at 0x12c (0x12c within `CXWndManager`).
+    #[inline]
+    pub fn set_pGlobalHwnd(&self, value: *mut *mut HWND__) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWndManager::StoredMousePos` at 0x130 (0x130 within `CXWndManager`).
+    #[inline]
+    pub fn StoredMousePos(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0x130) }
+    }
+
+    /// `CXWndManager::bManagerDeletionPending` at 0x138 (0x138 within `CXWndManager`).
+    #[inline]
+    pub fn bManagerDeletionPending(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWndManager::bManagerDeletionPending` at 0x138 (0x138 within `CXWndManager`).
+    #[inline]
+    pub fn set_bManagerDeletionPending(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWndManager::CC` at 0x13c (0x13c within `CXWndManager`).
+    #[inline]
+    pub fn CC(&self) -> &CursorClass {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+}
+
 /// C++ class `CharacterPropertyHash` (0x10 bytes).
 #[repr(C)]
 pub struct CharacterPropertyHash {
@@ -10642,6 +26005,135 @@ impl ChatFilterData {
     pub fn set_chatFilters_at(&self, index: usize, value: eChatFilterValues) {
         assert!(index < 34, "index out of bounds");
         unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x4, value) }
+    }
+}
+
+/// C++ class `CircularArrayClass2<STextLine>` (0x28 bytes).
+#[repr(C)]
+pub struct CircularArrayClass2_STextLine {
+    _bytes: UnsafeCell<[u8; 0x28]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CircularArrayClass2_STextLine {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::HeadIndex` at 0x4 (0x4 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn HeadIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::HeadIndex` at 0x4 (0x4 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_HeadIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::WrapIndex` at 0x8 (0x8 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn WrapIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::WrapIndex` at 0x8 (0x8 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_WrapIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ArraySize` at 0xc (0xc within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn ArraySize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ArraySize` at 0xc (0xc within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_ArraySize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkSize` at 0x10 (0x10 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn ChunkSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkSize` at 0x10 (0x10 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_ChunkSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkMask` at 0x14 (0x14 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn ChunkMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkMask` at 0x14 (0x14 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_ChunkMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkShift` at 0x18 (0x18 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn ChunkShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkShift` at 0x18 (0x18 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_ChunkShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::Chunks` at 0x1c (0x1c within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn Chunks(&self) -> *mut *mut STextLine {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::Chunks` at 0x1c (0x1c within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_Chunks(&self, value: *mut *mut STextLine) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkAlloc` at 0x20 (0x20 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn ChunkAlloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::ChunkAlloc` at 0x20 (0x20 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_ChunkAlloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CircularArrayClass2<STextLine>::bValid` at 0x24 (0x24 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn bValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x24) != 0 }
+    }
+
+    /// `CircularArrayClass2<STextLine>::bValid` at 0x24 (0x24 within `CircularArrayClass2<STextLine>`).
+    #[inline]
+    pub fn set_bValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x24, u8::from(value)) }
     }
 }
 
@@ -10835,6 +26327,83 @@ impl ControllerFactory {
     #[inline]
     pub fn Factories(&self) -> &HashTable_void_int_ResizePolicyNoShrink {
         unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+}
+
+/// C++ class `CursorClass` (0x3c bytes).
+#[repr(C)]
+pub struct CursorClass {
+    _bytes: UnsafeCell<[u8; 0x3c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CursorClass {
+    /// `CursorClass::CursorName` at 0x0 (0x0 within `CursorClass`).
+    #[inline]
+    pub fn CursorName(&self) -> [*mut c_char; 7] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CursorClass::CursorName` at 0x0 (0x0 within `CursorClass`).
+    #[inline]
+    pub fn set_CursorName(&self, value: [*mut c_char; 7]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CursorClass::CursorName` at 0x0 (0x0 within `CursorClass`).
+    /// One element; panics if `index >= 7`.
+    #[inline]
+    pub fn CursorName_at(&self, index: usize) -> *mut c_char {
+        assert!(index < 7, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x4) }
+    }
+
+    /// `CursorClass::CursorName` at 0x0 (0x0 within `CursorClass`).
+    /// Sets one element; panics if `index >= 7`.
+    #[inline]
+    pub fn set_CursorName_at(&self, index: usize, value: *mut c_char) {
+        assert!(index < 7, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x4, value) }
+    }
+
+    /// `CursorClass::CursorList` at 0x1c (0x1c within `CursorClass`).
+    #[inline]
+    pub fn CursorList(&self) -> [*mut HICON__; 7] {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CursorClass::CursorList` at 0x1c (0x1c within `CursorClass`).
+    #[inline]
+    pub fn set_CursorList(&self, value: [*mut HICON__; 7]) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CursorClass::CursorList` at 0x1c (0x1c within `CursorClass`).
+    /// One element; panics if `index >= 7`.
+    #[inline]
+    pub fn CursorList_at(&self, index: usize) -> *mut HICON__ {
+        assert!(index < 7, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1c + index * 0x4) }
+    }
+
+    /// `CursorClass::CursorList` at 0x1c (0x1c within `CursorClass`).
+    /// Sets one element; panics if `index >= 7`.
+    #[inline]
+    pub fn set_CursorList_at(&self, index: usize, value: *mut HICON__) {
+        assert!(index < 7, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1c + index * 0x4, value) }
+    }
+
+    /// `CursorClass::bScreenShotMode` at 0x38 (0x38 within `CursorClass`).
+    #[inline]
+    pub fn bScreenShotMode(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CursorClass::bScreenShotMode` at 0x38 (0x38 within `CursorClass`).
+    #[inline]
+    pub fn set_bScreenShotMode(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
     }
 }
 
@@ -38132,6 +53701,87 @@ impl SDoCollisionMovementStats {
     }
 }
 
+/// C++ class `SDragDropInfo` (0x24 bytes).
+#[repr(C)]
+pub struct SDragDropInfo {
+    _bytes: UnsafeCell<[u8; 0x24]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SDragDropInfo {
+    /// `SDragDropInfo::m_rightMouse` at 0x0 (0x0 within `SDragDropInfo`).
+    #[inline]
+    pub fn m_rightMouse(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x0) != 0 }
+    }
+
+    /// `SDragDropInfo::m_rightMouse` at 0x0 (0x0 within `SDragDropInfo`).
+    #[inline]
+    pub fn set_m_rightMouse(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x0, u8::from(value)) }
+    }
+
+    /// `SDragDropInfo::sourceWnd` at 0x4 (0x4 within `SDragDropInfo`).
+    #[inline]
+    pub fn sourceWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `SDragDropInfo::sourceWnd` at 0x4 (0x4 within `SDragDropInfo`).
+    #[inline]
+    pub fn set_sourceWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `SDragDropInfo::targetWnd` at 0x8 (0x8 within `SDragDropInfo`).
+    #[inline]
+    pub fn targetWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `SDragDropInfo::targetWnd` at 0x8 (0x8 within `SDragDropInfo`).
+    #[inline]
+    pub fn set_targetWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `SDragDropInfo::sourcePos` at 0xc (0xc within `SDragDropInfo`).
+    #[inline]
+    pub fn sourcePos(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `SDragDropInfo::targetPos` at 0x14 (0x14 within `SDragDropInfo`).
+    #[inline]
+    pub fn targetPos(&self) -> &CXPoint {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `SDragDropInfo::message` at 0x1c (0x1c within `SDragDropInfo`).
+    #[inline]
+    pub fn message(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `SDragDropInfo::message` at 0x1c (0x1c within `SDragDropInfo`).
+    #[inline]
+    pub fn set_message(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `SDragDropInfo::data` at 0x20 (0x20 within `SDragDropInfo`).
+    #[inline]
+    pub fn data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `SDragDropInfo::data` at 0x20 (0x20 within `SDragDropInfo`).
+    #[inline]
+    pub fn set_data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+}
+
 /// C++ class `SFellowship` (0x9e4 bytes).
 #[repr(C)]
 pub struct SFellowship {
@@ -38443,6 +54093,211 @@ impl SFellowshipMember {
     #[inline]
     pub fn set_LastOn(&self, value: i32) {
         unsafe { write(self._bytes.get().cast(), 0x50, value) }
+    }
+}
+
+/// C++ class `SListWndCell` (0x14 bytes).
+#[repr(C)]
+pub struct SListWndCell {
+    _bytes: UnsafeCell<[u8; 0x14]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SListWndCell {
+    /// `SListWndCell::pTA` at 0x0 (0x0 within `SListWndCell`).
+    #[inline]
+    pub fn pTA(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SListWndCell::pTA` at 0x0 (0x0 within `SListWndCell`).
+    #[inline]
+    pub fn set_pTA(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `SListWndCell::Text` at 0x4 (0x4 within `SListWndCell`).
+    #[inline]
+    pub fn Text(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `SListWndCell::Color` at 0x8 (0x8 within `SListWndCell`).
+    #[inline]
+    pub fn Color(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `SListWndCell::Color` at 0x8 (0x8 within `SListWndCell`).
+    #[inline]
+    pub fn set_Color(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `SListWndCell::bOnlyDrawTexture` at 0xc (0xc within `SListWndCell`).
+    #[inline]
+    pub fn bOnlyDrawTexture(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `SListWndCell::bOnlyDrawTexture` at 0xc (0xc within `SListWndCell`).
+    #[inline]
+    pub fn set_bOnlyDrawTexture(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+
+    /// `SListWndCell::pWnd` at 0x10 (0x10 within `SListWndCell`).
+    #[inline]
+    pub fn pWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `SListWndCell::pWnd` at 0x10 (0x10 within `SListWndCell`).
+    #[inline]
+    pub fn set_pWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+}
+
+/// C++ class `SListWndLine` (0x128 bytes).
+#[repr(C)]
+pub struct SListWndLine {
+    _bytes: UnsafeCell<[u8; 0x128]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SListWndLine {
+    /// `SListWndLine::Cells` at 0x0 (0x0 within `SListWndLine`).
+    #[inline]
+    pub fn Cells(&self) -> &ArrayClass_SListWndCell {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SListWndLine::Data` at 0x10 (0x10 within `SListWndLine`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `SListWndLine::Data` at 0x10 (0x10 within `SListWndLine`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `SListWndLine::Height` at 0x14 (0x14 within `SListWndLine`).
+    #[inline]
+    pub fn Height(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `SListWndLine::Height` at 0x14 (0x14 within `SListWndLine`).
+    #[inline]
+    pub fn set_Height(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `SListWndLine::bSelected` at 0x18 (0x18 within `SListWndLine`).
+    #[inline]
+    pub fn bSelected(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `SListWndLine::bSelected` at 0x18 (0x18 within `SListWndLine`).
+    #[inline]
+    pub fn set_bSelected(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `SListWndLine::bEnabled` at 0x19 (0x19 within `SListWndLine`).
+    #[inline]
+    pub fn bEnabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19) != 0 }
+    }
+
+    /// `SListWndLine::bEnabled` at 0x19 (0x19 within `SListWndLine`).
+    #[inline]
+    pub fn set_bEnabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19, u8::from(value)) }
+    }
+
+    /// `SListWndLine::Treedata` at 0x1c (0x1c within `SListWndLine`).
+    #[inline]
+    pub fn Treedata(&self) -> &STreeData {
+        unsafe { at(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `SListWndLine::TooltipText` at 0x24 (0x24 within `SListWndLine`).
+    #[inline]
+    pub fn TooltipText(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `SListWndLine::TooltipText` at 0x24 (0x24 within `SListWndLine`).
+    #[inline]
+    pub fn set_TooltipText(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `SListWndLine::TooltipText` at 0x24 (0x24 within `SListWndLine`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn TooltipText_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x24 + index * 0x1) }
+    }
+
+    /// `SListWndLine::TooltipText` at 0x24 (0x24 within `SListWndLine`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_TooltipText_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x24 + index * 0x1, value) }
+    }
+
+    /// `SListWndLine::bVisible` at 0x124 (0x124 within `SListWndLine`).
+    #[inline]
+    pub fn bVisible(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x124) != 0 }
+    }
+
+    /// `SListWndLine::bVisible` at 0x124 (0x124 within `SListWndLine`).
+    #[inline]
+    pub fn set_bVisible(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x124, u8::from(value)) }
+    }
+}
+
+/// C++ class `STreeData` (0x8 bytes).
+#[repr(C)]
+pub struct STreeData {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl STreeData {
+    /// `STreeData::Depth` at 0x0 (0x0 within `STreeData`).
+    #[inline]
+    pub fn Depth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `STreeData::Depth` at 0x0 (0x0 within `STreeData`).
+    #[inline]
+    pub fn set_Depth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `STreeData::bIsExpandable` at 0x4 (0x4 within `STreeData`).
+    #[inline]
+    pub fn bIsExpandable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x4) != 0 }
+    }
+
+    /// `STreeData::bIsExpandable` at 0x4 (0x4 within `STreeData`).
+    #[inline]
+    pub fn set_bIsExpandable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x4, u8::from(value)) }
     }
 }
 
@@ -40949,6 +56804,17 @@ impl EQExpansion {
     pub const EQExpansionSOR: Self = Self(32);
 }
 
+/// C++ enum `ESTMLParseState`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct ESTMLParseState(pub i32);
+
+impl ESTMLParseState {
+    pub const STML_PARSE_STATE_BODY: Self = Self(0);
+    pub const STML_PARSE_STATE_HEAD: Self = Self(1);
+}
+
 /// C++ enum `EStringEncoding`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -40958,6 +56824,40 @@ pub struct EStringEncoding(pub i32);
 impl EStringEncoding {
     pub const StringEncodingUtf8: Self = Self(0);
     pub const StringEncodingUtf16: Self = Self(1);
+}
+
+/// C++ enum `EWndManagerMode`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct EWndManagerMode(pub i32);
+
+impl EWndManagerMode {
+    pub const WndManagerModeNormal: Self = Self(0);
+    pub const WndManagerModeMoving: Self = Self(1);
+    pub const WndManagerModeSizingLeft: Self = Self(2);
+    pub const WndManagerModeSizingTop: Self = Self(3);
+    pub const WndManagerModeSizingRight: Self = Self(4);
+    pub const WndManagerModeSizingBottom: Self = Self(5);
+    pub const WndManagerModeSizingTopLeft: Self = Self(6);
+    pub const WndManagerModeSizingTopRight: Self = Self(7);
+    pub const WndManagerModeSizingBottomLeft: Self = Self(8);
+    pub const WndManagerModeSizingBototmRight: Self = Self(9);
+    pub const WndManagerModeVScrollUp: Self = Self(10);
+    pub const WndManagerModeVScrollPageUp: Self = Self(11);
+    pub const WndManagerModeVScrollPageDown: Self = Self(12);
+    pub const WndManagerModeVScrollDown: Self = Self(13);
+    pub const WndManagerModeVScrollAbsolute: Self = Self(14);
+    pub const WndManagerModeHScrollLeft: Self = Self(15);
+    pub const WndManagerModeHScrollRight: Self = Self(16);
+    pub const WndManagerModeHScrollAbsolute: Self = Self(17);
+    pub const WndManagerModeHScrollPageLeft: Self = Self(18);
+    pub const WndManagerModeHScrollPageRight: Self = Self(19);
+    pub const WndManagerModeTyping: Self = Self(20);
+    pub const WndManagerModeFrameButton: Self = Self(21);
+    pub const WndManagerModeDragDrop: Self = Self(22);
+    pub const WndManagerModeUnknown23: Self = Self(23);
+    pub const WndManagerModeUnknown24: Self = Self(24);
 }
 
 /// C++ enum `GravityBehavior`. A newtype rather than a Rust enum, since game memory may hold
@@ -41278,6 +57178,20 @@ impl eXTSlotStatus {
     pub const eXTSlotUnknown: Self = Self(3);
 }
 
+/// C++ enum `enDir`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct enDir(pub i32);
+
+impl enDir {
+    pub const cUIDirectory: Self = Self(0);
+    pub const cUIDirectoryAtlas: Self = Self(1);
+    pub const cUIDirectoryTexture: Self = Self(2);
+    pub const cUIDirectoryMaps: Self = Self(3);
+    pub const cUIDirectoryCount: Self = Self(4);
+}
+
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct ActorAnimation {
@@ -41315,14 +57229,14 @@ pub struct CBoneGroupInterface {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CButtonWnd {
+pub struct CCheckBoxWnd {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CCheckBoxWnd {
+pub struct CEditBaseWnd {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -41364,21 +57278,7 @@ pub struct CLightInterface {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CListWnd {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
 pub struct CObjectGroupStageInstance {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
-pub struct CPageWnd {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -41420,7 +57320,14 @@ pub struct CStaticTintedBlendAnimationTemplate {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CTabWnd {
+pub struct CStmlReport {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct CTAFrameDraw {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -41449,13 +57356,6 @@ pub struct CTextureFont {
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct CXFreeList {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
-pub struct CXWnd {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -41526,6 +57426,13 @@ pub struct EQList_AltAbilityEffectData_Node {
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct EqMobileEmitter {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct HICON__ {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -41686,6 +57593,13 @@ pub struct HashTable_void_int_ResizePolicyNoShrink_HashNode {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct IListItemDataHandler {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct LinkedListNode_PendingReward {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -41742,6 +57656,41 @@ pub struct PointNamesEntry {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct SHistoryElement {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct SLinkInfo {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct SListWndColumn {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct STable {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct STextLine {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct SoeUtil_Internal_SharedData {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -41770,9 +57719,14 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "AggroMeterManagerClient", rust_name: "AggroMeterManagerClient", size: 0xe4 },
     RecordInfo { name: "AltAdvManager", rust_name: "AltAdvManager", size: 0x22c },
     RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
+    RecordInfo { name: "ArrayClass2<SHistoryElement>", rust_name: "ArrayClass2_SHistoryElement", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<SLinkInfo>", rust_name: "ArrayClass2_SLinkInfo", size: 0x1c },
     RecordInfo { name: "ArrayClass2<unsigned int>", rust_name: "ArrayClass2_unsigned_int", size: 0x1c },
+    RecordInfo { name: "ArrayClass<CPageWnd *>", rust_name: "ArrayClass_CPageWnd", size: 0x10 },
     RecordInfo { name: "ArrayClass<CRadioGroup *>", rust_name: "ArrayClass_CRadioGroup", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CTextureFont *>", rust_name: "ArrayClass_CTextureFont", size: 0x10 },
     RecordInfo { name: "ArrayClass<CXStr>", rust_name: "ArrayClass_CXStr", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CXWnd *>", rust_name: "ArrayClass_CXWnd", size: 0x10 },
     RecordInfo { name: "ArrayClass<ChatBufferEntry *>", rust_name: "ArrayClass_ChatBufferEntry", size: 0x10 },
     RecordInfo { name: "ArrayClass<ClaimData>", rust_name: "ArrayClass_ClaimData", size: 0x10 },
     RecordInfo { name: "ArrayClass<ExtendedTargetSlot>", rust_name: "ArrayClass_ExtendedTargetSlot", size: 0x10 },
@@ -41782,6 +57736,10 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass<PhysicsEffect>", rust_name: "ArrayClass_PhysicsEffect", size: 0x10 },
     RecordInfo { name: "ArrayClass<Point *>", rust_name: "ArrayClass_Point", size: 0x10 },
     RecordInfo { name: "ArrayClass<PointNamesEntry *>", rust_name: "ArrayClass_PointNamesEntry", size: 0x10 },
+    RecordInfo { name: "ArrayClass<SListWndCell>", rust_name: "ArrayClass_SListWndCell", size: 0x10 },
+    RecordInfo { name: "ArrayClass<SListWndColumn>", rust_name: "ArrayClass_SListWndColumn", size: 0x10 },
+    RecordInfo { name: "ArrayClass<SListWndLine>", rust_name: "ArrayClass_SListWndLine", size: 0x10 },
+    RecordInfo { name: "ArrayClass<STable>", rust_name: "ArrayClass_STable", size: 0x10 },
     RecordInfo { name: "ArrayClass<bool>", rust_name: "ArrayClass_bool", size: 0x10 },
     RecordInfo { name: "ArrayClass<int>", rust_name: "ArrayClass_int", size: 0x10 },
     RecordInfo { name: "ArrayClass<unsigned int>", rust_name: "ArrayClass_unsigned_int", size: 0x10 },
@@ -41789,28 +57747,46 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "BandolierSet", rust_name: "BandolierSet", size: 0x140 },
     RecordInfo { name: "BenefitSelection", rust_name: "BenefitSelection", size: 0x8 },
     RecordInfo { name: "CAltAbilityData", rust_name: "CAltAbilityData", size: 0xa8 },
+    RecordInfo { name: "CButtonDrawTemplate", rust_name: "CButtonDrawTemplate", size: 0x34 },
+    RecordInfo { name: "CButtonWnd", rust_name: "CButtonWnd", size: 0x260 },
     RecordInfo { name: "CCapsule", rust_name: "CCapsule", size: 0x1c },
+    RecordInfo { name: "CClickStickInfo", rust_name: "CClickStickInfo", size: 0x24 },
+    RecordInfo { name: "CComboWnd", rust_name: "CComboWnd", size: 0x218 },
+    RecordInfo { name: "CContextMenu", rust_name: "CContextMenu", size: 0x284 },
+    RecordInfo { name: "CContextMenuManager", rust_name: "CContextMenuManager", size: 0x122c },
+    RecordInfo { name: "CGaugeDrawTemplate", rust_name: "CGaugeDrawTemplate", size: 0x1c },
+    RecordInfo { name: "CGaugeWnd", rust_name: "CGaugeWnd", size: 0x240 },
     RecordInfo { name: "CGroup", rust_name: "CGroup", size: 0x28 },
     RecordInfo { name: "CGroupMember", rust_name: "CGroupMember", size: 0x30 },
+    RecordInfo { name: "CListWnd", rust_name: "CListWnd", size: 0x27c },
     RecordInfo { name: "CLootWnd", rust_name: "CLootWnd", size: 0x3a8 },
     RecordInfo { name: "CMercenaryManager", rust_name: "CMercenaryManager", size: 0x268 },
     RecordInfo { name: "CMerchantWnd", rust_name: "CMerchantWnd", size: 0x2b0 },
+    RecordInfo { name: "CPageWnd", rust_name: "CPageWnd", size: 0x234 },
     RecordInfo { name: "CPetInfoWnd", rust_name: "CPetInfoWnd", size: 0x920 },
     RecordInfo { name: "CPhysicsInfo", rust_name: "CPhysicsInfo", size: 0x30 },
     RecordInfo { name: "CPlayerPointManager", rust_name: "CPlayerPointManager", size: 0x14 },
     RecordInfo { name: "CRaid", rust_name: "CRaid", size: 0x3964 },
+    RecordInfo { name: "CStmlWnd", rust_name: "CStmlWnd", size: 0x2a0 },
     RecordInfo { name: "CStrRep", rust_name: "CStrRep", size: 0x18 },
+    RecordInfo { name: "CTabWnd", rust_name: "CTabWnd", size: 0x214 },
     RecordInfo { name: "CTargetWnd", rust_name: "CTargetWnd", size: 0x8b4 },
+    RecordInfo { name: "CUITextureInfo", rust_name: "CUITextureInfo", size: 0x18 },
     RecordInfo { name: "CVector2", rust_name: "CVector2", size: 0x8 },
     RecordInfo { name: "CVector3", rust_name: "CVector3", size: 0xc },
+    RecordInfo { name: "CXPoint", rust_name: "CXPoint", size: 0x8 },
     RecordInfo { name: "CXRect", rust_name: "CXRect", size: 0x10 },
     RecordInfo { name: "CXSize", rust_name: "CXSize", size: 0x8 },
     RecordInfo { name: "CXStr", rust_name: "CXStr", size: 0x4 },
+    RecordInfo { name: "CXWnd", rust_name: "CXWnd", size: 0x1d8 },
+    RecordInfo { name: "CXWndManager", rust_name: "CXWndManager", size: 0x178 },
     RecordInfo { name: "CharacterPropertyHash", rust_name: "CharacterPropertyHash", size: 0x10 },
     RecordInfo { name: "ChatFilterData", rust_name: "ChatFilterData", size: 0x88 },
+    RecordInfo { name: "CircularArrayClass2<STextLine>", rust_name: "CircularArrayClass2_STextLine", size: 0x28 },
     RecordInfo { name: "ClaimDataCollection", rust_name: "ClaimDataCollection", size: 0x10 },
     RecordInfo { name: "ClientSpellManager", rust_name: "ClientSpellManager", size: 0xafeec },
     RecordInfo { name: "ControllerFactory", rust_name: "ControllerFactory", size: 0x14 },
+    RecordInfo { name: "CursorClass", rust_name: "CursorClass", size: 0x3c },
     RecordInfo { name: "EQCameraOptions", rust_name: "EQCameraOptions", size: 0x1c },
     RecordInfo { name: "EQGameOptions", rust_name: "EQGameOptions", size: 0x198 },
     RecordInfo { name: "EQGameOptions2", rust_name: "EQGameOptions2", size: 0x18 },
@@ -41893,8 +57869,12 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "RaidMember", rust_name: "RaidMember", size: 0x94 },
     RecordInfo { name: "RequirementAssociationManager", rust_name: "RequirementAssociationManager", size: 0x228 },
     RecordInfo { name: "SDoCollisionMovementStats", rust_name: "SDoCollisionMovementStats", size: 0x74 },
+    RecordInfo { name: "SDragDropInfo", rust_name: "SDragDropInfo", size: 0x24 },
     RecordInfo { name: "SFellowship", rust_name: "SFellowship", size: 0x9e4 },
     RecordInfo { name: "SFellowshipMember", rust_name: "SFellowshipMember", size: 0x54 },
+    RecordInfo { name: "SListWndCell", rust_name: "SListWndCell", size: 0x14 },
+    RecordInfo { name: "SListWndLine", rust_name: "SListWndLine", size: 0x128 },
+    RecordInfo { name: "STreeData", rust_name: "STreeData", size: 0x8 },
     RecordInfo { name: "SkillManager", rust_name: "SkillManager", size: 0x2c68ac },
     RecordInfo { name: "SlotData", rust_name: "SlotData", size: 0x8 },
     RecordInfo { name: "SoeUtil::SharedPtr<ItemDefinition>", rust_name: "SoeUtil_SharedPtr_ItemDefinition", size: 0x8 },
@@ -41982,6 +57962,20 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArmorProperties", field: "material", accessor: "material", declared_in: "ArmorProperties", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArmorProperties", field: "newArmorID", accessor: "newArmorID", declared_in: "ArmorProperties", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "ArmorProperties", field: "newArmorType", accessor: "newArmorType", declared_in: "ArmorProperties", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<SHistoryElement>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<SLinkInfo>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<unsigned int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<unsigned int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -41989,14 +57983,26 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<unsigned int>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<unsigned int>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<unsigned int>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CPageWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CPageWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CPageWnd *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CRadioGroup *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CRadioGroup *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CRadioGroup *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CTextureFont *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CTextureFont *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CTextureFont *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXStr>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXStr>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CXStr>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CXWnd *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -42033,6 +58039,22 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<PointNamesEntry *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<PointNamesEntry *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<PointNamesEntry *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<PointNamesEntry *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<PointNamesEntry *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<PointNamesEntry *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndCell>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndCell>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<SListWndCell>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndCell>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<SListWndCell>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndCell>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<SListWndCell>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndColumn>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndColumn>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<SListWndColumn>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndColumn>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<SListWndColumn>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndColumn>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<SListWndColumn>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndLine>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndLine>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<SListWndLine>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndLine>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<SListWndLine>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SListWndLine>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<SListWndLine>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<STable>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<STable>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<STable>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<STable>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<STable>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<STable>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<STable>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<bool>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<bool>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<bool>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<bool>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<bool>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -42085,6 +58107,143 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CAltAbilityData", field: "bAutogrant", accessor: "bAutogrant", declared_in: "CAltAbilityData", offset: 0x93, decl_offset: 0x93, size: 0x1, bits: None },
     FieldInfo { record: "CAltAbilityData", field: "AutoGrantAssociationId", accessor: "AutoGrantAssociationId", declared_in: "CAltAbilityData", offset: 0x94, decl_offset: 0x94, size: 0x4, bits: None },
     FieldInfo { record: "CAltAbilityData", field: "PersistentEffects", accessor: "PersistentEffects", declared_in: "CAltAbilityData", offset: 0x98, decl_offset: 0x98, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "strName", accessor: "strName", declared_in: "CButtonDrawTemplate", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaNormal", accessor: "ptaNormal", declared_in: "CButtonDrawTemplate", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressed", accessor: "ptaPressed", declared_in: "CButtonDrawTemplate", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaFlyby", accessor: "ptaFlyby", declared_in: "CButtonDrawTemplate", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaDisabled", accessor: "ptaDisabled", declared_in: "CButtonDrawTemplate", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressedFlyby", accessor: "ptaPressedFlyby", declared_in: "CButtonDrawTemplate", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressedDisabled", accessor: "ptaPressedDisabled", declared_in: "CButtonDrawTemplate", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaNormalDecal", accessor: "ptaNormalDecal", declared_in: "CButtonDrawTemplate", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressedDecal", accessor: "ptaPressedDecal", declared_in: "CButtonDrawTemplate", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaFlybyDecal", accessor: "ptaFlybyDecal", declared_in: "CButtonDrawTemplate", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaDisabledDecal", accessor: "ptaDisabledDecal", declared_in: "CButtonDrawTemplate", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressedFlybyDecal", accessor: "ptaPressedFlybyDecal", declared_in: "CButtonDrawTemplate", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressedDisabledDecal", accessor: "ptaPressedDisabledDecal", declared_in: "CButtonDrawTemplate", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "MouseButtonState", accessor: "MouseButtonState", declared_in: "CButtonWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bPicture", accessor: "bPicture", declared_in: "CButtonWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "pGroup", accessor: "pGroup", declared_in: "CButtonWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Checked", accessor: "Checked", declared_in: "CButtonWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bMouseOverLastFrame", accessor: "bMouseOverLastFrame", declared_in: "CButtonWnd", offset: 0x1e5, decl_offset: 0x1e5, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DecalOffset", accessor: "DecalOffset", declared_in: "CButtonWnd", offset: 0x1e8, decl_offset: 0x1e8, size: 0x8, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DecalSize", accessor: "DecalSize", declared_in: "CButtonWnd", offset: 0x1f0, decl_offset: 0x1f0, size: 0x8, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DecalTint", accessor: "DecalTint", declared_in: "CButtonWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TextOffsets", accessor: "TextOffsets", declared_in: "CButtonWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x10, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "TextModeBits", accessor: "TextModeBits", declared_in: "CButtonWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Mouseover", accessor: "Mouseover", declared_in: "CButtonWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Pressed", accessor: "Pressed", declared_in: "CButtonWnd", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "Disabled", accessor: "Disabled", declared_in: "CButtonWnd", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "CoolDownBeginTime", accessor: "CoolDownBeginTime", declared_in: "CButtonWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "CoolDownDuration", accessor: "CoolDownDuration", declared_in: "CButtonWnd", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "DrawTemplate", accessor: "CButtonWnd_DrawTemplate", declared_in: "CButtonWnd", offset: 0x224, decl_offset: 0x224, size: 0x34, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bIsCheckbox", accessor: "bIsCheckbox", declared_in: "CButtonWnd", offset: 0x258, decl_offset: 0x258, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "bIsDrawLasso", accessor: "bIsDrawLasso", declared_in: "CButtonWnd", offset: 0x259, decl_offset: 0x259, size: 0x1, bits: None },
+    FieldInfo { record: "CButtonWnd", field: "ButtonStyle", accessor: "ButtonStyle", declared_in: "CButtonWnd", offset: 0x25c, decl_offset: 0x25c, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "OriginY", accessor: "OriginY", declared_in: "CLineBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "OriginX", accessor: "OriginX", declared_in: "CLineBase", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "OriginZ", accessor: "OriginZ", declared_in: "CLineBase", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -42092,6 +58251,511 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CCapsule", field: "DirectionX", accessor: "DirectionX", declared_in: "CLineBase", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "DirectionZ", accessor: "DirectionZ", declared_in: "CLineBase", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "CCapsule", field: "Radius", accessor: "Radius", declared_in: "CCapsule", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "__vfptr", accessor: "__vfptr", declared_in: "CClickStickInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "sourceWnd", accessor: "sourceWnd", declared_in: "CClickStickInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "targetWnd", accessor: "targetWnd", declared_in: "CClickStickInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "sourcePos", accessor: "sourcePos", declared_in: "CClickStickInfo", offset: 0xc, decl_offset: 0xc, size: 0x8, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "targetPos", accessor: "targetPos", declared_in: "CClickStickInfo", offset: 0x14, decl_offset: 0x14, size: 0x8, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "message", accessor: "message", declared_in: "CClickStickInfo", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CClickStickInfo", field: "data", accessor: "data", declared_in: "CClickStickInfo", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CComboWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CComboWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CComboWnd", field: "pListWnd", accessor: "pListWnd", declared_in: "CComboWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ListHeightMax", accessor: "ListHeightMax", declared_in: "CComboWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ListHeight", accessor: "ListHeight", declared_in: "CComboWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CComboWnd", field: "ButtonDrawTemplate", accessor: "ButtonDrawTemplate", declared_in: "CComboWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x34, bits: None },
+    FieldInfo { record: "CContextMenu", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CContextMenu", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ItemsArray", accessor: "ItemsArray", declared_in: "CListWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Columns", accessor: "Columns", declared_in: "CListWnd", offset: 0x1e8, decl_offset: 0x1e8, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "CurSel", accessor: "CurSel", declared_in: "CListWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "CurCol", accessor: "CurCol", declared_in: "CListWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "DownItem", accessor: "DownItem", declared_in: "CListWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ScrollOffsetY", accessor: "ScrollOffsetY", declared_in: "CListWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "HeaderHeight", accessor: "HeaderHeight", declared_in: "CListWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "FirstVisibleLine", accessor: "FirstVisibleLine", declared_in: "CListWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "SortCol", accessor: "SortCol", declared_in: "CListWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bSortAsc", accessor: "bSortAsc", declared_in: "CListWnd", offset: 0x214, decl_offset: 0x214, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bFixedHeight", accessor: "bFixedHeight", declared_in: "CListWnd", offset: 0x215, decl_offset: 0x215, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bOwnerDraw", accessor: "bOwnerDraw", declared_in: "CListWnd", offset: 0x216, decl_offset: 0x216, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bCalcHeights", accessor: "bCalcHeights", declared_in: "CListWnd", offset: 0x217, decl_offset: 0x217, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bColumnSizable", accessor: "bColumnSizable", declared_in: "CListWnd", offset: 0x218, decl_offset: 0x218, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "LineHeight", accessor: "LineHeight", declared_in: "CListWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ColumnSepDragged", accessor: "ColumnSepDragged", declared_in: "CListWnd", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ColumnSepMouseOver", accessor: "ColumnSepMouseOver", declared_in: "CListWnd", offset: 0x224, decl_offset: 0x224, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "HeaderText", accessor: "HeaderText", declared_in: "CListWnd", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Highlight", accessor: "Highlight", declared_in: "CListWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Selected", accessor: "Selected", declared_in: "CListWnd", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BGHeader", accessor: "BGHeader", declared_in: "CListWnd", offset: 0x234, decl_offset: 0x234, size: 0x18, bits: None },
+    FieldInfo { record: "CContextMenu", field: "BGHeaderTint", accessor: "BGHeaderTint", declared_in: "CListWnd", offset: 0x24c, decl_offset: 0x24c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pRowSep", accessor: "pRowSep", declared_in: "CListWnd", offset: 0x250, decl_offset: 0x250, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pColumnSep", accessor: "pColumnSep", declared_in: "CListWnd", offset: 0x254, decl_offset: 0x254, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pEditCell", accessor: "pEditCell", declared_in: "CListWnd", offset: 0x258, decl_offset: 0x258, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "pItemDataHandler", accessor: "pItemDataHandler", declared_in: "CListWnd", offset: 0x25c, decl_offset: 0x25c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "bHasItemTooltips", accessor: "bHasItemTooltips", declared_in: "CListWnd", offset: 0x260, decl_offset: 0x260, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenu", field: "PrevInsideRect", accessor: "PrevInsideRect", declared_in: "CListWnd", offset: 0x264, decl_offset: 0x264, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenu", field: "ListWndStyle", accessor: "ListWndStyle", declared_in: "CListWnd", offset: 0x274, decl_offset: 0x274, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "LastVisibleTime", accessor: "LastVisibleTime", declared_in: "CListWnd", offset: 0x278, decl_offset: 0x278, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "NumItems", accessor: "NumItems", declared_in: "CContextMenu", offset: 0x27c, decl_offset: 0x27c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenu", field: "Unknown0x28C", accessor: "Unknown0x28C", declared_in: "CContextMenu", offset: 0x280, decl_offset: 0x280, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pParentMenuWnd", accessor: "pParentMenuWnd", declared_in: "CContextMenuManager", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pCurrMenus", accessor: "pCurrMenus", declared_in: "CContextMenuManager", offset: 0x1dc, decl_offset: 0x1dc, size: 0x20, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "NumVisibleMenus", accessor: "NumVisibleMenus", declared_in: "CContextMenuManager", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "CurrMenu", accessor: "CurrMenu", declared_in: "CContextMenuManager", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pMenus", accessor: "pMenus", declared_in: "CContextMenuManager", offset: 0x204, decl_offset: 0x204, size: 0x1000, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "NumMenus", accessor: "NumMenus", declared_in: "CContextMenuManager", offset: 0x1204, decl_offset: 0x1204, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "pHandlerWnd", accessor: "pHandlerWnd", declared_in: "CContextMenuManager", offset: 0x1208, decl_offset: 0x1208, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "HandlerCmd", accessor: "HandlerCmd", declared_in: "CContextMenuManager", offset: 0x120c, decl_offset: 0x120c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultMenuIndex", accessor: "DefaultMenuIndex", declared_in: "CContextMenuManager", offset: 0x1210, decl_offset: 0x1210, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultHelpItem", accessor: "DefaultHelpItem", declared_in: "CContextMenuManager", offset: 0x1214, decl_offset: 0x1214, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultBGItem", accessor: "DefaultBGItem", declared_in: "CContextMenuManager", offset: 0x1218, decl_offset: 0x1218, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultMinItem", accessor: "DefaultMinItem", declared_in: "CContextMenuManager", offset: 0x121c, decl_offset: 0x121c, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultCloseItem", accessor: "DefaultCloseItem", declared_in: "CContextMenuManager", offset: 0x1220, decl_offset: 0x1220, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultLockItem", accessor: "DefaultLockItem", declared_in: "CContextMenuManager", offset: 0x1224, decl_offset: 0x1224, size: 0x4, bits: None },
+    FieldInfo { record: "CContextMenuManager", field: "DefaultEscapeItem", accessor: "DefaultEscapeItem", declared_in: "CContextMenuManager", offset: 0x1228, decl_offset: 0x1228, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "strName", accessor: "strName", declared_in: "CGaugeDrawTemplate", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "ptaBackground", accessor: "ptaBackground", declared_in: "CGaugeDrawTemplate", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "ptaFill", accessor: "ptaFill", declared_in: "CGaugeDrawTemplate", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "ptaLines", accessor: "ptaLines", declared_in: "CGaugeDrawTemplate", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "ptaLinesFill", accessor: "ptaLinesFill", declared_in: "CGaugeDrawTemplate", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "ptaEndCapLeft", accessor: "ptaEndCapLeft", declared_in: "CGaugeDrawTemplate", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeDrawTemplate", field: "ptaEndCapRight", accessor: "ptaEndCapRight", declared_in: "CGaugeDrawTemplate", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "EQType", accessor: "EQType", declared_in: "CGaugeWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "FillTint", accessor: "FillTint", declared_in: "CGaugeWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LinesFillTint", accessor: "LinesFillTint", declared_in: "CGaugeWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bDrawLinesFill", accessor: "bDrawLinesFill", declared_in: "CGaugeWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TextOffsetX", accessor: "TextOffsetX", declared_in: "CGaugeWnd", offset: 0x1e8, decl_offset: 0x1e8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TextOffsetY", accessor: "TextOffsetY", declared_in: "CGaugeWnd", offset: 0x1ec, decl_offset: 0x1ec, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "GaugeOffsetX", accessor: "GaugeOffsetX", declared_in: "CGaugeWnd", offset: 0x1f0, decl_offset: 0x1f0, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "GaugeOffsetY", accessor: "GaugeOffsetY", declared_in: "CGaugeWnd", offset: 0x1f4, decl_offset: 0x1f4, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LastFrameVal", accessor: "LastFrameVal", declared_in: "CGaugeWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LastFrameName", accessor: "LastFrameName", declared_in: "CGaugeWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LastFrameTime", accessor: "LastFrameTime", declared_in: "CGaugeWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "LastFrameTarget", accessor: "LastFrameTarget", declared_in: "CGaugeWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "GaugeTooltip", accessor: "GaugeTooltip", declared_in: "CGaugeWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TooltipVal", accessor: "TooltipVal", declared_in: "CGaugeWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "DrawTemplate", accessor: "CGaugeWnd_DrawTemplate", declared_in: "CGaugeWnd", offset: 0x210, decl_offset: 0x210, size: 0x1c, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "pTextObject", accessor: "CGaugeWnd_pTextObject", declared_in: "CGaugeWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "NextDrawStr", accessor: "NextDrawStr", declared_in: "CGaugeWnd", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bSmooth", accessor: "bSmooth", declared_in: "CGaugeWnd", offset: 0x234, decl_offset: 0x234, size: 0x1, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "TargetVal", accessor: "TargetVal", declared_in: "CGaugeWnd", offset: 0x238, decl_offset: 0x238, size: 0x4, bits: None },
+    FieldInfo { record: "CGaugeWnd", field: "bUseTargetVal", accessor: "bUseTargetVal", declared_in: "CGaugeWnd", offset: 0x23c, decl_offset: 0x23c, size: 0x1, bits: None },
     FieldInfo { record: "CGroup", field: "__vfptr", accessor: "__vfptr", declared_in: "CGroupBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CGroup", field: "m_groupMembers", accessor: "m_groupMembers", declared_in: "CGroupBase", offset: 0x4, decl_offset: 0x4, size: 0x18, bits: None },
     FieldInfo { record: "CGroup", field: "m_groupLeader", accessor: "m_groupLeader", declared_in: "CGroupBase", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
@@ -42109,6 +58773,141 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CGroupMember", field: "pCharacter", accessor: "pCharacter", declared_in: "CGroupMember", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
     FieldInfo { record: "CGroupMember", field: "pPlayer", accessor: "pPlayer", declared_in: "CGroupMember", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
     FieldInfo { record: "CGroupMember", field: "GroupIndex", accessor: "GroupIndex", declared_in: "CGroupMember", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CListWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CListWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CListWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "ItemsArray", accessor: "ItemsArray", declared_in: "CListWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "Columns", accessor: "Columns", declared_in: "CListWnd", offset: 0x1e8, decl_offset: 0x1e8, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "CurSel", accessor: "CurSel", declared_in: "CListWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "CurCol", accessor: "CurCol", declared_in: "CListWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "DownItem", accessor: "DownItem", declared_in: "CListWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ScrollOffsetY", accessor: "ScrollOffsetY", declared_in: "CListWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "HeaderHeight", accessor: "HeaderHeight", declared_in: "CListWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "FirstVisibleLine", accessor: "FirstVisibleLine", declared_in: "CListWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "SortCol", accessor: "SortCol", declared_in: "CListWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bSortAsc", accessor: "bSortAsc", declared_in: "CListWnd", offset: 0x214, decl_offset: 0x214, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bFixedHeight", accessor: "bFixedHeight", declared_in: "CListWnd", offset: 0x215, decl_offset: 0x215, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bOwnerDraw", accessor: "bOwnerDraw", declared_in: "CListWnd", offset: 0x216, decl_offset: 0x216, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bCalcHeights", accessor: "bCalcHeights", declared_in: "CListWnd", offset: 0x217, decl_offset: 0x217, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "bColumnSizable", accessor: "bColumnSizable", declared_in: "CListWnd", offset: 0x218, decl_offset: 0x218, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "LineHeight", accessor: "LineHeight", declared_in: "CListWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ColumnSepDragged", accessor: "ColumnSepDragged", declared_in: "CListWnd", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "ColumnSepMouseOver", accessor: "ColumnSepMouseOver", declared_in: "CListWnd", offset: 0x224, decl_offset: 0x224, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "HeaderText", accessor: "HeaderText", declared_in: "CListWnd", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "Highlight", accessor: "Highlight", declared_in: "CListWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "Selected", accessor: "Selected", declared_in: "CListWnd", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "BGHeader", accessor: "BGHeader", declared_in: "CListWnd", offset: 0x234, decl_offset: 0x234, size: 0x18, bits: None },
+    FieldInfo { record: "CListWnd", field: "BGHeaderTint", accessor: "BGHeaderTint", declared_in: "CListWnd", offset: 0x24c, decl_offset: 0x24c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "pRowSep", accessor: "pRowSep", declared_in: "CListWnd", offset: 0x250, decl_offset: 0x250, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "pColumnSep", accessor: "pColumnSep", declared_in: "CListWnd", offset: 0x254, decl_offset: 0x254, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "pEditCell", accessor: "pEditCell", declared_in: "CListWnd", offset: 0x258, decl_offset: 0x258, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "pItemDataHandler", accessor: "pItemDataHandler", declared_in: "CListWnd", offset: 0x25c, decl_offset: 0x25c, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "bHasItemTooltips", accessor: "bHasItemTooltips", declared_in: "CListWnd", offset: 0x260, decl_offset: 0x260, size: 0x1, bits: None },
+    FieldInfo { record: "CListWnd", field: "PrevInsideRect", accessor: "PrevInsideRect", declared_in: "CListWnd", offset: 0x264, decl_offset: 0x264, size: 0x10, bits: None },
+    FieldInfo { record: "CListWnd", field: "ListWndStyle", accessor: "ListWndStyle", declared_in: "CListWnd", offset: 0x274, decl_offset: 0x274, size: 0x4, bits: None },
+    FieldInfo { record: "CListWnd", field: "LastVisibleTime", accessor: "LastVisibleTime", declared_in: "CListWnd", offset: 0x278, decl_offset: 0x278, size: 0x4, bits: None },
     FieldInfo { record: "CLootWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CLootWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CLootWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -42426,6 +59225,132 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CMerchantWnd", field: "MailPage", accessor: "MailPage", declared_in: "CMerchantWnd", offset: 0x2a4, decl_offset: 0x2a4, size: 0x4, bits: None },
     FieldInfo { record: "CMerchantWnd", field: "TabWindow", accessor: "TabWindow", declared_in: "CMerchantWnd", offset: 0x2a8, decl_offset: 0x2a8, size: 0x4, bits: None },
     FieldInfo { record: "CMerchantWnd", field: "UsableButton", accessor: "UsableButton", declared_in: "CMerchantWnd", offset: 0x2ac, decl_offset: 0x2ac, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CPageWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bControlsCreated", accessor: "bControlsCreated", declared_in: "CSidlScreenWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "SidlText", accessor: "SidlText", declared_in: "CSidlScreenWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "SidlPiece", accessor: "SidlPiece", declared_in: "CSidlScreenWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "RadioGroup", accessor: "RadioGroup", declared_in: "CSidlScreenWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x10, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bInitVisibility", accessor: "bInitVisibility", declared_in: "CSidlScreenWnd", offset: 0x1f4, decl_offset: 0x1f4, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bVisibleBeforeResize", accessor: "bVisibleBeforeResize", declared_in: "CSidlScreenWnd", offset: 0x1f5, decl_offset: 0x1f5, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "IniFlags", accessor: "IniFlags", declared_in: "CSidlScreenWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "IniStorageName", accessor: "IniStorageName", declared_in: "CSidlScreenWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "IniVersion", accessor: "IniVersion", declared_in: "CSidlScreenWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "LastResX", accessor: "LastResX", declared_in: "CSidlScreenWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "LastResY", accessor: "LastResY", declared_in: "CSidlScreenWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bLastResFullscreen", accessor: "bLastResFullscreen", declared_in: "CSidlScreenWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ContextMenuID", accessor: "ContextMenuID", declared_in: "CSidlScreenWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pFirstVScrollChild", accessor: "pFirstVScrollChild", declared_in: "CSidlScreenWnd", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "ContextMenuTipID", accessor: "ContextMenuTipID", declared_in: "CSidlScreenWnd", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "bHasActivatedFirstTimeAlert", accessor: "bHasActivatedFirstTimeAlert", declared_in: "CSidlScreenWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x1, bits: None },
+    FieldInfo { record: "CPageWnd", field: "TabText", accessor: "TabText", declared_in: "CPageWnd", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "CRTabText", accessor: "CRTabText", declared_in: "CPageWnd", offset: 0x224, decl_offset: 0x224, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "CRTabTextActive", accessor: "CRTabTextActive", declared_in: "CPageWnd", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pTATabIcon", accessor: "pTATabIcon", declared_in: "CPageWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "CPageWnd", field: "pTATabIconActive", accessor: "pTATabIconActive", declared_in: "CPageWnd", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
     FieldInfo { record: "CPetInfoWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CPetInfoWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CPetInfoWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -42616,6 +59541,139 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CRaid", field: "levelTotal", accessor: "levelTotal", declared_in: "CRaid", offset: 0x395c, decl_offset: 0x395c, size: 0x4, bits: None },
     FieldInfo { record: "CRaid", field: "Locked", accessor: "Locked", declared_in: "CRaid", offset: 0x3960, decl_offset: 0x3960, size: 0x1, bits: None },
     FieldInfo { record: "CRaid", field: "bGroupOnInvite", accessor: "bGroupOnInvite", declared_in: "CRaid", offset: 0x3961, decl_offset: 0x3961, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "STMLText", accessor: "STMLText", declared_in: "CStmlWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TextLines", accessor: "TextLines", declared_in: "CStmlWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x28, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TextTotalHeight", accessor: "TextTotalHeight", declared_in: "CStmlWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TextTotalWidth", accessor: "TextTotalWidth", declared_in: "CStmlWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Unknown0x224", accessor: "Unknown0x224", declared_in: "CStmlWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Links", accessor: "Links", declared_in: "CStmlWnd", offset: 0x210, decl_offset: 0x210, size: 0x1c, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Tables", accessor: "Tables", declared_in: "CStmlWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x10, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bReparseNow", accessor: "bReparseNow", declared_in: "CStmlWnd", offset: 0x23c, decl_offset: 0x23c, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bResized", accessor: "bResized", declared_in: "CStmlWnd", offset: 0x23d, decl_offset: 0x23d, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "bAlignCenter", accessor: "bAlignCenter", declared_in: "CStmlWnd", offset: 0x23e, decl_offset: 0x23e, size: 0x1, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "LineSpacingAdjust", accessor: "LineSpacingAdjust", declared_in: "CStmlWnd", offset: 0x240, decl_offset: 0x240, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "CapturedLinkID", accessor: "CapturedLinkID", declared_in: "CStmlWnd", offset: 0x244, decl_offset: 0x244, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "MousedOverLinkID", accessor: "MousedOverLinkID", declared_in: "CStmlWnd", offset: 0x248, decl_offset: 0x248, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "BackGroundColor", accessor: "BackGroundColor", declared_in: "CStmlWnd", offset: 0x24c, decl_offset: 0x24c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "TextColor", accessor: "TextColor", declared_in: "CStmlWnd", offset: 0x250, decl_offset: 0x250, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "LinkColor", accessor: "LinkColor", declared_in: "CStmlWnd", offset: 0x254, decl_offset: 0x254, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "VLinkColor", accessor: "VLinkColor", declared_in: "CStmlWnd", offset: 0x258, decl_offset: 0x258, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "ALinkColor", accessor: "ALinkColor", declared_in: "CStmlWnd", offset: 0x25c, decl_offset: 0x25c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "MLinkColor", accessor: "MLinkColor", declared_in: "CStmlWnd", offset: 0x260, decl_offset: 0x260, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "CurrentParseState", accessor: "CurrentParseState", declared_in: "CStmlWnd", offset: 0x264, decl_offset: 0x264, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "HistoryArray", accessor: "HistoryArray", declared_in: "CStmlWnd", offset: 0x268, decl_offset: 0x268, size: 0x1c, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "HistoryIndex", accessor: "HistoryIndex", declared_in: "CStmlWnd", offset: 0x284, decl_offset: 0x284, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "pStmlReport", accessor: "pStmlReport", declared_in: "CStmlWnd", offset: 0x288, decl_offset: 0x288, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "MaxLines", accessor: "MaxLines", declared_in: "CStmlWnd", offset: 0x28c, decl_offset: 0x28c, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "PlayerContextMenuIndex", accessor: "PlayerContextMenuIndex", declared_in: "CStmlWnd", offset: 0x290, decl_offset: 0x290, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Unknown0x2ac", accessor: "Unknown0x2ac", declared_in: "CStmlWnd", offset: 0x294, decl_offset: 0x294, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Unknown0x2b0", accessor: "Unknown0x2b0", declared_in: "CStmlWnd", offset: 0x298, decl_offset: 0x298, size: 0x4, bits: None },
+    FieldInfo { record: "CStmlWnd", field: "Unknown0x2b4", accessor: "Unknown0x2b4", declared_in: "CStmlWnd", offset: 0x29c, decl_offset: 0x29c, size: 0x4, bits: None },
     FieldInfo { record: "CStrRep", field: "refCount", accessor: "refCount", declared_in: "CStrRep", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CStrRep", field: "alloc", accessor: "alloc", declared_in: "CStrRep", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CStrRep", field: "length", accessor: "length", declared_in: "CStrRep", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -42624,6 +59682,120 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CStrRep", field: "utf8", accessor: "utf8", declared_in: "CStrRep", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "CStrRep", field: "unicode", accessor: "unicode", declared_in: "CStrRep", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "CStrRep", field: "next", accessor: "next", declared_in: "CStrRep", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CTabWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pTabBorder", accessor: "pTabBorder", declared_in: "CTabWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "pPageBorder", accessor: "pPageBorder", declared_in: "CTabWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "PageArray", accessor: "PageArray", declared_in: "CTabWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "CurTabIndex", accessor: "CurTabIndex", declared_in: "CTabWnd", offset: 0x1f0, decl_offset: 0x1f0, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TabHeight", accessor: "TabHeight", declared_in: "CTabWnd", offset: 0x1f4, decl_offset: 0x1f4, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "PageRect", accessor: "PageRect", declared_in: "CTabWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x10, bits: None },
+    FieldInfo { record: "CTabWnd", field: "bShowTabs", accessor: "bShowTabs", declared_in: "CTabWnd", offset: 0x208, decl_offset: 0x208, size: 0x1, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TabStyle", accessor: "TabStyle", declared_in: "CTabWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CTabWnd", field: "TabWidth", accessor: "TabWidth", declared_in: "CTabWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
     FieldInfo { record: "CTargetWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CTargetWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CTargetWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -42762,11 +59934,18 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CTargetWnd", field: "bRemovedBuffBlockMenuItem", accessor: "bRemovedBuffBlockMenuItem", declared_in: "CTargetWnd", offset: 0x864, decl_offset: 0x864, size: 0x1, bits: None },
     FieldInfo { record: "CTargetWnd", field: "Type", accessor: "Type", declared_in: "CTargetWnd", offset: 0x868, decl_offset: 0x868, size: 0x4, bits: None },
     FieldInfo { record: "CTargetWnd", field: "Unknown0x884", accessor: "Unknown0x884", declared_in: "CTargetWnd", offset: 0x86c, decl_offset: 0x86c, size: 0x48, bits: None },
+    FieldInfo { record: "CUITextureInfo", field: "bValid", accessor: "bValid", declared_in: "CUITextureInfo", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
+    FieldInfo { record: "CUITextureInfo", field: "Directory", accessor: "Directory", declared_in: "CUITextureInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CUITextureInfo", field: "Name", accessor: "Name", declared_in: "CUITextureInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CUITextureInfo", field: "TextureSize", accessor: "TextureSize", declared_in: "CUITextureInfo", offset: 0xc, decl_offset: 0xc, size: 0x8, bits: None },
+    FieldInfo { record: "CUITextureInfo", field: "TextureId", accessor: "TextureId", declared_in: "CUITextureInfo", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "CVector2", field: "X", accessor: "X", declared_in: "CVector2", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CVector2", field: "Y", accessor: "Y", declared_in: "CVector2", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "X", accessor: "X", declared_in: "CVector3", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "Y", accessor: "Y", declared_in: "CVector3", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "Z", accessor: "Z", declared_in: "CVector3", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CXPoint", field: "x", accessor: "x", declared_in: "CXPoint", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXPoint", field: "y", accessor: "y", declared_in: "CXPoint", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CXRect", field: "left", accessor: "left", declared_in: "CXRect", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CXRect", field: "top", accessor: "top", declared_in: "CXRect", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CXRect", field: "right", accessor: "right", declared_in: "CXRect", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -42774,11 +59953,173 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CXSize", field: "cx", accessor: "cx", declared_in: "CXSize", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CXSize", field: "cy", accessor: "cy", declared_in: "CXSize", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CXStr", field: "m_data", accessor: "m_data", declared_in: "CXStr", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CXWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CXWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CXWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CXWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CXWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWndManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "pWindows", accessor: "pWindows", declared_in: "CXWndManager", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ParentAndContextMenuWindows", accessor: "ParentAndContextMenuWindows", declared_in: "CXWndManager", offset: 0x14, decl_offset: 0x14, size: 0x10, bits: None },
+    FieldInfo { record: "CXWndManager", field: "TransitionWindows", accessor: "TransitionWindows", declared_in: "CXWndManager", offset: 0x24, decl_offset: 0x24, size: 0x10, bits: None },
+    FieldInfo { record: "CXWndManager", field: "PendingDeletionWindows", accessor: "PendingDeletionWindows", declared_in: "CXWndManager", offset: 0x34, decl_offset: 0x34, size: 0x10, bits: None },
+    FieldInfo { record: "CXWndManager", field: "TypematicKey", accessor: "TypematicKey", declared_in: "CXWndManager", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "LastKeyDownTime", accessor: "LastKeyDownTime", declared_in: "CXWndManager", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "LastMouseClickTime", accessor: "LastMouseClickTime", declared_in: "CXWndManager", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "MouseMoveTimeStamp", accessor: "MouseMoveTimeStamp", declared_in: "CXWndManager", offset: 0x50, decl_offset: 0x50, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "StrokesSent", accessor: "StrokesSent", declared_in: "CXWndManager", offset: 0x54, decl_offset: 0x54, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ToolTipHitTest", accessor: "ToolTipHitTest", declared_in: "CXWndManager", offset: 0x58, decl_offset: 0x58, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "LastClickedWindow", accessor: "LastClickedWindow", declared_in: "CXWndManager", offset: 0x5c, decl_offset: 0x5c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "MainWindow", accessor: "MainWindow", declared_in: "CXWndManager", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "FocusWindow", accessor: "FocusWindow", declared_in: "CXWndManager", offset: 0x64, decl_offset: 0x64, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "CurrDraggedWindow", accessor: "CurrDraggedWindow", declared_in: "CXWndManager", offset: 0x68, decl_offset: 0x68, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ActiveWindow", accessor: "ActiveWindow", declared_in: "CXWndManager", offset: 0x6c, decl_offset: 0x6c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "LastMouseOver", accessor: "LastMouseOver", declared_in: "CXWndManager", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWndManager", offset: 0x74, decl_offset: 0x74, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "GlobalFocusWindows", accessor: "GlobalFocusWindows", declared_in: "CXWndManager", offset: 0x78, decl_offset: 0x78, size: 0x10, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bReadingLog", accessor: "bReadingLog", declared_in: "CXWndManager", offset: 0x88, decl_offset: 0x88, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bSidlManagerOwner", accessor: "bSidlManagerOwner", declared_in: "CXWndManager", offset: 0x89, decl_offset: 0x89, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "CaptureCount", accessor: "CaptureCount", declared_in: "CXWndManager", offset: 0x8c, decl_offset: 0x8c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bMouseMoveRelative", accessor: "bMouseMoveRelative", declared_in: "CXWndManager", offset: 0x90, decl_offset: 0x90, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "MousePoint", accessor: "MousePoint", declared_in: "CXWndManager", offset: 0x94, decl_offset: 0x94, size: 0x8, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bCapsLock", accessor: "bCapsLock", declared_in: "CXWndManager", offset: 0x9c, decl_offset: 0x9c, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "KeyboardFlags", accessor: "KeyboardFlags", declared_in: "CXWndManager", offset: 0x9d, decl_offset: 0x9d, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bChatMessage", accessor: "bChatMessage", declared_in: "CXWndManager", offset: 0xa1, decl_offset: 0xa1, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bDrawWindows", accessor: "bDrawWindows", declared_in: "CXWndManager", offset: 0xa2, decl_offset: 0xa2, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "MouseMoveFlags", accessor: "MouseMoveFlags", declared_in: "CXWndManager", offset: 0xa3, decl_offset: 0xa3, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ManagerMode", accessor: "ManagerMode", declared_in: "CXWndManager", offset: 0xa4, decl_offset: 0xa4, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "DecorButtonHitTest", accessor: "DecorButtonHitTest", declared_in: "CXWndManager", offset: 0xa8, decl_offset: 0xa8, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "MoveResize", accessor: "MoveResize", declared_in: "CXWndManager", offset: 0xac, decl_offset: 0xac, size: 0x8, bits: None },
+    FieldInfo { record: "CXWndManager", field: "DragDropInfo", accessor: "DragDropInfo", declared_in: "CXWndManager", offset: 0xb4, decl_offset: 0xb4, size: 0x24, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ClickStickInfo", accessor: "ClickStickInfo", declared_in: "CXWndManager", offset: 0xd8, decl_offset: 0xd8, size: 0x24, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bModal", accessor: "bModal", declared_in: "CXWndManager", offset: 0xfc, decl_offset: 0xfc, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "TTCheckTimer", accessor: "TTCheckTimer", declared_in: "CXWndManager", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "Flags", accessor: "Flags", declared_in: "CXWndManager", offset: 0x104, decl_offset: 0x104, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ClipText", accessor: "ClipText", declared_in: "CXWndManager", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ScreenExtentX", accessor: "ScreenExtentX", declared_in: "CXWndManager", offset: 0x10c, decl_offset: 0x10c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "ScreenExtentY", accessor: "ScreenExtentY", declared_in: "CXWndManager", offset: 0x110, decl_offset: 0x110, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "FontsArray", accessor: "FontsArray", declared_in: "CXWndManager", offset: 0x114, decl_offset: 0x114, size: 0x10, bits: None },
+    FieldInfo { record: "CXWndManager", field: "pSystemFont", accessor: "pSystemFont", declared_in: "CXWndManager", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bToggleWindowMode", accessor: "bToggleWindowMode", declared_in: "CXWndManager", offset: 0x128, decl_offset: 0x128, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "pGlobalHwnd", accessor: "pGlobalHwnd", declared_in: "CXWndManager", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CXWndManager", field: "StoredMousePos", accessor: "StoredMousePos", declared_in: "CXWndManager", offset: 0x130, decl_offset: 0x130, size: 0x8, bits: None },
+    FieldInfo { record: "CXWndManager", field: "bManagerDeletionPending", accessor: "bManagerDeletionPending", declared_in: "CXWndManager", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CXWndManager", field: "CC", accessor: "CC", declared_in: "CXWndManager", offset: 0x13c, decl_offset: 0x13c, size: 0x3c, bits: None },
     FieldInfo { record: "CharacterPropertyHash", field: "m_table", accessor: "m_table", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CharacterPropertyHash", field: "m_tableSize", accessor: "m_tableSize", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CharacterPropertyHash", field: "m_entryCount", accessor: "m_entryCount", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "CharacterPropertyHash", field: "m_statUsedSlots", accessor: "m_statUsedSlots", declared_in: "HashTable<int,int,ResizePolicyNoResize>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "ChatFilterData", field: "chatFilters", accessor: "chatFilters", declared_in: "ChatFilterData", offset: 0x0, decl_offset: 0x0, size: 0x88, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "HeadIndex", accessor: "HeadIndex", declared_in: "CircularArrayClass2<STextLine>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "WrapIndex", accessor: "WrapIndex", declared_in: "CircularArrayClass2<STextLine>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "ArraySize", accessor: "ArraySize", declared_in: "CircularArrayClass2<STextLine>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "ChunkSize", accessor: "ChunkSize", declared_in: "CircularArrayClass2<STextLine>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "ChunkMask", accessor: "ChunkMask", declared_in: "CircularArrayClass2<STextLine>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "ChunkShift", accessor: "ChunkShift", declared_in: "CircularArrayClass2<STextLine>", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "Chunks", accessor: "Chunks", declared_in: "CircularArrayClass2<STextLine>", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "ChunkAlloc", accessor: "ChunkAlloc", declared_in: "CircularArrayClass2<STextLine>", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CircularArrayClass2<STextLine>", field: "bValid", accessor: "bValid", declared_in: "CircularArrayClass2<STextLine>", offset: 0x24, decl_offset: 0x24, size: 0x1, bits: None },
     FieldInfo { record: "ClaimDataCollection", field: "claimData", accessor: "claimData", declared_in: "ClaimDataCollection", offset: 0x0, decl_offset: 0x0, size: 0x10, bits: None },
     FieldInfo { record: "ClientSpellManager", field: "__vfptr", accessor: "__vfptr", declared_in: "SpellManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ClientSpellManager", field: "FileStats", accessor: "FileStats", declared_in: "FileStatMgr", offset: 0x4, decl_offset: 0x0, size: 0x10, bits: None },
@@ -42793,6 +60134,9 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ClientSpellManager", field: "SpellExtraData", accessor: "SpellExtraData", declared_in: "ClientSpellManager", offset: 0x580a4, decl_offset: 0x580a4, size: 0x57e48, bits: None },
     FieldInfo { record: "ControllerFactory", field: "__vfptr", accessor: "__vfptr", declared_in: "ControllerFactory", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ControllerFactory", field: "Factories", accessor: "Factories", declared_in: "ControllerFactory", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
+    FieldInfo { record: "CursorClass", field: "CursorName", accessor: "CursorName", declared_in: "CursorClass", offset: 0x0, decl_offset: 0x0, size: 0x1c, bits: None },
+    FieldInfo { record: "CursorClass", field: "CursorList", accessor: "CursorList", declared_in: "CursorClass", offset: 0x1c, decl_offset: 0x1c, size: 0x1c, bits: None },
+    FieldInfo { record: "CursorClass", field: "bScreenShotMode", accessor: "bScreenShotMode", declared_in: "CursorClass", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "distance", accessor: "distance", declared_in: "EQCameraOptions", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "dirHeading", accessor: "dirHeading", declared_in: "EQCameraOptions", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "height", accessor: "height", declared_in: "EQCameraOptions", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -44860,6 +62204,13 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "SDoCollisionMovementStats", field: "SourceFloor", accessor: "SourceFloor", declared_in: "SDoCollisionMovementStats", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
     FieldInfo { record: "SDoCollisionMovementStats", field: "DestFloor", accessor: "DestFloor", declared_in: "SDoCollisionMovementStats", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
     FieldInfo { record: "SDoCollisionMovementStats", field: "Dest", accessor: "Dest", declared_in: "SDoCollisionMovementStats", offset: 0x44, decl_offset: 0x44, size: 0x30, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "m_rightMouse", accessor: "m_rightMouse", declared_in: "SDragDropInfo", offset: 0x0, decl_offset: 0x0, size: 0x1, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "sourceWnd", accessor: "sourceWnd", declared_in: "SDragDropInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "targetWnd", accessor: "targetWnd", declared_in: "SDragDropInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "sourcePos", accessor: "sourcePos", declared_in: "SDragDropInfo", offset: 0xc, decl_offset: 0xc, size: 0x8, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "targetPos", accessor: "targetPos", declared_in: "SDragDropInfo", offset: 0x14, decl_offset: 0x14, size: 0x8, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "message", accessor: "message", declared_in: "SDragDropInfo", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "SDragDropInfo", field: "data", accessor: "data", declared_in: "SDragDropInfo", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "SFellowship", field: "Version", accessor: "Version", declared_in: "SFellowship", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "SFellowship", field: "FellowshipID", accessor: "FellowshipID", declared_in: "SFellowship", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "SFellowship", field: "FellowshipName", accessor: "FellowshipName", declared_in: "SFellowship", offset: 0x8, decl_offset: 0x8, size: 0x40, bits: None },
@@ -44877,6 +62228,21 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "SFellowshipMember", field: "Level", accessor: "Level", declared_in: "SFellowshipMember", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
     FieldInfo { record: "SFellowshipMember", field: "Class", accessor: "Class", declared_in: "SFellowshipMember", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
     FieldInfo { record: "SFellowshipMember", field: "LastOn", accessor: "LastOn", declared_in: "SFellowshipMember", offset: 0x50, decl_offset: 0x50, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndCell", field: "pTA", accessor: "pTA", declared_in: "SListWndCell", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndCell", field: "Text", accessor: "Text", declared_in: "SListWndCell", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndCell", field: "Color", accessor: "Color", declared_in: "SListWndCell", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndCell", field: "bOnlyDrawTexture", accessor: "bOnlyDrawTexture", declared_in: "SListWndCell", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "SListWndCell", field: "pWnd", accessor: "pWnd", declared_in: "SListWndCell", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndLine", field: "Cells", accessor: "Cells", declared_in: "SListWndLine", offset: 0x0, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "SListWndLine", field: "Data", accessor: "Data", declared_in: "SListWndLine", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndLine", field: "Height", accessor: "Height", declared_in: "SListWndLine", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "SListWndLine", field: "bSelected", accessor: "bSelected", declared_in: "SListWndLine", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "SListWndLine", field: "bEnabled", accessor: "bEnabled", declared_in: "SListWndLine", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "SListWndLine", field: "Treedata", accessor: "Treedata", declared_in: "SListWndLine", offset: 0x1c, decl_offset: 0x1c, size: 0x8, bits: None },
+    FieldInfo { record: "SListWndLine", field: "TooltipText", accessor: "TooltipText", declared_in: "SListWndLine", offset: 0x24, decl_offset: 0x24, size: 0x100, bits: None },
+    FieldInfo { record: "SListWndLine", field: "bVisible", accessor: "bVisible", declared_in: "SListWndLine", offset: 0x124, decl_offset: 0x124, size: 0x1, bits: None },
+    FieldInfo { record: "STreeData", field: "Depth", accessor: "Depth", declared_in: "STreeData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "STreeData", field: "bIsExpandable", accessor: "bIsExpandable", declared_in: "STreeData", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
     FieldInfo { record: "SkillManager", field: "pSkill", accessor: "pSkill", declared_in: "SkillManager", offset: 0x0, decl_offset: 0x0, size: 0x190, bits: None },
     FieldInfo { record: "SkillManager", field: "SkillCaps", accessor: "SkillCaps", declared_in: "SkillManager", offset: 0x190, decl_offset: 0x190, size: 0x163140, bits: None },
     FieldInfo { record: "SkillManager", field: "SkillMods", accessor: "SkillMods", declared_in: "SkillManager", offset: 0x1632d0, decl_offset: 0x1632d0, size: 0x163140, bits: None },

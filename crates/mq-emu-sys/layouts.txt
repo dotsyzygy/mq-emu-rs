@@ -36,3 +36,16 @@ MerchantPageHandler     # one merchant window page: the items for sale, buyback
 CLootWnd                # the loot window (pLootWnd)
 ExtendedTargetSlot      # one extended target slot
 HashTable<CXStr,int,ResizePolicyNoResize>::HashNode # a buff window's caster names, by spell ID
+CXWnd                   # an EQ UI window or control (FindMQ2Window, its children)
+CXWndManager            # every window, focus (pWndMgr)
+CButtonWnd              # a button or checkbox
+CListWnd                # a list (and a combo box's drop-down, a context menu)
+SListWndLine            # one row of a list
+SListWndCell            # one cell of a list row
+CComboWnd               # a combo box
+CTabWnd                 # a tab box
+CPageWnd                # one page of a tab box
+CGaugeWnd               # a gauge (HP, mana, progress bars)
+CStmlWnd                # rich text
+CContextMenuManager     # the open context menus (pContextMenuManager)
+CContextMenu            # one context menu

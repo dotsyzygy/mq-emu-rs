@@ -430,6 +430,18 @@ impl RustTest {
                 }
             }
         }
+        if ui.collapsing_header("EQ UI windows") {
+            let name = |w: mq_emu::Window<'_>| w.name().or(w.screen_id()).unwrap_or_else(|| "(unnamed)".into());
+            ui.text(format!("Focus: {}", mq.focused_window().map_or("none".into(), name)));
+            if let Some(menu) = mq.context_menu() {
+                ui.text(format!("Context menu: {}", menu.items().filter(|i| !i.is_empty()).collect::<Vec<_>>().join(", ")));
+            }
+            let windows: Vec<_> = mq.windows().collect();
+            ui.text(format!("{} windows, {} open", windows.len(), windows.iter().filter(|w| w.is_open()).count()));
+            for window in windows.into_iter().filter(|w| w.is_open()) {
+                ui.with_id(name(window), |ui| ui.tree_node(&name(window), |ui| window_tree(ui, window)));
+            }
+        }
 
         ui.separator_text("Nearby spawns");
         ui.set_next_item_width(200.0);
@@ -628,5 +640,18 @@ impl RustTest {
             ui.text("A tooltip drawn with widgets:");
             ui.progress_bar_with(s.fraction, [120.0, 0.0], None);
         });
+    }
+}
+
+/// A window's controls as a tree: each one's kind, screen ID and text.
+fn window_tree(ui: &mut Ui, window: mq_emu::Window<'_>) {
+    for (i, control) in window.children().enumerate() {
+        let mut text = control.text();
+        if text.len() > 40 {
+            text = format!("{}...", text.chars().take(40).collect::<String>());
+        }
+        let label = format!("{} {} {text:?}", control.kind().name(), control.screen_id().unwrap_or_default());
+        let flags = if control.first_child().is_none() { TreeNodeFlags::LEAF } else { TreeNodeFlags::NONE };
+        ui.with_id(i, |ui| ui.tree_node_with(&label, flags, |ui| window_tree(ui, control)));
     }
 }

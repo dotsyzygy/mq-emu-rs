@@ -17,8 +17,9 @@ use std::time::Instant;
 use mq_emu_sys::constants::MAX_STRING;
 use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
 use mq_emu_sys::layouts::{
-    AggroMeterManagerClient, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, ClientSpellManager,
-    EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient, PlayerManagerClient, zoneHeader,
+    AggroMeterManagerClient, CContextMenuManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd,
+    CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient,
+    PlayerManagerClient, zoneHeader,
 };
 use mq_emu_sys::shim::MainInterface;
 use mq_emu_sys::types::{ComputedPointer, ForeignPointer};
@@ -69,6 +70,12 @@ pub(crate) struct Host {
     pub active_merchant: fn() -> *mut PlayerClient,
     /// The corpse being looted (`pActiveCorpse`).
     pub active_corpse: fn() -> *mut PlayerClient,
+    /// The window manager (`pWndMgr`): every top-level window, the focus.
+    pub window_manager: fn() -> *mut CXWndManager,
+    /// The context menus (`pContextMenuManager`).
+    pub context_menu_manager: fn() -> *mut CContextMenuManager,
+    /// The game's and MacroQuest's window functions (`mq_emu_sys::windows`).
+    pub windows: &'static mq_emu_sys::windows::Api,
     /// The game's own functions for what layouts can't answer (`mq_emu_sys::game`).
     pub game_fns: &'static mq_emu_sys::game::Api,
     /// Whether the game currently allows a command (`EQbCommandStates`).
@@ -121,6 +128,9 @@ pub(crate) const fn real<P>() -> Host {
         loot_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLootWnd) },
         active_merchant: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pActiveMerchant) },
         active_corpse: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pActiveCorpse) },
+        window_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pWndMgr) },
+        context_menu_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pContextMenuManager) },
+        windows: &mq_emu_sys::windows::API,
         game_fns: &mq_emu_sys::game::API,
         command_enabled: real_command_enabled::<P>,
         execute_cmd: |command, down| unsafe { mq_emu_sys::eqlib::EQExecuteCmd(command, down, std::ptr::null_mut(), std::ptr::null()) },
