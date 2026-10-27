@@ -98,14 +98,16 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - The merchant window (what's for sale, buyback, markup, the selected item, whether it's full) and
   the loot window (the corpse and its items)
 - EverQuest's own UI windows (`Window`): found as `${Window[...]}` finds them (by name, a bag's
-  window as `pack1`, or a path to a control), every top-level window, the focused one; read (shown,
+  window as `pack1`, or a path to a control), every top-level window (with the item and spell
+  display windows, which the game keeps apart), the focused one; read (shown,
   enabled, place on screen and in the parent, text as `${Window.Text}` reads it, tooltip, colors,
   style, scrolling, XML name, screen ID and type, the window tree), and by kind: lists, tree views
   and combo boxes (rows, cells, a cell's window, the selection), tabs, checked buttons, gauge values.
   Acted on as `/notify` and `${Window}` do: clicks (left and right, down, up, held), notifications
   from a control, selecting rows and tabs, typing into edit boxes, opening, closing, moving, colors
   and alpha; the open context menu read, picked from and closed (MacroQuest's `${Menu.Items}` and
-  `menuselect` find nothing on emu: the client leaves the count they use at 0). A control is
+  `menuselect` don't work on emu: the count they go by isn't the menu's on this client, reading 0
+  in one session and 678130844 in another). A control is
   looked for only inside its window (MacroQuest's `Child[]` carries on into the windows after it)
 - What EQ windows hold: item slots (`ItemSlotWindow`, `${Window.InvSlot}`: the place and item
   shown, quantity, selection, text, textures), found for a place as `/itemnotify` finds them

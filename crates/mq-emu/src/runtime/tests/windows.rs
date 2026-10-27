@@ -3,7 +3,7 @@
 
 use mq_emu_sys::constants::{UI_BUTTON, UI_HOT_BUTTON, UI_INV_SLOT, UI_LISTBOX, UI_SCREEN};
 use mq_emu_sys::layouts::{
-    CContextMenu, CContextMenuManager, CHotButton, CHotButtonWnd, CInvSlot, CInvSlotMgr, CInvSlotWnd, CTradeWnd, CXWnd, CXWndManager,
+    CContextMenu, CContextMenuManager, CHotButton, CHotButtonWnd, CInvSlot, CItemDisplayManager, CInvSlotMgr, CInvSlotWnd, CTradeWnd, CXWnd, CXWndManager,
     ItemContainerInstance,
 };
 
@@ -229,4 +229,32 @@ fn links_are_sent_with_their_text() {
     assert_eq!(log, ["true true"]);
     assert_eq!(fake::log(), ["notify_link Inventory IW_Done 0012345", "notify_link Inventory 0 abc"]);
     let _ = (inventory, done);
+}
+
+#[test]
+fn item_display_windows_are_listed_after_the_managers_windows() {
+    let [inventory, ..] = inventory();
+    let display = leak::<CXWnd>();
+    fake::add(display.ptr(), UI_SCREEN, Some("ItemDisplayWindow"), None);
+    let manager = leak::<CXWndManager>();
+    let list = Box::leak(Box::new([inventory]));
+    manager.get().pWindows().set_m_array(list.as_mut_ptr());
+    manager.get().pWindows().set_m_length(1);
+    // One bin holding the display window, and the inventory window again.
+    let displays = leak::<CItemDisplayManager>();
+    let bin = Box::leak(Box::new([display.ptr(), inventory]));
+    let bins = Box::leak(Box::new([bin.as_mut_ptr()]));
+    let array = displays.get().m_windows();
+    array.set_m_array(bins.as_mut_ptr());
+    array.set_m_binCount(1);
+    array.set_m_binShift(4);
+    array.set_m_slotMask(15);
+    array.set_m_length(2);
+    set_windows(|w| {
+        w.window_manager = manager.ptr();
+        w.item_display_manager = displays.ptr();
+    });
+    let log = pulse_log(|mq| format!("{:?}", mq.windows().map(|w| w.name().unwrap_or_default()).collect::<Vec<_>>()));
+    set_windows(|w| w.item_display_manager = std::ptr::null_mut());
+    assert_eq!(log, ["[\"Inventory\", \"ItemDisplayWindow\"]"], "each once");
 }

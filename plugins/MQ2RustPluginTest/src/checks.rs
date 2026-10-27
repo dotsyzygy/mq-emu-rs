@@ -28,6 +28,8 @@ pub enum Outcome {
     Pass,
     Fail,
     Skip,
+    /// Not a check: a line of information (in `label`), not counted.
+    Note,
 }
 
 /// One check's result, kept for the debug window.
@@ -69,9 +71,15 @@ impl Counts {
                 Outcome::Pass => counts.passed += 1,
                 Outcome::Fail => counts.failed += 1,
                 Outcome::Skip => counts.skipped += 1,
+                Outcome::Note => {}
             }
         }
         counts
+    }
+
+    /// How many checks: notes aren't.
+    pub fn total(self) -> u32 {
+        self.passed + self.failed + self.skipped
     }
 
     pub fn add(&mut self, other: Counts) {
@@ -121,8 +129,14 @@ impl Report {
         mq.chat(format!("[{}] {TEAL}===== {}. {title} ====={RESET}", self.name, self.sections.len()));
     }
 
-    /// A plain line in the report, not counted as a check.
+    /// A plain line in the report, not counted as a check; the debug window
+    /// shows it in its section too.
     pub fn note<P: Plugin>(&mut self, mq: &Mq<P>, text: &str) {
+        self.counts();
+        let at = self.started.elapsed();
+        if let Some((_, entries)) = self.log.borrow_mut().sections.last_mut() {
+            entries.push(Entry { label: text.to_owned(), outcome: Outcome::Note, detail: String::new(), at });
+        }
         mq.chat(format!("[{}] {text}", self.name));
     }
 

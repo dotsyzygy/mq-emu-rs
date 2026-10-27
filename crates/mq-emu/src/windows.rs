@@ -15,7 +15,7 @@ use std::fmt;
 
 use mq_emu_sys::constants::*;
 use mq_emu_sys::layouts::{
-    CButtonWnd, CComboWnd, CContextMenu, CContextMenuManager, CGaugeWnd, CListWnd, CPageWnd, CStmlWnd, CTabWnd, CXRect, CXWnd,
+    ArrayClass2_CXWnd, CButtonWnd, CComboWnd, CContextMenu, CContextMenuManager, CGaugeWnd, CListWnd, CPageWnd, CStmlWnd, CTabWnd, CXRect, CXWnd,
     CXWndManager, SListWndLine,
 };
 use mq_emu_sys::windows::{Api, XML_NAME, XML_SCREEN_ID, XML_TYPE_NAME, mqemu_rect};
@@ -863,8 +863,9 @@ impl fmt::Debug for TabWindow<'_> {
 ///
 /// Its items are the rows of the list it is. MacroQuest's `${Menu.NumItems}`,
 /// `${Menu.Items[n]}`, `${Menu.Select}` and `/notify <text> menuselect` go by
-/// `CContextMenu::NumItems` instead, which this client leaves 0, so on emu
-/// they find nothing.
+/// `CContextMenu::NumItems` instead, which on this client isn't the menu's
+/// count (in game it read 0 in one session and 678130844 in another), so
+/// on emu they find nothing or go past the menu's rows.
 #[derive(Clone, Copy)]
 pub struct ContextMenu<'a> {
     menu: &'a CContextMenu,
@@ -929,6 +930,26 @@ impl fmt::Debug for ContextMenu<'_> {
     }
 }
 
+/// The windows in an `ArrayClass2` (eqlib's array of bins: entry `i` is in
+/// bin `i >> m_binShift` at `i & m_slotMask`). Nothing past what its
+/// counts allow is read, so a damaged one gives what can be read safely.
+fn binned_windows(array: &ArrayClass2_CXWnd) -> Vec<*mut CXWnd> {
+    // eqlib's bins hold at most a few thousand entries.
+    let Some(shift) = u32::try_from(array.m_binShift()).ok().filter(|shift| *shift < 16) else { return Vec::new() };
+    let bins = unsafe { game_array(array.m_array().cast_const(), array.m_binCount()) };
+    let length = usize::try_from(array.m_length()).unwrap_or(0).min(MAX_DESCENDANTS);
+    let mask = usize::try_from(array.m_slotMask()).unwrap_or(0);
+    let per_bin = 1usize << shift;
+    (0..length)
+        .map_while(|i| {
+            let bin = *bins.get(i >> shift)?;
+            let slot = i & mask;
+            // A slot past its bin's size would be outside it.
+            (!bin.is_null() && slot < per_bin).then(|| unsafe { *bin.add(slot) })
+        })
+        .collect()
+}
+
 /// The open context menu: the innermost of those open, as the context menu
 /// manager tracks them.
 fn open_context_menu(manager: &CContextMenuManager) -> *mut CContextMenu {
@@ -964,15 +985,27 @@ impl<P: Plugin> Mq<P> {
         Some(window)
     }
 
-    /// Every top-level window the game has made (shown or not), as the
-    /// window manager lists them.
+    /// Every top-level window the game has made (shown or not): the ones the
+    /// window manager lists, then the item and spell display windows, which
+    /// the game makes as they're needed and keeps apart. These are the
+    /// windows `${Window[name]}` finds by name.
     pub fn windows(&self) -> impl Iterator<Item = Window<'_>> + '_ {
         let api = self.window_api();
-        let windows = self.window_manager().map_or(&[][..], |manager| {
+        let listed = self.window_manager().map_or(&[][..], |manager| {
             let list = manager.pWindows();
             unsafe { game_array(list.m_array(), list.m_length()) }
         });
-        windows.iter().filter_map(move |raw| unsafe { Window::from_raw(*raw, api) }).filter(|window| window.kind() == WindowKind::Screen)
+        let host = self.host();
+        let items = unsafe { (host.item_display_manager)().as_ref() }.map(|m| binned_windows(m.m_windows()));
+        let spells = unsafe { (host.spell_display_manager)().as_ref() }.map(|m| binned_windows(m.m_windows()));
+        let displays: Vec<*mut CXWnd> =
+            items.into_iter().chain(spells).flatten().filter(|raw| !listed.contains(raw)).collect();
+        listed
+            .iter()
+            .copied()
+            .chain(displays)
+            .filter_map(move |raw| unsafe { Window::from_raw(raw, api) })
+            .filter(|window| window.kind() == WindowKind::Screen)
     }
 
     /// The window with the keyboard focus (`${Window.Highlighted}` is
@@ -1654,6 +1687,36 @@ mod tests {
         };
         assert_eq!(long_text(always_too_long), None, "always one more than fits");
         assert_eq!(calls.get(), 3);
+    }
+
+    #[test]
+    fn binned_arrays_are_read_bin_by_bin_and_safely() {
+        // Five windows in bins of two: [a, b], [c, d], [e, unused].
+        let windows: Vec<*mut CXWnd> = (1..=5).map(|i| (i * 8) as *mut CXWnd).collect();
+        let mut storage: Vec<Vec<*mut CXWnd>> = windows.chunks(2).map(|bin| [bin, &[std::ptr::null_mut()][..]].concat()).collect();
+        let mut bins: Vec<*mut *mut CXWnd> = storage.iter_mut().map(|bin| bin.as_mut_ptr()).collect();
+        let array = Fake::<ArrayClass2_CXWnd>::new();
+        let raw = array.get();
+        raw.set_m_array(bins.as_mut_ptr());
+        raw.set_m_binCount(3);
+        raw.set_m_binShift(1);
+        raw.set_m_slotMask(1);
+        raw.set_m_length(5);
+        assert_eq!(binned_windows(raw), windows);
+
+        raw.set_m_binCount(2);
+        assert_eq!(binned_windows(raw), windows[..4], "not past the last bin");
+        raw.set_m_binCount(3);
+        raw.set_m_slotMask(7);
+        assert_eq!(binned_windows(raw), windows[..2], "not past a bin's end");
+        raw.set_m_slotMask(1);
+        for shift in [-1, 16] {
+            raw.set_m_binShift(shift);
+            assert!(binned_windows(raw).is_empty(), "shift {shift}");
+        }
+        raw.set_m_binShift(1);
+        raw.set_m_array(std::ptr::null_mut());
+        assert!(binned_windows(raw).is_empty());
     }
 
     #[test]

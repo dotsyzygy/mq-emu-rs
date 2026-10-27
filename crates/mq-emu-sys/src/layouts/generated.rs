@@ -873,6 +873,99 @@ impl ArmorProperties {
     }
 }
 
+/// C++ class `ArrayClass2<CXWnd *>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_CXWnd {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_CXWnd {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_binShift` at 0xc (0xc within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_binShift` at 0xc (0xc within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_array` at 0x10 (0x10 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_array` at 0x10 (0x10 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<CXWnd *>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXWnd *>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass2<SHistoryElement>` (0x1c bytes).
 #[repr(C)]
 pub struct ArrayClass2_SHistoryElement {
@@ -1053,6 +1146,99 @@ impl ArrayClass2_SLinkInfo {
     }
 
     /// `ArrayClass2<SLinkInfo>::m_valid` at 0x18 (0x18 within `ArrayClass2<SLinkInfo>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<int>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_int {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_int {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<int>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<int>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<int>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<int>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<int>::m_binShift` at 0xc (0xc within `ArrayClass2<int>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<int>::m_binShift` at 0xc (0xc within `ArrayClass2<int>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<int>::m_array` at 0x10 (0x10 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<int>::m_array` at 0x10 (0x10 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<int>::m_binCount` at 0x14 (0x14 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<int>::m_binCount` at 0x14 (0x14 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<int>::m_valid` at 0x18 (0x18 within `ArrayClass2<int>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<int>::m_valid` at 0x18 (0x18 within `ArrayClass2<int>`).
     #[inline]
     pub fn set_m_valid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
@@ -15525,6 +15711,51 @@ impl CInvSlotWnd {
     }
 }
 
+/// C++ class `CItemDisplayManager` (0x40 bytes).
+#[repr(C)]
+pub struct CItemDisplayManager {
+    _bytes: UnsafeCell<[u8; 0x40]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CItemDisplayManager {
+    /// `CWndDisplayManager::__vfptr` at 0x0 (0x0 within `CWndDisplayManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CWndDisplayManager::__vfptr` at 0x0 (0x0 within `CWndDisplayManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CWndDisplayManager::m_windows` at 0x4 (0x4 within `CWndDisplayManager`).
+    #[inline]
+    pub fn m_windows(&self) -> &ArrayClass2_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CWndDisplayManager::m_times` at 0x20 (0x20 within `CWndDisplayManager`).
+    #[inline]
+    pub fn m_times(&self) -> &ArrayClass2_int {
+        unsafe { at(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CWndDisplayManager::MaxWindows` at 0x3c (0x3c within `CWndDisplayManager`).
+    #[inline]
+    pub fn MaxWindows(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CWndDisplayManager::MaxWindows` at 0x3c (0x3c within `CWndDisplayManager`).
+    #[inline]
+    pub fn set_MaxWindows(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+}
+
 /// C++ class `CListWnd` (0x27c bytes).
 #[repr(C)]
 pub struct CListWnd {
@@ -24431,6 +24662,51 @@ impl CRaid {
     #[inline]
     pub fn set_bGroupOnInvite(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x3961, u8::from(value)) }
+    }
+}
+
+/// C++ class `CSpellDisplayManager` (0x40 bytes).
+#[repr(C)]
+pub struct CSpellDisplayManager {
+    _bytes: UnsafeCell<[u8; 0x40]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CSpellDisplayManager {
+    /// `CWndDisplayManager::__vfptr` at 0x0 (0x0 within `CWndDisplayManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CWndDisplayManager::__vfptr` at 0x0 (0x0 within `CWndDisplayManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CWndDisplayManager::m_windows` at 0x4 (0x4 within `CWndDisplayManager`).
+    #[inline]
+    pub fn m_windows(&self) -> &ArrayClass2_CXWnd {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CWndDisplayManager::m_times` at 0x20 (0x20 within `CWndDisplayManager`).
+    #[inline]
+    pub fn m_times(&self) -> &ArrayClass2_int {
+        unsafe { at(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CWndDisplayManager::MaxWindows` at 0x3c (0x3c within `CWndDisplayManager`).
+    #[inline]
+    pub fn MaxWindows(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CWndDisplayManager::MaxWindows` at 0x3c (0x3c within `CWndDisplayManager`).
+    #[inline]
+    pub fn set_MaxWindows(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
     }
 }
 
@@ -64448,8 +64724,10 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "AggroMeterManagerClient", rust_name: "AggroMeterManagerClient", size: 0xe4 },
     RecordInfo { name: "AltAdvManager", rust_name: "AltAdvManager", size: 0x22c },
     RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
+    RecordInfo { name: "ArrayClass2<CXWnd *>", rust_name: "ArrayClass2_CXWnd", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SHistoryElement>", rust_name: "ArrayClass2_SHistoryElement", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SLinkInfo>", rust_name: "ArrayClass2_SLinkInfo", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<int>", rust_name: "ArrayClass2_int", size: 0x1c },
     RecordInfo { name: "ArrayClass2<unsigned int>", rust_name: "ArrayClass2_unsigned_int", size: 0x1c },
     RecordInfo { name: "ArrayClass<CPageWnd *>", rust_name: "ArrayClass_CPageWnd", size: 0x10 },
     RecordInfo { name: "ArrayClass<CRadioGroup *>", rust_name: "ArrayClass_CRadioGroup", size: 0x10 },
@@ -64492,6 +64770,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CInvSlot", rust_name: "CInvSlot", size: 0x14 },
     RecordInfo { name: "CInvSlotMgr", rust_name: "CInvSlotMgr", size: 0x2014 },
     RecordInfo { name: "CInvSlotWnd", rust_name: "CInvSlotWnd", size: 0x2ac },
+    RecordInfo { name: "CItemDisplayManager", rust_name: "CItemDisplayManager", size: 0x40 },
     RecordInfo { name: "CListWnd", rust_name: "CListWnd", size: 0x27c },
     RecordInfo { name: "CLootWnd", rust_name: "CLootWnd", size: 0x3a8 },
     RecordInfo { name: "CMercenaryManager", rust_name: "CMercenaryManager", size: 0x268 },
@@ -64501,6 +64780,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CPhysicsInfo", rust_name: "CPhysicsInfo", size: 0x30 },
     RecordInfo { name: "CPlayerPointManager", rust_name: "CPlayerPointManager", size: 0x14 },
     RecordInfo { name: "CRaid", rust_name: "CRaid", size: 0x3964 },
+    RecordInfo { name: "CSpellDisplayManager", rust_name: "CSpellDisplayManager", size: 0x40 },
     RecordInfo { name: "CStmlWnd", rust_name: "CStmlWnd", size: 0x2a0 },
     RecordInfo { name: "CStrRep", rust_name: "CStrRep", size: 0x18 },
     RecordInfo { name: "CTabWnd", rust_name: "CTabWnd", size: 0x214 },
@@ -64697,6 +64977,13 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArmorProperties", field: "material", accessor: "material", declared_in: "ArmorProperties", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArmorProperties", field: "newArmorID", accessor: "newArmorID", declared_in: "ArmorProperties", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "ArmorProperties", field: "newArmorType", accessor: "newArmorType", declared_in: "ArmorProperties", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<CXWnd *>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<CXWnd *>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<CXWnd *>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<CXWnd *>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<SHistoryElement>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<SHistoryElement>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -64711,6 +64998,13 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<SLinkInfo>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<SLinkInfo>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<int>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<int>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<int>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<int>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<int>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<unsigned int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<unsigned int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -65951,6 +66245,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CInvSlotWnd", field: "BGTintRollover", accessor: "BGTintRollover", declared_in: "CInvSlotWnd", offset: 0x2a0, decl_offset: 0x2a0, size: 0x4, bits: None },
     FieldInfo { record: "CInvSlotWnd", field: "BGTintNormal", accessor: "BGTintNormal", declared_in: "CInvSlotWnd", offset: 0x2a4, decl_offset: 0x2a4, size: 0x4, bits: None },
     FieldInfo { record: "CInvSlotWnd", field: "LastTime", accessor: "LastTime", declared_in: "CInvSlotWnd", offset: 0x2a8, decl_offset: 0x2a8, size: 0x4, bits: None },
+    FieldInfo { record: "CItemDisplayManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CWndDisplayManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CItemDisplayManager", field: "m_windows", accessor: "m_windows", declared_in: "CWndDisplayManager", offset: 0x4, decl_offset: 0x4, size: 0x1c, bits: None },
+    FieldInfo { record: "CItemDisplayManager", field: "m_times", accessor: "m_times", declared_in: "CWndDisplayManager", offset: 0x20, decl_offset: 0x20, size: 0x1c, bits: None },
+    FieldInfo { record: "CItemDisplayManager", field: "MaxWindows", accessor: "MaxWindows", declared_in: "CWndDisplayManager", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
     FieldInfo { record: "CListWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CListWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CListWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -66719,6 +67017,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CRaid", field: "levelTotal", accessor: "levelTotal", declared_in: "CRaid", offset: 0x395c, decl_offset: 0x395c, size: 0x4, bits: None },
     FieldInfo { record: "CRaid", field: "Locked", accessor: "Locked", declared_in: "CRaid", offset: 0x3960, decl_offset: 0x3960, size: 0x1, bits: None },
     FieldInfo { record: "CRaid", field: "bGroupOnInvite", accessor: "bGroupOnInvite", declared_in: "CRaid", offset: 0x3961, decl_offset: 0x3961, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellDisplayManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CWndDisplayManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellDisplayManager", field: "m_windows", accessor: "m_windows", declared_in: "CWndDisplayManager", offset: 0x4, decl_offset: 0x4, size: 0x1c, bits: None },
+    FieldInfo { record: "CSpellDisplayManager", field: "m_times", accessor: "m_times", declared_in: "CWndDisplayManager", offset: 0x20, decl_offset: 0x20, size: 0x1c, bits: None },
+    FieldInfo { record: "CSpellDisplayManager", field: "MaxWindows", accessor: "MaxWindows", declared_in: "CWndDisplayManager", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
     FieldInfo { record: "CStmlWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CStmlWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CStmlWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },

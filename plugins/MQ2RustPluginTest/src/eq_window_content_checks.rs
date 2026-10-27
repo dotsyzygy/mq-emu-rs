@@ -269,16 +269,10 @@ async fn link(task: &Task<RustTest>, report: &mut Report) {
             format!("notify_link gave {notified}; ${{Window[{ITEM_DISPLAY}]}} (open, title): {found:?}")
         }));
         let Some(display) = showing(mq, &name) else { return };
-        // Item display windows are made when needed, by the game's display
-        // manager: say how windows() sees them (it lists the window
-        // manager's top-level screens).
-        let listed = mq.windows().any(|w| w == display);
-        let top = std::iter::successors(Some(display), Window::parent).last().and_then(|w| w.name());
-        report.note(mq, &format!(
-            "windows() {} the item display window (kind {}, top-level window {top:?})",
-            if listed { "lists" } else { "doesn't list" },
-            display.kind().name(),
-        ));
+        // The game's display manager makes these as needed, outside the
+        // window manager's list.
+        let listed = mq.windows().filter(|w| *w == display).count();
+        report.print(mq, "windows() lists the item display window, once", Check::that(listed == 1, || format!("listed {listed} times")));
         display.close();
     });
 }

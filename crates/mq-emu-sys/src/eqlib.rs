@@ -4,8 +4,8 @@ use core::ffi::{c_char, c_uint, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
-    CTargetWnd, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SkillManager,
+    AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    CSpellDisplayManager, CTargetWnd, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SkillManager,
     zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
@@ -83,5 +83,10 @@ imports! {
         pub static mut pInvSlotMgr: ForeignPointer<CInvSlotMgr>;
         /// The trade window: what's offered, and whether each side is ready.
         pub static mut pTradeWnd: ForeignPointer<CTradeWnd>;
+        /// The item display windows (`m_windows`), made as items are shown;
+        /// the window manager's list doesn't have them.
+        pub static mut pItemDisplayManager: ForeignPointer<CItemDisplayManager>;
+        /// The spell display windows, likewise.
+        pub static mut pSpellDisplayManager: ForeignPointer<CSpellDisplayManager>;
     }
 }

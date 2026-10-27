@@ -139,6 +139,7 @@ struct Windows {
     context_menu_manager: *mut mq_emu_sys::layouts::CContextMenuManager,
     inv_slot_manager: *mut mq_emu_sys::layouts::CInvSlotMgr,
     trade_window: *mut mq_emu_sys::layouts::CTradeWnd,
+    item_display_manager: *mut mq_emu_sys::layouts::CItemDisplayManager,
 }
 
 impl Windows {
@@ -157,6 +158,7 @@ impl Windows {
         context_menu_manager: ptr::null_mut(),
         inv_slot_manager: ptr::null_mut(),
         trade_window: ptr::null_mut(),
+        item_display_manager: ptr::null_mut(),
     };
 }
 
@@ -198,6 +200,8 @@ const FAKE: Host = Host {
     context_menu_manager: || WINDOWS.with(Cell::get).context_menu_manager,
     inv_slot_manager: || WINDOWS.with(Cell::get).inv_slot_manager,
     trade_window: || WINDOWS.with(Cell::get).trade_window,
+    item_display_manager: || WINDOWS.with(Cell::get).item_display_manager,
+    spell_display_manager: ptr::null_mut,
     windows: &crate::windows::fake::API,
     game_fns: &crate::game_fns::fake::API,
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),

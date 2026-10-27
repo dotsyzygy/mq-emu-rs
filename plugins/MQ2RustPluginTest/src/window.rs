@@ -167,9 +167,9 @@ impl RustTest {
                     continue;
                 }
                 // "###" keeps the header's ID (and open state) as its counts change.
-                let label = format!("{}. {title}  ({}/{})###section{index}", index + 1, counts.passed, entries.len());
+                let label = format!("{}. {title}  ({}/{})###section{index}", index + 1, counts.passed, counts.total());
                 let color = match counts {
-                    _ if entries.is_empty() => GREY,
+                    _ if counts.total() == 0 => GREY,
                     Counts { failed: 1.., .. } => RED,
                     Counts { skipped: 1.., .. } => YELLOW,
                     _ => GREEN,
@@ -193,6 +193,7 @@ impl RustTest {
                                 Outcome::Pass => table.text_colored(GREEN, "PASS"),
                                 Outcome::Fail => table.text_colored(RED, "FAIL"),
                                 Outcome::Skip => table.text_colored(YELLOW, "SKIP"),
+                                Outcome::Note => table.text_colored(GREY, "NOTE"),
                             }
                             table.item_tooltip_text(format!("at {:.2}s", entry.at.as_secs_f64()));
                             table.next_column();

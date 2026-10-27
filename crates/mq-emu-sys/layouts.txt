@@ -55,3 +55,5 @@ CInvSlot                # one item slot: its window
 CHotButton              # one hot button
 CHotButtonWnd           # a hot bar (HotButtonWnd, HotButtonWnd2...)
 CTradeWnd               # the trade window (pTradeWnd)
+CItemDisplayManager     # the item display windows (pItemDisplayManager)
+CSpellDisplayManager    # the spell display windows (pSpellDisplayManager)

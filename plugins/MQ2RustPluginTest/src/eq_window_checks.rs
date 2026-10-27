@@ -262,8 +262,9 @@ async fn context_menu(task: &Task<RustTest>, report: &mut Report) {
         report.print(mq, "click(Right) on a window opens its context menu", Check::that(shown, || format!("${{Menu.NumVisibleMenus}} is {}", mq.parse("${Menu.NumVisibleMenus}"))));
         if let Some(menu) = mq.context_menu() {
             // MacroQuest can't read most of a menu on emu: ${Menu.NumItems} and
-            // ${Menu.Items[n]} go by CContextMenu::NumItems, which this client
-            // leaves 0, and ${Menu.List} by the window's XML type, which a menu
+            // ${Menu.Items[n]} go by CContextMenu::NumItems, which on this client
+            // isn't the menu's count (0 or garbage), and ${Menu.List} by the
+            // window's XML type, which a menu
             // made in code doesn't have. ${Menu.Name} reads the first item
             // directly (GetItemText(0, 1)).
             report.note(mq, &format!("${{Menu.NumItems}} says {} (unused on emu); the menu has {} rows: {:?}", mq.parse("${Menu.NumItems}"), menu.len(), menu.items().collect::<Vec<_>>()));
