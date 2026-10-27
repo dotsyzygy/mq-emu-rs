@@ -30,7 +30,7 @@ use crate::plugin::Plugin;
 use crate::stats::{Stats, Warnings};
 use crate::tasks::Executor;
 use crate::text::{from_c, to_c};
-use crate::windows::{PluginWindowSlot, WindowNotice};
+use crate::windows::{PluginWindowSlot, SubclassSlot, WindowNotice};
 
 /// Most re-entrant events held at once; more are dropped.
 pub const MAX_QUEUE: usize = 256;
@@ -73,7 +73,8 @@ pub(crate) enum Event {
     Matched(u64, EventMatch),
     /// A key bind's key went down (true) or up.
     KeyBind(String, bool),
-    /// One of the plugin's windows got a notification.
+    /// One of the plugin's windows, or a window it subclassed, passed
+    /// something on.
     Window(WindowNotice),
 }
 
@@ -110,10 +111,11 @@ impl Event {
 
     fn queueable(&self) -> bool {
         // An ImGui frame can't be drawn later: by then MacroQuest has rendered it.
-        !matches!(
-            self,
-            Event::AddSpawn(_) | Event::RemoveSpawn(_) | Event::AddGroundItem(_) | Event::RemoveGroundItem(_) | Event::UpdateImGui
-        )
+        match self {
+            Event::AddSpawn(_) | Event::RemoveSpawn(_) | Event::AddGroundItem(_) | Event::RemoveGroundItem(_) | Event::UpdateImGui => false,
+            Event::Window(notice) => notice.queueable(),
+            _ => true,
+        }
     }
 }
 
@@ -177,6 +179,9 @@ pub struct Runtime<P: Plugin> {
     pub(crate) next_window_id: Cell<u64>,
     /// Windows removed while their code may be running, deleted later.
     pub(crate) removed_windows: RefCell<Vec<*mut mq_emu_sys::layouts::CXWnd>>,
+    /// The game's windows the plugin subclassed; taken off when the UI is
+    /// cleaned up and at shutdown, put back on when the windows are there.
+    pub(crate) subclasses: RefCell<Vec<SubclassSlot<P>>>,
     /// The UI XML files this plugin added, taken out at shutdown.
     pub(crate) xml_files: RefCell<Vec<String>>,
 }
@@ -221,6 +226,7 @@ impl<P: Plugin> Runtime<P> {
             plugin_windows: RefCell::new(Vec::new()),
             next_window_id: Cell::new(1),
             removed_windows: RefCell::new(Vec::new()),
+            subclasses: RefCell::new(Vec::new()),
             xml_files: RefCell::new(Vec::new()),
         }
     }
@@ -285,6 +291,7 @@ impl<P: Plugin> Runtime<P> {
             self.remove_temporary_aliases();
             self.remove_all_key_binds();
             // Their code is in this DLL.
+            self.remove_all_subclasses();
             self.remove_all_plugin_windows();
             *self.events.borrow_mut() = Events::new();
             let plugin = unsafe { (*self.plugin.get()).take() };
@@ -309,6 +316,7 @@ impl<P: Plugin> Runtime<P> {
             }
             let start = (self.host.now)();
             self.delete_removed_windows();
+            self.attach_subclasses();
             self.busy.set(true);
             self.run_one(Event::Pulse);
             // Tasks run in the same busy section, after on_pulse; anything
@@ -358,11 +366,17 @@ impl<P: Plugin> Runtime<P> {
         crate::imgui::ui_unloaded();
         self.event(Event::CleanUi);
         // After the plugin had them for on_clean_ui; the game cleans up next.
-        guard(|| self.destroy_plugin_windows());
+        guard(|| {
+            self.detach_subclasses();
+            self.destroy_plugin_windows();
+        });
     }
     pub fn reload_ui(&'static self) {
         // Before on_reload_ui, which may set them up.
-        guard(|| self.create_plugin_windows());
+        guard(|| {
+            self.create_plugin_windows();
+            self.attach_subclasses();
+        });
         self.event(Event::ReloadUi)
     }
     pub fn draw_hud(&'static self) {
@@ -372,7 +386,10 @@ impl<P: Plugin> Runtime<P> {
         // Entering the world loads the UI without a reload: make the
         // windows then too, as C++ plugins do.
         if state == mq_emu_sys::constants::GAMESTATE_INGAME {
-            guard(|| self.create_plugin_windows());
+            guard(|| {
+                self.create_plugin_windows();
+                self.attach_subclasses();
+            });
         }
         self.event(Event::SetGameState(state))
     }
@@ -440,7 +457,8 @@ impl<P: Plugin> Runtime<P> {
 
     /// Delivers `event`, or queues it if a callback is already running, then
     /// delivers whatever the callback queued. Returns the callback's result
-    /// (only `on_incoming_chat` has one; a queued event returns false).
+    /// (`on_incoming_chat`'s, or whether a window hook handled what it got;
+    /// a queued event returns false).
     pub(crate) fn enter(&'static self, event: Event) -> bool {
         if self.busy.get() {
             self.enqueue(event);
@@ -572,7 +590,7 @@ impl<P: Plugin> Runtime<P> {
                     handler(plugin, mq, down);
                 }
             }
-            Event::Window(notice) => self.deliver_window_notice(plugin, mq, notice),
+            Event::Window(notice) => return self.deliver_window_notice(plugin, mq, notice),
         }
         false
     }
@@ -1024,7 +1042,7 @@ pub(crate) fn guard(f: impl FnOnce()) {
     let _ = catch_unwind(AssertUnwindSafe(f));
 }
 
-fn guard_or<T>(fallback: T, f: impl FnOnce() -> T) -> T {
+pub(crate) fn guard_or<T>(fallback: T, f: impl FnOnce() -> T) -> T {
     catch_unwind(AssertUnwindSafe(f)).unwrap_or(fallback)
 }
 

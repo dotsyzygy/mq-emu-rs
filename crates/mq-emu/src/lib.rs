@@ -125,7 +125,8 @@ pub use tasks::{NextPulse, Task, TaskId};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
 pub use windows::{
     Click, ContextMenu, HotBar, HotButtonType, HotButtonWindow, ItemContainerKind, ItemSlotWindow, ListWindow, MAX_DESCENDANTS,
-    Notification, PluginWindowId, Scroll, SlotLocation, TabWindow, TradeWindow, Window, WindowEvent, WindowKind, WindowRect,
+    MouseAction, MouseEvent, Notification, Painter, PluginWindowId, Scroll, SlotLocation, SubclassId, TabWindow, TradeWindow, Window,
+    WindowEvent, WindowHooks, WindowKind, WindowRect,
 };
 pub use xtarget::{XTARGET_AUTO_HATER, XTarget, XTargetStatus};
 pub use zone::{CurrentZone, ZoneId, ZoneInfo, ZoneType};

@@ -85,6 +85,42 @@ fn the_window_list_has_the_top_level_screens() {
 }
 
 #[test]
+fn items_are_picked_up_dropped_used_and_opened_without_their_windows() {
+    fake::reset();
+    fake::with(|w| w.items_work = true);
+    use crate::ItemContainerKind::*;
+    let in_bag = SlotLocation::new(Inventory, usize::from(InvSlot::BAG1.0) + 1, Some(4));
+    let bank = SlotLocation::new(Bank, 3, None);
+    let log = pulse_log(move |mq| {
+        let done = [
+            mq.pick_up_item(in_bag),
+            mq.drop_item(bank),
+            mq.use_item(in_bag),
+            mq.use_item(bank),
+            mq.open_bag(SlotLocation::new(Inventory, 23, None)),
+            mq.close_bag(SlotLocation::new(Bank, 0, None)),
+            mq.pick_up_item(SlotLocation::new(Inventory, 40_000, None)),
+        ];
+        format!("{done:?}")
+    });
+    assert_eq!(log, ["[true, true, true, false, true, true, false]"], "only your inventory's items are used; a slot past an ItemIndex isn't one");
+    let possessions = ItemContainerInstance::eItemContainerPossessions.0;
+    let bank = ItemContainerInstance::eItemContainerBank.0;
+    assert_eq!(
+        fake::log(),
+        [
+            format!("pick_up {possessions} 24 4"),
+            format!("drop {bank} 3 -1"),
+            "use 24 4".into(),
+            format!("open_bag {possessions} 23 -1"),
+            format!("close_bag {bank} 0 -1"),
+        ]
+    );
+    fake::with(|w| w.items_work = false);
+    assert_eq!(pulse_log(move |mq| format!("{}", mq.pick_up_item(in_bag))), ["false"], "the game's answer");
+}
+
+#[test]
 fn the_context_menu_is_read_found_in_and_picked_from() {
     fake::reset();
     let manager = leak::<CContextMenuManager>();

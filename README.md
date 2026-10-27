@@ -122,7 +122,28 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   them (`Mq::add_window`), with a handler for each notification the window gets (from its
   controls or `/notify`). The runtime makes them whenever the UI loads and deletes them before it's
   cleaned up and when the plugin unloads (their code is in the plugin); one removed from its own
-  handler is deleted once the game is done with it
+  handler is deleted once the game is done with it. With hooks (`Mq::add_window_with`,
+  `WindowHooks`) a window draws on itself each frame, takes the mouse over it and may handle its
+  notifications instead of passing them on
+- Subclassing the game's own windows as C++ plugins' `WindowOverride` does (`Mq::subclass_window`,
+  by name or path): the same hooks get a window's notifications and the mouse over it first (and
+  may keep them from it), and draw on it after it draws. Subclassed as soon as the game has the
+  window, taken off before the UI is cleaned up (and put back when it loads), when removed (even
+  from its own hook) and at unload. It stacks with other hooks on the window: taken off from under
+  another, it passes everything on for good, so a copy of its vtable never calls into an unloaded
+  plugin. What a window gets while one of the plugin's callbacks runs (from the plugin's own
+  click) is delivered after that callback, too late to keep from the window
+- Drawing on a window as the game draws (`Painter`, from a draw hook): rectangles, text in EQ's
+  fonts (measured), and the game's UI textures, clipped to the window's client area
+- What `/itemnotify` does with a place no slot window shows (a closed bag): picking the item up and
+  dropping the cursor's there (`Mq::pick_up_item`, `Mq::drop_item`), using it as `/useitem` does
+  (`Mq::use_item`), and opening and closing bags (`Mq::open_bag`, `Mq::close_bag`). Outside bags
+  these are MacroQuest's `PickupItem` and `DropItem`; inside one mq-emu does what they do (moves
+  the item, then puts it on the cursor's icon) with the client's own `AttachToCursor` signature,
+  because `PickupItem` and `DropItem` (and so `/itemnotify in ...`'s fallback) corrupt the stack
+  there on emu: they call `AttachToCursor` as eqlib declares it, with 14 dwords of arguments, where
+  this client's takes 8 (`ret 20h`: the item's GUID by reference, its ID, a name and the quantity,
+  as the game's item slots call it). Found when the selftest crashed in game
 - Zones: the zone you're in (ID, instance, names, type, gravity, safe point, clip planes) and every
   zone the client knows, by ID or name
 - Ground items: the zone's list, lookup by ID, nearest with a filter; name, position, heading,
@@ -192,7 +213,8 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 
 - Game data beyond the bound set: advanced loot, tasks, achievements, the friends list, tribute
   (reachable as TLO reads, or through their windows)
-- Acting on items and spells: casting, clicking items, moving items (only by running commands)
+- Acting on spells (casting, memorizing) and on items beyond moving whole stacks and using them
+  (splitting stacks, auto-inventory, selling) (only by running commands)
 - Custom datatypes: TLOs from Rust can't return objects with members (`Value::Object` gives NULL)
 - ImGui beyond the bound set: MacroQuest's other EQ UI drawing (`DrawUITexture`,
   `DrawTexturePiece`, `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory
@@ -226,10 +248,10 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
     localization, garbage collection, error recovery, the font atlas builder). Also not planned:
     context hooks (`Plugin::on_update_imgui` already runs every frame) and the legacy Columns API
     (tables replace it)
-- EQ UI windows beyond the bound set: `/itemnotify`'s fallbacks for an item it finds no slot
-  window for (picking it up or dropping it, `/useitem`; see acting on items above), subclassing the
-  game's own windows, and plugin windows of a class other than a plain screen (a plugin window's
-  controls are the XML's; it can't draw itself)
+- EQ UI windows beyond the bound set: hooking more of a window's virtual functions than its
+  notifications, the mouse and drawing (the keyboard, showing and hiding, each frame's
+  processing, tooltips, drag and drop), and plugin windows made in code rather than from a screen
+  piece
 - Hooks/detours on game functions
 - Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
 
@@ -295,14 +317,19 @@ tasks. It also:
   again), and types into the chat input (put back as it was). The inventory window ends up open or
   closed as it was. It right-clicks your first bag's slot to open the bag and again to close it,
   sends the chat window a link to an item you wear (opening it in an item display window, closed
-  again), and presses an empty hot button if you have one.
+  again), and presses an empty hot button if you have one. It subclasses the inventory window
+  (drawing a yellow bar along its top while it's open), keeps one click of its done button from
+  closing it, clicks the window itself, and takes the subclass off, after which the done button
+  closes it. It picks up an item from a closed bag and puts it back (skipped with something on
+  the cursor or the merchant window open).
 - **Reloads your UI, if it must:** the plugin adds `MQUI_RustTestWnd.xml` (deployed to
   MacroQuest's `resources\uifiles\default`) and a window made from it when it loads; if the UI
   hasn't read the file yet, the selftest runs `/reloadui`, which **freezes the game** for a while
   (it says so in chat first, and reports how long it took). It's needed once per UI load: load the
   plugin before entering the world (at character select, or autoloaded) and the in-game UI reads
   the file with no reload. It then clicks the window's button, types into it, sends it a link and
-  `/notify`, removes it and adds it again, and leaves it hidden.
+  `/notify`, removes it and adds it again, and leaves it hidden. The window draws a line of text
+  on itself.
 - **Targets something** when nothing is targeted (the nearest spawn, then the nearest NPC for the
   target buff checks, waiting for its buffs to arrive), and clears that target afterwards.
 - **Forms a raid** when you aren't in one: invites the other characters running the plugin, has
@@ -412,7 +439,15 @@ config and only explicitly passed settings, to check what a downstream user will
   looks up, in both directions.
 - **`tests/shim.rs`**: the C++ shim against a fake `MainInterface`: arguments, handles and callback
   routing, without MacroQuest; and that item definitions come through the item's vtable (the game's
-  implementation), from the slot eqlib's headers give.
+  implementation), from the slot eqlib's headers give. Subclassing, against a fake window whose
+  vtable holds Rust `thiscall` functions: the replaced entries are eqlib's (read from its header),
+  each reaches the hook and then the window's own function with its arguments and result, a
+  handled event skips the window, only the kinds asked for reach the hook, the rest of the vtable
+  and its RTTI pointer are kept, a window is subclassed once, and taken off the window has its own
+  vtable back. Another window given our table (as `WindowOverride` shares its own) only reaches its
+  own functions; a hook that copied our table keeps working after ours comes off, going straight to
+  the window's functions; a deleted window isn't touched; the hook can take its own subclass off;
+  windows without a readable vtable are refused.
 - **`tests/events.rs`**: the event matcher, MacroQuest's Blech compiled into the shim: whole lines
   match ignoring case, captures by number and name, wildcards, escapes and print variables, every
   match in the order events were added, and removed events stop matching. The guards: patterns
@@ -488,7 +523,14 @@ config and only explicitly passed settings, to check what a downstream user will
   drop-down; tabs read and select pages; long text grows the buffer to fit; the window list has only
   top-level screens; the open context menu is the current one, and past the array or with none
   visible there's none. Clicks, notifications, opening, moving, colors and typing reach the game as
-  `/notify` names them.
+  `/notify` names them. Subclasses: on as soon as the game has the window, off after
+  `on_clean_ui` and back on when the UI loads, off at unload and when removed (from its own hook
+  too), without touching a window the game deleted; one subclass per window; the plugin's answer
+  reaches the window, except for what it got during one of the plugin's callbacks (delivered
+  after); drawing during a callback is dropped; a panicking hook passes on. The painter clips to
+  the window's client area (and less), and draws nothing without one. Plugin windows with hooks
+  draw, take the mouse and handle notifications. Item actions pass the place as the game numbers
+  it, and only your inventory's items are used.
 - **`mq-emu` INI tests**: against real files through Windows' INI functions: values, parsed values
   and MacroQuest's switch words read back; a missing key is told apart from an empty one; values
   Windows would change on reading (spaces at either end, surrounding quotes) are quoted so they come

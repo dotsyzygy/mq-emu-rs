@@ -1,6 +1,8 @@
 //! Item slot windows: what one shows (`${Window.InvSlot}`), and finding the
 //! one for a place in your inventory, bags, bank, a corpse, the trade window
-//! or a world container, as `/itemnotify` does.
+//! or a world container, as `/itemnotify` does; and what `/itemnotify` does
+//! with a place no window shows (picking the item up or dropping it,
+//! `/useitem`, opening bags).
 
 use std::fmt;
 
@@ -151,6 +153,17 @@ impl SlotLocation {
         let index = one_based(rest).filter(|index| *index < count)?;
         let slot = if container == Inventory { usize::from(InvSlot::BAG1.0) + index } else { index };
         Some(SlotLocation::new(container, slot, in_bag))
+    }
+
+    /// As the game numbers it: container, slot and slot in the bag (-1 for
+    /// none). None for slots past what its `ItemIndex` holds.
+    fn raw(&self) -> Option<(i32, i32, i32)> {
+        let slot = i16::try_from(self.slot).ok()?;
+        let in_bag = match self.in_bag {
+            Some(in_bag) => i16::try_from(in_bag).ok()?,
+            None => -1,
+        };
+        Some((self.container.raw(), i32::from(slot), i32::from(in_bag)))
     }
 
     fn from_global(index: &ItemGlobalIndex) -> Option<SlotLocation> {
@@ -341,6 +354,63 @@ impl<P: Plugin> Mq<P> {
     /// if no window shows the place, such as a slot in a closed bag.
     pub fn item_slot_window(&self, location: SlotLocation) -> Option<ItemSlotWindow<'_>> {
         self.item_slot_windows().find(|slot| !slot.is_hot_button() && location.matches(slot.slot.ItemLocation()))
+    }
+
+    // ----- what /itemnotify does without a slot window -----
+
+    /// Picks up the item at a place onto the cursor (the whole stack), as
+    /// `/itemnotify ... leftmouseup` does when no window shows the place (a
+    /// slot in a closed bag). With the merchant window open it selects the
+    /// item instead, as clicking it would. False if it can't: nothing there,
+    /// something already on the cursor (for a place in a bag), the cursor's
+    /// own slot, the bank without the bank window, the trade window, or an
+    /// augment.
+    ///
+    /// Outside bags this is MacroQuest's `PickupItem`. Inside a bag mq-emu
+    /// does what it does there (moves the item, then shows it on the
+    /// cursor) itself: `PickupItem` (and `/itemnotify`'s fallback through
+    /// it) leaves the stack corrupted there on this client, calling the
+    /// game's `AttachToCursor` with more arguments than it takes.
+    pub fn pick_up_item(&self, location: SlotLocation) -> bool {
+        let Some((container, slot, in_bag)) = location.raw() else { return false };
+        unsafe { (self.window_api().mqemu_pick_up_item)(container, slot, in_bag) }
+    }
+
+    /// Puts the item on the cursor at a place (swapping with what's there),
+    /// as `/itemnotify ... leftmouseup` does with an item on the cursor and
+    /// no window showing the place: MacroQuest's `DropItem` outside bags,
+    /// mq-emu's own inside one (see [`pick_up_item`](Self::pick_up_item)).
+    /// False if it can't (nothing on the cursor, say).
+    pub fn drop_item(&self, location: SlotLocation) -> bool {
+        let Some((container, slot, in_bag)) = location.raw() else { return false };
+        unsafe { (self.window_api().mqemu_drop_item)(container, slot, in_bag) }
+    }
+
+    /// Uses (clicks) the item at a place in your inventory, as `/useitem`
+    /// does (the game's own command, which also starts its cast): what
+    /// `/itemnotify ... rightmouseup` does with a clicky item no window
+    /// shows. False if there's no item there or the place isn't in your
+    /// inventory; the game says in chat if the item can't be used.
+    pub fn use_item(&self, location: SlotLocation) -> bool {
+        if location.container != ItemContainerKind::Inventory {
+            return false;
+        }
+        let Some((_, slot, in_bag)) = location.raw() else { return false };
+        unsafe { (self.window_api().mqemu_use_item)(slot, in_bag) }
+    }
+
+    /// Opens the bag at a place, as `/itemnotify ... rightmouseup` does
+    /// (MacroQuest's `OpenContainer`). It's opened through its slot window,
+    /// so a bag inside a closed bag can't be. True if it's open after.
+    pub fn open_bag(&self, location: SlotLocation) -> bool {
+        let Some((container, slot, in_bag)) = location.raw() else { return false };
+        unsafe { (self.window_api().mqemu_open_container)(container, slot, in_bag, true) }
+    }
+
+    /// Closes the bag at a place (`CloseContainer`). True if it was open.
+    pub fn close_bag(&self, location: SlotLocation) -> bool {
+        let Some((container, slot, in_bag)) = location.raw() else { return false };
+        unsafe { (self.window_api().mqemu_open_container)(container, slot, in_bag, false) }
     }
 }
 

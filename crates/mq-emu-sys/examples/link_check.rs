@@ -36,6 +36,12 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         AddXMLFile as *const c_void,
         RemoveXMLFile as *const c_void,
         IsScreenPieceLoaded as *const c_void,
+        PickupItem as *const c_void,
+        DropItem as *const c_void,
+        OpenContainer as *const c_void,
+        CloseContainer as *const c_void,
+        FindItemByGlobalIndex as *const c_void,
+        ItemOnCursor as *const c_void,
         EQExecuteCmd as *const c_void,
     ];
     let statics: &[*const c_void] = &[
@@ -51,6 +57,7 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const gPathPlugins).cast(),
         (&raw const gPathResources).cast(),
         (&raw const gTargetbuffs).cast(),
+        (&raw const cmdUseItem).cast(),
         (&raw const pLocalPlayer).cast(),
         (&raw const pControlledPlayer).cast(),
         (&raw const pTarget).cast(),

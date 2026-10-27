@@ -79,10 +79,12 @@ fn build_shim(mq_root: &Path) {
         "shim/items.cpp",
         "shim/game.cpp",
         "shim/windows.cpp",
+        "shim/subclass.cpp",
         "shim/events.cpp",
     ];
     println!("cargo::rerun-if-changed=shim/mq_api.h");
     println!("cargo::rerun-if-changed=shim/imgui_shim.h");
+    println!("cargo::rerun-if-changed=shim/window_hooks.h");
     for source in sources {
         println!("cargo::rerun-if-changed={source}");
     }

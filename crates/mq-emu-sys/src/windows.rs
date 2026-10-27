@@ -2,8 +2,11 @@
 //! `shim/windows.cpp`: finding them as MacroQuest does, what only the game's
 //! functions can say about them (their kind, XML names, tooltip, list text,
 //! the item in an item slot or behind a hot button), clicking and notifying
-//! them as `/notify` and `${Window}` do, and a plugin's own windows, made
-//! from screen pieces in UI XML it adds (`AddXMLFile`).
+//! them as `/notify` and `${Window}` do, a plugin's own windows, made from
+//! screen pieces in UI XML it adds (`AddXMLFile`), subclassing the game's
+//! windows (as MacroQuest's `WindowOverride` does), drawing on windows as
+//! the game draws them, and what `/itemnotify` does with an item it finds no
+//! slot window for (picking it up or dropping it, `/useitem`, opening bags).
 //!
 //! These import `MQ2Main.dll` and `eqlib.dll`, so they only run inside the
 //! game; call them through [`API`] (see [`function_table!`]). Text comes back
@@ -38,12 +41,48 @@ pub const XML_TYPE_NAME: i32 = 2;
 /// (`leftmouse` to `rightmouseheldup`).
 pub const CLICK_KINDS: usize = 8;
 
-/// What a plugin's window ([`mqemu_plugin_window_create`]) calls with each
-/// notification it gets, before handling it as any screen does: `user` as
-/// given, the window, the control that sent it (or null), the message
-/// (`XWM_*`) and its data (a number, or for `XWM_LINK` the link's text).
-pub type mqemu_window_notification_fn =
-    unsafe extern "C" fn(user: *mut c_void, window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: *mut c_void);
+/// [`mqemu_window_event`] kinds: a notification, from one of the window's
+/// controls or `/notify` (`WndNotification`).
+pub const HOOK_NOTIFICATION: i32 = 0;
+/// The window has drawn (`PostDraw`); the plugin may draw on it now.
+pub const HOOK_DRAW: i32 = 1;
+/// A mouse button went down or up over the window (`HandleLButtonDown`...).
+pub const HOOK_LBUTTON_DOWN: i32 = 2;
+pub const HOOK_LBUTTON_UP: i32 = 3;
+pub const HOOK_RBUTTON_DOWN: i32 = 4;
+pub const HOOK_RBUTTON_UP: i32 = 5;
+/// The mouse moved over the window (`HandleMouseMove`).
+pub const HOOK_MOUSE_MOVE: i32 = 6;
+/// The mouse wheel turned over the window (`HandleWheelMove`).
+pub const HOOK_WHEEL: i32 = 7;
+/// How many kinds there are; a hook's mask has bit `1 << kind` for each it wants.
+pub const HOOK_KINDS: i32 = 8;
+
+/// Something a window got, as a plugin's window ([`mqemu_plugin_window_create`])
+/// or a subclassed one ([`mqemu_window_subclass`]) passes it on.
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
+pub struct mqemu_window_event {
+    /// A `HOOK_*` kind.
+    pub kind: i32,
+    /// For a notification: the control that sent it (or null), the message
+    /// (`XWM_*`) and its data (a number, or for `XWM_LINK` the link's text).
+    pub sender: *mut CXWnd,
+    pub message: u32,
+    pub data: *mut c_void,
+    /// For the mouse: where it is on screen, and the keyboard flags.
+    pub x: i32,
+    pub y: i32,
+    pub flags: u32,
+    /// For the wheel: how far it turned (up is positive).
+    pub scroll: i32,
+}
+
+/// What a hooked window calls with each event its mask asks for: `user` as
+/// given, the window and the event. True if the plugin handled it, so the
+/// window doesn't (ignored for [`HOOK_DRAW`], which comes after the window
+/// drew).
+pub type mqemu_window_hook_fn = unsafe extern "C" fn(user: *mut c_void, window: *mut CXWnd, event: *const mqemu_window_event) -> bool;
 
 function_table! {
     /// The window `name` names, as `${Window[name]}` finds it: a top-level
@@ -122,12 +161,73 @@ function_table! {
     /// MacroQuest's `IsScreenPieceLoaded`.
     pub fn mqemu_screen_piece_loaded(name: *const c_char) -> bool;
     /// Makes a top-level window from the screen piece `screen` (and its
-    /// controls), shown, as MacroQuest's `CCustomWnd` does, passing each
-    /// notification it gets to `notify` first. Null if the loaded UI has no
+    /// controls), shown, as MacroQuest's `CCustomWnd` does, passing the
+    /// events `mask` asks for to `hook` first. Null if the loaded UI has no
     /// such screen piece. The window's code is in the plugin: it must be
     /// destroyed ([`mqemu_plugin_window_destroy`]) before the UI is cleaned
     /// up and before the plugin unloads.
-    pub fn mqemu_plugin_window_create(screen: *const c_char, notify: mqemu_window_notification_fn, user: *mut c_void) -> *mut CXWnd;
+    pub fn mqemu_plugin_window_create(screen: *const c_char, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> *mut CXWnd;
     /// Deletes a window [`mqemu_plugin_window_create`] made.
     pub fn mqemu_plugin_window_destroy(window: *mut CXWnd) -> bool;
+    /// Subclasses one of the game's windows, as MacroQuest's `WindowOverride`
+    /// does: gives it a copy of its vtable whose notification, `PostDraw` and
+    /// mouse entries pass the events `mask` asks for to `hook` first. False
+    /// for null, or a window this plugin already subclassed. Its code is in
+    /// the plugin: take it off ([`mqemu_window_unsubclass`]) before the
+    /// window is deleted (before the UI is cleaned up) and before the plugin
+    /// unloads.
+    pub fn mqemu_window_subclass(window: *mut CXWnd, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> bool;
+    /// Takes a subclass off. True if the window has its old vtable back;
+    /// false if it wasn't subclassed, or if another hook went on after this
+    /// one, which then passes everything on to the window's own functions
+    /// for good (and never calls into the plugin again). A window that isn't
+    /// `live` (the game deleted it) isn't touched; its subclass only stops.
+    pub fn mqemu_window_unsubclass(window: *mut CXWnd, live: bool) -> bool;
+    /// Where the window's client area is on screen, as far as it shows
+    /// (`GetClientClipRect`): where drawing on it shows.
+    pub fn mqemu_window_client_clip_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool;
+    /// Fills `rect` (screen coordinates) with `color` (ARGB), clipped to
+    /// `clip` (`CXWnd::DrawColoredRect`). Only while the game draws its UI.
+    pub fn mqemu_draw_fill_rect(rect: *const mqemu_rect, color: u32, clip: *const mqemu_rect) -> bool;
+    /// Draws `text` in EQ font `font` in `rect`, clipped to `clip`, laid out
+    /// as `flags` (eqlib's `DrawTextFlags`) say (`CTextureFont::DrawWrappedText`).
+    /// False if there's no such font.
+    pub fn mqemu_draw_text(font: i32, text: *const c_char, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, flags: u32) -> bool;
+    /// How wide `text` is in EQ font `font`, in pixels; -1 without the font.
+    pub fn mqemu_text_width(font: i32, text: *const c_char) -> i32;
+    /// How tall a line of EQ font `font` is, in pixels; -1 without the font.
+    pub fn mqemu_font_height(font: i32) -> i32;
+    /// Draws a UI texture in `rect`, clipped to `clip`, tinted `color` (and
+    /// `color2`, for animations drawn with two) (`CTextureAnimation::Draw`).
+    pub fn mqemu_draw_texture(animation: *mut CTextureAnimation, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, color2: u32) -> bool;
+    /// Picks up the item at a place onto the cursor, as `/itemnotify` does
+    /// when it finds no slot window for it. `container` is an
+    /// `ItemContainerInstance`, `in_bag` -1 for none. Outside bags (and with
+    /// the merchant window open, where it selects the item instead) this is
+    /// MacroQuest's `PickupItem` (false, said in chat, if it can't). Inside
+    /// a bag, where `PickupItem` corrupts the stack on this client (eqlib's
+    /// `AttachToCursor` takes more arguments than the client's), the shim
+    /// does what it does (`MoveItem`, then the cursor's icon) with the
+    /// client's own `AttachToCursor`; false with something on the cursor,
+    /// nothing there, or a bank place without the bank window.
+    pub fn mqemu_pick_up_item(container: i32, slot: i32, in_bag: i32) -> bool;
+    /// Puts the item on the cursor at a place, swapping with what's there:
+    /// MacroQuest's `DropItem` outside bags, the shim's own inside one (see
+    /// [`mqemu_pick_up_item`]). False with nothing on the cursor.
+    pub fn mqemu_drop_item(container: i32, slot: i32, in_bag: i32) -> bool;
+    /// Uses (clicks) the item at a place in your inventory, as `/useitem`
+    /// does (the game's command). False if there's no item there.
+    pub fn mqemu_use_item(slot: i32, in_bag: i32) -> bool;
+    /// Opens (or closes) the bag at a place, as `/itemnotify` does for a bag
+    /// right-clicked without a slot window (`OpenContainer`, `CloseContainer`).
+    /// Opening: true if it's open after; it needs the bag's slot window.
+    /// Closing: true if it was open.
+    pub fn mqemu_open_container(container: i32, slot: i32, in_bag: i32, open: bool) -> bool;
+}
+
+unsafe extern "C" {
+    /// The vtable entry (counted in pointers from the first) a subclass
+    /// ([`mqemu_window_subclass`]) replaces for hook kind `kind`; -1 for none.
+    /// For tests; it imports nothing, so it links anywhere.
+    pub fn mqemu_window_hook_slot(kind: i32) -> i32;
 }

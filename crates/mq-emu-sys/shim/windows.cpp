@@ -1,8 +1,10 @@
 // EverQuest's own UI windows: finding them as MacroQuest does, what only the
 // game's functions can say about them (their kind, XML names, tooltip, list
 // text, the item in an item slot or behind a hot button), clicking and
-// notifying them as /notify and ${Window} do, and a plugin's own windows,
-// made from screen pieces in UI XML it adds (AddXMLFile).
+// notifying them as /notify and ${Window} do, a plugin's own windows, made
+// from screen pieces in UI XML it adds (AddXMLFile), subclassing the game's
+// windows, drawing on them, and what /itemnotify does with an item it finds
+// no slot window for.
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks its window for null
@@ -11,6 +13,7 @@
 // No C++ exception may cross into Rust: every entry point catches them.
 
 #include "mq_api.h"
+#include "window_hooks.h"
 
 #include "main/MQ2Main.h"
 #include "eqlib/game/CXWnd.h"
@@ -20,6 +23,7 @@
 #include <algorithm>
 #include <cstring>
 #include <iterator>
+#include <vector>
 
 using namespace eqlib;
 
@@ -521,22 +525,22 @@ extern "C" bool mqemu_screen_piece_loaded(const char* name)
 	}
 }
 
-// Mirrors `mqemu_window_notification_fn` in mq-emu-sys's windows module.
-using mqemu_window_notification_fn = void (*)(void* user, CXWnd* window, CXWnd* sender, uint32_t message, void* data);
+// ----- a plugin's own windows -----
 
 namespace {
 
+using namespace mqemu;
+
 // A window made from a screen piece, as MacroQuest's CCustomWnd makes one,
-// that passes its controls' notifications to the plugin before handling
-// them as any screen does. Its vtable lives in the plugin's DLL, so the
-// plugin must delete it before it unloads.
+// that passes what it gets to the plugin before handling it as any screen
+// does, and lets the plugin draw on it after it draws. Its vtable lives in
+// the plugin's DLL, so the plugin must delete it before it unloads.
 class PluginWnd : public CSidlScreenWnd
 {
 public:
-	PluginWnd(const char* screen, mqemu_window_notification_fn notify, void* user)
+	PluginWnd(const char* screen, const HookTarget& target)
 		: CSidlScreenWnd(nullptr, screen, eIniFlag_All)
-		, m_notify(notify)
-		, m_user(user)
+		, m_target(target)
 	{
 		CreateChildrenFromSidl();
 		Show(true);
@@ -545,25 +549,73 @@ public:
 
 	int WndNotification(CXWnd* sender, uint32_t message, void* data) override
 	{
-		if (m_notify)
-			m_notify(m_user, this, sender, message, data);
+		if (m_target.Send(this, notification_event(sender, message, data)))
+			return 0;
 		return CSidlScreenWnd::WndNotification(sender, message, data);
 	}
 
+	int PostDraw() override
+	{
+		int result = CSidlScreenWnd::PostDraw();
+		m_target.Send(this, draw_event());
+		return result;
+	}
+
+	int HandleLButtonDown(const CXPoint& pos, uint32_t flags) override
+	{
+		if (m_target.Send(this, mouse_event(Hook_LButtonDown, pos, flags)))
+			return 0;
+		return CSidlScreenWnd::HandleLButtonDown(pos, flags);
+	}
+
+	int HandleLButtonUp(const CXPoint& pos, uint32_t flags) override
+	{
+		if (m_target.Send(this, mouse_event(Hook_LButtonUp, pos, flags)))
+			return 0;
+		return CSidlScreenWnd::HandleLButtonUp(pos, flags);
+	}
+
+	int HandleRButtonDown(const CXPoint& pos, uint32_t flags) override
+	{
+		if (m_target.Send(this, mouse_event(Hook_RButtonDown, pos, flags)))
+			return 0;
+		return CSidlScreenWnd::HandleRButtonDown(pos, flags);
+	}
+
+	int HandleRButtonUp(const CXPoint& pos, uint32_t flags) override
+	{
+		if (m_target.Send(this, mouse_event(Hook_RButtonUp, pos, flags)))
+			return 0;
+		return CSidlScreenWnd::HandleRButtonUp(pos, flags);
+	}
+
+	int HandleMouseMove(const CXPoint& pos, uint32_t flags) override
+	{
+		if (m_target.Send(this, mouse_event(Hook_MouseMove, pos, flags)))
+			return 0;
+		return CSidlScreenWnd::HandleMouseMove(pos, flags);
+	}
+
+	int HandleWheelMove(const CXPoint& pos, int scroll, uint32_t flags) override
+	{
+		if (m_target.Send(this, mouse_event(Hook_Wheel, pos, flags, scroll)))
+			return 0;
+		return CSidlScreenWnd::HandleWheelMove(pos, scroll, flags);
+	}
+
 private:
-	mqemu_window_notification_fn m_notify;
-	void* m_user;
+	HookTarget m_target;
 };
 
 } // namespace
 
-extern "C" CXWnd* mqemu_plugin_window_create(const char* screen, mqemu_window_notification_fn notify, void* user)
+extern "C" CXWnd* mqemu_plugin_window_create(const char* screen, mqemu_window_hook_fn hook, void* user, uint32_t mask)
 {
 	try
 	{
 		if (screen == nullptr || !pSidlMgr || !mq::IsScreenPieceLoaded(screen))
 			return nullptr;
-		return new PluginWnd(screen, notify, user);
+		return new PluginWnd(screen, HookTarget{ hook, user, mask });
 	}
 	catch (...)
 	{
@@ -579,6 +631,266 @@ extern "C" bool mqemu_plugin_window_destroy(CXWnd* window)
 			return false;
 		delete window;
 		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// ----- drawing on a window -----
+
+namespace {
+
+CXRect to_cxrect(const mqemu_rect& rect)
+{
+	return CXRect(rect.left, rect.top, rect.right, rect.bottom);
+}
+
+CTextureFont* eq_font(int font)
+{
+	if (!pWndMgr || font < 0)
+		return nullptr;
+	return pWndMgr->GetFont(font);
+}
+
+} // namespace
+
+extern "C" bool mqemu_window_client_clip_rect(CXWnd* window, mqemu_rect* out)
+{
+	try
+	{
+		if (window == nullptr || out == nullptr)
+			return false;
+		CXRect rect = window->GetClientClipRect();
+		*out = mqemu_rect{ rect.left, rect.top, rect.right, rect.bottom };
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_draw_fill_rect(const mqemu_rect* rect, uint32_t color, const mqemu_rect* clip)
+{
+	try
+	{
+		if (rect == nullptr || clip == nullptr)
+			return false;
+		// eqlib has its address but no definition: a static member, so cdecl.
+		if (!CXWnd__DrawColoredRect)
+			return false;
+		using DrawColoredRectFn = void(__cdecl*)(const CXRect&, COLORREF, const CXRect&);
+		reinterpret_cast<DrawColoredRectFn>(CXWnd__DrawColoredRect)(to_cxrect(*rect), color, to_cxrect(*clip));
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_draw_text(int font, const char* text, const mqemu_rect* rect, const mqemu_rect* clip, uint32_t color, uint32_t flags)
+{
+	try
+	{
+		CTextureFont* textureFont = eq_font(font);
+		if (textureFont == nullptr || text == nullptr || rect == nullptr || clip == nullptr)
+			return false;
+		textureFont->DrawWrappedText(CXStr(text), to_cxrect(*rect), to_cxrect(*clip), color, static_cast<uint16_t>(flags), 0);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" int mqemu_text_width(int font, const char* text)
+{
+	try
+	{
+		CTextureFont* textureFont = eq_font(font);
+		if (textureFont == nullptr || text == nullptr)
+			return -1;
+		return textureFont->GetTextExtent(CXStr(text));
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
+extern "C" int mqemu_font_height(int font)
+{
+	try
+	{
+		CTextureFont* textureFont = eq_font(font);
+		return textureFont == nullptr ? -1 : textureFont->GetHeight();
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
+extern "C" bool mqemu_draw_texture(CTextureAnimation* animation, const mqemu_rect* rect, const mqemu_rect* clip, uint32_t color, uint32_t color2)
+{
+	try
+	{
+		if (animation == nullptr || rect == nullptr || clip == nullptr)
+			return false;
+		animation->Draw(to_cxrect(*rect), to_cxrect(*clip), color, color2);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// ----- items without their slot windows -----
+
+namespace {
+
+ItemGlobalIndex item_index(int container, int slot, int in_bag)
+{
+	return ItemGlobalIndex(static_cast<ItemContainerInstance>(container), ItemIndex(static_cast<short>(slot), static_cast<short>(in_bag)));
+}
+
+// Puts the cursor's item on the cursor attachment (the icon the mouse
+// carries), or takes the attachment down if the cursor is empty, as the
+// game does after moving an item to or from the cursor.
+//
+// eqlib declares CCursorAttachment::AttachToCursor with 14 dwords of
+// arguments (an EqItemGuid by value, an item ID, two names, a quantity and
+// an icon), but this client's takes 8 and returns with `ret 20h`: overlay,
+// background, type, index, the item's GUID by reference, its ID, a name and
+// the quantity, as the game's own item slots call it. So it's called here
+// through its address; MacroQuest's PickupItem and DropItem call it as
+// declared for places inside bags, and return with the stack 24 bytes off.
+void update_cursor_attachment()
+{
+	if (!pCursorAttachment || !pLocalPC)
+		return;
+	ItemClient* item = mq::FindItemByGlobalIndex(pLocalPC->CreateItemGlobalIndex(InvSlot_Cursor));
+	if (item == nullptr)
+	{
+		pCursorAttachment->Deactivate();
+		return;
+	}
+	if (!CCursorAttachment__AttachToCursor)
+		return;
+	using AttachToCursorFn = void(__fastcall*)(CCursorAttachment*, void*, CTextureAnimation* overlay, CTextureAnimation* background,
+		int type, int index, const EqItemGuid* guid, int itemId, const char* name, int quantity);
+	reinterpret_cast<AttachToCursorFn>(CCursorAttachment__AttachToCursor)(pCursorAttachment, nullptr, nullptr, nullptr,
+		eCursorAttachment_Item, -1, &item->ItemGUID, item->ID, nullptr, -1);
+}
+
+// What PickupItem and DropItem check before moving an item to or from a
+// place inside a bag: the bag is a bag (not an item holding an augment),
+// and the bank's places need the bank window.
+bool can_move_in_bag(const ItemGlobalIndex& index)
+{
+	if (!pInvSlotMgr || !pLocalPC)
+		return false;
+	ItemClient* bag = mq::FindItemByGlobalIndex(index.GetParent());
+	if (bag == nullptr || !bag->IsContainer())
+		return false;
+	switch (index.GetLocation())
+	{
+	case eItemContainerPossessions:
+		return index.GetTopSlot() != InvSlot_Cursor;
+	case eItemContainerBank:
+	case eItemContainerSharedBank:
+		return pBankWnd && pBankWnd->IsVisible();
+	default:
+		return false;
+	}
+}
+
+bool merchant_open()
+{
+	return pMerchantWnd && pMerchantWnd->IsVisible();
+}
+
+} // namespace
+
+extern "C" bool mqemu_pick_up_item(int container, int slot, int in_bag)
+{
+	try
+	{
+		ItemGlobalIndex index = item_index(container, slot, in_bag);
+		// Outside bags, and with the merchant window open (where it only
+		// selects), PickupItem doesn't reach AttachToCursor.
+		if (in_bag < 0 || merchant_open())
+			return mq::PickupItem(index);
+		if (mq::ItemOnCursor() || mq::FindItemByGlobalIndex(index) == nullptr || !can_move_in_bag(index))
+			return false;
+		pInvSlotMgr->MoveItem(index, pLocalPC->CreateItemGlobalIndex(InvSlot_Cursor), true, true, false, false);
+		update_cursor_attachment();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_drop_item(int container, int slot, int in_bag)
+{
+	try
+	{
+		ItemGlobalIndex index = item_index(container, slot, in_bag);
+		if (in_bag < 0 || merchant_open())
+			return mq::DropItem(index);
+		if (!mq::ItemOnCursor() || !can_move_in_bag(index))
+			return false;
+		// Swaps with what's there, which then goes on the cursor.
+		pInvSlotMgr->MoveItem(pLocalPC->CreateItemGlobalIndex(InvSlot_Cursor), index, true, true, false, false);
+		update_cursor_attachment();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_use_item(int slot, int in_bag)
+{
+	try
+	{
+		if (!mq::cmdUseItem || !pLocalPlayer || !mq::FindItemByGlobalIndex(item_index(eItemContainerPossessions, slot, in_bag)))
+			return false;
+		char line[32] = {};
+		sprintf_s(line, "%d %d", slot, in_bag);
+		mq::cmdUseItem(pLocalPlayer, line);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_open_container(int container, int slot, int in_bag, bool open)
+{
+	try
+	{
+		ItemClient* item = mq::FindItemByGlobalIndex(item_index(container, slot, in_bag));
+		if (item == nullptr || !item->IsContainer())
+			return false;
+		if (!open)
+			return mq::CloseContainer(item);
+		if (item->Open)
+			return true;
+		// OpenContainer needs the bag's slot window.
+		if (!pInvSlotMgr || !pInvSlotMgr->FindInvSlot(item->GetItemLocation(), false))
+			return false;
+		mq::OpenContainer(item, false, false);
+		return item->Open != 0;
 	}
 	catch (...)
 	{

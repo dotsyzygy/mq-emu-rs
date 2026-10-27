@@ -1,6 +1,7 @@
 //! EverQuest's own UI windows (`CXWnd` and its subclasses): finding them as
-//! `${Window[...]}` does, reading them, and clicking and notifying them as
-//! `/notify` does.
+//! `${Window[...]}` does, reading them, clicking and notifying them as
+//! `/notify` does, subclassing them and drawing on them; and a plugin's own
+//! windows.
 //!
 //! A [`Window`] borrows from the callback's [`Mq`], like a [`Spawn`]: the
 //! game may free windows between frames (when the UI reloads, say), so they
@@ -25,15 +26,23 @@ use crate::mq::Mq;
 use crate::plugin::Plugin;
 use crate::text::{from_c_array, from_cxstr, to_c};
 
+mod hooks;
 mod hot_buttons;
 mod item_slots;
+mod painter;
 mod plugin_windows;
+mod subclass;
 mod trade;
 
+pub(crate) use hooks::WindowNotice;
+pub use hooks::{MouseAction, MouseEvent, WindowEvent, WindowHooks};
 pub use hot_buttons::{HotBar, HotButtonType, HotButtonWindow};
 pub use item_slots::{ItemContainerKind, ItemSlotWindow, SlotLocation};
-pub(crate) use plugin_windows::{PluginWindowSlot, WindowNotice};
-pub use plugin_windows::{PluginWindowId, WindowEvent};
+pub use painter::Painter;
+pub(crate) use plugin_windows::PluginWindowSlot;
+pub use plugin_windows::PluginWindowId;
+pub(crate) use subclass::SubclassSlot;
+pub use subclass::SubclassId;
 pub use trade::TradeWindow;
 
 /// The most windows [`Window::descendants`] walks, so a damaged window tree
@@ -1033,7 +1042,7 @@ pub(crate) mod fake {
 
     use mq_emu_sys::constants::UI_UNKNOWN;
     use mq_emu_sys::layouts::{CContextMenu, CHotButton, CInvSlotWnd, CListWnd, CTabWnd, CTextureAnimation, CXWnd, ItemClient};
-    use mq_emu_sys::windows::{Api, mqemu_rect, mqemu_window_notification_fn};
+    use mq_emu_sys::windows::{Api, HOOK_DRAW, HOOK_NOTIFICATION, mqemu_rect, mqemu_window_event, mqemu_window_hook_fn};
 
     /// A window as the fake game knows it.
     #[derive(Debug, Clone, Default)]
@@ -1063,8 +1072,14 @@ pub(crate) mod fake {
         /// What `mqemu_plugin_window_create` makes, by screen piece: a
         /// window the test owns. Each is made at most once at a time.
         pub plugin_windows: HashMap<String, usize>,
-        /// The windows made, with what they notify.
-        pub made: Vec<(usize, mqemu_window_notification_fn, usize)>,
+        /// The windows made, and the game's windows subclassed, with what
+        /// they pass on: the hook, its user and its mask.
+        pub made: Vec<(usize, mqemu_window_hook_fn, usize, u32)>,
+        pub subclassed: Vec<(usize, mqemu_window_hook_fn, usize, u32)>,
+        /// Windows' client areas, as far as they show.
+        pub client_rects: HashMap<usize, mqemu_rect>,
+        /// Whether item actions succeed.
+        pub items_work: bool,
     }
 
     thread_local! {
@@ -1231,7 +1246,7 @@ pub(crate) mod fake {
         with(|windows| windows.screen_pieces.contains(&name))
     }
 
-    unsafe extern "C" fn create(screen: *const c_char, notify: mqemu_window_notification_fn, user: *mut c_void) -> *mut CXWnd {
+    unsafe extern "C" fn create(screen: *const c_char, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> *mut CXWnd {
         let screen = unsafe { CStr::from_ptr(screen) }.to_string_lossy().to_lowercase();
         with(|windows| {
             if !windows.screen_pieces.contains(&screen) {
@@ -1239,7 +1254,7 @@ pub(crate) mod fake {
             }
             let Some(window) = windows.plugin_windows.get(&screen).copied() else { return std::ptr::null_mut() };
             assert!(!windows.made.iter().any(|(w, ..)| *w == window), "{screen} made twice");
-            windows.made.push((window, notify, user as usize));
+            windows.made.push((window, hook, user as usize, mask));
             windows.log.push(format!("create {screen}"));
             window as *mut CXWnd
         })
@@ -1254,14 +1269,113 @@ pub(crate) mod fake {
         record(format!("destroy {entry}"))
     }
 
-    /// Has the fake game's window `window` (made by `create`) send its
-    /// plugin a notification, as the real window does.
-    pub(crate) fn send(window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: *mut c_void) {
-        let (notify, user) = with(|windows| {
-            let (_, notify, user) = windows.made.iter().find(|(w, ..)| *w == window as usize).copied().expect("a window that was made");
-            (notify, user)
+    unsafe extern "C" fn subclass(raw: *mut CXWnd, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> bool {
+        let entry = label(raw);
+        let added = with(|windows| {
+            if windows.subclassed.iter().any(|(w, ..)| *w == raw as usize) {
+                return false;
+            }
+            windows.subclassed.push((raw as usize, hook, user as usize, mask));
+            true
         });
-        unsafe { notify(user as *mut c_void, window, sender, message, data) };
+        added && record(format!("subclass {entry} {mask:#x}"))
+    }
+
+    unsafe extern "C" fn unsubclass(raw: *mut CXWnd, live: bool) -> bool {
+        let found = with(|windows| {
+            let position = windows.subclassed.iter().position(|(w, ..)| *w == raw as usize);
+            position.map(|position| windows.subclassed.remove(position)).is_some()
+        });
+        // A window that isn't live may not be read, not even for its label.
+        let entry = if live { label(raw) } else { "(gone)".into() };
+        found && record(format!("unsubclass {entry}")) && live
+    }
+
+    unsafe extern "C" fn client_clip_rect(raw: *mut CXWnd, out: *mut mqemu_rect) -> bool {
+        with(|windows| windows.client_rects.get(&(raw as usize)).map(|rect| unsafe { *out = *rect }).is_some())
+    }
+
+    fn rect_text(rect: *const mqemu_rect) -> String {
+        let r = unsafe { &*rect };
+        format!("{},{},{},{}", r.left, r.top, r.right, r.bottom)
+    }
+
+    unsafe extern "C" fn fill_rect(rect: *const mqemu_rect, color: u32, clip: *const mqemu_rect) -> bool {
+        record(format!("fill_rect {} {color:#x} clip {}", rect_text(rect), rect_text(clip)))
+    }
+
+    unsafe extern "C" fn draw_text(font: i32, text: *const c_char, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, flags: u32) -> bool {
+        let text = unsafe { CStr::from_ptr(text) }.to_string_lossy();
+        // The fake game has fonts 0 to 9.
+        (0..10).contains(&font) && record(format!("draw_text {font} {text:?} {} {color:#x} {flags} clip {}", rect_text(rect), rect_text(clip)))
+    }
+
+    unsafe extern "C" fn text_width(font: i32, text: *const c_char) -> i32 {
+        // Every character is font+1 pixels wide.
+        if !(0..10).contains(&font) {
+            return -1;
+        }
+        unsafe { CStr::from_ptr(text) }.to_bytes().len() as i32 * (font + 1)
+    }
+
+    unsafe extern "C" fn font_height(font: i32) -> i32 {
+        if (0..10).contains(&font) { 10 + font } else { -1 }
+    }
+
+    unsafe extern "C" fn draw_texture(animation: *mut CTextureAnimation, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, _color2: u32) -> bool {
+        record(format!("draw_texture {:#x} {} {color:#x} clip {}", animation as usize, rect_text(rect), rect_text(clip)))
+    }
+
+    fn item_action(entry: String) -> bool {
+        record(entry);
+        with(|windows| windows.items_work)
+    }
+
+    unsafe extern "C" fn pick_up_item(container: i32, slot: i32, in_bag: i32) -> bool {
+        item_action(format!("pick_up {container} {slot} {in_bag}"))
+    }
+
+    unsafe extern "C" fn drop_item(container: i32, slot: i32, in_bag: i32) -> bool {
+        item_action(format!("drop {container} {slot} {in_bag}"))
+    }
+
+    unsafe extern "C" fn use_item(slot: i32, in_bag: i32) -> bool {
+        item_action(format!("use {slot} {in_bag}"))
+    }
+
+    unsafe extern "C" fn open_container(container: i32, slot: i32, in_bag: i32, open: bool) -> bool {
+        item_action(format!("{} {container} {slot} {in_bag}", if open { "open_bag" } else { "close_bag" }))
+    }
+
+    /// Has the fake game's window `window` (made by `create`, or
+    /// subclassed) pass `event` to its plugin, as the real window does if
+    /// its mask asks for it. True if the plugin handled it.
+    pub(crate) fn pass(window: *mut CXWnd, event: mqemu_window_event) -> bool {
+        let (hook, user, mask) = with(|windows| {
+            let (_, hook, user, mask) = windows
+                .made
+                .iter()
+                .chain(&windows.subclassed)
+                .find(|(w, ..)| *w == window as usize)
+                .copied()
+                .expect("a window that was made or subclassed");
+            (hook, user, mask)
+        });
+        mask & (1 << event.kind) != 0 && unsafe { hook(user as *mut c_void, window, &event) }
+    }
+
+    pub(crate) fn event(kind: i32) -> mqemu_window_event {
+        mqemu_window_event { kind, sender: std::ptr::null_mut(), message: 0, data: std::ptr::null_mut(), x: 0, y: 0, flags: 0, scroll: 0 }
+    }
+
+    /// A notification, as [`pass`] passes it.
+    pub(crate) fn send(window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: *mut c_void) -> bool {
+        pass(window, mqemu_window_event { sender, message, data, ..event(HOOK_NOTIFICATION) })
+    }
+
+    /// The window has drawn.
+    pub(crate) fn draw(window: *mut CXWnd) {
+        pass(window, event(HOOK_DRAW));
     }
 
     pub(crate) static API: Api = Api {
@@ -1292,6 +1406,18 @@ pub(crate) mod fake {
         mqemu_screen_piece_loaded: screen_piece_loaded,
         mqemu_plugin_window_create: create,
         mqemu_plugin_window_destroy: destroy,
+        mqemu_window_subclass: subclass,
+        mqemu_window_unsubclass: unsubclass,
+        mqemu_window_client_clip_rect: client_clip_rect,
+        mqemu_draw_fill_rect: fill_rect,
+        mqemu_draw_text: draw_text,
+        mqemu_text_width: text_width,
+        mqemu_font_height: font_height,
+        mqemu_draw_texture: draw_texture,
+        mqemu_pick_up_item: pick_up_item,
+        mqemu_drop_item: drop_item,
+        mqemu_use_item: use_item,
+        mqemu_open_container: open_container,
     };
 }
 

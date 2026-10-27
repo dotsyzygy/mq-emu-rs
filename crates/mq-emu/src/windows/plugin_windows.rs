@@ -1,139 +1,37 @@
 //! A plugin's own EQ UI windows, made from screen pieces in UI XML files it
-//! adds, as a C++ plugin's `AddXMLFile` and `CCustomWnd` make them.
+//! adds, as a C++ plugin's `AddXMLFile` and `CCustomWnd` make them, with
+//! [hooks](super::WindowHooks) for what they get.
 //!
 //! The window's code (what passes its notifications to the plugin) is in the
 //! plugin's DLL, so the runtime deletes it before the UI is cleaned up and
 //! before the plugin unloads, and makes it again whenever the UI loads.
 
-use std::ffi::{CStr, c_char, c_void};
-use std::fmt;
-use std::rc::Rc;
+use std::ffi::c_void;
+use std::ops::ControlFlow;
 
-use mq_emu_sys::constants::XWM_LINK;
 use mq_emu_sys::layouts::CXWnd;
 
-use super::{Notification, Window};
+use super::hooks::hook_trampoline;
+use super::{Window, WindowEvent, WindowHooks};
 use crate::mq::Mq;
 use crate::plugin::Plugin;
-use crate::runtime::{Event, Runtime, guard};
+use crate::runtime::Runtime;
 use crate::text::to_c;
 
 /// One of this plugin's own windows, from [`Mq::add_window`].
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct PluginWindowId(pub(crate) u64);
 
-/// A notification one of this plugin's windows got, from one of its controls
-/// (or from the game or a `/notify` naming no control).
-pub struct WindowEvent<'a> {
-    window: Window<'a>,
-    sender: Option<Window<'a>>,
-    message: u32,
-    data: i32,
-    link: Option<String>,
-}
-
-impl<'a> WindowEvent<'a> {
-    /// The plugin's window.
-    pub fn window(&self) -> Window<'a> {
-        self.window
-    }
-
-    /// The control that sent it: the window itself or one inside it. `None`
-    /// if none was named.
-    pub fn sender(&self) -> Option<Window<'a>> {
-        self.sender
-    }
-
-    /// What it is, if it's one `/notify` names; [`message`](Self::message) has every kind.
-    pub fn notification(&self) -> Option<Notification> {
-        Notification::from_raw(self.message)
-    }
-
-    /// The message (`XWM_*`).
-    pub fn message(&self) -> u32 {
-        self.message
-    }
-
-    /// Its data: for a click on a list, the row; for a slider's new value,
-    /// the value. 0 for a link, whose data is [`link`](Self::link).
-    pub fn data(&self) -> i32 {
-        self.data
-    }
-
-    /// For a `link` notification (`XWM_LINK`), the link's code: the link
-    /// without its `\x12` markers, its tag digit and its text, as the game
-    /// sends it (see [`Window::notify_link`]).
-    pub fn link(&self) -> Option<&str> {
-        self.link.as_deref()
-    }
-}
-
-impl fmt::Debug for WindowEvent<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("WindowEvent")
-            .field("sender", &self.sender.and_then(|s| s.screen_id()))
-            .field("message", &self.message)
-            .field("data", &self.data)
-            .field("link", &self.link)
-            .finish()
-    }
-}
-
-pub(crate) type WindowHandler<P> = dyn Fn(&mut P, &Mq<P>, &WindowEvent<'_>);
-
 pub(crate) struct PluginWindowSlot<P: Plugin> {
     pub id: u64,
     pub screen: String,
-    pub handler: Rc<WindowHandler<P>>,
+    pub hooks: WindowHooks<P>,
     /// The window while the UI has it; null before it's made and after
     /// it's deleted.
     pub raw: *mut CXWnd,
 }
 
-/// A notification as the window got it, kept until the plugin can take it.
-pub(crate) struct WindowNotice {
-    pub window: *mut CXWnd,
-    pub sender: *mut CXWnd,
-    pub message: u32,
-    pub data: i32,
-    pub link: Option<String>,
-}
-
-/// What a plugin's window calls with each notification; `user` is the runtime.
-pub(crate) unsafe extern "C" fn notification_trampoline<P: Plugin>(
-    user: *mut c_void,
-    window: *mut CXWnd,
-    sender: *mut CXWnd,
-    message: u32,
-    data: *mut c_void,
-) {
-    // SAFETY: the runtime is a static that made the window.
-    let runtime = unsafe { &*user.cast::<Runtime<P>>() };
-    // A link's data is its text, there only for this call.
-    let link = (message == XWM_LINK && !data.is_null()).then(|| unsafe { CStr::from_ptr(data.cast::<c_char>()) }.to_string_lossy().into_owned());
-    let data = if link.is_some() { 0 } else { data as usize as i32 };
-    guard(|| {
-        runtime.enter(Event::Window(WindowNotice { window, sender, message, data, link }));
-    });
-}
-
 impl<P: Plugin> Runtime<P> {
-    /// Delivers a notice to its window's handler, if the window is still
-    /// the one the plugin has (the notice may have waited in the queue).
-    pub(crate) fn deliver_window_notice(&'static self, plugin: &mut P, mq: &Mq<P>, notice: WindowNotice) {
-        let handler = self.plugin_windows.borrow().iter().find(|slot| slot.raw == notice.window).map(|slot| slot.handler.clone());
-        let Some(handler) = handler else { return };
-        let api = self.host().windows;
-        // SAFETY: the window is live: the runtime deletes it, and forgets it,
-        // only between callbacks.
-        let Some(window) = (unsafe { Window::from_raw(notice.window, api) }) else { return };
-        // Only a control still inside it.
-        let sender = (!notice.sender.is_null())
-            .then(|| std::iter::once(window).chain(window.descendants()).find(|w| std::ptr::eq(w.raw, notice.sender)))
-            .flatten();
-        handler(plugin, mq, &WindowEvent { window, sender, message: notice.message, data: notice.data, link: notice.link });
-    }
-
     /// Makes the plugin's windows the UI doesn't have yet, if it has their
     /// screen pieces.
     pub(crate) fn create_plugin_windows(&'static self) {
@@ -142,7 +40,7 @@ impl<P: Plugin> Runtime<P> {
         let mut slots = self.plugin_windows.borrow_mut();
         for slot in slots.iter_mut().filter(|slot| slot.raw.is_null()) {
             let screen = to_c(&slot.screen);
-            slot.raw = unsafe { (api.mqemu_plugin_window_create)(screen.as_ptr(), notification_trampoline::<P>, user) };
+            slot.raw = unsafe { (api.mqemu_plugin_window_create)(screen.as_ptr(), hook_trampoline::<P>, user, slot.hooks.mask()) };
         }
     }
 
@@ -238,16 +136,32 @@ impl<P: Plugin> Mq<P> {
     /// `handler` gets each notification the window gets, from its controls
     /// (a button clicked, a list row picked, Enter in an edit box...) or from
     /// `/notify`, before the window handles it as any screen does (the
-    /// close box hides it).
+    /// close box hides it). [`add_window_with`](Self::add_window_with) also
+    /// draws on the window and takes the mouse over it.
     pub fn add_window<F>(&self, screen: &str, handler: F) -> PluginWindowId
     where
         F: Fn(&mut P, &Mq<P>, &WindowEvent<'_>) + 'static,
     {
+        self.add_window_with(
+            screen,
+            WindowHooks::new().on_notification(move |plugin, mq, event| {
+                handler(plugin, mq, event);
+                ControlFlow::Continue(())
+            }),
+        )
+    }
+
+    /// Adds a window of the plugin's own as [`add_window`](Self::add_window)
+    /// does, with `hooks` for what it gets: its notifications (which the
+    /// plugin may handle instead of the window), drawing on it after it
+    /// draws, and the mouse over it. A window that draws its own content
+    /// can be a screen piece with no controls.
+    pub fn add_window_with(&self, screen: &str, hooks: WindowHooks<P>) -> PluginWindowId {
         let runtime = self.runtime();
         let id = runtime.next_window_id.get();
         runtime.next_window_id.set(id + 1);
         let screen = screen.replace('\0', "");
-        runtime.plugin_windows.borrow_mut().push(PluginWindowSlot { id, screen, handler: Rc::new(handler), raw: std::ptr::null_mut() });
+        runtime.plugin_windows.borrow_mut().push(PluginWindowSlot { id, screen, hooks, raw: std::ptr::null_mut() });
         runtime.create_plugin_windows();
         PluginWindowId(id)
     }

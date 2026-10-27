@@ -9,7 +9,8 @@
 use core::ffi::{c_char, c_int, c_void};
 
 use crate::constants::{MAX_PATH, MAX_STRING};
-use crate::layouts::KeyCombo;
+use crate::layouts::{ItemClient, ItemGlobalIndex, KeyCombo};
+use crate::types::fEQCommand;
 
 /// A MacroQuest key bind's function (`fMQExecuteCmd`, mq/utils/Keybinds.h):
 /// the bind's name, and whether its key went down (true) or up.
@@ -91,6 +92,21 @@ imports! {
         /// this name.
         pub fn IsScreenPieceLoaded(name: *const c_char) -> bool;
 
+        // Items (MQ2Main.h), what /itemnotify does without a slot window
+        /// Moves the item at `index` to the cursor (or, with the merchant
+        /// window open, selects it). False, said in chat, if it can't.
+        pub fn PickupItem(index: *const ItemGlobalIndex) -> bool;
+        /// Moves the item on the cursor to `index`.
+        pub fn DropItem(index: *const ItemGlobalIndex) -> bool;
+        /// Opens a bag through its slot window; true only if it was open already.
+        pub fn OpenContainer(item: *mut ItemClient, hidden: bool, allow_tradeskill: bool) -> bool;
+        /// Closes a bag; true if it was open.
+        pub fn CloseContainer(item: *mut ItemClient) -> bool;
+        /// The item at `index`, in any of your containers.
+        pub fn FindItemByGlobalIndex(index: *const ItemGlobalIndex) -> *mut ItemClient;
+        /// Whether an item is on the cursor.
+        pub fn ItemOnCursor() -> bool;
+
         // Plugins (mq/api/PluginAPI.h)
         /// `GetProcAddress` against another loaded plugin, by plugin name.
         pub fn GetPluginProc(plugin: *const c_char, proc_name: *const c_char) -> *mut c_void;
@@ -117,5 +133,8 @@ imports! {
         /// Set once the server has sent the current target's buffs
         /// (`${Target.BuffsPopulated}`); cleared when the target changes.
         pub static mut gTargetbuffs: bool;
+        /// The game's own `/useitem` (MacroQuest's replaces it): takes "<slot>
+        /// <slot in bag>" (-1 for none). Null before MacroQuest has it.
+        pub static mut cmdUseItem: fEQCommand;
     }
 }

@@ -434,3 +434,359 @@ mod item_definition {
         assert!(unsafe { mqemu_item_definition(item.as_ptr().cast()) }.is_null());
     }
 }
+
+// ----- subclassing windows ------------------------------------------------------
+
+mod subclass {
+    use core::ffi::c_void;
+    use std::cell::{Cell, RefCell};
+    use std::sync::Mutex;
+
+    use mq_emu_sys::layouts::{CXPoint, CXWnd};
+    use mq_emu_sys::windows::*;
+
+    /// The shim keeps one list of subclasses; tests take turns with it.
+    static SHIM: Mutex<()> = Mutex::new(());
+
+    thread_local! {
+        /// What the window's own functions and the hook saw, in order.
+        static LOG: RefCell<Vec<String>> = const { RefCell::new(Vec::new()) };
+        /// Whether the hook says it handled what it gets.
+        static HANDLE: Cell<bool> = const { Cell::new(false) };
+        /// A window the hook takes its own subclass off of, when it's called.
+        static REMOVE_IN_HOOK: Cell<Option<usize>> = const { Cell::new(None) };
+    }
+
+    fn log(line: String) {
+        LOG.with(|log| log.borrow_mut().push(line));
+    }
+
+    fn take_log() -> Vec<String> {
+        LOG.with(|log| std::mem::take(&mut *log.borrow_mut()))
+    }
+
+    // The window's own functions, as the game's class has them.
+    unsafe extern "thiscall" fn own_notification(this: *mut CXWnd, sender: *mut CXWnd, message: u32, data: *mut c_void) -> i32 {
+        log(format!("own notification {:#x} {:#x} {message} {}", this as usize, sender as usize, data as usize));
+        7
+    }
+    unsafe extern "thiscall" fn own_post_draw(this: *mut CXWnd) -> i32 {
+        log(format!("own post_draw {:#x}", this as usize));
+        9
+    }
+    unsafe extern "thiscall" fn own_mouse(this: *mut CXWnd, pos: *const CXPoint, flags: u32) -> i32 {
+        let pos = unsafe { &*pos };
+        log(format!("own mouse {:#x} {} {} {flags}", this as usize, pos.x(), pos.y()));
+        11
+    }
+    unsafe extern "thiscall" fn own_wheel(this: *mut CXWnd, pos: *const CXPoint, scroll: i32, flags: u32) -> i32 {
+        let pos = unsafe { &*pos };
+        log(format!("own wheel {:#x} {} {} {scroll} {flags}", this as usize, pos.x(), pos.y()));
+        13
+    }
+
+    unsafe extern "C" fn hook(user: *mut c_void, window: *mut CXWnd, event: *const mqemu_window_event) -> bool {
+        let e = unsafe { &*event };
+        log(format!(
+            "hook {} {:#x} kind {} sender {:#x} message {} data {} at {},{} flags {} scroll {}",
+            user as usize, window as usize, e.kind, e.sender as usize, e.message, e.data as usize, e.x, e.y, e.flags, e.scroll
+        ));
+        if let Some(remove) = REMOVE_IN_HOOK.take() {
+            log(format!("removed {}", unsafe { mqemu_window_unsubclass(remove as *mut CXWnd, true) }));
+        }
+        HANDLE.get()
+    }
+
+    const ENTRIES: usize = 1100;
+    const RTTI: usize = 0x5151_5151;
+    const ALL: u32 = (1 << HOOK_KINDS) - 1;
+
+    fn slot(kind: i32) -> usize {
+        let slot = unsafe { mqemu_window_hook_slot(kind) };
+        usize::try_from(slot).unwrap_or_else(|_| panic!("no slot for kind {kind}"))
+    }
+
+    /// A vtable laid out as a game class's: the RTTI pointer, then numbered
+    /// entries, with the window's own functions where the shim hooks.
+    fn vtable() -> &'static [usize] {
+        let mut table: Vec<usize> = (0..=ENTRIES).map(|i| 0x1000_0000 + i).collect();
+        table[0] = RTTI;
+        let entries = &mut table[1..];
+        entries[slot(HOOK_NOTIFICATION)] = own_notification as *const () as usize;
+        entries[slot(HOOK_DRAW)] = own_post_draw as *const () as usize;
+        for kind in [HOOK_LBUTTON_DOWN, HOOK_LBUTTON_UP, HOOK_RBUTTON_DOWN, HOOK_RBUTTON_UP, HOOK_MOUSE_MOVE] {
+            entries[slot(kind)] = own_mouse as *const () as usize;
+        }
+        entries[slot(HOOK_WHEEL)] = own_wheel as *const () as usize;
+        &table.leak()[1..]
+    }
+
+    /// A window: its vtable pointer, then room for the rest.
+    struct Window(Box<[usize; 64]>);
+
+    impl Window {
+        fn new(vtable: *const usize) -> Window {
+            let mut storage = Box::new([0usize; 64]);
+            storage[0] = vtable as usize;
+            Window(storage)
+        }
+
+        fn ptr(&self) -> *mut CXWnd {
+            self.0.as_ptr().cast_mut().cast()
+        }
+
+        fn vtable(&self) -> *const usize {
+            self.0[0] as *const usize
+        }
+
+        fn set_vtable(&mut self, vtable: *const usize) {
+            self.0[0] = vtable as usize;
+        }
+
+        fn entry(&self, kind: i32) -> usize {
+            unsafe { *self.vtable().add(slot(kind)) }
+        }
+
+        // Calls through the window's vtable, as the game does.
+        fn notify(&self, sender: usize, message: u32, data: usize) -> i32 {
+            type F = unsafe extern "thiscall" fn(*mut CXWnd, *mut CXWnd, u32, *mut c_void) -> i32;
+            let f: F = unsafe { std::mem::transmute(self.entry(HOOK_NOTIFICATION)) };
+            unsafe { f(self.ptr(), sender as *mut CXWnd, message, data as *mut c_void) }
+        }
+
+        fn post_draw(&self) -> i32 {
+            type F = unsafe extern "thiscall" fn(*mut CXWnd) -> i32;
+            let f: F = unsafe { std::mem::transmute(self.entry(HOOK_DRAW)) };
+            unsafe { f(self.ptr()) }
+        }
+
+        fn mouse(&self, kind: i32, x: i32, y: i32, flags: u32) -> i32 {
+            type F = unsafe extern "thiscall" fn(*mut CXWnd, *const CXPoint, u32) -> i32;
+            let f: F = unsafe { std::mem::transmute(self.entry(kind)) };
+            let point = [x, y];
+            unsafe { f(self.ptr(), point.as_ptr().cast(), flags) }
+        }
+
+        fn wheel(&self, x: i32, y: i32, scroll: i32, flags: u32) -> i32 {
+            type F = unsafe extern "thiscall" fn(*mut CXWnd, *const CXPoint, i32, u32) -> i32;
+            let f: F = unsafe { std::mem::transmute(self.entry(HOOK_WHEEL)) };
+            let point = [x, y];
+            unsafe { f(self.ptr(), point.as_ptr().cast(), scroll, flags) }
+        }
+
+        fn subclass(&self, mask: u32) -> bool {
+            unsafe { mqemu_window_subclass(self.ptr(), hook, 42 as *mut c_void, mask) }
+        }
+
+        fn unsubclass(&self) -> bool {
+            unsafe { mqemu_window_unsubclass(self.ptr(), true) }
+        }
+    }
+
+    fn setup(handle: bool) -> std::sync::MutexGuard<'static, ()> {
+        let guard = SHIM.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+        take_log();
+        HANDLE.set(handle);
+        guard
+    }
+
+    #[test]
+    fn the_slots_are_eqlibs() {
+        // CXWnd::VirtualFunctionTable's offset comments, read from the header.
+        let header = std::fs::read_to_string(std::path::Path::new(env!("MQ_ROOT")).join("src/eqlib/include/eqlib/game/CXWnd.h")).unwrap();
+        let offset = |name: &str| -> usize {
+            let entry = format!("void* {name};");
+            let line = header.lines().find(|line| line.trim_end().ends_with(&entry)).unwrap_or_else(|| panic!("{name}"));
+            let hex = line.trim().strip_prefix("/*0x").and_then(|rest| rest.split("*/").next()).unwrap();
+            usize::from_str_radix(hex, 16).unwrap()
+        };
+        let expected = [
+            (HOOK_NOTIFICATION, "WndNotification"),
+            (HOOK_DRAW, "PostDraw"),
+            (HOOK_LBUTTON_DOWN, "HandleLButtonDown"),
+            (HOOK_LBUTTON_UP, "HandleLButtonUp"),
+            (HOOK_RBUTTON_DOWN, "HandleRButtonDown"),
+            (HOOK_RBUTTON_UP, "HandleRButtonUp"),
+            (HOOK_MOUSE_MOVE, "HandleMouseMove"),
+            (HOOK_WHEEL, "HandleWheelMove"),
+        ];
+        for (kind, name) in expected {
+            assert_eq!(slot(kind) * 4, offset(name), "{name}");
+        }
+        assert_eq!(unsafe { mqemu_window_hook_slot(HOOK_KINDS) }, -1);
+    }
+
+    #[test]
+    fn hooked_entries_reach_the_hook_and_then_the_window() {
+        let _shim = setup(false);
+        let window = Window::new(vtable().as_ptr());
+        let w = window.ptr() as usize;
+        assert!(window.subclass(ALL));
+        assert_eq!(window.notify(0x77, 30, 5), 7, "the window's own result");
+        assert_eq!(window.post_draw(), 9);
+        assert_eq!(window.mouse(HOOK_LBUTTON_DOWN, 100, -20, 4), 11);
+        assert_eq!(window.mouse(HOOK_RBUTTON_UP, 1, 2, 0), 11);
+        assert_eq!(window.wheel(3, 4, -120, 8), 13);
+        assert_eq!(
+            take_log(),
+            [
+                format!("hook 42 {w:#x} kind 0 sender 0x77 message 30 data 5 at 0,0 flags 0 scroll 0"),
+                format!("own notification {w:#x} 0x77 30 5"),
+                format!("own post_draw {w:#x}"),
+                format!("hook 42 {w:#x} kind 1 sender 0x0 message 0 data 0 at 0,0 flags 0 scroll 0"),
+                format!("hook 42 {w:#x} kind 2 sender 0x0 message 0 data 0 at 100,-20 flags 4 scroll 0"),
+                format!("own mouse {w:#x} 100 -20 4"),
+                format!("hook 42 {w:#x} kind 5 sender 0x0 message 0 data 0 at 1,2 flags 0 scroll 0"),
+                format!("own mouse {w:#x} 1 2 0"),
+                format!("hook 42 {w:#x} kind 7 sender 0x0 message 0 data 0 at 3,4 flags 8 scroll -120"),
+                format!("own wheel {w:#x} 3 4 -120 8"),
+            ],
+            "drawing comes after the window drew"
+        );
+        assert!(window.unsubclass());
+    }
+
+    #[test]
+    fn a_handled_event_skips_the_window() {
+        let _shim = setup(true);
+        let window = Window::new(vtable().as_ptr());
+        assert!(window.subclass(ALL));
+        assert_eq!(window.notify(0, 1, 0), 0);
+        assert_eq!(window.mouse(HOOK_MOUSE_MOVE, 5, 6, 0), 0);
+        assert_eq!(window.post_draw(), 9, "drawing can't be handled: the window drew first");
+        let own: Vec<String> = take_log().into_iter().filter(|line| line.starts_with("own")).collect();
+        assert_eq!(own, [format!("own post_draw {:#x}", window.ptr() as usize)]);
+        assert!(window.unsubclass());
+    }
+
+    #[test]
+    fn only_the_kinds_asked_for_reach_the_hook() {
+        let _shim = setup(true);
+        let window = Window::new(vtable().as_ptr());
+        assert!(window.subclass(1 << HOOK_DRAW));
+        assert_eq!(window.notify(0, 1, 0), 7, "not asked for: the window has it");
+        assert_eq!(window.mouse(HOOK_LBUTTON_UP, 0, 0, 0), 11);
+        window.post_draw();
+        let hooked: Vec<String> = take_log().into_iter().filter(|line| line.starts_with("hook")).collect();
+        assert_eq!(hooked.len(), 1);
+        assert!(hooked[0].contains("kind 1 "), "{hooked:?}");
+        assert!(window.unsubclass());
+    }
+
+    #[test]
+    fn the_rest_of_the_vtable_and_its_rtti_are_kept() {
+        let _shim = setup(false);
+        let original = vtable();
+        let window = Window::new(original.as_ptr());
+        assert!(window.subclass(ALL));
+        assert_ne!(window.vtable(), original.as_ptr(), "a copy");
+        let copy = unsafe { std::slice::from_raw_parts(window.vtable().sub(1), 1025) };
+        assert_eq!(copy[0], RTTI);
+        let hooked: Vec<usize> = (0..HOOK_KINDS).map(slot).collect();
+        for (i, entry) in copy[1..].iter().enumerate() {
+            if hooked.contains(&i) {
+                assert_ne!(*entry, original[i], "{i} is replaced");
+            } else {
+                assert_eq!(*entry, original[i], "{i} is kept");
+            }
+        }
+        assert!(window.unsubclass());
+        assert_eq!(window.vtable(), original.as_ptr(), "put back");
+        assert!(!window.unsubclass(), "only once");
+    }
+
+    #[test]
+    fn a_window_is_subclassed_once() {
+        let _shim = setup(false);
+        let window = Window::new(vtable().as_ptr());
+        assert!(window.subclass(ALL));
+        let first = window.vtable();
+        assert!(!window.subclass(ALL));
+        assert_eq!(window.vtable(), first);
+        assert!(!unsafe { mqemu_window_subclass(std::ptr::null_mut(), hook, std::ptr::null_mut(), ALL) });
+        assert!(window.unsubclass());
+        assert!(window.subclass(ALL), "again once taken off");
+        assert!(window.unsubclass());
+    }
+
+    #[test]
+    fn a_window_without_a_readable_vtable_is_refused() {
+        let _shim = setup(false);
+        let mut window = Window::new(std::ptr::null());
+        assert!(!window.subclass(ALL), "no vtable");
+        // Unmapped: the first 64 KB of the address space never are.
+        window.set_vtable(0x100 as *const usize);
+        assert!(!window.subclass(ALL), "a vtable that can't be read");
+        assert_eq!(window.vtable(), 0x100 as *const usize, "left alone");
+        assert!(!window.unsubclass());
+    }
+
+    #[test]
+    fn another_window_sharing_the_table_only_reaches_its_own_functions() {
+        // MacroQuest's WindowOverride gives a second window of a class the
+        // patched table it made for the first; that table can be ours.
+        let _shim = setup(true);
+        let window = Window::new(vtable().as_ptr());
+        assert!(window.subclass(ALL));
+        let other = Window::new(window.vtable());
+        assert_eq!(other.notify(1, 2, 3), 7);
+        assert_eq!(take_log(), [format!("own notification {:#x} 0x1 2 3", other.ptr() as usize)]);
+        assert!(window.unsubclass());
+    }
+
+    #[test]
+    fn a_hook_on_top_keeps_working_after_ours_comes_off() {
+        // Another hook copies our table (as WindowOverride copies whatever
+        // the window has) and puts its copy on the window.
+        let _shim = setup(false);
+        let mut window = Window::new(vtable().as_ptr());
+        assert!(window.subclass(ALL));
+        let theirs: &'static [usize] = unsafe { std::slice::from_raw_parts(window.vtable().sub(1), 1025) }.to_vec().leak();
+        window.set_vtable(theirs[1..].as_ptr());
+        window.notify(0, 1, 0);
+        assert_eq!(take_log().len(), 2, "through their copy to our hook, then the window");
+
+        assert!(!window.unsubclass(), "not ours to put back");
+        assert_eq!(window.vtable(), theirs[1..].as_ptr(), "theirs stays");
+        assert_eq!(window.notify(0, 1, 0), 7);
+        assert_eq!(window.post_draw(), 9);
+        assert_eq!(window.wheel(1, 1, 1, 1), 13);
+        let log = take_log();
+        assert!(log.iter().all(|line| line.starts_with("own")), "the stubs they copied go straight to the window's functions: {log:?}");
+        assert_eq!(log.len(), 3);
+    }
+
+    #[test]
+    fn a_deleted_window_is_left_alone() {
+        // The game deleted the window; its memory may hold anything now.
+        let _shim = setup(false);
+        let mut window = Window::new(vtable().as_ptr());
+        assert!(window.subclass(ALL));
+        let ours = window.vtable();
+        window.set_vtable(0x100 as *const usize);
+        assert!(!unsafe { mqemu_window_unsubclass(window.ptr(), false) });
+        assert_eq!(window.vtable(), 0x100 as *const usize, "not touched");
+        // Anything still holding our table goes straight to the old functions.
+        window.set_vtable(ours);
+        assert_eq!(window.notify(0, 1, 0), 7);
+        assert_eq!(take_log().len(), 1, "no hook");
+        assert!(window.subclass(ALL), "forgotten: a new window there can be subclassed");
+        assert!(window.unsubclass());
+    }
+
+    #[test]
+    fn the_hook_can_take_its_own_subclass_off() {
+        let _shim = setup(false);
+        let original = vtable();
+        let window = Window::new(original.as_ptr());
+        assert!(window.subclass(ALL));
+        REMOVE_IN_HOOK.set(Some(window.ptr() as usize));
+        assert_eq!(window.notify(0, 1, 0), 7, "the window still gets it");
+        let log = take_log();
+        assert_eq!(log.len(), 3, "{log:?}");
+        assert_eq!(log[1], "removed true");
+        assert_eq!(window.vtable(), original.as_ptr());
+        window.post_draw();
+        assert_eq!(take_log().len(), 1, "no hook anymore");
+    }
+}

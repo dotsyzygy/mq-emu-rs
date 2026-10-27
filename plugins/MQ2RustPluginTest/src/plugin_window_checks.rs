@@ -2,11 +2,14 @@
 //! `MQUI_RustTestWnd.xml` and its "RustTestWnd" window when it loads; the
 //! UI is reloaded once if it hasn't read the file yet. The window's button,
 //! edit box and links reach the plugin's handler, from mq-emu and from
-//! MacroQuest's `/notify`; removed, it's gone, and added again it's back.
+//! MacroQuest's `/notify`; it draws on itself each frame it's shown;
+//! removed, it's gone, and added again it's back.
 
+use std::ops::ControlFlow;
 use std::time::Duration;
 
-use mq_emu::{Click, GameState, Mq, Task, WindowEvent};
+use mq_emu::imgui::EqTextFlags;
+use mq_emu::{Click, GameState, Mq, Task, WindowEvent, WindowHooks, WindowRect};
 
 use crate::RustTest;
 use crate::checks::{Check, Report, same_text};
@@ -36,10 +39,28 @@ pub fn describe(event: &WindowEvent<'_>) -> String {
     }
 }
 
-/// Adds the plugin's window, recording what its handler gets.
+/// Adds the plugin's window, recording what its handler gets, and drawing
+/// a line of text under its controls each frame.
 pub fn add(mq: &Mq<RustTest>) -> mq_emu::PluginWindowId {
-    mq.add_window(SCREEN, |plugin: &mut RustTest, _, event| plugin.window_events.push(describe(event)))
+    let hooks = WindowHooks::new()
+        .on_notification(|plugin: &mut RustTest, _, event| {
+            plugin.window_events.push(describe(event));
+            ControlFlow::Continue(())
+        })
+        .on_draw(|plugin, _, painter| {
+            let clip = painter.clip_rect();
+            let height = painter.line_height(FONT);
+            let line = WindowRect { left: clip.left + 4, top: clip.bottom - height.unwrap_or(12) - 4, right: clip.right - 4, bottom: clip.bottom - 4 };
+            painter.fill_rect(line, 0x8000_0000);
+            let drew = painter.text(FONT, "drawn by mq-emu", line, 0xff80_ff80, EqTextFlags::NO_WRAP);
+            plugin.own_draws += 1;
+            plugin.own_drawing = Some((drew, height, painter.text_width(FONT, "drawn by mq-emu")));
+        });
+    mq.add_window_with(SCREEN, hooks)
 }
+
+/// The EQ font style the window's text is drawn in.
+const FONT: u8 = 2;
 
 /// Waits until the handler has recorded an event starting with `event`.
 async fn got(task: &Task<RustTest>, event: &str) -> bool {
@@ -109,6 +130,24 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) {
     if !ready {
         return;
     }
+
+    // It draws on itself each frame it's shown.
+    let mut draws = 0;
+    for _ in 0..(NOTIFY_TIMEOUT.as_millis() / 50) {
+        draws = task.with_plugin(|plugin, _| plugin.own_draws);
+        if draws >= 3 {
+            break;
+        }
+        task.delay(Duration::from_millis(50)).await;
+    }
+    task.with_plugin(|plugin, mq| {
+        report.print(mq, "add_window_with's on_draw runs each frame the window is shown", Check::that(draws >= 3, || format!("{draws} draws")));
+        let drawing = plugin.own_drawing;
+        report.print(mq, &format!("the painter draws text in EQ font style {FONT}, and measures it"), Check::that(
+            matches!(drawing, Some((true, Some(height), Some(width))) if height > 0 && width > 0),
+            || format!("(drew, line height, width): {drawing:?}"),
+        ));
+    });
 
     // A click on its button, as a player's would.
     task.with(|mq| mq.window(&format!("{SCREEN}/{BUTTON}")).map(|button| button.click(Click::Left)));

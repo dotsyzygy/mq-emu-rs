@@ -258,6 +258,46 @@ fn a_removed_window_waiting_for_deletion_goes_with_the_ui() {
 }
 
 #[test]
+fn add_window_always_passes_notifications_on() {
+    let screen = screen();
+    load_screen_piece();
+    with_window();
+    assert!(!fake::send(screen.window, screen.button, XWM_LCLICK, std::ptr::null_mut()), "the window handles it after the plugin");
+}
+
+#[test]
+fn a_window_with_hooks_draws_takes_the_mouse_and_may_handle_notifications() {
+    let screen = screen();
+    load_screen_piece();
+    fake::with(|w| w.client_rects.insert(screen.window as usize, mq_emu_sys::windows::mqemu_rect { left: 0, top: 0, right: 50, bottom: 60 }));
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        let hooks = crate::WindowHooks::new()
+            .on_notification(|plugin: &mut Recorder, _, event| {
+                plugin.log.push(describe(event));
+                std::ops::ControlFlow::Break(())
+            })
+            .on_draw(|plugin, _, painter| {
+                painter.fill_rect(painter.clip_rect(), 0xff00_00ff);
+                plugin.log.push(format!("drew {}", painter.window().name().unwrap_or_default()));
+            })
+            .on_mouse(|plugin, _, event| {
+                plugin.log.push(format!("{:?}", event.action()));
+                std::ops::ControlFlow::Continue(())
+            });
+        WINDOW_ID.with(|w| w.set(Some(mq.add_window_with("TestWnd", hooks))));
+    });
+    rt.initialize();
+    assert_eq!(fake::log(), ["create testwnd"]);
+    assert!(fake::send(screen.window, screen.button, XWM_LCLICK, std::ptr::null_mut()), "handled: the window doesn't get it");
+    fake::draw(screen.window);
+    let up = mq_emu_sys::windows::mqemu_window_event { x: 5, y: 6, ..fake::event(mq_emu_sys::windows::HOOK_RBUTTON_UP) };
+    assert!(!fake::pass(screen.window, up));
+    assert_eq!(log_of(rt)[1..], ["event TW_Button Some(LeftClick) 1 0 None", "drew TestWnd", "RightUp"]);
+    assert_eq!(fake::log(), ["fill_rect 0,0,50,60 0xff0000ff clip 0,0,50,60"]);
+}
+
+#[test]
 fn a_panicking_window_handler_is_caught_and_reported() {
     let screen = screen();
     load_screen_piece();

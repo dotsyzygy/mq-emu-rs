@@ -68,9 +68,17 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   What windows hold: `window.as_item_slot()` and `as_hot_button()`, `mq.hot_bar(0)`,
   `mq.trade_window()`, and an item's slot as `/itemnotify` finds it:
   `mq.item_slot_window(SlotLocation::parse("in pack1 3")?)?.window().click(Click::Left)`.
+  With no window showing a place (a closed bag): `mq.pick_up_item(place)`, `mq.drop_item(place)`,
+  `mq.use_item(place)` (`/useitem`) and `mq.open_bag(place)`.
 - **Windows of your own**: `mq.add_xml_file("MQUI_MyWnd.xml")` and
   `mq.add_window("MyWnd", |plugin, mq, event| ...)`, made whenever the UI loads and deleted for you
-  before it's cleaned up and when the plugin unloads.
+  before it's cleaned up and when the plugin unloads. `mq.add_window_with("MyWnd", hooks)` also
+  draws on it and takes the mouse.
+- **Subclassing the game's windows**: `mq.subclass_window("InventoryWindow", hooks)` with
+  `WindowHooks::new().on_notification(..).on_mouse(..).on_draw(..)`: see what a window gets first
+  (returning `ControlFlow::Break(())` keeps it from the window) and draw on it with a `Painter`
+  (rectangles, EQ text, UI textures). On whenever the game has the window, off for you before the
+  UI is cleaned up and when the plugin unloads.
 - **Messaging between characters** through MacroQuest's actor system (via the launcher, on this PC
   or others): every plugin has a default mailbox (`Plugin::on_message`), `mq.add_mailbox(name, ...)`
   adds named ones, `mq.send(&Address::character("Bob").mailbox("follow"), bytes)` sends, and

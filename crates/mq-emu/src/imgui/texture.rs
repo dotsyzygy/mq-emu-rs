@@ -142,7 +142,7 @@ pub struct TextureAnimation {
 
 impl TextureAnimation {
     /// The animation, unless the UI it came from was unloaded.
-    pub(super) fn current(&self) -> Option<*const mq_sys::CTextureAnimation> {
+    pub(crate) fn current(&self) -> Option<*const mq_sys::CTextureAnimation> {
         (self.generation == UI_GENERATION.with(Cell::get)).then_some(self.raw.as_ptr())
     }
 

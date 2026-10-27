@@ -23,6 +23,7 @@ mod peer_checks;
 mod play_checks;
 mod plugin_window_checks;
 mod window;
+mod window_hook_checks;
 
 use std::collections::{BTreeSet, VecDeque};
 use std::time::{Duration, Instant};
@@ -90,6 +91,15 @@ struct RustTest {
     /// The plugin's own EQ UI window, and what its handler got.
     plugin_window: Option<mq_emu::PluginWindowId>,
     window_events: Vec<String>,
+    /// How often the plugin's window drew itself, and what the painter said
+    /// last: whether text drew, the line height and the text's width.
+    own_draws: u32,
+    own_drawing: Option<(bool, Option<i32>, Option<i32>)>,
+    /// What the selftest's hooks on the inventory window got, how often it
+    /// drew, and whether its done button's click is handled.
+    hook_events: Vec<String>,
+    hook_draws: u32,
+    block_done: bool,
     /// The latest selftest's results, for the debug window.
     selftest_log: SharedLog,
     window: window::DebugWindow,
@@ -442,6 +452,9 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     eq_window_content_checks::run(&task, &mut report).await;
     task.with(|mq| report.section(mq, "The plugin's own EQ window"));
     plugin_window_checks::run(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Hooking EQ windows, and items without them"));
+    window_hook_checks::subclassing(&task, &mut report).await;
+    window_hook_checks::items(&task, &mut report).await;
 
     task.with(|mq| report.section(mq, "ImGui"));
     imgui(&task, &mut report).await;

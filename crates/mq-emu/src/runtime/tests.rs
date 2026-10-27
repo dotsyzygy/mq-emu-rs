@@ -24,6 +24,7 @@ mod game_data;
 mod imgui;
 mod key_binds;
 mod plugin_windows;
+mod subclass;
 mod windows;
 
 // ----- fake host -----------------------------------------------------------
