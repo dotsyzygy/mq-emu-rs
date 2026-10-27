@@ -186,6 +186,7 @@ const FAKE: Host = Host {
     face_angle: || FACE_ANGLE.with(Cell::get),
     set_face_angle: |value| FACE_ANGLE.with(|angle| angle.set(value)),
     loaded_plugin_name: |name| LUA_LOADED_AS.with(Cell::get).filter(|_| name.eq_ignore_ascii_case("lua")).map(str::to_owned),
+    config_dir: || std::path::PathBuf::from(r"C:\MQ\config"),
     data: data::FAKE_DATA,
     take_imgui_error: || IMGUI_ERROR.with(RefCell::take),
     // Recorder never draws; nothing calls these.
@@ -1499,4 +1500,17 @@ fn mailboxes_use_macroquests_name_for_the_plugin() {
     assert!(!main.has_actor("test"), "not the crate name");
     rt.shutdown();
     unsafe { mq_emu_sys::shim::testing::mqemu_test_free_plugin(plugin) };
+}
+
+#[test]
+fn the_plugins_ini_is_named_as_a_cpp_plugins_would_be() {
+    // A C++ plugin's INIFileName is "<gPathConfig>\<PreSetup name>.ini", e.g.
+    // MQ2Map.ini: the DLL's name, not the shorter one MacroQuest uses for
+    // mailboxes.
+    let rt = runtime();
+    set_hook(&ON_NEW, |plugin, mq| {
+        plugin.log.push(format!("{} {}", mq.config_dir().display(), mq.ini().path().display()));
+    });
+    rt.initialize();
+    assert_eq!(log_of(rt), ["new", r"C:\MQ\config C:\MQ\config\test.ini"]);
 }

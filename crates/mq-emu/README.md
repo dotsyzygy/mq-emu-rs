@@ -41,6 +41,10 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   macros, plugin load/unload), each with an `&Mq` handle.
 - **Commands** as Rust closures that receive your plugin state, and **aliases**: temporary ones
   (`mq.add_alias`, removed when the plugin unloads) or saved to MacroQuest.ini like `/alias`.
+- **Settings in INI files**: `mq.ini()` is the plugin's own `config\<Name>.ini` (the file a C++
+  plugin's `INIFileName` names); `Ini::new(path)` opens any other. Read values as text, parsed or
+  as MacroQuest's switches (`on`/`yes`/`1`...), write anything `Display`, list and remove keys and
+  sections. Files stay compatible with `${Ini[...]}`, `/ini` and C++ plugins.
 - **Game state**: `mq.me()`, `mq.target()`, positions, headings, HP/mana, and
   `mq.parse("${...}")` for any MacroQuest data.
 - **Movement and the spawn list**: hold movement keys, turn smoothly or instantly, face points;

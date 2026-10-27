@@ -408,6 +408,11 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
         ))
     });
 
+    task.with_plugin(|_, mq| {
+        report.section(mq, "Settings");
+        checks::ini(mq, &mut report);
+    });
+
     task.with(|mq| report.section(mq, "Target buffs"));
     play_checks::target_buffs(&task, &mut report).await;
 

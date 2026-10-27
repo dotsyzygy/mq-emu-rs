@@ -342,6 +342,38 @@ pub fn aliases<P: Plugin>(mq: &Mq<P>, report: &mut Report, echo: &str, arguments
     mq.command_now(format!("{ALIAS} {arguments}"));
 }
 
+/// The plugin's INI file against `${Ini}` and `/ini`, which find it by name
+/// alone in MacroQuest's config directory. Writes a section and removes it.
+pub fn ini<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
+    let ini = mq.ini();
+    let file = ini.path().file_name().unwrap_or_default().to_string_lossy().into_owned();
+    let section = "RustTestSelftest";
+    let theirs = |mq: &Mq<P>, key: &str| mq.parse(&format!("${{Ini[{file},{section},{key}]}}"));
+
+    report.print(mq, "the config directory is MacroQuest's", same_text(mq.config_dir().display(), mq.parse("${MacroQuest.Path[config]}")));
+    let written = ini.set(section, "Padded", "  spaced  ").and_then(|()| ini.set(section, "Switch", true));
+    let (padded, switch) = (theirs(mq, "Padded"), theirs(mq, "Switch"));
+    report.print(mq, "values written read the same in ${Ini}, spaces kept", Check::that(
+        written.is_ok() && padded == "  spaced  " && switch == "true",
+        || format!("written {written:?}, ${{Ini}} has {padded:?} and {switch:?}"),
+    ));
+
+    mq.command_now(format!("/ini \"{file}\" {section} FromIni \"on\""));
+    let ours = ini.get_bool(section, "FromIni");
+    report.print(mq, "a value /ini writes reads here at once", Check::that(ours == Some(true), || format!("read {ours:?}")));
+    report.print(mq, "the section's keys are listed in order", same_text(
+        "Padded,Switch,FromIni",
+        ini.keys(section).join(","),
+    ));
+
+    let removed = ini.remove_section(section);
+    let left = theirs(mq, "Switch");
+    report.print(mq, "removing the section deletes it from the file", Check::that(
+        removed.is_ok() && left == "NULL" && ini.get(section, "Switch").is_none(),
+        || format!("removed {removed:?}, ${{Ini}} has {left:?}"),
+    ));
+}
+
 /// [`aliases`]'s run of [`ALIAS`], judged from the chat it caused, then the
 /// alias is removed.
 pub fn alias_expanded<P: Plugin>(mq: &Mq<P>, report: &mut Report, echoed: Option<&str>, expected: &str) {

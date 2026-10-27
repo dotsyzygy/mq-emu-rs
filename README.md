@@ -53,6 +53,10 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Chat output, with colors (`mq_emu::color`)
 - Running commands (queued, immediate, timed); adding and removing slash commands
 - Aliases, including ones saved to MacroQuest.ini
+- Settings in INI files (`Ini`): the plugin's own (`mq.ini()`, `config\<Name>.ini` as a C++
+  plugin's `INIFileName`) or any other; values as text, parsed or as MacroQuest's switches; keys and
+  sections listed, written whole and removed; read and written through the same Windows functions
+  as MacroQuest, so `${Ini}`, `/ini` and C++ plugins see the same values
 - Parsing `${...}` text
 - Reading TLOs and members (`tlo`, `tlo_at`, `data("Target.Name")`) as typed values
 - Providing TLOs from Rust (`add_tlo`) returning scalar values
@@ -188,7 +192,6 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
     (tables replace it)
 - MacroQuest events (`#Event`-style chat matching) and key binds
 - EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
-- Settings helpers for reading and writing plugin INI files
 - Hooks/detours on game functions
 - Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
 
@@ -235,9 +238,11 @@ The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Tar
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
 target and pet buffs, raid, mercenary, extended targets, AAs, skills, and the merchant and loot
 windows when open), and
-exercises commands, aliases, re-entrancy, parsing, keys and async tasks. It also:
+exercises commands, aliases, settings, re-entrancy, parsing, keys and async tasks. It also:
 
 - **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again.
+- **Touches its own INI file:** writes a `[RustTestSelftest]` section to
+  `config\MQ2RustPluginTest.ini` (also through `/ini`), compares it with `${Ini}`, and removes it.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
 - **Targets something** when nothing is targeted (the nearest spawn, then the nearest NPC for the
   target buff checks, waiting for its buffs to arrive), and clears that target afterwards.
@@ -402,6 +407,16 @@ config and only explicitly passed settings, to check what a downstream user will
   from inside the plot doesn't compile. The input map changes for a scope and is restored, and
   maps ImGui would index out of bounds with are refused. Spell gems, item links and EQ text reach
   MacroQuest's stand-ins, and gems past the game's last aren't asked for.
+- **`mq-emu` INI tests**: against real files through Windows' INI functions: values, parsed values
+  and MacroQuest's switch words read back; a missing key is told apart from an empty one; values
+  Windows would change on reading (spaces at either end, surrounding quotes) are quoted so they come
+  back exactly, also through Windows alone as `${Ini}` reads them; long values and long key and
+  section lists are read whole; UTF-8 is stored as MacroQuest stores it; names and values that
+  would break the file are refused before anything is written; paths the ANSI code page can't hold
+  are refused. Negative tests show what Windows does without each guard (missing and empty look
+  the same, quotes and spaces are stripped, MacroQuest's buffer cuts long values, an `=` in a key or
+  a newline in a value injects keys and sections). The plugin's own file is named as a C++
+  plugin's.
 - **`mq-emu` `tests/plugin_exports.rs`**: a DLL built with `plugin!` exports everything the loader
   needs, carries the right `EverQuestVersion` bytes, doesn't need the Visual C++ redistributable, and
   imports `imgui.dll`.

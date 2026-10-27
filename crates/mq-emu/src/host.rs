@@ -79,6 +79,8 @@ pub(crate) struct Host {
     pub set_face_angle: fn(f64),
     /// The name MacroQuest gave a loaded plugin (see `mqemu_loaded_plugin_name`).
     pub loaded_plugin_name: fn(&str) -> Option<String>,
+    /// MacroQuest's config directory (`gPathConfig`).
+    pub config_dir: fn() -> std::path::PathBuf,
     /// MacroQuest's data system: TLOs and their members.
     pub data: crate::data::DataApi,
     /// The first ImGui error the shim caught since the last call, if any.
@@ -121,6 +123,7 @@ pub(crate) const fn real<P>() -> Host {
         face_angle: || unsafe { mq_emu_sys::mq2main::gFaceAngle },
         set_face_angle: |value| unsafe { mq_emu_sys::mq2main::gFaceAngle = value },
         loaded_plugin_name: real_loaded_plugin_name::<P>,
+        config_dir: || crate::ini::from_ansi(&unsafe { (&raw const mq_emu_sys::mq2main::gPathConfig).read() }),
         data: crate::data::real::<P>(),
         take_imgui_error: real_take_imgui_error::<P>,
         imgui: &crate::imgui::Apis {

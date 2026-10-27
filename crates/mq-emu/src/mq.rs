@@ -3,6 +3,7 @@
 use std::ffi::c_char;
 use std::fmt;
 use std::marker::PhantomData;
+use std::path::PathBuf;
 use std::rc::Rc;
 use std::time::Duration;
 
@@ -10,6 +11,7 @@ use mq_emu_sys::constants::{MAX_STRING, USERCOLOR_DEFAULT};
 
 use crate::game::{GameState, Spawn};
 use crate::host::{Host, truncate};
+use crate::ini::Ini;
 use crate::plugin::Plugin;
 use crate::runtime::Runtime;
 use crate::stats::Stats;
@@ -178,6 +180,19 @@ impl<P: Plugin> Mq<P> {
     /// True if an alias with this name exists (as `${Alias[/name]}`).
     pub fn is_alias(&self, name: &str) -> bool {
         self.runtime.is_alias(name)
+    }
+
+    // ----- settings -----
+
+    /// MacroQuest's config directory, where plugins keep their INI files.
+    pub fn config_dir(&self) -> PathBuf {
+        (self.host().config_dir)()
+    }
+
+    /// This plugin's own INI file, `<config dir>\<plugin name>.ini`: the
+    /// file a C++ plugin's `INIFileName` names. See [`Ini`].
+    pub fn ini(&self) -> Ini {
+        Ini::new(self.config_dir().join(format!("{}.ini", self.plugin_name()))).expect("MacroQuest's config path is in the ANSI code page")
     }
 
     // ----- macro data -----
