@@ -7,7 +7,8 @@ fn read_header(relative: &str) -> String {
     std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("failed to read {}: {e}", path.display()))
 }
 
-/// Finds `#define NAME value` or `constexpr <type> NAME = value;` and returns the raw value text.
+/// Finds `#define NAME value` or `constexpr <type> NAME = value;` (or `const <type> NAME = value;`)
+/// and returns the raw value text.
 fn find_value<'a>(header: &'a str, name: &str) -> Option<&'a str> {
     header.lines().find_map(|line| {
         let line = line.trim();
@@ -20,7 +21,7 @@ fn find_value<'a>(header: &'a str, name: &str) -> Option<&'a str> {
         if let Some(rest) = line.strip_prefix("#define") {
             let rest = after_name(rest.trim_start())?;
             rest.split_whitespace().next()
-        } else if line.starts_with("constexpr") {
+        } else if line.starts_with("constexpr ") || line.starts_with("const ") {
             let rest = after_name(line)?.trim_start().strip_prefix('=')?;
             Some(rest.split(';').next()?.trim())
         } else {
@@ -191,6 +192,7 @@ fn window_constants_match() {
         ("XWM_HISTORY", XWM_HISTORY),
         ("XWM_LCLICKHOLD", XWM_LCLICKHOLD),
         ("XWM_MAXIMIZEBOX", XWM_MAXIMIZEBOX),
+        ("XWM_LINK", XWM_LINK),
     ];
     for (name, value) in ours {
         let header_value = notifications.iter().find(|(n, _)| n == name).unwrap_or_else(|| panic!("{name} not in eWndNotification")).1;
@@ -198,7 +200,20 @@ fn window_constants_match() {
     }
 
     let file = "src/eqlib/include/eqlib/game/UI.h";
-    check!(read_header(file), file, [MAX_CONTEXT_MENU_DEPTH]);
+    check!(read_header(file), file, [MAX_CONTEXT_MENU_DEPTH, MAX_INV_SLOTS]);
+}
+
+#[test]
+fn slot_hot_button_and_trade_limits_match() {
+    let file = "src/eqlib/include/eqlib/game/Constants.h";
+    check!(read_header(file), file, [
+        MAX_TRADE_SLOTS,
+        NUM_SOCIAL_PAGES,
+        SOCIALS_PER_PAGE,
+        NUM_HOTBUTTON_WINDOWS,
+        NUM_HOTBUTTON_PAGES,
+        HOTBUTTONS_PER_PAGE,
+    ]);
 }
 
 #[test]
@@ -238,11 +253,13 @@ fn non_integer_value_is_rejected() {
 }
 
 #[test]
-fn find_value_handles_both_forms() {
-    let header = "#define FOO_BAR 0x1f // comment\n#define FOO 7\nconstexpr int BAZ = -1;\nconstexpr int BAZZ = 9;";
+fn find_value_handles_every_form() {
+    let header = "#define FOO_BAR 0x1f // comment\n#define FOO 7\nconstexpr int BAZ = -1;\nconstexpr int BAZZ = 9;\nconst int QUX = 4;\nconsteval int QUUX = 5;";
     assert_eq!(find_value(header, "FOO"), Some("7"));
     assert_eq!(find_value(header, "FOO_BAR"), Some("0x1f"));
     assert_eq!(find_value(header, "BAZ"), Some("-1"));
+    assert_eq!(find_value(header, "QUX"), Some("4"));
+    assert_eq!(find_value(header, "QUUX"), None, "not a constant this reads");
     assert_eq!(find_value(header, "MISSING"), None);
     assert_eq!(parse_int("0x1f"), 31);
 }

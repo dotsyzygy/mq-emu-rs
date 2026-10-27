@@ -1,7 +1,9 @@
 <#
 .SYNOPSIS
     Builds a plugin from plugins/ and copies its DLL into MacroQuest's plugins folder,
-    and any Lua scripts in plugins/<Plugin>/lua into MacroQuest's lua folder.
+    any Lua scripts in plugins/<Plugin>/lua into MacroQuest's lua folder, and anything
+    in plugins/<Plugin>/resources (such as UI XML in uifiles/default) into MacroQuest's
+    resources folder, keeping its folders.
 
 .DESCRIPTION
     Finds MacroQuest through MQ_ROOT: the environment variable if set, otherwise the
@@ -115,5 +117,20 @@ if ($luaScripts.Count -gt 0) {
     New-Item -ItemType Directory -Path $luaDestination -Force | Out-Null
     $luaScripts | Copy-Item -Destination $luaDestination -Force
     Write-Host "Copied $($luaScripts.Name -join ', ') to $luaDestination"
+}
+
+# Resources that go with the plugin, as a C++ plugin ships them (e.g. the UI XML
+# for its windows in uifiles/default). The UI reads XML only when it loads.
+$resourceSource = Join-Path $repo "plugins/$Plugin/resources"
+$resources = @(Get-ChildItem -Path $resourceSource -File -Recurse -ErrorAction SilentlyContinue)
+if ($resources.Count -gt 0) {
+    $resourceDestination = Join-Path $mqRoot "build/bin/$mqConfig/resources"
+    foreach ($file in $resources) {
+        $relative = $file.FullName.Substring((Resolve-Path $resourceSource).Path.Length).TrimStart('\', '/')
+        $target = Join-Path $resourceDestination $relative
+        New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+        Copy-Item $file.FullName $target -Force
+        Write-Host "Copied resources/$($relative -replace '\\', '/') to $resourceDestination"
+    }
 }
 Write-Host "In game: /plugin $Plugin   (then e.g. /rusttest selftest)"

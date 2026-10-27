@@ -107,6 +107,20 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   and alpha; the open context menu read, picked from and closed (MacroQuest's `${Menu.Items}` and
   `menuselect` find nothing on emu: the client leaves the count they use at 0). A control is
   looked for only inside its window (MacroQuest's `Child[]` carries on into the windows after it)
+- What EQ windows hold: item slots (`ItemSlotWindow`, `${Window.InvSlot}`: the place and item
+  shown, quantity, selection, text, textures), found for a place as `/itemnotify` finds them
+  (`Mq::item_slot_window`, with `/itemnotify`'s slot names in `SlotLocation::parse`: worn slots,
+  `pack1`, `bank3`, `loot2`, `trade1`, `enviro1`, `in pack1 3`) and clicked like any window; hot
+  bars and hot buttons (`HotButtonWindow`, `${Window.HotButton}`: type, slot, label, item, the
+  spell gem, social or alternate ability, the page shown, pressing one); the trade window (both
+  sides' ready flags, what's offered, its slots); `link` notifications, whose data is the link's
+  code (`Window::notify_link`)
+- A plugin's own EQ UI windows: UI XML files added as `AddXMLFile` adds them (taken out when the
+  plugin unloads), and windows made from their screen pieces as C++ plugins' `CCustomWnd` makes
+  them (`Mq::add_window`), with a handler for each notification the window gets (from its
+  controls or `/notify`). The runtime makes them whenever the UI loads and deletes them before it's
+  cleaned up and when the plugin unloads (their code is in the plugin); one removed from its own
+  handler is deleted once the game is done with it
 - Zones: the zone you're in (ID, instance, names, type, gravity, safe point, clip planes) and every
   zone the client knows, by ID or name
 - Ground items: the zone's list, lookup by ID, nearest with a filter; name, position, heading,
@@ -169,7 +183,8 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 - Generated raw layouts for spawns, your character and profile, the spawn list, items, spells,
   groups, zones, key state, ground items, client state, the target, pet, merchant and loot windows,
   raids, mercenaries, extended targets, aggro, alternate abilities and skills, and UI windows (the
-  window manager, buttons, lists, combo boxes, tabs, gauges, rich text, context menus) (via `sys`)
+  window manager, buttons, lists, combo boxes, tabs, gauges, rich text, context menus, item slots
+  and their manager, hot buttons and bars, the trade window) (via `sys`)
 
 **Missing**
 
@@ -209,10 +224,10 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
     localization, garbage collection, error recovery, the font atlas builder). Also not planned:
     context hooks (`Plugin::on_update_imgui` already runs every frame) and the legacy Columns API
     (tables replace it)
-- EQ UI windows beyond the bound set: what an item slot or hot button window holds
-  (`${Window.InvSlot}`, `${Window.HotButton}`), the trade window's ready flags, `/itemnotify`'s
-  item slots, `link` notifications (their data is text), and adding windows of a plugin's own
-  (`AddXMLFile`)
+- EQ UI windows beyond the bound set: `/itemnotify`'s fallbacks for an item it finds no slot
+  window for (picking it up or dropping it, `/useitem`; see acting on items above), subclassing the
+  game's own windows, and plugin windows of a class other than a plain screen (a plugin window's
+  controls are the XML's; it can't draw itself)
 - Hooks/detours on game functions
 - Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
 
@@ -241,7 +256,8 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
 
 This builds `MQ2RustPluginTest` in release and copies the DLL (and its `.pdb`) into
 `$MQ_ROOT/build/bin/release/plugins`, plus the plugin's Lua scripts (`plugins/<name>/lua/*.lua`)
-into `$MQ_ROOT/build/bin/release/lua`, finding `MQ_ROOT` the same way the build does: from your
+into `$MQ_ROOT/build/bin/release/lua` and its resources (`plugins/<name>/resources`, such as UI XML
+in `uifiles/default`) into `$MQ_ROOT/build/bin/release/resources`, finding `MQ_ROOT` the same way the build does: from your
 environment, or from `[env]` in `~/.cargo/config.toml`. Use `-Plugin <name>` for another plugin
 under `plugins/`, `-DebugBuild` for a debug build, and `-NoBuild` to only copy (from bash:
 `--plugin <name>`, `--debug`, `--no-build`). If the plugin is
@@ -253,13 +269,13 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
-| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it (with every open EQ window's controls), every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it (with every open EQ window's controls, what item slots and hot buttons hold, the hot bars and the trade window), every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
 target and pet buffs, raid, mercenary, extended targets, AAs, skills, the merchant and loot
-windows when open, and every EQ window and the controls of the open ones against `${Window}`), and
-exercises commands, aliases, settings, chat events, key binds, re-entrancy, parsing, keys and async
+windows when open, every EQ window and the controls of the open ones against `${Window}`, and every
+item slot and hot button against `${Window[...].InvSlot}` and `.HotButton`), and exercises commands, aliases, settings, chat events, key binds, re-entrancy, parsing, keys and async
 tasks. It also:
 
 - **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again, and binds a
@@ -275,7 +291,16 @@ tasks. It also:
 - **Works your windows:** opens the inventory window, moves it a pixel and back, switches one of its
   tabs and back, closes it with its done button, right-clicks it for its context menu (closed
   again), and types into the chat input (put back as it was). The inventory window ends up open or
-  closed as it was.
+  closed as it was. It right-clicks your first bag's slot to open the bag and again to close it,
+  sends the chat window a link to an item you wear (opening it in an item display window, closed
+  again), and presses an empty hot button if you have one.
+- **Reloads your UI, if it must:** the plugin adds `MQUI_RustTestWnd.xml` (deployed to
+  MacroQuest's `resources\uifiles\default`) and a window made from it when it loads; if the UI
+  hasn't read the file yet, the selftest runs `/reloadui`, which **freezes the game** for a while
+  (it says so in chat first, and reports how long it took). It's needed once per UI load: load the
+  plugin before entering the world (at character select, or autoloaded) and the in-game UI reads
+  the file with no reload. It then clicks the window's button, types into it, sends it a link and
+  `/notify`, removes it and adds it again, and leaves it hidden.
 - **Targets something** when nothing is targeted (the nearest spawn, then the nearest NPC for the
   target buff checks, waiting for its buffs to arrive), and clears that target afterwards.
 - **Forms a raid** when you aren't in one: invites the other characters running the plugin, has

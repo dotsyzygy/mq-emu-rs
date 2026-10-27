@@ -124,7 +124,8 @@ pub use spells::{Buff, Spell, SpellEffect, SpellId};
 pub use tasks::{NextPulse, Task, TaskId};
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
 pub use windows::{
-    Click, ContextMenu, ListWindow, MAX_DESCENDANTS, Notification, Scroll, TabWindow, Window, WindowKind, WindowRect,
+    Click, ContextMenu, HotBar, HotButtonType, HotButtonWindow, ItemContainerKind, ItemSlotWindow, ListWindow, MAX_DESCENDANTS,
+    Notification, PluginWindowId, Scroll, SlotLocation, TabWindow, TradeWindow, Window, WindowEvent, WindowKind, WindowRect,
 };
 pub use xtarget::{XTARGET_AUTO_HATER, XTarget, XTargetStatus};
 pub use zone::{CurrentZone, ZoneId, ZoneInfo, ZoneType};

@@ -17,8 +17,8 @@ use std::time::Instant;
 use mq_emu_sys::constants::MAX_STRING;
 use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
 use mq_emu_sys::layouts::{
-    AggroMeterManagerClient, CContextMenuManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd,
-    CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient,
+    AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    CTargetWnd, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient,
     PlayerManagerClient, zoneHeader,
 };
 use mq_emu_sys::shim::MainInterface;
@@ -74,6 +74,10 @@ pub(crate) struct Host {
     pub window_manager: fn() -> *mut CXWndManager,
     /// The context menus (`pContextMenuManager`).
     pub context_menu_manager: fn() -> *mut CContextMenuManager,
+    /// Every item slot window (`pInvSlotMgr`).
+    pub inv_slot_manager: fn() -> *mut CInvSlotMgr,
+    /// The trade window (`pTradeWnd`).
+    pub trade_window: fn() -> *mut CTradeWnd,
     /// The game's and MacroQuest's window functions (`mq_emu_sys::windows`).
     pub windows: &'static mq_emu_sys::windows::Api,
     /// The game's own functions for what layouts can't answer (`mq_emu_sys::game`).
@@ -130,6 +134,8 @@ pub(crate) const fn real<P>() -> Host {
         active_corpse: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pActiveCorpse) },
         window_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pWndMgr) },
         context_menu_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pContextMenuManager) },
+        inv_slot_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pInvSlotMgr) },
+        trade_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTradeWnd) },
         windows: &mq_emu_sys::windows::API,
         game_fns: &mq_emu_sys::game::API,
         command_enabled: real_command_enabled::<P>,

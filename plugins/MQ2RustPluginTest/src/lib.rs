@@ -14,12 +14,14 @@
 mod checks;
 mod data_checks;
 mod eq_window_checks;
+mod eq_window_content_checks;
 mod event_checks;
 mod game_checks;
 mod graphics;
 mod lua_checks;
 mod peer_checks;
 mod play_checks;
+mod plugin_window_checks;
 mod window;
 
 use std::collections::{BTreeSet, VecDeque};
@@ -85,6 +87,9 @@ struct RustTest {
     events_seen: Vec<(String, EventMatch)>,
     /// The selftest's key bind going down (true) and up.
     bind_presses: Vec<bool>,
+    /// The plugin's own EQ UI window, and what its handler got.
+    plugin_window: Option<mq_emu::PluginWindowId>,
+    window_events: Vec<String>,
     /// The latest selftest's results, for the debug window.
     selftest_log: SharedLog,
     window: window::DebugWindow,
@@ -111,8 +116,12 @@ impl Plugin for RustTest {
         if let Err(e) = mq.add_tlo(data_checks::TLO, RustTest::tlo) {
             mq.chat(format!("{RED}[{}]{RESET} couldn't add the {} TLO: {e}", mq.plugin_name(), data_checks::TLO));
         }
+        // An EQ UI window of our own, for the selftest; the UI reads the file
+        // when it next loads.
+        mq.add_xml_file(plugin_window_checks::XML_FILE);
+        let plugin_window = Some(plugin_window_checks::add(mq));
         mq.chat(format!("{GREEN}[{}]{RESET} loaded. Try {YELLOW}{COMMAND} selftest{RESET}.", mq.plugin_name()));
-        RustTest::default()
+        RustTest { plugin_window, ..RustTest::default() }
     }
 
     fn shutdown(&mut self, mq: &Mq<Self>) {
@@ -429,6 +438,10 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
 
     task.with(|mq| report.section(mq, "EQ UI windows"));
     eq_window_checks::run(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Item slots, hot buttons, trade and links"));
+    eq_window_content_checks::run(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "The plugin's own EQ window"));
+    plugin_window_checks::run(&task, &mut report).await;
 
     task.with(|mq| report.section(mq, "ImGui"));
     imgui(&task, &mut report).await;

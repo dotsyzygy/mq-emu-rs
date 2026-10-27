@@ -33,6 +33,9 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         DescribeKeyCombo as *const c_void,
         DumpBinds as *const c_void,
         StripMQChat as *const c_void,
+        AddXMLFile as *const c_void,
+        RemoveXMLFile as *const c_void,
+        IsScreenPieceLoaded as *const c_void,
         EQExecuteCmd as *const c_void,
     ];
     let statics: &[*const c_void] = &[
@@ -73,6 +76,8 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const pActiveCorpse).cast(),
         (&raw const pWndMgr).cast(),
         (&raw const pContextMenuManager).cast(),
+        (&raw const pInvSlotMgr).cast(),
+        (&raw const pTradeWnd).cast(),
     ];
     assert_eq!(
         functions.len() + statics.len(),

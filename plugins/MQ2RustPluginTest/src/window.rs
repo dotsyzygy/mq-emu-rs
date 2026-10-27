@@ -436,6 +436,14 @@ impl RustTest {
             if let Some(menu) = mq.context_menu() {
                 ui.text(format!("Context menu: {}", menu.items().filter(|i| !i.is_empty()).collect::<Vec<_>>().join(", ")));
             }
+            if let Some(trade) = mq.trade_window() {
+                ui.text(format!("Trade: trading {}, mine ready {}, theirs ready {}", trade.is_trading(), trade.my_ready(), trade.their_ready()));
+            }
+            ui.text(format!("{} item slots", mq.item_slot_windows().count()));
+            for bar in (0..10).filter_map(|bar| mq.hot_bar(bar)) {
+                let labels: Vec<String> = bar.buttons().map(|b| b.label()).filter(|l| !l.is_empty()).collect();
+                ui.text(format!("Hot bar {} (page {}): {}", bar.window().name().unwrap_or_default(), bar.page() + 1, labels.join(", ")));
+            }
             let windows: Vec<_> = mq.windows().collect();
             ui.text(format!("{} windows, {} open", windows.len(), windows.iter().filter(|w| w.is_open()).count()));
             for window in windows.into_iter().filter(|w| w.is_open()) {
@@ -650,7 +658,13 @@ fn window_tree(ui: &mut Ui, window: mq_emu::Window<'_>) {
         if text.len() > 40 {
             text = format!("{}...", text.chars().take(40).collect::<String>());
         }
-        let label = format!("{} {} {text:?}", control.kind().name(), control.screen_id().unwrap_or_default());
+        // What an item slot or hot button holds, too.
+        let holds = match (control.as_item_slot(), control.as_hot_button()) {
+            (Some(slot), _) => format!(" [{}]", slot.item().map_or("empty".into(), |item| item.name())),
+            (_, Some(button)) => format!(" [{} {}]", button.button_type().name(), button.label()),
+            _ => String::new(),
+        };
+        let label = format!("{} {} {text:?}{holds}", control.kind().name(), control.screen_id().unwrap_or_default());
         let flags = if control.first_child().is_none() { TreeNodeFlags::LEAF } else { TreeNodeFlags::NONE };
         ui.with_id(i, |ui| ui.tree_node_with(&label, flags, |ui| window_tree(ui, control)));
     }

@@ -79,7 +79,8 @@ fn window_rows<P: Plugin>(mq: &Mq<P>, window: Window<'_>, label: &str, at: &str)
                 if list.cell_window(row, column).is_some() {
                     continue;
                 }
-                let ours = list.text(row, column).unwrap_or_default();
+                // A cell a short row lacks is NULL.
+                let ours = or_null(list.text(row, column));
                 rows.push((format!("{label} cell {row},{column}"), ours, format!("${{{at}.List[{},{}]}}", row + 1, column + 1)));
             }
         }

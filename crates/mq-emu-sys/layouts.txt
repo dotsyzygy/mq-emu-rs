@@ -49,3 +49,9 @@ CGaugeWnd               # a gauge (HP, mana, progress bars)
 CStmlWnd                # rich text
 CContextMenuManager     # the open context menus (pContextMenuManager)
 CContextMenu            # one context menu
+CInvSlotWnd             # an item slot window (inventory, bags, bank, loot, trade, hot buttons)
+CInvSlotMgr             # every item slot window (pInvSlotMgr), as /itemnotify finds them
+CInvSlot                # one item slot: its window
+CHotButton              # one hot button
+CHotButtonWnd           # a hot bar (HotButtonWnd, HotButtonWnd2...)
+CTradeWnd               # the trade window (pTradeWnd)

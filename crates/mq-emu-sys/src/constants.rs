@@ -288,7 +288,23 @@ pub const XWM_MOUSEOVER: u32 = 21;
 pub const XWM_HISTORY: u32 = 22;
 pub const XWM_LCLICKHOLD: u32 = 23;
 pub const XWM_MAXIMIZEBOX: u32 = 29;
+/// `link`: a link was clicked; the data is the link's text, not a number.
+pub const XWM_LINK: u32 = 27;
 
 /// Open context menus at once (eqlib `game/UI.h`): the size of
 /// `CContextMenuManager::pCurrMenus`.
 pub const MAX_CONTEXT_MENU_DEPTH: usize = 8;
+
+// Item slots, hot buttons and the trade window (eqlib `game/Constants.h`,
+// `game/UI.h`).
+/// Size of `CInvSlotMgr::SlotArray`.
+pub const MAX_INV_SLOTS: usize = 2048;
+/// Item slots in the trade window (`CTradeWnd::pInvSlotWnd`): yours, then
+/// the other trader's.
+pub const MAX_TRADE_SLOTS: usize = 16;
+pub const NUM_SOCIAL_PAGES: usize = 10;
+pub const SOCIALS_PER_PAGE: usize = 12;
+/// Hot bars (`HotButtonWnd`, `HotButtonWnd2`...).
+pub const NUM_HOTBUTTON_WINDOWS: usize = 10;
+pub const NUM_HOTBUTTON_PAGES: usize = 10;
+pub const HOTBUTTONS_PER_PAGE: usize = 12;

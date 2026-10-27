@@ -30,6 +30,7 @@ use crate::plugin::Plugin;
 use crate::stats::{Stats, Warnings};
 use crate::tasks::Executor;
 use crate::text::{from_c, to_c};
+use crate::windows::{PluginWindowSlot, WindowNotice};
 
 /// Most re-entrant events held at once; more are dropped.
 pub const MAX_QUEUE: usize = 256;
@@ -72,6 +73,8 @@ pub(crate) enum Event {
     Matched(u64, EventMatch),
     /// A key bind's key went down (true) or up.
     KeyBind(String, bool),
+    /// One of the plugin's windows got a notification.
+    Window(WindowNotice),
 }
 
 impl Event {
@@ -101,6 +104,7 @@ impl Event {
             Event::Message(..) => (24, "a mailbox handler"),
             Event::Matched(..) => (25, "an event handler"),
             Event::KeyBind(..) => (26, "a key bind handler"),
+            Event::Window(_) => (27, "a window handler"),
         }
     }
 
@@ -167,6 +171,14 @@ pub struct Runtime<P: Plugin> {
     events: RefCell<Events<P>>,
     /// The key binds this plugin added, removed at shutdown.
     key_binds: RefCell<Vec<KeyBindSlot<P>>>,
+    /// The plugin's own windows; deleted when the UI is cleaned up and at
+    /// shutdown, made again when it loads.
+    pub(crate) plugin_windows: RefCell<Vec<PluginWindowSlot<P>>>,
+    pub(crate) next_window_id: Cell<u64>,
+    /// Windows removed while their code may be running, deleted later.
+    pub(crate) removed_windows: RefCell<Vec<*mut mq_emu_sys::layouts::CXWnd>>,
+    /// The UI XML files this plugin added, taken out at shutdown.
+    pub(crate) xml_files: RefCell<Vec<String>>,
 }
 
 // SAFETY: MacroQuest calls plugins only from the game thread, and plugin code
@@ -206,6 +218,10 @@ impl<P: Plugin> Runtime<P> {
             aliases: RefCell::new(Vec::new()),
             events: RefCell::new(Events::new()),
             key_binds: RefCell::new(Vec::new()),
+            plugin_windows: RefCell::new(Vec::new()),
+            next_window_id: Cell::new(1),
+            removed_windows: RefCell::new(Vec::new()),
+            xml_files: RefCell::new(Vec::new()),
         }
     }
 
@@ -268,6 +284,8 @@ impl<P: Plugin> Runtime<P> {
             self.remove_all_tlos();
             self.remove_temporary_aliases();
             self.remove_all_key_binds();
+            // Their code is in this DLL.
+            self.remove_all_plugin_windows();
             *self.events.borrow_mut() = Events::new();
             let plugin = unsafe { (*self.plugin.get()).take() };
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
@@ -290,6 +308,7 @@ impl<P: Plugin> Runtime<P> {
                 return;
             }
             let start = (self.host.now)();
+            self.delete_removed_windows();
             self.busy.set(true);
             self.run_one(Event::Pulse);
             // Tasks run in the same busy section, after on_pulse; anything
@@ -337,15 +356,24 @@ impl<P: Plugin> Runtime<P> {
         // The game frees its UI textures next, whether or not the event is
         // delivered now.
         crate::imgui::ui_unloaded();
-        self.event(Event::CleanUi)
+        self.event(Event::CleanUi);
+        // After the plugin had them for on_clean_ui; the game cleans up next.
+        guard(|| self.destroy_plugin_windows());
     }
     pub fn reload_ui(&'static self) {
+        // Before on_reload_ui, which may set them up.
+        guard(|| self.create_plugin_windows());
         self.event(Event::ReloadUi)
     }
     pub fn draw_hud(&'static self) {
         self.event(Event::DrawHud)
     }
     pub fn set_game_state(&'static self, state: i32) {
+        // Entering the world loads the UI without a reload: make the
+        // windows then too, as C++ plugins do.
+        if state == mq_emu_sys::constants::GAMESTATE_INGAME {
+            guard(|| self.create_plugin_windows());
+        }
         self.event(Event::SetGameState(state))
     }
     pub fn add_spawn(&'static self, spawn: *mut PlayerClient) {
@@ -544,6 +572,7 @@ impl<P: Plugin> Runtime<P> {
                     handler(plugin, mq, down);
                 }
             }
+            Event::Window(notice) => self.deliver_window_notice(plugin, mq, notice),
         }
         false
     }

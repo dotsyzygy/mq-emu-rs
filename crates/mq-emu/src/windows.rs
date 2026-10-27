@@ -25,6 +25,17 @@ use crate::mq::Mq;
 use crate::plugin::Plugin;
 use crate::text::{from_c_array, from_cxstr, to_c};
 
+mod hot_buttons;
+mod item_slots;
+mod plugin_windows;
+mod trade;
+
+pub use hot_buttons::{HotBar, HotButtonType, HotButtonWindow};
+pub use item_slots::{ItemContainerKind, ItemSlotWindow, SlotLocation};
+pub(crate) use plugin_windows::{PluginWindowSlot, WindowNotice};
+pub use plugin_windows::{PluginWindowId, WindowEvent};
+pub use trade::TradeWindow;
+
 /// The most windows [`Window::descendants`] walks, so a damaged window tree
 /// (a loop in it) can't hang the game. Far above any real window's count.
 pub const MAX_DESCENDANTS: usize = 65536;
@@ -361,6 +372,11 @@ impl Notification {
         Notification::ALL.into_iter().find(|n| n.name().eq_ignore_ascii_case(name))
     }
 
+    /// The notification whose message (`XWM_*`) this is.
+    pub fn from_raw(raw: u32) -> Option<Notification> {
+        Notification::ALL.into_iter().find(|n| n.raw() == raw)
+    }
+
     /// The message (`XWM_*`).
     pub fn raw(self) -> u32 {
         match self {
@@ -617,6 +633,18 @@ impl<'a> Window<'a> {
         unsafe { (self.api.mqemu_window_notify)(self.ptr(), sender, notification.raw(), data) }
     }
 
+    /// Sends it a `link` notification as if `sender` sent it, as `/notify
+    /// <window> <sender> link <code>` does: a link was clicked, its data the
+    /// link's code. That's the link without its `\x12` markers, its tag
+    /// (the digit after the first marker: `0` for an item) and its text, as
+    /// eqlib's `ExecuteTextLink` sends it. The game's chat windows open the
+    /// item it names (or answer the dialog, for a dialog response link).
+    pub fn notify_link(&self, sender: Option<Window<'_>>, code: &str) -> bool {
+        let sender = sender.map_or(std::ptr::null_mut(), |sender| sender.ptr());
+        let code = to_c(code);
+        unsafe { (self.api.mqemu_window_notify_link)(self.ptr(), sender, code.as_ptr()) }
+    }
+
     /// Shows it and brings it to the front (`${Window.DoOpen}`).
     pub fn open(&self) -> bool {
         unsafe { (self.api.mqemu_window_show)(self.ptr(), true) }
@@ -721,8 +749,14 @@ impl<'a> ListWindow<'a> {
     }
 
     /// The text of a cell (`${Window.List[row+1,column+1]}`); `None` if the
-    /// cell isn't there.
+    /// cell isn't there. A row can have fewer cells than the list has
+    /// columns, and the game reads the ones it lacks as empty; MacroQuest
+    /// (and this) as none.
     pub fn text(&self, row: usize, column: usize) -> Option<String> {
+        let cells = self.lines().get(row)?.Cells().m_length();
+        if usize::try_from(cells).map_or(true, |cells| column >= cells) {
+            return None;
+        }
         let (row, column) = (i32::try_from(row).ok()?, i32::try_from(column).ok()?);
         let list = std::ptr::from_ref(self.list).cast_mut();
         long_text(|out, cap| unsafe { (self.window.api.mqemu_list_item_text)(list, row, column, out, cap) })
@@ -962,11 +996,11 @@ pub(crate) mod fake {
 
     use std::cell::RefCell;
     use std::collections::HashMap;
-    use std::ffi::{CStr, c_char};
+    use std::ffi::{CStr, c_char, c_void};
 
     use mq_emu_sys::constants::UI_UNKNOWN;
-    use mq_emu_sys::layouts::{CContextMenu, CListWnd, CTabWnd, CXWnd};
-    use mq_emu_sys::windows::{Api, mqemu_rect};
+    use mq_emu_sys::layouts::{CContextMenu, CHotButton, CInvSlotWnd, CListWnd, CTabWnd, CTextureAnimation, CXWnd, ItemClient};
+    use mq_emu_sys::windows::{Api, mqemu_rect, mqemu_window_notification_fn};
 
     /// A window as the fake game knows it.
     #[derive(Debug, Clone, Default)]
@@ -987,6 +1021,17 @@ pub(crate) mod fake {
         pub cells: HashMap<(usize, i32, i32), String>,
         /// Everything done to windows, in order.
         pub log: Vec<String>,
+        /// The item each item slot or hot button holds.
+        pub items: HashMap<usize, usize>,
+        /// Item slots' texts, and texture names, by pointer.
+        pub texts: HashMap<usize, String>,
+        /// The screen pieces the UI has, by lowercase name.
+        pub screen_pieces: Vec<String>,
+        /// What `mqemu_plugin_window_create` makes, by screen piece: a
+        /// window the test owns. Each is made at most once at a time.
+        pub plugin_windows: HashMap<String, usize>,
+        /// The windows made, with what they notify.
+        pub made: Vec<(usize, mqemu_window_notification_fn, usize)>,
     }
 
     thread_local! {
@@ -1112,6 +1157,80 @@ pub(crate) mod fake {
         record("menus_close".into())
     }
 
+    unsafe extern "C" fn notify_link(raw: *mut CXWnd, sender: *mut CXWnd, text: *const c_char) -> bool {
+        let sender = if sender.is_null() { "0".into() } else { label(sender) };
+        let text = unsafe { CStr::from_ptr(text) }.to_string_lossy();
+        record(format!("notify_link {} {sender} {text}", label(raw)))
+    }
+
+    unsafe extern "C" fn held_item(raw: *mut CInvSlotWnd) -> *mut ItemClient {
+        with(|windows| windows.items.get(&(raw as usize)).copied().unwrap_or(0)) as *mut ItemClient
+    }
+
+    unsafe extern "C" fn hot_button_item(raw: *mut CHotButton) -> *mut ItemClient {
+        with(|windows| windows.items.get(&(raw as usize)).copied().unwrap_or(0)) as *mut ItemClient
+    }
+
+    unsafe extern "C" fn inv_slot_text(raw: *mut CInvSlotWnd, out: *mut c_char, cap: usize) -> i32 {
+        with(|windows| write(windows.texts.get(&(raw as usize)).map(String::as_str), out, cap))
+    }
+
+    unsafe extern "C" fn texture_name(raw: *mut CTextureAnimation, out: *mut c_char, cap: usize) -> i32 {
+        with(|windows| write(windows.texts.get(&(raw as usize)).map(String::as_str), out, cap))
+    }
+
+    unsafe extern "C" fn activate(raw: *mut CHotButton) -> bool {
+        record(format!("activate {}", label(raw.cast())))
+    }
+
+    unsafe extern "C" fn add_xml_file(name: *const c_char) -> bool {
+        let name = unsafe { CStr::from_ptr(name) }.to_string_lossy();
+        record(format!("add_xml_file {name}"))
+    }
+
+    unsafe extern "C" fn remove_xml_file(name: *const c_char) -> bool {
+        let name = unsafe { CStr::from_ptr(name) }.to_string_lossy();
+        record(format!("remove_xml_file {name}"))
+    }
+
+    unsafe extern "C" fn screen_piece_loaded(name: *const c_char) -> bool {
+        let name = unsafe { CStr::from_ptr(name) }.to_string_lossy().to_lowercase();
+        with(|windows| windows.screen_pieces.contains(&name))
+    }
+
+    unsafe extern "C" fn create(screen: *const c_char, notify: mqemu_window_notification_fn, user: *mut c_void) -> *mut CXWnd {
+        let screen = unsafe { CStr::from_ptr(screen) }.to_string_lossy().to_lowercase();
+        with(|windows| {
+            if !windows.screen_pieces.contains(&screen) {
+                return std::ptr::null_mut();
+            }
+            let Some(window) = windows.plugin_windows.get(&screen).copied() else { return std::ptr::null_mut() };
+            assert!(!windows.made.iter().any(|(w, ..)| *w == window), "{screen} made twice");
+            windows.made.push((window, notify, user as usize));
+            windows.log.push(format!("create {screen}"));
+            window as *mut CXWnd
+        })
+    }
+
+    unsafe extern "C" fn destroy(raw: *mut CXWnd) -> bool {
+        let entry = label(raw);
+        with(|windows| {
+            let made = windows.made.iter().position(|(w, ..)| *w == raw as usize).expect("destroying a window that wasn't made");
+            windows.made.remove(made);
+        });
+        record(format!("destroy {entry}"))
+    }
+
+    /// Has the fake game's window `window` (made by `create`) send its
+    /// plugin a notification, as the real window does.
+    pub(crate) fn send(window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: *mut c_void) {
+        let (notify, user) = with(|windows| {
+            let (_, notify, user) = windows.made.iter().find(|(w, ..)| *w == window as usize).copied().expect("a window that was made");
+            (notify, user)
+        });
+        unsafe { notify(user as *mut c_void, window, sender, message, data) };
+    }
+
     pub(crate) static API: Api = Api {
         mqemu_find_window: find_window,
         mqemu_window_type: window_type,
@@ -1129,6 +1248,17 @@ pub(crate) mod fake {
         mqemu_tab_select: tab_select,
         mqemu_menu_select: menu_select,
         mqemu_menus_close: menus_close,
+        mqemu_window_notify_link: notify_link,
+        mqemu_inv_slot_item: held_item,
+        mqemu_inv_slot_text: inv_slot_text,
+        mqemu_texture_animation_name: texture_name,
+        mqemu_hot_button_item: hot_button_item,
+        mqemu_hot_button_activate: activate,
+        mqemu_add_xml_file: add_xml_file,
+        mqemu_remove_xml_file: remove_xml_file,
+        mqemu_screen_piece_loaded: screen_piece_loaded,
+        mqemu_plugin_window_create: create,
+        mqemu_plugin_window_destroy: destroy,
     };
 }
 
@@ -1378,6 +1508,18 @@ mod tests {
         assert_eq!(list.selected(), Some(1));
         fake.list.get().set_CurSel(3);
         assert_eq!(list.selected(), None, "past the end");
+    }
+
+    #[test]
+    fn a_cell_a_short_row_lacks_isnt_there() {
+        let fake = list();
+        let list = window(&fake.list).as_list().unwrap();
+        // Row 1 keeps one of the list's two cells; the game would read the
+        // other as empty, as the fake's cell texts still do.
+        list.lines()[1].Cells().set_m_length(1);
+        assert_eq!((list.text(1, 0).as_deref(), list.text(1, 1)), (Some("Water"), None), "as ${{Window.List[2,2]}} is NULL");
+        assert_eq!(list.find(1, |t| t == "2"), None);
+        assert_eq!(list.text(0, 1).as_deref(), Some("1"), "other rows keep theirs");
     }
 
     #[test]

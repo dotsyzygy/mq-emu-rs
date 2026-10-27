@@ -4,8 +4,8 @@ use core::ffi::{c_char, c_uint, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AggroMeterManagerClient, CContextMenuManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd,
-    CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SkillManager,
+    AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    CTargetWnd, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SkillManager,
     zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
@@ -79,5 +79,9 @@ imports! {
         pub static mut pWndMgr: ForeignPointer<CXWndManager>;
         /// The context menus: which are open (`pCurrMenus`, `NumVisibleMenus`).
         pub static mut pContextMenuManager: ForeignPointer<CContextMenuManager>;
+        /// Every item slot window (`SlotArray`), as `/itemnotify` finds them.
+        pub static mut pInvSlotMgr: ForeignPointer<CInvSlotMgr>;
+        /// The trade window: what's offered, and whether each side is ready.
+        pub static mut pTradeWnd: ForeignPointer<CTradeWnd>;
     }
 }

@@ -79,6 +79,18 @@ imports! {
         /// and line breaks. `out` must hold `strlen(input) + 1` bytes.
         pub fn StripMQChat(input: *const c_char, out: *mut c_char);
 
+        // The UI's XML (MQ2Main.h)
+        /// Adds a file of UI XML (screen pieces) to what MacroQuest includes
+        /// when the UI next loads. Looked for in `uifiles\<skin>` then
+        /// `uifiles\default`, under MacroQuest's resources or EverQuest; says
+        /// so in chat if it isn't there, or if the UI must be reloaded.
+        pub fn AddXMLFile(filename: *const c_char);
+        /// Takes a file [`AddXMLFile`] added back out, from the next UI load.
+        pub fn RemoveXMLFile(filename: *const c_char);
+        /// Whether the loaded UI has a screen piece (a window's template) by
+        /// this name.
+        pub fn IsScreenPieceLoaded(name: *const c_char) -> bool;
+
         // Plugins (mq/api/PluginAPI.h)
         /// `GetProcAddress` against another loaded plugin, by plugin name.
         pub fn GetPluginProc(plugin: *const c_char, proc_name: *const c_char) -> *mut c_void;

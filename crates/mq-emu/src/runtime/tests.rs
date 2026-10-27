@@ -23,6 +23,7 @@ mod events;
 mod game_data;
 mod imgui;
 mod key_binds;
+mod plugin_windows;
 mod windows;
 
 // ----- fake host -----------------------------------------------------------
@@ -42,6 +43,8 @@ thread_local! {
     static ON_PULSE: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static ON_CHAT: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static ON_IMGUI: RefCell<Option<Hook>> = const { RefCell::new(None) };
+    /// Runs in on_clean_ui, on_reload_ui and on_set_game_state.
+    static ON_UI: RefCell<Option<Hook>> = const { RefCell::new(None) };
     static GAME_STATE: Cell<i32> = const { Cell::new(mq_emu_sys::constants::GAMESTATE_INGAME) };
     /// The local and controlled player (the same spawn unless "riding").
     static PLAYER: FakeObject<PlayerClient> = FakeObject::new();
@@ -134,6 +137,8 @@ struct Windows {
     active_corpse: *mut PlayerClient,
     window_manager: *mut mq_emu_sys::layouts::CXWndManager,
     context_menu_manager: *mut mq_emu_sys::layouts::CContextMenuManager,
+    inv_slot_manager: *mut mq_emu_sys::layouts::CInvSlotMgr,
+    trade_window: *mut mq_emu_sys::layouts::CTradeWnd,
 }
 
 impl Windows {
@@ -150,6 +155,8 @@ impl Windows {
         active_corpse: ptr::null_mut(),
         window_manager: ptr::null_mut(),
         context_menu_manager: ptr::null_mut(),
+        inv_slot_manager: ptr::null_mut(),
+        trade_window: ptr::null_mut(),
     };
 }
 
@@ -189,6 +196,8 @@ const FAKE: Host = Host {
     active_corpse: || WINDOWS.with(Cell::get).active_corpse,
     window_manager: || WINDOWS.with(Cell::get).window_manager,
     context_menu_manager: || WINDOWS.with(Cell::get).context_menu_manager,
+    inv_slot_manager: || WINDOWS.with(Cell::get).inv_slot_manager,
+    trade_window: || WINDOWS.with(Cell::get).trade_window,
     windows: &crate::windows::fake::API,
     game_fns: &crate::game_fns::fake::API,
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),
@@ -314,6 +323,21 @@ impl Plugin for Recorder {
     fn on_update_imgui(&mut self, mq: &Mq<Self>, _ui: &mut crate::imgui::Ui) {
         self.log.push("imgui".into());
         run_hook(&ON_IMGUI, self, mq);
+    }
+
+    fn on_clean_ui(&mut self, mq: &Mq<Self>) {
+        self.log.push("clean_ui".into());
+        run_hook(&ON_UI, self, mq);
+    }
+
+    fn on_reload_ui(&mut self, mq: &Mq<Self>) {
+        self.log.push("reload_ui".into());
+        run_hook(&ON_UI, self, mq);
+    }
+
+    fn on_set_game_state(&mut self, mq: &Mq<Self>, state: crate::GameState) {
+        self.log.push(format!("game_state:{state:?}"));
+        run_hook(&ON_UI, self, mq);
     }
 
     fn on_add_spawn(&mut self, _mq: &Mq<Self>, spawn: &Spawn<'_>) {

@@ -1,6 +1,8 @@
 // EverQuest's own UI windows: finding them as MacroQuest does, what only the
 // game's functions can say about them (their kind, XML names, tooltip, list
-// text), and clicking and notifying them as /notify and ${Window} do.
+// text, the item in an item slot or behind a hot button), clicking and
+// notifying them as /notify and ${Window} do, and a plugin's own windows,
+// made from screen pieces in UI XML it adds (AddXMLFile).
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks its window for null
@@ -358,6 +360,224 @@ extern "C" bool mqemu_menus_close()
 		if (!pContextMenuManager)
 			return false;
 		pContextMenuManager->Flush();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_window_notify_link(CXWnd* window, CXWnd* sender, const char* text)
+{
+	try
+	{
+		if (window == nullptr || text == nullptr)
+			return false;
+		// As /notify <window> <control> link <text> sends it: the text itself.
+		window->WndNotification(sender, XWM_LINK, const_cast<char*>(text));
+		mq::WeDidStuff();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// ----- item slots -----
+
+extern "C" ItemClient* mqemu_inv_slot_item(CInvSlotWnd* slot)
+{
+	try
+	{
+		if (slot == nullptr || slot->GetType() != UI_InvSlot)
+			return nullptr;
+		// ${Window.InvSlot.Item}: the item the slot is linked to (a hot
+		// button's), else what's at its location. The item outlives the
+		// ItemPtr: its container (or the slot) holds it.
+		if (slot->LinkedItem)
+			return slot->LinkedItem.get();
+		if (!pLocalPC)
+			return nullptr;
+		return pLocalPC->GetItemByGlobalIndex(slot->ItemLocation).get();
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+extern "C" int mqemu_inv_slot_text(CInvSlotWnd* slot, char* out, size_t cap)
+{
+	try
+	{
+		if (slot == nullptr || slot->GetType() != UI_InvSlot || slot->pTextObject == nullptr)
+			return none(out, cap);
+		return copy_out(slot->pTextObject->GetText(), out, cap);
+	}
+	catch (...)
+	{
+		return none(out, cap);
+	}
+}
+
+extern "C" int mqemu_texture_animation_name(CTextureAnimation* animation, char* out, size_t cap)
+{
+	try
+	{
+		if (animation == nullptr)
+			return none(out, cap);
+		return copy_out(animation->GetName(), out, cap);
+	}
+	catch (...)
+	{
+		return none(out, cap);
+	}
+}
+
+// ----- hot buttons -----
+
+extern "C" ItemClient* mqemu_hot_button_item(CHotButton* button)
+{
+	try
+	{
+		if (button == nullptr || button->GetType() != UI_HotButton)
+			return nullptr;
+		const HotButtonData* data = button->GetHotButtonData();
+		return data ? data->Item.get() : nullptr;
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+extern "C" bool mqemu_hot_button_activate(CHotButton* button)
+{
+	try
+	{
+		if (button == nullptr || button->GetType() != UI_HotButton)
+			return false;
+		// ${Window.HotButton.Activate}: the bar's window presses it, as its key would.
+		char name[64];
+		if (button->BarIndex > 0)
+			sprintf_s(name, "HotButtonWnd%d", button->BarIndex + 1);
+		else
+			strcpy_s(name, "HotButtonWnd");
+		CHotButtonWnd* bar = static_cast<CHotButtonWnd*>(mq::FindMQ2Window(name));
+		if (bar == nullptr)
+			return false;
+		bar->DoHotButton(button->ButtonIndex, false);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// ----- a plugin's own windows -----
+
+extern "C" bool mqemu_add_xml_file(const char* filename)
+{
+	try
+	{
+		if (filename == nullptr || filename[0] == 0)
+			return false;
+		mq::AddXMLFile(filename);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_remove_xml_file(const char* filename)
+{
+	try
+	{
+		if (filename == nullptr)
+			return false;
+		mq::RemoveXMLFile(filename);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+extern "C" bool mqemu_screen_piece_loaded(const char* name)
+{
+	try
+	{
+		return name != nullptr && mq::IsScreenPieceLoaded(name);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Mirrors `mqemu_window_notification_fn` in mq-emu-sys's windows module.
+using mqemu_window_notification_fn = void (*)(void* user, CXWnd* window, CXWnd* sender, uint32_t message, void* data);
+
+namespace {
+
+// A window made from a screen piece, as MacroQuest's CCustomWnd makes one,
+// that passes its controls' notifications to the plugin before handling
+// them as any screen does. Its vtable lives in the plugin's DLL, so the
+// plugin must delete it before it unloads.
+class PluginWnd : public CSidlScreenWnd
+{
+public:
+	PluginWnd(const char* screen, mqemu_window_notification_fn notify, void* user)
+		: CSidlScreenWnd(nullptr, screen, eIniFlag_All)
+		, m_notify(notify)
+		, m_user(user)
+	{
+		CreateChildrenFromSidl();
+		Show(true);
+		SetEscapable(false);
+	}
+
+	int WndNotification(CXWnd* sender, uint32_t message, void* data) override
+	{
+		if (m_notify)
+			m_notify(m_user, this, sender, message, data);
+		return CSidlScreenWnd::WndNotification(sender, message, data);
+	}
+
+private:
+	mqemu_window_notification_fn m_notify;
+	void* m_user;
+};
+
+} // namespace
+
+extern "C" CXWnd* mqemu_plugin_window_create(const char* screen, mqemu_window_notification_fn notify, void* user)
+{
+	try
+	{
+		if (screen == nullptr || !pSidlMgr || !mq::IsScreenPieceLoaded(screen))
+			return nullptr;
+		return new PluginWnd(screen, notify, user);
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+extern "C" bool mqemu_plugin_window_destroy(CXWnd* window)
+{
+	try
+	{
+		if (window == nullptr)
+			return false;
+		delete window;
 		return true;
 	}
 	catch (...)

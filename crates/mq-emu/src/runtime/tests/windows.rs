@@ -1,12 +1,15 @@
 //! EQ UI windows through `Mq`, against fake windows: finding them by name
 //! and path, the window manager's list and focus, and the open context menu.
 
-use mq_emu_sys::constants::{UI_BUTTON, UI_LISTBOX, UI_SCREEN};
-use mq_emu_sys::layouts::{CContextMenu, CContextMenuManager, CXWnd, CXWndManager};
+use mq_emu_sys::constants::{UI_BUTTON, UI_HOT_BUTTON, UI_INV_SLOT, UI_LISTBOX, UI_SCREEN};
+use mq_emu_sys::layouts::{
+    CContextMenu, CContextMenuManager, CHotButton, CHotButtonWnd, CInvSlot, CInvSlotMgr, CInvSlotWnd, CTradeWnd, CXWnd, CXWndManager,
+    ItemContainerInstance,
+};
 
 use super::*;
 use crate::items::tests::Fake;
-use crate::Window;
+use crate::{InvSlot, SlotLocation, Window};
 use crate::windows::fake;
 
 /// Runs one pulse with a fresh runtime and returns what `log` wrote.
@@ -94,6 +97,14 @@ fn the_context_menu_is_read_found_in_and_picked_from() {
     });
     let lines = Box::leak(vec![0u64; (size_of::<mq_emu_sys::layouts::SListWndLine>() * 4).div_ceil(8)].into_boxed_slice());
     let list = unsafe { &*menu.ptr().cast::<mq_emu_sys::layouts::CListWnd>() };
+    // Each row has the menu's two cells (an icon, then the text).
+    let first = lines.as_mut_ptr().cast::<mq_emu_sys::layouts::SListWndLine>();
+    for row in 0..4 {
+        let cells = Box::leak(vec![0u64; (size_of::<mq_emu_sys::layouts::SListWndCell>() * 2).div_ceil(8)].into_boxed_slice());
+        let line = unsafe { &*first.add(row) };
+        line.Cells().set_m_array(cells.as_mut_ptr().cast());
+        line.Cells().set_m_length(2);
+    }
     list.ItemsArray().set_m_array(lines.as_mut_ptr().cast());
     list.ItemsArray().set_m_length(4);
     manager.get().set_pCurrMenus_at(0, menu.ptr());
@@ -110,4 +121,112 @@ fn the_context_menu_is_read_found_in_and_picked_from() {
     assert_eq!(fake::log(), ["menu_select Menu 2"]);
     assert_eq!(pulse_log(|mq| mq.context_menu().unwrap().close().to_string()), ["true"]);
     assert_eq!(fake::log(), ["menus_close"]);
+}
+
+/// Item slot windows as the slot manager lists them: (container, slots,
+/// hot button) each, as "Slot<n>".
+fn slot_manager(slots: &[(i32, [i16; 3], bool)]) -> Vec<*mut CInvSlotWnd> {
+    fake::reset();
+    let manager = leak::<CInvSlotMgr>();
+    let windows: Vec<*mut CInvSlotWnd> = slots
+        .iter()
+        .enumerate()
+        .map(|(i, (container, index, hot_button))| {
+            let window = leak::<CInvSlotWnd>();
+            let slot = leak::<CInvSlot>();
+            fake::add(window.ptr().cast(), UI_INV_SLOT, None, Some(&format!("Slot{i}")));
+            window.get().ItemLocation().set_Location(ItemContainerInstance(*container));
+            window.get().ItemLocation().Index().set_m_slots(*index);
+            window.get().set_bHotButton(*hot_button);
+            slot.get().set_pInvSlotWnd(window.ptr());
+            manager.get().set_SlotArray_at(i + 1, slot.ptr());
+            window.ptr()
+        })
+        .collect();
+    // Slot 0 is empty, as unused entries are.
+    manager.get().set_TotalSlots(slots.len() as i32 + 1);
+    set_windows(|w| w.inv_slot_manager = manager.ptr());
+    windows
+}
+
+#[test]
+fn item_slot_windows_are_found_as_itemnotify_finds_them() {
+    slot_manager(&[(-1, [13, -1, -1], true), (0, [13, -1, -1], false), (0, [24, 2, -1], false), (1, [3, -1, -1], false)]);
+    let log = pulse_log(|mq| {
+        let find = |text: &str| mq.item_slot_window(SlotLocation::parse(text).unwrap()).and_then(|s| s.window().screen_id()).unwrap_or("None".into());
+        let all = mq.item_slot_windows().count();
+        format!("{all} {} {} {} {} {}", find("mainhand"), find("in pack2 3"), find("pack2"), find("bank4"), find("bank3"))
+    });
+    assert_eq!(log, ["4 Slot1 Slot2 None Slot3 None"]);
+}
+
+#[test]
+fn hot_button_slots_are_left_out_of_item_slot_lookups() {
+    slot_manager(&[(0, [13, -1, -1], true), (0, [13, -1, -1], false)]);
+    let log = pulse_log(|mq| format!("{:?}", mq.item_slot_window(SlotLocation::inv_slot(InvSlot::PRIMARY)).and_then(|s| s.window().screen_id())));
+    assert_eq!(log, ["Some(\"Slot1\")"], "a hot button's slot can show the same place");
+}
+
+#[test]
+fn no_slot_manager_no_item_slots() {
+    fake::reset();
+    set_windows(|w| w.inv_slot_manager = std::ptr::null_mut());
+    let log = pulse_log(|mq| format!("{} {}", mq.item_slot_windows().count(), mq.item_slot_window(SlotLocation::inv_slot(InvSlot::PRIMARY)).is_some()));
+    assert_eq!(log, ["0 false"]);
+}
+
+#[test]
+fn hot_bars_are_found_by_number_with_their_page_and_buttons() {
+    fake::reset();
+    let bar = leak::<CHotButtonWnd>();
+    let button = leak::<CHotButton>();
+    fake::add(bar.ptr().cast(), UI_SCREEN, Some("HotButtonWnd2"), None);
+    fake::add(button.ptr().cast(), UI_HOT_BUTTON, None, Some("HB_Button3"));
+    bar.get().set_Buttons_at(2, button.ptr());
+    fake::with(|w| {
+        w.by_name.insert("hotbuttonwnd2".into(), bar.ptr() as usize);
+    });
+    let info = unsafe { &*INFO.with(FakeObject::ptr) };
+    info.set_hotBank_at(1, 4);
+    let log = pulse_log(|mq| {
+        let Some(bar) = mq.hot_bar(1) else { return "None".into() };
+        let buttons: Vec<_> = bar.buttons().map(|b| b.window().screen_id().unwrap_or_default()).collect();
+        format!("{} {buttons:?} {} {} {}", bar.page(), bar.button(12).is_some(), mq.hot_bar(0).is_some(), mq.hot_bar(10).is_some())
+    });
+    assert_eq!(log, ["4 [\"HB_Button3\"] false false false"]);
+    info.set_hotBank_at(1, 0);
+}
+
+#[test]
+fn the_trade_window_reads_both_sides() {
+    fake::reset();
+    let trade = leak::<CTradeWnd>();
+    let slot = leak::<CInvSlotWnd>();
+    fake::add(trade.ptr().cast(), UI_SCREEN, Some("TradeWnd"), None);
+    fake::add(slot.ptr().cast(), UI_INV_SLOT, None, Some("TRDW_TradeSlot8"));
+    trade.get().set_pInvSlotWnd_at(8, slot.ptr());
+    trade.get().set_bHisReadyTrade(true);
+    trade.get().set_bIsTrading(true);
+    let log = |mq: &Mq<Recorder>| {
+        let Some(trade) = mq.trade_window() else { return "None".into() };
+        let slots = [0, 8, 16].map(|i| trade.slot_window(i).and_then(|s| s.window().screen_id()));
+        format!("{} {} {} {} {slots:?}", trade.is_trading(), trade.my_ready(), trade.their_ready(), trade.items().capacity())
+    };
+    set_windows(|w| w.trade_window = std::ptr::null_mut());
+    assert_eq!(pulse_log(log), ["None"]);
+    set_windows(|w| w.trade_window = trade.ptr());
+    assert_eq!(pulse_log(log), ["true false true 0 [None, Some(\"TRDW_TradeSlot8\"), None]"]);
+}
+
+#[test]
+fn links_are_sent_with_their_text() {
+    let [inventory, _, done, _] = inventory();
+    let log = pulse_log(move |mq| {
+        let window = mq.window("Inventory").unwrap();
+        let done = mq.window("Inventory/IW_Done").unwrap();
+        format!("{} {}", window.notify_link(Some(done), "0012345"), window.notify_link(None, "abc"))
+    });
+    assert_eq!(log, ["true true"]);
+    assert_eq!(fake::log(), ["notify_link Inventory IW_Done 0012345", "notify_link Inventory 0 abc"]);
+    let _ = (inventory, done);
 }
