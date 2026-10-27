@@ -19,8 +19,10 @@ use crate::movement::{MoveError, MoveKey};
 
 mod aliases;
 mod data;
+mod events;
 mod game_data;
 mod imgui;
+mod key_binds;
 
 // ----- fake host -----------------------------------------------------------
 
@@ -191,7 +193,22 @@ const FAKE: Host = Host {
     take_imgui_error: || IMGUI_ERROR.with(RefCell::take),
     // Recorder never draws; nothing calls these.
     imgui: &crate::imgui::fake::APIS,
+    print_var: fake_print_var,
+    key_binds: crate::key_binds::fake::API,
 };
+
+/// Expands `|${Me.Name}|` to "Tester"; anything else to itself.
+unsafe extern "system" fn fake_print_var(name: *mut std::ffi::c_char, value: *mut std::ffi::c_char, cap: usize) -> u32 {
+    let name = unsafe { std::ffi::CStr::from_ptr(name) }.to_bytes();
+    let expanded: &[u8] = if name == b"${Me.Name}" { b"Tester" } else { name };
+    let len = expanded.len().min(cap - 1);
+    unsafe {
+        ptr::copy_nonoverlapping(expanded.as_ptr().cast(), value, len);
+        *value.add(len) = 0;
+    }
+    len as u32
+}
+
 
 fn chat_lines() -> Vec<String> {
     CHAT.with(|chat| chat.borrow().iter().map(|(text, _)| text.clone()).collect())

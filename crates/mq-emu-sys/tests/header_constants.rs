@@ -215,6 +215,7 @@ fn keybind_commands_match() {
     let header = read_header(file);
     // `nEQMappableCommands` in the header; our name is Rust-style.
     assert_header_value(&header, file, "nEQMappableCommands", mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS as i64);
+    assert_header_value(&header, file, "nNormalEQMappableCommands", mq_emu_sys::constants::N_NORMAL_EQ_MAPPABLE_COMMANDS as i64);
 
     let values = enum_values(&header, "KeybindCommand");
     let ours = [
@@ -249,4 +250,61 @@ fn enum_values_number_implicit_entries() {
 #[should_panic(expected = "enum Missing not found")]
 fn missing_enum_is_rejected() {
     enum_values("enum Other { A };", "Missing");
+}
+
+/// Reads eqdata/dikeys.h's `{"Name", code},` rows, undoing the C escapes it uses.
+fn di_keys(header: &str) -> Vec<(String, i64)> {
+    header
+        .lines()
+        .filter_map(|line| {
+            let row = line.trim().strip_prefix("{\"")?;
+            let (name, rest) = row.split_once("\",")?;
+            let code = rest.trim().trim_end_matches(',').trim_end_matches('}').trim();
+            Some((name.replace("\\\\", "\\"), parse_int(code)))
+        })
+        .collect()
+}
+
+fn assert_di_keys(header: &str, ours: &[(&str, u8)]) {
+    let theirs = di_keys(header);
+    let ours: Vec<(String, i64)> = ours.iter().map(|(name, code)| ((*name).to_owned(), i64::from(*code))).collect();
+    assert_eq!(ours, theirs, "DI_KEYS differs from dikeys.h");
+}
+
+#[test]
+fn key_names_match() {
+    let header = read_header("src/eqlib/include/eqdata/dikeys.h");
+    assert_di_keys(&header, &mq_emu_sys::constants::DI_KEYS);
+    // What mq-emu's key lookups rely on.
+    let keys = &mq_emu_sys::constants::DI_KEYS;
+    for (i, (name, code)) in keys.iter().enumerate() {
+        assert_ne!(*code, 0, "{name}: 0 ends MacroQuest's table");
+        for (other, other_code) in &keys[i + 1..] {
+            assert!(!name.eq_ignore_ascii_case(other), "{name} twice");
+            assert_ne!(code, other_code, "{name} and {other} share a code");
+        }
+    }
+}
+
+#[test]
+fn di_keys_reads_escapes() {
+    let header = "\t{\"1\",              2},\n\t{\"\\\\\",             43},\n\t{ 0, 0 }";
+    assert_eq!(di_keys(header), [("1".to_owned(), 2), ("\\".to_owned(), 43)]);
+}
+
+#[test]
+#[should_panic(expected = "DI_KEYS differs from dikeys.h")]
+fn a_wrong_key_code_is_rejected() {
+    let header = read_header("src/eqlib/include/eqdata/dikeys.h");
+    let mut keys = mq_emu_sys::constants::DI_KEYS;
+    keys[0].1 += 1;
+    assert_di_keys(&header, &keys);
+}
+
+#[test]
+#[should_panic(expected = "DI_KEYS differs from dikeys.h")]
+fn a_missing_key_is_rejected() {
+    let header = read_header("src/eqlib/include/eqdata/dikeys.h");
+    let keys = mq_emu_sys::constants::DI_KEYS;
+    assert_di_keys(&header, &keys[1..]);
 }

@@ -45,7 +45,12 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   plugin's `INIFileName` names); `Ini::new(path)` opens any other. Read values as text, parsed or
   as MacroQuest's switches (`on`/`yes`/`1`...), write anything `Display`, list and remove keys and
   sections. Files stay compatible with `${Ini[...]}`, `/ini` and C++ plugins.
+- **Chat events**, like a macro's `#Event`: `mq.add_event("tell", "#1# tells you, '#2#'", handler)`
+  runs the handler with the captures for every matching line, matched by MacroQuest's own matcher.
+- **Key binds**: `mq.add_key_bind("MyBind", handler)` adds a bind that `/bind MyBind ctrl+F1` sets;
+  read, set and press any bind, and the game's own bindings, with keys as `KeyCombo`s.
 - **Game state**: `mq.me()`, `mq.target()`, positions, headings, HP/mana, and
+
   `mq.parse("${...}")` for any MacroQuest data.
 - **Movement and the spawn list**: hold movement keys, turn smoothly or instantly, face points;
   iterate the zone's spawns, look them up by ID or name, find the nearest match.

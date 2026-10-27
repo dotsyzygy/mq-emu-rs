@@ -1,6 +1,7 @@
 // Game data that only the game's own functions (or MacroQuest's) can answer:
 // MacroQuest's cache of other spawns' buffs, alternate abilities, skill
-// values and caps, the game's string table and extended target role names.
+// values and caps, the game's string table and extended target role names;
+// and chat lines cleaned for event matching.
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks for the game
@@ -15,10 +16,12 @@
 #include "eqlib/game/AltAbilities.h"
 #include "eqlib/game/EQClasses.h"
 #include "eqlib/game/Globals.h"
+#include "eqlib/game/ItemLinks.h"
 #include "eqlib/game/PcClient.h"
 
 #include <algorithm>
 #include <cstring>
+#include <string>
 
 using namespace eqlib;
 
@@ -226,6 +229,27 @@ extern "C" bool mqemu_xtarget_role_name(uint32_t role, char* out, size_t cap)
 		if (!pLocalPC || !pLocalPC->pExtendedTargetList)
 			return copy_out(nullptr, out, cap);
 		return copy_out(pLocalPC->pExtendedTargetList->ExtendedTargetRoleName(role), out, cap);
+	}
+	catch (...)
+	{
+		return copy_out(nullptr, out, cap);
+	}
+}
+
+// A chat line as MQ2Lua matches events against it: item links replaced by
+// their text (CleanItemTags, the game's own) unless `keep_links`, then
+// MacroQuest's color codes and line breaks removed (StripMQChat). Into
+// `out`, which needs strlen(line) + 1 bytes: neither step lengthens it.
+extern "C" bool mqemu_clean_chat_line(const char* line, bool keep_links, char* out, size_t cap)
+{
+	try
+	{
+		std::string text = line;
+		if (!keep_links && text.find('\x12') != std::string::npos)
+			text = CleanItemTags(CXStr(text), false).c_str();
+		std::string stripped(text.size() + 1, '\0');
+		mq::StripMQChat(text.c_str(), stripped.data());
+		return copy_out(stripped.c_str(), out, cap);
 	}
 	catch (...)
 	{

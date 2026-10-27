@@ -57,6 +57,14 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   plugin's `INIFileName`) or any other; values as text, parsed or as MacroQuest's switches; keys and
   sections listed, written whole and removed; read and written through the same Windows functions
   as MacroQuest, so `${Ini}`, `/ini` and C++ plugins see the same values
+- Chat events, as a macro's `#Event` or Lua's `mq.event` (`mq.add_event`): MacroQuest's own
+  matcher (Blech), with `#1#`/`#name#` captures, `#*#` and `|${...}|` data, run on the game's chat
+  and MacroQuest's, without color codes and with item links as their names (or kept). Handlers run
+  right after the line arrives; no `/doevents`. Patterns that crash the matcher are refused
+- Key binds (`mq.add_key_bind`): MacroQuest binds that `/bind` sets and MacroQuest.ini keeps,
+  handlers run as the key goes down and up, removed when the plugin unloads (MacroQuest would keep
+  calling the unloaded plugin); any bind's keys read, set and pressed; the game's own bindings of its
+  commands read, listed and set. Keys and combos (`Key`, `KeyCombo`) in `/bind`'s notation
 - Parsing `${...}` text
 - Reading TLOs and members (`tlo`, `tlo_at`, `data("Target.Name")`) as typed values
 - Providing TLOs from Rust (`add_tlo`) returning scalar values
@@ -190,7 +198,6 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
     localization, garbage collection, error recovery, the font atlas builder). Also not planned:
     context hooks (`Plugin::on_update_imgui` already runs every frame) and the legacy Columns API
     (tables replace it)
-- MacroQuest events (`#Event`-style chat matching) and key binds
 - EQ UI windows (`CXWnd` and friends): finding, reading and clicking them
 - Hooks/detours on game functions
 - Live EverQuest and 64-bit builds (out of scope: emu/RoF2 only)
@@ -238,9 +245,16 @@ The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Tar
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
 target and pet buffs, raid, mercenary, extended targets, AAs, skills, and the merchant and loot
 windows when open), and
-exercises commands, aliases, settings, re-entrancy, parsing, keys and async tasks. It also:
+exercises commands, aliases, settings, chat events, key binds, re-entrancy, parsing, keys and async
+tasks. It also:
 
-- **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again.
+- **Touches MacroQuest.ini:** saves a `/rusttestsaved` alias to it and deletes it again, and binds a
+  `RustTestBind` key bind to ctrl+shift+F11 (and alt+Num_5) while it runs, then removes it and its
+  saved keys.
+- **Writes a bind dump:** `/dumpbinds rusttest-binds` writes every key binding to
+  `config\rusttest-binds.cfg`, which it compares with mq-emu's and deletes. Skipped when a game
+  command is bound to a key MacroQuest has no name for, which would crash `/dumpbinds`.
+- **Echoes test lines** for the chat events, one of them with a link to an item you carry.
 - **Touches its own INI file:** writes a `[RustTestSelftest]` section to
   `config\MQ2RustPluginTest.ini` (also through `/ini`), compares it with `${Ini}`, and removes it.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.
@@ -337,7 +351,8 @@ config and only explicitly passed settings, to check what a downstream user will
 `cargo test` checks the bindings against the MacroQuest build without running EverQuest:
 
 - **`tests/exports.rs`**: every declared function and global exists in the DLL export tables, and the DLLs are x86.
-- **`tests/header_constants.rs`**: mirrored constants and `EVERQUEST_VERSION` match the MQ headers.
+- **`tests/header_constants.rs`**: mirrored constants, the key name table and `EVERQUEST_VERSION`
+  match the MQ headers.
 - **`tests/link.rs`**: compiles single-symbol probe DLLs against the import libraries.
 - **`examples/link_check.rs`**: a `cdylib` that references every import, so each one must resolve at link time.
 - **`tests/layouts.rs`**: every generated field offset and record size matches eqlib's header offset
@@ -353,7 +368,15 @@ config and only explicitly passed settings, to check what a downstream user will
 - **`tests/shim.rs`**: the C++ shim against a fake `MainInterface`: arguments, handles and callback
   routing, without MacroQuest; and that item definitions come through the item's vtable (the game's
   implementation), from the slot eqlib's headers give.
+- **`tests/events.rs`**: the event matcher, MacroQuest's Blech compiled into the shim: whole lines
+  match ignoring case, captures by number and name, wildcards, escapes and print variables, every
+  match in the order events were added, and removed events stop matching. The guards: patterns
+  without text, deeper than Blech's fixed match stack (or making another pattern so, which leaves
+  that one as it was) and with too many print variables are refused, with patterns right at each
+  limit still matching. A child process runs Blech without each guard and crashes (an access
+  violation, or the C runtime ending the process).
 - **`tests/imgui.rs`**: the ImGui shim against MacroQuest's real `imgui.dll`, in a headless
+
   context: every wrapper draws, simulated clicks register, and ImGui's C++ exceptions (calling `End`
   too often) are caught instead of crossing into Rust. A window left open makes the frame fail, as
   it would pause ImGui in game.
@@ -396,6 +419,8 @@ config and only explicitly passed settings, to check what a downstream user will
   list, draws included items out of view, clips table rows, keeps a multi-select list's
   shift+click item drawn, ends when its closure panics (ImGui's clipper stack is back to empty)
   and nests; the shim refuses stepping an ended clipper and late or backwards included items.
+  Each test starts without an earlier one's keyboard focus: ImGui's clipper also draws the rows
+  where a window's clicked item last was, as a test shows.
   Custom widgets: items take their space at the cursor and are the last item, simulated clicks
   give hover, hold and press (on release, or as the mouse goes down), clearing the active item
   lets go, a dragged splitter moves size between its sides down to a minimum, private-flag and
@@ -417,6 +442,18 @@ config and only explicitly passed settings, to check what a downstream user will
   the same, quotes and spaces are stripped, MacroQuest's buffer cuts long values, an `=` in a key or
   a newline in a value injects keys and sections). The plugin's own file is named as a C++
   plugin's.
+- **`mq-emu` event and key bind tests**: events run after the chat callback that received their
+  line (even one that panics), from the game's chat and MacroQuest's, with captures, print
+  variables (against a stand-in for `${...}`), color codes stripped and item links reduced or kept
+  (against a stand-in for the game's link cleaner), in the order added across both kinds; a removed
+  event's waiting matches are dropped; handlers can add and remove events; an event feeding itself
+  is capped. Key binds, against a stand-in following MacroQuest's rules: keys reach the handler
+  going down and up, saved keys are loaded, presses from a callback run after it, bad and taken
+  names (another plugin's, a game command's) are refused, keys MacroQuest can't name are never
+  bound, only the plugin's own binds are removed, and all of them are at unload (the stand-in, like
+  MacroQuest, would keep them). `Key` and `KeyCombo` write `/bind`'s notation and read every combo
+  back except the two kinds MacroQuest can't either.
+
 - **`mq-emu` `tests/plugin_exports.rs`**: a DLL built with `plugin!` exports everything the loader
   needs, carries the right `EverQuestVersion` bytes, doesn't need the Visual C++ redistributable, and
   imports `imgui.dll`.

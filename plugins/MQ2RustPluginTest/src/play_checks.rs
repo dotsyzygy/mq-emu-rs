@@ -65,7 +65,11 @@ fn target_something<P: Plugin>(mq: &Mq<P>, report: &mut Report) -> Result<Option
         report.note(mq, &format!("using your target, {} (id {})", target.name(), target.id()));
         return Ok(None);
     }
-    let Some(nearest) = mq.nearest(|s| s.is_npc()).or_else(|| mq.nearest(|_| true)) else {
+    // An NPC as MacroQuest types it: not an aura, pet, mercenary, banner or
+    // untargetable spawn, which the server sends no buffs for (or which
+    // won't stay targeted).
+    let plain_npc = |s: &mq_emu::Spawn<'_>| s.is_npc() && mq.parse(&format!("${{Spawn[id {}].Type}}", s.id())) == "NPC";
+    let Some(nearest) = mq.nearest(plain_npc).or_else(|| mq.nearest(|_| true)) else {
         report.print(mq, "targeting something for the target buff checks", Check::Skip("no target, and nothing nearby to target".into()));
         return Err(());
     };

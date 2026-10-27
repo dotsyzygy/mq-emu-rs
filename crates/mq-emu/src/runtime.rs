@@ -20,9 +20,11 @@ use mq_emu_sys::shim;
 use mq_emu_sys::types::{EQGroundItem, MQPlugin, PlayerClient};
 
 use crate::actors::{MailboxSlot, Message};
+use crate::events::{ChatSource, EventError, EventHandler, EventMatch, EventSlot, Events, Matcher};
 use crate::game::{GameState, Spawn};
 use crate::ground::GroundItem;
 use crate::host::Host;
+use crate::key_binds::{KeyBindError, KeyBindHandler, KeyBindSlot, KeyBindTarget};
 use crate::mq::{AliasError, CommandError, Mq};
 use crate::plugin::Plugin;
 use crate::stats::{Stats, Warnings};
@@ -66,6 +68,10 @@ pub(crate) enum Event {
     Command(u64, String),
     /// A message for the mailbox with this id.
     Message(u64, Message),
+    /// A chat line matched the event with this key.
+    Matched(u64, EventMatch),
+    /// A key bind's key went down (true) or up.
+    KeyBind(String, bool),
 }
 
 impl Event {
@@ -93,6 +99,8 @@ impl Event {
             Event::PostUnloadPlugin(_) => (19, "on_post_unload_plugin"),
             Event::Command(..) => (20, "a command handler"),
             Event::Message(..) => (24, "a mailbox handler"),
+            Event::Matched(..) => (25, "an event handler"),
+            Event::KeyBind(..) => (26, "a key bind handler"),
         }
     }
 
@@ -156,6 +164,9 @@ pub struct Runtime<P: Plugin> {
     tlos: RefCell<Vec<String>>,
     /// Names of the temporary aliases this plugin added, removed at shutdown.
     aliases: RefCell<Vec<String>>,
+    events: RefCell<Events<P>>,
+    /// The key binds this plugin added, removed at shutdown.
+    key_binds: RefCell<Vec<KeyBindSlot<P>>>,
 }
 
 // SAFETY: MacroQuest calls plugins only from the game thread, and plugin code
@@ -193,6 +204,8 @@ impl<P: Plugin> Runtime<P> {
             next_mailbox_id: Cell::new(1),
             tlos: RefCell::new(Vec::new()),
             aliases: RefCell::new(Vec::new()),
+            events: RefCell::new(Events::new()),
+            key_binds: RefCell::new(Vec::new()),
         }
     }
 
@@ -254,6 +267,8 @@ impl<P: Plugin> Runtime<P> {
             self.unregister_all_mailboxes();
             self.remove_all_tlos();
             self.remove_temporary_aliases();
+            self.remove_all_key_binds();
+            *self.events.borrow_mut() = Events::new();
             let plugin = unsafe { (*self.plugin.get()).take() };
             if catch_unwind(AssertUnwindSafe(move || drop(plugin))).is_err() {
                 self.diagnostic("panicked while dropping the plugin");
@@ -462,8 +477,16 @@ impl<P: Plugin> Runtime<P> {
     fn deliver(&'static self, plugin: &mut P, mq: &Mq<P>, event: Event) -> bool {
         match event {
             Event::Pulse => plugin.on_pulse(mq),
-            Event::IncomingChat(line, color) => return plugin.on_incoming_chat(mq, &line, color),
-            Event::WriteChatColor(line, color) => plugin.on_write_chat_color(mq, &line, color),
+            // Events first, so a panicking chat callback can't lose them;
+            // they're delivered after it.
+            Event::IncomingChat(line, color) => {
+                self.feed_events(&line, ChatSource::Game);
+                return plugin.on_incoming_chat(mq, &line, color);
+            }
+            Event::WriteChatColor(line, color) => {
+                self.feed_events(&line, ChatSource::MacroQuest);
+                plugin.on_write_chat_color(mq, &line, color);
+            }
             Event::Zoned => plugin.on_zoned(mq),
             Event::CleanUi => plugin.on_clean_ui(mq),
             Event::ReloadUi => plugin.on_reload_ui(mq),
@@ -505,6 +528,20 @@ impl<P: Plugin> Runtime<P> {
                 let handler = self.commands.borrow().iter().find(|slot| slot.id == id).map(|slot| slot.handler.clone());
                 if let Some(handler) = handler {
                     handler(plugin, mq, &line);
+                }
+            }
+            Event::Matched(key, matched) => {
+                // A removed event's matches are dropped.
+                let handler = self.events.borrow().slots.iter().find(|slot| slot.key == key).map(|slot| slot.handler.clone());
+                if let Some(handler) = handler {
+                    handler(plugin, mq, &matched);
+                }
+            }
+            Event::KeyBind(name, down) => {
+                let handler =
+                    self.key_binds.borrow().iter().find(|slot| slot.name.eq_ignore_ascii_case(&name)).map(|slot| slot.handler.clone());
+                if let Some(handler) = handler {
+                    handler(plugin, mq, down);
                 }
             }
         }
@@ -825,6 +862,106 @@ impl<P: Plugin> Runtime<P> {
         for name in names {
             self.remove_alias(&name);
         }
+    }
+
+    pub(crate) fn add_event(&self, name: &str, pattern: &str, keep_links: bool, handler: Rc<EventHandler<P>>) -> Result<(), EventError> {
+        if name.is_empty() {
+            return Err(EventError::InvalidName);
+        }
+        let mut events = self.events.borrow_mut();
+        if events.slots.iter().any(|slot| slot.name == name) {
+            return Err(EventError::AlreadyAdded);
+        }
+        let print_var = self.host.print_var;
+        let matcher = if keep_links { &mut events.linked } else { &mut events.stripped };
+        if matcher.is_none() {
+            *matcher = Some(Matcher::new(print_var).ok_or(EventError::Failed)?);
+        }
+        let key = events.next_key;
+        let matcher = if keep_links { &events.linked } else { &events.stripped };
+        matcher.as_ref().expect("made above").add(pattern, key)?;
+        events.next_key += 1;
+        events.slots.push(EventSlot { key, name: name.to_owned(), keep_links, handler });
+        Ok(())
+    }
+
+    pub(crate) fn remove_event(&self, name: &str) -> bool {
+        let mut events = self.events.borrow_mut();
+        let Some(position) = events.slots.iter().position(|slot| slot.name == name) else { return false };
+        let slot = events.slots.remove(position);
+        let matcher = if slot.keep_links { &events.linked } else { &events.stripped };
+        if let Some(matcher) = matcher {
+            matcher.remove(slot.key);
+        }
+        true
+    }
+
+    /// Queues the events `line` matches, in the order they were added.
+    fn feed_events(&self, line: &str, source: ChatSource) {
+        let mut matches = Vec::new();
+        {
+            let events = self.events.borrow();
+            for (matcher, keep_links) in [(&events.stripped, false), (&events.linked, true)] {
+                let Some(matcher) = matcher.as_ref().filter(|matcher| !matcher.is_empty()) else { continue };
+                let cleaned = self.clean_chat_line(line, keep_links);
+                for (key, values) in matcher.feed(&cleaned) {
+                    matches.push((key, EventMatch::new(cleaned.clone(), values, source)));
+                }
+            }
+        }
+        matches.sort_by_key(|(key, _)| *key);
+        for (key, matched) in matches {
+            self.enqueue(Event::Matched(key, matched));
+        }
+    }
+
+    /// `line` as MQ2Lua matches events against it (see `mqemu_clean_chat_line`).
+    fn clean_chat_line(&self, line: &str, keep_links: bool) -> String {
+        let line = to_c(line);
+        let mut out = vec![0 as c_char; line.as_bytes().len() + 1];
+        let cleaned = unsafe { (self.host.game_fns.mqemu_clean_chat_line)(line.as_ptr(), keep_links, out.as_mut_ptr(), out.len()) };
+        if cleaned { crate::text::from_c_array(&out) } else { line.to_string_lossy().into_owned() }
+    }
+
+    pub(crate) fn add_key_bind(&'static self, name: &str, handler: Rc<KeyBindHandler<P>>) -> Result<(), KeyBindError> {
+        if !crate::key_binds::valid_name(name) {
+            return Err(KeyBindError::InvalidName);
+        }
+        let api = &self.host.key_binds;
+        if (api.eq_command)(name).is_some() {
+            return Err(KeyBindError::Taken);
+        }
+        // MacroQuest calls the bind with only its name; this is how it finds us.
+        crate::key_binds::set_target(Some(self));
+        if !(api.add)(name, crate::key_binds::trampoline) {
+            return Err(KeyBindError::Taken);
+        }
+        self.key_binds.borrow_mut().push(KeyBindSlot { name: name.to_owned(), handler });
+        Ok(())
+    }
+
+    pub(crate) fn remove_key_bind(&self, name: &str) -> bool {
+        let position = self.key_binds.borrow().iter().position(|slot| slot.name.eq_ignore_ascii_case(name));
+        let Some(position) = position else { return false };
+        let slot = self.key_binds.borrow_mut().remove(position);
+        (self.host.key_binds.remove)(&slot.name);
+        true
+    }
+
+    /// MacroQuest keeps a plugin's key binds after it unloads, and would call
+    /// into the unloaded plugin when their keys are pressed.
+    fn remove_all_key_binds(&self) {
+        let slots: Vec<_> = self.key_binds.borrow_mut().drain(..).collect();
+        for slot in slots {
+            (self.host.key_binds.remove)(&slot.name);
+        }
+        crate::key_binds::set_target(None);
+    }
+}
+
+impl<P: Plugin> KeyBindTarget for Runtime<P> {
+    fn key_bind(&'static self, name: &str, down: bool) {
+        self.enter(Event::KeyBind(name.to_owned(), down));
     }
 }
 

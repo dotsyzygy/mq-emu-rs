@@ -17,9 +17,12 @@ static IMGUI: Mutex<()> = Mutex::new(());
 fn lock() -> MutexGuard<'static, ()> {
     let guard = IMGUI.lock().unwrap_or_else(|e| e.into_inner());
     unsafe { mqemu_imgui_test_init() };
+    // An earlier test's navigation item would draw in this one's clipped lists.
+    unsafe { mqemu_imgui_test_forget_focus() };
     take_error();
     guard
 }
+
 
 fn take_error() -> Option<String> {
     let mut buffer = [0 as c_char; 512];

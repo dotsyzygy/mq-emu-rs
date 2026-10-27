@@ -1,7 +1,7 @@
 //! Game data only the game's (or MacroQuest's) own functions can answer, from
 //! `shim/game.cpp`: MacroQuest's cache of other spawns' buffs, alternate
 //! abilities, skill values and caps, the game's string table and extended
-//! target role names.
+//! target role names; and chat lines cleaned for event matching.
 //!
 //! These import `MQ2Main.dll` and `eqlib.dll`, so they only run inside the
 //! game; call them through [`API`] (see [`function_table!`]). Text comes back
@@ -61,4 +61,9 @@ function_table! {
     pub fn mqemu_skill_name(skill: i32, out: *mut c_char, cap: usize) -> bool;
     /// The extended target window's name for a slot role (`xTargetType`).
     pub fn mqemu_xtarget_role_name(role: u32, out: *mut c_char, cap: usize) -> bool;
+    /// `line` as MQ2Lua matches events against it: item links replaced by
+    /// their text (the game's `CleanItemTags`) unless `keep_links`, then
+    /// MacroQuest's color codes and line breaks removed (`StripMQChat`). `out`
+    /// needs `strlen(line) + 1` bytes; neither step lengthens the line.
+    pub fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool;
 }

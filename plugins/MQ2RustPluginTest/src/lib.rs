@@ -2,7 +2,7 @@
 //!
 //! `/rusttest selftest` runs everything: mq-emu's view of the game against
 //! MacroQuest's own data (`${Me...}`, `${Target...}`), commands, re-entrancy,
-//! parsing, keys, async tasks, turning and walking, the runtime's safety nets
+//! parsing, keys, async tasks, chat events and key binds, turning and walking, the runtime's safety nets
 //! (a caught panic, a slow pulse, a capped feedback loop), messaging, Lua
 //! scripts, and your other characters running the plugin.
 //!
@@ -13,6 +13,7 @@
 
 mod checks;
 mod data_checks;
+mod event_checks;
 mod game_checks;
 mod graphics;
 mod lua_checks;
@@ -24,7 +25,7 @@ use std::collections::{BTreeSet, VecDeque};
 use std::time::{Duration, Instant};
 
 use mq_emu::color::{GREEN, RED, RESET, TEAL, YELLOW};
-use mq_emu::{Address, LuaTable, LuaValue, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId, Ui, Value};
+use mq_emu::{Address, EventMatch, LuaTable, LuaValue, Message, MoveKey, Mq, Plugin, Spawn, Task, TaskId, Ui, Value};
 
 use crate::checks::{Check, Report, SharedLog};
 
@@ -79,6 +80,10 @@ struct RustTest {
     recent_pulses: VecDeque<Instant>,
     /// The selftest's `/echo` of the RustTest TLO, once it arrives.
     tlo_echo: Option<String>,
+    /// What the selftest's events matched, by event.
+    events_seen: Vec<(String, EventMatch)>,
+    /// The selftest's key bind going down (true) and up.
+    bind_presses: Vec<bool>,
     /// The latest selftest's results, for the debug window.
     selftest_log: SharedLog,
     window: window::DebugWindow,
@@ -412,6 +417,11 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
         report.section(mq, "Settings");
         checks::ini(mq, &mut report);
     });
+    task.with(|mq| report.section(mq, "Chat events"));
+    event_checks::events(&task, &mut report).await;
+    task.with(|mq| report.section(mq, "Key binds"));
+    event_checks::key_binds(&task, &mut report).await;
+
 
     task.with(|mq| report.section(mq, "Target buffs"));
     play_checks::target_buffs(&task, &mut report).await;

@@ -672,6 +672,12 @@ pub mod testing {
     unsafe extern "C" {
         /// Creates the context, once: 1280x800, no ini file.
         pub fn mqemu_imgui_test_init();
+        /// Forgets focus, keyboard navigation and the active item, so a test
+        /// doesn't start with an earlier one's.
+        pub fn mqemu_imgui_test_forget_focus();
+        /// The keyboard navigation item's ID (0 for none).
+        pub fn mqemu_imgui_test_nav_id() -> u32;
+
         /// Starts a frame with the mouse at (x, y), its left button down or not.
         pub fn mqemu_imgui_test_new_frame(mouse_x: f32, mouse_y: f32, mouse_down: bool) -> bool;
         /// Ends the frame with `ImGui::Render`, as MacroQuest does. False (and

@@ -87,6 +87,10 @@ pub(crate) struct Host {
     pub take_imgui_error: fn() -> Option<String>,
     /// The ImGui, ImPlot and MacroQuest drawing shims' functions (see `mq_emu_sys::imgui::Api`).
     pub imgui: &'static crate::imgui::Apis,
+    /// Expands an event pattern's `|print variable|` when a line is matched.
+    pub print_var: mq_emu_sys::events::mqemu_print_var_fn,
+    /// MacroQuest's key binds.
+    pub key_binds: crate::key_binds::KeyBindApi,
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
@@ -131,14 +135,36 @@ pub(crate) const fn real<P>() -> Host {
             implot: &mq_emu_sys::implot::API,
             mq: &mq_emu_sys::imgui_mq::API,
         },
+        print_var: real_print_var::<P>,
+        key_binds: crate::key_binds::real::<P>(),
     }
+}
+
+/// As MacroQuest's own (`MQ2DataVariableLookup`): the text between the bars,
+/// with `${...}` expanded when in game.
+unsafe extern "system" fn real_print_var<P>(name: *mut std::ffi::c_char, value: *mut std::ffi::c_char, cap: usize) -> u32 {
+    if cap == 0 {
+        return 0;
+    }
+    let name = unsafe { std::ffi::CStr::from_ptr(name) }.to_bytes();
+    let len = name.len().min(cap - 1);
+    unsafe {
+        std::ptr::copy_nonoverlapping(name.as_ptr().cast(), value, len);
+        *value.add(len) = 0;
+    }
+    if unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPlayer) }.is_null() {
+        return len as u32;
+    }
+    unsafe { mq_emu_sys::mq2main::ParseMacroData(value, cap) };
+    unsafe { std::ffi::CStr::from_ptr(value) }.to_bytes().len() as u32
 }
 
 /// Reads an eqlib `ForeignPointer` global.
 ///
 /// # Safety
 /// `global` must be one of eqlib's `ForeignPointer` globals.
-unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
+pub(crate) unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
+
     unsafe { (*global).get() }
 }
 

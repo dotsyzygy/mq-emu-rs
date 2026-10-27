@@ -153,6 +153,44 @@ pub(crate) mod fake {
         with(|game| write(game.xtarget_roles.get(&role).map(String::as_str), out, cap))
     }
 
+    /// RoF2's item link: `\x12`, a 56-character body, the item's name, `\x12`.
+    pub(crate) const LINK_BODY: usize = 56;
+
+    /// A stand-in for the game's `CleanItemTags` and MacroQuest's
+    /// `StripMQChat`: links become their names (unless kept), then color
+    /// codes (`\a` and a letter, or `\a#` and six hex digits) and line breaks go.
+    pub(crate) fn clean_chat_line(line: &[u8], keep_links: bool) -> Vec<u8> {
+        let mut text = Vec::new();
+        let mut rest = line;
+        while !keep_links && let Some(start) = rest.iter().position(|&b| b == 0x12) {
+            text.extend_from_slice(&rest[..start]);
+            let link = &rest[start + 1..];
+            let end = link.iter().position(|&b| b == 0x12).unwrap_or(link.len());
+            text.extend_from_slice(link[..end].get(LINK_BODY..).unwrap_or_default());
+            rest = link.get(end + 1..).unwrap_or_default();
+        }
+        text.extend_from_slice(rest);
+        let mut out = Vec::new();
+        let mut i = 0;
+        while i < text.len() {
+            match text[i] {
+                0x07 => i += if text.get(i + 1) == Some(&b'#') { 8 } else { 2 },
+                b'\n' => i += 1,
+                b => {
+                    out.push(b);
+                    i += 1;
+                }
+            }
+        }
+        out
+    }
+
+    unsafe extern "C" fn clean_chat(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool {
+        let line = unsafe { std::ffi::CStr::from_ptr(line) }.to_bytes();
+        let cleaned = String::from_utf8_lossy(&clean_chat_line(line, keep_links)).into_owned();
+        write(Some(&cleaned), out, cap)
+    }
+
     pub(crate) static API: Api = Api {
         mqemu_cached_buffs: cached_buffs,
         mqemu_alt_ability: alt_ability,
@@ -163,5 +201,6 @@ pub(crate) mod fake {
         mqemu_skill_timer: skill_timer,
         mqemu_skill_name: skill_name,
         mqemu_xtarget_role_name: xtarget_role_name,
+        mqemu_clean_chat_line: clean_chat,
     };
 }

@@ -9,6 +9,11 @@
 use core::ffi::{c_char, c_int, c_void};
 
 use crate::constants::{MAX_PATH, MAX_STRING};
+use crate::layouts::KeyCombo;
+
+/// A MacroQuest key bind's function (`fMQExecuteCmd`, mq/utils/Keybinds.h):
+/// the bind's name, and whether its key went down (true) or up.
+pub type fMQExecuteCmd = unsafe extern "C" fn(name: *const c_char, down: bool);
 
 imports! {
     dll: "MQ2Main",
@@ -37,6 +42,42 @@ imports! {
         /// The `CMD_*` index of a key-bindable command by its game name
         /// (case-insensitive, e.g. "forward"), or -1.
         pub fn FindMappableCommand(name: *const c_char) -> c_int;
+        /// Adds a MacroQuest key bind, `/bind`'s to set, starting with the
+        /// keys saved in MacroQuest.ini (`[Key Binds]`, `<name>_Nrm` and
+        /// `<name>_Alt`). `function` is called with the bind's name as its key
+        /// goes down and up. False if a bind by that name (in any case)
+        /// exists. MacroQuest doesn't remove a plugin's binds when it unloads.
+        pub fn AddMQ2KeyBind(name: *const c_char, function: fMQExecuteCmd) -> bool;
+        /// Removes any MacroQuest key bind, whoever added it. Its keys stay
+        /// in MacroQuest.ini.
+        pub fn RemoveMQ2KeyBind(name: *const c_char) -> bool;
+        /// Sets a MacroQuest key bind's normal or alternate keys and saves
+        /// them to MacroQuest.ini. `combo`'s key must be one `gDiKeyName`
+        /// names: saving writes its name with `DescribeKeyCombo`.
+        pub fn SetMQ2KeyBind(name: *const c_char, alternate: bool, combo: *mut KeyCombo) -> bool;
+        /// A MacroQuest key bind's normal or alternate keys.
+        pub fn GetMQ2KeyBind(name: *const c_char, alternate: bool, combo: *mut KeyCombo) -> bool;
+        /// Calls a MacroQuest key bind's function as if its key went down,
+        /// then (unless `hold`) up.
+        pub fn PressMQ2KeyBind(name: *const c_char, hold: bool) -> bool;
+        /// Sets one of the game's own key bindings (by its game name) and,
+        /// for the game's commands (below `N_NORMAL_EQ_MAPPABLE_COMMANDS`),
+        /// saves it as the game does. Needs `pKeypressHandler`.
+        pub fn SetEQKeyBind(name: *const c_char, alternate: bool, combo: *mut KeyCombo) -> bool;
+        /// Reads `/bind`'s notation ("ctrl+shift+F1", "clear") into `combo`.
+        /// `text` must be shorter than `MAX_STRING`.
+        pub fn ParseKeyCombo(text: *const c_char, combo: *mut KeyCombo) -> bool;
+        /// Writes `combo` in `/bind`'s notation into `out` and returns it.
+        /// Its key must be one `gDiKeyName` names, or this reads a null name.
+        pub fn DescribeKeyCombo(combo: *const KeyCombo, out: *mut c_char, size: usize) -> *mut c_char;
+        /// Writes every binding as `/bind` lines to `file` (relative to the
+        /// config directory; `.cfg` added if there's no extension).
+        pub fn DumpBinds(file: *const c_char) -> bool;
+
+        // Chat text (MQ2Main.h)
+        /// Copies `input` to `out` without MacroQuest's color codes (`\a...`)
+        /// and line breaks. `out` must hold `strlen(input) + 1` bytes.
+        pub fn StripMQChat(input: *const c_char, out: *mut c_char);
 
         // Plugins (mq/api/PluginAPI.h)
         /// `GetProcAddress` against another loaded plugin, by plugin name.

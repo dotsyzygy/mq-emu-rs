@@ -183,6 +183,46 @@ fn a_multi_select_list_always_draws_the_item_shift_click_selects_from() {
     assert_eq!(take_error(), None);
 }
 
+/// Why `lock` forgets focus: a clicked item becomes its window's navigation
+/// item, and ImGui's clipper draws the rows where that item was last drawn
+/// in every later list in the window. A test drawing its clicked item far out
+/// of view (as a multi-select list draws where shift+click selects from) made
+/// a later test's list draw rows it shouldn't.
+#[test]
+fn a_clicked_item_draws_rows_in_later_lists_until_focus_is_forgotten() {
+    let _imgui = lock();
+    let draw = |ui: &mut Ui, lines_above: f32, include: Range<usize>| {
+        test_window(ui, |ui| {
+            let [x, y] = ui.cursor_screen_pos();
+            ui.set_cursor_screen_pos([x, y - lines_above * ui.text_line_height_with_spacing()]);
+            let mut drawn = Vec::new();
+            ui.list_clipper(ITEMS).include(include).show(|ui, visible| {
+                for i in visible {
+                    ui.selectable(&format!("item {i}"), false);
+                    drawn.push((i, last_item_center()));
+                }
+            });
+            drawn
+        })
+        .unwrap()
+    };
+    let item_1 = frame(|ui| draw(ui, 0.0, 0..0)).unwrap()[1].1;
+    for down in [false, true, false] {
+        frame_at(item_1, down, |ui| draw(ui, 0.0, 0..0)).unwrap();
+    }
+    assert_ne!(unsafe { mqemu_imgui_test_nav_id() }, 0);
+    // Item 1 drawn 999 lines above the window's top.
+    frame(|ui| draw(ui, 1000.0, 1..2)).unwrap();
+
+    let leaked = |drawn: Vec<(usize, [f32; 2])>| drawn.into_iter().map(|(i, _)| i).filter(|i| (3990..4010).contains(i)).collect::<Vec<_>>();
+    // 999 lines above the top of a list scrolled 5000 lines is row 4001.
+    assert!(!leaked(frame(|ui| draw(ui, 5000.0, 0..0)).unwrap()).is_empty());
+    unsafe { mqemu_imgui_test_forget_focus() };
+    assert_eq!(unsafe { mqemu_imgui_test_nav_id() }, 0);
+    assert_eq!(leaked(frame(|ui| draw(ui, 5000.0, 0..0)).unwrap()), []);
+    assert_eq!(take_error(), None);
+}
+
 #[test]
 fn a_first_item_that_draws_nothing_is_an_error() {
     let _imgui = lock();

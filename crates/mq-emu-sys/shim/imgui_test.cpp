@@ -40,7 +40,24 @@ extern "C" void mqemu_imgui_test_init()
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasTextures;
 }
 
+// Forgets which window and item have focus, keyboard navigation and the
+// active item, so a test doesn't start with an earlier one's: list clippers
+// also draw the window's navigation item, wherever it is.
+extern "C" void mqemu_imgui_test_forget_focus()
+{
+	mqemu_imgui_test_init();
+	ImGui::FocusWindow(nullptr);
+	ImGui::ClearActiveID();
+}
+
+// The keyboard navigation item's ID (0 for none).
+extern "C" ImGuiID mqemu_imgui_test_nav_id()
+{
+	return ImGui::GetCurrentContext()->NavId;
+}
+
 // Starts a frame with the mouse at (x, y), the left button down or not.
+
 // False (with the error kept for mqemu_imgui_take_error) if ImGui threw.
 extern "C" bool mqemu_imgui_test_new_frame(float mouse_x, float mouse_y, bool mouse_down)
 {

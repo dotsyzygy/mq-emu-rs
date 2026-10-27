@@ -22,6 +22,16 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         GetGameState as *const c_void,
         GetPluginProc as *const c_void,
         FindMappableCommand as *const c_void,
+        AddMQ2KeyBind as *const c_void,
+        RemoveMQ2KeyBind as *const c_void,
+        SetMQ2KeyBind as *const c_void,
+        GetMQ2KeyBind as *const c_void,
+        PressMQ2KeyBind as *const c_void,
+        SetEQKeyBind as *const c_void,
+        ParseKeyCombo as *const c_void,
+        DescribeKeyCombo as *const c_void,
+        DumpBinds as *const c_void,
+        StripMQChat as *const c_void,
         EQExecuteCmd as *const c_void,
     ];
     let statics: &[*const c_void] = &[
