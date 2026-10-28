@@ -1,21 +1,31 @@
 //! The plugin's own datatypes, against a fake of MacroQuest's type registry:
-//! a type holds its members, callbacks and user pointer as the C++
+//! a type holds its members, callbacks, parent and user pointer as the C++
 //! `mqemu_type` does, and a value holds a type and a key, as an `MQTypeVar`
-//! does (so it outlives the plugin's handle on the type).
+//! does (so it outlives the plugin's handle on the type). Extensions of
+//! other types are faked as `mqemu_extension` is.
 
 use std::cell::OnceCell;
 use std::ffi::{c_char, c_void};
 
 use mq_emu_sys::plugin::MQPluginHandle;
-use mq_emu_sys::shim::{key_kind, mqemu_drop_fn, mqemu_key, mqemu_member_fn, mqemu_tlo_result, mqemu_type, mqemu_type_text_fn};
+use mq_emu_sys::shim::{
+    inherit, key_kind, mqemu_downcast_fn, mqemu_drop_fn, mqemu_extension, mqemu_extension_member_fn, mqemu_key,
+    mqemu_member_fn, mqemu_tlo_result, mqemu_type, mqemu_type_text_fn,
+};
 
-use super::data::fake_eval;
+use super::data::{FAKE_MQ_TYPES, FakeData, fake_eval, fake_mq_member, live_data};
 use super::*;
-use crate::data::{Value, parse_path};
-use crate::datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError};
+use crate::data::{Data, Value, parse_path};
+use crate::datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError, TypeExtension};
+use crate::game::SpawnId;
 
 pub(super) struct FakeType {
     name: String,
+    /// The adding plugin's ID.
+    plugin: u64,
+    /// Its parent's name, found again by name each time as the shim does,
+    /// and the downcast.
+    parent: Option<(String, mqemu_downcast_fn)>,
     /// Name, method or not, ID.
     members: Vec<(String, bool, i32)>,
     member: mqemu_member_fn,
@@ -62,6 +72,9 @@ thread_local! {
     static FAKE_TYPES: RefCell<Vec<*mut FakeType>> = const { RefCell::new(Vec::new()) };
     static TYPE_DROPS: Cell<u32> = const { Cell::new(0) };
     static TYPE_FREES: Cell<u32> = const { Cell::new(0) };
+    /// Extensions made and not freed.
+    static FAKE_EXTENSIONS: RefCell<Vec<*mut FakeExtension>> = const { RefCell::new(Vec::new()) };
+    static EXTENSION_FREES: Cell<u32> = const { Cell::new(0) };
 }
 
 fn counted_drop(drop: mqemu_drop_fn, user: *mut c_void) {
@@ -74,7 +87,7 @@ fn registered_names() -> Vec<String> {
 }
 
 pub(super) fn fake_add_type(
-    _: &MQPluginHandle,
+    handle: &MQPluginHandle,
     name: &str,
     _key_kind: i32,
     member: mqemu_member_fn,
@@ -87,7 +100,8 @@ pub(super) fn fake_add_type(
         counted_drop(drop, user); // ownership passed even though adding failed
         return ptr::null_mut();
     }
-    let ty = Box::into_raw(Box::new(FakeType { name: name.into(), members: Vec::new(), member, text, user: Some((user, drop)), registered: true }));
+    let ty = FakeType { name: name.into(), plugin: handle.pluginID, parent: None, members: Vec::new(), member, text, user: Some((user, drop)), registered: true };
+    let ty = Box::into_raw(Box::new(ty));
     FAKE_TYPES.with(|types| types.borrow_mut().push(ty));
     ty.cast()
 }
@@ -99,6 +113,27 @@ pub(super) fn fake_type_add_member(ty: *mut mqemu_type, id: i32, name: &str, met
     }
     ty.members.push((name.into(), method, id));
     true
+}
+
+fn registered_type(name: &str) -> Option<*mut FakeType> {
+    FAKE_TYPES.with(|types| types.borrow().iter().copied().find(|&t| unsafe { &*t }.registered && unsafe { &*t }.name == name))
+}
+
+fn is_mq_type(name: &str) -> bool {
+    FAKE_MQ_TYPES.iter().any(|(n, _)| *n == name)
+}
+
+pub(super) fn fake_type_inherit(ty: *mut mqemu_type, parent: &str, downcast: mqemu_downcast_fn) -> i32 {
+    let ty = unsafe { &mut *ty.cast::<FakeType>() };
+    if !is_mq_type(parent) {
+        let Some(found) = registered_type(parent) else { return inherit::NO_TYPE };
+        // Itself, or another plugin's.
+        if std::ptr::eq(found, ty) || unsafe { &*found }.plugin != ty.plugin {
+            return inherit::REFUSED;
+        }
+    }
+    ty.parent = Some((parent.into(), downcast));
+    inherit::OK
 }
 
 pub(super) fn fake_remove_type(ty: *mut mqemu_type) {
@@ -131,10 +166,36 @@ pub(super) fn fake_keyed(custom: &CustomValue) -> Option<FakeVal> {
 
 /// `value.Member[index]`, as `mqemu_type::GetMember` evaluates it.
 fn member(value: &FakeVal, name: &str, index: &str) -> Option<FakeVal> {
-    let FakeVal::Keyed { ty, key } = value else { panic!("the fake has no members for {value:?}") };
+    let (ty, key) = match value {
+        FakeVal::Keyed { ty, key } => (ty, key),
+        // One of MacroQuest's: its extensions first, then the type's own.
+        FakeVal::Plain(object @ Value::Object { type_name, text }) => {
+            return extension_member(type_name, text, name, index).or_else(|| fake_mq_member(object, name, index).map(FakeVal::Plain));
+        }
+        _ => panic!("the fake has no members for {value:?}"),
+    };
     let ty = unsafe { &**ty };
     let (user, _) = ty.user?;
-    let &(_, _, id) = ty.members.iter().find(|(n, ..)| n == name)?;
+    let Some(&(_, _, id)) = ty.members.iter().find(|(n, ..)| n == name) else {
+        // The parent's members, as `mqemu_type::GetMember` passes them on.
+        let (parent, downcast) = ty.parent.as_ref()?;
+        let mut up: Option<FakeVal> = None;
+        if !key.with_c(|key| unsafe { downcast(user, key, (&raw mut up).cast()) }) {
+            return None;
+        }
+        return match up? {
+            // As EvaluateMacroDataMember evaluates it: extensions too.
+            FakeVal::Plain(object @ Value::Object { .. }) if is_mq_type(parent) => {
+                let Value::Object { type_name, .. } = &object else { unreachable!() };
+                if type_name != parent {
+                    return None;
+                }
+                member(&FakeVal::Plain(object), name, index)
+            }
+            keyed @ FakeVal::Keyed { ty, .. } if registered_type(parent) == Some(ty) => member(&keyed, name, index),
+            _ => None, // a value of another type
+        };
+    };
     let index = CString::new(index).unwrap();
     let mut result: Option<FakeVal> = None;
     let set = key.with_c(|key| unsafe { (ty.member)(user, key, id, index.as_ptr(), (&raw mut result).cast()) });
@@ -161,6 +222,96 @@ fn read(path: &str) -> Option<String> {
         value = member(&value, name, index)?;
     }
     text(&value)
+}
+
+// ----- extensions --------------------------------------------------------------------
+
+struct FakeExtension {
+    type_name: String,
+    /// Name, ID.
+    members: Vec<(String, i32)>,
+    member: mqemu_extension_member_fn,
+    user: Option<(*mut c_void, mqemu_drop_fn)>,
+    registered: bool,
+}
+
+/// The members a type has itself.
+fn own_members(type_name: &str) -> Vec<String> {
+    match FAKE_MQ_TYPES.iter().find(|(n, _)| *n == type_name) {
+        Some((_, members)) => members.iter().map(|m| (*m).to_owned()).collect(),
+        None => registered_type(type_name).map(|t| unsafe { &*t }.members.iter().map(|(n, ..)| n.clone()).collect()).unwrap_or_default(),
+    }
+}
+
+pub(super) fn fake_add_extension(
+    _: &MQPluginHandle,
+    type_name: &str,
+    member: mqemu_extension_member_fn,
+    user: *mut c_void,
+    drop: mqemu_drop_fn,
+) -> *mut mqemu_extension {
+    if !is_mq_type(type_name) && registered_type(type_name).is_none() {
+        counted_drop(drop, user); // ownership passed even though adding failed
+        return ptr::null_mut();
+    }
+    let extension = FakeExtension { type_name: type_name.into(), members: Vec::new(), member, user: Some((user, drop)), registered: false };
+    let extension = Box::into_raw(Box::new(extension));
+    FAKE_EXTENSIONS.with(|extensions| extensions.borrow_mut().push(extension));
+    extension.cast()
+}
+
+pub(super) fn fake_extension_add_member(extension: *mut mqemu_extension, id: i32, name: &str) -> bool {
+    let extension = unsafe { &mut *extension.cast::<FakeExtension>() };
+    if extension.members.iter().any(|(n, _)| n == name) || own_members(&extension.type_name).iter().any(|n| n == name) {
+        return false;
+    }
+    extension.members.push((name.into(), id));
+    true
+}
+
+pub(super) fn fake_extension_register(extension: *mut mqemu_extension) -> bool {
+    unsafe { &mut *extension.cast::<FakeExtension>() }.registered = true;
+    true
+}
+
+pub(super) fn fake_remove_extension(extension: *mut mqemu_extension) {
+    let extension = unsafe { &mut *extension.cast::<FakeExtension>() };
+    extension.registered = false;
+    if let Some((user, drop)) = extension.user.take() {
+        counted_drop(drop, user);
+    }
+}
+
+pub(super) fn fake_free_extension(extension: *mut mqemu_extension) {
+    fake_remove_extension(extension);
+    FAKE_EXTENSIONS.with(|extensions| extensions.borrow_mut().retain(|&e| e != extension.cast()));
+    drop(unsafe { Box::from_raw(extension.cast::<FakeExtension>()) });
+    EXTENSION_FREES.with(|frees| frees.set(frees.get() + 1));
+}
+
+/// `${value.member[index]}` of a `type_name` value shown as `text`, as
+/// MacroQuest asks the type's extensions; None for NULL or no such member.
+fn extension_member(type_name: &str, text: &str, name: &str, index: &str) -> Option<FakeVal> {
+    let found = FAKE_EXTENSIONS.with(|extensions| {
+        extensions.borrow().iter().map(|&e| unsafe { &*e }).filter(|e| e.registered && e.type_name == type_name).find_map(|e| {
+            let &(_, id) = e.members.iter().find(|(n, _)| n == name)?;
+            Some((e.member, e.user?.0, id))
+        })
+    });
+    let (callback, user, id) = found?;
+    let value = FakeData::boxed(type_name, text, 0, 0.0, true); // the callback frees it
+    let index = CString::new(index).unwrap();
+    let mut result: Option<FakeVal> = None;
+    let set = unsafe { callback(user, value, id, index.as_ptr(), (&raw mut result).cast()) };
+    if set { result } else { None }
+}
+
+fn registered_extensions() -> Vec<String> {
+    FAKE_EXTENSIONS.with(|e| e.borrow().iter().map(|&e| unsafe { &*e }).filter(|e| e.registered).map(|e| e.type_name.clone()).collect())
+}
+
+fn extension_frees() -> u32 {
+    EXTENSION_FREES.with(Cell::get)
 }
 
 fn drops() -> u32 {
@@ -391,4 +542,216 @@ fn a_member_can_remove_its_own_type() {
     assert!(registered_names().is_empty());
     assert_eq!(drops(), 1);
     assert_eq!(rt.stats().panics, 0);
+}
+
+// ----- inheritance ---------------------------------------------------------------------
+
+/// `Bot`, keyed by a name, whose parent value is the spawn of that name
+/// (only Qtee, `Spawn[id 7]`, here).
+fn add_bot_type(mq: &Mq<Recorder>) {
+    let bot = mq
+        .add_type(
+            "Bot",
+            DataTypeDef::new()
+                .member("Role", |_: &mut Recorder, _, name: &String, _| Some(format!("{name} tanks").into()))
+                .member("Name", |_, _, _, _| Some("own Name".into()))
+                .inherit("spawn", |_, _, name| match name.as_str() {
+                    "Qtee" => Some(Value::spawn(SpawnId(7))),
+                    "Number" => Some(5.into()),
+                    _ => None,
+                }),
+        )
+        .unwrap();
+    mq.add_tlo("Bot", move |_, _, index| Some(bot.value(index.to_owned()))).unwrap();
+}
+
+#[test]
+fn inherited_members_come_from_the_parents_value() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| add_bot_type(mq));
+    rt.initialize();
+    assert_eq!(read("Bot[Qtee].Role").as_deref(), Some("Qtee tanks"));
+    assert_eq!(read("Bot[Qtee].Level").as_deref(), Some("65"), "the spawn's");
+    assert_eq!(read("Bot[Qtee].Buff[1].Name").as_deref(), Some("Aegolism"));
+    assert_eq!(read("Bot[Qtee].Name").as_deref(), Some("own Name"), "its own members come first");
+    assert_eq!(read("Bot[Qtee]").as_deref(), Some("Bot"), "and its own text");
+    assert_eq!(read("Bot[Qtee].Nope"), None);
+    assert_eq!(read("Bot[Nobody].Level"), None, "no parent value: NULL");
+    assert_eq!(read("Bot[Number].Level"), None, "a value of another type: NULL");
+    assert_eq!(live_data(), 0, "the spawns read are freed");
+    assert_eq!(rt.stats().panics, 0);
+}
+
+#[test]
+fn a_type_can_inherit_the_plugins_own_even_when_added_again() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    // Big[n] is Counter[n * 10], whichever Counter type is there.
+    let counter: Rc<RefCell<Option<DataType<i32>>>> = Rc::default();
+    let current = Rc::clone(&counter);
+    set_hook(&ON_NEW, move |_, mq| {
+        *current.borrow_mut() = Some(add_counter_type(mq));
+        let parent = Rc::clone(&current);
+        let def = DataTypeDef::new().inherit("Counter", move |_: &mut Recorder, _, n: &i32| Some(parent.borrow().as_ref()?.value(n * 10)));
+        let big = mq.add_type("Big", def).unwrap();
+        mq.add_tlo("Big", move |_, _, index| Some(big.value(index.parse().ok()?))).unwrap();
+    });
+    rt.initialize();
+    assert_eq!(read("Big[2].Value").as_deref(), Some("20"));
+    assert_eq!(read("Big[2].Next.Value").as_deref(), Some("21"));
+
+    set_hook(&ON_PULSE, |_, mq| assert!(mq.remove_type("Counter")));
+    rt.pulse();
+    assert_eq!(read("Big[2].Value"), None, "the parent is gone");
+
+    let current = Rc::clone(&counter);
+    set_hook(&ON_PULSE, move |_, mq| *current.borrow_mut() = Some(add_counter_type(mq)));
+    rt.pulse();
+    assert_eq!(read("Big[3].Value").as_deref(), Some("30"), "found again by name");
+}
+
+#[test]
+fn parents_must_exist_and_be_macroquests_or_the_plugins() {
+    let _main = FakeMain::install();
+    // Another plugin's type.
+    unsafe extern "C" fn no_member(_: *mut c_void, _: *const mqemu_key, _: i32, _: *const c_char, _: *mut mqemu_tlo_result) -> bool {
+        false
+    }
+    unsafe extern "C" fn no_text(_: *mut c_void, _: *const mqemu_key, _: *mut c_char, _: usize) -> bool {
+        false
+    }
+    unsafe extern "C" fn nothing(_: *mut c_void) {}
+    fake_add_type(&MQPluginHandle { pluginID: 1 }, "Taken", key_kind::INT, no_member, no_text, ptr::null_mut(), nothing);
+
+    let rt = in_pulse(|plugin, mq| {
+        for (name, parent) in [("A", "NoSuch"), ("B", "B"), ("C", "Taken"), ("D", "spawn")] {
+            let def = DataTypeDef::<Recorder, i32>::new().inherit(parent, |_, _, _| None);
+            plugin.log.push(format!("{name}: {:?}", mq.add_type(name, def).map(|ty| ty.name().to_owned())));
+        }
+    });
+    assert_eq!(
+        log_of(rt)[2..], // after "new" and "pulse"
+        [
+            format!("A: {:?}", Err::<String, _>(DataTypeError::NoSuchType("NoSuch".into()))),
+            format!("B: {:?}", Err::<String, _>(DataTypeError::ParentNotAllowed("B".into()))),
+            format!("C: {:?}", Err::<String, _>(DataTypeError::ParentNotAllowed("Taken".into()))),
+            r#"D: Ok("D")"#.to_owned(),
+        ]
+    );
+    // The refused types were taken out again and freed, their handlers dropped.
+    assert_eq!(registered_names(), ["Taken", "D"]);
+    assert_eq!((drops(), frees()), (3, 3));
+}
+
+// ----- extensions ----------------------------------------------------------------------
+
+/// Adds `Threat`, `Twice`, `Home` and `Drop` to MacroQuest's `spawn`.
+fn extend_spawn(mq: &Mq<Recorder>) -> Result<(), DataTypeError> {
+    let extension = TypeExtension::new()
+        .member("Threat", |plugin: &mut Recorder, _, spawn, index| {
+            plugin.log.push(format!("threat {index:?}"));
+            Some(format!("threat on {}", spawn.member("Name")?.text()).into())
+        })
+        .member("Twice", |_, _, spawn, _| Some((spawn.member("Level")?.as_int()? * 2).into()))
+        .member("Home", |_, _, _, _| Value::path("Me").ok())
+        .member("Drop", |_, mq, _, _| Some(mq.remove_type_extension("spawn").into()));
+    mq.extend_type("spawn", extension)
+}
+
+#[test]
+fn extensions_add_members_to_macroquests_types() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        extend_spawn(mq).unwrap();
+        add_bot_type(mq);
+    });
+    rt.initialize();
+    let plain = |value: Value| Some(FakeVal::Plain(value));
+    assert_eq!(extension_member("spawn", "Qtee", "Threat", "x"), plain("threat on Qtee".into()));
+    assert_eq!(extension_member("spawn", "Qtee", "Twice", ""), plain(130.into()));
+    assert_eq!(extension_member("spawn", "Qtee", "Home", ""), plain(Value::Object { type_name: "spawn".into(), text: "Syzygy".into() }));
+    assert_eq!(extension_member("buff", "Aegolism", "Threat", ""), None, "only the type extended");
+    assert_eq!(extension_member("spawn", "Qtee", "Nope", ""), None);
+    // A spawn reached any way has them: here, the parent of the plugin's own type.
+    assert_eq!(read("Bot[Qtee].Threat").as_deref(), Some("threat on Qtee"));
+    assert_eq!(log_of(rt)[1..], [r#"threat "x""#, r#"threat """#]);
+    assert_eq!(live_data(), 0, "each value passed to a member is freed");
+}
+
+#[test]
+fn extension_members_are_checked_and_one_extension_per_type() {
+    let _main = FakeMain::install();
+    let rt = in_pulse(|plugin, mq| {
+        let none = |_: &mut Recorder, _: &Mq<Recorder>, _: &Data<'_>, _: &str| None;
+        for (type_name, extension) in [
+            ("nosuch", TypeExtension::new().member("A", none)),
+            ("spawn", TypeExtension::new().member("Level", none)),
+            ("spawn", TypeExtension::new().member("Bad Name", none)),
+            ("spawn", TypeExtension::new().member("A", none).member("A", none)),
+            ("spawn", TypeExtension::new().member("A", none)),
+            ("spawn", TypeExtension::new().member("B", none)),
+        ] {
+            plugin.log.push(format!("{type_name}: {:?}", mq.extend_type(type_name, extension)));
+        }
+    });
+    assert_eq!(
+        log_of(rt)[2..],
+        [
+            format!("nosuch: {:?}", Err::<(), _>(DataTypeError::NoSuchType("nosuch".into()))),
+            format!("spawn: {:?}", Err::<(), _>(DataTypeError::InvalidMember("Level".into()))),
+            format!("spawn: {:?}", Err::<(), _>(DataTypeError::InvalidMember("Bad Name".into()))),
+            format!("spawn: {:?}", Err::<(), _>(DataTypeError::InvalidMember("A".into()))),
+            "spawn: Ok(())".to_owned(),
+            format!("spawn: {:?}", Err::<(), _>(DataTypeError::AlreadyAdded)),
+        ]
+    );
+    assert_eq!(registered_extensions(), ["spawn"]);
+    // "nosuch" and "Level" reached the shim, which dropped their handlers; "Level"'s was freed.
+    assert_eq!((drops(), extension_frees()), (2, 1));
+}
+
+#[test]
+fn extending_without_macroquest_is_unavailable() {
+    // No FakeMain: MacroQuest's API isn't there.
+    let rt = in_pulse(|plugin, mq| plugin.log.push(format!("{:?}", extend_spawn(mq))));
+    assert_eq!(log_of(rt).last().unwrap(), &format!("{:?}", Err::<(), _>(DataTypeError::Unavailable)));
+    assert!(registered_extensions().is_empty());
+}
+
+#[test]
+fn extensions_are_removed_and_freed_on_unload() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| extend_spawn(mq).unwrap());
+    rt.initialize();
+    set_hook(&ON_PULSE, |plugin, mq| {
+        plugin.log.push(format!("{} {}", mq.remove_type_extension("spawn"), mq.remove_type_extension("spawn")));
+    });
+    rt.pulse();
+    assert_eq!(log_of(rt).last().unwrap(), "true false");
+    assert_eq!(extension_member("spawn", "Qtee", "Twice", ""), None);
+    assert_eq!((drops(), extension_frees()), (1, 0), "kept until unload: its member may have been running");
+
+    set_hook(&ON_PULSE, |_, mq| extend_spawn(mq).unwrap());
+    rt.pulse();
+    assert_eq!(extension_member("spawn", "Qtee", "Twice", ""), Some(FakeVal::Plain(130.into())), "added again");
+
+    rt.shutdown();
+    assert!(registered_extensions().is_empty(), "unloading removes the plugin's extensions");
+    assert_eq!((drops(), extension_frees()), (2, 2), "each dropped and freed exactly once");
+}
+
+#[test]
+fn an_extension_member_can_remove_its_own_extension() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| extend_spawn(mq).unwrap());
+    rt.initialize();
+    assert_eq!(extension_member("spawn", "Qtee", "Drop", ""), Some(FakeVal::Plain(true.into())));
+    assert!(registered_extensions().is_empty());
+    assert_eq!(drops(), 1);
+    assert_eq!(rt.stats().panics, 0);
+    assert_eq!(live_data(), 0);
 }

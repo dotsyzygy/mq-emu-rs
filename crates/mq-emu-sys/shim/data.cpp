@@ -284,6 +284,32 @@ extern "C" bool mqemu_tlo_set(mqemu_tlo_result* result, int kind, int64_t intege
 	}
 }
 
+// Sets a TLO callback's value to an evaluated one of MacroQuest's (a spawn,
+// an item...). A string's text is copied to the TLO's storage, as its buffer
+// is reused by the next evaluation.
+extern "C" bool mqemu_tlo_set_data(mqemu_tlo_result* result, const mqemu_data* data)
+{
+	try
+	{
+		MQTypeVar& dest = *result->dest;
+		if (data->var.Type == mq::FindMQ2DataType("string"))
+		{
+			if (!data->has_text)
+				return false;
+			result->text->assign(data->text);
+			dest.Type = data->var.Type;
+			dest.Set<void*>(result->text->data());
+			return true;
+		}
+		dest = data->var;
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
 // ----- datatypes -------------------------------------------------------------
 //
 // A plugin's own datatype, as C++ plugins derive from MQ2Type: its members,
@@ -303,6 +329,16 @@ enum mqemu_key_kind : int32_t
 	MQEMU_KEY_TEXT = 1,
 };
 
+// What mqemu_type_inherit did; mirrors `inherit` in mq-emu-sys.
+enum mqemu_inherit_result : int32_t
+{
+	MQEMU_INHERIT_OK = 0,
+	// There's no type by that name.
+	MQEMU_INHERIT_NO_TYPE = 1,
+	// The type itself, or another plugin's.
+	MQEMU_INHERIT_REFUSED = 2,
+};
+
 // Mirrors `mqemu_key` in mq-emu-sys. `text` is valid during the call it's passed to.
 struct mqemu_key
 {
@@ -314,6 +350,8 @@ struct mqemu_key
 
 using mqemu_member_fn = bool (*)(void* user, const mqemu_key* key, int32_t member, const char* index,
 	mqemu_tlo_result* result);
+// Sets `result` to the value of the parent type a value holding `key` is.
+using mqemu_downcast_fn = bool (*)(void* user, const mqemu_key* key, mqemu_tlo_result* result);
 using mqemu_type_text_fn = bool (*)(void* user, const mqemu_key* key, char* out, size_t cap);
 
 namespace {
@@ -343,6 +381,35 @@ void write_key(mq::MQVarPtr& var, const mqemu_key& key)
 	else
 		var.Set<uint64_t>(static_cast<uint64_t>(key.integer));
 }
+
+HMODULE module_of(const void* address)
+{
+	HMODULE module = nullptr;
+	GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+		static_cast<LPCWSTR>(address), &module);
+	return module;
+}
+
+// Whether a type may be a parent: one of MacroQuest's own (its code is in
+// MQ2Main.dll) or this plugin's. Another plugin's (or Lua's) type could be
+// unloaded while ours still points at it.
+bool may_inherit(MQ2Type* parent)
+{
+	HMODULE module = module_of(*reinterpret_cast<void* const*>(parent)); // its vtable
+	return module != nullptr
+		&& (module == GetModuleHandleW(L"MQ2Main.dll") || module == module_of(reinterpret_cast<const void*>(&module_of)));
+}
+
+// How deep members are being passed to parent types on this thread: types
+// can inherit from each other in a cycle (a parent removed and added again).
+thread_local int t_parentDepth = 0;
+constexpr int MAX_PARENT_DEPTH = 16;
+
+struct ParentDepth
+{
+	bool ok = ++t_parentDepth <= MAX_PARENT_DEPTH;
+	~ParentDepth() { --t_parentDepth; }
+};
 
 // Turns a variable holding a value of `type` (or an array of them) into a
 // string, when the type is removed: deleting a variable calls its type, and
@@ -438,9 +505,56 @@ struct mqemu_type final : MQ2Type
 		if (found == nullptr)
 			found = FindMethod(Member);
 		if (found == nullptr)
-			return false;
+		{
+			// The parent's members, of the value the plugin says this one is.
+			ParentDepth depth;
+			MQTypeVar parent;
+			std::string parentText;
+			if (!depth.ok || !ToParent(keep, key, parent, parentText))
+				return false;
+			return mq::EvaluateMacroDataMember(parent.Type, parent.GetVarPtr(), Dest, Member, Index) == 1;
+		}
 		mqemu_tlo_result result{ &Dest, &m_buffer };
 		return m_member(keep.get(), &key, found->ID, Index ? Index : "", &result);
+	}
+
+	// Inherits `name`'s members (which must be MacroQuest's type or this
+	// plugin's): `downcast` gives the parent's value for a key.
+	int32_t Inherit(const char* name, mqemu_downcast_fn downcast)
+	{
+		MQ2Type* parent = mq::FindMQ2DataType(name);
+		if (parent == nullptr)
+			return MQEMU_INHERIT_NO_TYPE;
+		if (parent == this || !may_inherit(parent))
+			return MQEMU_INHERIT_REFUSED;
+		m_parentName = name;
+		m_downcast = downcast;
+		SetInheritance(parent);
+		return MQEMU_INHERIT_OK;
+	}
+
+	// /varset of a variable of the parent type (MacroQuest asks only for
+	// types this one inherits from).
+	bool Downcast(const MQVarPtr& fromVar, MQVarPtr& toVar, MQ2Type* toType) override
+	{
+		auto keep = m_user;
+		mqemu_key key;
+		std::string text;
+		ParentDepth depth;
+		if (!keep || !depth.ok || !read_key(fromVar, key, text))
+			return false;
+		MQTypeVar parent;
+		std::string parentText;
+		// A string would point at parentText, gone once this returns; the
+		// variable takes this value's text instead (FromData).
+		if (!ToParent(keep, key, parent, parentText) || parent.Type == mq::datatypes::pStringType)
+			return false;
+		if (parent.Type == toType)
+		{
+			toVar = parent.GetVarPtr();
+			return true;
+		}
+		return parent.Type->Downcast(parent.GetVarPtr(), toVar, toType);
 	}
 
 	bool ToString(MQVarPtr VarPtr, char* Destination) override
@@ -485,6 +599,33 @@ struct mqemu_type final : MQ2Type
 	}
 
 private:
+	// The parent, found again by name each time (it may have been removed
+	// and added again), or null for none.
+	MQ2Type* RefreshParent()
+	{
+		if (m_parentName.empty())
+			return nullptr;
+		MQ2Type* parent = mq::FindMQ2DataType(m_parentName.c_str());
+		if (parent != nullptr && (parent == this || !may_inherit(parent)))
+			parent = nullptr;
+		SetInheritance(parent);
+		return parent;
+	}
+
+	// The parent type's value for `key`, from the plugin: false if there's
+	// no parent, or the plugin gives NULL or a value of another type. A
+	// string's text is kept in `text`.
+	bool ToParent(const std::shared_ptr<void>& user, const mqemu_key& key, MQTypeVar& parent, std::string& text)
+	{
+		MQ2Type* type = RefreshParent();
+		if (type == nullptr || m_downcast == nullptr)
+			return false;
+		mqemu_tlo_result result{ &parent, &text };
+		if (!m_downcast(user.get(), &key, &result) || parent.Type == nullptr)
+			return false;
+		return parent.Type == type || parent.Type->InheritsFrom(type);
+	}
+
 	int32_t m_keyKind;
 	mqemu_member_fn m_member;
 	mqemu_type_text_fn m_text;
@@ -492,6 +633,8 @@ private:
 	// String members' text, valid until the type is evaluated again (as
 	// MacroQuest's own types share DataTypeTemp).
 	std::string m_buffer;
+	std::string m_parentName;
+	mqemu_downcast_fn m_downcast = nullptr;
 };
 
 // Adds datatype `name`, whose values hold keys of `key_kind`. Null if
@@ -526,6 +669,21 @@ extern "C" bool mqemu_type_add_member(mqemu_type* type, int32_t id, const char* 
 	catch (...)
 	{
 		return false;
+	}
+}
+
+// Makes the type inherit `parent`'s members: those it doesn't have are read
+// from the parent's value `downcast` gives (also used for /varset of a
+// variable of the parent type). Returns an mqemu_inherit_result.
+extern "C" int32_t mqemu_type_inherit(mqemu_type* type, const char* parent, mqemu_downcast_fn downcast)
+{
+	try
+	{
+		return type->Inherit(parent, downcast);
+	}
+	catch (...)
+	{
+		return MQEMU_INHERIT_NO_TYPE;
 	}
 }
 
@@ -572,5 +730,160 @@ extern "C" bool mqemu_tlo_set_key(mqemu_tlo_result* result, mqemu_type* type, co
 	catch (...)
 	{
 		return false;
+	}
+}
+
+// ----- type extensions -------------------------------------------------------
+//
+// Members a plugin adds to a type that isn't its own (MacroQuest's `spawn`,
+// say), as AddMQ2TypeExtension does: MacroQuest asks a type's extensions
+// before the type. Their callback gets the value as MacroQuest has it.
+
+using mqemu_extension_member_fn = bool (*)(void* user, mqemu_data* value, int32_t member, const char* index,
+	mqemu_tlo_result* result);
+
+struct mqemu_extension final : MQ2Type
+{
+	// Not named as the type it extends: MacroQuest asks an extension for a
+	// member by looking up the extensions of the extension's own name, so
+	// that would ask this one again, without end. The name can't be
+	// written in a macro, and the type MQ2Type registers under it is taken
+	// out again at once.
+	mqemu_extension(const char* type_name, const MQPluginHandle& handle, mqemu_extension_member_fn member,
+		std::shared_ptr<void> user)
+		: MQ2Type(std::string(type_name) + ".mq-emu extension", handle), m_baseName(type_name), m_member(member),
+		m_user(std::move(user))
+	{
+		if (m_owned)
+		{
+			mq::RemoveMQ2Type(*this);
+			m_owned = false;
+		}
+	}
+
+	// A member the type doesn't have itself: an extension's would hide it
+	// from every plugin and macro.
+	bool Add(int32_t id, const char* name)
+	{
+		MQ2Type* base = mq::FindMQ2DataType(m_baseName.c_str());
+		if (base == nullptr || base->FindMember(name) != nullptr || base->FindMethod(name) != nullptr)
+			return false;
+		return AddMember(id, name);
+	}
+
+	bool Register()
+	{
+		m_registered = mq::AddMQ2TypeExtension(m_baseName.c_str(), this);
+		return m_registered;
+	}
+
+	void Unregister()
+	{
+		if (m_registered)
+		{
+			mq::RemoveMQ2TypeExtension(m_baseName.c_str(), this);
+			m_registered = false;
+		}
+		m_user.reset();
+	}
+
+	bool GetMember(MQVarPtr VarPtr, const char* Member, char* Index, MQTypeVar& Dest) override
+	{
+		auto keep = m_user; // the extension may be removed while its member runs
+		const mq::MQTypeMember* found = FindMember(Member);
+		// Found by name each time: a type of another plugin's may have been
+		// removed and added again.
+		MQ2Type* base = mq::FindMQ2DataType(m_baseName.c_str());
+		if (!keep || found == nullptr || base == nullptr)
+			return false;
+		MQTypeVar value;
+		value.Type = base;
+		value.SetVarPtr(VarPtr);
+		mqemu_data* data = wrap(std::move(value)); // freed by the callback
+		if (data == nullptr)
+			return false;
+		mqemu_tlo_result result{ &Dest, &m_buffer };
+		return m_member(keep.get(), data, found->ID, Index ? Index : "", &result);
+	}
+
+private:
+	// The type it extends.
+	std::string m_baseName;
+	mqemu_extension_member_fn m_member;
+	std::shared_ptr<void> m_user;
+	bool m_registered = false;
+	std::string m_buffer;
+};
+
+// Makes an extension of type `type_name`, not yet registered: add its
+// members, then mqemu_extension_register. Null if there's no such type.
+// Ownership of `user` passes here: `drop` is called exactly once, by
+// mqemu_remove_extension or mqemu_free_extension (at once if this fails).
+extern "C" mqemu_extension* mqemu_add_extension(const MQPluginHandle* handle, const char* type_name,
+	mqemu_extension_member_fn member, void* user, mqemu_drop_fn drop)
+{
+	std::shared_ptr<void> held(user, [drop](void* p) { if (drop) drop(p); });
+	try
+	{
+		if (mq::FindMQ2DataType(type_name) == nullptr)
+			return nullptr;
+		return new mqemu_extension(type_name, *handle, member, std::move(held));
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+// Adds a member with `id`, which its callback gets. False if the extension
+// or the type has one by that name.
+extern "C" bool mqemu_extension_add_member(mqemu_extension* extension, int32_t id, const char* name)
+{
+	try
+	{
+		return extension->Add(id, name);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// MacroQuest starts asking the extension for members. False if it refuses.
+extern "C" bool mqemu_extension_register(mqemu_extension* extension)
+{
+	try
+	{
+		return extension->Register();
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// MacroQuest stops asking the extension, and its user pointer is dropped.
+// It stays allocated (its member may be running); free it with
+// mqemu_free_extension when the plugin unloads.
+extern "C" void mqemu_remove_extension(mqemu_extension* extension)
+{
+	try
+	{
+		extension->Unregister();
+	}
+	catch (...)
+	{
+	}
+}
+
+extern "C" void mqemu_free_extension(mqemu_extension* extension)
+{
+	try
+	{
+		extension->Unregister();
+		delete extension;
+	}
+	catch (...)
+	{
 	}
 }

@@ -56,7 +56,9 @@ Each area is supported in full, except for what's listed under **Missing**.
 - **Events and keys:** chat events as a macro's `#Event` (MacroQuest's own matcher, run as lines
   arrive, no `/doevents`); key binds of the plugin's own, and reading, setting and pressing any bind
 - **MacroQuest data:** parsing `${...}`, reading TLOs as typed values, and providing TLOs and
-  datatypes of the plugin's own (members, methods, macro variables) to macros and Lua
+  datatypes of the plugin's own (members, methods, macro variables, inheriting another type's
+  members) to macros and Lua, returning MacroQuest's own values (spawns, items...) from them, and
+  adding members to MacroQuest's types
 - **Game data:** spawns, items, inventory, bank, spells, buffs (yours, your target's and pet's,
   MacroQuest's cache), spell gems and book, group, raid, mercenary, extended targets, alternate
   abilities, skills, zones, ground items, the merchant and loot windows, tasks (objectives,
@@ -102,9 +104,8 @@ Each area is supported in full, except for what's listed under **Missing**.
 - Acting on spells and items beyond the bound set: splash spells landed at a place (MacroQuest's
   `/cast ... loc`), spell sets saved in the game (`/memspellset`), destroying items, and opening a
   merchant's window (only by running commands)
-- Datatypes beyond the bound set: returning MacroQuest's own objects (spawns, items...) from TLOs
-  and members (`Value::Object` gives NULL), types inheriting another's members
-  (`SetInheritance`), and members added to MacroQuest's own types (`AddMQ2TypeExtension`)
+- Methods added to MacroQuest's types: MacroQuest looks only for members before asking a type's
+  extensions, so an extension's methods would never be called (extensions have members only)
 - ImGui beyond the bound set: MacroQuest's other EQ UI drawing (`DrawUITexture`,
   `DrawTexturePiece`, `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory
   editors) (reachable as raw `ImGui::*` C++ only)
@@ -196,8 +197,10 @@ tasks. It also:
   command is bound to a key MacroQuest has no name for, which would crash `/dumpbinds`.
 - **Echoes test lines** for the chat events, one of them with a link to an item you carry.
 - **Declares global macro variables** (`rusttest_v1`, `rusttest_v2`, `rusttest_v3`, `rusttest_va`,
-  `rusttest_t`, `rusttest_ta`) of its `RustTestCounter` and `RustTestTemp` datatypes, then deletes
-  them.
+  `rusttest_t`, `rusttest_ta`) of its `RustTestCounter` and `RustTestTemp` datatypes, and a spawn
+  variable (`rusttest_sp`) set from its `RustTestBot` datatype, then deletes them.
+- **Adds members to MacroQuest's types:** `RustTestTag` on `spawn` and `character` while the plugin
+  is loaded, and `RustTestTemp` on `int`, removed again.
 - **Touches its own INI file:** writes a `[RustTestSelftest]` section to
   `config\MQ2RustPluginTest.ini` (also through `/ini`), compares it with `${Ini}`, and removes it.
 - **Moves you:** turns 100° and back, then walks forward and back for half a second each.

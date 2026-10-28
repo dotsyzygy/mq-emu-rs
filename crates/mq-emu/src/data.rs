@@ -19,6 +19,7 @@
 //! the [`Mq`] it came from: game data is only valid during the callback that
 //! read it.
 
+use std::cell::Cell;
 use std::ffi::{c_char, c_void};
 use std::fmt;
 use std::marker::PhantomData;
@@ -26,9 +27,10 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::rc::Rc;
 
 use mq_emu_sys::plugin::MQPluginHandle;
-use mq_emu_sys::shim::{self, MainInterface, mqemu_data, mqemu_scalar, mqemu_tlo_result, mqemu_type, tlo_kind};
+use mq_emu_sys::shim::{self, MainInterface, mqemu_data, mqemu_extension, mqemu_scalar, mqemu_tlo_result, mqemu_type, tlo_kind};
 
 use crate::datatypes::CustomValue;
+use crate::game::SpawnId;
 use crate::mq::Mq;
 use crate::plugin::Plugin;
 use crate::runtime::{KIND_TLO, Runtime};
@@ -44,14 +46,65 @@ pub enum Value {
     /// `float` and `double` values.
     Float(f64),
     String(String),
-    /// Any other type (`spawn`, `buff`...), as `${...}` shows it.
+    /// Any other type (`spawn`, `buff`...), as `${...}` shows it. This is
+    /// only a snapshot, so a TLO or member can't return it (it gives NULL):
+    /// return a [`Value::Path`] instead.
     Object { type_name: String, text: String },
     /// A value of one of the plugin's own datatypes, for its TLOs and
     /// members to return: see [`DataType::value`](crate::DataType::value).
     Custom(CustomValue),
+    /// One of MacroQuest's own values (a spawn, an item, a buff...) for a TLO
+    /// or member to return, as its data path: see [`Value::path`].
+    Path(DataPath),
+}
+
+/// A data path naming one of MacroQuest's values, as `${...}` without the
+/// `${}` (`Spawn[id 5]`, `Me.Inventory[mainhand]`), which a TLO or member
+/// returns as that value ([`Value::Path`]).
+///
+/// MacroQuest reads the path when it gets the value, not when the path is
+/// made: a spawn or item is found then, as it is in the game at that
+/// moment, so a value can be kept and returned later without pointing at
+/// something the game has freed. If the path is NULL then, so is the value.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DataPath(String);
+
+impl DataPath {
+    /// Fails if `path` isn't a valid data path (see [`Mq::data`]).
+    pub fn new(path: &str) -> Result<DataPath, PathError> {
+        parse_path(path)?;
+        Ok(DataPath(path.to_owned()))
+    }
+
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+
+impl fmt::Display for DataPath {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(&self.0)
+    }
 }
 
 impl Value {
+    /// One of MacroQuest's values, for a TLO or member to return: whatever
+    /// `${path}` is when MacroQuest reads it (see [`DataPath`]).
+    ///
+    /// ```ignore
+    /// mq.add_tlo("Puller", |plugin: &mut MyPlugin, _, _| Value::path(&format!("Spawn[id {}]", plugin.puller?)).ok())?;
+    /// // ${Puller.Name}, ${Puller.PctHPs}, mq.TLO.Puller.Distance()
+    /// ```
+    pub fn path(path: &str) -> Result<Value, PathError> {
+        DataPath::new(path).map(Value::Path)
+    }
+
+    /// The spawn with this ID (`${Spawn[id N]}`), for a TLO or member to
+    /// return; NULL if there's none when MacroQuest reads it.
+    pub fn spawn(id: SpawnId) -> Value {
+        Value::Path(DataPath(format!("Spawn[id {id}]")))
+    }
+
     /// Converts raw data of MacroQuest type `type_name`.
     fn from_parts(type_name: &str, scalar: mqemu_scalar, text: impl FnOnce() -> String) -> Value {
         match type_name {
@@ -113,6 +166,8 @@ impl fmt::Display for Value {
             // Its text handler needs the plugin, so the type's name, as
             // MacroQuest shows a type without one.
             Value::Custom(custom) => f.write_str(custom.type_name()),
+            // Read only when MacroQuest gets it, so the path.
+            Value::Path(path) => write!(f, "${{{path}}}"),
         }
     }
 }
@@ -151,12 +206,23 @@ pub(crate) struct DataApi {
     /// Ownership of the user pointer passes over; see `mqemu_add_tlo`.
     pub add_tlo: fn(*mut MainInterface, &MQPluginHandle, &str, shim::mqemu_tlo_fn, *mut c_void, shim::mqemu_drop_fn) -> bool,
     pub remove_tlo: fn(*mut MainInterface, &MQPluginHandle, &str) -> bool,
+    /// Any value but a [`Value::Path`], which the runtime reads first.
     pub set_result: fn(*mut mqemu_tlo_result, &Value) -> bool,
+    /// Sets the result to a copy of an evaluated value.
+    pub set_data: fn(*mut mqemu_tlo_result, *mut mqemu_data) -> bool,
     /// Ownership of the user pointer passes over; see `mqemu_add_type`.
     pub add_type: fn(&MQPluginHandle, &str, i32, shim::mqemu_member_fn, shim::mqemu_type_text_fn, *mut c_void, shim::mqemu_drop_fn) -> *mut mqemu_type,
     pub type_add_member: fn(*mut mqemu_type, i32, &str, bool) -> bool,
+    /// Returns a `shim::inherit` result.
+    pub type_inherit: fn(*mut mqemu_type, &str, shim::mqemu_downcast_fn) -> i32,
     pub remove_type: fn(*mut mqemu_type),
     pub free_type: fn(*mut mqemu_type),
+    /// Ownership of the user pointer passes over; see `mqemu_add_extension`.
+    pub add_extension: fn(&MQPluginHandle, &str, shim::mqemu_extension_member_fn, *mut c_void, shim::mqemu_drop_fn) -> *mut mqemu_extension,
+    pub extension_add_member: fn(*mut mqemu_extension, i32, &str) -> bool,
+    pub extension_register: fn(*mut mqemu_extension) -> bool,
+    pub remove_extension: fn(*mut mqemu_extension),
+    pub free_extension: fn(*mut mqemu_extension),
 }
 
 /// The real data API; generic for the reason given in `host`.
@@ -181,12 +247,21 @@ pub(crate) const fn real<P>() -> DataApi {
         },
         remove_tlo: |main, handle, name| unsafe { shim::mqemu_remove_tlo(main, handle, to_c(name).as_ptr()) },
         set_result: real_set_result::<P>,
+        set_data: |result, data| unsafe { shim::mqemu_tlo_set_data(result, data) },
         add_type: |handle, name, key_kind, member, text, user, drop| unsafe {
             shim::mqemu_add_type(handle, to_c(name).as_ptr(), key_kind, member, text, user, Some(drop))
         },
         type_add_member: |ty, id, name, method| unsafe { shim::mqemu_type_add_member(ty, id, to_c(name).as_ptr(), method) },
+        type_inherit: |ty, parent, downcast| unsafe { shim::mqemu_type_inherit(ty, to_c(parent).as_ptr(), downcast) },
         remove_type: |ty| unsafe { shim::mqemu_remove_type(ty) },
         free_type: |ty| unsafe { shim::mqemu_free_type(ty) },
+        add_extension: |handle, type_name, member, user, drop| unsafe {
+            shim::mqemu_add_extension(handle, to_c(type_name).as_ptr(), member, user, Some(drop))
+        },
+        extension_add_member: |extension, id, name| unsafe { shim::mqemu_extension_add_member(extension, id, to_c(name).as_ptr()) },
+        extension_register: |extension| unsafe { shim::mqemu_extension_register(extension) },
+        remove_extension: |extension| unsafe { shim::mqemu_remove_extension(extension) },
+        free_extension: |extension| unsafe { shim::mqemu_free_extension(extension) },
     }
 }
 
@@ -199,7 +274,7 @@ fn real_set_result<P>(result: *mut mqemu_tlo_result, value: &Value) -> bool {
         Value::Int(n) => set(tlo_kind::INT64, *n, 0.0, ""),
         Value::Float(x) => set(tlo_kind::FLOAT, 0, *x, ""),
         Value::String(s) => set(tlo_kind::STRING, 0, 0.0, s),
-        Value::Object { .. } => false,
+        Value::Object { .. } | Value::Path(_) => false,
         Value::Custom(custom) => {
             let ty = custom.raw_type();
             !ty.is_null() && custom.with_c_key(|key| unsafe { shim::mqemu_tlo_set_key(result, ty, key) })
@@ -216,7 +291,7 @@ pub struct Data<'a> {
 }
 
 impl<'a> Data<'a> {
-    fn new(raw: *mut mqemu_data, api: &'a DataApi) -> Option<Data<'a>> {
+    pub(crate) fn new(raw: *mut mqemu_data, api: &'a DataApi) -> Option<Data<'a>> {
         (!raw.is_null()).then(|| Data { raw, api, _not_send: PhantomData })
     }
 
@@ -349,7 +424,7 @@ unsafe extern "C" fn tlo_call<P: Plugin>(user: *mut c_void, index: *const c_char
         let slot = unsafe { &*user.cast::<TloSlot<P>>() };
         let index = unsafe { from_c(index) };
         match slot.runtime.call_data(KIND_TLO, |plugin, mq| (slot.handler)(plugin, mq, &index)) {
-            Some(value) => (slot.runtime.host().data.set_result)(result, &value),
+            Some(value) => slot.runtime.set_value(result, &value),
             None => false,
         }
     }))
@@ -428,6 +503,42 @@ impl<P: Plugin> Runtime<P> {
             }
         }
     }
+
+    /// Sets a TLO's (or a member's) result to `value`, reading a
+    /// [`Value::Path`] now. False for NULL.
+    pub(crate) fn set_value(&self, result: *mut mqemu_tlo_result, value: &Value) -> bool {
+        let api = &self.host().data;
+        let Value::Path(path) = value else { return (api.set_result)(result, value) };
+        let main = (self.host().main_interface)();
+        if main.is_null() {
+            return false;
+        }
+        // A path can lead back to a TLO of the plugin's that returns it.
+        let depth = PATH_DEPTH.with(|depth| depth.replace(depth.get() + 1));
+        let set = depth < MAX_PATH_DEPTH
+            && parse_path(path.as_str()).is_ok_and(|steps| read_steps(api, main, &steps).is_some_and(|data| (api.set_data)(result, data.raw)));
+        PATH_DEPTH.with(|depth| depth.set(depth.get() - 1));
+        set
+    }
+}
+
+thread_local! {
+    /// How many [`Value::Path`]s are being read on this thread.
+    static PATH_DEPTH: Cell<u32> = const { Cell::new(0) };
+}
+
+/// How deep paths returned by TLOs and members may lead to others before
+/// they're NULL.
+const MAX_PATH_DEPTH: u32 = 16;
+
+/// Reads a parsed data path; None if a step is NULL or doesn't exist.
+fn read_steps<'a>(api: &'a DataApi, main: *mut MainInterface, steps: &[(&str, &str)]) -> Option<Data<'a>> {
+    let ((name, index), members) = steps.split_first()?;
+    let mut current = Data::new((api.tlo)(main, name, index), api)?;
+    for (member, index) in members {
+        current = current.member_at(member, index)?;
+    }
+    Some(current)
 }
 
 impl<P: Plugin> Mq<P> {
@@ -452,23 +563,20 @@ impl<P: Plugin> Mq<P> {
     /// written; evaluate any `${...}` inside them with [`Mq::parse`] first.
     pub fn data(&self, path: &str) -> Result<Option<Data<'_>>, PathError> {
         let steps = parse_path(path)?;
-        let ((name, index), members) = steps.split_first().expect("parse_path returns at least one step");
-        let mut current = self.tlo_at(name, index);
-        for (member, index) in members {
-            current = match current {
-                Some(data) => data.member_at(member, index),
-                None => return Ok(None),
-            };
+        let main = (self.host().main_interface)();
+        if main.is_null() {
+            return Ok(None);
         }
-        Ok(current)
+        Ok(read_steps(&self.host().data, main, &steps))
     }
 
     /// Adds a top-level object that macros and Lua read as `${Name}` or
     /// `${Name[index]}` (`mq.TLO.Name(index)()`): `handler` gets the index
     /// (`""` for none) and returns the value, or None for NULL. It's removed
-    /// when the plugin unloads. A value with members is one of the plugin's
-    /// own datatypes ([`Mq::add_type`]); MacroQuest's ([`Value::Object`])
-    /// can't be returned (gives NULL).
+    /// when the plugin unloads. A value with members is one of MacroQuest's
+    /// own, named by its path ([`Value::path`], [`Value::spawn`]), or of the
+    /// plugin's datatypes ([`Mq::add_type`]); a [`Value::Object`] read from
+    /// MacroQuest is only a snapshot and can't be returned (gives NULL).
     ///
     /// While one of this plugin's callbacks runs, the plugin can't be
     /// borrowed again, so its own TLOs read as NULL from inside it (e.g.

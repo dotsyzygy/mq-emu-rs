@@ -1,11 +1,12 @@
 //! Selftest checks for MacroQuest's data system: typed reads against `${...}`
-//! text, and the plugin's own `RustTest` TLO and `RustTestCounter` datatype
-//! as macros see them.
+//! text, the plugin's own `RustTest` TLO and `RustTestCounter` datatype as
+//! macros see them, and MacroQuest's own types: returned by path, inherited
+//! (`RustTestBot`, `RustTestWord`) and extended (`RustTestTag`).
 
 use std::time::Duration;
 
 use mq_emu::color::{RED, RESET};
-use mq_emu::{DataType, DataTypeDef, GameState, Mq, Plugin, Task, Value};
+use mq_emu::{DataType, DataTypeDef, DataTypeError, GameState, Mq, Plugin, SpawnId, Task, TypeExtension, Value};
 
 use crate::RustTest;
 use crate::checks::{Check, Report, same_text};
@@ -14,10 +15,20 @@ use crate::checks::{Check, Report, same_text};
 pub const TLO: &str = "RustTest";
 /// The datatype this plugin provides; `${RustTest[counter N]}` is one.
 pub const COUNTER_TYPE: &str = "RustTestCounter";
+/// A datatype that is a spawn (inherits `spawn`), keyed by the spawn's ID;
+/// `${RustTest[bot N]}` is one.
+pub const BOT_TYPE: &str = "RustTestBot";
+/// A datatype that is a string (inherits `string`), keyed by its text;
+/// `${RustTest[word X]}` is one.
+pub const WORD_TYPE: &str = "RustTestWord";
+/// The member the plugin adds to MacroQuest's `spawn` and `character`.
+pub const TAG: &str = "RustTestTag";
+/// The member the selftest adds to MacroQuest's `int` and removes.
+const TEMP_MEMBER: &str = "RustTestTemp";
 /// A datatype the selftest adds and removes.
 const TEMP_TYPE: &str = "RustTestTemp";
 /// Macro variables the selftest declares.
-const VARIABLES: &[&str] = &["rusttest_v1", "rusttest_v2", "rusttest_v3", "rusttest_va", "rusttest_t", "rusttest_ta"];
+const VARIABLES: &[&str] = &["rusttest_v1", "rusttest_v2", "rusttest_v3", "rusttest_va", "rusttest_t", "rusttest_ta", "rusttest_sp"];
 /// Marks the `/echo` line that reads the TLO.
 const MARKER: &str = "rusttest-tlo";
 const TIMEOUT: Duration = Duration::from_secs(3);
@@ -45,6 +56,7 @@ fn kind_of(value: &Value) -> &'static str {
         Value::String(_) => "string",
         Value::Object { .. } => "object",
         Value::Custom(_) => "custom",
+        Value::Path(_) => "path",
     }
 }
 
@@ -136,6 +148,98 @@ pub fn add_counter_type(mq: &Mq<RustTest>) -> Option<DataType<i32>> {
             None
         }
     }
+}
+
+/// Adds `RustTestBot`: a spawn (by ID) with a `Role` of its own.
+pub fn add_bot_type(mq: &Mq<RustTest>) -> Option<DataType<u32>> {
+    let def = DataTypeDef::new()
+        .member("Role", |_: &mut RustTest, _, _: &u32, _| Some("tank".into()))
+        .inherit("spawn", |_, _, id| Some(Value::spawn(SpawnId(*id))));
+    added(mq, BOT_TYPE, mq.add_type(BOT_TYPE, def))
+}
+
+/// Adds `RustTestWord`: a string, shown as itself, with the string's members.
+pub fn add_word_type(mq: &Mq<RustTest>) -> Option<DataType<String>> {
+    let def = DataTypeDef::new()
+        .inherit("string", |_: &mut RustTest, _, word: &String| Some(word.as_str().into()))
+        .text(|_, _, word| word.clone());
+    added(mq, WORD_TYPE, mq.add_type(WORD_TYPE, def))
+}
+
+fn added<K: mq_emu::TypeKey>(mq: &Mq<RustTest>, name: &str, result: Result<DataType<K>, DataTypeError>) -> Option<DataType<K>> {
+    result.inspect_err(|e| mq.chat(format!("{RED}[{}]{RESET} couldn't add the {name} datatype: {e}", mq.plugin_name()))).ok()
+}
+
+/// Adds `RustTestTag` to MacroQuest's `spawn` and `character` (`${Me}`, which
+/// doesn't get `spawn`'s extensions): `tag <clean name>`.
+pub fn extend_types(mq: &Mq<RustTest>) {
+    for type_name in ["spawn", "character"] {
+        let extension = TypeExtension::new()
+            .member(TAG, |_: &mut RustTest, _, value, _| Some(format!("tag {}", value.member("CleanName")?.text()).into()));
+        if let Err(e) = mq.extend_type(type_name, extension) {
+            mq.chat(format!("{RED}[{}]{RESET} couldn't extend {type_name}: {e}", mq.plugin_name()));
+        }
+    }
+}
+
+/// MacroQuest's own values as the plugin provides them, as macros see them:
+/// a spawn returned by path, `RustTestBot` with `spawn`'s members (and a
+/// spawn variable set from one), `RustTestWord` with `string`'s, `spawn` and
+/// `character` with `RustTestTag`, and an extension of `int` removed again.
+pub async fn macroquest_types(task: &Task<RustTest>, report: &mut Report) {
+    let started = task.with_plugin(|plugin, mq| {
+        let me = mq.me().filter(|_| mq.game_state() == GameState::InGame)?;
+        let id = me.id();
+        plugin.tlo_echo = None;
+        // A member the type has is refused: it would hide the type's own.
+        let refused = mq.extend_type("int", TypeExtension::new().member("Hex", |_, _, _, _| None));
+        let temp = mq.extend_type("int", TypeExtension::new().member(TEMP_MEMBER, |_, _, n, _| Some((n.as_int()? * 2).into())));
+        mq.command("/declare rusttest_sp spawn global");
+        mq.command(format!("/vardata rusttest_sp {TLO}[bot {id}]"));
+        let bot = format!("{TLO}[bot {id}]");
+        let word = format!("{TLO}[word Hello]");
+        mq.command(format!(
+            "/echo {MARKER} ${{{TLO}[me].ID}} ${{{bot}.Role}} ${{{bot}.Level}} ${{{bot}.CleanName}} ${{{word}.Length}} \
+             ${{{word}.Upper}} ${{{word}}} ${{Spawn[id {id}].{TAG}}} ${{Me.{TAG}}} ${{rusttest_sp.ID}} ${{{TLO}[zone].ShortName}} \
+             ${{Me.Level.{TEMP_MEMBER}}}"
+        ));
+        let (level, name, zone) = (mq.parse("${Me.Level}"), mq.parse("${Me.CleanName}"), mq.parse("${Zone.ShortName}"));
+        let expected = format!(
+            "{MARKER} {id} tank {level} {name} 5 HELLO Hello tag {name} tag {name} {id} {zone} {}",
+            level.parse::<i64>().unwrap_or(0) * 2
+        );
+        Some((refused, temp, expected))
+    });
+    let Some((refused, temp, expected)) = started else {
+        task.with(|mq| report.print(mq, "macros read MacroQuest's types as the plugin provides them", Check::Skip("needs to be in game".into())));
+        return;
+    };
+    let read = wait_for_echo(task).await;
+    let removed = task.with_plugin(|plugin, mq| {
+        plugin.tlo_echo = None;
+        let removed = mq.remove_type_extension("int");
+        mq.command(format!("/echo {MARKER} ${{Me.Level.{TEMP_MEMBER}}}"));
+        removed
+    });
+    let after = wait_for_echo(task).await;
+    task.with(|mq| {
+        report.print(mq, "macros read a spawn by path, types inheriting spawn and string, and spawn's added member", match read {
+            Some(line) => same_text(expected, line),
+            None => Check::Fail("the /echo never arrived".into()),
+        });
+        report.print(
+            mq,
+            "a member MacroQuest's type has can't be added",
+            Check::that(refused == Err(DataTypeError::InvalidMember("Hex".into())), || format!("{refused:?}")),
+        );
+        report.print(mq, "an extension is removed again", match (temp, removed, after) {
+            (Err(e), ..) => Check::Fail(format!("couldn't extend int: {e}")),
+            (_, false, _) => Check::Fail("the extension wasn't there to remove".into()),
+            (_, _, Some(after)) => same_text(format!("{MARKER} NULL"), after),
+            _ => Check::Fail("the /echo never arrived".into()),
+        });
+        mq.command("/deletevar rusttest_sp");
+    });
 }
 
 /// The plugin's `RustTestCounter` datatype as macros see it (from queued

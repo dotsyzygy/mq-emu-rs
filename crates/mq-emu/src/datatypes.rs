@@ -22,6 +22,19 @@
 //! spawn and `buff` a slot: what a member says is what the plugin has when
 //! it's read. Keys are all MacroQuest keeps, so it can free a value without
 //! the plugin, even after the plugin unloads.
+//!
+//! A datatype can inherit another's members ([`DataTypeDef::inherit`]): a
+//! `Bot` that is a spawn has `${Bot[Tank].PctHPs}` as well as its own. And
+//! the plugin can add members to a type that isn't its own
+//! ([`Mq::extend_type`]), such as MacroQuest's `spawn`:
+//!
+//! ```ignore
+//! mq.extend_type("spawn", TypeExtension::new().member("Threat", |plugin: &mut MyPlugin, _, spawn, _| {
+//!     let id = spawn.member("ID")?.as_int()?;
+//!     Some(plugin.threat.get(&id).copied().unwrap_or(0).into())
+//! }))?;
+//! // ${Target.Threat}, ${Spawn[npc].Threat}, mq.TLO.Me.Threat()
+//! ```
 
 use std::cell::Cell;
 use std::ffi::{c_char, c_void};
@@ -31,9 +44,9 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::ptr;
 use std::rc::Rc;
 
-use mq_emu_sys::shim::{key_kind, mqemu_key, mqemu_tlo_result, mqemu_type};
+use mq_emu_sys::shim::{inherit, key_kind, mqemu_data, mqemu_key, mqemu_tlo_result, mqemu_type};
 
-use crate::data::{Value, valid_tlo_name};
+use crate::data::{Data, Value, valid_tlo_name};
 use crate::mq::Mq;
 use crate::plugin::Plugin;
 use crate::runtime::{KIND_DATATYPE, Runtime};
@@ -213,6 +226,7 @@ impl<K: TypeKey> fmt::Debug for DataType<K> {
 
 type MemberHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey, &str) -> Option<Value>;
 type TextHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey) -> Option<String>;
+type DowncastHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey) -> Option<Value>;
 
 struct MemberDef<P: Plugin> {
     name: String,
@@ -225,13 +239,41 @@ struct MemberDef<P: Plugin> {
 pub struct DataTypeDef<P: Plugin, K: TypeKey> {
     members: Vec<MemberDef<P>>,
     text: Option<Box<TextHandler<P>>>,
+    parent: Option<(String, Box<DowncastHandler<P>>)>,
     _key: PhantomData<fn(K)>,
 }
 
 impl<P: Plugin, K: TypeKey> DataTypeDef<P, K> {
     /// No members yet, shown as the type's name.
     pub fn new() -> DataTypeDef<P, K> {
-        DataTypeDef { members: Vec::new(), text: None, _key: PhantomData }
+        DataTypeDef { members: Vec::new(), text: None, parent: None, _key: PhantomData }
+    }
+
+    /// Inherits the members of datatype `parent` (`"spawn"`, `"item"`...),
+    /// as MacroQuest's `character` inherits `spawn`'s: a member this type
+    /// doesn't have is read from the parent's value `downcast` gives for the
+    /// key (None, or a value of another type, makes it NULL). A macro
+    /// variable of the parent type can be set from a value of this one
+    /// (`/vardata`), through the same `downcast`.
+    ///
+    /// ```ignore
+    /// DataTypeDef::new()
+    ///     .member("Role", |plugin: &mut MyPlugin, _, id: &u32, _| Some(plugin.bots.get(id)?.role.as_str().into()))
+    ///     .inherit("spawn", |_, _, id| Some(Value::spawn(SpawnId(*id))))
+    /// // ${Bot[Tank].Role}, and ${Bot[Tank].PctHPs} from the spawn
+    /// ```
+    ///
+    /// The parent is one of MacroQuest's own types or one of this plugin's
+    /// (found again by name each time, so it may be removed and added back):
+    /// another plugin's could be unloaded while this one points at it.
+    /// Members only: text is this type's own ([`DataTypeDef::text`]).
+    pub fn inherit<F>(mut self, parent: &str, downcast: F) -> DataTypeDef<P, K>
+    where
+        F: Fn(&mut P, &Mq<P>, &K) -> Option<Value> + 'static,
+    {
+        let downcast = move |plugin: &mut P, mq: &Mq<P>, key: &RawKey| downcast(plugin, mq, &K::from_raw(key)?);
+        self.parent = Some((parent.to_owned(), Box::new(downcast)));
+        self
     }
 
     /// `${Value.Name}` or `${Value.Name[index]}`: the value, or None for
@@ -289,6 +331,11 @@ pub enum DataTypeError {
     AlreadyAdded,
     /// MacroQuest refused it (a datatype by that name exists).
     Rejected,
+    /// There's no datatype by this name to inherit from or extend.
+    NoSuchType(String),
+    /// The parent is the type itself, or another plugin's (or Lua's) type,
+    /// which could be unloaded while this one points at it.
+    ParentNotAllowed(String),
     /// MacroQuest's API isn't available.
     Unavailable,
 }
@@ -300,6 +347,10 @@ impl fmt::Display for DataTypeError {
             DataTypeError::InvalidMember(name) => write!(f, "member {name:?} isn't a valid name or is used twice"),
             DataTypeError::AlreadyAdded => f.write_str("this plugin already added that datatype"),
             DataTypeError::Rejected => f.write_str("MacroQuest refused the datatype (is the name taken?)"),
+            DataTypeError::NoSuchType(name) => write!(f, "there's no datatype {name:?}"),
+            DataTypeError::ParentNotAllowed(name) => {
+                write!(f, "{name:?} can't be a parent: only MacroQuest's datatypes and the plugin's own can")
+            }
             DataTypeError::Unavailable => f.write_str("MacroQuest's API is unavailable"),
         }
     }
@@ -313,6 +364,7 @@ struct TypeSlot<P: Plugin> {
     /// By member ID.
     members: Vec<MemberDef<P>>,
     text: Option<Box<TextHandler<P>>>,
+    downcast: Option<Box<DowncastHandler<P>>>,
     runtime: &'static Runtime<P>,
 }
 
@@ -345,7 +397,20 @@ unsafe extern "C" fn member_call<P: Plugin>(
         let index = unsafe { from_c(index) };
         match slot.runtime.call_data(KIND_DATATYPE, |plugin, mq| (member.handler)(plugin, mq, &key, &index)) {
             Some(_) if member.method => true,
-            Some(value) => (slot.runtime.host().data.set_result)(result, &value),
+            Some(value) => slot.runtime.set_value(result, &value),
+            None => false,
+        }
+    }))
+    .unwrap_or(false)
+}
+
+unsafe extern "C" fn downcast_call<P: Plugin>(user: *mut c_void, key: *const mqemu_key, result: *mut mqemu_tlo_result) -> bool {
+    catch_unwind(AssertUnwindSafe(|| {
+        let slot = unsafe { TypeSlot::<P>::hold(user) };
+        let Some(downcast) = &slot.downcast else { return false };
+        let Some(key) = (unsafe { RawKey::from_c(key) }) else { return false };
+        match slot.runtime.call_data(KIND_DATATYPE, |plugin, mq| downcast(plugin, mq, &key)) {
+            Some(value) => slot.runtime.set_value(result, &value),
             None => false,
         }
     }))
@@ -403,7 +468,8 @@ impl<P: Plugin> Runtime<P> {
             return Err(DataTypeError::Unavailable);
         }
         let members: Vec<(String, bool)> = def.members.iter().map(|m| (m.name.clone(), m.method)).collect();
-        let slot = TypeSlot { name: name.to_owned(), members: def.members, text: def.text, runtime: self };
+        let (parent, downcast) = def.parent.map_or((None, None), |(parent, downcast)| (Some(parent), Some(downcast)));
+        let slot = TypeSlot { name: name.to_owned(), members: def.members, text: def.text, downcast, runtime: self };
         let user = Rc::into_raw(Rc::new(slot)).cast_mut().cast::<c_void>();
         let api = &self.host().data;
         // Ownership of `user` passes over even if this fails.
@@ -414,6 +480,18 @@ impl<P: Plugin> Runtime<P> {
         for (id, (member, method)) in members.iter().enumerate() {
             // Names were checked above, so the type takes each.
             (api.type_add_member)(raw, id as i32, member, *method);
+        }
+        if let Some(parent) = parent {
+            let refused = match (api.type_inherit)(raw, &parent, downcast_call::<P>) {
+                inherit::OK => None,
+                inherit::NO_TYPE => Some(DataTypeError::NoSuchType(parent)),
+                _ => Some(DataTypeError::ParentNotAllowed(parent)),
+            };
+            if let Some(error) = refused {
+                // Nothing has a value of it yet.
+                (api.free_type)(raw);
+                return Err(error);
+            }
         }
         let shared = Rc::new(TypeShared { name: name.to_owned(), raw: Cell::new(raw) });
         self.datatypes.borrow_mut().push(Rc::clone(&shared));
@@ -430,9 +508,14 @@ impl<P: Plugin> Runtime<P> {
         true
     }
 
-    /// At shutdown: MacroQuest can't use the types' values once the plugin's
-    /// code is gone anyway.
+    /// At shutdown, with the extensions: MacroQuest can't use the types'
+    /// values once the plugin's code is gone anyway.
     pub(crate) fn free_all_datatypes(&self) {
+        let extensions: Vec<_> = self.extensions.borrow_mut().drain(..).map(|(_, raw)| raw).collect();
+        let removed_extensions: Vec<_> = self.removed_extensions.borrow_mut().drain(..).collect();
+        for raw in extensions.into_iter().chain(removed_extensions) {
+            (self.host().data.free_extension)(raw);
+        }
         let added: Vec<_> = self.datatypes.borrow_mut().drain(..).collect();
         let removed: Vec<_> = self.removed_datatypes.borrow_mut().drain(..).collect();
         let free = self.host().data.free_type;
@@ -471,6 +554,151 @@ impl<P: Plugin> Mq<P> {
     /// be after the plugin has unloaded. False if there was none.
     pub fn remove_type(&self, name: &str) -> bool {
         self.runtime().remove_type(name)
+    }
+
+    /// Adds members to datatype `type_name`, which isn't the plugin's own:
+    /// one of MacroQuest's (`"spawn"`, `"character"`, `"item"`...) or
+    /// another plugin's. Macros and Lua read them as the type's own
+    /// (`${Target.Threat}`, `mq.TLO.Target.Threat()`); the handlers get the
+    /// value as [`Data`], to read its members.
+    ///
+    /// Members are matched by the type's name only: `character` (`${Me}`)
+    /// doesn't get `spawn`'s, so extend each type that should have them.
+    /// Names the type already has are refused, since the extension would
+    /// hide them from every macro and plugin. MacroQuest doesn't call an
+    /// extension's methods, so there are none. One extension per type: to
+    /// change it, remove it ([`Mq::remove_type_extension`]) and add another.
+    /// It's removed when the plugin unloads.
+    ///
+    /// Like the plugin's TLOs, its members read as NULL while one of the
+    /// plugin's callbacks runs (the plugin is borrowed).
+    pub fn extend_type(&self, type_name: &str, extension: TypeExtension<P>) -> Result<(), DataTypeError> {
+        self.runtime().extend_type(type_name, extension)
+    }
+
+    /// Removes the plugin's extension of `type_name` ([`Mq::extend_type`]).
+    /// False if there was none.
+    pub fn remove_type_extension(&self, type_name: &str) -> bool {
+        self.runtime().remove_type_extension(type_name)
+    }
+}
+
+// ----- extensions of other types ------------------------------------------------------
+
+type ExtensionHandler<P> = dyn for<'a> Fn(&mut P, &'a Mq<P>, &Data<'a>, &str) -> Option<Value>;
+
+/// Members to add to a datatype that isn't the plugin's own, for
+/// [`Mq::extend_type`]. Handlers get the plugin, the value (as MacroQuest
+/// has it) and the member's index (`""` for none).
+pub struct TypeExtension<P: Plugin> {
+    members: Vec<(String, Box<ExtensionHandler<P>>)>,
+}
+
+impl<P: Plugin> TypeExtension<P> {
+    pub fn new() -> TypeExtension<P> {
+        TypeExtension { members: Vec::new() }
+    }
+
+    /// `${Value.Name}` or `${Value.Name[index]}`: the value, or None for
+    /// NULL. Names are letters, digits and `_`, starting with a letter.
+    pub fn member<F>(mut self, name: &str, handler: F) -> TypeExtension<P>
+    where
+        F: for<'a> Fn(&mut P, &'a Mq<P>, &Data<'a>, &str) -> Option<Value> + 'static,
+    {
+        self.members.push((name.to_owned(), Box::new(handler)));
+        self
+    }
+}
+
+impl<P: Plugin> Default for TypeExtension<P> {
+    fn default() -> Self {
+        TypeExtension::new()
+    }
+}
+
+/// One extension's handlers, owned by the C++ side until it's removed.
+struct ExtensionSlot<P: Plugin> {
+    /// By member ID.
+    members: Vec<Box<ExtensionHandler<P>>>,
+    runtime: &'static Runtime<P>,
+}
+
+unsafe extern "C" fn extension_call<P: Plugin>(
+    user: *mut c_void,
+    value: *mut mqemu_data,
+    member: i32,
+    index: *const c_char,
+    result: *mut mqemu_tlo_result,
+) -> bool {
+    catch_unwind(AssertUnwindSafe(|| {
+        // Held for the call, as a type's slot is: a handler may remove its extension.
+        let slot = unsafe {
+            let user = user.cast::<ExtensionSlot<P>>().cast_const();
+            Rc::increment_strong_count(user);
+            Rc::from_raw(user)
+        };
+        // Ours to free, which dropping it does.
+        let Some(value) = Data::new(value, &slot.runtime.host().data) else { return false };
+        let Some(handler) = usize::try_from(member).ok().and_then(|id| slot.members.get(id)) else { return false };
+        let index = unsafe { from_c(index) };
+        match slot.runtime.call_data(KIND_DATATYPE, |plugin, mq| handler(plugin, mq, &value, &index)) {
+            Some(value) => slot.runtime.set_value(result, &value),
+            None => false,
+        }
+    }))
+    .unwrap_or(false)
+}
+
+unsafe extern "C" fn extension_drop<P: Plugin>(user: *mut c_void) {
+    drop(unsafe { Rc::from_raw(user.cast::<ExtensionSlot<P>>()) });
+}
+
+impl<P: Plugin> Runtime<P> {
+    fn extend_type(&'static self, type_name: &str, extension: TypeExtension<P>) -> Result<(), DataTypeError> {
+        let names: Vec<String> = extension.members.iter().map(|(name, _)| name.clone()).collect();
+        for (i, name) in names.iter().enumerate() {
+            if !valid_tlo_name(name) || names[..i].contains(name) {
+                return Err(DataTypeError::InvalidMember(name.clone()));
+            }
+        }
+        // MacroQuest matches extensions to types by the exact name.
+        if self.extensions.borrow().iter().any(|(extended, _)| extended == type_name) {
+            return Err(DataTypeError::AlreadyAdded);
+        }
+        if (self.host().main_interface)().is_null() {
+            return Err(DataTypeError::Unavailable);
+        }
+        let slot = ExtensionSlot { members: extension.members.into_iter().map(|(_, handler)| handler).collect(), runtime: self };
+        let user = Rc::into_raw(Rc::new(slot)).cast_mut().cast::<c_void>();
+        let api = &self.host().data;
+        // Ownership of `user` passes over even if this fails.
+        let raw = (api.add_extension)(&self.handle(), type_name, extension_call::<P>, user, extension_drop::<P>);
+        if raw.is_null() {
+            return Err(DataTypeError::NoSuchType(type_name.to_owned()));
+        }
+        for (id, name) in names.iter().enumerate() {
+            // Taken by the type itself.
+            if !(api.extension_add_member)(raw, id as i32, name) {
+                (api.free_extension)(raw);
+                return Err(DataTypeError::InvalidMember(name.clone()));
+            }
+        }
+        if !(api.extension_register)(raw) {
+            (api.free_extension)(raw);
+            return Err(DataTypeError::Rejected);
+        }
+        self.extensions.borrow_mut().push((type_name.to_owned(), raw));
+        Ok(())
+    }
+
+    fn remove_type_extension(&self, type_name: &str) -> bool {
+        let position = self.extensions.borrow().iter().position(|(extended, _)| extended == type_name);
+        let Some(position) = position else { return false };
+        let (_, raw) = self.extensions.borrow_mut().remove(position);
+        (self.host().data.remove_extension)(raw);
+        // Its member may be running.
+        self.removed_extensions.borrow_mut().push(raw);
+        true
     }
 }
 

@@ -12,22 +12,51 @@ use super::*;
 use crate::data::{DataApi, TloError, Value};
 
 /// A value in the fake data system.
-struct FakeData {
-    type_name: &'static str,
+pub(super) struct FakeData {
+    type_name: String,
     text: String,
     scalar: mqemu_scalar,
 }
 
 impl FakeData {
-    fn boxed(type_name: &'static str, text: &str, integer: i64, real: f64, boolean: bool) -> *mut mqemu_data {
+    pub(super) fn boxed(type_name: &str, text: &str, integer: i64, real: f64, boolean: bool) -> *mut mqemu_data {
         LIVE_DATA.with(|live| live.set(live.get() + 1));
-        let data = FakeData { type_name, text: text.into(), scalar: mqemu_scalar { integer, real, boolean } };
+        let data = FakeData { type_name: type_name.into(), text: text.into(), scalar: mqemu_scalar { integer, real, boolean } };
         Box::into_raw(Box::new(data)).cast()
     }
 
     fn of<'a>(data: *mut mqemu_data) -> &'a FakeData {
         unsafe { &*data.cast::<FakeData>() }
     }
+
+    /// As a TLO's result holds it, to read back.
+    fn value(&self) -> Value {
+        match self.type_name.as_str() {
+            "string" => Value::String(self.text.clone()),
+            "int" => Value::Int(self.scalar.integer),
+            "float" => Value::Float(self.scalar.real),
+            "bool" => Value::Bool(self.scalar.boolean || self.scalar.integer != 0),
+            _ => Value::Object { type_name: self.type_name.clone(), text: self.text.clone() },
+        }
+    }
+}
+
+/// MacroQuest's own types in the fake, and their members.
+pub(super) const FAKE_MQ_TYPES: &[(&str, &[&str])] =
+    &[("spawn", &["Name", "Level", "X", "Grouped", "Buff"]), ("buff", &["Name"]), ("string", &[]), ("int", &[])];
+
+/// `${value.member[index]}` for a value of MacroQuest's own types; None for NULL.
+pub(super) fn fake_mq_member(value: &Value, member: &str, index: &str) -> Option<Value> {
+    let Value::Object { type_name, text } = value else { return None };
+    let data = FakeData::boxed(type_name, text, 0, 0.0, true);
+    let found = fake_member(data, member, index);
+    let value = (!found.is_null()).then(|| FakeData::of(found).value());
+    for data in [data, found] {
+        if !data.is_null() {
+            (FAKE_DATA.free)(data);
+        }
+    }
+    value
 }
 
 struct FakeTlo {
@@ -71,7 +100,7 @@ fn fake_tlo_names() -> Vec<String> {
 
 fn fake_member(data: *mut mqemu_data, member: &str, index: &str) -> *mut mqemu_data {
     let data = FakeData::of(data);
-    match (data.type_name, member, index) {
+    match (data.type_name.as_str(), member, index) {
         ("spawn", "Name", "") => FakeData::boxed("string", &data.text, 0, 0.0, false),
         ("spawn", "Level", "") => FakeData::boxed("int", "65", 65, 65.0, true),
         ("spawn", "X", "") => FakeData::boxed("float", "-12.50", -12, -12.5, true),
@@ -105,7 +134,7 @@ pub(super) const FAKE_DATA: DataApi = DataApi {
         LIVE_DATA.with(|live| live.set(live.get() - 1));
         drop(unsafe { Box::from_raw(data.cast::<FakeData>()) });
     },
-    type_name: |data| FakeData::of(data).type_name.to_owned(),
+    type_name: |data| FakeData::of(data).type_name.clone(),
     text: |data| FakeData::of(data).text.clone(),
     scalar: |data| FakeData::of(data).scalar,
     add_tlo: |_, _, name, callback, user, drop| {
@@ -127,6 +156,7 @@ pub(super) const FAKE_DATA: DataApi = DataApi {
     set_result: |result, value| {
         let value = match value {
             Value::Object { .. } => return false,
+            Value::Path(_) => panic!("the runtime reads paths before setting a result"),
             Value::Custom(custom) => match datatypes::fake_keyed(custom) {
                 Some(keyed) => keyed,
                 None => return false,
@@ -136,10 +166,20 @@ pub(super) const FAKE_DATA: DataApi = DataApi {
         unsafe { *result.cast::<Option<FakeVal>>() = Some(value) };
         true
     },
+    set_data: |result, data| {
+        unsafe { *result.cast::<Option<FakeVal>>() = Some(FakeVal::Plain(FakeData::of(data).value())) };
+        true
+    },
     add_type: datatypes::fake_add_type,
     type_add_member: datatypes::fake_type_add_member,
+    type_inherit: datatypes::fake_type_inherit,
     remove_type: datatypes::fake_remove_type,
     free_type: datatypes::fake_free_type,
+    add_extension: datatypes::fake_add_extension,
+    extension_add_member: datatypes::fake_extension_add_member,
+    extension_register: datatypes::fake_extension_register,
+    remove_extension: datatypes::fake_remove_extension,
+    free_extension: datatypes::fake_free_extension,
 };
 
 /// A TLO that "another plugin" registered.
@@ -151,7 +191,7 @@ fn add_foreign_tlo(name: &str) {
     FAKE_TLOS.with(|tlos| tlos.borrow_mut().push(FakeTlo { name: name.into(), callback: never, user: ptr::null_mut(), drop: nothing }));
 }
 
-fn live_data() -> i64 {
+pub(super) fn live_data() -> i64 {
     LIVE_DATA.with(Cell::get)
 }
 
@@ -209,6 +249,11 @@ fn add_test_tlo(mq: &Mq<Recorder>) {
             "" => Some("ready".into()),
             "count" => Some(Value::Int(plugin.log.len() as i64)),
             "object" => Some(Value::Object { type_name: "spawn".into(), text: "x".into() }),
+            "spawn" => Some(Value::spawn(crate::SpawnId(7))),
+            "path" => Value::path("Me.Buff[1]").ok(),
+            "name" => Value::path("Me.Name").ok(),
+            "gone" => Value::path("Spawn[id 8]").ok(),
+            "loop" => Value::path("RustTest[loop]").ok(),
             "panic" => panic!("tlo panic"),
             _ => None,
         }
@@ -233,6 +278,40 @@ fn provided_tlos_answer_from_the_plugin() {
     // Objects can't be provided: NULL.
     assert_eq!(fake_eval_tlo("RustTest", "object"), None);
     assert_eq!(log_of(rt)[1..], [r#"tlo """#, r#"tlo "count""#, r#"tlo "unknown""#, r#"tlo "object""#]);
+}
+
+#[test]
+fn macroquests_own_values_are_returned_by_path() {
+    let _main = FakeMain::install();
+    let rt = runtime_with_test_tlo();
+    let object = |type_name: &str, text: &str| Some(Value::Object { type_name: type_name.into(), text: text.into() });
+    assert_eq!(fake_eval_tlo("RustTest", "spawn"), object("spawn", "Qtee"));
+    assert_eq!(fake_eval_tlo("RustTest", "path"), object("buff", "Aegolism"));
+    assert_eq!(fake_eval_tlo("RustTest", "name"), Some(Value::from("Syzygy")), "a string is a string");
+    assert_eq!(fake_eval_tlo("RustTest", "gone"), None, "NULL when it's read");
+    assert_eq!(live_data(), 0, "every value read is freed");
+    assert_eq!(rt.stats().panics, 0);
+}
+
+#[test]
+fn a_path_leading_back_to_itself_ends_as_null() {
+    let _main = FakeMain::install();
+    let rt = runtime_with_test_tlo();
+    assert_eq!(fake_eval_tlo("RustTest", "loop"), None);
+    // Each read asked the TLO again, until the limit.
+    let asked = log_of(rt).iter().filter(|line| *line == r#"tlo "loop""#).count();
+    assert_eq!(asked, 17);
+    assert_eq!(live_data(), 0);
+    // The depth is back to 0: a path reads again.
+    assert_eq!(fake_eval_tlo("RustTest", "spawn").map(|v| v.to_string()).as_deref(), Some("Qtee"));
+}
+
+#[test]
+fn paths_are_checked_and_shown_as_paths() {
+    assert_eq!(Value::path("Me..Name").unwrap_err().reason, "empty name");
+    assert_eq!(Value::spawn(crate::SpawnId(12)), Value::path("Spawn[id 12]").unwrap());
+    assert_eq!(Value::spawn(crate::SpawnId(12)).to_string(), "${Spawn[id 12]}");
+    assert_eq!(crate::DataPath::new("Me.Buff[1]").unwrap().as_str(), "Me.Buff[1]");
 }
 
 #[test]

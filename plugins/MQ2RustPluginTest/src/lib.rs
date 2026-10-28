@@ -89,6 +89,10 @@ struct RustTest {
     /// The `RustTestCounter` datatype, and how often its `Bump` method ran.
     counter_type: Option<mq_emu::DataType<i32>>,
     counter_bumps: u32,
+    /// The `RustTestBot` and `RustTestWord` datatypes, which inherit
+    /// MacroQuest's `spawn` and `string`.
+    bot_type: Option<mq_emu::DataType<u32>>,
+    word_type: Option<mq_emu::DataType<String>>,
     /// What the selftest's events matched, by event.
     events_seen: Vec<(String, EventMatch)>,
     /// The selftest's key bind going down (true) and up.
@@ -136,8 +140,11 @@ impl Plugin for RustTest {
         mq.add_xml_file(plugin_window_checks::XML_FILE);
         let plugin_window = Some(plugin_window_checks::add(mq));
         let counter_type = data_checks::add_counter_type(mq);
+        let bot_type = data_checks::add_bot_type(mq);
+        let word_type = data_checks::add_word_type(mq);
+        data_checks::extend_types(mq);
         mq.chat(format!("{GREEN}[{}]{RESET} loaded. Try {YELLOW}{COMMAND} selftest{RESET}.", mq.plugin_name()));
-        RustTest { plugin_window, counter_type, ..RustTest::default() }
+        RustTest { plugin_window, counter_type, bot_type, word_type, ..RustTest::default() }
     }
 
     fn shutdown(&mut self, mq: &Mq<Self>) {
@@ -272,8 +279,9 @@ impl Plugin for RustTest {
 
 impl RustTest {
     /// The `RustTest` TLO: `${RustTest}` is the plugin's name; indexes give
-    /// one value of each kind, and `counter N` a `RustTestCounter`; anything
-    /// else is NULL.
+    /// one value of each kind, `me` your spawn and `zone` the zone (by path),
+    /// `counter N` a `RustTestCounter`, `bot N` a `RustTestBot` and `word X`
+    /// a `RustTestWord`; anything else is NULL.
     fn tlo(&mut self, mq: &Mq<Self>, index: &str) -> Option<Value> {
         match index {
             "" => Some(mq.plugin_name().into()),
@@ -282,7 +290,17 @@ impl RustTest {
             "yes" => Some(true.into()),
             "big" => Some(Value::Int(1 << 40)),
             "pulses" => Some(Value::Int(mq.stats().pulses as i64)),
-            _ => Some(self.counter_type.as_ref()?.value(index.strip_prefix("counter ")?.parse().ok()?)),
+            "me" => Some(Value::spawn(mq.me()?.id())),
+            "zone" => Value::path("Zone").ok(),
+            _ => {
+                if let Some(n) = index.strip_prefix("counter ") {
+                    return Some(self.counter_type.as_ref()?.value(n.parse().ok()?));
+                }
+                if let Some(id) = index.strip_prefix("bot ") {
+                    return Some(self.bot_type.as_ref()?.value(id.parse().ok()?));
+                }
+                Some(self.word_type.as_ref()?.value(index.strip_prefix("word ")?.to_owned()))
+            }
         }
     }
 
@@ -475,6 +493,7 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     data_checks::provided_tlo(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Providing a datatype"));
     data_checks::provided_type(&task, &mut report).await;
+    data_checks::macroquest_types(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Turning and walking"));
     turning(&task, &mut report).await;
     walking(&task, &mut report).await;

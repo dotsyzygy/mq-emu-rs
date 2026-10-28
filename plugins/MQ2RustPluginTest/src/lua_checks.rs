@@ -154,7 +154,8 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) -> bool {
     });
 
     // Lua reads the plugin's TLO (mq.TLO.RustTest(...)()), with types intact,
-    // and its datatype's members, method and text.
+    // its datatype's members, method and text, inherited members (from spawn
+    // and string) and the member it adds to spawn.
     let bumps_before = task.with_plugin(|plugin, _| plugin.counter_bumps);
     let tlo = ask(task, &script, request("tlo")).await;
     task.with_plugin(|plugin, mq| {
@@ -163,13 +164,18 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) -> bool {
                 .with("counter", "#5")
                 .with("counter_label", "counter 5")
                 .with("counter_plus", 8)
+                .with("me_is_me", true)
+                .with("bot_role", "tank")
+                .with("bot_is_me", true)
+                .with("word_length", 5)
+                .with("tag_is_mine", true)
                 .with("name", mq.plugin_name())
                 .with("answer", 42)
                 .with("half", 2.5)
                 .with("yes", true)
                 .with("nope_is_nil", true),
         );
-        report.print(mq, "Lua reads the plugin's TLO and datatype", match &tlo {
+        report.print(mq, "Lua reads the plugin's TLO and datatypes, and its member of spawn", match &tlo {
             Ok(value) => Check::that(*value == expected, || format!("Lua read {value:?}")),
             Err(e) => Check::Fail(e.clone()),
         });

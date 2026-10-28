@@ -252,6 +252,9 @@ unsafe extern "C" {
     /// bool/int/int64, `real` for float, `text`/`len` for string. False if
     /// MacroQuest lacks the type.
     pub fn mqemu_tlo_set(result: *mut mqemu_tlo_result, kind: i32, integer: i64, real: f64, text: *const c_char, len: usize) -> bool;
+    /// Sets a TLO callback's value to an evaluated value of MacroQuest's (a
+    /// spawn, an item...), copied; `data` stays the caller's.
+    pub fn mqemu_tlo_set_data(result: *mut mqemu_tlo_result, data: *const mqemu_data) -> bool;
 }
 
 /// A plugin's own datatype (an `MQ2Type` whose members call back into Rust),
@@ -288,6 +291,34 @@ pub type mqemu_member_fn =
 /// A value holding `key` is shown as text: write it NUL-terminated to `out`
 /// (`cap` bytes) and return true, or false for NULL.
 pub type mqemu_type_text_fn = unsafe extern "C" fn(user: *mut c_void, key: *const mqemu_key, out: *mut c_char, cap: usize) -> bool;
+/// The parent type's value for a value holding `key` is asked for: set it
+/// with [`mqemu_tlo_set`], [`mqemu_tlo_set_data`] or [`mqemu_tlo_set_key`]
+/// and return true, or false for none.
+pub type mqemu_downcast_fn = unsafe extern "C" fn(user: *mut c_void, key: *const mqemu_key, result: *mut mqemu_tlo_result) -> bool;
+
+/// What [`mqemu_type_inherit`] did.
+pub mod inherit {
+    pub const OK: i32 = 0;
+    /// There's no type by that name.
+    pub const NO_TYPE: i32 = 1;
+    /// The type itself, or another plugin's (or Lua's), which could be
+    /// unloaded while this one points at it.
+    pub const REFUSED: i32 = 2;
+}
+
+/// Members a plugin adds to a type that isn't its own (an `MQ2Type` passed
+/// to `AddMQ2TypeExtension`), owned by the caller until [`mqemu_free_extension`].
+#[repr(C)]
+pub struct mqemu_extension {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Member `member` of an extended type's value was evaluated with `index`
+/// ("" for none). `value` is the value, which the callback must free with
+/// [`mqemu_data_free`]. Return true after setting a value, false for NULL.
+pub type mqemu_extension_member_fn =
+    unsafe extern "C" fn(user: *mut c_void, value: *mut mqemu_data, member: i32, index: *const c_char, result: *mut mqemu_tlo_result) -> bool;
 
 // shim/data.cpp, so plugins only (see above).
 unsafe extern "C" {
@@ -318,6 +349,34 @@ unsafe extern "C" {
     /// Sets a TLO or member callback's value to a value of `ty` holding
     /// `key`. False if the type was removed.
     pub fn mqemu_tlo_set_key(result: *mut mqemu_tlo_result, ty: *mut mqemu_type, key: *const mqemu_key) -> bool;
+    /// Makes `ty` inherit type `parent`'s members: those it doesn't have are
+    /// read from the parent's value `downcast` gives, which `/varset` of a
+    /// variable of the parent type also uses. Returns an [`inherit`] result;
+    /// the parent must be MacroQuest's own type or this plugin's.
+    pub fn mqemu_type_inherit(ty: *mut mqemu_type, parent: *const c_char, downcast: mqemu_downcast_fn) -> i32;
+
+    /// Makes an extension of type `type_name`, not registered until
+    /// [`mqemu_extension_register`]. Null if there's no such type. Ownership
+    /// of `user` passes to the shim: `drop` is called exactly once, by
+    /// [`mqemu_remove_extension`] or [`mqemu_free_extension`] (at once if
+    /// this fails).
+    pub fn mqemu_add_extension(
+        handle: *const MQPluginHandle,
+        type_name: *const c_char,
+        member: mqemu_extension_member_fn,
+        user: *mut c_void,
+        drop: Option<mqemu_drop_fn>,
+    ) -> *mut mqemu_extension;
+    /// Adds a member whose callback gets `id`. False if the extension or the
+    /// type itself has one by that name.
+    pub fn mqemu_extension_add_member(extension: *mut mqemu_extension, id: i32, name: *const c_char) -> bool;
+    /// MacroQuest starts asking the extension for members. False if it refuses.
+    pub fn mqemu_extension_register(extension: *mut mqemu_extension) -> bool;
+    /// MacroQuest stops asking the extension; drops `user`. It stays
+    /// allocated (its member may be running).
+    pub fn mqemu_remove_extension(extension: *mut mqemu_extension);
+    /// Removes the extension if needed and frees it, when the plugin unloads.
+    pub fn mqemu_free_extension(extension: *mut mqemu_extension);
 }
 
 // shim/items.cpp: game objects through their virtual functions. No DLL

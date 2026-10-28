@@ -174,6 +174,11 @@ pub struct Runtime<P: Plugin> {
     /// Removed datatypes, which values in MacroQuest may still point at;
     /// freed at shutdown.
     pub(crate) removed_datatypes: RefCell<Vec<*mut mq_emu_sys::shim::mqemu_type>>,
+    /// The plugin's extensions of other datatypes, by the type's name;
+    /// removed at shutdown.
+    pub(crate) extensions: RefCell<Vec<(String, *mut mq_emu_sys::shim::mqemu_extension)>>,
+    /// Removed extensions, freed at shutdown.
+    pub(crate) removed_extensions: RefCell<Vec<*mut mq_emu_sys::shim::mqemu_extension>>,
     /// Names of the temporary aliases this plugin added, removed at shutdown.
     aliases: RefCell<Vec<String>>,
     events: RefCell<Events<P>>,
@@ -228,6 +233,8 @@ impl<P: Plugin> Runtime<P> {
             tlos: RefCell::new(Vec::new()),
             datatypes: RefCell::new(Vec::new()),
             removed_datatypes: RefCell::new(Vec::new()),
+            extensions: RefCell::new(Vec::new()),
+            removed_extensions: RefCell::new(Vec::new()),
             aliases: RefCell::new(Vec::new()),
             events: RefCell::new(Events::new()),
             key_binds: RefCell::new(Vec::new()),
