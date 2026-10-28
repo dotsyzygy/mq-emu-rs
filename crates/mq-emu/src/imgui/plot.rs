@@ -670,21 +670,21 @@ fn auto_color(color: &Option<Color>) -> *const f32 {
 const MIN_COLORMAP_COLORS: usize = 2;
 
 /// A panic caught where ImPlot called a closure, to resume afterwards.
-type Panic = Box<dyn Any + Send>;
+pub(super) type Panic = Box<dyn Any + Send>;
 
-/// A closure ImPlot calls, and the first panic it raised.
-struct Callback<F> {
+/// A closure C++ calls (ImPlot here, and the add-ons), and the first panic it raised.
+pub(super) struct Callback<F> {
     f: F,
     panic: Option<Panic>,
 }
 
 impl<F> Callback<F> {
-    fn new(f: F) -> Callback<F> {
+    pub(super) fn new(f: F) -> Callback<F> {
         Callback { f, panic: None }
     }
 
     /// Runs `call` on the closure, or returns `fallback` if it panics now or did before.
-    fn run<R>(&mut self, fallback: R, call: impl FnOnce(&mut F) -> R) -> R {
+    pub(super) fn run<R>(&mut self, fallback: R, call: impl FnOnce(&mut F) -> R) -> R {
         if self.panic.is_some() {
             return fallback;
         }
@@ -697,13 +697,13 @@ impl<F> Callback<F> {
         }
     }
 
-    fn data(&mut self) -> *mut c_void {
+    pub(super) fn data(&mut self) -> *mut c_void {
         (self as *mut Self).cast()
     }
 }
 
 /// A [`Callback`] kept until its plot ends, whatever its closure's type.
-trait Kept {
+pub(super) trait Kept {
     fn take_panic(&mut self) -> Option<Panic>;
 }
 
@@ -714,7 +714,7 @@ impl<F> Kept for Callback<F> {
 }
 
 /// Resumes the first panic of `callbacks`, if any.
-fn resume_first_panic<const N: usize>(callbacks: [&mut dyn Kept; N]) {
+pub(super) fn resume_first_panic<const N: usize>(callbacks: [&mut dyn Kept; N]) {
     if let Some(panic) = callbacks.into_iter().find_map(|c| c.take_panic()) {
         resume_unwind(panic);
     }

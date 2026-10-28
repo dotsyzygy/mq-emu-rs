@@ -41,6 +41,7 @@ pub mod eqlib;
 pub mod events;
 pub mod game;
 pub mod imgui;
+pub mod imgui_addons;
 pub mod imgui_mq;
 pub mod implot;
 pub mod layouts;

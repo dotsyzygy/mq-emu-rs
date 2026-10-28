@@ -26,6 +26,28 @@ pub struct CTextureAnimation {
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
+/// eqlib's `CUITextureInfo`: one of the game's UI texture files.
+#[repr(C)]
+pub struct CUITextureInfo {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// eqlib's `CUITexturePiece`: a rectangle of a UI texture file.
+#[repr(C)]
+pub struct CUITexturePiece {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// eqlib's `CScreenPieceTemplate`: a piece of the game's UI screens, from its
+/// SIDL files.
+#[repr(C)]
+pub struct CScreenPieceTemplate {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
 /// What [`mqemu_texture_animation_set_cell`] takes for an item's icon:
 /// `IconNumber` minus this (`A_DragItem` starts at icon 500).
 pub const ITEM_ICON_OFFSET: i32 = 500;
@@ -69,6 +91,68 @@ function_table! {
         border: u32,
     ) -> bool;
 
+    /// How many frames it has (one for a picture; a grid's cells are within it).
+    pub fn mqemu_texture_animation_frames(animation: *const CTextureAnimation) -> i32;
+    /// A copy of frame `frame`'s piece, to free with
+    /// [`mqemu_texture_piece_free`]; null past its frames.
+    pub fn mqemu_texture_animation_piece(animation: *const CTextureAnimation, frame: i32) -> *mut CUITexturePiece;
+
+    // ----- the game's UI texture files, and pieces of them -----
+    // Copies, to free with their `_free`. They point into textures the game
+    // frees when it unloads its UI: after that they must not be drawn.
+    /// A copy of the UI texture file `name` (e.g. `"AttackIndicator.tga"`,
+    /// from the skin's directory, else the default one), loaded, with its
+    /// size. Null if the game can't load it, or there's no UI.
+    pub fn mqemu_ui_texture_find(name: *const c_char, name_len: usize) -> *mut CUITextureInfo;
+    pub fn mqemu_ui_texture_free(texture: *mut CUITextureInfo);
+    pub fn mqemu_ui_texture_size(texture: *const CUITextureInfo, w: *mut i32, h: *mut i32);
+    /// Its file name, NUL-terminated and cut to `cap`; returns its whole length.
+    pub fn mqemu_ui_texture_name(texture: *const CUITextureInfo, out: *mut c_char, cap: usize) -> usize;
+    /// The rectangle (x0, y0)-(x1, y1) of `texture`.
+    pub fn mqemu_texture_piece_new(texture: *const CUITextureInfo, x0: i32, y0: i32, x1: i32, y1: i32) -> *mut CUITexturePiece;
+    pub fn mqemu_texture_piece_free(piece: *mut CUITexturePiece);
+    pub fn mqemu_texture_piece_rect(piece: *const CUITexturePiece, x0: *mut i32, y0: *mut i32, x1: *mut i32, y1: *mut i32);
+    /// A copy of the texture it's a piece of.
+    pub fn mqemu_texture_piece_texture(piece: *const CUITexturePiece) -> *mut CUITextureInfo;
+    /// Draws the rectangle (sx0, sy0)-(sx1, sy1) of `texture` (the whole of it
+    /// if `sx1 < sx0`) at the cursor as an item `w` x `h` (0 for the
+    /// rectangle's size), tinted, framed with `border` unless it's transparent.
+    pub fn mqemu_imgui_ui_texture(texture: *mut CUITextureInfo, w: i32, h: i32, sx0: i32, sy0: i32, sx1: i32, sy1: i32, tint: u32, border: u32) -> bool;
+    /// Draws it on `list` at (x, y), as [`mqemu_imgui_ui_texture`].
+    pub fn mqemu_imgui_draw_ui_texture(
+        list: *mut ImDrawList,
+        texture: *mut CUITextureInfo,
+        x: i32,
+        y: i32,
+        w: i32,
+        h: i32,
+        sx0: i32,
+        sy0: i32,
+        sx1: i32,
+        sy1: i32,
+        tint: u32,
+        border: u32,
+    ) -> bool;
+    /// Draws the piece at the cursor as an item `w` x `h` (0 for its own size).
+    pub fn mqemu_imgui_texture_piece(piece: *mut CUITexturePiece, w: i32, h: i32, tint: u32, border: u32) -> bool;
+    pub fn mqemu_imgui_draw_texture_piece(list: *mut ImDrawList, piece: *mut CUITexturePiece, x: i32, y: i32, w: i32, h: i32, tint: u32, border: u32) -> bool;
+
+    // ----- screen pieces -----
+    /// The UI's screen piece `name` (an `item` of the game's SIDL files, e.g.
+    /// `"Inv_Seperator1"`): the game's own, valid until it unloads its UI.
+    /// Null if there's none.
+    pub fn mqemu_screen_piece_find(name: *const c_char, name_len: usize) -> *mut CScreenPieceTemplate;
+    /// Its kind, a `StaticScreenPiece` value.
+    pub fn mqemu_screen_piece_kind(piece: *const CScreenPieceTemplate) -> i32;
+    /// Whether MacroQuest draws it: an animation or tinted blend animation
+    /// that draws itself (`AutoDraw`).
+    pub fn mqemu_screen_piece_draws(piece: *const CScreenPieceTemplate) -> bool;
+    /// Its rectangle as its screen lays it out.
+    pub fn mqemu_screen_piece_rect(piece: *const CScreenPieceTemplate, x0: *mut i32, y0: *mut i32, x1: *mut i32, y1: *mut i32);
+    /// Draws it on `list` as its screen would in a window covering (x0,
+    /// y0)-(x1, y1). False, drawing nothing, if MacroQuest doesn't draw it.
+    pub fn mqemu_imgui_draw_screen_piece(list: *mut ImDrawList, piece: *const CScreenPieceTemplate, x0: i32, y0: i32, x1: i32, y1: i32) -> bool;
+
     // ----- EQ fonts -----
     /// The ImGui copy of EQ font style `style` (0 to 9). Null if there's none.
     pub fn mqemu_imgui_eq_font(style: i32) -> *mut ImFont;
@@ -110,8 +194,8 @@ macro_rules! mq_constants {
 }
 
 // From MacroQuest's include/mq/imgui/Widgets.h. tests/imgui_constants.rs
-// checks these against it, and the text flags against eqlib's
-// graphics/GraphicsEngine.h.
+// checks these against it, the text flags against eqlib's
+// graphics/GraphicsEngine.h and the screen piece kinds against game/UI.h.
 mq_constants! {
     SPELL_GEM_CONSTANTS, "mq/imgui/Widgets.h";
     ImGuiSpellGemFlags_None = 0,
@@ -129,4 +213,15 @@ mq_constants! {
     DrawText_RightJustify = 0x08,
     DrawText_HCenter = 0x10,
     DrawText_VCenter = 0x20,
+}
+
+mq_constants! {
+    SCREEN_PIECE_CONSTANTS, "eqlib/game/UI.h";
+    StaticScreenPieceUnknown = -1,
+    StaticScreenPieceHeader = 0,
+    StaticScreenPieceFrame = 1,
+    StaticScreenPieceText = 2,
+    StaticScreenPieceAnimation = 3,
+    StaticScreenPieceTintedBlendAnimation = 4,
+    StaticScreenPieceMax = 5,
 }

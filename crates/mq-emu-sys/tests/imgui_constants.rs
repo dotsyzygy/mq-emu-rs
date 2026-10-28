@@ -155,11 +155,15 @@ fn header_constants(header: &str) -> Vec<(String, i64)> {
     header_constants_of(header, ENUMS, &mut BTreeMap::new())
 }
 
-/// The body of `enum name` in `text` (between its braces), skipping forward
-/// declarations (`enum ImGuiDir : int;`) and longer names.
+/// The body of `enum name` (or `enum class name`) in `text` (between its
+/// braces), skipping forward declarations (`enum ImGuiDir : int;`) and longer
+/// names.
 fn enum_body<'t>(text: &'t str, name: &str) -> Option<&'t str> {
-    let declaration = format!("enum {name}");
-    text.match_indices(&declaration).find_map(|(start, _)| {
+    enum_body_after(text, &format!("enum {name}")).or_else(|| enum_body_after(text, &format!("enum class {name}")))
+}
+
+fn enum_body_after<'t>(text: &'t str, declaration: &str) -> Option<&'t str> {
+    text.match_indices(declaration).find_map(|(start, _)| {
         let rest = &text[start + declaration.len()..];
         if rest.starts_with(|c: char| c.is_ascii_alphanumeric() || c == '_') {
             return None;
@@ -268,6 +272,43 @@ fn macroquest_widget_flags_match_their_headers() {
     let text = header_constants_of(&graphics, &["DrawTextFlags:DrawText_"], &mut BTreeMap::new());
     let problems = mismatches(mq_emu_sys::imgui_mq::DRAW_TEXT_CONSTANTS, &text);
     assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+    let ui = read("src/eqlib/include/eqlib/game/UI.h");
+    let pieces = header_constants_of(&ui, &["EStaticScreenPieceClasses:StaticScreenPiece"], &mut BTreeMap::new());
+    let problems = mismatches(mq_emu_sys::imgui_mq::SCREEN_PIECE_CONSTANTS, &pieces);
+    assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+}
+
+/// The values of `enum class name`, named `name_Value` as mq-emu-sys names them.
+fn class_enum_constants(header: &str, name: &str) -> Vec<(String, i64)> {
+    let found = header_constants_of(header, &[&format!("{name}:")], &mut BTreeMap::new());
+    found.into_iter().map(|(value, v)| (format!("{name}_{value}"), v)).collect()
+}
+
+#[test]
+fn macroquest_imgui_add_on_constants_match_their_headers() {
+    let editor = read("src/imgui/ImGuiTextEditor.h");
+    let mut header = class_enum_constants(&editor, "PaletteIndex");
+    header.extend(class_enum_constants(&editor, "SelectionMode"));
+    assert_eq!(header.len(), 25);
+    let problems = mismatches(mq_emu_sys::imgui_addons::TEXT_EDITOR_CONSTANTS, &header);
+    assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+
+    let dialog = read("src/imgui/ImGuiFileDialog.h");
+    let enums = ["IGFD_FileStyleFlags_:IGFD_FileStyle", "ImGuiFileDialogFlags_", "IGFD_ResultMode_"];
+    let header = header_constants_of(&dialog, &enums, &mut BTreeMap::new());
+    assert!(header.len() > 20, "parsed only {} constants", header.len());
+    let problems = mismatches(mq_emu_sys::imgui_addons::FILE_DIALOG_CONSTANTS, &header);
+    assert!(problems.is_empty(), "{} problem(s):\n{}", problems.len(), problems.join("\n"));
+}
+
+#[test]
+fn the_parser_reads_enum_class_bodies_and_a_wrong_one_is_caught() {
+    let text = "enum class SelectionMode { Normal, Word, Line };";
+    let found = class_enum_constants(text, "SelectionMode");
+    let expected = [("SelectionMode_Normal".to_owned(), 0), ("SelectionMode_Word".to_owned(), 1), ("SelectionMode_Line".to_owned(), 2)];
+    assert_eq!(found, expected);
+    let ours = [("SelectionMode_Normal", 0), ("SelectionMode_Word", 2)];
+    assert_eq!(mismatches(&ours, &found), ["SelectionMode_Word: ours 2, header 1", "SelectionMode_Line: in the header but not bound"]);
 }
 
 #[test]

@@ -12,6 +12,7 @@
 #![allow(non_snake_case)] // the crate is named after the DLL
 
 mod action_checks;
+mod addons;
 mod checks;
 mod data_checks;
 mod eq_window_checks;
@@ -114,6 +115,8 @@ struct RustTest {
     window: window::DebugWindow,
     /// The debug window's graphics tabs and the selftest's graphics exercise.
     graphics: graphics::Graphics,
+    /// The debug window's add-ons tab and the exercise's add-ons window.
+    addons: addons::Addons,
 }
 
 impl Plugin for RustTest {
@@ -578,6 +581,7 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
     }
     let (exercise, errors, in_game) = task.with_plugin(|plugin, mq| {
         let exercise = plugin.graphics.exercise.take().unwrap_or_default();
+        plugin.addons.exercise_done();
         (exercise, mq.stats().imgui_errors - errors_before, mq.game_state() == mq_emu::GameState::InGame)
     });
     task.with(|mq| {
@@ -643,7 +647,35 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         report.print(mq, "a window scrolls by its ID", Check::that(scrolled, || {
             format!("the clipped list scrolled to {}, not {}", exercise.child_scroll, graphics::CHILD_SCROLL)
         }));
+        addons_checks(mq, report, &exercise.addons, in_game);
     });
+}
+
+/// The add-ons window's findings: the game's UI drawing (in game only) and
+/// MacroQuest's ImGui add-ons.
+fn addons_checks(mq: &Mq<RustTest>, report: &mut Report, found: &addons::AddonsExercise, in_game: bool) {
+    let in_game_only = |check: Check| if in_game { check } else { Check::Skip("needs you in game".into()) };
+    let texture = match found.ui_texture_size {
+        None => Check::Fail(format!("{} wasn't loaded", addons::UI_TEXTURE)),
+        Some([w, h]) if w > 0.0 && h > 0.0 && found.ui_texture_drawn => Check::Pass,
+        Some(size) => Check::Fail(format!("size {size:?}, drawn as an item, part, piece and on a list: {}", found.ui_texture_drawn)),
+    };
+    report.print(mq, "a UI texture file loads with its size and draws whole, in part and as a piece", in_game_only(texture));
+    report.print(mq, "an animation's frame draws as a texture piece", in_game_only(Check::that(found.frame_drawn, || "A_DragItem's frame 0 didn't draw".into())));
+    let screen = match found.screen_piece {
+        None => Check::Fail(format!("no screen piece {}", addons::SCREEN_PIECE)),
+        Some((mq_emu::imgui::ScreenPieceKind::Animation, true)) => Check::Pass,
+        Some((kind, drawn)) => Check::Fail(format!("{kind:?}, drawn: {drawn}")),
+    };
+    report.print(mq, "a screen piece is found by name and drawn as its screen draws it", in_game_only(screen));
+    let editor = found.editor_rendered && found.editor_wrong.is_empty();
+    report.print(mq, "the text editor renders, highlights Lua and keeps its text", Check::that(editor, || {
+        if found.editor_rendered { found.editor_wrong.clone() } else { "it never rendered".into() }
+    }));
+    report.print(mq, "the memory editor reads bytes through a closure", Check::that(found.memory_reads >= 64, || {
+        format!("{} reads for 64 bytes", found.memory_reads)
+    }));
+    report.print(mq, "the file dialog displays with its side pane", Check::that(found.dialog_pane, || "its pane was never drawn".into()));
 }
 
 /// The runtime's safety nets, each triggered on purpose: expect a caught-panic

@@ -93,13 +93,19 @@
 //!   which buttons do what ([`PlotInputMap`]).
 //! - The game's look: spell gems ([`Ui::spell_gem`]), item link text
 //!   ([`Ui::item_link_text`]) and text in EverQuest's fonts
-//!   ([`DrawList::add_eq_text`]).
+//!   ([`DrawList::add_eq_text`]); the game's UI texture files and pieces of
+//!   them ([`Ui::find_ui_texture`], [`TexturePiece`]) and its screen pieces
+//!   ([`Ui::find_screen_piece`]).
+//! - MacroQuest's ImGui add-ons: a code editor with syntax highlighting and
+//!   undo ([`TextEditor`]), a hex view of bytes ([`MemoryEditor`]) and a file
+//!   and directory chooser ([`FileDialog`]).
 
 use std::ffi::{c_char, c_void};
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut, RangeInclusive};
 
 use mq_emu_sys::imgui as sys;
+use mq_emu_sys::imgui_addons;
 use mq_emu_sys::imgui_mq;
 use mq_emu_sys::implot;
 
@@ -113,17 +119,19 @@ pub struct Ui {
     api: &'static sys::Api,
     plot: &'static implot::Api,
     mq: &'static imgui_mq::Api,
+    addons: &'static imgui_addons::Api,
     _not_send: PhantomData<*const ()>,
 }
 
-/// The shim's function tables a [`Ui`] draws through: ImGui, ImPlot, and
-/// MacroQuest's own (textures, EQ fonts). See `mq_emu_sys::imgui::Api` for
-/// why they're tables.
+/// The shim's function tables a [`Ui`] draws through: ImGui, ImPlot,
+/// MacroQuest's own (textures, EQ fonts) and its ImGui add-ons (editors, file
+/// dialog). See `mq_emu_sys::imgui::Api` for why they're tables.
 #[derive(Clone, Copy)]
 pub(crate) struct Apis {
     pub imgui: &'static sys::Api,
     pub implot: &'static implot::Api,
     pub mq: &'static imgui_mq::Api,
+    pub addons: &'static imgui_addons::Api,
 }
 
 /// Calls an ImGui end function when dropped, so scopes end even on a panic.
@@ -236,9 +244,12 @@ mod dnd;
 mod dock;
 mod draw;
 mod eq;
+mod file_dialog;
 mod font;
+mod memory_editor;
 mod plot;
 mod select;
+mod text_editor;
 mod texture;
 mod windows;
 
@@ -247,8 +258,10 @@ pub use custom::{ButtonState, Item, ItemId, Split};
 pub use dnd::{DragDropFlags, DragSource, DropTarget, MAX_PAYLOAD_KIND, Payload};
 pub use dock::{Dir, DockBuilder, DockNode};
 pub use draw::{Channels, Corners, DrawList, Path, Vec2, pack_color};
-pub use eq::{EqTextFlags, SpellGemFlags};
+pub use eq::{EqTextFlags, ScreenPiece, ScreenPieceKind, SpellGemFlags};
+pub use file_dialog::{DrawPane, FileDialog, FileDialogFlags, FileDialogOpen, FileStyle, FileStyleFlags, ResultMode, SelectedFile};
 pub use font::{Font, LoadedFont};
+pub use memory_editor::{MemoryData, MemoryEditor, MemoryEditorHooks, MemoryEditorOptions};
 pub use plot::{
     Axis, AxisFlags, BarGroupsFlags, BarsFlags, Bins, Colormap, ColormapScaleFlags, DigitalFlags, DragState, DragToolFlags, DummyFlags,
     ErrorBarsFlags, HeatmapFlags, HistogramFlags, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MouseTextFlags, PieChartFlags,
@@ -256,7 +269,8 @@ pub use plot::{
     Series, ShadedFlags, StairsFlags, StemsFlags, SubplotFlags, Subplots, SubplotsBuilder,
 };
 pub use select::{MultiSelect, MultiSelectFlags, MultiSelectIo, Selection, SelectionRequest};
-pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId};
+pub use text_editor::{Language, LanguageDefinition, Palette, PaletteIndex, PaletteKind, SelectionMode, TextEditor, TextPosition};
+pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId, TexturePiece, UiImageOptions, UiTexture};
 pub use windows::{FocusRequestFlags, ScrollFlags, WindowId, WindowInfo, WindowKind, WindowRef};
 pub(crate) use font::remove_loaded_fonts;
 pub(crate) use texture::{free_retired_textures, ui_unloaded};
@@ -877,7 +891,7 @@ fn edit_text(text: &mut String, edit: impl FnOnce(*mut c_char, usize, *mut c_voi
 impl Ui {
     /// Only the runtime makes one, for a frame.
     pub(crate) fn new(apis: &'static Apis) -> Ui {
-        Ui { api: apis.imgui, plot: apis.implot, mq: apis.mq, _not_send: PhantomData }
+        Ui { api: apis.imgui, plot: apis.implot, mq: apis.mq, addons: apis.addons, _not_send: PhantomData }
     }
 
     // ----- windows -----

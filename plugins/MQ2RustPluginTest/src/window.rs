@@ -102,6 +102,7 @@ impl RustTest {
                 tabs.tab("Drawing", |ui| self.drawing_tab(ui));
                 tabs.tab("Images", |ui| self.images_tab(mq, ui));
                 tabs.tab("Fonts & docking", |ui| self.fonts_tab(ui));
+                tabs.tab("Add-ons", |ui| self.addons.tab(ui));
             });
         });
         self.window.open = open;

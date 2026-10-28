@@ -165,6 +165,7 @@ pub(crate) const fn real<P>() -> Host {
             imgui: &mq_emu_sys::imgui::API,
             implot: &mq_emu_sys::implot::API,
             mq: &mq_emu_sys::imgui_mq::API,
+            addons: &mq_emu_sys::imgui_addons::API,
         },
         print_var: real_print_var::<P>,
         key_binds: crate::key_binds::real::<P>(),

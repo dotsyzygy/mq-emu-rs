@@ -135,6 +135,8 @@ pub struct Exercise {
     pub windows_checked: usize,
     /// How far down the clipped list's child scrolled (set by its ID).
     pub child_scroll: f32,
+    /// What the add-ons window found.
+    pub addons: crate::addons::AddonsExercise,
 }
 
 impl Exercise {
@@ -449,6 +451,7 @@ impl RustTest {
             if let Some(scroll) = child_scroll {
                 exercise.child_scroll = exercise.child_scroll.max(scroll);
             }
+            self.addons.exercise_frame(ui, in_game, &mut exercise.addons);
         }
     }
 

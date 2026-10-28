@@ -8,7 +8,7 @@ use std::ptr::NonNull;
 
 use mq_emu_sys::imgui_mq as mq_sys;
 
-use super::draw::{Vec2, pack_color};
+use super::draw::{DrawList, Vec2, pack_color};
 use super::{Color, Ui, s};
 
 /// A texture as ImGui draws it (`ImTextureID`), valid for as long as `'t`:
@@ -72,6 +72,12 @@ pub(crate) fn free_retired_textures() {
     for (texture, api) in retired {
         unsafe { (api.mqemu_texture_destroy)(texture.as_ptr()) };
     }
+}
+
+/// Which loading of the game's UI this is: what it points into is gone once
+/// this changes.
+pub(super) fn ui_generation() -> u64 {
+    UI_GENERATION.with(Cell::get)
 }
 
 /// The game is unloading its UI: [`TextureAnimation`]s found before now
@@ -174,6 +180,174 @@ impl TextureAnimation {
         unsafe { (self.api.mqemu_texture_animation_size)(self.raw.as_ptr(), &mut w, &mut h, &mut cw, &mut ch) };
         ([w as f32, h as f32], (cw > 0).then_some([cw as f32, ch as f32]))
     }
+
+    /// How many frames it has: one for a picture (a grid's cells are all
+    /// in its one frame), more for an animation.
+    pub fn frame_count(&self) -> usize {
+        usize::try_from(unsafe { (self.api.mqemu_texture_animation_frames)(self.raw.as_ptr()) }).unwrap_or(0)
+    }
+
+    /// Frame `index`'s picture, as a piece of its texture file. None past
+    /// its frames, or once the UI it came from was unloaded.
+    pub fn frame(&self, index: usize) -> Option<TexturePiece> {
+        let raw = self.current()?;
+        let index = i32::try_from(index).ok()?;
+        let piece = NonNull::new(unsafe { (self.api.mqemu_texture_animation_piece)(raw, index) })?;
+        Some(TexturePiece { raw: piece, api: self.api, generation: self.generation })
+    }
+}
+
+/// Rounds a pixel position or size for MacroQuest's integer rectangles.
+fn pixels([x, y]: Vec2) -> [i32; 2] {
+    [x.round() as i32, y.round() as i32]
+}
+
+/// How a [`UiTexture`] or [`TexturePiece`] is drawn.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct UiImageOptions {
+    /// Its size on screen; None for its own: the piece's, or the source
+    /// rectangle's.
+    pub size: Option<Vec2>,
+    /// Multiplies its colors (white leaves them).
+    pub tint: Color,
+    /// A frame around it, if any.
+    pub border: Option<Color>,
+}
+
+impl Default for UiImageOptions {
+    fn default() -> Self {
+        UiImageOptions { size: None, tint: [1.0; 4], border: None }
+    }
+}
+
+impl UiImageOptions {
+    fn raw_size(&self) -> [i32; 2] {
+        self.size.map_or([0, 0], pixels)
+    }
+
+    fn raw_border(&self) -> u32 {
+        self.border.map_or(0, pack_color)
+    }
+}
+
+/// A rectangle in a texture as the shim takes it: the whole texture for None.
+fn source_rect(source: Option<[Vec2; 2]>) -> [i32; 4] {
+    source.map_or([0, 0, -1, -1], |[min, max]| {
+        let ([x0, y0], [x1, y1]) = (pixels(min), pixels(max));
+        [x0, y0, x1, y1]
+    })
+}
+
+/// One of the game's UI texture files (`AttackIndicator.tga`, say), as
+/// [`Ui::find_ui_texture`] loaded it. Like a [`TextureAnimation`], it stops
+/// drawing once the game unloads its UI.
+pub struct UiTexture {
+    raw: NonNull<mq_sys::CUITextureInfo>,
+    api: &'static mq_sys::Api,
+    generation: u64,
+}
+
+impl UiTexture {
+    fn current(&self) -> Option<*mut mq_sys::CUITextureInfo> {
+        (self.generation == UI_GENERATION.with(Cell::get)).then_some(self.raw.as_ptr())
+    }
+
+    /// Whether the UI it came from is still loaded, so it can draw.
+    pub fn is_current(&self) -> bool {
+        self.current().is_some()
+    }
+
+    /// Its file name.
+    pub fn name(&self) -> String {
+        let mut buffer = [0 as std::ffi::c_char; 260];
+        let len = unsafe { (self.api.mqemu_ui_texture_name)(self.raw.as_ptr(), buffer.as_mut_ptr(), buffer.len()) };
+        if len < buffer.len() {
+            return crate::text::from_c_array(&buffer);
+        }
+        let mut long = vec![0 as std::ffi::c_char; len + 1];
+        unsafe { (self.api.mqemu_ui_texture_name)(self.raw.as_ptr(), long.as_mut_ptr(), long.len()) };
+        crate::text::from_c_array(&long)
+    }
+
+    /// Its size in pixels, which rectangles of it are measured in.
+    pub fn size(&self) -> Vec2 {
+        let (mut w, mut h) = (0, 0);
+        unsafe { (self.api.mqemu_ui_texture_size)(self.raw.as_ptr(), &mut w, &mut h) };
+        [w as f32, h as f32]
+    }
+
+    /// The rectangle of it from `min` to `max` (in pixels), to draw on its
+    /// own. None once the UI it came from was unloaded.
+    pub fn piece(&self, min: Vec2, max: Vec2) -> Option<TexturePiece> {
+        let raw = self.current()?;
+        let ([x0, y0], [x1, y1]) = (pixels(min), pixels(max));
+        let piece = NonNull::new(unsafe { (self.api.mqemu_texture_piece_new)(raw, x0, y0, x1, y1) })?;
+        Some(TexturePiece { raw: piece, api: self.api, generation: self.generation })
+    }
+}
+
+impl Drop for UiTexture {
+    fn drop(&mut self) {
+        // Our copy: the game keeps the texture itself.
+        unsafe { (self.api.mqemu_ui_texture_free)(self.raw.as_ptr()) }
+    }
+}
+
+impl std::fmt::Debug for UiTexture {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("UiTexture").field("name", &self.name()).field("size", &self.size()).field("current", &self.is_current()).finish()
+    }
+}
+
+/// A rectangle of one of the game's UI texture files: a frame of a
+/// [`TextureAnimation`] ([`TextureAnimation::frame`]) or one you choose
+/// ([`UiTexture::piece`]). Stops drawing once the game unloads its UI.
+pub struct TexturePiece {
+    raw: NonNull<mq_sys::CUITexturePiece>,
+    api: &'static mq_sys::Api,
+    generation: u64,
+}
+
+impl TexturePiece {
+    fn current(&self) -> Option<*mut mq_sys::CUITexturePiece> {
+        (self.generation == UI_GENERATION.with(Cell::get)).then_some(self.raw.as_ptr())
+    }
+
+    pub fn is_current(&self) -> bool {
+        self.current().is_some()
+    }
+
+    /// Where it is in its texture, top left and bottom right, in pixels.
+    pub fn rect(&self) -> [Vec2; 2] {
+        let (mut x0, mut y0, mut x1, mut y1) = (0, 0, 0, 0);
+        unsafe { (self.api.mqemu_texture_piece_rect)(self.raw.as_ptr(), &mut x0, &mut y0, &mut x1, &mut y1) };
+        [[x0 as f32, y0 as f32], [x1 as f32, y1 as f32]]
+    }
+
+    /// Its size in pixels, what it's drawn at by default.
+    pub fn size(&self) -> Vec2 {
+        let [[x0, y0], [x1, y1]] = self.rect();
+        [x1 - x0, y1 - y0]
+    }
+
+    /// The texture file it's a piece of. None once the UI was unloaded.
+    pub fn texture(&self) -> Option<UiTexture> {
+        let raw = self.current()?;
+        let texture = NonNull::new(unsafe { (self.api.mqemu_texture_piece_texture)(raw) })?;
+        Some(UiTexture { raw: texture, api: self.api, generation: self.generation })
+    }
+}
+
+impl Drop for TexturePiece {
+    fn drop(&mut self) {
+        unsafe { (self.api.mqemu_texture_piece_free)(self.raw.as_ptr()) }
+    }
+}
+
+impl std::fmt::Debug for TexturePiece {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("TexturePiece").field("rect", &self.rect()).field("current", &self.is_current()).finish()
+    }
 }
 
 impl Drop for TextureAnimation {
@@ -241,10 +415,53 @@ impl Ui {
         self.texture_animation_with(animation, size, [1.0; 4], border.then_some([1.0, 1.0, 1.0, 0.5]))
     }
 
+    /// One of the game's UI texture files (from the skin's directory, or
+    /// the default one), loaded: `"AttackIndicator.tga"`, say. None if the
+    /// game can't load it, or its UI isn't loaded. Find once and keep it
+    /// (until the UI reloads).
+    pub fn find_ui_texture(&self, name: &str) -> Option<UiTexture> {
+        let (p, n) = s(name);
+        let raw = NonNull::new(unsafe { (self.mq.mqemu_ui_texture_find)(p, n) })?;
+        Some(UiTexture { raw, api: self.mq, generation: UI_GENERATION.with(Cell::get) })
+    }
+
+    /// Shows the rectangle `source` of `texture` (from its top left to
+    /// bottom right, in pixels; None for all of it) as an item. False if
+    /// nothing was drawn: the texture is out of date, or scrolled off.
+    pub fn ui_texture(&mut self, texture: &UiTexture, source: Option<[Vec2; 2]>, options: UiImageOptions) -> bool {
+        let Some(raw) = texture.current() else { return false };
+        let ([w, h], [sx0, sy0, sx1, sy1]) = (options.raw_size(), source_rect(source));
+        unsafe { (self.mq.mqemu_imgui_ui_texture)(raw, w, h, sx0, sy0, sx1, sy1, pack_color(options.tint), options.raw_border()) }
+    }
+
+    /// Shows `piece` as an item, its own size unless `options` says.
+    pub fn texture_piece(&mut self, piece: &TexturePiece, options: UiImageOptions) -> bool {
+        let Some(raw) = piece.current() else { return false };
+        let [w, h] = options.raw_size();
+        unsafe { (self.mq.mqemu_imgui_texture_piece)(raw, w, h, pack_color(options.tint), options.raw_border()) }
+    }
+
     /// [`Ui::texture_animation`] tinted, with a border of any color.
     pub fn texture_animation_with(&mut self, animation: &TextureAnimation, size: Option<Vec2>, tint: Color, border: Option<Color>) -> bool {
         let Some(raw) = animation.current() else { return false };
         let [w, h] = size.map_or([0, 0], |[w, h]| [w.round() as i32, h.round() as i32]);
         unsafe { (self.mq.mqemu_imgui_texture_animation)(raw, w, h, pack_color(tint), border.map_or(0, pack_color)) }
+    }
+}
+
+impl DrawList<'_> {
+    /// [`Ui::ui_texture`] on the list, its top left at `pos`.
+    pub fn add_ui_texture(&self, texture: &UiTexture, pos: Vec2, source: Option<[Vec2; 2]>, options: UiImageOptions) -> bool {
+        let (Some(raw), Some(list)) = (texture.current(), self.raw()) else { return false };
+        let ([x, y], [w, h], [sx0, sy0, sx1, sy1]) = (pixels(pos), options.raw_size(), source_rect(source));
+        let (tint, border) = (pack_color(options.tint), options.raw_border());
+        unsafe { (self.mq_api().mqemu_imgui_draw_ui_texture)(list, raw, x, y, w, h, sx0, sy0, sx1, sy1, tint, border) }
+    }
+
+    /// [`Ui::texture_piece`] on the list, its top left at `pos`.
+    pub fn add_texture_piece(&self, piece: &TexturePiece, pos: Vec2, options: UiImageOptions) -> bool {
+        let (Some(raw), Some(list)) = (piece.current(), self.raw()) else { return false };
+        let ([x, y], [w, h]) = (pixels(pos), options.raw_size());
+        unsafe { (self.mq_api().mqemu_imgui_draw_texture_piece)(list, raw, x, y, w, h, pack_color(options.tint), options.raw_border()) }
     }
 }

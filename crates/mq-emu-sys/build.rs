@@ -74,6 +74,7 @@ fn build_shim(mq_root: &Path) {
         "shim/imgui.cpp",
         "shim/imgui_draw.cpp",
         "shim/imgui_mq.cpp",
+        "shim/imgui_addons.cpp",
         "shim/implot.cpp",
         "shim/imgui_test.cpp",
         "shim/items.cpp",
