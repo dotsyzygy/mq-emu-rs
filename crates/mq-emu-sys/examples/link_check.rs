@@ -87,6 +87,9 @@ pub extern "C" fn mq_emu_sys_link_check() -> usize {
         (&raw const pTradeWnd).cast(),
         (&raw const pItemDisplayManager).cast(),
         (&raw const pSpellDisplayManager).cast(),
+        (&raw const pTaskManager).cast(),
+        (&raw const pTaskMember).cast(),
+        (&raw const pTributeActive).cast(),
     ];
     assert_eq!(
         functions.len() + statics.len(),

@@ -308,3 +308,11 @@ pub const SOCIALS_PER_PAGE: usize = 12;
 pub const NUM_HOTBUTTON_WINDOWS: usize = 10;
 pub const NUM_HOTBUTTON_PAGES: usize = 10;
 pub const HOTBUTTONS_PER_PAGE: usize = 12;
+
+// Tasks (eqlib `game/TaskSystem.h`).
+/// `CTaskManager::QuestEntries`: the solo tasks you can have.
+pub const MAX_QUEST_ENTRIES: usize = 29;
+/// `CTaskManager::SharedTaskEntries`.
+pub const MAX_SHARED_TASK_ENTRIES: usize = 1;
+/// `CTaskEntry::Elements`: the objectives a task has room for.
+pub const MAX_TASK_ELEMENTS: usize = 20;

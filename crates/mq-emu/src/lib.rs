@@ -56,12 +56,14 @@ compile_error!(
     "mq-emu targets MacroQuest emu (RoF2), which is 32-bit only. Build with --target i686-pc-windows-msvc."
 );
 
+mod achievements;
 mod actors;
 mod alt_abilities;
 pub mod color;
 mod data;
 mod datatypes;
 mod events;
+mod friends;
 mod game;
 mod game_fns;
 mod ground;
@@ -79,6 +81,7 @@ pub mod lua;
 mod movement;
 mod mq;
 mod plugin;
+mod quests;
 mod raid;
 mod runtime;
 mod skills;
@@ -88,12 +91,14 @@ mod spells;
 mod tasks;
 mod stats;
 mod text;
+mod tribute;
 mod windows;
 mod xtarget;
 mod zone;
 
 pub use mq_emu_sys as sys;
 
+pub use achievements::{Achievement, AchievementCategory, AchievementObjective, AchievementState, Achievements};
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
 pub use alt_abilities::AltAbility;
 pub use data::{Data, PathError, TloError, Value};
@@ -117,6 +122,7 @@ pub use game::{
 pub use movement::{MoveError, MoveKey};
 pub use mq::{AliasError, CommandError, Mq};
 pub use plugin::Plugin;
+pub use quests::{ObjectiveKind, Quest, QuestKind, QuestMember, QuestObjective};
 pub use raid::{Raid, RaidLootType, RaidMember};
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
 pub use skills::{Skill, SkillId};
@@ -124,6 +130,7 @@ pub use spawn_buffs::{CachedBuff, WindowBuff};
 pub use spawns::{MAX_SPAWNS, Spawns};
 pub use spells::{Buff, Spell, SpellEffect, SpellId};
 pub use tasks::{NextPulse, Task, TaskId};
+pub use tribute::Tribute;
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
 pub use windows::{
     Click, ContextMenu, HotBar, HotButtonType, HotButtonWindow, ItemContainerKind, ItemSlotWindow, ListWindow, MAX_DESCENDANTS,

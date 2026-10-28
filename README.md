@@ -59,7 +59,8 @@ Each area is supported in full, except for what's listed under **Missing**.
   datatypes of the plugin's own (members, methods, macro variables) to macros and Lua
 - **Game data:** spawns, items, inventory, bank, spells, buffs (yours, your target's and pet's,
   MacroQuest's cache), spell gems and book, group, raid, mercenary, extended targets, alternate
-  abilities, skills, zones, ground items, and the merchant and loot windows
+  abilities, skills, zones, ground items, the merchant and loot windows, tasks (objectives,
+  progress, shared task members), the friends list, tribute and achievements
 - **Acting in game:** movement and facing; casting, stopping, memorizing and forgetting spells;
   picking up, dropping, splitting and using items, `/autoinventory`, opening bags; buying and
   selling at a merchant
@@ -96,8 +97,8 @@ Each area is supported in full, except for what's listed under **Missing**.
 
 **Missing**
 
-- Game data beyond the bound set: advanced loot, tasks, achievements, the friends list, tribute
-  (reachable as TLO reads, or through their windows)
+- Advanced loot (`${AdvLoot}`): the RoF2 client has no advanced loot window (the selftest checks),
+  and MacroQuest's emu build has no offsets for its actions, so there is nothing to bind
 - Acting on spells and items beyond the bound set: splash spells landed at a place (MacroQuest's
   `/cast ... loc`), spell sets saved in the game (`/memspellset`), destroying items, and opening a
   merchant's window (only by running commands)
@@ -182,7 +183,8 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems and whether they're ready, spell book, spells, group, pet, zone, ground items,
 target and pet buffs, raid, mercenary, extended targets, AAs, skills, the merchant and loot
-windows when open, every EQ window and the controls of the open ones against `${Window}`, and every
+windows when open, tasks and their objectives, the friends list, tribute and achievements (skipped
+when the server sends none), every EQ window and the controls of the open ones against `${Window}`, and every
 item slot and hot button against `${Window[...].InvSlot}` and `.HotButton`), and exercises commands, aliases, settings, chat events, key binds, re-entrancy, parsing, keys and async
 tasks. It also:
 

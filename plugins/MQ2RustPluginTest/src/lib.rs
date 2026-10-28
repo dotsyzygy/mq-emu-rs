@@ -19,6 +19,7 @@ mod eq_window_content_checks;
 mod event_checks;
 mod game_checks;
 mod graphics;
+mod journal_checks;
 mod lua_checks;
 mod peer_checks;
 mod play_checks;
@@ -367,6 +368,8 @@ impl RustTest {
         game_checks::run(mq, &mut report);
         report.section(mq, "Pet buffs, raid, mercenary, AAs, skills, merchant and loot");
         play_checks::run(mq, &mut report);
+        report.section(mq, "Tasks, friends, tribute and achievements");
+        journal_checks::run(mq, &mut report);
         report.section(mq, "Spawn list");
         checks::spawn_list(mq, &mut report);
         if let Some(id) = targeted {

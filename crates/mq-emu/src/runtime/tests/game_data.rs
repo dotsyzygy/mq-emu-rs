@@ -1,15 +1,15 @@
 //! Inventory, spells, buffs, group, zone, ground items, pets, other spawns'
-//! buffs, raids, mercenaries, extended targets, alternate abilities, skills
-//! and the merchant and loot windows through `Mq`, against fake game
-//! objects: what each finds, and that missing game data reads as nothing
-//! rather than crashing.
+//! buffs, raids, mercenaries, extended targets, alternate abilities, skills,
+//! the merchant and loot windows, tasks, friends, tribute and achievements
+//! through `Mq`, against fake game objects: what each finds, and that missing
+//! game data reads as nothing rather than crashing.
 
 use mq_emu_sys::constants::{DB_STRING_ALT_ABILITY_NAME, MAX_TOTAL_BUFFS};
 use mq_emu_sys::game::{SKILL_ACTIVATABLE, SKILL_HAS, mqemu_cached_buff};
 use mq_emu_sys::layouts::{
-    CAltAbilityData, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd,
+    AchievementManager, CAltAbilityData, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, CTaskManager,
     ClientSpellManager, EQGroundItem, EQGroundItemListManager, EQWorldData, EQZoneInfo, ExtendedTargetList, ExtendedTargetSlot,
-    ItemContainerInstance, MerchantPageHandler, PcClient, PcProfile, ProfileList, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
+    ItemContainerInstance, MerchantPageHandler, PcClient, PcProfile, ProfileList, SharedTaskPlayerInfo, TaskSystemType, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
 };
 
 use super::*;
@@ -594,4 +594,84 @@ fn merchants_items_are_selected_bought_and_sold() {
     window.get().set_dShow(false);
     assert_eq!(pulse_log(act), ["[false, false, false, false] | [false, false, false]"], "the window is closed");
     assert!(fake_windows::log().is_empty());
+}
+
+#[test]
+fn without_tasks_friends_tribute_or_achievements_there_are_none() {
+    let log = pulse_log(|mq| {
+        format!(
+            "{} {:?} {} {:?} {}",
+            mq.quests().count(),
+            mq.friends(),
+            mq.is_friend("Ann"),
+            mq.tribute(),
+            mq.achievements().is_none(),
+        )
+    });
+    assert_eq!(log, ["0 None false None true"]);
+}
+
+#[test]
+fn tasks_are_found_by_title_and_id() {
+    let manager = Box::leak(Box::new(Fake::<CTaskManager>::new()));
+    let member = Box::leak(Box::new(Fake::<SharedTaskPlayerInfo>::new()));
+    member.get().set_Name(set_name("Ann"));
+    let solo = manager.get().QuestEntries(3);
+    solo.set_TaskID(7);
+    solo.set_TaskTitle(set_name("Rat Hunt"));
+    solo.set_TaskSystem(TaskSystemType::cTaskSystemTypeSoloQuest);
+    let shared = manager.get().SharedTaskEntries(0);
+    shared.set_TaskID(9);
+    shared.set_TaskTitle(set_name("Together"));
+    shared.set_TaskSystem(TaskSystemType::cTaskSystemTypeSharedQuest);
+    set_windows(|w| {
+        w.task_manager = manager.ptr();
+        w.task_members = member.ptr();
+    });
+    let log = pulse_log(|mq| {
+        format!(
+            "{:?} {:?} {:?} {:?} {}",
+            mq.quests().map(|q| q.title()).collect::<Vec<_>>(),
+            mq.quest("rat hunt").map(|q| q.id()),
+            mq.quest_by_id(9).map(|q| q.members().map(|m| m.name()).collect::<Vec<_>>()),
+            mq.quest("Rat").map(|q| q.id()),
+            mq.quest_window_row(&mq.quest_by_id(7).unwrap()).is_none() && !mq.select_quest(&mq.quest_by_id(7).unwrap()),
+        )
+    });
+    assert_eq!(log, ["[\"Together\", \"Rat Hunt\"] Some(7) Some([\"Ann\"]) None true"], "no task window: no row to select");
+}
+
+#[test]
+fn friends_tribute_and_achievements_need_a_character() {
+    let game = game();
+    game.pc.get().set_CurrFavor(1500);
+    game.pc.get().set_CareerFavor(9000);
+    game.pc.get().set_BenefitTimer(540_000);
+    let manager = Box::leak(Box::new(Fake::<AchievementManager>::new()));
+    fake_game::with(|game| {
+        game.friends = Some(vec!["Ann".into(), "Bob".into()]);
+        game.active_favor_cost = 25;
+        game.achievement_manager = manager.ptr();
+    });
+    let log = |mq: &Mq<Recorder>| {
+        let tribute = mq.tribute().unwrap();
+        let achievements = mq.achievements().unwrap();
+        format!(
+            "{:?} {} {} {} {} {:?} {} {} {}",
+            mq.friends(),
+            mq.is_friend("bob"),
+            tribute.active,
+            tribute.current_favor,
+            tribute.career_favor,
+            tribute.active_cost,
+            tribute.time_left.as_secs(),
+            achievements.is_ready(),
+            achievements.len(),
+        )
+    };
+    assert_eq!(pulse_log(log), ["Some([\"Ann\", \"Bob\"]) true false 1500 9000 None 540 false 0"], "inactive tribute costs nothing");
+    set_windows(|w| w.tribute_active = true);
+    manager.get().set_achievementClientReadOnlyDataSet(true);
+    manager.get().set_achievementClientStatesSet(true);
+    assert_eq!(pulse_log(log), ["Some([\"Ann\", \"Bob\"]) true true 1500 9000 Some(25) 540 true 0"]);
 }

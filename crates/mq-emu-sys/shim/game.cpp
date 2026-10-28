@@ -1,8 +1,9 @@
 // Game data that only the game's own functions (or MacroQuest's) can answer:
 // MacroQuest's cache of other spawns' buffs, alternate abilities, skill
 // values and caps, the game's string table and extended target role names;
-// chat lines cleaned for event matching; and acting on spells (casting,
-// memorizing, forgetting) and the game's own slash commands.
+// task progress and objective text, the friends list, tribute's cost and
+// achievements; chat lines cleaned for event matching; and acting on spells
+// (casting, memorizing, forgetting) and the game's own slash commands.
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks for the game
@@ -14,11 +15,14 @@
 
 #include "main/MQ2Main.h"
 #include "mq/api/Abilities.h"
+#include "eqlib/game/Achievements.h"
 #include "eqlib/game/AltAbilities.h"
+#include "eqlib/game/EQData.h"
 #include "eqlib/game/EQClasses.h"
 #include "eqlib/game/Globals.h"
 #include "eqlib/game/ItemLinks.h"
 #include "eqlib/game/PcClient.h"
+#include "eqlib/game/TaskSystem.h"
 
 #include <algorithm>
 #include <cstring>
@@ -354,5 +358,142 @@ extern "C" bool mqemu_gem_ready(int gem)
 	catch (...)
 	{
 		return false;
+	}
+}
+
+// Your progress on `task` (one of pTaskManager's QuestEntries or
+// SharedTaskEntries), as ${Task[n].Objective[m].Status} reads it
+// (CTaskManager::GetTaskStatus). Null for an entry in neither, or without a
+// character.
+extern "C" PCTaskStatus* mqemu_task_status(CTaskEntry* task)
+{
+	try
+	{
+		if (!pTaskManager || !pLocalPC || task == nullptr)
+			return nullptr;
+		for (int i = 0; i < MAX_QUEST_ENTRIES; ++i)
+		{
+			if (&pTaskManager->QuestEntries[i] == task)
+				return pTaskManager->GetTaskStatus(pLocalPC, i, cTaskSystemTypeSoloQuest);
+		}
+		for (int i = 0; i < MAX_SHARED_TASK_ENTRIES; ++i)
+		{
+			if (&pTaskManager->SharedTaskEntries[i] == task)
+				return pTaskManager->GetTaskStatus(pLocalPC, i, cTaskSystemTypeSharedQuest);
+		}
+		return nullptr;
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+// What a task objective asks, as the task window says it
+// (CTaskManager::GetElementDescription, ${Task[n].Objective[m]}). False
+// without the task manager or for an objective with no text.
+extern "C" bool mqemu_task_objective_text(const CTaskElement* objective, char* out, size_t cap)
+{
+	try
+	{
+		if (!pTaskManager || objective == nullptr)
+			return copy_out(nullptr, out, cap);
+		// The game writes up to MAX_STRING, whatever the caller's size.
+		char text[MAX_STRING] = { 0 };
+		pTaskManager->GetElementDescription(objective, text);
+		return copy_out(text[0] ? text : nullptr, out, cap);
+	}
+	catch (...)
+	{
+		return copy_out(nullptr, out, cap);
+	}
+}
+
+// The game's clock in seconds (GetFastTime), which task timers count by.
+extern "C" uint32_t mqemu_fast_time()
+{
+	try
+	{
+		return GetFastTime();
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
+// How many friends your friends list has (${Friends}); -1 without the chat
+// service that keeps it.
+extern "C" int mqemu_friend_count()
+{
+	try
+	{
+		return pChatService ? pChatService->GetNumberOfFriends() : -1;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
+// Your friend `index` (0-based), as ${Friends.Friend[index+1]}. False past
+// the end.
+extern "C" bool mqemu_friend_name(int index, char* out, size_t cap)
+{
+	try
+	{
+		UniversalChatProxy* chat = pChatService;
+		if (!chat || index < 0 || index >= chat->GetNumberOfFriends())
+			return copy_out(nullptr, out, cap);
+		return copy_out(chat->GetFriendName(index), out, cap);
+	}
+	catch (...)
+	{
+		return copy_out(nullptr, out, cap);
+	}
+}
+
+// What your active tribute costs in favor (CTribute::GetActiveFavorCost,
+// ${Me.ActiveFavorCost}). 0 without the tribute manager.
+extern "C" int mqemu_active_favor_cost()
+{
+	try
+	{
+		return pTribute ? pTribute->GetActiveFavorCost() : 0;
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
+// The achievement manager (AchievementManager::Instance): every achievement
+// and category the client knows, and your progress.
+extern "C" AchievementManager* mqemu_achievement_manager()
+{
+	try
+	{
+		return &AchievementManager::Instance();
+	}
+	catch (...)
+	{
+		return nullptr;
+	}
+}
+
+// A chat link to `achievement` as `player` has it (FormatAchievementLink,
+// ${Achievement[...].Link}).
+extern "C" bool mqemu_achievement_link(const Achievement* achievement, const char* player, char* out, size_t cap)
+{
+	try
+	{
+		if (achievement == nullptr || cap == 0)
+			return copy_out(nullptr, out, cap);
+		FormatAchievementLink(out, cap, achievement, player);
+		return out[0] != 0;
+	}
+	catch (...)
+	{
+		return copy_out(nullptr, out, cap);
 	}
 }

@@ -184,6 +184,593 @@ impl AbilityInfo {
     }
 }
 
+/// C++ class `Achievement` (0x64 bytes).
+#[repr(C)]
+pub struct Achievement {
+    _bytes: UnsafeCell<[u8; 0x64]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl Achievement {
+    /// `Achievement::componentsByType` at 0x0 (0x0 within `Achievement`).
+    /// Indexes the 4 elements in memory order.
+    #[inline]
+    pub fn componentsByType(&self, index: usize) -> &ArrayClass_AchievementComponent {
+        assert!(index < 4, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x0 + index * 0x10) }
+    }
+
+    /// `Achievement::id` at 0x40 (0x40 within `Achievement`).
+    #[inline]
+    pub fn id(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `Achievement::id` at 0x40 (0x40 within `Achievement`).
+    #[inline]
+    pub fn set_id(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `Achievement::name` at 0x44 (0x44 within `Achievement`).
+    #[inline]
+    pub fn name(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `Achievement::description` at 0x48 (0x48 within `Achievement`).
+    #[inline]
+    pub fn description(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `Achievement::iconId` at 0x4c (0x4c within `Achievement`).
+    #[inline]
+    pub fn iconId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `Achievement::iconId` at 0x4c (0x4c within `Achievement`).
+    #[inline]
+    pub fn set_iconId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `Achievement::persistent` at 0x50 (0x50 within `Achievement`).
+    #[inline]
+    pub fn persistent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x50) != 0 }
+    }
+
+    /// `Achievement::persistent` at 0x50 (0x50 within `Achievement`).
+    #[inline]
+    pub fn set_persistent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x50, u8::from(value)) }
+    }
+
+    /// `Achievement::version` at 0x54 (0x54 within `Achievement`).
+    #[inline]
+    pub fn version(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x54) }
+    }
+
+    /// `Achievement::version` at 0x54 (0x54 within `Achievement`).
+    #[inline]
+    pub fn set_version(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x54, value) }
+    }
+
+    /// `Achievement::points` at 0x58 (0x58 within `Achievement`).
+    #[inline]
+    pub fn points(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `Achievement::points` at 0x58 (0x58 within `Achievement`).
+    #[inline]
+    pub fn set_points(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+
+    /// `Achievement::rewardSet` at 0x5c (0x5c within `Achievement`).
+    #[inline]
+    pub fn rewardSet(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c) }
+    }
+
+    /// `Achievement::rewardSet` at 0x5c (0x5c within `Achievement`).
+    #[inline]
+    pub fn set_rewardSet(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, value) }
+    }
+
+    /// `Achievement::unknown0x60` at 0x60 (0x60 within `Achievement`).
+    #[inline]
+    pub fn unknown0x60(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `Achievement::unknown0x60` at 0x60 (0x60 within `Achievement`).
+    #[inline]
+    pub fn set_unknown0x60(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+}
+
+/// C++ class `AchievementCategory` (0x5c bytes).
+#[repr(C)]
+pub struct AchievementCategory {
+    _bytes: UnsafeCell<[u8; 0x5c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl AchievementCategory {
+    /// `AchievementCategory::__vfptr` at 0x0 (0x0 within `AchievementCategory`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `AchievementCategory::__vfptr` at 0x0 (0x0 within `AchievementCategory`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `AchievementCategory::achievements` at 0x4 (0x4 within `AchievementCategory`).
+    #[inline]
+    pub fn achievements(&self) -> &ArrayClass_AchievementInfo {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `AchievementCategory::childCategories` at 0x14 (0x14 within `AchievementCategory`).
+    #[inline]
+    pub fn childCategories(&self) -> &ArrayClass_int {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `AchievementCategory::id` at 0x24 (0x24 within `AchievementCategory`).
+    #[inline]
+    pub fn id(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `AchievementCategory::id` at 0x24 (0x24 within `AchievementCategory`).
+    #[inline]
+    pub fn set_id(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `AchievementCategory::parentId` at 0x28 (0x28 within `AchievementCategory`).
+    #[inline]
+    pub fn parentId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `AchievementCategory::parentId` at 0x28 (0x28 within `AchievementCategory`).
+    #[inline]
+    pub fn set_parentId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `AchievementCategory::name` at 0x2c (0x2c within `AchievementCategory`).
+    #[inline]
+    pub fn name(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `AchievementCategory::description` at 0x30 (0x30 within `AchievementCategory`).
+    #[inline]
+    pub fn description(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `AchievementCategory::bitmapId` at 0x34 (0x34 within `AchievementCategory`).
+    #[inline]
+    pub fn bitmapId(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `AchievementCategory::displaySequence` at 0x38 (0x38 within `AchievementCategory`).
+    #[inline]
+    pub fn displaySequence(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `AchievementCategory::displaySequence` at 0x38 (0x38 within `AchievementCategory`).
+    #[inline]
+    pub fn set_displaySequence(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38, value) }
+    }
+
+    /// `AchievementCategory::completedAchievementScore` at 0x3c (0x3c within `AchievementCategory`).
+    #[inline]
+    pub fn completedAchievementScore(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `AchievementCategory::completedAchievementScore` at 0x3c (0x3c within `AchievementCategory`).
+    #[inline]
+    pub fn set_completedAchievementScore(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `AchievementCategory::comparisonCompletedAchievementScore` at 0x40 (0x40 within `AchievementCategory`).
+    #[inline]
+    pub fn comparisonCompletedAchievementScore(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `AchievementCategory::comparisonCompletedAchievementScore` at 0x40 (0x40 within `AchievementCategory`).
+    #[inline]
+    pub fn set_comparisonCompletedAchievementScore(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `AchievementCategory::completedAchievementCount` at 0x44 (0x44 within `AchievementCategory`).
+    #[inline]
+    pub fn completedAchievementCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `AchievementCategory::completedAchievementCount` at 0x44 (0x44 within `AchievementCategory`).
+    #[inline]
+    pub fn set_completedAchievementCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `AchievementCategory::openAchievementCount` at 0x48 (0x48 within `AchievementCategory`).
+    #[inline]
+    pub fn openAchievementCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `AchievementCategory::openAchievementCount` at 0x48 (0x48 within `AchievementCategory`).
+    #[inline]
+    pub fn set_openAchievementCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `AchievementCategory::lockedAchievementCount` at 0x4c (0x4c within `AchievementCategory`).
+    #[inline]
+    pub fn lockedAchievementCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `AchievementCategory::lockedAchievementCount` at 0x4c (0x4c within `AchievementCategory`).
+    #[inline]
+    pub fn set_lockedAchievementCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `AchievementCategory::comparisonCompletedAchievementCount` at 0x50 (0x50 within `AchievementCategory`).
+    #[inline]
+    pub fn comparisonCompletedAchievementCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x50) }
+    }
+
+    /// `AchievementCategory::comparisonCompletedAchievementCount` at 0x50 (0x50 within `AchievementCategory`).
+    #[inline]
+    pub fn set_comparisonCompletedAchievementCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x50, value) }
+    }
+
+    /// `AchievementCategory::comparisonOpenAchievementCount` at 0x54 (0x54 within `AchievementCategory`).
+    #[inline]
+    pub fn comparisonOpenAchievementCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x54) }
+    }
+
+    /// `AchievementCategory::comparisonOpenAchievementCount` at 0x54 (0x54 within `AchievementCategory`).
+    #[inline]
+    pub fn set_comparisonOpenAchievementCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x54, value) }
+    }
+
+    /// `AchievementCategory::comparisonLockedAchievementCount` at 0x58 (0x58 within `AchievementCategory`).
+    #[inline]
+    pub fn comparisonLockedAchievementCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `AchievementCategory::comparisonLockedAchievementCount` at 0x58 (0x58 within `AchievementCategory`).
+    #[inline]
+    pub fn set_comparisonLockedAchievementCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+}
+
+/// C++ class `AchievementComponent` (0x1c bytes).
+#[repr(C)]
+pub struct AchievementComponent {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl AchievementComponent {
+    /// `AchievementComponent::__vfptr` at 0x0 (0x0 within `AchievementComponent`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `AchievementComponent::__vfptr` at 0x0 (0x0 within `AchievementComponent`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `AchievementComponent::id` at 0x4 (0x4 within `AchievementComponent`).
+    #[inline]
+    pub fn id(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `AchievementComponent::id` at 0x4 (0x4 within `AchievementComponent`).
+    #[inline]
+    pub fn set_id(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `AchievementComponent::type` at 0x8 (0x8 within `AchievementComponent`).
+    #[inline]
+    pub fn r#type(&self) -> AchievementComponentType {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `AchievementComponent::type` at 0x8 (0x8 within `AchievementComponent`).
+    #[inline]
+    pub fn set_type(&self, value: AchievementComponentType) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `AchievementComponent::sequenceNum` at 0xc (0xc within `AchievementComponent`).
+    #[inline]
+    pub fn sequenceNum(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `AchievementComponent::sequenceNum` at 0xc (0xc within `AchievementComponent`).
+    #[inline]
+    pub fn set_sequenceNum(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `AchievementComponent::requiredCount` at 0x10 (0x10 within `AchievementComponent`).
+    #[inline]
+    pub fn requiredCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `AchievementComponent::requiredCount` at 0x10 (0x10 within `AchievementComponent`).
+    #[inline]
+    pub fn set_requiredCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `AchievementComponent::description` at 0x14 (0x14 within `AchievementComponent`).
+    #[inline]
+    pub fn description(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `AchievementComponent::count` at 0x18 (0x18 within `AchievementComponent`).
+    #[inline]
+    pub fn count(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `AchievementComponent::count` at 0x18 (0x18 within `AchievementComponent`).
+    #[inline]
+    pub fn set_count(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+}
+
+/// C++ class `AchievementInfo` (0x8 bytes).
+#[repr(C)]
+pub struct AchievementInfo {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl AchievementInfo {
+    /// `AchievementInfo::achievementId` at 0x0 (0x0 within `AchievementInfo`).
+    #[inline]
+    pub fn achievementId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `AchievementInfo::achievementId` at 0x0 (0x0 within `AchievementInfo`).
+    #[inline]
+    pub fn set_achievementId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `AchievementInfo::description` at 0x4 (0x4 within `AchievementInfo`).
+    #[inline]
+    pub fn description(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+}
+
+/// C++ class `AchievementManager` (0x80 bytes).
+#[repr(C)]
+pub struct AchievementManager {
+    _bytes: UnsafeCell<[u8; 0x80]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl AchievementManager {
+    /// `AchievementManager::__vfptr` at 0x0 (0x0 within `AchievementManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `AchievementManager::__vfptr` at 0x0 (0x0 within `AchievementManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `AchievementManager::categories` at 0x4 (0x4 within `AchievementManager`).
+    #[inline]
+    pub fn categories(&self) -> &ArrayClass2_AchievementCategory {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `AchievementManager::achievements` at 0x20 (0x20 within `AchievementManager`).
+    #[inline]
+    pub fn achievements(&self) -> &ArrayClass2_Achievement {
+        unsafe { at(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `AchievementManager::achievementClientInfoArray` at 0x3c (0x3c within `AchievementManager`).
+    #[inline]
+    pub fn achievementClientInfoArray(&self) -> &ArrayClass_SingleAchievementAndComponentsInfo {
+        unsafe { at(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `AchievementManager::achievementsClientComparisonInfoArray` at 0x4c (0x4c within `AchievementManager`).
+    #[inline]
+    pub fn achievementsClientComparisonInfoArray(&self) -> &ArrayClass_SingleAchievementAndComponentsInfo {
+        unsafe { at(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `AchievementManager::achievementClientReadOnlyDataSet` at 0x5c (0x5c within `AchievementManager`).
+    #[inline]
+    pub fn achievementClientReadOnlyDataSet(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5c) != 0 }
+    }
+
+    /// `AchievementManager::achievementClientReadOnlyDataSet` at 0x5c (0x5c within `AchievementManager`).
+    #[inline]
+    pub fn set_achievementClientReadOnlyDataSet(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, u8::from(value)) }
+    }
+
+    /// `AchievementManager::achievementClientStatesSet` at 0x5d (0x5d within `AchievementManager`).
+    #[inline]
+    pub fn achievementClientStatesSet(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5d) != 0 }
+    }
+
+    /// `AchievementManager::achievementClientStatesSet` at 0x5d (0x5d within `AchievementManager`).
+    #[inline]
+    pub fn set_achievementClientStatesSet(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5d, u8::from(value)) }
+    }
+
+    /// `AchievementManager::comparisonAchievementStatesSet` at 0x5e (0x5e within `AchievementManager`).
+    #[inline]
+    pub fn comparisonAchievementStatesSet(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5e) != 0 }
+    }
+
+    /// `AchievementManager::comparisonAchievementStatesSet` at 0x5e (0x5e within `AchievementManager`).
+    #[inline]
+    pub fn set_comparisonAchievementStatesSet(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5e, u8::from(value)) }
+    }
+
+    /// `AchievementManager::completedAchievementScore` at 0x60 (0x60 within `AchievementManager`).
+    #[inline]
+    pub fn completedAchievementScore(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `AchievementManager::completedAchievementScore` at 0x60 (0x60 within `AchievementManager`).
+    #[inline]
+    pub fn set_completedAchievementScore(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+
+    /// `AchievementManager::completedAchievementCount` at 0x64 (0x64 within `AchievementManager`).
+    #[inline]
+    pub fn completedAchievementCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x64) }
+    }
+
+    /// `AchievementManager::completedAchievementCount` at 0x64 (0x64 within `AchievementManager`).
+    #[inline]
+    pub fn set_completedAchievementCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x64, value) }
+    }
+
+    /// `AchievementManager::lockedAchievemmentCount` at 0x68 (0x68 within `AchievementManager`).
+    #[inline]
+    pub fn lockedAchievemmentCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `AchievementManager::lockedAchievemmentCount` at 0x68 (0x68 within `AchievementManager`).
+    #[inline]
+    pub fn set_lockedAchievemmentCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x68, value) }
+    }
+
+    /// `AchievementManager::openAchievementCount` at 0x6c (0x6c within `AchievementManager`).
+    #[inline]
+    pub fn openAchievementCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x6c) }
+    }
+
+    /// `AchievementManager::openAchievementCount` at 0x6c (0x6c within `AchievementManager`).
+    #[inline]
+    pub fn set_openAchievementCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x6c, value) }
+    }
+
+    /// `AchievementManager::comparisonCompletedAchievementScore` at 0x70 (0x70 within `AchievementManager`).
+    #[inline]
+    pub fn comparisonCompletedAchievementScore(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `AchievementManager::comparisonCompletedAchievementScore` at 0x70 (0x70 within `AchievementManager`).
+    #[inline]
+    pub fn set_comparisonCompletedAchievementScore(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `AchievementManager::comparisonCompletedAchievementCount` at 0x74 (0x74 within `AchievementManager`).
+    #[inline]
+    pub fn comparisonCompletedAchievementCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x74) }
+    }
+
+    /// `AchievementManager::comparisonCompletedAchievementCount` at 0x74 (0x74 within `AchievementManager`).
+    #[inline]
+    pub fn set_comparisonCompletedAchievementCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x74, value) }
+    }
+
+    /// `AchievementManager::comparisonLockedAchievementCount` at 0x78 (0x78 within `AchievementManager`).
+    #[inline]
+    pub fn comparisonLockedAchievementCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `AchievementManager::comparisonLockedAchievementCount` at 0x78 (0x78 within `AchievementManager`).
+    #[inline]
+    pub fn set_comparisonLockedAchievementCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `AchievementManager::comparisonOpenAchievementCount` at 0x7c (0x7c within `AchievementManager`).
+    #[inline]
+    pub fn comparisonOpenAchievementCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `AchievementManager::comparisonOpenAchievementCount` at 0x7c (0x7c within `AchievementManager`).
+    #[inline]
+    pub fn set_comparisonOpenAchievementCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+}
+
 /// C++ class `ActorClient` (0x1b4 bytes).
 #[repr(C)]
 pub struct ActorClient {
@@ -873,6 +1460,192 @@ impl ArmorProperties {
     }
 }
 
+/// C++ class `ArrayClass2<Achievement>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_Achievement {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_Achievement {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_binShift` at 0xc (0xc within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_binShift` at 0xc (0xc within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_array` at 0x10 (0x10 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut Achievement {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_array` at 0x10 (0x10 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut Achievement) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_binCount` at 0x14 (0x14 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_binCount` at 0x14 (0x14 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<Achievement>::m_valid` at 0x18 (0x18 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<Achievement>::m_valid` at 0x18 (0x18 within `ArrayClass2<Achievement>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<AchievementCategory>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_AchievementCategory {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_AchievementCategory {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_binShift` at 0xc (0xc within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_binShift` at 0xc (0xc within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_array` at 0x10 (0x10 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut AchievementCategory {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_array` at 0x10 (0x10 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut AchievementCategory) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_binCount` at 0x14 (0x14 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_binCount` at 0x14 (0x14 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_valid` at 0x18 (0x18 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<AchievementCategory>::m_valid` at 0x18 (0x18 within `ArrayClass2<AchievementCategory>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass2<CXWnd *>` (0x1c bytes).
 #[repr(C)]
 pub struct ArrayClass2_CXWnd {
@@ -1335,6 +2108,120 @@ impl ArrayClass2_unsigned_int {
     #[inline]
     pub fn set_m_valid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<AchievementComponent>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_AchievementComponent {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_AchievementComponent {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<AchievementComponent>::m_array` at 0x4 (0x4 within `ArrayClass<AchievementComponent>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut AchievementComponent {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<AchievementComponent>::m_array` at 0x4 (0x4 within `ArrayClass<AchievementComponent>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut AchievementComponent) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<AchievementComponent>::m_alloc` at 0x8 (0x8 within `ArrayClass<AchievementComponent>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<AchievementComponent>::m_alloc` at 0x8 (0x8 within `ArrayClass<AchievementComponent>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<AchievementComponent>::m_isValid` at 0xc (0xc within `ArrayClass<AchievementComponent>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<AchievementComponent>::m_isValid` at 0xc (0xc within `ArrayClass<AchievementComponent>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<AchievementInfo>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_AchievementInfo {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_AchievementInfo {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<AchievementInfo>::m_array` at 0x4 (0x4 within `ArrayClass<AchievementInfo>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut AchievementInfo {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<AchievementInfo>::m_array` at 0x4 (0x4 within `ArrayClass<AchievementInfo>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut AchievementInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<AchievementInfo>::m_alloc` at 0x8 (0x8 within `ArrayClass<AchievementInfo>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<AchievementInfo>::m_alloc` at 0x8 (0x8 within `ArrayClass<AchievementInfo>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<AchievementInfo>::m_isValid` at 0xc (0xc within `ArrayClass<AchievementInfo>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<AchievementInfo>::m_isValid` at 0xc (0xc within `ArrayClass<AchievementInfo>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
     }
 }
 
@@ -2358,6 +3245,63 @@ impl ArrayClass_STable {
     }
 
     /// `ArrayClass<STable>::m_isValid` at 0xc (0xc within `ArrayClass<STable>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<SingleAchievementAndComponentsInfo>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_SingleAchievementAndComponentsInfo {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_SingleAchievementAndComponentsInfo {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<SingleAchievementAndComponentsInfo>::m_array` at 0x4 (0x4 within `ArrayClass<SingleAchievementAndComponentsInfo>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut SingleAchievementAndComponentsInfo {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<SingleAchievementAndComponentsInfo>::m_array` at 0x4 (0x4 within `ArrayClass<SingleAchievementAndComponentsInfo>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut SingleAchievementAndComponentsInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<SingleAchievementAndComponentsInfo>::m_alloc` at 0x8 (0x8 within `ArrayClass<SingleAchievementAndComponentsInfo>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<SingleAchievementAndComponentsInfo>::m_alloc` at 0x8 (0x8 within `ArrayClass<SingleAchievementAndComponentsInfo>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<SingleAchievementAndComponentsInfo>::m_isValid` at 0xc (0xc within `ArrayClass<SingleAchievementAndComponentsInfo>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<SingleAchievementAndComponentsInfo>::m_isValid` at 0xc (0xc within `ArrayClass<SingleAchievementAndComponentsInfo>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -29250,6 +30194,675 @@ impl CTargetWnd {
     }
 }
 
+/// C++ class `CTaskElement` (0x164 bytes).
+#[repr(C)]
+pub struct CTaskElement {
+    _bytes: UnsafeCell<[u8; 0x164]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTaskElement {
+    /// `CTaskElement::Type` at 0x0 (0x0 within `CTaskElement`).
+    #[inline]
+    pub fn Type(&self) -> TaskType {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CTaskElement::Type` at 0x0 (0x0 within `CTaskElement`).
+    #[inline]
+    pub fn set_Type(&self, value: TaskType) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CTaskElement::GroupType` at 0x4 (0x4 within `CTaskElement`).
+    #[inline]
+    pub fn GroupType(&self) -> TaskGroupType {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CTaskElement::GroupType` at 0x4 (0x4 within `CTaskElement`).
+    #[inline]
+    pub fn set_GroupType(&self, value: TaskGroupType) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CTaskElement::TargetName` at 0x8 (0x8 within `CTaskElement`).
+    #[inline]
+    pub fn TargetName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CTaskElement::TargetName` at 0x8 (0x8 within `CTaskElement`).
+    #[inline]
+    pub fn set_TargetName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CTaskElement::TargetName` at 0x8 (0x8 within `CTaskElement`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn TargetName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8 + index * 0x1) }
+    }
+
+    /// `CTaskElement::TargetName` at 0x8 (0x8 within `CTaskElement`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_TargetName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8 + index * 0x1, value) }
+    }
+
+    /// `CTaskElement::ZoneID` at 0x48 (0x48 within `CTaskElement`).
+    #[inline]
+    pub fn ZoneID(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `CTaskElement::ZoneID` at 0x48 (0x48 within `CTaskElement`).
+    #[inline]
+    pub fn set_ZoneID(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `CTaskElement::ZoneID` at 0x48 (0x48 within `CTaskElement`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn ZoneID_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x48 + index * 0x1) }
+    }
+
+    /// `CTaskElement::ZoneID` at 0x48 (0x48 within `CTaskElement`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_ZoneID_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x48 + index * 0x1, value) }
+    }
+
+    /// `CTaskElement::TargetZoneID` at 0x88 (0x88 within `CTaskElement`).
+    #[inline]
+    pub fn TargetZoneID(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CTaskElement::TargetZoneID` at 0x88 (0x88 within `CTaskElement`).
+    #[inline]
+    pub fn set_TargetZoneID(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x88, value) }
+    }
+
+    /// `CTaskElement::TargetZoneID` at 0x88 (0x88 within `CTaskElement`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn TargetZoneID_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x88 + index * 0x1) }
+    }
+
+    /// `CTaskElement::TargetZoneID` at 0x88 (0x88 within `CTaskElement`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_TargetZoneID_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x88 + index * 0x1, value) }
+    }
+
+    /// `CTaskElement::RequiredCount` at 0xc8 (0xc8 within `CTaskElement`).
+    #[inline]
+    pub fn RequiredCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc8) }
+    }
+
+    /// `CTaskElement::RequiredCount` at 0xc8 (0xc8 within `CTaskElement`).
+    #[inline]
+    pub fn set_RequiredCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc8, value) }
+    }
+
+    /// `CTaskElement::bOptional` at 0xcc (0xcc within `CTaskElement`).
+    #[inline]
+    pub fn bOptional(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xcc) != 0 }
+    }
+
+    /// `CTaskElement::bOptional` at 0xcc (0xcc within `CTaskElement`).
+    #[inline]
+    pub fn set_bOptional(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xcc, u8::from(value)) }
+    }
+
+    /// `CTaskElement::ElementGroup` at 0xd0 (0xd0 within `CTaskElement`).
+    #[inline]
+    pub fn ElementGroup(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CTaskElement::ElementGroup` at 0xd0 (0xd0 within `CTaskElement`).
+    #[inline]
+    pub fn set_ElementGroup(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CTaskElement::DZSwitchID` at 0xd4 (0xd4 within `CTaskElement`).
+    #[inline]
+    pub fn DZSwitchID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CTaskElement::DZSwitchID` at 0xd4 (0xd4 within `CTaskElement`).
+    #[inline]
+    pub fn set_DZSwitchID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CTaskElement::ElementDescriptionOverride` at 0xd8 (0xd8 within `CTaskElement`).
+    #[inline]
+    pub fn ElementDescriptionOverride(&self) -> [c_char; 128] {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CTaskElement::ElementDescriptionOverride` at 0xd8 (0xd8 within `CTaskElement`).
+    #[inline]
+    pub fn set_ElementDescriptionOverride(&self, value: [c_char; 128]) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CTaskElement::ElementDescriptionOverride` at 0xd8 (0xd8 within `CTaskElement`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn ElementDescriptionOverride_at(&self, index: usize) -> c_char {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xd8 + index * 0x1) }
+    }
+
+    /// `CTaskElement::ElementDescriptionOverride` at 0xd8 (0xd8 within `CTaskElement`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_ElementDescriptionOverride_at(&self, index: usize, value: c_char) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xd8 + index * 0x1, value) }
+    }
+
+    /// `CTaskElement::ItemNameList` at 0x158 (0x158 within `CTaskElement`).
+    #[inline]
+    pub fn ItemNameList(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x158) }
+    }
+
+    /// `CTaskElement::SkillIDList` at 0x15c (0x15c within `CTaskElement`).
+    #[inline]
+    pub fn SkillIDList(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CTaskElement::SpellIDList` at 0x160 (0x160 within `CTaskElement`).
+    #[inline]
+    pub fn SpellIDList(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x160) }
+    }
+}
+
+/// C++ class `CTaskEntry` (0x3bfc bytes).
+#[repr(C)]
+pub struct CTaskEntry {
+    _bytes: UnsafeCell<[u8; 0x3bfc]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTaskEntry {
+    /// `CTaskEntry::TaskID` at 0x0 (0x0 within `CTaskEntry`).
+    #[inline]
+    pub fn TaskID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CTaskEntry::TaskID` at 0x0 (0x0 within `CTaskEntry`).
+    #[inline]
+    pub fn set_TaskID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CTaskEntry::RewardAdjustment` at 0x4 (0x4 within `CTaskEntry`).
+    #[inline]
+    pub fn RewardAdjustment(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CTaskEntry::RewardAdjustment` at 0x4 (0x4 within `CTaskEntry`).
+    #[inline]
+    pub fn set_RewardAdjustment(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CTaskEntry::TaskTitle` at 0x8 (0x8 within `CTaskEntry`).
+    #[inline]
+    pub fn TaskTitle(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CTaskEntry::TaskTitle` at 0x8 (0x8 within `CTaskEntry`).
+    #[inline]
+    pub fn set_TaskTitle(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CTaskEntry::TaskTitle` at 0x8 (0x8 within `CTaskEntry`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn TaskTitle_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x8 + index * 0x1) }
+    }
+
+    /// `CTaskEntry::TaskTitle` at 0x8 (0x8 within `CTaskEntry`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_TaskTitle_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x8 + index * 0x1, value) }
+    }
+
+    /// `CTaskEntry::DurationSeconds` at 0x48 (0x48 within `CTaskEntry`).
+    #[inline]
+    pub fn DurationSeconds(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `CTaskEntry::DurationSeconds` at 0x48 (0x48 within `CTaskEntry`).
+    #[inline]
+    pub fn set_DurationSeconds(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `CTaskEntry::DurationCode` at 0x4c (0x4c within `CTaskEntry`).
+    #[inline]
+    pub fn DurationCode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `CTaskEntry::DurationCode` at 0x4c (0x4c within `CTaskEntry`).
+    #[inline]
+    pub fn set_DurationCode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `CTaskEntry::StartText` at 0x50 (0x50 within `CTaskEntry`).
+    #[inline]
+    pub fn StartText(&self) -> [c_char; 4000] {
+        unsafe { read(self._bytes.get().cast(), 0x50) }
+    }
+
+    /// `CTaskEntry::StartText` at 0x50 (0x50 within `CTaskEntry`).
+    #[inline]
+    pub fn set_StartText(&self, value: [c_char; 4000]) {
+        unsafe { write(self._bytes.get().cast(), 0x50, value) }
+    }
+
+    /// `CTaskEntry::StartText` at 0x50 (0x50 within `CTaskEntry`).
+    /// One element; panics if `index >= 4000`.
+    #[inline]
+    pub fn StartText_at(&self, index: usize) -> c_char {
+        assert!(index < 4000, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x50 + index * 0x1) }
+    }
+
+    /// `CTaskEntry::StartText` at 0x50 (0x50 within `CTaskEntry`).
+    /// Sets one element; panics if `index >= 4000`.
+    #[inline]
+    pub fn set_StartText_at(&self, index: usize, value: c_char) {
+        assert!(index < 4000, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x50 + index * 0x1, value) }
+    }
+
+    /// `CTaskEntry::bShowReward` at 0xff0 (0xff0 within `CTaskEntry`).
+    #[inline]
+    pub fn bShowReward(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xff0) != 0 }
+    }
+
+    /// `CTaskEntry::bShowReward` at 0xff0 (0xff0 within `CTaskEntry`).
+    #[inline]
+    pub fn set_bShowReward(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xff0, u8::from(value)) }
+    }
+
+    /// `CTaskEntry::RewardCash` at 0xff4 (0xff4 within `CTaskEntry`).
+    #[inline]
+    pub fn RewardCash(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xff4) }
+    }
+
+    /// `CTaskEntry::RewardCash` at 0xff4 (0xff4 within `CTaskEntry`).
+    #[inline]
+    pub fn set_RewardCash(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xff4, value) }
+    }
+
+    /// `CTaskEntry::RewardExp` at 0xff8 (0xff8 within `CTaskEntry`).
+    #[inline]
+    pub fn RewardExp(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xff8) }
+    }
+
+    /// `CTaskEntry::RewardExp` at 0xff8 (0xff8 within `CTaskEntry`).
+    #[inline]
+    pub fn set_RewardExp(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xff8, value) }
+    }
+
+    /// `CTaskEntry::RewardPoints` at 0xffc (0xffc within `CTaskEntry`).
+    #[inline]
+    pub fn RewardPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xffc) }
+    }
+
+    /// `CTaskEntry::RewardPoints` at 0xffc (0xffc within `CTaskEntry`).
+    #[inline]
+    pub fn set_RewardPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xffc, value) }
+    }
+
+    /// `CTaskEntry::RewardFactionName` at 0x1000 (0x1000 within `CTaskEntry`).
+    #[inline]
+    pub fn RewardFactionName(&self) -> [c_char; 96] {
+        unsafe { read(self._bytes.get().cast(), 0x1000) }
+    }
+
+    /// `CTaskEntry::RewardFactionName` at 0x1000 (0x1000 within `CTaskEntry`).
+    #[inline]
+    pub fn set_RewardFactionName(&self, value: [c_char; 96]) {
+        unsafe { write(self._bytes.get().cast(), 0x1000, value) }
+    }
+
+    /// `CTaskEntry::RewardFactionName` at 0x1000 (0x1000 within `CTaskEntry`).
+    /// One element; panics if `index >= 96`.
+    #[inline]
+    pub fn RewardFactionName_at(&self, index: usize) -> c_char {
+        assert!(index < 96, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1000 + index * 0x1) }
+    }
+
+    /// `CTaskEntry::RewardFactionName` at 0x1000 (0x1000 within `CTaskEntry`).
+    /// Sets one element; panics if `index >= 96`.
+    #[inline]
+    pub fn set_RewardFactionName_at(&self, index: usize, value: c_char) {
+        assert!(index < 96, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1000 + index * 0x1, value) }
+    }
+
+    /// `CTaskEntry::RewardFactionAmount` at 0x1060 (0x1060 within `CTaskEntry`).
+    #[inline]
+    pub fn RewardFactionAmount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1060) }
+    }
+
+    /// `CTaskEntry::RewardFactionAmount` at 0x1060 (0x1060 within `CTaskEntry`).
+    #[inline]
+    pub fn set_RewardFactionAmount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1060, value) }
+    }
+
+    /// `CTaskEntry::RewardItemTag` at 0x1064 (0x1064 within `CTaskEntry`).
+    #[inline]
+    pub fn RewardItemTag(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1064) }
+    }
+
+    /// `CTaskEntry::Elements` at 0x1068 (0x1068 within `CTaskEntry`).
+    /// Indexes the 20 elements in memory order.
+    #[inline]
+    pub fn Elements(&self, index: usize) -> &CTaskElement {
+        assert!(index < 20, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x1068 + index * 0x164) }
+    }
+
+    /// `CTaskEntry::TaskSystem` at 0x2c38 (0x2c38 within `CTaskEntry`).
+    #[inline]
+    pub fn TaskSystem(&self) -> TaskSystemType {
+        unsafe { read(self._bytes.get().cast(), 0x2c38) }
+    }
+
+    /// `CTaskEntry::TaskSystem` at 0x2c38 (0x2c38 within `CTaskEntry`).
+    #[inline]
+    pub fn set_TaskSystem(&self, value: TaskSystemType) {
+        unsafe { write(self._bytes.get().cast(), 0x2c38, value) }
+    }
+
+    /// `CTaskEntry::PointType` at 0x2c3c (0x2c3c within `CTaskEntry`).
+    #[inline]
+    pub fn PointType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c3c) }
+    }
+
+    /// `CTaskEntry::PointType` at 0x2c3c (0x2c3c within `CTaskEntry`).
+    #[inline]
+    pub fn set_PointType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c3c, value) }
+    }
+
+    /// `CTaskEntry::StartTextCompiled` at 0x2c40 (0x2c40 within `CTaskEntry`).
+    #[inline]
+    pub fn StartTextCompiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c40) != 0 }
+    }
+
+    /// `CTaskEntry::StartTextCompiled` at 0x2c40 (0x2c40 within `CTaskEntry`).
+    #[inline]
+    pub fn set_StartTextCompiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c40, u8::from(value)) }
+    }
+
+    /// `CTaskEntry::RawStartText` at 0x2c41 (0x2c41 within `CTaskEntry`).
+    #[inline]
+    pub fn RawStartText(&self) -> [c_char; 4000] {
+        unsafe { read(self._bytes.get().cast(), 0x2c41) }
+    }
+
+    /// `CTaskEntry::RawStartText` at 0x2c41 (0x2c41 within `CTaskEntry`).
+    #[inline]
+    pub fn set_RawStartText(&self, value: [c_char; 4000]) {
+        unsafe { write(self._bytes.get().cast(), 0x2c41, value) }
+    }
+
+    /// `CTaskEntry::RawStartText` at 0x2c41 (0x2c41 within `CTaskEntry`).
+    /// One element; panics if `index >= 4000`.
+    #[inline]
+    pub fn RawStartText_at(&self, index: usize) -> c_char {
+        assert!(index < 4000, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2c41 + index * 0x1) }
+    }
+
+    /// `CTaskEntry::RawStartText` at 0x2c41 (0x2c41 within `CTaskEntry`).
+    /// Sets one element; panics if `index >= 4000`.
+    #[inline]
+    pub fn set_RawStartText_at(&self, index: usize, value: c_char) {
+        assert!(index < 4000, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2c41 + index * 0x1, value) }
+    }
+
+    /// `CTaskEntry::bElementsReceived` at 0x3be1 (0x3be1 within `CTaskEntry`).
+    #[inline]
+    pub fn bElementsReceived(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3be1) != 0 }
+    }
+
+    /// `CTaskEntry::bElementsReceived` at 0x3be1 (0x3be1 within `CTaskEntry`).
+    #[inline]
+    pub fn set_bElementsReceived(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3be1, u8::from(value)) }
+    }
+
+    /// `CTaskEntry::TimeCompleted` at 0x3be4 (0x3be4 within `CTaskEntry`).
+    #[inline]
+    pub fn TimeCompleted(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3be4) }
+    }
+
+    /// `CTaskEntry::TimeCompleted` at 0x3be4 (0x3be4 within `CTaskEntry`).
+    #[inline]
+    pub fn set_TimeCompleted(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3be4, value) }
+    }
+
+    /// `CTaskEntry::MonsterTemplates` at 0x3be8 (0x3be8 within `CTaskEntry`).
+    #[inline]
+    pub fn MonsterTemplates(&self) -> &ArrayClass_MonsterMissionTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x3be8) }
+    }
+
+    /// `CTaskEntry::bTemplateSelectionLocked` at 0x3bf8 (0x3bf8 within `CTaskEntry`).
+    #[inline]
+    pub fn bTemplateSelectionLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3bf8) != 0 }
+    }
+
+    /// `CTaskEntry::bTemplateSelectionLocked` at 0x3bf8 (0x3bf8 within `CTaskEntry`).
+    #[inline]
+    pub fn set_bTemplateSelectionLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3bf8, u8::from(value)) }
+    }
+
+    /// `CTaskEntry::bHasRewardSet` at 0x3bf9 (0x3bf9 within `CTaskEntry`).
+    #[inline]
+    pub fn bHasRewardSet(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3bf9) != 0 }
+    }
+
+    /// `CTaskEntry::bHasRewardSet` at 0x3bf9 (0x3bf9 within `CTaskEntry`).
+    #[inline]
+    pub fn set_bHasRewardSet(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3bf9, u8::from(value)) }
+    }
+}
+
+/// C++ class `CTaskManager` (0x19c698 bytes).
+#[repr(C)]
+pub struct CTaskManager {
+    _bytes: UnsafeCell<[u8; 0x19c698]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTaskManager {
+    /// `PopDialogHandler::__vfptr` at 0x0 (0x0 within `PopDialogHandler`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `PopDialogHandler::__vfptr` at 0x0 (0x0 within `PopDialogHandler`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CTaskManager::TaskEntries` at 0x4 (0x4 within `CTaskManager`).
+    /// Indexes the 1 elements in memory order.
+    #[inline]
+    pub fn TaskEntries(&self, index: usize) -> &CTaskEntry {
+        assert!(index < 1, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x4 + index * 0x3bfc) }
+    }
+
+    /// `CTaskManager::QuestEntries` at 0x3c00 (0x3c00 within `CTaskManager`).
+    /// Indexes the 29 elements in memory order.
+    #[inline]
+    pub fn QuestEntries(&self, index: usize) -> &CTaskEntry {
+        assert!(index < 29, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x3c00 + index * 0x3bfc) }
+    }
+
+    /// `CTaskManager::SharedTaskEntries` at 0x7078c (0x7078c within `CTaskManager`).
+    /// Indexes the 1 elements in memory order.
+    #[inline]
+    pub fn SharedTaskEntries(&self, index: usize) -> &CTaskEntry {
+        assert!(index < 1, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x7078c + index * 0x3bfc) }
+    }
+
+    /// `CTaskManager::QuestHistoryEntries` at 0x74388 (0x74388 within `CTaskManager`).
+    /// Indexes the 50 elements in memory order.
+    #[inline]
+    pub fn QuestHistoryEntries(&self, index: usize) -> &CTaskEntry {
+        assert!(index < 50, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x74388 + index * 0x3bfc) }
+    }
+
+    /// `CTaskManager::UnknownQuestEntries` at 0x12fac0 (0x12fac0 within `CTaskManager`).
+    /// Indexes the 29 elements in memory order.
+    #[inline]
+    pub fn UnknownQuestEntries(&self, index: usize) -> &CTaskEntry {
+        assert!(index < 29, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x12fac0 + index * 0x3bfc) }
+    }
+
+    /// `CTaskManager::AddPlayerID` at 0x19c64c (0x19c64c within `CTaskManager`).
+    #[inline]
+    pub fn AddPlayerID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x19c64c) }
+    }
+
+    /// `CTaskManager::AddPlayerID` at 0x19c64c (0x19c64c within `CTaskManager`).
+    #[inline]
+    pub fn set_AddPlayerID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x19c64c, value) }
+    }
+
+    /// `CTaskManager::bAddPlayerIsSwap` at 0x19c650 (0x19c650 within `CTaskManager`).
+    #[inline]
+    pub fn bAddPlayerIsSwap(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c650) != 0 }
+    }
+
+    /// `CTaskManager::bAddPlayerIsSwap` at 0x19c650 (0x19c650 within `CTaskManager`).
+    #[inline]
+    pub fn set_bAddPlayerIsSwap(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c650, u8::from(value)) }
+    }
+
+    /// `CTaskManager::AddPlayerSwapeeName` at 0x19c651 (0x19c651 within `CTaskManager`).
+    #[inline]
+    pub fn AddPlayerSwapeeName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x19c651) }
+    }
+
+    /// `CTaskManager::AddPlayerSwapeeName` at 0x19c651 (0x19c651 within `CTaskManager`).
+    #[inline]
+    pub fn set_AddPlayerSwapeeName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x19c651, value) }
+    }
+
+    /// `CTaskManager::AddPlayerSwapeeName` at 0x19c651 (0x19c651 within `CTaskManager`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn AddPlayerSwapeeName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x19c651 + index * 0x1) }
+    }
+
+    /// `CTaskManager::AddPlayerSwapeeName` at 0x19c651 (0x19c651 within `CTaskManager`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_AddPlayerSwapeeName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x19c651 + index * 0x1, value) }
+    }
+
+    /// `CTaskManager::pFirstMember` at 0x19c694 (0x19c694 within `CTaskManager`).
+    #[inline]
+    pub fn pFirstMember(&self) -> *mut SharedTaskClientPlayerInfo {
+        unsafe { read(self._bytes.get().cast(), 0x19c694) }
+    }
+
+    /// `CTaskManager::pFirstMember` at 0x19c694 (0x19c694 within `CTaskManager`).
+    #[inline]
+    pub fn set_pFirstMember(&self, value: *mut SharedTaskClientPlayerInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x19c694, value) }
+    }
+}
+
 /// C++ class `CTradeWnd` (0x2fc bytes).
 #[repr(C)]
 pub struct CTradeWnd {
@@ -33352,6 +34965,51 @@ impl CursorClass {
     #[inline]
     pub fn set_bScreenShotMode(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+}
+
+/// C++ class `DynamicBitField<unsigned short,short>` (0x8 bytes).
+#[repr(C)]
+pub struct DynamicBitField_unsigned_short_short {
+    _bytes: UnsafeCell<[u8; 0x8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl DynamicBitField_unsigned_short_short {
+    /// `DynamicBitField<unsigned short,short>::m_numBits` at 0x0 (0x0 within `DynamicBitField<unsigned short,short>`).
+    #[inline]
+    pub fn m_numBits(&self) -> u16 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `DynamicBitField<unsigned short,short>::m_numBits` at 0x0 (0x0 within `DynamicBitField<unsigned short,short>`).
+    #[inline]
+    pub fn set_m_numBits(&self, value: u16) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `DynamicBitField<unsigned short,short>::m_element` at 0x2 (0x2 within `DynamicBitField<unsigned short,short>`).
+    #[inline]
+    pub fn m_element(&self) -> i16 {
+        unsafe { read(self._bytes.get().cast(), 0x2) }
+    }
+
+    /// `DynamicBitField<unsigned short,short>::m_element` at 0x2 (0x2 within `DynamicBitField<unsigned short,short>`).
+    #[inline]
+    pub fn set_m_element(&self, value: i16) {
+        unsafe { write(self._bytes.get().cast(), 0x2, value) }
+    }
+
+    /// `DynamicBitField<unsigned short,short>::m_elements` at 0x4 (0x4 within `DynamicBitField<unsigned short,short>`).
+    #[inline]
+    pub fn m_elements(&self) -> *mut i16 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `DynamicBitField<unsigned short,short>::m_elements` at 0x4 (0x4 within `DynamicBitField<unsigned short,short>`).
+    #[inline]
+    pub fn set_m_elements(&self, value: *mut i16) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
     }
 }
 
@@ -61249,6 +62907,142 @@ impl STreeData {
     }
 }
 
+/// C++ class `SharedTaskPlayerInfo` (0x4c bytes).
+#[repr(C)]
+pub struct SharedTaskPlayerInfo {
+    _bytes: UnsafeCell<[u8; 0x4c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SharedTaskPlayerInfo {
+    /// `SharedTaskPlayerInfo::Name` at 0x0 (0x0 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SharedTaskPlayerInfo::Name` at 0x0 (0x0 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `SharedTaskPlayerInfo::Name` at 0x0 (0x0 within `SharedTaskPlayerInfo`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `SharedTaskPlayerInfo::Name` at 0x0 (0x0 within `SharedTaskPlayerInfo`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `SharedTaskPlayerInfo::ShroudID` at 0x40 (0x40 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn ShroudID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `SharedTaskPlayerInfo::ShroudID` at 0x40 (0x40 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn set_ShroudID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `SharedTaskPlayerInfo::Role` at 0x44 (0x44 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn Role(&self) -> eSharedTaskPlayerRole {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `SharedTaskPlayerInfo::Role` at 0x44 (0x44 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn set_Role(&self, value: eSharedTaskPlayerRole) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `SharedTaskPlayerInfo::pNext` at 0x48 (0x48 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn pNext(&self) -> *mut SharedTaskPlayerInfo {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `SharedTaskPlayerInfo::pNext` at 0x48 (0x48 within `SharedTaskPlayerInfo`).
+    #[inline]
+    pub fn set_pNext(&self, value: *mut SharedTaskPlayerInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+}
+
+/// C++ class `SingleAchievementAndComponentsInfo` (0x24 bytes).
+#[repr(C)]
+pub struct SingleAchievementAndComponentsInfo {
+    _bytes: UnsafeCell<[u8; 0x24]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl SingleAchievementAndComponentsInfo {
+    /// `SingleAchievementAndComponentsInfo::__vfptr` at 0x0 (0x0 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::__vfptr` at 0x0 (0x0 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::achievementState` at 0x4 (0x4 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn achievementState(&self) -> AchievementState {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::achievementState` at 0x4 (0x4 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn set_achievementState(&self, value: AchievementState) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::completionComponentStatusBitField` at 0x8 (0x8 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn completionComponentStatusBitField(&self) -> &DynamicBitField_unsigned_short_short {
+        unsafe { at(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::indirectComponentStatusBitField` at 0x10 (0x10 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn indirectComponentStatusBitField(&self) -> &DynamicBitField_unsigned_short_short {
+        unsafe { at(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::unlockedComponentStatusBitField` at 0x18 (0x18 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn unlockedComponentStatusBitField(&self) -> &DynamicBitField_unsigned_short_short {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::completionTimestamp` at 0x20 (0x20 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn completionTimestamp(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `SingleAchievementAndComponentsInfo::completionTimestamp` at 0x20 (0x20 within `SingleAchievementAndComponentsInfo`).
+    #[inline]
+    pub fn set_completionTimestamp(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+}
+
 /// C++ class `SkillManager` (0x2c68ac bytes).
 #[repr(C)]
 pub struct SkillManager {
@@ -63638,6 +65432,35 @@ impl zoneHeader {
     }
 }
 
+/// C++ enum `AchievementComponentType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct AchievementComponentType(pub i32);
+
+impl AchievementComponentType {
+    pub const AchievementComponentUnlock: Self = Self(0);
+    pub const AchievementComponentCompletion: Self = Self(1);
+    pub const AchievementComponentIndirect: Self = Self(2);
+    pub const AchievementComponentDisplay: Self = Self(3);
+    pub const AchievementComponentNone: Self = Self(4);
+    pub const AchievementComponentCount: Self = Self(4);
+}
+
+/// C++ enum `AchievementState`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct AchievementState(pub i32);
+
+impl AchievementState {
+    pub const AchievementComplete: Self = Self(0);
+    pub const AchievementOpen: Self = Self(1);
+    pub const AchievementLocked: Self = Self(2);
+    pub const AchievementNotVisible: Self = Self(3);
+    pub const AchievementNone: Self = Self(4);
+}
+
 /// C++ enum `EActorType`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -63971,6 +65794,56 @@ impl ReqType {
     pub const RT_Race: Self = Self(6);
 }
 
+/// C++ enum `TaskGroupType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct TaskGroupType(pub i32);
+
+impl TaskGroupType {
+    pub const cTaskGroupTypeSolo: Self = Self(0);
+    pub const cTaskGroupTypeGroup: Self = Self(1);
+    pub const cTaskGroupTypeRaid: Self = Self(2);
+}
+
+/// C++ enum `TaskSystemType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct TaskSystemType(pub i32);
+
+impl TaskSystemType {
+    pub const cTaskSystemTypeTask: Self = Self(0);
+    pub const cTaskSystemTypeSharedQuest: Self = Self(1);
+    pub const cTaskSystemTypeSoloQuest: Self = Self(2);
+}
+
+/// C++ enum `TaskType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct TaskType(pub i32);
+
+impl TaskType {
+    pub const cTaskTypeUnknown: Self = Self(-1);
+    pub const cTaskTypeNone: Self = Self(0);
+    pub const cTaskTypeDeliver: Self = Self(1);
+    pub const cTaskTypeKill: Self = Self(2);
+    pub const cTaskTypeLoot: Self = Self(3);
+    pub const cTaskTypeHail: Self = Self(4);
+    pub const cTaskTypeExplore: Self = Self(5);
+    pub const cTaskTypeTradeskill: Self = Self(6);
+    pub const cTaskTypeFishing: Self = Self(7);
+    pub const cTaskTypeForaging: Self = Self(8);
+    pub const cTaskTypeCast: Self = Self(9);
+    pub const cTaskTypeUseSkill: Self = Self(10);
+    pub const cTaskTypeDZSwitch: Self = Self(11);
+    pub const cTaskTypeDestroyObject: Self = Self(12);
+    pub const cTaskTypeCollect: Self = Self(13);
+    pub const cTaskTypeDialogue: Self = Self(14);
+    pub const cTaskTypeCount: Self = Self(15);
+}
+
 /// C++ enum `ZONE_REQ_STATUS`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -64112,6 +65985,17 @@ impl eRaidState {
     pub const RaidStateNotInRaid: Self = Self(1);
     pub const RaidStateInvited: Self = Self(2);
     pub const RaidStateInRaid: Self = Self(4);
+}
+
+/// C++ enum `eSharedTaskPlayerRole`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct eSharedTaskPlayerRole(pub i32);
+
+impl eSharedTaskPlayerRole {
+    pub const eSharedTaskRoleNone: Self = Self(0);
+    pub const eSharedTaskRoleLeader: Self = Self(1);
 }
 
 /// C++ enum `eSkillCombatType`. A newtype rather than a Rust enum, since game memory may hold
@@ -64696,6 +66580,13 @@ pub struct STextLine {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct SharedTaskClientPlayerInfo {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct SoeUtil_Internal_SharedData {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -64719,16 +66610,25 @@ pub struct TaskTimerData {
 pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ARGBCOLOR", rust_name: "ARGBCOLOR", size: 0x4 },
     RecordInfo { name: "AbilityInfo", rust_name: "AbilityInfo", size: 0xc },
+    RecordInfo { name: "Achievement", rust_name: "Achievement", size: 0x64 },
+    RecordInfo { name: "AchievementCategory", rust_name: "AchievementCategory", size: 0x5c },
+    RecordInfo { name: "AchievementComponent", rust_name: "AchievementComponent", size: 0x1c },
+    RecordInfo { name: "AchievementInfo", rust_name: "AchievementInfo", size: 0x8 },
+    RecordInfo { name: "AchievementManager", rust_name: "AchievementManager", size: 0x80 },
     RecordInfo { name: "ActorClient", rust_name: "ActorClient", size: 0x1b4 },
     RecordInfo { name: "AggroMeterListEntry", rust_name: "AggroMeterListEntry", size: 0x8 },
     RecordInfo { name: "AggroMeterManagerClient", rust_name: "AggroMeterManagerClient", size: 0xe4 },
     RecordInfo { name: "AltAdvManager", rust_name: "AltAdvManager", size: 0x22c },
     RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
+    RecordInfo { name: "ArrayClass2<Achievement>", rust_name: "ArrayClass2_Achievement", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<AchievementCategory>", rust_name: "ArrayClass2_AchievementCategory", size: 0x1c },
     RecordInfo { name: "ArrayClass2<CXWnd *>", rust_name: "ArrayClass2_CXWnd", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SHistoryElement>", rust_name: "ArrayClass2_SHistoryElement", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SLinkInfo>", rust_name: "ArrayClass2_SLinkInfo", size: 0x1c },
     RecordInfo { name: "ArrayClass2<int>", rust_name: "ArrayClass2_int", size: 0x1c },
     RecordInfo { name: "ArrayClass2<unsigned int>", rust_name: "ArrayClass2_unsigned_int", size: 0x1c },
+    RecordInfo { name: "ArrayClass<AchievementComponent>", rust_name: "ArrayClass_AchievementComponent", size: 0x10 },
+    RecordInfo { name: "ArrayClass<AchievementInfo>", rust_name: "ArrayClass_AchievementInfo", size: 0x10 },
     RecordInfo { name: "ArrayClass<CPageWnd *>", rust_name: "ArrayClass_CPageWnd", size: 0x10 },
     RecordInfo { name: "ArrayClass<CRadioGroup *>", rust_name: "ArrayClass_CRadioGroup", size: 0x10 },
     RecordInfo { name: "ArrayClass<CTextureFont *>", rust_name: "ArrayClass_CTextureFont", size: 0x10 },
@@ -64747,6 +66647,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass<SListWndColumn>", rust_name: "ArrayClass_SListWndColumn", size: 0x10 },
     RecordInfo { name: "ArrayClass<SListWndLine>", rust_name: "ArrayClass_SListWndLine", size: 0x10 },
     RecordInfo { name: "ArrayClass<STable>", rust_name: "ArrayClass_STable", size: 0x10 },
+    RecordInfo { name: "ArrayClass<SingleAchievementAndComponentsInfo>", rust_name: "ArrayClass_SingleAchievementAndComponentsInfo", size: 0x10 },
     RecordInfo { name: "ArrayClass<bool>", rust_name: "ArrayClass_bool", size: 0x10 },
     RecordInfo { name: "ArrayClass<int>", rust_name: "ArrayClass_int", size: 0x10 },
     RecordInfo { name: "ArrayClass<unsigned int>", rust_name: "ArrayClass_unsigned_int", size: 0x10 },
@@ -64785,6 +66686,9 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CStrRep", rust_name: "CStrRep", size: 0x18 },
     RecordInfo { name: "CTabWnd", rust_name: "CTabWnd", size: 0x214 },
     RecordInfo { name: "CTargetWnd", rust_name: "CTargetWnd", size: 0x8b4 },
+    RecordInfo { name: "CTaskElement", rust_name: "CTaskElement", size: 0x164 },
+    RecordInfo { name: "CTaskEntry", rust_name: "CTaskEntry", size: 0x3bfc },
+    RecordInfo { name: "CTaskManager", rust_name: "CTaskManager", size: 0x19c698 },
     RecordInfo { name: "CTradeWnd", rust_name: "CTradeWnd", size: 0x2fc },
     RecordInfo { name: "CUITextureInfo", rust_name: "CUITextureInfo", size: 0x18 },
     RecordInfo { name: "CVector2", rust_name: "CVector2", size: 0x8 },
@@ -64802,6 +66706,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ClientSpellManager", rust_name: "ClientSpellManager", size: 0xafeec },
     RecordInfo { name: "ControllerFactory", rust_name: "ControllerFactory", size: 0x14 },
     RecordInfo { name: "CursorClass", rust_name: "CursorClass", size: 0x3c },
+    RecordInfo { name: "DynamicBitField<unsigned short,short>", rust_name: "DynamicBitField_unsigned_short_short", size: 0x8 },
     RecordInfo { name: "EQCameraOptions", rust_name: "EQCameraOptions", size: 0x1c },
     RecordInfo { name: "EQGameOptions", rust_name: "EQGameOptions", size: 0x198 },
     RecordInfo { name: "EQGameOptions2", rust_name: "EQGameOptions2", size: 0x18 },
@@ -64890,6 +66795,8 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "SListWndCell", rust_name: "SListWndCell", size: 0x14 },
     RecordInfo { name: "SListWndLine", rust_name: "SListWndLine", size: 0x128 },
     RecordInfo { name: "STreeData", rust_name: "STreeData", size: 0x8 },
+    RecordInfo { name: "SharedTaskPlayerInfo", rust_name: "SharedTaskPlayerInfo", size: 0x4c },
+    RecordInfo { name: "SingleAchievementAndComponentsInfo", rust_name: "SingleAchievementAndComponentsInfo", size: 0x24 },
     RecordInfo { name: "SkillManager", rust_name: "SkillManager", size: 0x2c68ac },
     RecordInfo { name: "SlotData", rust_name: "SlotData", size: 0x8 },
     RecordInfo { name: "SoeUtil::SharedPtr<ItemDefinition>", rust_name: "SoeUtil_SharedPtr_ItemDefinition", size: 0x8 },
@@ -64925,6 +66832,58 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "AbilityInfo", field: "AAIndex", accessor: "AAIndex", declared_in: "AbilityInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "AbilityInfo", field: "PointsSpent", accessor: "PointsSpent", declared_in: "AbilityInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "AbilityInfo", field: "ChargeSpent", accessor: "ChargeSpent", declared_in: "AbilityInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "componentsByType", accessor: "componentsByType", declared_in: "Achievement", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
+    FieldInfo { record: "Achievement", field: "id", accessor: "id", declared_in: "Achievement", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "name", accessor: "name", declared_in: "Achievement", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "description", accessor: "description", declared_in: "Achievement", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "iconId", accessor: "iconId", declared_in: "Achievement", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "persistent", accessor: "persistent", declared_in: "Achievement", offset: 0x50, decl_offset: 0x50, size: 0x1, bits: None },
+    FieldInfo { record: "Achievement", field: "version", accessor: "version", declared_in: "Achievement", offset: 0x54, decl_offset: 0x54, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "points", accessor: "points", declared_in: "Achievement", offset: 0x58, decl_offset: 0x58, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "rewardSet", accessor: "rewardSet", declared_in: "Achievement", offset: 0x5c, decl_offset: 0x5c, size: 0x4, bits: None },
+    FieldInfo { record: "Achievement", field: "unknown0x60", accessor: "unknown0x60", declared_in: "Achievement", offset: 0x60, decl_offset: 0x60, size: 0x1, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "__vfptr", accessor: "__vfptr", declared_in: "AchievementCategory", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "achievements", accessor: "achievements", declared_in: "AchievementCategory", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "childCategories", accessor: "childCategories", declared_in: "AchievementCategory", offset: 0x14, decl_offset: 0x14, size: 0x10, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "id", accessor: "id", declared_in: "AchievementCategory", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "parentId", accessor: "parentId", declared_in: "AchievementCategory", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "name", accessor: "name", declared_in: "AchievementCategory", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "description", accessor: "description", declared_in: "AchievementCategory", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "bitmapId", accessor: "bitmapId", declared_in: "AchievementCategory", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "displaySequence", accessor: "displaySequence", declared_in: "AchievementCategory", offset: 0x38, decl_offset: 0x38, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "completedAchievementScore", accessor: "completedAchievementScore", declared_in: "AchievementCategory", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "comparisonCompletedAchievementScore", accessor: "comparisonCompletedAchievementScore", declared_in: "AchievementCategory", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "completedAchievementCount", accessor: "completedAchievementCount", declared_in: "AchievementCategory", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "openAchievementCount", accessor: "openAchievementCount", declared_in: "AchievementCategory", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "lockedAchievementCount", accessor: "lockedAchievementCount", declared_in: "AchievementCategory", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "comparisonCompletedAchievementCount", accessor: "comparisonCompletedAchievementCount", declared_in: "AchievementCategory", offset: 0x50, decl_offset: 0x50, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "comparisonOpenAchievementCount", accessor: "comparisonOpenAchievementCount", declared_in: "AchievementCategory", offset: 0x54, decl_offset: 0x54, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementCategory", field: "comparisonLockedAchievementCount", accessor: "comparisonLockedAchievementCount", declared_in: "AchievementCategory", offset: 0x58, decl_offset: 0x58, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "__vfptr", accessor: "__vfptr", declared_in: "AchievementComponent", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "id", accessor: "id", declared_in: "AchievementComponent", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "type", accessor: "type", declared_in: "AchievementComponent", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "sequenceNum", accessor: "sequenceNum", declared_in: "AchievementComponent", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "requiredCount", accessor: "requiredCount", declared_in: "AchievementComponent", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "description", accessor: "description", declared_in: "AchievementComponent", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementComponent", field: "count", accessor: "count", declared_in: "AchievementComponent", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementInfo", field: "achievementId", accessor: "achievementId", declared_in: "AchievementInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementInfo", field: "description", accessor: "description", declared_in: "AchievementInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "__vfptr", accessor: "__vfptr", declared_in: "AchievementManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "categories", accessor: "categories", declared_in: "AchievementManager", offset: 0x4, decl_offset: 0x4, size: 0x1c, bits: None },
+    FieldInfo { record: "AchievementManager", field: "achievements", accessor: "achievements", declared_in: "AchievementManager", offset: 0x20, decl_offset: 0x20, size: 0x1c, bits: None },
+    FieldInfo { record: "AchievementManager", field: "achievementClientInfoArray", accessor: "achievementClientInfoArray", declared_in: "AchievementManager", offset: 0x3c, decl_offset: 0x3c, size: 0x10, bits: None },
+    FieldInfo { record: "AchievementManager", field: "achievementsClientComparisonInfoArray", accessor: "achievementsClientComparisonInfoArray", declared_in: "AchievementManager", offset: 0x4c, decl_offset: 0x4c, size: 0x10, bits: None },
+    FieldInfo { record: "AchievementManager", field: "achievementClientReadOnlyDataSet", accessor: "achievementClientReadOnlyDataSet", declared_in: "AchievementManager", offset: 0x5c, decl_offset: 0x5c, size: 0x1, bits: None },
+    FieldInfo { record: "AchievementManager", field: "achievementClientStatesSet", accessor: "achievementClientStatesSet", declared_in: "AchievementManager", offset: 0x5d, decl_offset: 0x5d, size: 0x1, bits: None },
+    FieldInfo { record: "AchievementManager", field: "comparisonAchievementStatesSet", accessor: "comparisonAchievementStatesSet", declared_in: "AchievementManager", offset: 0x5e, decl_offset: 0x5e, size: 0x1, bits: None },
+    FieldInfo { record: "AchievementManager", field: "completedAchievementScore", accessor: "completedAchievementScore", declared_in: "AchievementManager", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "completedAchievementCount", accessor: "completedAchievementCount", declared_in: "AchievementManager", offset: 0x64, decl_offset: 0x64, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "lockedAchievemmentCount", accessor: "lockedAchievemmentCount", declared_in: "AchievementManager", offset: 0x68, decl_offset: 0x68, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "openAchievementCount", accessor: "openAchievementCount", declared_in: "AchievementManager", offset: 0x6c, decl_offset: 0x6c, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "comparisonCompletedAchievementScore", accessor: "comparisonCompletedAchievementScore", declared_in: "AchievementManager", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "comparisonCompletedAchievementCount", accessor: "comparisonCompletedAchievementCount", declared_in: "AchievementManager", offset: 0x74, decl_offset: 0x74, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "comparisonLockedAchievementCount", accessor: "comparisonLockedAchievementCount", declared_in: "AchievementManager", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "AchievementManager", field: "comparisonOpenAchievementCount", accessor: "comparisonOpenAchievementCount", declared_in: "AchievementManager", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
     FieldInfo { record: "ActorClient", field: "__vfptr", accessor: "__vfptr", declared_in: "ActorBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ActorClient", field: "TextureType", accessor: "TextureType", declared_in: "ActorBase", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
     FieldInfo { record: "ActorClient", field: "Material", accessor: "Material", declared_in: "ActorBase", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
@@ -64977,6 +66936,20 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArmorProperties", field: "material", accessor: "material", declared_in: "ArmorProperties", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArmorProperties", field: "newArmorID", accessor: "newArmorID", declared_in: "ArmorProperties", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "ArmorProperties", field: "newArmorType", accessor: "newArmorType", declared_in: "ArmorProperties", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<Achievement>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<Achievement>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<Achievement>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<Achievement>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<Achievement>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<Achievement>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<Achievement>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<AchievementCategory>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -65012,6 +66985,14 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<unsigned int>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<unsigned int>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<unsigned int>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<unsigned int>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementComponent>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementComponent>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<AchievementComponent>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementComponent>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<AchievementComponent>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementComponent>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<AchievementComponent>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<AchievementInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<AchievementInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<AchievementInfo>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CPageWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CPageWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -65084,6 +67065,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<STable>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<STable>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<STable>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<STable>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<STable>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<STable>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<SingleAchievementAndComponentsInfo>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SingleAchievementAndComponentsInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<SingleAchievementAndComponentsInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SingleAchievementAndComponentsInfo>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<SingleAchievementAndComponentsInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<SingleAchievementAndComponentsInfo>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<SingleAchievementAndComponentsInfo>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<bool>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<bool>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<bool>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<bool>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<bool>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -67414,6 +69399,52 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CTargetWnd", field: "bRemovedBuffBlockMenuItem", accessor: "bRemovedBuffBlockMenuItem", declared_in: "CTargetWnd", offset: 0x864, decl_offset: 0x864, size: 0x1, bits: None },
     FieldInfo { record: "CTargetWnd", field: "Type", accessor: "Type", declared_in: "CTargetWnd", offset: 0x868, decl_offset: 0x868, size: 0x4, bits: None },
     FieldInfo { record: "CTargetWnd", field: "Unknown0x884", accessor: "Unknown0x884", declared_in: "CTargetWnd", offset: 0x86c, decl_offset: 0x86c, size: 0x48, bits: None },
+    FieldInfo { record: "CTaskElement", field: "Type", accessor: "Type", declared_in: "CTaskElement", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "GroupType", accessor: "GroupType", declared_in: "CTaskElement", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "TargetName", accessor: "TargetName", declared_in: "CTaskElement", offset: 0x8, decl_offset: 0x8, size: 0x40, bits: None },
+    FieldInfo { record: "CTaskElement", field: "ZoneID", accessor: "ZoneID", declared_in: "CTaskElement", offset: 0x48, decl_offset: 0x48, size: 0x40, bits: None },
+    FieldInfo { record: "CTaskElement", field: "TargetZoneID", accessor: "TargetZoneID", declared_in: "CTaskElement", offset: 0x88, decl_offset: 0x88, size: 0x40, bits: None },
+    FieldInfo { record: "CTaskElement", field: "RequiredCount", accessor: "RequiredCount", declared_in: "CTaskElement", offset: 0xc8, decl_offset: 0xc8, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "bOptional", accessor: "bOptional", declared_in: "CTaskElement", offset: 0xcc, decl_offset: 0xcc, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskElement", field: "ElementGroup", accessor: "ElementGroup", declared_in: "CTaskElement", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "DZSwitchID", accessor: "DZSwitchID", declared_in: "CTaskElement", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "ElementDescriptionOverride", accessor: "ElementDescriptionOverride", declared_in: "CTaskElement", offset: 0xd8, decl_offset: 0xd8, size: 0x80, bits: None },
+    FieldInfo { record: "CTaskElement", field: "ItemNameList", accessor: "ItemNameList", declared_in: "CTaskElement", offset: 0x158, decl_offset: 0x158, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "SkillIDList", accessor: "SkillIDList", declared_in: "CTaskElement", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskElement", field: "SpellIDList", accessor: "SpellIDList", declared_in: "CTaskElement", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "TaskID", accessor: "TaskID", declared_in: "CTaskEntry", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardAdjustment", accessor: "RewardAdjustment", declared_in: "CTaskEntry", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "TaskTitle", accessor: "TaskTitle", declared_in: "CTaskEntry", offset: 0x8, decl_offset: 0x8, size: 0x40, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "DurationSeconds", accessor: "DurationSeconds", declared_in: "CTaskEntry", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "DurationCode", accessor: "DurationCode", declared_in: "CTaskEntry", offset: 0x4c, decl_offset: 0x4c, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "StartText", accessor: "StartText", declared_in: "CTaskEntry", offset: 0x50, decl_offset: 0x50, size: 0xfa0, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "bShowReward", accessor: "bShowReward", declared_in: "CTaskEntry", offset: 0xff0, decl_offset: 0xff0, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardCash", accessor: "RewardCash", declared_in: "CTaskEntry", offset: 0xff4, decl_offset: 0xff4, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardExp", accessor: "RewardExp", declared_in: "CTaskEntry", offset: 0xff8, decl_offset: 0xff8, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardPoints", accessor: "RewardPoints", declared_in: "CTaskEntry", offset: 0xffc, decl_offset: 0xffc, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardFactionName", accessor: "RewardFactionName", declared_in: "CTaskEntry", offset: 0x1000, decl_offset: 0x1000, size: 0x60, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardFactionAmount", accessor: "RewardFactionAmount", declared_in: "CTaskEntry", offset: 0x1060, decl_offset: 0x1060, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RewardItemTag", accessor: "RewardItemTag", declared_in: "CTaskEntry", offset: 0x1064, decl_offset: 0x1064, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "Elements", accessor: "Elements", declared_in: "CTaskEntry", offset: 0x1068, decl_offset: 0x1068, size: 0x1bd0, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "TaskSystem", accessor: "TaskSystem", declared_in: "CTaskEntry", offset: 0x2c38, decl_offset: 0x2c38, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "PointType", accessor: "PointType", declared_in: "CTaskEntry", offset: 0x2c3c, decl_offset: 0x2c3c, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "StartTextCompiled", accessor: "StartTextCompiled", declared_in: "CTaskEntry", offset: 0x2c40, decl_offset: 0x2c40, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "RawStartText", accessor: "RawStartText", declared_in: "CTaskEntry", offset: 0x2c41, decl_offset: 0x2c41, size: 0xfa0, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "bElementsReceived", accessor: "bElementsReceived", declared_in: "CTaskEntry", offset: 0x3be1, decl_offset: 0x3be1, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "TimeCompleted", accessor: "TimeCompleted", declared_in: "CTaskEntry", offset: 0x3be4, decl_offset: 0x3be4, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "MonsterTemplates", accessor: "MonsterTemplates", declared_in: "CTaskEntry", offset: 0x3be8, decl_offset: 0x3be8, size: 0x10, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "bTemplateSelectionLocked", accessor: "bTemplateSelectionLocked", declared_in: "CTaskEntry", offset: 0x3bf8, decl_offset: 0x3bf8, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskEntry", field: "bHasRewardSet", accessor: "bHasRewardSet", declared_in: "CTaskEntry", offset: 0x3bf9, decl_offset: 0x3bf9, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskManager", field: "__vfptr", accessor: "__vfptr", declared_in: "PopDialogHandler", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskManager", field: "TaskEntries", accessor: "TaskEntries", declared_in: "CTaskManager", offset: 0x4, decl_offset: 0x4, size: 0x3bfc, bits: None },
+    FieldInfo { record: "CTaskManager", field: "QuestEntries", accessor: "QuestEntries", declared_in: "CTaskManager", offset: 0x3c00, decl_offset: 0x3c00, size: 0x6cb8c, bits: None },
+    FieldInfo { record: "CTaskManager", field: "SharedTaskEntries", accessor: "SharedTaskEntries", declared_in: "CTaskManager", offset: 0x7078c, decl_offset: 0x7078c, size: 0x3bfc, bits: None },
+    FieldInfo { record: "CTaskManager", field: "QuestHistoryEntries", accessor: "QuestHistoryEntries", declared_in: "CTaskManager", offset: 0x74388, decl_offset: 0x74388, size: 0xbb738, bits: None },
+    FieldInfo { record: "CTaskManager", field: "UnknownQuestEntries", accessor: "UnknownQuestEntries", declared_in: "CTaskManager", offset: 0x12fac0, decl_offset: 0x12fac0, size: 0x6cb8c, bits: None },
+    FieldInfo { record: "CTaskManager", field: "AddPlayerID", accessor: "AddPlayerID", declared_in: "CTaskManager", offset: 0x19c64c, decl_offset: 0x19c64c, size: 0x4, bits: None },
+    FieldInfo { record: "CTaskManager", field: "bAddPlayerIsSwap", accessor: "bAddPlayerIsSwap", declared_in: "CTaskManager", offset: 0x19c650, decl_offset: 0x19c650, size: 0x1, bits: None },
+    FieldInfo { record: "CTaskManager", field: "AddPlayerSwapeeName", accessor: "AddPlayerSwapeeName", declared_in: "CTaskManager", offset: 0x19c651, decl_offset: 0x19c651, size: 0x40, bits: None },
+    FieldInfo { record: "CTaskManager", field: "pFirstMember", accessor: "pFirstMember", declared_in: "CTaskManager", offset: 0x19c694, decl_offset: 0x19c694, size: 0x4, bits: None },
     FieldInfo { record: "CTradeWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CTradeWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CTradeWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -67755,6 +69786,9 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CursorClass", field: "CursorName", accessor: "CursorName", declared_in: "CursorClass", offset: 0x0, decl_offset: 0x0, size: 0x1c, bits: None },
     FieldInfo { record: "CursorClass", field: "CursorList", accessor: "CursorList", declared_in: "CursorClass", offset: 0x1c, decl_offset: 0x1c, size: 0x1c, bits: None },
     FieldInfo { record: "CursorClass", field: "bScreenShotMode", accessor: "bScreenShotMode", declared_in: "CursorClass", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "DynamicBitField<unsigned short,short>", field: "m_numBits", accessor: "m_numBits", declared_in: "DynamicBitField<unsigned short,short>", offset: 0x0, decl_offset: 0x0, size: 0x2, bits: None },
+    FieldInfo { record: "DynamicBitField<unsigned short,short>", field: "m_element", accessor: "m_element", declared_in: "DynamicBitField<unsigned short,short>", offset: 0x2, decl_offset: 0x2, size: 0x2, bits: None },
+    FieldInfo { record: "DynamicBitField<unsigned short,short>", field: "m_elements", accessor: "m_elements", declared_in: "DynamicBitField<unsigned short,short>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "distance", accessor: "distance", declared_in: "EQCameraOptions", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "dirHeading", accessor: "dirHeading", declared_in: "EQCameraOptions", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "EQCameraOptions", field: "height", accessor: "height", declared_in: "EQCameraOptions", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -69861,6 +71895,16 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "SListWndLine", field: "bVisible", accessor: "bVisible", declared_in: "SListWndLine", offset: 0x124, decl_offset: 0x124, size: 0x1, bits: None },
     FieldInfo { record: "STreeData", field: "Depth", accessor: "Depth", declared_in: "STreeData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "STreeData", field: "bIsExpandable", accessor: "bIsExpandable", declared_in: "STreeData", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
+    FieldInfo { record: "SharedTaskPlayerInfo", field: "Name", accessor: "Name", declared_in: "SharedTaskPlayerInfo", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
+    FieldInfo { record: "SharedTaskPlayerInfo", field: "ShroudID", accessor: "ShroudID", declared_in: "SharedTaskPlayerInfo", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "SharedTaskPlayerInfo", field: "Role", accessor: "Role", declared_in: "SharedTaskPlayerInfo", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "SharedTaskPlayerInfo", field: "pNext", accessor: "pNext", declared_in: "SharedTaskPlayerInfo", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "SingleAchievementAndComponentsInfo", field: "__vfptr", accessor: "__vfptr", declared_in: "SingleAchievementAndComponentsInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "SingleAchievementAndComponentsInfo", field: "achievementState", accessor: "achievementState", declared_in: "SingleAchievementAndComponentsInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "SingleAchievementAndComponentsInfo", field: "completionComponentStatusBitField", accessor: "completionComponentStatusBitField", declared_in: "SingleAchievementAndComponentsInfo", offset: 0x8, decl_offset: 0x8, size: 0x8, bits: None },
+    FieldInfo { record: "SingleAchievementAndComponentsInfo", field: "indirectComponentStatusBitField", accessor: "indirectComponentStatusBitField", declared_in: "SingleAchievementAndComponentsInfo", offset: 0x10, decl_offset: 0x10, size: 0x8, bits: None },
+    FieldInfo { record: "SingleAchievementAndComponentsInfo", field: "unlockedComponentStatusBitField", accessor: "unlockedComponentStatusBitField", declared_in: "SingleAchievementAndComponentsInfo", offset: 0x18, decl_offset: 0x18, size: 0x8, bits: None },
+    FieldInfo { record: "SingleAchievementAndComponentsInfo", field: "completionTimestamp", accessor: "completionTimestamp", declared_in: "SingleAchievementAndComponentsInfo", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "SkillManager", field: "pSkill", accessor: "pSkill", declared_in: "SkillManager", offset: 0x0, decl_offset: 0x0, size: 0x190, bits: None },
     FieldInfo { record: "SkillManager", field: "SkillCaps", accessor: "SkillCaps", declared_in: "SkillManager", offset: 0x190, decl_offset: 0x190, size: 0x163140, bits: None },
     FieldInfo { record: "SkillManager", field: "SkillMods", accessor: "SkillMods", declared_in: "SkillManager", offset: 0x1632d0, decl_offset: 0x1632d0, size: 0x163140, bits: None },

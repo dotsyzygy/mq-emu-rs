@@ -18,8 +18,8 @@ use mq_emu_sys::constants::MAX_STRING;
 use mq_emu_sys::constants::N_EQ_MAPPABLE_COMMANDS;
 use mq_emu_sys::layouts::{
     AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
-    CSpellDisplayManager, CTargetWnd, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient,
-    PlayerManagerClient, zoneHeader,
+    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, PcClient, PlayerClient,
+    PlayerManagerClient, SharedTaskPlayerInfo, zoneHeader,
 };
 use mq_emu_sys::shim::MainInterface;
 use mq_emu_sys::types::{ComputedPointer, ForeignPointer};
@@ -82,6 +82,12 @@ pub(crate) struct Host {
     /// `pSpellDisplayManager`).
     pub item_display_manager: fn() -> *mut CItemDisplayManager,
     pub spell_display_manager: fn() -> *mut CSpellDisplayManager,
+    /// Your tasks (`pTaskManager`).
+    pub task_manager: fn() -> *mut CTaskManager,
+    /// The first member of your shared task (`pTaskMember`).
+    pub task_members: fn() -> *mut SharedTaskPlayerInfo,
+    /// Whether your tribute is active (`*pTributeActive`).
+    pub tribute_active: fn() -> bool,
     /// The game's and MacroQuest's window functions (`mq_emu_sys::windows`).
     pub windows: &'static mq_emu_sys::windows::Api,
     /// The game's own functions for what layouts can't answer (`mq_emu_sys::game`).
@@ -142,6 +148,9 @@ pub(crate) const fn real<P>() -> Host {
         trade_window: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTradeWnd) },
         item_display_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pItemDisplayManager) },
         spell_display_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpellDisplayManager) },
+        task_manager: || unsafe { mq_emu_sys::eqlib::pTaskManager },
+        task_members: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTaskMember) },
+        tribute_active: || unsafe { mq_emu_sys::eqlib::pTributeActive.as_ref().is_some_and(|active| *active != 0) },
         windows: &mq_emu_sys::windows::API,
         game_fns: &mq_emu_sys::game::API,
         command_enabled: real_command_enabled::<P>,

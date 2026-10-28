@@ -5,7 +5,7 @@ use core::ffi::{c_char, c_uint, c_void};
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
     AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
-    CSpellDisplayManager, CTargetWnd, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SkillManager,
+    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
     zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
@@ -88,5 +88,12 @@ imports! {
         pub static mut pItemDisplayManager: ForeignPointer<CItemDisplayManager>;
         /// The spell display windows, likewise.
         pub static mut pSpellDisplayManager: ForeignPointer<CSpellDisplayManager>;
+        /// Your tasks: `QuestEntries` (solo) and `SharedTaskEntries`, used
+        /// where `TaskID` is set.
+        pub static mut pTaskManager: *mut CTaskManager;
+        /// The first member of your shared task, then each `pNext`.
+        pub static mut pTaskMember: ForeignPointer<SharedTaskPlayerInfo>;
+        /// Points to a byte that's nonzero while your tribute is active.
+        pub static mut pTributeActive: *mut u8;
     }
 }

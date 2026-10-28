@@ -1,9 +1,10 @@
 //! Game data only the game's (or MacroQuest's) own functions can answer, from
 //! `shim/game.cpp`: MacroQuest's cache of other spawns' buffs, alternate
 //! abilities, skill values and caps, the game's string table and extended
-//! target role names; chat lines cleaned for event matching; and acting on
-//! spells (casting, memorizing, forgetting) and through the game's own slash
-//! commands.
+//! target role names, task progress and objective text, the friends list,
+//! tribute's cost and achievements; chat lines cleaned for event matching; and
+//! acting on spells (casting, memorizing, forgetting) and through the game's
+//! own slash commands.
 //!
 //! These import `MQ2Main.dll` and `eqlib.dll`, so they only run inside the
 //! game; call them through [`API`] (see [`function_table!`]). Text comes back
@@ -12,7 +13,7 @@
 
 use core::ffi::c_char;
 
-use crate::layouts::{CAltAbilityData, PlayerClient};
+use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
 #[repr(C)]
@@ -86,4 +87,26 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
+    /// Your progress on `task`, one of `pTaskManager`'s `QuestEntries` or
+    /// `SharedTaskEntries` (`CTaskManager::GetTaskStatus`). Null for an entry
+    /// in neither, or without a character.
+    pub fn mqemu_task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus;
+    /// What a task objective asks, as the task window says it
+    /// (`${Task[n].Objective[m]}`); false for none.
+    pub fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool;
+    /// The game's clock in seconds (`GetFastTime`), which task timers count by.
+    pub fn mqemu_fast_time() -> u32;
+    /// How many friends your friends list has (`${Friends}`); -1 without the
+    /// chat service that keeps it.
+    pub fn mqemu_friend_count() -> i32;
+    /// Your friend `index` (0-based); false past the end.
+    pub fn mqemu_friend_name(index: i32, out: *mut c_char, cap: usize) -> bool;
+    /// What your active tribute costs in favor (`${Me.ActiveFavorCost}`); 0
+    /// without the tribute manager.
+    pub fn mqemu_active_favor_cost() -> i32;
+    /// The achievement manager (`AchievementManager::Instance`).
+    pub fn mqemu_achievement_manager() -> *mut AchievementManager;
+    /// A chat link to `achievement` as `player` has it
+    /// (`${Achievement[...].Link}`).
+    pub fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool;
 }

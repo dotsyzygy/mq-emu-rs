@@ -396,6 +396,34 @@ impl RustTest {
                 None => ui.text_disabled("No mercenary."),
             }
         }
+        if ui.collapsing_header("Tasks, friends, tribute and achievements") {
+            let mut any = false;
+            for quest in mq.quests() {
+                any = true;
+                let left = quest.time_left().map_or(String::new(), |left| format!(", {}s left", left.as_secs()));
+                ui.text(format!("{} ({:?}{left})", quest.title(), quest.kind()));
+                for objective in quest.objectives() {
+                    let count = objective.current_count().map_or("?".to_owned(), |c| c.to_string());
+                    ui.bullet_text(format!("{} {count}/{}", objective.text(), objective.required_count()));
+                }
+            }
+            if !any {
+                ui.text_disabled("No tasks.");
+            }
+            match mq.friends() {
+                Some(friends) if !friends.is_empty() => ui.text(format!("Friends: {}", friends.join(", "))),
+                Some(_) => ui.text_disabled("No friends listed."),
+                None => ui.text_disabled("No chat service for friends."),
+            }
+            if let Some(tribute) = mq.tribute() {
+                let cost = tribute.active_cost.map_or("inactive".to_owned(), |c| format!("active, {c} favor"));
+                ui.text(format!("Tribute: {cost}; {} favor ({} career)", tribute.current_favor, tribute.career_favor));
+            }
+            match mq.achievements() {
+                Some(all) if all.is_ready() => ui.text(format!("Achievements: {} of {} done, {} points", all.completed_count(), all.total_count(), all.points())),
+                _ => ui.text_disabled("No achievements from the server."),
+            }
+        }
         if ui.collapsing_header("Extended targets") {
             for xtarget in mq.xtargets().filter(|x| x.is_set()) {
                 let aggro = xtarget.aggro_percent().map_or(String::new(), |a| format!(", {a}% aggro"));

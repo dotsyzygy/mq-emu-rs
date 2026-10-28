@@ -217,6 +217,13 @@ fn slot_hot_button_and_trade_limits_match() {
 }
 
 #[test]
+fn task_limits_match() {
+    let file = "src/eqlib/include/eqlib/game/TaskSystem.h";
+    let header = read_header(file);
+    check!(header, file, [MAX_QUEST_ENTRIES, MAX_SHARED_TASK_ENTRIES, MAX_TASK_ELEMENTS]);
+}
+
+#[test]
 fn everquest_version_matches_eqgame_header() {
     let header = read_header("src/eqlib/include/eqlib/offsets/eqgame.h");
     let unquote = |name| {

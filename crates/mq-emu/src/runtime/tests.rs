@@ -142,6 +142,9 @@ struct Windows {
     inv_slot_manager: *mut mq_emu_sys::layouts::CInvSlotMgr,
     trade_window: *mut mq_emu_sys::layouts::CTradeWnd,
     item_display_manager: *mut mq_emu_sys::layouts::CItemDisplayManager,
+    task_manager: *mut mq_emu_sys::layouts::CTaskManager,
+    task_members: *mut mq_emu_sys::layouts::SharedTaskPlayerInfo,
+    tribute_active: bool,
 }
 
 impl Windows {
@@ -161,6 +164,9 @@ impl Windows {
         inv_slot_manager: ptr::null_mut(),
         trade_window: ptr::null_mut(),
         item_display_manager: ptr::null_mut(),
+        task_manager: ptr::null_mut(),
+        task_members: ptr::null_mut(),
+        tribute_active: false,
     };
 }
 
@@ -204,6 +210,9 @@ const FAKE: Host = Host {
     trade_window: || WINDOWS.with(Cell::get).trade_window,
     item_display_manager: || WINDOWS.with(Cell::get).item_display_manager,
     spell_display_manager: ptr::null_mut,
+    task_manager: || WINDOWS.with(Cell::get).task_manager,
+    task_members: || WINDOWS.with(Cell::get).task_members,
+    tribute_active: || WINDOWS.with(Cell::get).tribute_active,
     windows: &crate::windows::fake::API,
     game_fns: &crate::game_fns::fake::API,
     command_enabled: |command| DISABLED.with(Cell::get) != Some(command),

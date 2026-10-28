@@ -73,7 +73,7 @@ pub(crate) mod fake {
     use std::ffi::c_char;
 
     use mq_emu_sys::game::{Api, mqemu_cached_buff};
-    use mq_emu_sys::layouts::{CAltAbilityData, PlayerClient};
+    use mq_emu_sys::layouts::{Achievement, AchievementManager, CAltAbilityData, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
 
     /// A skill as the fake game knows it.
     #[derive(Debug, Clone, Default)]
@@ -86,7 +86,6 @@ pub(crate) mod fake {
         pub timer: (i32, i32),
     }
 
-    #[derive(Default)]
     pub(crate) struct FakeGame {
         /// Cached buffs by spawn.
         pub cached_buffs: HashMap<usize, Vec<mqemu_cached_buff>>,
@@ -106,6 +105,39 @@ pub(crate) mod fake {
         pub spells_work: bool,
         /// The gems that are ready to cast.
         pub ready_gems: Vec<i32>,
+        /// Task progress, by task entry.
+        pub task_statuses: HashMap<usize, *mut PCTaskStatus>,
+        /// Task objective text, by objective.
+        pub objective_texts: HashMap<usize, String>,
+        /// The game's clock, in seconds.
+        pub fast_time: u32,
+        /// The friends list; `None` without the chat service.
+        pub friends: Option<Vec<String>>,
+        pub active_favor_cost: i32,
+        pub achievement_manager: *mut AchievementManager,
+    }
+
+    impl Default for FakeGame {
+        fn default() -> FakeGame {
+            FakeGame {
+                cached_buffs: HashMap::new(),
+                alt_abilities: HashMap::new(),
+                alt_ability_ready: HashMap::new(),
+                strings: HashMap::new(),
+                skills: HashMap::new(),
+                xtarget_roles: HashMap::new(),
+                log: Vec::new(),
+                commands: Vec::new(),
+                spells_work: false,
+                ready_gems: Vec::new(),
+                task_statuses: HashMap::new(),
+                objective_texts: HashMap::new(),
+                fast_time: 0,
+                friends: None,
+                active_favor_cost: 0,
+                achievement_manager: std::ptr::null_mut(),
+            }
+        }
     }
 
     thread_local! {
@@ -247,6 +279,44 @@ pub(crate) mod fake {
         with(|game| game.ready_gems.contains(&gem))
     }
 
+    unsafe extern "C" fn task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus {
+        with(|game| game.task_statuses.get(&(task as usize)).copied().unwrap_or(std::ptr::null_mut()))
+    }
+
+    unsafe extern "C" fn task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool {
+        with(|game| write(game.objective_texts.get(&(objective as usize)).map(String::as_str), out, cap))
+    }
+
+    unsafe extern "C" fn fast_time() -> u32 {
+        with(|game| game.fast_time)
+    }
+
+    unsafe extern "C" fn friend_count() -> i32 {
+        with(|game| game.friends.as_ref().map_or(-1, |friends| friends.len() as i32))
+    }
+
+    unsafe extern "C" fn friend_name(index: i32, out: *mut c_char, cap: usize) -> bool {
+        with(|game| {
+            let name = game.friends.as_ref().and_then(|friends| friends.get(usize::try_from(index).ok()?));
+            write(name.map(String::as_str), out, cap)
+        })
+    }
+
+    unsafe extern "C" fn active_favor_cost() -> i32 {
+        with(|game| game.active_favor_cost)
+    }
+
+    unsafe extern "C" fn achievement_manager() -> *mut AchievementManager {
+        with(|game| game.achievement_manager)
+    }
+
+    /// Links as "achievement <id> of <player>".
+    unsafe extern "C" fn achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool {
+        let Some(achievement) = (unsafe { achievement.as_ref() }) else { return false };
+        let player = unsafe { std::ffi::CStr::from_ptr(player) }.to_string_lossy();
+        write(Some(&format!("achievement {} of {player}", achievement.id())), out, cap)
+    }
+
     pub(crate) static API: Api = Api {
         mqemu_cached_buffs: cached_buffs,
         mqemu_alt_ability: alt_ability,
@@ -262,5 +332,13 @@ pub(crate) mod fake {
         mqemu_memorize_spells: memorize_spells,
         mqemu_forget_gem: forget_gem,
         mqemu_gem_ready: gem_ready,
+        mqemu_task_status: task_status,
+        mqemu_task_objective_text: task_objective_text,
+        mqemu_fast_time: fast_time,
+        mqemu_friend_count: friend_count,
+        mqemu_friend_name: friend_name,
+        mqemu_active_favor_cost: active_favor_cost,
+        mqemu_achievement_manager: achievement_manager,
+        mqemu_achievement_link: achievement_link,
     };
 }

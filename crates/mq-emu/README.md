@@ -66,7 +66,9 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   `mq.select_item_to_sell(place)` and `mq.sell(n)`.
 - **The world around you**: `mq.target_buffs()`, `mq.pet_buffs()` and `mq.cached_buffs(&spawn)`,
   `mq.raid()`, `mq.mercenary()`, `mq.xtargets()` and `mq.haters()`, `mq.alt_abilities()`,
-  `mq.skills()` and `mq.abilities()`, `mq.merchant()` and `mq.loot_window()`.
+  `mq.skills()` and `mq.abilities()`, `mq.merchant()` and `mq.loot_window()`, your tasks
+  (`mq.quests()`, with their objectives and shared task members), `mq.friends()`, `mq.tribute()`
+  and `mq.achievements()`.
 - **EverQuest's UI windows**: `mq.window("InventoryWindow/IW_DoneButton")` finds a window or
   control as `${Window[...]}` does; read its state, text, lists, tabs and gauges, and act on it as
   `/notify` does: `button.click(Click::Left)`, `list.select(row)`, `edit.set_text(..)`,
