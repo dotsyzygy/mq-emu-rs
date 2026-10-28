@@ -2,9 +2,21 @@
 //! [`Host::game_fns`](crate::host::Host), reading the game's arrays, and a
 //! fake of the functions for tests.
 
-use std::ffi::c_char;
+use std::ffi::{CString, c_char};
 
+use crate::mq::Mq;
+use crate::plugin::Plugin;
 use crate::text::from_c_array;
+
+impl<P: Plugin> Mq<P> {
+    /// Runs the game's own handler for slash command `name` with `args`, as
+    /// MacroQuest's `/cast` runs the game's: not MacroQuest's command of that
+    /// name, nor an alias. False if the game has no such command.
+    pub(crate) fn eq_command(&self, name: &str, args: &str) -> bool {
+        let (Ok(name), Ok(args)) = (CString::new(name), CString::new(args)) else { return false };
+        unsafe { (self.host().game_fns.mqemu_eq_command)(name.as_ptr(), args.as_ptr()) }
+    }
+}
 
 /// Runs a shim function that writes NUL-terminated text into a buffer and
 /// says whether there was any.
@@ -86,6 +98,14 @@ pub(crate) mod fake {
         pub strings: HashMap<(i32, i32), String>,
         pub skills: HashMap<i32, FakeSkill>,
         pub xtarget_roles: HashMap<u32, String>,
+        /// Every action taken (commands, memorizing, forgetting), in order.
+        pub log: Vec<String>,
+        /// The game's slash commands, by lowercase name.
+        pub commands: Vec<String>,
+        /// Whether memorizing and forgetting work.
+        pub spells_work: bool,
+        /// The gems that are ready to cast.
+        pub ready_gems: Vec<i32>,
     }
 
     thread_local! {
@@ -191,6 +211,42 @@ pub(crate) mod fake {
         write(Some(&cleaned), out, cap)
     }
 
+    /// What the fake game did, taken out.
+    pub(crate) fn log() -> Vec<String> {
+        with(|game| std::mem::take(&mut game.log))
+    }
+
+    unsafe extern "C" fn eq_command(name: *const c_char, args: *const c_char) -> bool {
+        let name = unsafe { std::ffi::CStr::from_ptr(name) }.to_string_lossy().to_lowercase();
+        let args = unsafe { std::ffi::CStr::from_ptr(args) }.to_string_lossy();
+        with(|game| {
+            let known = game.commands.contains(&name);
+            if known {
+                game.log.push(format!("{name} {args}").trim_end().to_owned());
+            }
+            known
+        })
+    }
+
+    unsafe extern "C" fn memorize_spells(spells: *const i32, count: usize) -> bool {
+        let spells = unsafe { std::slice::from_raw_parts(spells, count) };
+        with(|game| {
+            game.log.push(format!("memorize {spells:?}"));
+            game.spells_work
+        })
+    }
+
+    unsafe extern "C" fn forget_gem(gem: i32) -> bool {
+        with(|game| {
+            game.log.push(format!("forget {gem}"));
+            game.spells_work
+        })
+    }
+
+    unsafe extern "C" fn gem_ready(gem: i32) -> bool {
+        with(|game| game.ready_gems.contains(&gem))
+    }
+
     pub(crate) static API: Api = Api {
         mqemu_cached_buffs: cached_buffs,
         mqemu_alt_ability: alt_ability,
@@ -202,5 +258,9 @@ pub(crate) mod fake {
         mqemu_skill_name: skill_name,
         mqemu_xtarget_role_name: xtarget_role_name,
         mqemu_clean_chat_line: clean_chat,
+        mqemu_eq_command: eq_command,
+        mqemu_memorize_spells: memorize_spells,
+        mqemu_forget_gem: forget_gem,
+        mqemu_gem_ready: gem_ready,
     };
 }

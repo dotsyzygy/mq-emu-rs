@@ -5,6 +5,7 @@ use std::fmt;
 use mq_emu_sys::constants as c;
 use mq_emu_sys::layouts::PlayerClient;
 
+use crate::spells::SpellId;
 use crate::text::from_c_array;
 
 /// Where the client is: character select, in game, zoning, etc.
@@ -285,6 +286,12 @@ impl<'a> Spawn<'a> {
     /// True for pets (spawns with an owner).
     pub fn is_pet(&self) -> bool {
         self.master_id().is_some()
+    }
+
+    /// The spell this spawn is casting, if it is (`${Spawn.Casting}`); look
+    /// it up with [`Mq::spell`].
+    pub fn casting(&self) -> Option<SpellId> {
+        Some(self.raw.CastingData().SpellID()).filter(|id| *id > 0).map(SpellId)
     }
 }
 

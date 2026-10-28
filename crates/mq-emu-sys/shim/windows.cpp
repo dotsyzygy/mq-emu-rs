@@ -3,8 +3,9 @@
 // text, the item in an item slot or behind a hot button), clicking and
 // notifying them as /notify and ${Window} do, a plugin's own windows, made
 // from screen pieces in UI XML it adds (AddXMLFile), subclassing the game's
-// windows, drawing on them, and what /itemnotify does with an item it finds
-// no slot window for.
+// windows, drawing on them, what /itemnotify does with an item it finds no
+// slot window for, picking up part of a stack, and buying and selling at a
+// merchant.
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks its window for null
@@ -815,6 +816,14 @@ bool merchant_open()
 	return pMerchantWnd && pMerchantWnd->IsVisible();
 }
 
+// The open merchant window's page of what's for sale, which also sells.
+MerchantPageHandler* purchase_page()
+{
+	if (!merchant_open() || pMerchantWnd->PageHandlers.size() <= RegularMerchantPage)
+		return nullptr;
+	return pMerchantWnd->PageHandlers[RegularMerchantPage];
+}
+
 } // namespace
 
 extern "C" bool mqemu_pick_up_item(int container, int slot, int in_bag)
@@ -891,6 +900,146 @@ extern "C" bool mqemu_open_container(int container, int slot, int in_bag, bool o
 			return false;
 		mq::OpenContainer(item, false, false);
 		return item->Open != 0;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Picks up `count` of the stack at a place onto the cursor, leaving the rest
+// (all of it if `count` is the stack or more), as accepting the quantity
+// window does after clicking a stack: the game's CInvSlot::SliderComplete on
+// the place's slot window. A place in a closed bag is reached by opening the
+// bag (through its slot window, as mqemu_open_container does) and closing it
+// again. False with something on the cursor, with the merchant window open
+// (where clicking selects), without a stack there, or without a slot window.
+extern "C" bool mqemu_split_stack(int container, int slot, int in_bag, int count)
+{
+	try
+	{
+		if (count < 1 || !pInvSlotMgr || !pLocalPC || mq::ItemOnCursor() || merchant_open())
+			return false;
+		ItemGlobalIndex index = item_index(container, slot, in_bag);
+		ItemClient* item = mq::FindItemByGlobalIndex(index);
+		if (item == nullptr || !item->IsStackable())
+			return false;
+		ItemClient* opened = nullptr;
+		CInvSlot* inv_slot = pInvSlotMgr->FindInvSlot(index, false);
+		if (inv_slot == nullptr && in_bag >= 0)
+		{
+			ItemClient* bag = mq::FindItemByGlobalIndex(index.GetParent());
+			if (bag == nullptr || !bag->IsContainer() || bag->Open || !pInvSlotMgr->FindInvSlot(bag->GetItemLocation(), false))
+				return false;
+			mq::OpenContainer(bag, false, false);
+			opened = bag;
+			inv_slot = pInvSlotMgr->FindInvSlot(index, false);
+		}
+		// SliderComplete moves the item to the cursor's slot but leaves the
+		// cursor's icon alone (the quantity window's caller attaches it), and
+		// the game's /autoinventory ignores a cursor without the icon.
+		if (inv_slot != nullptr)
+		{
+			inv_slot->SliderComplete(std::min(count, item->GetItemCount()));
+			update_cursor_attachment();
+		}
+		if (opened != nullptr)
+			mq::CloseContainer(opened);
+		return inv_slot != nullptr;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Shows the cursor's item on the cursor's icon if it isn't already, as the
+// game does after moving one there: the game's /autoinventory only puts the
+// cursor's item away while the icon shows it. False with nothing on the
+// cursor.
+extern "C" bool mqemu_attach_cursor_item()
+{
+	try
+	{
+		if (!pLocalPC || !mq::ItemOnCursor())
+			return false;
+		if (!pCursorAttachment || pCursorAttachment->Type != eCursorAttachment_Item)
+			update_cursor_attachment();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Selects an item in the open merchant window, as clicking it does
+// (CMerchantWnd::SelectBuySellSlot): one of yours to sell, at a place in your
+// inventory (as /selectitem does), or one of the merchant's to buy, at
+// merchant slot `slot` (as ${Merchant.SelectItem} does, which also selects
+// its row in the list). False without the window or an item there.
+extern "C" bool mqemu_merchant_select(int container, int slot, int in_bag)
+{
+	try
+	{
+		MerchantPageHandler* page = purchase_page();
+		if (page == nullptr)
+			return false;
+		ItemGlobalIndex index = item_index(container, slot, in_bag);
+		if (container == eItemContainerPossessions)
+		{
+			if (mq::FindItemByGlobalIndex(index) == nullptr)
+				return false;
+			pMerchantWnd->SelectBuySellSlot(index);
+			return true;
+		}
+		if (container != eItemContainerMerchant || in_bag >= 0)
+			return false;
+		ItemPtr item;
+		for (int i = 0; i < page->GetItemCount() && !item; ++i)
+		{
+			ItemPtr candidate = page->GetItem(i);
+			if (candidate && candidate->GetItemLocation().GetTopSlot() == slot)
+				item = candidate;
+		}
+		if (!item)
+			return false;
+		if (CListWnd* list = pMerchantWnd->ItemsList)
+		{
+			for (int row = 0; row < list->ItemsArray.GetLength(); ++row)
+			{
+				if (mq::ci_equals(list->GetItemText(row, 1), item->GetName()))
+				{
+					list->SetCurSel(row);
+					break;
+				}
+			}
+		}
+		pMerchantWnd->SelectBuySellSlot(index);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Buys `count` of the merchant's selected item (`buy`), or sells `count` of
+// your selected one, as ${Merchant.Buy} and ${Merchant.Sell} do
+// (RequestGetItem, RequestPutItem: eqlib's vtable slots, 0x30 and 0x34, hold
+// them on this client too). False without the window or a selected item.
+extern "C" bool mqemu_merchant_trade(bool buy, int count)
+{
+	try
+	{
+		MerchantPageHandler* page = purchase_page();
+		if (page == nullptr || count < 1 || !pMerchantWnd->pSelectedItem)
+			return false;
+		if (buy)
+			page->RequestGetItem(count);
+		else
+			page->RequestPutItem(count);
+		return true;
 	}
 	catch (...)
 	{

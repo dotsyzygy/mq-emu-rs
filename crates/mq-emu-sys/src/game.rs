@@ -1,7 +1,9 @@
 //! Game data only the game's (or MacroQuest's) own functions can answer, from
 //! `shim/game.cpp`: MacroQuest's cache of other spawns' buffs, alternate
 //! abilities, skill values and caps, the game's string table and extended
-//! target role names; and chat lines cleaned for event matching.
+//! target role names; chat lines cleaned for event matching; and acting on
+//! spells (casting, memorizing, forgetting) and through the game's own slash
+//! commands.
 //!
 //! These import `MQ2Main.dll` and `eqlib.dll`, so they only run inside the
 //! game; call them through [`API`] (see [`function_table!`]). Text comes back
@@ -66,4 +68,22 @@ function_table! {
     /// MacroQuest's color codes and line breaks removed (`StripMQChat`). `out`
     /// needs `strlen(line) + 1` bytes; neither step lengthens the line.
     pub fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool;
+    /// Runs the game's own handler for slash command `name` (`"/cast"`) with
+    /// `args`, as you, from the game's command table (as MacroQuest finds
+    /// `cmdCast`): not MacroQuest's command of that name, nor an alias. False
+    /// if the game has no such command or there's no character.
+    pub fn mqemu_eq_command(name: *const c_char, args: *const c_char) -> bool;
+    /// Memorizes spells as `/memspell` does (`CSpellBookWnd::MemorizeSet`):
+    /// `spells` has a spell ID for each of the `count` gems, which must be
+    /// [`NUM_SPELL_GEMS`](crate::constants::NUM_SPELL_GEMS); -1 leaves a gem
+    /// as it is. False without the spell book window.
+    pub fn mqemu_memorize_spells(spells: *const i32, count: usize) -> bool;
+    /// Forgets the spell in gem `gem` (0-based), as right-clicking it does
+    /// (`CCastSpellWnd::ForgetMemorizedSpell`). False for an empty gem or one
+    /// past [`NUM_SPELL_GEMS`](crate::constants::NUM_SPELL_GEMS) (the client
+    /// stops on a breakpoint from gem 16 on).
+    pub fn mqemu_forget_gem(gem: i32) -> bool;
+    /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
+    /// says. False for an empty gem.
+    pub fn mqemu_gem_ready(gem: i32) -> bool;
 }

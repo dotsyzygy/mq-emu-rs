@@ -1,8 +1,9 @@
 //! Item slot windows: what one shows (`${Window.InvSlot}`), and finding the
 //! one for a place in your inventory, bags, bank, a corpse, the trade window
-//! or a world container, as `/itemnotify` does; and what `/itemnotify` does
+//! or a world container, as `/itemnotify` does; what `/itemnotify` does
 //! with a place no window shows (picking the item up or dropping it,
-//! `/useitem`, opening bags).
+//! `/useitem`, opening bags); and picking up part of a stack and putting the
+//! cursor's item away (`/autoinventory`).
 
 use std::fmt;
 
@@ -157,7 +158,7 @@ impl SlotLocation {
 
     /// As the game numbers it: container, slot and slot in the bag (-1 for
     /// none). None for slots past what its `ItemIndex` holds.
-    fn raw(&self) -> Option<(i32, i32, i32)> {
+    pub(crate) fn raw(&self) -> Option<(i32, i32, i32)> {
         let slot = i16::try_from(self.slot).ok()?;
         let in_bag = match self.in_bag {
             Some(in_bag) => i16::try_from(in_bag).ok()?,
@@ -166,7 +167,7 @@ impl SlotLocation {
         Some((self.container.raw(), i32::from(slot), i32::from(in_bag)))
     }
 
-    fn from_global(index: &ItemGlobalIndex) -> Option<SlotLocation> {
+    pub(crate) fn from_global(index: &ItemGlobalIndex) -> Option<SlotLocation> {
         let slots = index.Index().m_slots();
         let slot = usize::try_from(slots[0]).ok()?;
         Some(SlotLocation { container: ItemContainerKind::from_raw(index.Location().0), slot, in_bag: usize::try_from(slots[1]).ok() })
@@ -411,6 +412,39 @@ impl<P: Plugin> Mq<P> {
     pub fn close_bag(&self, location: SlotLocation) -> bool {
         let Some((container, slot, in_bag)) = location.raw() else { return false };
         unsafe { (self.window_api().mqemu_open_container)(container, slot, in_bag, false) }
+    }
+
+    // ----- more than /itemnotify does -----
+
+    /// Picks up `count` of the stack at a place onto the cursor, leaving the
+    /// rest (or all of it, for `count` the stack or more), as clicking a
+    /// stack and accepting the quantity window does: the game's own
+    /// `CInvSlot::SliderComplete` on the place's slot window. A place in a
+    /// closed bag in your inventory is reached by opening the bag and closing
+    /// it again. Put it down with [`drop_item`](Self::drop_item) (on a stack
+    /// of the same item to join them) or
+    /// [`auto_inventory`](Self::auto_inventory). False if `count` is 0, the
+    /// item doesn't stack, something is already on the cursor, the merchant
+    /// window is open (where clicking selects), or no window can show the
+    /// place (the bank without the bank window, a bag inside a closed bag).
+    pub fn split_stack(&self, location: SlotLocation, count: u32) -> bool {
+        let Some((container, slot, in_bag)) = location.raw() else { return false };
+        let Ok(count) = i32::try_from(count) else { return false };
+        count > 0 && unsafe { (self.window_api().mqemu_split_stack)(container, slot, in_bag, count) }
+    }
+
+    /// Puts the item on the cursor away in your inventory, where the game
+    /// finds room for it (joining a stack of the same item first), as the
+    /// game's `/autoinventory` does. False with nothing on the cursor; the
+    /// game says in chat if there's no room.
+    ///
+    /// The game's `/autoinventory` ignores an item the cursor's icon doesn't
+    /// show (one put there by a function that left the icon alone), so the
+    /// icon is shown first.
+    pub fn auto_inventory(&self) -> bool {
+        self.inventory().is_some_and(|inventory| inventory.cursor().is_some())
+            && unsafe { (self.window_api().mqemu_attach_cursor_item)() }
+            && self.eq_command("/autoinventory", "")
     }
 }
 

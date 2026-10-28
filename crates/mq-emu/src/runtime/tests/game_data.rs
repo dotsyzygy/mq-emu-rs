@@ -9,12 +9,14 @@ use mq_emu_sys::game::{SKILL_ACTIVATABLE, SKILL_HAS, mqemu_cached_buff};
 use mq_emu_sys::layouts::{
     CAltAbilityData, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd,
     ClientSpellManager, EQGroundItem, EQGroundItemListManager, EQWorldData, EQZoneInfo, ExtendedTargetList, ExtendedTargetSlot,
-    PcClient, PcProfile, ProfileList, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
+    ItemContainerInstance, MerchantPageHandler, PcClient, PcProfile, ProfileList, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
 };
 
 use super::*;
 use crate::game_fns::fake::{self as fake_game, FakeSkill};
 use crate::inventory::InvSlot;
+use crate::windows::fake as fake_windows;
+use crate::windows::{ItemContainerKind, SlotLocation};
 use crate::items::tests::{Fake, FakeItem, fill, set_name};
 use crate::skills::SkillId;
 use crate::xtarget::XTARGET_AUTO_HATER;
@@ -454,4 +456,142 @@ fn merchant_and_loot_windows_need_their_spawn() {
     assert_eq!(pulse_log(log), ["None Some(41)"], "the merchant window is hidden");
     merchant.get().set_dShow(true);
     assert_eq!(pulse_log(log), ["Some(40) Some(41)"]);
+}
+
+/// What `memorize_spells` hands the game for these gems: every gem, -1 for
+/// the ones left as they are.
+fn loadout(gems: &[(usize, i32)]) -> String {
+    let mut spells = [-1; mq_emu_sys::constants::NUM_SPELL_GEMS];
+    for &(gem, id) in gems {
+        spells[gem] = id;
+    }
+    format!("memorize {spells:?}")
+}
+
+#[test]
+fn spells_are_cast_memorized_and_forgotten() {
+    let game = game();
+    game.learn(1200, "Courage");
+    game.learn(717, "Selo's Accelerando");
+    game.learn(2000, "Heroism");
+    let profile = game.profile.get();
+    profile.set_Class(2);
+    profile.set_Level(10);
+    game.known[0].get().set_ClassLevel_at(2, 1);
+    game.known[2].get().set_ClassLevel_at(2, 50);
+    profile.set_MemorizedSpells_at(2, 1200);
+    profile.set_MemorizedSpells_at(12, 717); // past the 12 gems spells are cast from
+    profile.set_SpellBook_at(0, 1200);
+    profile.set_SpellBook_at(1, 2000);
+    fake_game::with(|g| {
+        g.commands = vec!["/cast".into(), "/stopcast".into()];
+        g.spells_work = true;
+        g.ready_gems = vec![2];
+    });
+
+    let log = pulse_log(|mq| {
+        let cast = [mq.cast_gem(2), mq.cast_gem(0), mq.cast_gem(12), mq.cast_spell(SpellId(1200)), mq.cast_spell(SpellId(717)), mq.stop_casting()];
+        let ready = [mq.gem_ready(2), mq.gem_ready(3), mq.gem_ready(usize::MAX)];
+        let memorized = [
+            mq.memorize_spell(4, SpellId(1200)),
+            mq.memorize_spells(&[(0, SpellId(1200)), (11, SpellId(1200))]),
+            mq.memorize_spell(4, SpellId(717)),
+            mq.memorize_spell(4, SpellId(2000)),
+            mq.memorize_spell(12, SpellId(1200)),
+            mq.memorize_spells(&[(5, SpellId(1200)), (6, SpellId(717))]),
+            mq.memorize_spells(&[]),
+        ];
+        let forgot = [mq.forget_gem(2), mq.forget_gem(0), mq.forget_gem(12)];
+        format!("{cast:?} {ready:?} {memorized:?} {forgot:?}")
+    });
+    assert_eq!(
+        log,
+        ["[true, false, false, true, false, true] [true, false, false] [true, true, false, false, false, false, false] [true, false, false]"],
+        "empty gems, gems past the 12, spells not in the book or above your level, and a set with one of those aren't passed on"
+    );
+    assert_eq!(fake_game::log(), ["/cast 3".to_owned(), "/cast 3".into(), "/stopcast".into(), loadout(&[(4, 1200)]), loadout(&[(0, 1200), (11, 1200)]), "forget 2".into()]);
+
+    fake_game::with(|g| {
+        g.commands.clear();
+        g.spells_work = false;
+    });
+    let log = pulse_log(|mq| format!("{:?}", [mq.cast_gem(2), mq.stop_casting(), mq.memorize_spell(4, SpellId(1200)), mq.forget_gem(2)]));
+    assert_eq!(log, ["[false, false, false, false]"], "the game's answer");
+    assert_eq!(fake_game::log(), [loadout(&[(4, 1200)]), "forget 2".into()]);
+}
+
+#[test]
+fn what_a_spawn_is_casting() {
+    let log = |mq: &Mq<Recorder>| format!("{:?}", mq.me().and_then(|me| me.casting()));
+    player().CastingData().set_SpellID(1200);
+    assert_eq!(pulse_log(log), ["Some(SpellId(1200))"]);
+    player().CastingData().set_SpellID(-1);
+    assert_eq!(pulse_log(log), ["None"], "not casting");
+}
+
+#[test]
+fn stacks_are_split_and_put_away() {
+    let game = game();
+    let ration = FakeItem::new(13005, "Ration").stack(12, 20);
+    fill(game.profile.get().InventoryContainer(), &mut game.inventory_slots, 34, &[]);
+    fake_windows::with(|w| w.items_work = true);
+    fake_game::with(|g| g.commands = vec!["/autoinventory".into()]);
+    let in_bag = SlotLocation::new(ItemContainerKind::Inventory, 23, Some(2));
+
+    let log = pulse_log(move |mq| format!("{:?}", [mq.split_stack(in_bag, 5), mq.split_stack(in_bag, 0), mq.auto_inventory()]));
+    assert_eq!(log, ["[true, false, false]"], "nothing to split, or on the cursor");
+    let possessions = ItemContainerInstance::eItemContainerPossessions.0;
+    assert_eq!(fake_windows::log(), [format!("split {possessions} 23 2 5")]);
+    assert!(fake_game::log().is_empty());
+
+    fill(game.profile.get().InventoryContainer(), &mut game.inventory_slots, 34, &[(usize::from(InvSlot::CURSOR.0), &ration)]);
+    assert_eq!(pulse_log(|mq| format!("{}", mq.auto_inventory())), ["true"]);
+    assert_eq!(fake_windows::log(), ["attach_cursor"], "the game's /autoinventory needs the cursor's icon to show the item");
+    assert_eq!(fake_game::log(), ["/autoinventory"]);
+    fake_game::with(|g| g.commands.clear());
+    assert_eq!(pulse_log(|mq| format!("{}", mq.auto_inventory())), ["false"], "the game's answer");
+}
+
+#[test]
+fn merchants_items_are_selected_bought_and_sold() {
+    let window = Box::leak(Box::new(Fake::<CMerchantWnd>::new()));
+    let page = Box::leak(Box::new(Fake::<MerchantPageHandler>::new()));
+    let (bread, ration) = (FakeItem::new(13005, "Bread"), FakeItem::new(13006, "Ration").stack(12, 20));
+    // The merchant's items know their own slots, which needn't be their list's.
+    bread.item.get().GlobalIndex().set_Location(ItemContainerInstance::eItemContainerMerchant);
+    bread.item.get().GlobalIndex().Index().set_m_slots([7, -1, -1]);
+    ration.item.get().GlobalIndex().set_Location(ItemContainerInstance::eItemContainerPossessions);
+    let mut slots = Vec::new();
+    fill(page.get().Items(), &mut slots, 2, &[(0, &bread)]);
+    let pages = Box::leak(Box::new([page.ptr()]));
+    window.get().PageHandlers().set_m_data(pages.as_mut_ptr());
+    window.get().PageHandlers().set_m_size(1);
+    window.get().set_dShow(true);
+    set_zone((1, 0.0, 0.0), &[(40, "Merchant Jo", 1, 5.0, 0.0)]);
+    let jo = ZONE.with(|zone| zone.borrow()[0].ptr());
+    set_windows(|w| {
+        w.merchant_window = window.ptr();
+        w.active_merchant = jo;
+    });
+    fake_windows::with(|w| w.items_work = true);
+    let mine = SlotLocation::new(ItemContainerKind::Inventory, 23, Some(2));
+    let act = move |mq: &Mq<Recorder>| {
+        let selected = [mq.select_merchant_item(0), mq.select_merchant_item(1), mq.select_item_to_sell(mine), mq.select_item_to_sell(SlotLocation::new(ItemContainerKind::Bank, 3, None))];
+        format!("{selected:?} | {:?}", [mq.buy(2), mq.sell(3), mq.buy(0)])
+    };
+
+    assert_eq!(pulse_log(act), ["[true, false, true, false] | [false, false, false]"], "nothing selected to buy or sell");
+    let (merchant, possessions) = (ItemContainerInstance::eItemContainerMerchant.0, ItemContainerInstance::eItemContainerPossessions.0);
+    assert_eq!(fake_windows::log(), [format!("merchant_select {merchant} 7 -1"), format!("merchant_select {possessions} 23 2")]);
+
+    window.get().pSelectedItem().set_m_pObject(bread.item.ptr());
+    assert_eq!(pulse_log(act)[0].split_once(" | ").unwrap().1, "[true, false, false]", "the merchant's item is bought, not sold");
+    assert_eq!(fake_windows::log()[2..], ["buy 2"]);
+    window.get().pSelectedItem().set_m_pObject(ration.item.ptr());
+    assert_eq!(pulse_log(act)[0].split_once(" | ").unwrap().1, "[false, true, false]", "yours is sold");
+    assert_eq!(fake_windows::log()[2..], ["sell 3"]);
+
+    window.get().set_dShow(false);
+    assert_eq!(pulse_log(act), ["[false, false, false, false] | [false, false, false]"], "the window is closed");
+    assert!(fake_windows::log().is_empty());
 }

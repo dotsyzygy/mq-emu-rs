@@ -970,7 +970,7 @@ fn open_context_menu(manager: &CContextMenuManager) -> *mut CContextMenu {
 }
 
 impl<P: Plugin> Mq<P> {
-    fn window_api(&self) -> &'static Api {
+    pub(crate) fn window_api(&self) -> &'static Api {
         self.host().windows
     }
 
@@ -1347,6 +1347,22 @@ pub(crate) mod fake {
         item_action(format!("{} {container} {slot} {in_bag}", if open { "open_bag" } else { "close_bag" }))
     }
 
+    unsafe extern "C" fn split_stack(container: i32, slot: i32, in_bag: i32, count: i32) -> bool {
+        item_action(format!("split {container} {slot} {in_bag} {count}"))
+    }
+
+    unsafe extern "C" fn attach_cursor_item() -> bool {
+        item_action("attach_cursor".into())
+    }
+
+    unsafe extern "C" fn merchant_select(container: i32, slot: i32, in_bag: i32) -> bool {
+        item_action(format!("merchant_select {container} {slot} {in_bag}"))
+    }
+
+    unsafe extern "C" fn merchant_trade(buy: bool, count: i32) -> bool {
+        item_action(format!("{} {count}", if buy { "buy" } else { "sell" }))
+    }
+
     /// Has the fake game's window `window` (made by `create`, or
     /// subclassed) pass `event` to its plugin, as the real window does if
     /// its mask asks for it. True if the plugin handled it.
@@ -1418,6 +1434,10 @@ pub(crate) mod fake {
         mqemu_drop_item: drop_item,
         mqemu_use_item: use_item,
         mqemu_open_container: open_container,
+        mqemu_split_stack: split_stack,
+        mqemu_attach_cursor_item: attach_cursor_item,
+        mqemu_merchant_select: merchant_select,
+        mqemu_merchant_trade: merchant_trade,
     };
 }
 

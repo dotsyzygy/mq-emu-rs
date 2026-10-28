@@ -58,6 +58,12 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
   find items by name or ID, count stacks), `mq.bank()`, `mq.buffs()`/`mq.songs()`, spell gems
   and book, `mq.spell(id)`/`mq.spell_by_name(..)`, `mq.group()`, `mq.pet()`, `mq.zone()` and the
   zone list, and `mq.ground_items()`.
+- **Acting on spells and items**: `mq.cast_gem(2)` or `mq.cast_spell(id)` (the game's `/cast`),
+  `mq.stop_casting()`, `mq.gem_ready(2)` and `spawn.casting()`; `mq.memorize_spell(gem, id)` and
+  `mq.memorize_spells(..)` (`/memspell`), `mq.forget_gem(gem)`. `mq.split_stack(place, 5)` picks
+  part of a stack up as the quantity window does, `mq.auto_inventory()` puts the cursor's item
+  away; at a merchant, `mq.select_merchant_item(slot)` and `mq.buy(n)`,
+  `mq.select_item_to_sell(place)` and `mq.sell(n)`.
 - **The world around you**: `mq.target_buffs()`, `mq.pet_buffs()` and `mq.cached_buffs(&spawn)`,
   `mq.raid()`, `mq.mercenary()`, `mq.xtargets()` and `mq.haters()`, `mq.alt_abilities()`,
   `mq.skills()` and `mq.abilities()`, `mq.merchant()` and `mq.loot_window()`.

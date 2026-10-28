@@ -1,5 +1,5 @@
-//! The merchant window and the loot window: what's for sale, and what's on
-//! the corpse you're looting.
+//! The merchant window and the loot window: what's for sale, buying and
+//! selling, and what's on the corpse you're looting.
 
 use std::fmt;
 
@@ -9,6 +9,7 @@ use crate::game::Spawn;
 use crate::items::{Item, ItemSlots};
 use crate::mq::Mq;
 use crate::plugin::Plugin;
+use crate::windows::{ItemContainerKind, SlotLocation};
 
 /// `MerchantPages::RegularMerchantPage`: what's for sale.
 const PAGE_FOR_SALE: usize = 0;
@@ -129,6 +130,57 @@ impl<P: Plugin> Mq<P> {
         let window = unsafe { (self.host().loot_window)().as_ref() }?;
         let corpse = unsafe { Spawn::from_raw((self.host().active_corpse)()) }?;
         Some(LootWindow { window, corpse })
+    }
+
+    // ----- buying and selling -----
+
+    /// Selects one of the merchant's items to [`buy`](Mq::buy), by its slot
+    /// in [`Merchant::items`], as `${Merchant.SelectItem}` does (also
+    /// selecting its row in the window's list). False without the merchant
+    /// window or an item there.
+    pub fn select_merchant_item(&self, slot: usize) -> bool {
+        let Some(item) = self.merchant().and_then(|merchant| merchant.items().get(slot)) else { return false };
+        // The game's own place for it, as ${Merchant.SelectItem} takes it.
+        let Some(location) = SlotLocation::from_global(item.raw().GlobalIndex()) else { return false };
+        let place = SlotLocation::new(ItemContainerKind::Merchant, location.slot, None);
+        self.merchant_select(place)
+    }
+
+    /// Selects one of your items to [`sell`](Mq::sell), at a place in your
+    /// inventory, as `/selectitem` does (and as clicking it does with the
+    /// merchant window open). False without the merchant window, an item
+    /// there, or for a place outside your inventory.
+    pub fn select_item_to_sell(&self, location: SlotLocation) -> bool {
+        location.container == ItemContainerKind::Inventory && self.merchant_select(location)
+    }
+
+    fn merchant_select(&self, location: SlotLocation) -> bool {
+        let Some((container, slot, in_bag)) = location.raw() else { return false };
+        self.merchant().is_some() && unsafe { (self.window_api().mqemu_merchant_select)(container, slot, in_bag) }
+    }
+
+    /// Buys `count` of the merchant's selected item, as `${Merchant.Buy}`
+    /// does. False without the merchant window, or if the selected item
+    /// isn't the merchant's ([`select_merchant_item`](Mq::select_merchant_item)).
+    /// The server answers a moment later: the item arrives in your
+    /// inventory, or the game says in chat why not.
+    pub fn buy(&self, count: u32) -> bool {
+        self.merchant_trade(true, count)
+    }
+
+    /// Sells `count` of your selected item, as `${Merchant.Sell}` and
+    /// `/sellitem` do. False without the merchant window, or if the
+    /// selected item isn't yours ([`select_item_to_sell`](Mq::select_item_to_sell)).
+    pub fn sell(&self, count: u32) -> bool {
+        self.merchant_trade(false, count)
+    }
+
+    fn merchant_trade(&self, buy: bool, count: u32) -> bool {
+        let Some(selected) = self.merchant().and_then(|merchant| merchant.selected_item()) else { return false };
+        let from = ItemContainerKind::from_raw(selected.raw().GlobalIndex().Location().0);
+        let wanted = if buy { ItemContainerKind::Merchant } else { ItemContainerKind::Inventory };
+        let Ok(count) = i32::try_from(count) else { return false };
+        from == wanted && count > 0 && unsafe { (self.window_api().mqemu_merchant_trade)(buy, count) }
     }
 }
 

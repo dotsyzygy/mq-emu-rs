@@ -1,11 +1,12 @@
-//! Spells, your buffs and songs, spell gems and spell book.
+//! Spells, your buffs and songs, spell gems and spell book; casting,
+//! memorizing and forgetting spells.
 //!
 //! The client's spell table is indexed by [`SpellId`]. A [`Spell`] borrows
 //! from the callback's [`Mq`] like every game object; keep its ID.
 
 use std::fmt;
 
-use mq_emu_sys::constants::{MAX_EFFECT_SLOTS, MAX_MEMORIZED_SPELLS, NUM_BOOK_SLOTS, NUM_LONG_BUFFS, NUM_TEMP_BUFFS, TOTAL_SPELL_COUNT};
+use mq_emu_sys::constants::{MAX_EFFECT_SLOTS, MAX_MEMORIZED_SPELLS, NUM_BOOK_SLOTS, NUM_LONG_BUFFS, NUM_SPELL_GEMS, NUM_TEMP_BUFFS, TOTAL_SPELL_COUNT};
 use mq_emu_sys::layouts::{ClientSpellManager, EQ_Affect, EQ_Spell, PcProfile};
 
 use crate::mq::Mq;
@@ -413,6 +414,73 @@ impl<P: Plugin> Mq<P> {
     pub fn spell_level(&self, spell: &Spell<'_>) -> Option<u8> {
         let profile: &PcProfile = self.profile()?;
         spell.level_for(u8::try_from(profile.Class()).ok()?)
+    }
+
+    // ----- acting on spells -----
+
+    /// Casts the spell in gem `gem` (0-based) on your target, as `/cast n`
+    /// does: the game's own `/cast`, as if typed. False if the gem is empty
+    /// or isn't one of the 12; the game says in chat when it won't cast
+    /// (not enough mana, no target, the gem still refreshing, a merchant,
+    /// trade, loot or bank window open). A splash spell
+    /// shows where it would land for a click, as the game's `/cast` does
+    /// (MacroQuest's `/cast` lands it on the target instead).
+    ///
+    /// Casting is asynchronous: the server starts it a moment later, and
+    /// [`Spawn::casting`](crate::Spawn::casting) on [`me`](Mq::me) says when.
+    pub fn cast_gem(&self, gem: usize) -> bool {
+        gem < NUM_SPELL_GEMS && self.gem(gem).is_some() && self.eq_command("/cast", &(gem + 1).to_string())
+    }
+
+    /// Casts a spell from the gem it's memorized in, as `/cast "name"`
+    /// does (see [`cast_gem`](Mq::cast_gem)). False if it isn't memorized.
+    pub fn cast_spell(&self, id: SpellId) -> bool {
+        self.gems().find(|(gem, spell)| *gem < NUM_SPELL_GEMS && spell.id() == id).is_some_and(|(gem, _)| self.cast_gem(gem))
+    }
+
+    /// Stops the spell you're casting, as the game's `/stopcast` does.
+    pub fn stop_casting(&self) -> bool {
+        self.eq_command("/stopcast", "")
+    }
+
+    /// Whether the spell in gem `gem` (0-based) can be cast now, as
+    /// `${Me.SpellReady[n]}` says: not while you're casting, always while a
+    /// bard song plays, otherwise once the gem has refreshed and the global
+    /// cooldown is over. False for an empty gem.
+    pub fn gem_ready(&self, gem: usize) -> bool {
+        gem < NUM_SPELL_GEMS && unsafe { (self.host().game_fns.mqemu_gem_ready)(gem as i32) }
+    }
+
+    /// Memorizes a spell from your spell book into gem `gem` (0-based), as
+    /// `/memspell` does. See [`memorize_spells`](Mq::memorize_spells).
+    pub fn memorize_spell(&self, gem: usize, id: SpellId) -> bool {
+        self.memorize_spells(&[(gem, id)])
+    }
+
+    /// Memorizes spells from your spell book into gems (0-based), as the
+    /// spell book's `MemorizeSet` does for `/memspell` and `/memspellset`:
+    /// the game memorizes them one after another, sitting you down, and the
+    /// gems change as each is done (watch [`gem`](Mq::gem)). A later call
+    /// replaces what's still waiting. False, with nothing memorized, if
+    /// there's none, a gem isn't one of the 12, or a spell isn't in your
+    /// book or is above your level.
+    pub fn memorize_spells(&self, spells: &[(usize, SpellId)]) -> bool {
+        let Some(level) = self.profile().map(|profile| profile.Level()) else { return false };
+        let mut loadout = [-1; NUM_SPELL_GEMS];
+        for &(gem, id) in spells {
+            let castable = self.spell(id).and_then(|spell| self.spell_level(&spell)).is_some_and(|needed| i32::from(needed) <= level);
+            if gem >= NUM_SPELL_GEMS || !self.knows_spell(id) || !castable {
+                return false;
+            }
+            loadout[gem] = id.0;
+        }
+        !spells.is_empty() && unsafe { (self.host().game_fns.mqemu_memorize_spells)(loadout.as_ptr(), loadout.len()) }
+    }
+
+    /// Forgets the spell in gem `gem` (0-based), emptying it, as
+    /// right-clicking the gem does. False if it's empty or isn't one of the 12.
+    pub fn forget_gem(&self, gem: usize) -> bool {
+        gem < NUM_SPELL_GEMS && self.gem(gem).is_some() && unsafe { (self.host().game_fns.mqemu_forget_gem)(gem as i32) }
     }
 }
 

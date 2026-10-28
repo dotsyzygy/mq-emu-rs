@@ -1,7 +1,8 @@
 // Game data that only the game's own functions (or MacroQuest's) can answer:
 // MacroQuest's cache of other spawns' buffs, alternate abilities, skill
 // values and caps, the game's string table and extended target role names;
-// and chat lines cleaned for event matching.
+// chat lines cleaned for event matching; and acting on spells (casting,
+// memorizing, forgetting) and the game's own slash commands.
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks for the game
@@ -56,6 +57,21 @@ bool copy_out(const char* text, char* out, size_t cap)
 	std::memcpy(out, text, len);
 	out[len] = 0;
 	return true;
+}
+
+// The game's own handler for slash command `name`, from its command table, as
+// MacroQuest finds /cast and /useitem's (cmdCast, cmdUseItem): not
+// MacroQuest's command of that name, nor an alias. Null if it has none.
+auto eq_command(const char* name) -> decltype(CMDLIST::fAddress)
+{
+	if (!EQADDR_CMDLIST)
+		return nullptr;
+	for (int i = 0; EQADDR_CMDLIST[i].fAddress != nullptr; ++i)
+	{
+		if (EQADDR_CMDLIST[i].szName && mq::ci_equals(EQADDR_CMDLIST[i].szName, name))
+			return EQADDR_CMDLIST[i].fAddress;
+	}
+	return nullptr;
 }
 
 } // namespace
@@ -254,5 +270,89 @@ extern "C" bool mqemu_clean_chat_line(const char* line, bool keep_links, char* o
 	catch (...)
 	{
 		return copy_out(nullptr, out, cap);
+	}
+}
+
+// ----- acting on spells, and the game's own commands -----
+
+// Runs the game's own handler for slash command `name` ("/autoinventory")
+// with `args` (what follows the command), as you: what typing it does once
+// MacroQuest passes it on. False if the game has no such command or there's
+// no character.
+extern "C" bool mqemu_eq_command(const char* name, const char* args)
+{
+	try
+	{
+		auto command = eq_command(name);
+		if (command == nullptr || !pLocalPlayer)
+			return false;
+		command(pLocalPlayer, args);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Memorizes spells into gems as /memspell does (CSpellBookWnd::MemorizeSet):
+// `spells` has a spell ID for each of the NUM_SPELL_GEMS gems, -1 to leave a
+// gem as it is. The game memorizes them one after another, sitting you down.
+// False without the spell book window or with another count.
+extern "C" bool mqemu_memorize_spells(const int* spells, size_t count)
+{
+	try
+	{
+		if (!pSpellBookWnd || !pLocalPC || count != NUM_SPELL_GEMS)
+			return false;
+		int loadout[NUM_SPELL_GEMS];
+		std::copy(spells, spells + NUM_SPELL_GEMS, loadout);
+		pSpellBookWnd->MemorizeSet(loadout, NUM_SPELL_GEMS);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Forgets the spell in gem `gem` (0-based), as right-clicking the gem does
+// (CCastSpellWnd::ForgetMemorizedSpell). False if the gem is empty. The
+// client stops on a breakpoint (int3) for gems from 16 on, so only the
+// NUM_SPELL_GEMS gems are passed on.
+extern "C" bool mqemu_forget_gem(int gem)
+{
+	try
+	{
+		if (!pCastSpellWnd || !pLocalPC || gem < 0 || gem >= NUM_SPELL_GEMS || mq::GetMemorizedSpell(gem) == -1)
+			return false;
+		pCastSpellWnd->ForgetMemorizedSpell(gem);
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Whether the spell in gem `gem` (0-based) can be cast now, as
+// ${Me.SpellReady[n]} says: not while the casting window shows (you're
+// casting), always while a bard song plays, otherwise once the gem's refresh
+// and the global cooldown are over. False for an empty gem.
+extern "C" bool mqemu_gem_ready(int gem)
+{
+	try
+	{
+		if (!pDisplay || !pLocalPlayer || gem < 0 || gem >= NUM_SPELL_GEMS || !mq::GetSpellByID(mq::GetMemorizedSpell(gem)))
+			return false;
+		if (pCastingWnd && pCastingWnd->IsVisible())
+			return false;
+		if (pCastSpellWnd && pCastSpellWnd->IsBardSongPlaying())
+			return true;
+		return pDisplay->TimeStamp > pLocalPlayer->SpellGemETA[gem] && pDisplay->TimeStamp > pLocalPlayer->GetSpellCooldownETA();
+	}
+	catch (...)
+	{
+		return false;
 	}
 }

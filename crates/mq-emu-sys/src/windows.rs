@@ -5,8 +5,9 @@
 //! them as `/notify` and `${Window}` do, a plugin's own windows, made from
 //! screen pieces in UI XML it adds (`AddXMLFile`), subclassing the game's
 //! windows (as MacroQuest's `WindowOverride` does), drawing on windows as
-//! the game draws them, and what `/itemnotify` does with an item it finds no
-//! slot window for (picking it up or dropping it, `/useitem`, opening bags).
+//! the game draws them, what `/itemnotify` does with an item it finds no
+//! slot window for (picking it up or dropping it, `/useitem`, opening bags),
+//! picking up part of a stack, and buying and selling at a merchant.
 //!
 //! These import `MQ2Main.dll` and `eqlib.dll`, so they only run inside the
 //! game; call them through [`API`] (see [`function_table!`]). Text comes back
@@ -223,6 +224,25 @@ function_table! {
     /// Opening: true if it's open after; it needs the bag's slot window.
     /// Closing: true if it was open.
     pub fn mqemu_open_container(container: i32, slot: i32, in_bag: i32, open: bool) -> bool;
+    /// Picks up `count` of the stack at a place onto the cursor, as accepting
+    /// the quantity window does (`CInvSlot::SliderComplete`, on the place's
+    /// slot window; a closed bag is opened for it and closed again). False
+    /// with something on the cursor, the merchant window open, no stack
+    /// there or no slot window.
+    pub fn mqemu_split_stack(container: i32, slot: i32, in_bag: i32, count: i32) -> bool;
+    /// Shows the cursor's item on the cursor's icon if it isn't already: the
+    /// game's `/autoinventory` does nothing while the icon doesn't show it.
+    /// False with nothing on the cursor.
+    pub fn mqemu_attach_cursor_item() -> bool;
+    /// Selects an item in the open merchant window
+    /// (`CMerchantWnd::SelectBuySellSlot`): yours at a place in your
+    /// inventory, or the merchant's at a merchant slot (also selecting its
+    /// row). False without the window or an item there.
+    pub fn mqemu_merchant_select(container: i32, slot: i32, in_bag: i32) -> bool;
+    /// Buys `count` of the merchant's selected item (`buy`) or sells `count`
+    /// of yours (`RequestGetItem`, `RequestPutItem`). False without the window
+    /// or a selected item.
+    pub fn mqemu_merchant_trade(buy: bool, count: i32) -> bool;
 }
 
 unsafe extern "C" {

@@ -43,199 +43,64 @@ Compared with writing the same plugin in C/C++ against MQ2Main directly:
 What the framework (`mq-emu`) supports today and what it doesn't yet.
 
 > **Keep this current:** when a feature is added (or a gap is found), update these lists in the same
-> change.
+> change. Keep **Supported** to one short line per area and record what an area lacks under
+> **Missing**; details belong in the rustdoc.
 
 **Supported**
 
-- Plugin lifecycle via `plugin!` and the `Plugin` trait: init/shutdown, pulse, incoming and written
-  chat, zoning (begin/end/zoned), game state changes, spawns and ground items added/removed, UI
-  clean/reload, HUD draw, macro start/stop, other plugins loading/unloading
-- Chat output, with colors (`mq_emu::color`)
-- Running commands (queued, immediate, timed); adding and removing slash commands
-- Aliases, including ones saved to MacroQuest.ini
-- Settings in INI files (`Ini`): the plugin's own (`mq.ini()`, `config\<Name>.ini` as a C++
-  plugin's `INIFileName`) or any other; values as text, parsed or as MacroQuest's switches; keys and
-  sections listed, written whole and removed; read and written through the same Windows functions
-  as MacroQuest, so `${Ini}`, `/ini` and C++ plugins see the same values
-- Chat events, as a macro's `#Event` or Lua's `mq.event` (`mq.add_event`): MacroQuest's own
-  matcher (Blech), with `#1#`/`#name#` captures, `#*#` and `|${...}|` data, run on the game's chat
-  and MacroQuest's, without color codes and with item links as their names (or kept). Handlers run
-  right after the line arrives; no `/doevents`. Patterns that crash the matcher are refused
-- Key binds (`mq.add_key_bind`): MacroQuest binds that `/bind` sets and MacroQuest.ini keeps,
-  handlers run as the key goes down and up, removed when the plugin unloads (MacroQuest would keep
-  calling the unloaded plugin); any bind's keys read, set and pressed; the game's own bindings of its
-  commands read, listed and set. Keys and combos (`Key`, `KeyCombo`) in `/bind`'s notation
-- Parsing `${...}` text
-- Reading TLOs and members (`tlo`, `tlo_at`, `data("Target.Name")`) as typed values
-- Providing TLOs from Rust (`add_tlo`) returning scalar values or values of the plugin's own
-  datatypes
-- Datatypes of the plugin's own (`Mq::add_type`), as a C++ plugin's `MQ2Type` or Lua's
-  `mq.DataType`: members (with an index), methods and text, answered by the plugin, for macros
-  and Lua scripts (`${Bot[Tank].HP}`, `mq.TLO.Bot('Tank').HP()`); members return values of the
-  types too. A value is a key (an integer or text) that the members look up, so MacroQuest frees
-  it without the plugin, even after the plugin unloads (a Lua script's member objects wait for
-  garbage collection). Macro variables of them (`/declare`, set from a key with `/varset` or from a
-  value with `/vardata`); when a type is removed or the plugin unloads, they become strings holding
-  their keys (arrays of them, empty strings), because MacroQuest deletes a variable through its
-  type and would call into the unloaded plugin. As with a C++ plugin's types, a value a Lua script
-  keeps can't be used after the plugin unloads
-- Spawns: you, your target, the spawn list, lookup by ID or name, nearest with a filter; name, level,
-  type, position, heading, HP, mana, distance; pets and their owners
-- Items (`Item`): name, ID, stack, charges, type, container slots and contents, weight, value,
-  flags (lore, no drop, no rent, magic), levels, classes, equip slots, AC/HP/mana/endurance,
-  damage, delay, haste, and the clicky/proc/worn/focus/scroll effects
-- Inventory: worn slots (`InvSlot`, with MacroQuest's slot names), bags and their contents, the
-  cursor, finding items by name, ID or filter, counting stacks, free bag slots; bank and shared bank
-- Spells (`Spell`, by ID or by name, chosen among same-named spells as `${Spell[name]}` does):
-  name, levels per class, mana/endurance cost, cast/recovery/recast times, range, duration,
-  beneficial or not, target and resist type, skill, icons, categories, messages, effects
-- Your buffs and songs (`Buff`: spell, caster level, ticks left, hit count), spell gems and spell
-  book
-- Your group: members (name, level, mercenary, offline, roles, spawn when in the zone), leader
-- Buffs on others: your target's and your pet's buffs as their windows show them (`WindowBuff`:
-  spell, time left, caster), whether the target's buffs have arrived, and MacroQuest's cache of the
-  buffs of every spawn you've targeted (`CachedBuff`, as `${Spawn[...].Buff[n]}` reads them)
-- Your raid: members (name, level, class, group, leader, main assist, marker, note), leader,
-  loot type and looters (and who may loot under them), message of the day, pending invites
-- Your mercenary: state (active, suspended, dead), name, stance and stances, its spawn, the
-  mercenaries you own
-- Extended targets: every slot's role (with the window's name for it), status, spawn and name,
-  your aggro on it, and the spawns hating you
-- Alternate abilities: the ones you own (by ID, name or rank index) and any the game knows;
-  name, description, category, rank, cost, spell, reuse time, whether it's ready and how long
-  until it is; AA points
-- Skills: value with and without modifiers, cap at your level, name; abilities (the activated
-  skills), whether they're ready and their reuse time
-- The merchant window (what's for sale, buyback, markup, the selected item, whether it's full) and
-  the loot window (the corpse and its items)
-- EverQuest's own UI windows (`Window`): found as `${Window[...]}` finds them (by name, a bag's
-  window as `pack1`, or a path to a control), every top-level window (with the item and spell
-  display windows, which the game keeps apart), the focused one; read (shown,
-  enabled, place on screen and in the parent, text as `${Window.Text}` reads it, tooltip, colors,
-  style, scrolling, XML name, screen ID and type, the window tree), and by kind: lists, tree views
-  and combo boxes (rows, cells, a cell's window, the selection), tabs, checked buttons, gauge values.
-  Acted on as `/notify` and `${Window}` do: clicks (left and right, down, up, held), notifications
-  from a control, selecting rows and tabs, typing into edit boxes, opening, closing, moving, colors
-  and alpha; the open context menu read, picked from and closed (MacroQuest's `${Menu.Items}` and
-  `menuselect` don't work on emu: the count they go by isn't the menu's on this client, reading 0
-  in one session and 678130844 in another). A control is
-  looked for only inside its window (MacroQuest's `Child[]` carries on into the windows after it)
-- What EQ windows hold: item slots (`ItemSlotWindow`, `${Window.InvSlot}`: the place and item
-  shown, quantity, selection, text, textures), found for a place as `/itemnotify` finds them
-  (`Mq::item_slot_window`, with `/itemnotify`'s slot names in `SlotLocation::parse`: worn slots,
-  `pack1`, `bank3`, `loot2`, `trade1`, `enviro1`, `in pack1 3`) and clicked like any window; hot
-  bars and hot buttons (`HotButtonWindow`, `${Window.HotButton}`: type, slot, label, item, the
-  spell gem, social or alternate ability, the page shown, pressing one); the trade window (both
-  sides' ready flags, what's offered, its slots); `link` notifications, whose data is the link's
-  code (`Window::notify_link`)
-- A plugin's own EQ UI windows: UI XML files added as `AddXMLFile` adds them (taken out when the
-  plugin unloads), and windows made from their screen pieces as C++ plugins' `CCustomWnd` makes
-  them (`Mq::add_window`), with a handler for each notification the window gets (from its
-  controls or `/notify`). The runtime makes them whenever the UI loads and deletes them before it's
-  cleaned up and when the plugin unloads (their code is in the plugin); one removed from its own
-  handler is deleted once the game is done with it. With hooks (`Mq::add_window_with`,
-  `WindowHooks`) a window draws on itself each frame, takes the mouse over it and may handle its
-  notifications instead of passing them on
-- Subclassing the game's own windows as C++ plugins' `WindowOverride` does (`Mq::subclass_window`,
-  by name or path): the same hooks get a window's notifications and the mouse over it first (and
-  may keep them from it), and draw on it after it draws. Subclassed as soon as the game has the
-  window, taken off before the UI is cleaned up (and put back when it loads), when removed (even
-  from its own hook) and at unload. It stacks with other hooks on the window: taken off from under
-  another, it passes everything on for good, so a copy of its vtable never calls into an unloaded
-  plugin. What a window gets while one of the plugin's callbacks runs (from the plugin's own
-  click) is delivered after that callback, too late to keep from the window
-- Drawing on a window as the game draws (`Painter`, from a draw hook): rectangles, text in EQ's
-  fonts (measured), and the game's UI textures, clipped to the window's client area
-- What `/itemnotify` does with a place no slot window shows (a closed bag): picking the item up and
-  dropping the cursor's there (`Mq::pick_up_item`, `Mq::drop_item`), using it as `/useitem` does
-  (`Mq::use_item`), and opening and closing bags (`Mq::open_bag`, `Mq::close_bag`). Outside bags
-  these are MacroQuest's `PickupItem` and `DropItem`; inside one mq-emu does what they do (moves
-  the item, then puts it on the cursor's icon) with the client's own `AttachToCursor` signature,
-  because `PickupItem` and `DropItem` (and so `/itemnotify in ...`'s fallback) corrupt the stack
-  there on emu: they call `AttachToCursor` as eqlib declares it, with 14 dwords of arguments, where
-  this client's takes 8 (`ret 20h`: the item's GUID by reference, its ID, a name and the quantity,
-  as the game's item slots call it). Found when the selftest crashed in game
-- Zones: the zone you're in (ID, instance, names, type, gravity, safe point, clip planes) and every
-  zone the client knows, by ID or name
-- Ground items: the zone's list, lookup by ID, nearest with a filter; name, position, heading,
-  weight, and the item itself
-- Movement: movement keys, facing a heading or point (smooth or instant), stopping
-- Async tasks on the game thread: `delay`, `wait_until`, timeouts, cancellation
-- Actors messaging: mailboxes, send, reply, request with timeout, other characters and peers
-- Lua interop: exchanging every actors value type with Lua scripts
-- ImGui (`mq_emu::imgui`): windows, child regions, menus, tabs, tables, trees, popups, tooltips,
-  text, buttons, checkboxes, radio buttons, selectables, sliders, drags, number and text inputs,
-  combo boxes, color editing, progress bars, simple plots, ID/style/disabled scopes, invisible
-  buttons, the cursor and mouse. Every begin/end pair is a closure scope that always ends, even on
-  a panic, and ImGui errors are caught and reported instead of pausing every plugin's overlay
-- Draw lists on a window, over every window or under them (`draw_list`, `foreground_draw_list`,
-  `background_draw_list`): lines, rectangles (rounded per corner, four-color), triangles, quads,
-  circles, regular polygons, ellipses, Bezier curves, polylines, convex and concave polygons, text
-  in any font, images, paths (lines, arcs, curves) stroked or filled, clip rectangles and channels
-- Textures and images: image files loaded through the game's renderer (`Ui::load_texture`, freed
-  only after the frames that drew them), images and image buttons, and the game's own UI textures
-  such as item and spell icons (`Ui::find_texture_animation`), which stop drawing when the game
-  unloads its UI rather than touching freed textures
-- Drag and drop between items and plots, carrying bytes of a named kind
-- Fonts: MacroQuest's default, console and large fonts, EverQuest's fonts, font files a plugin
-  loads (removed when it unloads), and any size
-- Docking: dock spaces (in a window or over the screen) and docking windows into them; layouts
-  built in code with ImGui's dock builder (`Ui::dock_builder`: dock space and floating nodes,
-  splits, docking windows, copying nodes and dock spaces, ImGui's internal node flags) and read back
-  (`Ui::dock_node`). Node 0, which ImGui takes as every node, and rebuilding nodes from inside a
-  window docked in them are refused rather than undoing everyone's docking or crashing
-- Multi-select (`Ui::multi_select`): lists whose items are selected with ctrl+click, shift+click,
-  ctrl+A, the keyboard or a dragged box, into a `Selection` or a selection kept elsewhere
-- Custom widgets, from ImGui's internal API: items laid out with an ID (`Ui::add_item`), their
-  button behavior with ImGui's private press modes (`Ui::button_behavior`), the active, hovered and
-  focused items, splitters (`Ui::splitter`), frames, clipped text and the nav cursor in the
-  style's look (`Ui::render_frame` and the like), arrows, bullets and check marks on draw lists,
-  buttons with private flags (`Ui::button_with`, `Ui::arrow_button_with`) and vertical separators.
-  ID 0, bad axes and directions and separators without thickness, which a release `imgui.dll` only
-  asserts on, are refused
-- Any ImGui window, this plugin's, another plugin's or MacroQuest's, from ImGui's internal API:
-  found by name or ID (`Ui::find_window`), listed back to front (`Ui::windows`), the current,
-  focused and hovered ones, and read (`WindowInfo`: kind, parent and root, place, size, content
-  size, scrolling, flags, display and focus order, collapsed). Moved, sized and collapsed,
-  focused, brought to the front or back or behind another, and scrolled to a place, a position or
-  a rectangle (`WindowRef`); the current window scrolled to the cursor (`Ui::set_scroll_here_y`)
-  or the last item (`Ui::scroll_to_item`). Windows are found again by ID on every call, so no
-  window pointer reaches Rust. Unknown windows, combined conditions, scroll ratios outside 0 to 1
-  and two ways to scroll one axis, which a release `imgui.dll` dereferences or only asserts on,
-  are refused
-- The list clipper (`Ui::list_clipper`, `Table::list_clipper`, `MultiSelect::list_clipper`): long
-  lists of evenly spaced items that only draw the ones in view, in a window, over a table's rows or
-  in a multi-select list (always drawing the item shift+click selects from, as ImGui needs).
-  Stepping a clipper that has ended, including items after the first step and a first item that
-  doesn't move the cursor are refused rather than crashing or misdrawing. A list of unknown length
-  isn't supported
-- ImPlot (`Ui::plot`, `Ui::subplots`): line, scatter, stairs, shaded, bar, bar group, error bar,
-  stem, infinite line, pie, heatmap, histogram (1D and 2D), digital, image, text and dummy items
-  over every numeric type; axis setup (labels, limits, formats, ticks, scales, constraints),
-  legends, drag points/lines/rectangles, annotations, tags, queries, legend popups, drawing in the
-  plot, plot styles and colormaps. Setup after plotting panics before ImPlot sees it
-- ImPlot's callback forms: items whose points come from a closure (`Plot::line_fn` and the
-  like), axis tick formatters and custom scales from closures (`Plot::setup_axis_format_fn`,
-  `Plot::setup_axis_scale_fn`, which may borrow from outside the plot but not from inside it, and
-  which ImPlot forgets when the plot ends), and pie chart labels. A panic in one is caught where
-  ImPlot called it and resumed once the item or plot is done. ImPlot's input map (which buttons pan,
-  select, fit and open menus), for this plugin's plots or everyone's
-- MacroQuest's EQ-styled widgets: spell gems as the game draws them (`Ui::spell_gem`, optionally
-  casting, forgetting or picking up the spell when clicked, and on draw lists), item link text
-  (`Ui::item_link_text`) and text laid out in EverQuest's fonts (`DrawList::add_eq_text`)
-- Runtime stats and safety nets: caught panics, slow-pulse warnings, queue limits
-- Generated raw layouts for spawns, your character and profile, the spawn list, items, spells,
-  groups, zones, key state, ground items, client state, the target, pet, merchant and loot windows,
-  raids, mercenaries, extended targets, aggro, alternate abilities and skills, and UI windows (the
-  window manager, buttons, lists, combo boxes, tabs, gauges, rich text, context menus, item slots
-  and their manager, hot buttons and bars, the trade window) (via `sys`)
+Each area is supported in full, except for what's listed under **Missing**.
+
+- **Plugin basics:** the `plugin!` macro and `Plugin` trait with every MacroQuest callback; chat
+  output with colors; running, adding and removing commands; aliases (temporary or saved); settings
+  in INI files, shared with `${Ini}`, `/ini` and C++ plugins
+- **Events and keys:** chat events as a macro's `#Event` (MacroQuest's own matcher, run as lines
+  arrive, no `/doevents`); key binds of the plugin's own, and reading, setting and pressing any bind
+- **MacroQuest data:** parsing `${...}`, reading TLOs as typed values, and providing TLOs and
+  datatypes of the plugin's own (members, methods, macro variables) to macros and Lua
+- **Game data:** spawns, items, inventory, bank, spells, buffs (yours, your target's and pet's,
+  MacroQuest's cache), spell gems and book, group, raid, mercenary, extended targets, alternate
+  abilities, skills, zones, ground items, and the merchant and loot windows
+- **Acting in game:** movement and facing; casting, stopping, memorizing and forgetting spells;
+  picking up, dropping, splitting and using items, `/autoinventory`, opening bags; buying and
+  selling at a merchant
+- **EverQuest's UI windows:** found as `${Window}` finds them, read, and acted on as `/notify` does
+  (clicks, lists, tabs, typing, context menus); item slots, hot buttons and the trade window; the
+  plugin's own windows from UI XML; subclassing the game's windows to see their notifications and
+  the mouse first and draw on them
+- **ImGui and ImPlot:** widgets as closure scopes that always end, even on a panic, with ImGui's
+  errors caught; draw lists, textures and the game's icons, fonts, drag and drop, docking and the
+  dock builder, multi-select, the list clipper, custom widgets and any window's placement and
+  scrolling from `imgui_internal.h`; all of ImPlot, with its callback forms; MacroQuest's
+  EQ-styled widgets (spell gems, item links, EQ text)
+- **Runtime:** async tasks on the game thread, caught panics, re-entrant callbacks queued, slow-pulse
+  warnings and queue limits
+- **Talking to others:** actors messaging between plugins and characters, and with Lua scripts
+- **Raw access:** generated layouts of the game's objects, and every import, through `sys`
+
+**Found on emu, and worked around**
+
+- MacroQuest's `PickupItem` and `DropItem` (and so `/itemnotify in ...`'s fallback) corrupt the
+  stack for places inside bags: they call `AttachToCursor` as eqlib declares it, with 14 dwords of
+  arguments, where this client's takes 8. mq-emu moves those items with the client's signature.
+- `${Menu.Items}` and `menuselect` find nothing: the count they go by isn't the menu's on this
+  client. mq-emu reads and picks from context menus itself.
+- Forgetting gem 16 or later stops the client on a breakpoint (`int3`); gems past the 12 are
+  refused.
+- The game's `/autoinventory` does nothing unless the cursor's icon shows the item, and
+  `CInvSlot::SliderComplete` (the quantity window's split) leaves the icon alone. mq-emu shows it
+  after splitting and before `/autoinventory`.
+- MacroQuest keeps calling a plugin's key binds after it unloads, never removes its aliases, and
+  deletes macro variables through their datatype; mq-emu removes binds and aliases at unload and
+  turns variables of its types into strings first.
+- `Child[]` carries on into the windows after the one searched; mq-emu looks only inside it.
 
 **Missing**
 
 - Game data beyond the bound set: advanced loot, tasks, achievements, the friends list, tribute
   (reachable as TLO reads, or through their windows)
-- Acting on spells (casting, memorizing) and on items beyond moving whole stacks and using them
-  (splitting stacks, auto-inventory, selling) (only by running commands)
+- Acting on spells and items beyond the bound set: splash spells landed at a place (MacroQuest's
+  `/cast ... loc`), spell sets saved in the game (`/memspellset`), destroying items, and opening a
+  merchant's window (only by running commands)
 - Datatypes beyond the bound set: returning MacroQuest's own objects (spawns, items...) from TLOs
   and members (`Value::Object` gives NULL), types inheriting another's members
   (`SetInheritance`), and members added to MacroQuest's own types (`AddMQ2TypeExtension`)
@@ -315,7 +180,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it (with every open EQ window's controls, what item slots and hot buttons hold, the hot bars and the trade window), every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too, and every ImGui window to bring to the front or focus), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
-(spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
+(spawns, inventory and bags, bank, buffs, gems and whether they're ready, spell book, spells, group, pet, zone, ground items,
 target and pet buffs, raid, mercenary, extended targets, AAs, skills, the merchant and loot
 windows when open, every EQ window and the controls of the open ones against `${Window}`, and every
 item slot and hot button against `${Window[...].InvSlot}` and `.HotButton`), and exercises commands, aliases, settings, chat events, key binds, re-entrancy, parsing, keys and async
@@ -344,6 +209,18 @@ tasks. It also:
   closing it, clicks the window itself, and takes the subclass off, after which the done button
   closes it. It picks up an item from a closed bag and puts it back (skipped with something on
   the cursor or the merchant window open).
+- **Casts and stops a spell:** a self or group buff (casting for a second or more) from a ready
+  gem, stopped before it lands, so no mana is spent. Skipped for bards, and while a merchant,
+  trade, give, loot or bank window is open (the game won't cast then).
+- **Memorizes and forgets a spell:** a spell from your book into an empty gem, then forgotten
+  again; with no empty gem, your last gem's spell is forgotten and memorized back (if that fails,
+  the gem is left empty and the failure says so). Memorizing sits you down; you're stood back up
+  if you were standing.
+- **Splits a stack:** one off a stack in a bag (a closed bag if there's one), dropped back on, then
+  one off again put away with `/autoinventory` (which may join another stack of the same item).
+  Skipped with something on the cursor or the merchant window open.
+- **Selects at a merchant**, when its window is open: one of its items, then one of yours.
+  Nothing is bought or sold.
 - **Reloads your UI, if it must:** the plugin adds `MQUI_RustTestWnd.xml` (deployed to
   MacroQuest's `resources\uifiles\default`) and a window made from it when it loads; if the UI
   hasn't read the file yet, the selftest runs `/reloadui`, which **freezes the game** for a while
@@ -502,6 +379,11 @@ config and only explicitly passed settings, to check what a downstream user will
   `${Mercenary.State}` names them; extended target aggro stops where the aggro meter does;
   untrained skills read 0, and abilities are only ready when known, activated and off cooldown;
   passive AAs are never ready; the merchant window needs to be shown and a merchant open.
+  Casting runs the game's `/cast` with the gem counted from 1; empty gems, gems past the 12,
+  spells not in the book or above your level (and sets holding one) aren't passed on, and gems
+  left alone are -1 in the set memorized. Stacks are split and items selected at the place as the
+  game numbers it (a merchant's item at its own slot, not its list row); only the merchant's
+  selected item is bought and only yours sold, and nothing is done with the window closed.
 - **`mq-emu` ImGui tests**: against the real `imgui.dll`, every scope ends when its closure panics,
   closed and collapsed windows skip their contents, clicks and typing (multi-byte, growing the
   buffer) reach Rust values, style variables have the right kinds, and table setup misuse panics
