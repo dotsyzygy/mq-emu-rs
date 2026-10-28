@@ -42,7 +42,7 @@ const ENUMS: &[&str] = &[
 ];
 
 /// The `imgui_internal.h` enums mq-emu-sys binds.
-const INTERNAL_ENUMS: &[&str] = &["ImGuiDockNodeFlagsPrivate_:ImGuiDockNodeFlags_", "ImGuiButtonFlagsPrivate_:ImGuiButtonFlags_", "ImGuiAxis"];
+const INTERNAL_ENUMS: &[&str] = &["ImGuiDockNodeFlagsPrivate_:ImGuiDockNodeFlags_", "ImGuiButtonFlagsPrivate_:ImGuiButtonFlags_", "ImGuiAxis", "ImGuiFocusRequestFlags_", "ImGuiScrollFlags_"];
 
 /// The ImPlot enums mq-emu-sys binds.
 const IMPLOT_ENUMS: &[&str] = &[

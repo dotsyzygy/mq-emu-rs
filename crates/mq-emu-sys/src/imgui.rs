@@ -97,6 +97,40 @@ pub struct mqemu_dock_node_info {
     pub visible: bool,
 }
 
+/// An ImGui window, as [`mqemu_imgui_window`] describes it.
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct mqemu_window_info {
+    /// The window it's in (for a child window, popup or menu), or 0.
+    pub parent: ImGuiID,
+    /// The window drawn in front with it: itself, or for a child or docked
+    /// window the top-level window it's in.
+    pub root: ImGuiID,
+    /// The dock node it's docked in (or last was), or 0.
+    pub dock_id: ImGuiID,
+    pub x: f32,
+    pub y: f32,
+    pub w: f32,
+    pub h: f32,
+    pub content_w: f32,
+    pub content_h: f32,
+    pub scroll_x: f32,
+    pub scroll_y: f32,
+    pub scroll_max_x: f32,
+    pub scroll_max_y: f32,
+    /// `ImGuiWindowFlags_`, internal ones included.
+    pub flags: i32,
+    /// Its place in `ImGui`'s window list, back (0) to front.
+    pub display_index: i32,
+    /// Its place in the focus order, back (0) to front; -1 for child windows.
+    pub focus_order: i32,
+    /// The last frame it was drawn (`ImGui::GetFrameCount`'s count).
+    pub last_frame_drawn: i32,
+    pub collapsed: bool,
+    /// Drawn but not shown (sizing itself on its first frame, say).
+    pub hidden: bool,
+}
+
 /// Grows a text buffer for [`mqemu_imgui_input_text`] to hold at least `size`
 /// bytes (including the NUL) and returns it, possibly moved, with its capacity
 /// in `*capacity`. Null leaves the buffer as it was.
@@ -651,6 +685,41 @@ function_table! {
     pub fn mqemu_imgui_arrow_button_ex(id: *const c_char, id_len: usize, dir: i32, w: f32, h: f32, flags: i32) -> bool;
     /// `thickness` 0 or less is an ImGui error.
     pub fn mqemu_imgui_separator_ex(vertical: bool, thickness: f32);
+
+    // ----- windows and scrolling (imgui_internal.h) -----
+    // Any window ImGui has, by ID; an ID with no window is an error.
+    /// The ID of the window named `name` (the hash ImGui finds it by).
+    pub fn mqemu_imgui_window_id(name: *const c_char, len: usize) -> ImGuiID;
+    /// The window named `name`, or 0.
+    pub fn mqemu_imgui_find_window(name: *const c_char, len: usize) -> ImGuiID;
+    /// The current, focused and hovered windows (0 for none).
+    pub fn mqemu_imgui_window_ids(current: *mut ImGuiID, focused: *mut ImGuiID, hovered: *mut ImGuiID);
+    pub fn mqemu_imgui_window_count() -> i32;
+    /// The window at `index` in display order, back to front (0 past the end).
+    pub fn mqemu_imgui_window_at(index: i32) -> ImGuiID;
+    /// False if there's no window `id`; its name is NUL-terminated, truncated to `cap`.
+    pub fn mqemu_imgui_window(id: ImGuiID, out: *mut mqemu_window_info, name: *mut c_char, cap: usize) -> bool;
+    /// `cond` one `ImGuiCond_` (combined ones are an ImGui error).
+    pub fn mqemu_imgui_set_window_pos_by_id(id: ImGuiID, x: f32, y: f32, cond: i32);
+    pub fn mqemu_imgui_set_window_size_by_id(id: ImGuiID, w: f32, h: f32, cond: i32);
+    pub fn mqemu_imgui_set_window_collapsed_by_id(id: ImGuiID, collapsed: bool, cond: i32);
+    /// `ImGuiFocusRequestFlags_`; `id` 0 takes focus from every window.
+    pub fn mqemu_imgui_focus_window(id: ImGuiID, flags: i32);
+    /// These move the window `id` is drawn with (its root).
+    pub fn mqemu_imgui_bring_window_to_front(id: ImGuiID);
+    pub fn mqemu_imgui_bring_window_to_back(id: ImGuiID);
+    pub fn mqemu_imgui_bring_window_behind(id: ImGuiID, behind: ImGuiID);
+    pub fn mqemu_imgui_is_window_above(above: ImGuiID, below: ImGuiID) -> bool;
+    /// `axis` `ImGuiAxis_X` or `ImGuiAxis_Y`.
+    pub fn mqemu_imgui_set_window_scroll(id: ImGuiID, axis: i32, scroll: f32);
+    /// `ratio` outside 0 to 1 is an ImGui error.
+    pub fn mqemu_imgui_set_window_scroll_from_pos(id: ImGuiID, axis: i32, local: f32, ratio: f32);
+    /// The current window; `ratio` outside 0 to 1 is an ImGui error.
+    pub fn mqemu_imgui_set_scroll_here(axis: i32, ratio: f32);
+    /// `ImGuiScrollFlags_`, at most one behavior per axis (more is an ImGui error).
+    pub fn mqemu_imgui_scroll_to_item(flags: i32);
+    /// Writes how far it will scroll.
+    pub fn mqemu_imgui_scroll_to_rect(id: ImGuiID, x0: f32, y0: f32, x1: f32, y1: f32, flags: i32, dx: *mut f32, dy: *mut f32);
 
     // ----- frame info -----
     pub fn mqemu_imgui_frame_count() -> i32;
@@ -1234,8 +1303,9 @@ imgui_constants! {
 }
 
 // From imgui_internal.h: ImGui's internal dock node flags
-// (`ImGuiDockNodeFlagsPrivate_`), for nodes made with the dock builder, and
-// what custom widgets use (private button flags, axes).
+// (`ImGuiDockNodeFlagsPrivate_`), for nodes made with the dock builder, what
+// custom widgets use (private button flags, axes), and focusing and
+// scrolling windows.
 imgui_constants! {
     INTERNAL_CONSTANTS, "imgui_internal.h";
     ImGuiDockNodeFlags_DockSpace = 1 << 10,
@@ -1275,4 +1345,19 @@ imgui_constants! {
     ImGuiAxis_None = -1,
     ImGuiAxis_X = 0,
     ImGuiAxis_Y = 1,
+
+    // ImGuiFocusRequestFlags_
+    ImGuiFocusRequestFlags_None = 0,
+    ImGuiFocusRequestFlags_RestoreFocusedChild = 1 << 0,
+    ImGuiFocusRequestFlags_UnlessBelowModal = 1 << 1,
+
+    // ImGuiScrollFlags_
+    ImGuiScrollFlags_None = 0,
+    ImGuiScrollFlags_KeepVisibleEdgeX = 1 << 0,
+    ImGuiScrollFlags_KeepVisibleEdgeY = 1 << 1,
+    ImGuiScrollFlags_KeepVisibleCenterX = 1 << 2,
+    ImGuiScrollFlags_KeepVisibleCenterY = 1 << 3,
+    ImGuiScrollFlags_AlwaysCenterX = 1 << 4,
+    ImGuiScrollFlags_AlwaysCenterY = 1 << 5,
+    ImGuiScrollFlags_NoScrollParent = 1 << 6,
 }

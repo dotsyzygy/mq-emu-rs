@@ -77,6 +77,11 @@
 //!   [`Ui::button_behavior`] makes it clickable, as ImGui's widgets are
 //!   made; [`Ui::splitter`], [`Ui::render_frame`] and the like, and
 //!   [`Ui::button_with`] for ImGui's private button flags.
+//! - Any window, this plugin's or not: [`Ui::find_window`] and
+//!   [`Ui::windows`] read them ([`WindowInfo`]), and a [`WindowRef`] moves,
+//!   sizes, focuses, brings to the front and scrolls one;
+//!   [`Ui::scroll_to_item`] and [`Ui::set_scroll_here_y`] scroll the current
+//!   window.
 //! - Long lists: [`Ui::list_clipper`] only draws the items in view, in a
 //!   window, a [table](Table::list_clipper) or a
 //!   [multi-select list](MultiSelect::list_clipper).
@@ -235,6 +240,7 @@ mod font;
 mod plot;
 mod select;
 mod texture;
+mod windows;
 
 pub use clip::ListClipper;
 pub use custom::{ButtonState, Item, ItemId, Split};
@@ -251,6 +257,7 @@ pub use plot::{
 };
 pub use select::{MultiSelect, MultiSelectFlags, MultiSelectIo, Selection, SelectionRequest};
 pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId};
+pub use windows::{FocusRequestFlags, ScrollFlags, WindowId, WindowInfo, WindowKind, WindowRef};
 pub(crate) use font::remove_loaded_fonts;
 pub(crate) use texture::{free_retired_textures, ui_unloaded};
 

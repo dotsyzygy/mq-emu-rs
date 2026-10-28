@@ -193,6 +193,16 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   buttons with private flags (`Ui::button_with`, `Ui::arrow_button_with`) and vertical separators.
   ID 0, bad axes and directions and separators without thickness, which a release `imgui.dll` only
   asserts on, are refused
+- Any ImGui window, this plugin's, another plugin's or MacroQuest's, from ImGui's internal API:
+  found by name or ID (`Ui::find_window`), listed back to front (`Ui::windows`), the current,
+  focused and hovered ones, and read (`WindowInfo`: kind, parent and root, place, size, content
+  size, scrolling, flags, display and focus order, collapsed). Moved, sized and collapsed,
+  focused, brought to the front or back or behind another, and scrolled to a place, a position or
+  a rectangle (`WindowRef`); the current window scrolled to the cursor (`Ui::set_scroll_here_y`)
+  or the last item (`Ui::scroll_to_item`). Windows are found again by ID on every call, so no
+  window pointer reaches Rust. Unknown windows, combined conditions, scroll ratios outside 0 to 1
+  and two ways to scroll one axis, which a release `imgui.dll` dereferences or only asserts on,
+  are refused
 - The list clipper (`Ui::list_clipper`, `Table::list_clipper`, `MultiSelect::list_clipper`): long
   lists of evenly spaced items that only draw the ones in view, in a window, over a table's rows or
   in a multi-select list (always drawing the item shift+click selects from, as ImGui needs).
@@ -233,11 +243,7 @@ What the framework (`mq-emu`) supports today and what it doesn't yet.
   `DrawTexturePiece`, `DrawScreenPiece`) and its ImGui add-ons (file dialog, text and memory
   editors) (reachable as raw `ImGui::*` C++ only)
 - The rest of ImGui's internal API (`imgui_internal.h`), in the pieces planned to bind next (custom
-  widgets are done):
-  - Windows and scrolling: finding windows by name, focus and display order, bringing a window to
-    the front, moving and sizing other windows, scrolling to an item or rectangle
-    (`FindWindowByName`, `FocusWindow`, `BringWindowToDisplayFront`, `ScrollToItem`,
-    `ScrollToRect`, `SetScrollFromPosX/Y`)
+  widgets, and windows and scrolling, are done):
   - Input ownership and focus: key owners, shortcut routing, keyboard navigation and focusing or
     activating items by ID, typing-select (`SetKeyOwner`, `TestKeyOwner`, `SetShortcutRouting`,
     `FocusItem`, `ActivateItemByID`, `SetNavID`, `GetTypingSelectRequest`)
@@ -306,7 +312,7 @@ loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be repla
 | `/rusttest selftest` | Runs every check and prints PASS/FAIL/SKIP for each (details below) |
 | `/rusttest stats` | Pulse timing, queued/dropped events, panics |
 | `/rusttest stop` | Cancels a running selftest and stops all movement |
-| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it (with every open EQ window's controls, what item slots and hot buttons hold, the hot bars and the trade window), every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
+| `/rusttest window` | Toggles the debug window: selftest results, runtime stats, the game as mq-emu sees it (with every open EQ window's controls, what item slots and hot buttons hold, the hot bars and the trade window), every bound ImGui widget to try by hand (multi-select, a clipped list and custom widgets too, and every ImGui window to bring to the front or focus), and tabs for ImPlot (with closures, a custom scale and the mouse map), draw lists, images and icons (with drag and drop, spell gems, item links and EQ text), fonts and docking (with a dock builder layout) |
 
 The selftest compares mq-emu's view of the game with MacroQuest's `${Me}`/`${Target}` data
 (spawns, inventory and bags, bank, buffs, gems, spell book, spells, group, pet, zone, ground items,
@@ -358,7 +364,8 @@ tasks. It also:
 - **Opens the debug window** (expanding it if it's collapsed), to check it draws without ImGui
   errors, and leaves it open with the results.
 - **Flashes a graphics window** for a few frames, drawing every ImPlot item, draw list feature,
-  font, image and drag and drop, a multi-select list, a clipped list, a custom widget and a splitter, plots from closures, your spell gems and EQ
+  font, image and drag and drop, a multi-select list, a clipped list, a custom widget and a splitter, plots from closures, finds its own window by name and brings
+  it to the front, scrolls a child window by its ID, your spell gems and EQ
   text, with a yellow outline around the screen; it writes a small BMP to the temp directory to load
   as a texture. With docking on, it lays out a small dock space with the dock builder (which ImGui
   keeps in MacroQuest's ImGui ini, like any dock space).
@@ -524,6 +531,15 @@ config and only explicitly passed settings, to check what a downstream user will
   lets go, a dragged splitter moves size between its sides down to a minimum, private-flag and
   arrow buttons press, and the render helpers draw (text after `##` hidden); the shim refuses ID 0,
   bad axes and directions and separators without thickness.
+  Windows: found by name with the ID their name hashes to, unknown names give none; child
+  regions, popups and tooltips have their kinds, and child regions their parent and root and no
+  focus order; the window list is in display order; bringing to the front, the back and behind
+  another reorders them, and focusing brings to the front and last in focus order (clearing focus
+  leaves none); focusing another window from inside a popup closes it and the frame ends cleanly;
+  another window is moved, sized and collapsed; a window is scrolled to a place and a position by
+  ID, the current window to the cursor (top and bottom of the view) and to its last item
+  (centered), and to a rectangle by as far as it said; the shim refuses unknown windows, combined
+  conditions, ratios outside 0 to 1, a bad axis and two ways to scroll one axis.
   ImPlot's closures: every point
   asked for and none past the count, formatters and custom scales take effect and are forgotten
   when the plot ends, panics in them resume afterwards, and a doctest shows a formatter borrowing

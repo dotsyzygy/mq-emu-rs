@@ -9,7 +9,8 @@
 use std::time::Instant;
 
 use mq_emu::imgui::{
-    ButtonFlags, ChildFlags, Cond, Dir, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags, TreeNodeFlags, Ui, WindowFlags,
+    ButtonFlags, ChildFlags, Cond, Dir, FocusRequestFlags, MultiSelectFlags, PlotOptions, Selection, StyleColor, StyleVar, TableColumnFlags, TableFlags,
+    TreeNodeFlags, Ui, WindowFlags, WindowInfo, WindowKind,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -648,6 +649,33 @@ impl RustTest {
         ui.item_tooltip(|ui| {
             ui.text("A tooltip drawn with widgets:");
             ui.progress_bar_with(s.fraction, [120.0, 0.0], None);
+        });
+
+        ui.separator_text("ImGui windows");
+        // Every plugin's top-level windows and MacroQuest's, front to back,
+        // from ImGui's internals.
+        let windows: Vec<WindowInfo> = ui.windows().into_iter().rev().filter(|w| w.kind == WindowKind::TopLevel && !w.hidden).collect();
+        let frame = ui.frame_count();
+        ui.child("imgui windows").size([0.0, 140.0]).show(|ui| {
+            for (i, window) in windows.iter().enumerate() {
+                ui.with_id(i as i32, |ui| {
+                    if ui.small_button("Front")
+                        && let Some(mut w) = ui.window_by_id(window.id)
+                    {
+                        w.bring_to_front();
+                    }
+                    ui.same_line();
+                    if ui.small_button("Focus")
+                        && let Some(mut w) = ui.window_by_id(window.id)
+                    {
+                        w.focus(FocusRequestFlags::NONE);
+                    }
+                    ui.same_line();
+                    let shown = if window.last_frame_drawn >= frame - 1 { "" } else { " (closed)" };
+                    let focused = if window.focused { " (focused)" } else { "" };
+                    ui.text(format!("{}{shown}{focused}", window.name));
+                });
+            }
         });
     }
 }

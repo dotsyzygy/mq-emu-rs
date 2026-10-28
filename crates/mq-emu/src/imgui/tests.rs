@@ -471,3 +471,4 @@ mod interaction;
 mod plot;
 mod plot_fn;
 mod select;
+mod windows;

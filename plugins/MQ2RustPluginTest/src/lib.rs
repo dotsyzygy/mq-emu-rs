@@ -608,6 +608,14 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         report.print(mq, "a custom widget lays out, takes the mouse and draws with ImGui's internals", Check::that(exercise.custom_item, || {
             "its item was never in view".into()
         }));
+        let windows = exercise.windows_checked > 0 && exercise.windows_wrong.is_empty();
+        report.print(mq, "ImGui windows are found by name, listed and brought to the front", Check::that(windows, || {
+            if exercise.windows_checked == 0 { "the window was never found by name".into() } else { exercise.windows_wrong.clone() }
+        }));
+        let scrolled = exercise.child_scroll == graphics::CHILD_SCROLL;
+        report.print(mq, "a window scrolls by its ID", Check::that(scrolled, || {
+            format!("the clipped list scrolled to {}, not {}", exercise.child_scroll, graphics::CHILD_SCROLL)
+        }));
     });
 }
 

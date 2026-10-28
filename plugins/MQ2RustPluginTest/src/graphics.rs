@@ -11,6 +11,7 @@ use mq_emu::imgui::{
     Axis, AxisFlags, BarsFlags, Bins, Colormap, Cond, Corners, Dir, DockNodeFlags, DragDropFlags, DragToolFlags, EqTextFlags, Font,
     ButtonFlags, HeatmapFlags, HistogramFlags, ITEM_ICONS, ImageOptions, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MultiSelectFlags,
     PieChartFlags, PlotFlags, SPELL_ICONS, ScatterFlags, Selection, SpellGemFlags, Split, StairsFlags, SubplotFlags, Texture, TextureAnimation, Ui, WindowFlags,
+    WindowKind,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -34,6 +35,9 @@ const DOCKED_2: &str = "Rust docked window 2";
 const EXERCISE_DOCKED: &str = "Rust plugin test: docked by the dock builder";
 /// Lines in the exercise's clipped list.
 pub const CLIPPED_LINES: usize = 100_000;
+/// How far the selftest scrolls the clipped list's child.
+pub const CHILD_SCROLL: f32 = 40.0;
+const EXERCISE_WINDOW: &str = "Rust plugin test: graphics selftest";
 /// Spell gems the game's spell gem window has.
 const SPELL_GEMS: usize = mq_emu::sys::NUM_SPELL_GEMS;
 
@@ -124,6 +128,13 @@ pub struct Exercise {
     pub clipped_lines: usize,
     /// Whether the custom item was laid out in view and drawn.
     pub custom_item: bool,
+    /// What finding, listing and bringing the window to the front got
+    /// wrong, on the last frame anything did (empty if nothing did).
+    pub windows_wrong: String,
+    /// Frames the window was checked by name.
+    pub windows_checked: usize,
+    /// How far down the clipped list's child scrolled (set by its ID).
+    pub child_scroll: f32,
 }
 
 impl Exercise {
@@ -265,8 +276,9 @@ impl RustTest {
         let mut spell_gems = 0;
         let mut clipped_lines = 0;
         let mut custom_item = false;
+        let mut child_scroll = None;
         let selection = &mut g.exercise_selection;
-        ui.window("Rust plugin test: graphics selftest")
+        ui.window(EXERCISE_WINDOW)
             .position([40.0, 40.0], Cond::Appearing)
             .size([520.0, 560.0], Cond::Appearing)
             .flags(WindowFlags::NO_SAVED_SETTINGS | WindowFlags::NO_FOCUS_ON_APPEARING)
@@ -301,6 +313,13 @@ impl RustTest {
                             clipped_lines += 1;
                         }
                     });
+                    // Scrolled through ImGui's internals, by the child's ID.
+                    let mut child = ui.current_window();
+                    let scroll = child.info().scroll[1];
+                    if scroll == 0.0 {
+                        child.set_scroll_y(CHILD_SCROLL);
+                    }
+                    child_scroll = Some(scroll);
                 });
                 // A custom widget: an item, its behavior, a frame and text, and a splitter.
                 if let Some(item) = ui.add_item("exercise custom item", [160.0, 24.0]) {
@@ -395,6 +414,7 @@ impl RustTest {
             }
             docked
         });
+        let windows_wrong = check_windows(ui);
         // Outlines the screen while the exercise runs, over and under every window.
         let ([sx, sy], [sw, sh]) = ui.screen_rect();
         ui.foreground_draw_list().add_rect([sx + 2.0, sy + 2.0], [sx + sw - 2.0, sy + sh - 2.0], YELLOW, 0.0, 2.0);
@@ -420,6 +440,15 @@ impl RustTest {
             exercise.spell_gems = exercise.spell_gems.max(spell_gems);
             exercise.clipped_lines = exercise.clipped_lines.max(clipped_lines);
             exercise.custom_item |= custom_item;
+            if let Some(wrong) = windows_wrong {
+                exercise.windows_checked += 1;
+                if !wrong.is_empty() {
+                    exercise.windows_wrong = wrong;
+                }
+            }
+            if let Some(scroll) = child_scroll {
+                exercise.child_scroll = exercise.child_scroll.max(scroll);
+            }
         }
     }
 
@@ -753,4 +782,29 @@ impl RustTest {
         ui.item_tooltip_text("Splits the dock space in two and docks a window in each half");
         ui.text(format!("This window docked: {}", ui.is_window_docked()));
     }
+}
+
+/// Finds the exercise window by name as any plugin could, checks it's in
+/// the window list, and brings it in front of every other top-level window.
+/// None if ImGui doesn't have it (yet); otherwise what's wrong, if anything.
+fn check_windows(ui: &mut Ui) -> Option<String> {
+    let id = ui.window_id(EXERCISE_WINDOW);
+    let mut window = ui.find_window(EXERCISE_WINDOW)?;
+    window.bring_to_front();
+    let info = window.info();
+    let behind: Vec<String> = ui
+        .windows()
+        .into_iter()
+        .filter(|other| other.kind == WindowKind::TopLevel && other.id != info.id)
+        .filter(|other| !ui.window_by_id(info.id).is_some_and(|w| w.is_above(other.id)))
+        .map(|other| other.name)
+        .collect();
+    let listed = ui.windows().iter().any(|w| w.id == info.id && w.name == EXERCISE_WINDOW);
+    let wrong = [
+        (info.id != id, format!("found as {:?}, not its name's ID {id:?}", info.id)),
+        (info.kind != WindowKind::TopLevel, format!("found as a {:?}", info.kind)),
+        (!listed, "not in Ui::windows".to_string()),
+        (!behind.is_empty(), format!("still behind {behind:?} after bring_to_front")),
+    ];
+    Some(wrong.into_iter().filter(|(wrong, _)| *wrong).map(|(_, what)| what).collect::<Vec<_>>().join("; "))
 }

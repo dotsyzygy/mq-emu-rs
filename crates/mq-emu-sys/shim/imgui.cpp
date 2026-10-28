@@ -1558,3 +1558,260 @@ extern "C" void mqemu_imgui_separator_ex(bool vertical, float thickness)
 		ImGui::SeparatorEx(vertical ? ImGuiSeparatorFlags_Vertical : ImGuiSeparatorFlags_Horizontal, thickness);
 	});
 }
+
+// ----- windows and scrolling (imgui_internal.h) -----
+// Any window ImGui has, this plugin's or not, found by name or ID: what it
+// is, its focus and display order, and moving, sizing, focusing and
+// scrolling it. Windows are passed by ID and found again on each call, so no
+// ImGuiWindow pointer leaves the shim.
+
+static ImGuiWindow* existing_window(ImGuiID id)
+{
+	ImGuiWindow* window = id ? ImGui::FindWindowByID(id) : nullptr;
+	if (!window)
+		throw ImGuiException("no such window");
+	return window;
+}
+
+static void check_cond(int cond)
+{
+	if (cond != 0 && !ImIsPowerOfTwo(cond))
+		throw ImGuiException("one ImGuiCond_ at a time");
+}
+
+static void check_ratio(float ratio)
+{
+	if (!(ratio >= 0.0f && ratio <= 1.0f))
+		throw ImGuiException("a scroll ratio is 0 to 1");
+}
+
+static void check_scroll_flags(int flags)
+{
+	int x = flags & ImGuiScrollFlags_MaskX_;
+	int y = flags & ImGuiScrollFlags_MaskY_;
+	if ((x && !ImIsPowerOfTwo(x)) || (y && !ImIsPowerOfTwo(y)))
+		throw ImGuiException("one ImGuiScrollFlags_ behavior per axis");
+}
+
+static void check_axis(int axis)
+{
+	if (axis != ImGuiAxis_X && axis != ImGuiAxis_Y)
+		throw ImGuiException("an axis is ImGuiAxis_X or ImGuiAxis_Y");
+}
+
+// A window's ID: the hash of its name, as ImGui finds windows by.
+extern "C" ImGuiID mqemu_imgui_window_id(const char* name, size_t len)
+{
+	return guarded<ImGuiID>(0, [&] { return ImHashStr(name, len); });
+}
+
+// The window named `name` (its ID), or 0 if ImGui has none.
+extern "C" ImGuiID mqemu_imgui_find_window(const char* name, size_t len)
+{
+	return guarded<ImGuiID>(0, [&] {
+		ImGuiWindow* window = ImGui::FindWindowByName(CString(name, len));
+		return window ? window->ID : 0;
+	});
+}
+
+// The current window, the focused one and the one under the mouse (0 for none).
+extern "C" void mqemu_imgui_window_ids(ImGuiID* current, ImGuiID* focused, ImGuiID* hovered)
+{
+	*current = GImGui->CurrentWindow ? GImGui->CurrentWindow->ID : 0;
+	*focused = GImGui->NavWindow ? GImGui->NavWindow->ID : 0;
+	*hovered = GImGui->HoveredWindow ? GImGui->HoveredWindow->ID : 0;
+}
+
+// How many windows ImGui has, and the one at `index` in display order (0 at
+// the back; 0 past the end).
+extern "C" int mqemu_imgui_window_count()
+{
+	return GImGui->Windows.Size;
+}
+
+extern "C" ImGuiID mqemu_imgui_window_at(int index)
+{
+	return index >= 0 && index < GImGui->Windows.Size ? GImGui->Windows[index]->ID : 0;
+}
+
+// What a window is (mqemu_imgui_window).
+struct mqemu_window_info
+{
+	ImGuiID parent;
+	// The window drawn in front with it: itself, or for a child or docked
+	// window the top-level window it's in.
+	ImGuiID root;
+	ImGuiID dock_id;
+	float x, y, w, h;
+	float content_w, content_h;
+	float scroll_x, scroll_y;
+	float scroll_max_x, scroll_max_y;
+	int flags;
+	int display_index;
+	// -1 for windows not in the focus order (child windows).
+	int focus_order;
+	int last_frame_drawn;
+	bool collapsed;
+	bool hidden;
+};
+
+// Describes window `id` into `out` and copies its name to `name`
+// (NUL-terminated, truncated to `cap`); false if there's no such window.
+extern "C" bool mqemu_imgui_window(ImGuiID id, mqemu_window_info* out, char* name, size_t cap)
+{
+	return guarded(false, [&] {
+		ImGuiWindow* window = id ? ImGui::FindWindowByID(id) : nullptr;
+		if (!window)
+			return false;
+		out->parent = window->ParentWindow ? window->ParentWindow->ID : 0;
+		out->root = window->RootWindowDockTree ? window->RootWindowDockTree->ID : window->ID;
+		out->dock_id = window->DockId;
+		out->x = window->Pos.x;
+		out->y = window->Pos.y;
+		out->w = window->Size.x;
+		out->h = window->Size.y;
+		out->content_w = window->ContentSize.x;
+		out->content_h = window->ContentSize.y;
+		out->scroll_x = window->Scroll.x;
+		out->scroll_y = window->Scroll.y;
+		out->scroll_max_x = window->ScrollMax.x;
+		out->scroll_max_y = window->ScrollMax.y;
+		out->flags = window->Flags;
+		out->display_index = ImGui::FindWindowDisplayIndex(window);
+		// Child windows are never in the list, but keep FocusOrder's default of 0.
+		int order = window->FocusOrder;
+		ImVector<ImGuiWindow*>& focus = GImGui->WindowsFocusOrder;
+		out->focus_order = order >= 0 && order < focus.Size && focus[order] == window ? order : -1;
+		out->last_frame_drawn = window->LastFrameActive;
+		out->collapsed = window->Collapsed;
+		out->hidden = window->Hidden;
+		if (name && cap)
+			strncpy_s(name, cap, window->Name, _TRUNCATE);
+		return true;
+	});
+}
+
+extern "C" void mqemu_imgui_set_window_pos_by_id(ImGuiID id, float x, float y, int cond)
+{
+	guarded_void([&] {
+		check_cond(cond);
+		ImGui::SetWindowPos(existing_window(id), ImVec2(x, y), cond);
+	});
+}
+
+extern "C" void mqemu_imgui_set_window_size_by_id(ImGuiID id, float w, float h, int cond)
+{
+	guarded_void([&] {
+		check_cond(cond);
+		ImGui::SetWindowSize(existing_window(id), ImVec2(w, h), cond);
+	});
+}
+
+extern "C" void mqemu_imgui_set_window_collapsed_by_id(ImGuiID id, bool collapsed, int cond)
+{
+	guarded_void([&] {
+		check_cond(cond);
+		ImGui::SetWindowCollapsed(existing_window(id), collapsed, cond);
+	});
+}
+
+// Focuses window `id` (ImGuiFocusRequestFlags_), bringing it to the front
+// unless it has NoBringToFrontOnFocus; 0 takes focus from every window.
+extern "C" void mqemu_imgui_focus_window(ImGuiID id, int flags)
+{
+	guarded_void([&] { ImGui::FocusWindow(id ? existing_window(id) : nullptr, flags); });
+}
+
+// Moves the window `id` is drawn with (its root) to the front or back of the
+// display order, or just behind the one `behind` is drawn with.
+extern "C" void mqemu_imgui_bring_window_to_front(ImGuiID id)
+{
+	guarded_void([&] { ImGui::BringWindowToDisplayFront(existing_window(id)->RootWindowDockTree); });
+}
+
+extern "C" void mqemu_imgui_bring_window_to_back(ImGuiID id)
+{
+	guarded_void([&] { ImGui::BringWindowToDisplayBack(existing_window(id)->RootWindowDockTree); });
+}
+
+extern "C" void mqemu_imgui_bring_window_behind(ImGuiID id, ImGuiID behind)
+{
+	guarded_void([&] {
+		ImGuiWindow* window = existing_window(id)->RootWindowDockTree;
+		ImGuiWindow* above = existing_window(behind)->RootWindowDockTree;
+		if (window != above)
+			ImGui::BringWindowToDisplayBehind(window, above);
+	});
+}
+
+// Whether window `above` is drawn over window `below`.
+extern "C" bool mqemu_imgui_is_window_above(ImGuiID above, ImGuiID below)
+{
+	return guarded(false, [&] { return ImGui::IsWindowAbove(existing_window(above), existing_window(below)); });
+}
+
+// Scrolls window `id` to `scroll` on `axis` (ImGuiAxis), from next frame.
+extern "C" void mqemu_imgui_set_window_scroll(ImGuiID id, int axis, float scroll)
+{
+	guarded_void([&] {
+		check_axis(axis);
+		ImGuiWindow* window = existing_window(id);
+		if (axis == ImGuiAxis_X)
+			ImGui::SetScrollX(window, scroll);
+		else
+			ImGui::SetScrollY(window, scroll);
+	});
+}
+
+// Scrolls window `id` so `local` (from its top left, as the cursor's
+// position in it is) ends up `ratio` (0 to 1) of the way across its view.
+extern "C" void mqemu_imgui_set_window_scroll_from_pos(ImGuiID id, int axis, float local, float ratio)
+{
+	guarded_void([&] {
+		check_axis(axis);
+		check_ratio(ratio);
+		ImGuiWindow* window = existing_window(id);
+		if (axis == ImGuiAxis_X)
+			ImGui::SetScrollFromPosX(window, local, ratio);
+		else
+			ImGui::SetScrollFromPosY(window, local, ratio);
+	});
+}
+
+// Scrolls the current window so the cursor ends up `ratio` (0 to 1) of the
+// way across its view.
+extern "C" void mqemu_imgui_set_scroll_here(int axis, float ratio)
+{
+	guarded_void([&] {
+		check_axis(axis);
+		check_ratio(ratio);
+		if (axis == ImGuiAxis_X)
+			ImGui::SetScrollHereX(ratio);
+		else
+			ImGui::SetScrollHereY(ratio);
+	});
+}
+
+// Scrolls the current window (and its parents, unless NoScrollParent) to
+// bring the last item into view, as `flags` (ImGuiScrollFlags_) say.
+extern "C" void mqemu_imgui_scroll_to_item(int flags)
+{
+	guarded_void([&] {
+		check_scroll_flags(flags);
+		ImGui::ScrollToItem(flags);
+	});
+}
+
+// Scrolls window `id` to bring the rectangle (screen coordinates) into view;
+// writes how far it will scroll.
+extern "C" void mqemu_imgui_scroll_to_rect(ImGuiID id, float x0, float y0, float x1, float y1, int flags, float* dx, float* dy)
+{
+	*dx = 0.0f;
+	*dy = 0.0f;
+	guarded_void([&] {
+		check_scroll_flags(flags);
+		ImVec2 delta = ImGui::ScrollToRectEx(existing_window(id), ImRect(x0, y0, x1, y1), flags);
+		*dx = delta.x;
+		*dy = delta.y;
+	});
+}
