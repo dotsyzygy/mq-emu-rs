@@ -249,3 +249,82 @@ fn file_styles_round_trip_with_their_fonts() {
     dialog.clear_file_styles();
     assert_eq!(dialog.file_style(FileStyleFlags::BY_EXTENSION, ".lua"), None);
 }
+
+thread_local! {
+    static TOKENIZED: std::cell::RefCell<Vec<String>> = const { std::cell::RefCell::new(Vec::new()) };
+}
+
+/// Digits as numbers; everything else left to the regexes.
+fn digits(text: &str) -> Option<(std::ops::Range<usize>, PaletteIndex)> {
+    TOKENIZED.with_borrow_mut(|seen| seen.push(text.to_owned()));
+    let start = text.find(|c: char| c.is_ascii_digit())?;
+    let len = text[start..].find(|c: char| !c.is_ascii_digit()).unwrap_or(text.len() - start);
+    Some((start..start + len, PaletteIndex::Number))
+}
+
+#[test]
+fn a_tokenizer_is_called_while_rendering_only() {
+    let _imgui = lock();
+    let ui = Ui::new(&fake::APIS);
+    let mut editor = ui.new_text_editor();
+    let language = LanguageDefinition { name: "digits".into(), tokenizer: Some(digits), ..Default::default() };
+    assert_eq!(editor.set_language_definition(&language), Ok(()));
+    editor.set_text("ab 12 é 3");
+    TOKENIZED.with_borrow_mut(Vec::clear);
+    let rendered = frame(|ui| test_window(ui, |ui| editor.render(ui, "digits", [0.0, 100.0], false)));
+    assert_eq!(rendered, Ok(Some(())));
+    // From the line's start to "12", then on from its end; the editor steps
+    // into "é" byte by byte, and the tokenizer is given what follows it.
+    let seen = TOKENIZED.with_borrow_mut(std::mem::take);
+    assert_eq!(seen, ["ab 12 é 3", " é 3"], "each call starts where the last token ended");
+
+    // Outside render (setting text colors nothing until it's drawn).
+    editor.set_text("4 5");
+    assert!(TOKENIZED.with_borrow(Vec::is_empty));
+    // A built-in language drops it.
+    editor.set_language(Language::Lua);
+    frame(|ui| test_window(ui, |ui| editor.render(ui, "digits", [0.0, 100.0], false))).unwrap();
+    assert!(TOKENIZED.with_borrow(Vec::is_empty), "Lua's own tokenizer is used");
+}
+
+/// A bad tokenizer: empty tokens and ranges past the text, which would
+/// stall the editor or color past the line.
+fn out_of_range(text: &str) -> Option<(std::ops::Range<usize>, PaletteIndex)> {
+    TOKENIZED.with_borrow_mut(|seen| seen.push(text.to_owned()));
+    Some(if text.len() % 2 == 0 { 0..0 } else { 0..text.len() + 5 }).map(|r| (r, PaletteIndex::String))
+}
+
+#[test]
+fn bad_tokens_are_ignored_and_the_editor_moves_on() {
+    let _imgui = lock();
+    let ui = Ui::new(&fake::APIS);
+    let mut editor = ui.new_text_editor();
+    let language = LanguageDefinition { tokenizer: Some(out_of_range), ..Default::default() };
+    editor.set_language_definition(&language).unwrap();
+    editor.set_text("abcd");
+    TOKENIZED.with_borrow_mut(Vec::clear);
+    frame(|ui| test_window(ui, |ui| editor.render(ui, "bad", [0.0, 100.0], false))).unwrap();
+    assert_eq!(TOKENIZED.with_borrow_mut(std::mem::take), ["abcd", "bcd", "cd", "d"], "one byte on each time");
+}
+
+fn panicking(_: &str) -> Option<(std::ops::Range<usize>, PaletteIndex)> {
+    TOKENIZED.with_borrow_mut(|seen| seen.push("called".into()));
+    panic!("tokenizer")
+}
+
+#[test]
+fn a_panic_in_a_tokenizer_comes_out_after_the_render() {
+    let _imgui = lock();
+    let ui = Ui::new(&fake::APIS);
+    let mut editor = ui.new_text_editor();
+    editor.set_language_definition(&LanguageDefinition { tokenizer: Some(panicking), ..Default::default() }).unwrap();
+    editor.set_text("one\ntwo");
+    TOKENIZED.with_borrow_mut(Vec::clear);
+    let result = frame(|ui| {
+        test_window(ui, |ui| {
+            catch_unwind(AssertUnwindSafe(|| editor.render(ui, "panics", [0.0, 100.0], false))).map_err(|p| p.downcast_ref::<&str>().copied())
+        })
+    });
+    assert_eq!(result, Ok(Some(Err(Some("tokenizer")))), "the frame ended cleanly, then the panic came out");
+    assert_eq!(TOKENIZED.with_borrow(Vec::len), 1, "not called again after it panicked");
+}

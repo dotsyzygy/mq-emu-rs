@@ -64,7 +64,13 @@ struct mqemu_text_editor_language
 	mqemu_strings token_regexes;
 	const int* token_palette;
 	bool case_sensitive;
+	// Tokens are found first by the tokenizer passed to render.
+	bool tokenizer;
 };
+
+// Finds the token starting at or after `text` (`len` bytes, the rest of a
+// line): its start and end, and the PaletteIndex it's shown in.
+using mqemu_tokenizer_fn = bool (*)(void* user, const char* text, size_t len, size_t* start, size_t* end, int* palette);
 
 struct mqemu_memory_editor_options
 {
@@ -261,10 +267,41 @@ extern "C" void mqemu_text_editor_delete(TextEditor* editor)
 	guarded_void([&] { delete editor; });
 }
 
-extern "C" void mqemu_text_editor_render(TextEditor* editor, const char* title, size_t title_len, float w, float h, bool border)
+// The language's tokenize has no user data, and the editor colors text only
+// in Render, so render's tokenizer is kept here while it runs.
+thread_local mqemu_tokenizer_fn current_tokenizer = nullptr;
+thread_local void* current_tokenizer_user = nullptr;
+
+bool tokenize_trampoline(const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& palette)
+{
+	if (current_tokenizer == nullptr)
+		return false;
+	const size_t len = in_end - in_begin;
+	size_t start = 0, end = 0;
+	int index = 0;
+	// An empty token would never move the editor on.
+	if (!current_tokenizer(current_tokenizer_user, in_begin, len, &start, &end, &index) || start >= end || end > len
+		|| index < 0 || index >= static_cast<int>(PaletteIndex::Max))
+		return false;
+	out_begin = in_begin + start;
+	out_end = in_begin + end;
+	palette = static_cast<PaletteIndex>(index);
+	return true;
+}
+
+extern "C" void mqemu_text_editor_render(TextEditor* editor, const char* title, size_t title_len, float w, float h, bool border,
+	mqemu_tokenizer_fn tokenizer, void* user)
 {
 	guarded_void([&] {
 		UndoStarts starts(editor);
+		struct Current
+		{
+			mqemu_tokenizer_fn fn = current_tokenizer;
+			void* user = current_tokenizer_user;
+			~Current() { current_tokenizer = fn; current_tokenizer_user = user; }
+		} restore;
+		current_tokenizer = tokenizer;
+		current_tokenizer_user = user;
 		editor->Render(CString(title, title_len), ImVec2(w, h), border);
 	});
 }
@@ -314,6 +351,8 @@ extern "C" bool mqemu_text_editor_set_language_definition(TextEditor* editor, co
 		definition.preprocChar = language->preproc_char;
 		definition.autoIndentation = language->auto_indentation;
 		definition.caseSensitive = language->case_sensitive;
+		if (language->tokenizer)
+			definition.tokenize = tokenize_trampoline;
 		for (size_t i = 0; i < language->token_regexes.count; ++i)
 		{
 			std::string pattern = strings_at(language->token_regexes, i);

@@ -70,7 +70,7 @@ Each area is supported in full, except for what's listed under **Missing**.
   scrolling from `imgui_internal.h`; all of ImPlot, with its callback forms; MacroQuest's
   EQ-styled widgets (spell gems, item links, EQ text) and EQ UI drawing (the game's UI texture
   files and pieces of them, screen pieces); MacroQuest's ImGui add-ons: the text editor (with
-  languages of your own), the memory editor (with closures for its bytes) and the file dialog
+  languages of your own, by regexes or a tokenizer function), the memory editor (with closures for its bytes) and the file dialog
 - **Runtime:** async tasks on the game thread, caught panics, re-entrant callbacks queued, slow-pulse warnings and queue limits
 - **Talking to others:** actors messaging between plugins and characters, and with Lua scripts
 - **Raw access:** generated layouts of the game's objects, and every import, through `sys`
@@ -96,9 +96,8 @@ Each area is supported in full, except for what's listed under **Missing**.
 - Advanced loot (`${AdvLoot}`): the RoF2 client has no advanced loot window (the selftest checks), and MacroQuest's emu build has no offsets for its actions, so there is nothing to bind
 - Acting on spells and items beyond the bound set: splash spells landed at a place (MacroQuest's `/cast ... loc`), spell sets saved in the game (`/memspellset`), destroying items, and opening a merchant's window (only by running commands)
 - Methods added to MacroQuest's types: MacroQuest looks only for members before asking a type's extensions, so an extension's methods would never be called (extensions have members only)
-- ImGui add-ons beyond the bound set: the text editor's custom tokenizer function (its regexes
-  are bound), and the memory editor's data preview type and endianness, which only its own options
-  menu sets. MacroQuest's `DrawScreenPiece` draws only animations (text, frames and headers are
+- ImGui add-ons beyond the bound set: the memory editor's data preview type and endianness, which
+  only its own options menu sets. MacroQuest's `DrawScreenPiece` draws only animations (text, frames and headers are
   left to its TODO)
 - The rest of ImGui's internal API (`imgui_internal.h`), in the pieces planned to bind next (custom widgets, and windows and scrolling, are done):
   - Input ownership and focus: key owners, shortcut routing, keyboard navigation and focusing or activating items by ID, typing-select (`SetKeyOwner`, `TestKeyOwner`, `SetShortcutRouting`, `FocusItem`, `ActivateItemByID`, `SetNavID`, `GetTypingSelectRequest`)

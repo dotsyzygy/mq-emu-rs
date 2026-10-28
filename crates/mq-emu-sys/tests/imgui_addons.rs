@@ -255,7 +255,7 @@ fn the_editors_own_undo_removes_nothing_after_a_redo() {
     let render = |down: bool| unsafe {
         assert!(mqemu_imgui_test_new_frame(100.0, 100.0, down));
         begin("raw undo");
-        mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false);
+        mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false, None, core::ptr::null_mut());
         mqemu_imgui_end();
         let mut error = [0 as c_char; 512];
         assert!(mqemu_imgui_test_end_frame(error.as_mut_ptr(), error.len()), "{}", text(&error));
@@ -311,7 +311,7 @@ fn undo_from_the_keyboard_inside_render_keeps_its_place_too() {
     let render = || {
         frame(|| unsafe {
             begin("undo keys");
-            mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false);
+            mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false, None, core::ptr::null_mut());
             mqemu_imgui_end();
         })
         .unwrap()
@@ -322,7 +322,7 @@ fn undo_from_the_keyboard_inside_render_keeps_its_place_too() {
     unsafe {
         assert!(mqemu_imgui_test_new_frame(100.0, 100.0, true));
         begin("undo keys");
-        mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false);
+        mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false, None, core::ptr::null_mut());
         mqemu_imgui_end();
         let mut error = [0 as c_char; 512];
         assert!(mqemu_imgui_test_end_frame(error.as_mut_ptr(), error.len()), "{}", text(&error));
@@ -376,7 +376,7 @@ fn text_editor_renders_in_a_balanced_frame_with_markers_and_colored_text() {
         for _ in 0..2 {
             frame(|| {
                 begin("text editor");
-                mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, true);
+                mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, true, None, core::ptr::null_mut());
                 mqemu_imgui_end();
             })
             .unwrap();
@@ -391,7 +391,7 @@ fn text_editor_renders_in_a_balanced_frame_with_markers_and_colored_text() {
         assert_eq!(editor_text(&e), "red\nlinesred\nlines");
         frame(|| {
             begin("text editor");
-            mqemu_text_editor_render(e.0, t, tn, 300.0, 200.0, false);
+            mqemu_text_editor_render(e.0, t, tn, 300.0, 200.0, false, None, core::ptr::null_mut());
             mqemu_imgui_end();
         })
         .unwrap();
@@ -430,6 +430,7 @@ fn a_custom_language_highlights_and_a_bad_regex_is_refused() {
         token_regexes: good.raw(),
         token_palette: palette.as_ptr(),
         case_sensitive: false,
+        tokenizer: false,
     };
     unsafe {
         let errors = collect(|sink, user| assert!(mqemu_text_editor_set_language_definition(e.0, &language, sink, user)));
@@ -452,7 +453,7 @@ fn a_custom_language_highlights_and_a_bad_regex_is_refused() {
         let (t, tn) = s("editor");
         frame(|| {
             begin("text editor");
-            mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false);
+            mqemu_text_editor_render(e.0, t, tn, 0.0, 0.0, false, None, core::ptr::null_mut());
             mqemu_imgui_end();
         })
         .unwrap();

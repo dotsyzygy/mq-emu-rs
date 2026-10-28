@@ -83,7 +83,16 @@ pub struct mqemu_text_editor_language {
     pub token_regexes: mqemu_strings,
     pub token_palette: *const i32,
     pub case_sensitive: bool,
+    /// Tokens are found first by the tokenizer passed to
+    /// [`mqemu_text_editor_render`].
+    pub tokenizer: bool,
 }
+
+/// Finds the token starting at or after `text` (`len` bytes, the rest of a
+/// line): writes its byte `start` and `end` and the `PaletteIndex_` it's
+/// shown in, or returns false for none (the token regexes are tried then).
+pub type mqemu_tokenizer_fn =
+    unsafe extern "C" fn(user: *mut c_void, text: *const c_char, len: usize, start: *mut usize, end: *mut usize, palette: *mut i32) -> bool;
 
 /// The memory editor's settings (its `Opt*` fields and the like). The user
 /// can change some from its options menu: [`mqemu_memory_editor_draw`]
@@ -133,7 +142,18 @@ function_table! {
     pub fn mqemu_text_editor_delete(editor: *mut TextEditor);
     /// Draws it, in a child window `title` of `w` x `h` (0 for the space
     /// left) unless it's set to ignore the child.
-    pub fn mqemu_text_editor_render(editor: *mut TextEditor, title: *const c_char, title_len: usize, w: f32, h: f32, border: bool);
+    /// `tokenizer` (with `user`) is what a language set with `tokenizer`
+    /// calls while this runs (it colors text only here).
+    pub fn mqemu_text_editor_render(
+        editor: *mut TextEditor,
+        title: *const c_char,
+        title_len: usize,
+        w: f32,
+        h: f32,
+        border: bool,
+        tokenizer: Option<mqemu_tokenizer_fn>,
+        user: *mut c_void,
+    );
 
     /// `language` a `MQEMU_LANGUAGE_` value.
     pub fn mqemu_text_editor_set_language(editor: *mut TextEditor, language: i32);
