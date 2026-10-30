@@ -243,6 +243,12 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     heading_matches(mq, report, "as found");
     report.print(mq, "me().hp_current() = ${Me.CurrentHPs}", same_text(me.hp_current(), mq.parse("${Me.CurrentHPs}")));
     report.print(mq, "me().hp_max() = ${Me.MaxHPs}", same_text(me.hp_max(), mq.parse("${Me.MaxHPs}")));
+    report.print(mq, "me().class() = ${Me.Class.ID}", same_text(me.class(), mq.parse("${Me.Class.ID}")));
+    report.print(mq, "me().race() = ${Me.Race.ID}", same_text(me.race(), mq.parse("${Me.Race.ID}")));
+    report.print(mq, "class_name() = ${Me.Class.Name}", same_text(mq.class_name(me.class()).unwrap_or_default(), mq.parse("${Me.Class.Name}")));
+    report.print(mq, "race_name() = ${Me.Race.Name}", same_text(mq.race_name(me.race()).unwrap_or_default(), mq.parse("${Me.Race.Name}")));
+    report.print(mq, "endurance_current() = ${Me.CurrentEndurance}", same_text(mq.endurance_current().unwrap_or(-1), mq.parse("${Me.CurrentEndurance}")));
+    report.print(mq, "endurance_max() = ${Me.MaxEndurance}", same_text(mq.endurance_max().unwrap_or(-1), mq.parse("${Me.MaxEndurance}")));
 
     match mq.target() {
         Some(target) => {

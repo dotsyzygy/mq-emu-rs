@@ -21,6 +21,8 @@ pub const BOT_TYPE: &str = "RustTestBot";
 /// A datatype that is a string (inherits `string`), keyed by its text;
 /// `${RustTest[word X]}` is one.
 pub const WORD_TYPE: &str = "RustTestWord";
+/// A type answering any name, adding it to the path its value holds.
+pub const ANY_TYPE: &str = "RustTestAny";
 /// The member the plugin adds to MacroQuest's `spawn` and `character`.
 pub const TAG: &str = "RustTestTag";
 /// The member the selftest adds to MacroQuest's `int` and removes.
@@ -166,6 +168,24 @@ pub fn add_word_type(mq: &Mq<RustTest>) -> Option<DataType<String>> {
     added(mq, WORD_TYPE, mq.add_type(WORD_TYPE, def))
 }
 
+/// Adds `RustTestAny`: a path, shown as itself, that any name adds to, except
+/// `Missing`, which is NULL. `Fixed` is a member of its own, and of the names
+/// only `Listed` is listed, for Lua.
+pub fn add_any_type(mq: &Mq<RustTest>) -> Option<DataType<String>> {
+    let def = DataTypeDef::new()
+        .member("Fixed", |_: &mut RustTest, _, _: &String, _| Some("fixed".into()))
+        .any_member(&["Listed"], |plugin, _, path, name, index| {
+            let any = plugin.any_type.as_ref()?;
+            match (name, index) {
+                ("Missing", _) => None,
+                (_, "") => Some(any.value(format!("{path}.{name}"))),
+                _ => Some(any.value(format!("{path}.{name}[{index}]"))),
+            }
+        })
+        .text(|_, _, path| path.clone());
+    added(mq, ANY_TYPE, mq.add_type(ANY_TYPE, def))
+}
+
 fn added<K: mq_emu::TypeKey>(mq: &Mq<RustTest>, name: &str, result: Result<DataType<K>, DataTypeError>) -> Option<DataType<K>> {
     result.inspect_err(|e| mq.chat(format!("{RED}[{}]{RESET} couldn't add the {name} datatype: {e}", mq.plugin_name()))).ok()
 }
@@ -180,6 +200,27 @@ pub fn extend_types(mq: &Mq<RustTest>) {
             mq.chat(format!("{RED}[{}]{RESET} couldn't extend {type_name}: {e}", mq.plugin_name()));
         }
     }
+}
+
+/// `RustTestAny` as macros see it: names it never listed, a member of its own
+/// and a NULL, which joins MacroQuest's list of the type's members (so that
+/// it isn't "No such member"), while a name not read stays off it.
+pub async fn any_member_type(task: &Task<RustTest>, report: &mut Report) {
+    task.with_plugin(|plugin, mq| {
+        plugin.tlo_echo = None;
+        let any = format!("{TLO}[any Me]");
+        mq.command(format!(
+            "/echo {MARKER} ${{{any}.Buff[3].Duration}} ${{{any}.Fixed}} ${{{any}.Missing}} ${{{any}.Listed}} \
+             ${{Type[{ANY_TYPE}].Member[Missing]}} ${{Type[{ANY_TYPE}].Member[Listed]}} ${{Type[{ANY_TYPE}].Member[NeverRead]}}"
+        ));
+    });
+    let read = wait_for_echo(task).await;
+    task.with(|mq| {
+        report.print(mq, &format!("macros read {ANY_TYPE}: any name, a member of its own, a silent NULL"), match read {
+            Some(line) => same_text(format!("{MARKER} Me.Buff[3].Duration fixed NULL Me.Listed -1 -1 NULL"), line),
+            None => Check::Fail("the /echo never arrived".into()),
+        });
+    });
 }
 
 /// MacroQuest's own values as the plugin provides them, as macros see them:

@@ -19,6 +19,7 @@
 #include <memory>
 #include <string>
 #include <type_traits>
+#include <unordered_set>
 #include <variant>
 
 using mq::MainInterface;
@@ -329,6 +330,10 @@ enum mqemu_key_kind : int32_t
 	MQEMU_KEY_TEXT = 1,
 };
 
+// The ID of a name listed for a type's catch-all (mqemu_type_any_member), not
+// one of its members; mirrors `ANY_MEMBER` in mq-emu-sys.
+constexpr int32_t MQEMU_ANY_MEMBER = -1;
+
 // What mqemu_type_inherit did; mirrors `inherit` in mq-emu-sys.
 enum mqemu_inherit_result : int32_t
 {
@@ -349,6 +354,9 @@ struct mqemu_key
 };
 
 using mqemu_member_fn = bool (*)(void* user, const mqemu_key* key, int32_t member, const char* index,
+	mqemu_tlo_result* result);
+// Any member that isn't listed with its own ID, by name.
+using mqemu_any_member_fn = bool (*)(void* user, const mqemu_key* key, const char* member, const char* index,
 	mqemu_tlo_result* result);
 // Sets `result` to the value of the parent type a value holding `key` is.
 using mqemu_downcast_fn = bool (*)(void* user, const mqemu_key* key, mqemu_tlo_result* result);
@@ -444,6 +452,13 @@ void detach_variable(MQTypeVar& var, MQ2Type* type)
 	var.Type->FromString(var, text.c_str());
 }
 
+// A member's name, for as long as its type: MacroQuest keeps the pointer it's
+// given (MQTypeMember::Name) and copies only its map's key.
+const char* keep_name(std::unordered_set<std::string>& names, const char* name)
+{
+	return names.insert(name).first->c_str();
+}
+
 void detach_variables(mq::MQDataVar* list, MQ2Type* type)
 {
 	for (mq::MQDataVar* var = list; var != nullptr; var = var->pNext)
@@ -477,8 +492,11 @@ struct mqemu_type final : MQ2Type
 
 	bool Add(int32_t id, const char* name, bool method)
 	{
-		return method ? AddMethod(id, name) : AddMember(id, name);
+		const char* kept = keep_name(m_names, name);
+		return method ? AddMethod(id, kept) : AddMember(id, kept);
 	}
+
+	void SetAnyMember(mqemu_any_member_fn any_member) { m_anyMember = any_member; }
 
 	// MacroQuest stops finding the type, its variables become strings, and
 	// its members answer NULL. Values that still point here (a Lua script's)
@@ -504,18 +522,24 @@ struct mqemu_type final : MQ2Type
 		const mq::MQTypeMember* found = FindMember(Member);
 		if (found == nullptr)
 			found = FindMethod(Member);
-		if (found == nullptr)
-		{
-			// The parent's members, of the value the plugin says this one is.
-			ParentDepth depth;
-			MQTypeVar parent;
-			std::string parentText;
-			if (!depth.ok || !ToParent(keep, key, parent, parentText))
-				return false;
-			return mq::EvaluateMacroDataMember(parent.Type, parent.GetVarPtr(), Dest, Member, Index) == 1;
-		}
 		mqemu_tlo_result result{ &Dest, &m_buffer };
-		return m_member(keep.get(), &key, found->ID, Index ? Index : "", &result);
+		if (found != nullptr && found->ID != MQEMU_ANY_MEMBER)
+			return m_member(keep.get(), &key, found->ID, Index ? Index : "", &result);
+		if (m_anyMember != nullptr)
+		{
+			if (m_anyMember(keep.get(), &key, Member, Index ? Index : "", &result))
+				return true;
+			// False for a name it can't find is "No such member" to MacroQuest, in
+			// red on every read; for a listed one it's just NULL.
+			Add(MQEMU_ANY_MEMBER, Member, false);
+		}
+		// The parent's members, of the value the plugin says this one is.
+		ParentDepth depth;
+		MQTypeVar parent;
+		std::string parentText;
+		if (!depth.ok || !ToParent(keep, key, parent, parentText))
+			return false;
+		return mq::EvaluateMacroDataMember(parent.Type, parent.GetVarPtr(), Dest, Member, Index) == 1;
 	}
 
 	// Inherits `name`'s members (which must be MacroQuest's type or this
@@ -628,7 +652,9 @@ private:
 
 	int32_t m_keyKind;
 	mqemu_member_fn m_member;
+	mqemu_any_member_fn m_anyMember = nullptr;
 	mqemu_type_text_fn m_text;
+	std::unordered_set<std::string> m_names;
 	std::shared_ptr<void> m_user;
 	// String members' text, valid until the type is evaluated again (as
 	// MacroQuest's own types share DataTypeTemp).
@@ -670,6 +696,14 @@ extern "C" bool mqemu_type_add_member(mqemu_type* type, int32_t id, const char* 
 	{
 		return false;
 	}
+}
+
+// Sends every name the type has no member for to `any_member`, before its
+// parent. Names listed with mqemu_type_add_member and MQEMU_ANY_MEMBER go there
+// too, and are the only ones Lua can read: it asks MacroQuest's list first.
+extern "C" void mqemu_type_any_member(mqemu_type* type, mqemu_any_member_fn any_member)
+{
+	type->SetAnyMember(any_member);
 }
 
 // Makes the type inherit `parent`'s members: those it doesn't have are read
@@ -768,7 +802,7 @@ struct mqemu_extension final : MQ2Type
 		MQ2Type* base = mq::FindMQ2DataType(m_baseName.c_str());
 		if (base == nullptr || base->FindMember(name) != nullptr || base->FindMethod(name) != nullptr)
 			return false;
-		return AddMember(id, name);
+		return AddMember(id, keep_name(m_names, name));
 	}
 
 	bool Register()
@@ -810,6 +844,7 @@ private:
 	// The type it extends.
 	std::string m_baseName;
 	mqemu_extension_member_fn m_member;
+	std::unordered_set<std::string> m_names;
 	std::shared_ptr<void> m_user;
 	bool m_registered = false;
 	std::string m_buffer;

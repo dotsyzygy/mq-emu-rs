@@ -296,6 +296,15 @@ pub type mqemu_type_text_fn = unsafe extern "C" fn(user: *mut c_void, key: *cons
 /// and return true, or false for none.
 pub type mqemu_downcast_fn = unsafe extern "C" fn(user: *mut c_void, key: *const mqemu_key, result: *mut mqemu_tlo_result) -> bool;
 
+/// Any member a type with [`mqemu_type_any_member`] has no ID for, by name.
+/// Return true after setting a value, false for NULL.
+pub type mqemu_any_member_fn =
+    unsafe extern "C" fn(user: *mut c_void, key: *const mqemu_key, member: *const c_char, index: *const c_char, result: *mut mqemu_tlo_result) -> bool;
+
+/// The ID to give [`mqemu_type_add_member`] for a name that goes to
+/// [`mqemu_type_any_member`]'s callback: MacroQuest then finds it, as Lua needs.
+pub const ANY_MEMBER: i32 = -1;
+
 /// What [`mqemu_type_inherit`] did.
 pub mod inherit {
     pub const OK: i32 = 0;
@@ -349,6 +358,10 @@ unsafe extern "C" {
     /// Sets a TLO or member callback's value to a value of `ty` holding
     /// `key`. False if the type was removed.
     pub fn mqemu_tlo_set_key(result: *mut mqemu_tlo_result, ty: *mut mqemu_type, key: *const mqemu_key) -> bool;
+    /// Sends every name `ty` has no member for to `any_member`, before its
+    /// parent. A name it answers NULL for is added to the type's list, with
+    /// [`ANY_MEMBER`], so that MacroQuest doesn't print "No such member".
+    pub fn mqemu_type_any_member(ty: *mut mqemu_type, any_member: mqemu_any_member_fn);
     /// Makes `ty` inherit type `parent`'s members: those it doesn't have are
     /// read from the parent's value `downcast` gives, which `/varset` of a
     /// variable of the parent type also uses. Returns an [`inherit`] result;

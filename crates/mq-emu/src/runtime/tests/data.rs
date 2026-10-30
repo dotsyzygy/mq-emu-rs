@@ -172,6 +172,7 @@ pub(super) const FAKE_DATA: DataApi = DataApi {
     },
     add_type: datatypes::fake_add_type,
     type_add_member: datatypes::fake_type_add_member,
+    type_any_member: datatypes::fake_type_any_member,
     type_inherit: datatypes::fake_type_inherit,
     remove_type: datatypes::fake_remove_type,
     free_type: datatypes::fake_free_type,

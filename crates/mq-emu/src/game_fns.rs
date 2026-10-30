@@ -9,6 +9,32 @@ use crate::plugin::Plugin;
 use crate::text::from_c_array;
 
 impl<P: Plugin> Mq<P> {
+    /// Your current endurance (`${Me.CurrentEndurance}`), if in game.
+    pub fn endurance_current(&self) -> Option<i32> {
+        Some(self.profile()?.Endurance())
+    }
+
+    /// Your maximum endurance, with its modifiers (`${Me.MaxEndurance}`), if
+    /// in game.
+    pub fn endurance_max(&self) -> Option<i32> {
+        self.local_pc()?;
+        Some(unsafe { (self.host().game_fns.mqemu_max_endurance)() })
+    }
+
+    /// The name of a class ID ([`Spawn::class`](crate::game::Spawn::class)),
+    /// as `${Spawn.Class}` shows it: "Warrior".
+    pub fn class_name(&self, class: u8) -> Option<String> {
+        let api = self.host().game_fns;
+        text(|out, cap| unsafe { (api.mqemu_class_name)(i32::from(class), out, cap) })
+    }
+
+    /// The name of a race ID ([`Spawn::race`](crate::game::Spawn::race)), as
+    /// `${Spawn.Race}` shows it: "Human".
+    pub fn race_name(&self, race: i32) -> Option<String> {
+        let api = self.host().game_fns;
+        text(|out, cap| unsafe { (api.mqemu_race_name)(race, out, cap) })
+    }
+
     /// Runs the game's own handler for slash command `name` with `args`, as
     /// MacroQuest's `/cast` runs the game's: not MacroQuest's command of that
     /// name, nor an alias. False if the game has no such command.
@@ -97,6 +123,9 @@ pub(crate) mod fake {
         pub strings: HashMap<(i32, i32), String>,
         pub skills: HashMap<i32, FakeSkill>,
         pub xtarget_roles: HashMap<u32, String>,
+        pub max_endurance: i32,
+        pub class_names: HashMap<i32, String>,
+        pub race_names: HashMap<i32, String>,
         /// Every action taken (commands, memorizing, forgetting), in order.
         pub log: Vec<String>,
         /// The game's slash commands, by lowercase name.
@@ -126,6 +155,9 @@ pub(crate) mod fake {
                 strings: HashMap::new(),
                 skills: HashMap::new(),
                 xtarget_roles: HashMap::new(),
+                max_endurance: 0,
+                class_names: HashMap::new(),
+                race_names: HashMap::new(),
                 log: Vec::new(),
                 commands: Vec::new(),
                 spells_work: false,
@@ -181,6 +213,18 @@ pub(crate) mod fake {
 
     unsafe extern "C" fn db_string(id: i32, kind: i32, out: *mut c_char, cap: usize) -> bool {
         with(|game| write(game.strings.get(&(id, kind)).map(String::as_str), out, cap))
+    }
+
+    unsafe extern "C" fn max_endurance() -> i32 {
+        with(|game| game.max_endurance)
+    }
+
+    unsafe extern "C" fn class_name(class: i32, out: *mut c_char, cap: usize) -> bool {
+        with(|game| write(game.class_names.get(&class).map(String::as_str), out, cap))
+    }
+
+    unsafe extern "C" fn race_name(race: i32, out: *mut c_char, cap: usize) -> bool {
+        with(|game| write(game.race_names.get(&race).map(String::as_str), out, cap))
     }
 
     unsafe extern "C" fn skill_value(skill: i32, which: i32) -> i32 {
@@ -327,6 +371,9 @@ pub(crate) mod fake {
         mqemu_skill_timer: skill_timer,
         mqemu_skill_name: skill_name,
         mqemu_xtarget_role_name: xtarget_role_name,
+        mqemu_max_endurance: max_endurance,
+        mqemu_class_name: class_name,
+        mqemu_race_name: race_name,
         mqemu_clean_chat_line: clean_chat,
         mqemu_eq_command: eq_command,
         mqemu_memorize_spells: memorize_spells,

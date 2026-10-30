@@ -242,6 +242,46 @@ extern "C" bool mqemu_skill_name(int skill, char* out, size_t cap)
 
 // The extended target window's name for a slot role (`xTargetType`: "Auto
 // Hater", "Group Tank", ...), NUL-terminated into `out`.
+// Your maximum endurance with its modifiers (${Me.MaxEndurance}). 0 if there's
+// no character.
+extern "C" int mqemu_max_endurance()
+{
+	try
+	{
+		return pLocalPC ? pLocalPC->Max_Endurance() : 0;
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
+// The name ${Spawn.Class} shows for a class ID. False for none.
+extern "C" bool mqemu_class_name(int32_t class_id, char* out, size_t cap)
+{
+	try
+	{
+		return copy_out(pEverQuest ? mq::GetClassDesc(class_id) : nullptr, out, cap);
+	}
+	catch (...)
+	{
+		return copy_out(nullptr, out, cap);
+	}
+}
+
+// The name ${Spawn.Race} shows for a race ID. False for none.
+extern "C" bool mqemu_race_name(int32_t race, char* out, size_t cap)
+{
+	try
+	{
+		return copy_out(pEverQuest ? pEverQuest->GetRaceDesc(static_cast<EQRace>(race)) : nullptr, out, cap);
+	}
+	catch (...)
+	{
+		return copy_out(nullptr, out, cap);
+	}
+}
+
 extern "C" bool mqemu_xtarget_role_name(uint32_t role, char* out, size_t cap)
 {
 	try

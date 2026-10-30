@@ -69,6 +69,13 @@ function_table! {
     /// MacroQuest's color codes and line breaks removed (`StripMQChat`). `out`
     /// needs `strlen(line) + 1` bytes; neither step lengthens the line.
     pub fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool;
+    /// Your maximum endurance with its modifiers (`${Me.MaxEndurance}`); 0
+    /// without a character.
+    pub fn mqemu_max_endurance() -> i32;
+    /// The name `${Spawn.Class}` shows for a class ID; false for none.
+    pub fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool;
+    /// The name `${Spawn.Race}` shows for a race ID; false for none.
+    pub fn mqemu_race_name(race: i32, out: *mut c_char, cap: usize) -> bool;
     /// Runs the game's own handler for slash command `name` (`"/cast"`) with
     /// `args`, as you, from the game's command table (as MacroQuest finds
     /// `cmdCast`): not MacroQuest's command of that name, nor an alias. False

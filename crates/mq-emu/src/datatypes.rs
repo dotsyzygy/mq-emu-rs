@@ -35,6 +35,9 @@
 //! }))?;
 //! // ${Target.Threat}, ${Spawn[npc].Threat}, mq.TLO.Me.Threat()
 //! ```
+//!
+//! A datatype can also answer names it can't list in advance
+//! ([`DataTypeDef::any_member`]).
 
 use std::cell::Cell;
 use std::ffi::{c_char, c_void};
@@ -44,7 +47,7 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::ptr;
 use std::rc::Rc;
 
-use mq_emu_sys::shim::{inherit, key_kind, mqemu_data, mqemu_key, mqemu_tlo_result, mqemu_type};
+use mq_emu_sys::shim::{ANY_MEMBER, inherit, key_kind, mqemu_data, mqemu_key, mqemu_tlo_result, mqemu_type};
 
 use crate::data::{Data, Value, valid_tlo_name};
 use crate::mq::Mq;
@@ -225,6 +228,7 @@ impl<K: TypeKey> fmt::Debug for DataType<K> {
 }
 
 type MemberHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey, &str) -> Option<Value>;
+type AnyMemberHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey, &str, &str) -> Option<Value>;
 type TextHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey) -> Option<String>;
 type DowncastHandler<P> = dyn Fn(&mut P, &Mq<P>, &RawKey) -> Option<Value>;
 
@@ -238,6 +242,7 @@ struct MemberDef<P: Plugin> {
 /// plugin, the value's key and the member's index (`""` for none).
 pub struct DataTypeDef<P: Plugin, K: TypeKey> {
     members: Vec<MemberDef<P>>,
+    any_member: Option<(Vec<String>, Box<AnyMemberHandler<P>>)>,
     text: Option<Box<TextHandler<P>>>,
     parent: Option<(String, Box<DowncastHandler<P>>)>,
     _key: PhantomData<fn(K)>,
@@ -246,7 +251,7 @@ pub struct DataTypeDef<P: Plugin, K: TypeKey> {
 impl<P: Plugin, K: TypeKey> DataTypeDef<P, K> {
     /// No members yet, shown as the type's name.
     pub fn new() -> DataTypeDef<P, K> {
-        DataTypeDef { members: Vec::new(), text: None, parent: None, _key: PhantomData }
+        DataTypeDef { members: Vec::new(), any_member: None, text: None, parent: None, _key: PhantomData }
     }
 
     /// Inherits the members of datatype `parent` (`"spawn"`, `"item"`...),
@@ -300,6 +305,35 @@ impl<P: Plugin, K: TypeKey> DataTypeDef<P, K> {
             Some(Value::Bool(true))
         };
         self.members.push(MemberDef { name: name.to_owned(), method: true, handler: Box::new(handler) });
+        self
+    }
+
+    /// Answers every member the type has no [`member`](Self::member) or
+    /// [`method`](Self::method) for, whatever its name, for a type whose paths
+    /// can't all be known in advance. The handler also gets the name, as
+    /// written (MacroQuest doesn't change its case). None makes it NULL, or the
+    /// parent's member with [`inherit`](Self::inherit).
+    ///
+    /// ```ignore
+    /// DataTypeDef::new().any_member(&["PctHPs", "Buff", "Duration"], |plugin: &mut MyPlugin, _, path: &String, name, index| {
+    ///     plugin.remote.lookup(path, name, index)
+    /// })
+    /// // ${Remote[Bob].Buff[3].Duration}
+    /// ```
+    ///
+    /// Macros can read any name, but Lua (`mq.TLO`) only the ones in `names`:
+    /// it asks MacroQuest's list of the type's members before reading one and
+    /// gets nil if the name isn't there, so a name not listed is unreadable
+    /// from Lua however the handler would answer. They follow the rules for
+    /// [`member`](Self::member)'s names, and can't be a member's. A name a
+    /// macro has read and got NULL for joins the list, so that MacroQuest
+    /// treats the NULL as a value rather than printing "No such member".
+    pub fn any_member<F>(mut self, names: &[&str], handler: F) -> DataTypeDef<P, K>
+    where
+        F: Fn(&mut P, &Mq<P>, &K, &str, &str) -> Option<Value> + 'static,
+    {
+        let handler = move |plugin: &mut P, mq: &Mq<P>, key: &RawKey, name: &str, index: &str| handler(plugin, mq, &K::from_raw(key)?, name, index);
+        self.any_member = Some((names.iter().map(|name| (*name).to_owned()).collect(), Box::new(handler)));
         self
     }
 
@@ -363,6 +397,7 @@ struct TypeSlot<P: Plugin> {
     name: String,
     /// By member ID.
     members: Vec<MemberDef<P>>,
+    any_member: Option<Box<AnyMemberHandler<P>>>,
     text: Option<Box<TextHandler<P>>>,
     downcast: Option<Box<DowncastHandler<P>>>,
     runtime: &'static Runtime<P>,
@@ -397,6 +432,26 @@ unsafe extern "C" fn member_call<P: Plugin>(
         let index = unsafe { from_c(index) };
         match slot.runtime.call_data(KIND_DATATYPE, |plugin, mq| (member.handler)(plugin, mq, &key, &index)) {
             Some(_) if member.method => true,
+            Some(value) => slot.runtime.set_value(result, &value),
+            None => false,
+        }
+    }))
+    .unwrap_or(false)
+}
+
+unsafe extern "C" fn any_member_call<P: Plugin>(
+    user: *mut c_void,
+    key: *const mqemu_key,
+    member: *const c_char,
+    index: *const c_char,
+    result: *mut mqemu_tlo_result,
+) -> bool {
+    catch_unwind(AssertUnwindSafe(|| {
+        let slot = unsafe { TypeSlot::<P>::hold(user) };
+        let Some(handler) = &slot.any_member else { return false };
+        let Some(key) = (unsafe { RawKey::from_c(key) }) else { return false };
+        let (member, index) = unsafe { (from_c(member), from_c(index)) };
+        match slot.runtime.call_data(KIND_DATATYPE, |plugin, mq| handler(plugin, mq, &key, &member, &index)) {
             Some(value) => slot.runtime.set_value(result, &value),
             None => false,
         }
@@ -461,6 +516,12 @@ impl<P: Plugin> Runtime<P> {
                 return Err(DataTypeError::InvalidMember(member.name.clone()));
             }
         }
+        let (any_names, any_member) = def.any_member.map_or((Vec::new(), None), |(names, handler)| (names, Some(handler)));
+        for (i, name) in any_names.iter().enumerate() {
+            if !valid_tlo_name(name) || any_names[..i].contains(name) || def.members.iter().any(|member| member.name == *name) {
+                return Err(DataTypeError::InvalidMember(name.clone()));
+            }
+        }
         if self.datatypes.borrow().iter().any(|t| t.name.eq_ignore_ascii_case(name)) {
             return Err(DataTypeError::AlreadyAdded);
         }
@@ -469,7 +530,8 @@ impl<P: Plugin> Runtime<P> {
         }
         let members: Vec<(String, bool)> = def.members.iter().map(|m| (m.name.clone(), m.method)).collect();
         let (parent, downcast) = def.parent.map_or((None, None), |(parent, downcast)| (Some(parent), Some(downcast)));
-        let slot = TypeSlot { name: name.to_owned(), members: def.members, text: def.text, downcast, runtime: self };
+        let has_any_member = any_member.is_some();
+        let slot = TypeSlot { name: name.to_owned(), members: def.members, any_member, text: def.text, downcast, runtime: self };
         let user = Rc::into_raw(Rc::new(slot)).cast_mut().cast::<c_void>();
         let api = &self.host().data;
         // Ownership of `user` passes over even if this fails.
@@ -480,6 +542,12 @@ impl<P: Plugin> Runtime<P> {
         for (id, (member, method)) in members.iter().enumerate() {
             // Names were checked above, so the type takes each.
             (api.type_add_member)(raw, id as i32, member, *method);
+        }
+        if has_any_member {
+            (api.type_any_member)(raw, any_member_call::<P>);
+            for name in &any_names {
+                (api.type_add_member)(raw, ANY_MEMBER, name, false);
+            }
         }
         if let Some(parent) = parent {
             let refused = match (api.type_inherit)(raw, &parent, downcast_call::<P>) {

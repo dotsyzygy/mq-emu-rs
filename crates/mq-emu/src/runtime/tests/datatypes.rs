@@ -9,8 +9,8 @@ use std::ffi::{c_char, c_void};
 
 use mq_emu_sys::plugin::MQPluginHandle;
 use mq_emu_sys::shim::{
-    inherit, key_kind, mqemu_downcast_fn, mqemu_drop_fn, mqemu_extension, mqemu_extension_member_fn, mqemu_key,
-    mqemu_member_fn, mqemu_tlo_result, mqemu_type, mqemu_type_text_fn,
+    ANY_MEMBER, inherit, key_kind, mqemu_any_member_fn, mqemu_downcast_fn, mqemu_drop_fn, mqemu_extension, mqemu_extension_member_fn,
+    mqemu_key, mqemu_member_fn, mqemu_tlo_result, mqemu_type, mqemu_type_text_fn,
 };
 
 use super::data::{FAKE_MQ_TYPES, FakeData, fake_eval, fake_mq_member, live_data};
@@ -29,6 +29,7 @@ pub(super) struct FakeType {
     /// Name, method or not, ID.
     members: Vec<(String, bool, i32)>,
     member: mqemu_member_fn,
+    any_member: Option<mqemu_any_member_fn>,
     text: mqemu_type_text_fn,
     /// Taken when the type is removed.
     user: Option<(*mut c_void, mqemu_drop_fn)>,
@@ -100,7 +101,7 @@ pub(super) fn fake_add_type(
         counted_drop(drop, user); // ownership passed even though adding failed
         return ptr::null_mut();
     }
-    let ty = FakeType { name: name.into(), plugin: handle.pluginID, parent: None, members: Vec::new(), member, text, user: Some((user, drop)), registered: true };
+    let ty = FakeType { name: name.into(), plugin: handle.pluginID, parent: None, members: Vec::new(), member, any_member: None, text, user: Some((user, drop)), registered: true };
     let ty = Box::into_raw(Box::new(ty));
     FAKE_TYPES.with(|types| types.borrow_mut().push(ty));
     ty.cast()
@@ -113,6 +114,10 @@ pub(super) fn fake_type_add_member(ty: *mut mqemu_type, id: i32, name: &str, met
     }
     ty.members.push((name.into(), method, id));
     true
+}
+
+pub(super) fn fake_type_any_member(ty: *mut mqemu_type, any_member: mqemu_any_member_fn) {
+    unsafe { &mut *ty.cast::<FakeType>() }.any_member = Some(any_member);
 }
 
 fn registered_type(name: &str) -> Option<*mut FakeType> {
@@ -174,11 +179,22 @@ fn member(value: &FakeVal, name: &str, index: &str) -> Option<FakeVal> {
         }
         _ => panic!("the fake has no members for {value:?}"),
     };
-    let ty = unsafe { &**ty };
+    let raw_ty = *ty;
+    let ty = unsafe { &*raw_ty };
     let (user, _) = ty.user?;
-    let Some(&(_, _, id)) = ty.members.iter().find(|(n, ..)| n == name) else {
+    let found = ty.members.iter().find(|(n, ..)| n == name).map(|&(_, _, id)| id).filter(|id| *id != ANY_MEMBER);
+    let Some(id) = found else {
+        if let Some(any_member) = ty.any_member {
+            let (c_name, c_index) = (CString::new(name).unwrap(), CString::new(index).unwrap());
+            let mut result: Option<FakeVal> = None;
+            if key.with_c(|key| unsafe { any_member(user, key, c_name.as_ptr(), c_index.as_ptr(), (&raw mut result).cast()) }) {
+                return result;
+            }
+            // Listed, so that MacroQuest doesn't print "No such member".
+            fake_type_add_member(raw_ty.cast(), ANY_MEMBER, name, false);
+        }
         // The parent's members, as `mqemu_type::GetMember` passes them on.
-        let (parent, downcast) = ty.parent.as_ref()?;
+        let (parent, downcast) = unsafe { &*raw_ty }.parent.as_ref()?;
         let mut up: Option<FakeVal> = None;
         if !key.with_c(|key| unsafe { downcast(user, key, (&raw mut up).cast()) }) {
             return None;
@@ -322,6 +338,14 @@ fn frees() -> u32 {
     TYPE_FREES.with(Cell::get)
 }
 
+/// Whether a name is on MacroQuest's list of the type's members, which is
+/// what Lua asks before reading one, and what stops a macro's NULL printing
+/// "No such member".
+fn listed(value: &FakeVal, name: &str) -> bool {
+    let FakeVal::Keyed { ty, .. } = value else { panic!("not one of the plugin's: {value:?}") };
+    unsafe { &**ty }.members.iter().any(|(n, ..)| n == name)
+}
+
 // ----- the test type -------------------------------------------------------------------
 
 /// The `Counter` type, keyed by an i32, whose members do arithmetic on it.
@@ -377,6 +401,106 @@ fn members_methods_and_text_answer_from_the_plugin() {
     assert_eq!(read("Counter[5].Nope"), None);
     assert_eq!(read("Counter[x]"), None);
     assert_eq!(log_of(rt)[1..], [r#"bump 5 "hi""#]);
+}
+
+/// `${Remote[path]}`, whose catch-all adds to the path: `Gone` is NULL, and
+/// `Listed` is on the type's list. `Name` is a member of its own.
+fn add_remote(mq: &Mq<Recorder>, parent: Option<DataType<i32>>) {
+    let own: Rc<OnceCell<DataType<String>>> = Rc::default();
+    let next = Rc::clone(&own);
+    let mut def = DataTypeDef::new()
+        .member("Name", |_: &mut Recorder, _, _: &String, _| Some("named".into()))
+        .any_member(&["Listed"], move |_, _, path, name, index| match name {
+            "Gone" => None,
+            "Panic" => panic!("catch-all panic"),
+            _ if index.is_empty() => Some(next.get()?.value(format!("{path}.{name}"))),
+            _ => Some(next.get()?.value(format!("{path}.{name}[{index}]"))),
+        })
+        .text(|_, _, path| path.clone());
+    if let Some(parent) = parent {
+        def = def.inherit("Counter", move |_, _, _| Some(parent.value(5)));
+    }
+    let remote = mq.add_type("Remote", def).unwrap();
+    own.set(remote.clone()).unwrap();
+    mq.add_tlo("Remote", move |_, _, index| Some(remote.value(index.to_owned()))).unwrap();
+}
+
+#[test]
+fn a_catch_all_answers_names_it_never_listed() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| add_remote(mq, None));
+    rt.initialize();
+    assert_eq!(read("Remote[Bob].Me.Buff[3].Duration").as_deref(), Some("Bob.Me.Buff[3].Duration"));
+    assert_eq!(read("Remote[Bob].Name").as_deref(), Some("named"), "a member of its own comes first");
+    assert_eq!(read("Remote[Bob].me").as_deref(), Some("Bob.me"), "names arrive as written");
+    assert_eq!(read("Remote[Bob].Panic"), None, "a panic is NULL");
+}
+
+#[test]
+fn a_catch_all_lists_only_the_names_it_was_given_and_those_it_said_null_to() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| add_remote(mq, None));
+    rt.initialize();
+    let bob = fake_eval("Remote", "Bob").unwrap();
+    assert!(listed(&bob, "Listed"), "Lua can read this one");
+    assert!(!listed(&bob, "Me"), "Lua can't read this one");
+
+    // Listed, so MacroQuest takes this NULL as a value and prints no error...
+    assert_eq!(read("Remote[Bob].Gone"), None);
+    assert!(listed(&bob, "Gone"));
+    // ...and it still goes to the catch-all, not to a member with that ID.
+    assert_eq!(read("Remote[Bob].Listed").as_deref(), Some("Bob.Listed"));
+    assert_eq!(read("Remote[Bob].Gone"), None);
+
+    // A value isn't listed: only a NULL needs to be.
+    assert_eq!(read("Remote[Bob].Me").as_deref(), Some("Bob.Me"));
+    assert!(!listed(&bob, "Me"));
+}
+
+/// Negative: what the catch-all's listing is there for. A type without one
+/// leaves an unknown name off its list, which MacroQuest reports in red.
+#[test]
+fn without_a_catch_all_an_unknown_name_stays_unlisted() {
+    let _main = FakeMain::install();
+    runtime_with_counter();
+    assert_eq!(read("Counter[5].Gone"), None);
+    assert!(!listed(&fake_eval("Counter", "5").unwrap(), "Gone"));
+}
+
+#[test]
+fn a_catch_all_comes_before_the_parent_and_null_falls_through_to_it() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        let counter = add_counter_type(mq);
+        add_remote(mq, Some(counter));
+    });
+    rt.initialize();
+    assert_eq!(read("Remote[Bob].Value").as_deref(), Some("Bob.Value"), "the catch-all answers first");
+    // `Gone` isn't the parent's either, so it's NULL.
+    assert_eq!(read("Remote[Bob].Gone"), None);
+}
+
+#[test]
+fn a_catch_alls_names_are_checked_like_members() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |plugin, mq| {
+        let any = |names: &[&str]| DataTypeDef::<Recorder, i32>::new().member("Name", |_, _, _, _| None).any_member(names, |_, _, _, _, _| None);
+        for (type_name, names) in [("A", &["1st"][..]), ("B", &["Twice", "Twice"]), ("C", &["Name"]), ("D", &["Fine"])] {
+            plugin.log.push(format!("{type_name} {:?}", mq.add_type(type_name, any(names)).map(|_| ())));
+        }
+    });
+    rt.initialize();
+    let log = log_of(rt);
+    assert_eq!(log[log.len() - 4..], [
+        r#"A Err(InvalidMember("1st"))"#,
+        r#"B Err(InvalidMember("Twice"))"#,
+        r#"C Err(InvalidMember("Name"))"#,
+        "D Ok(())",
+    ]);
 }
 
 #[test]

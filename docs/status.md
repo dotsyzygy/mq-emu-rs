@@ -15,7 +15,7 @@ Each area is supported in full, except for what's listed under **Missing**.
 - **Events and keys:** chat events as a macro's `#Event` (MacroQuest's own matcher, run as lines
   arrive, no `/doevents`); key binds of the plugin's own, and reading, setting and pressing any bind
 - **MacroQuest data:** parsing `${...}`, reading TLOs as typed values, and providing TLOs and
-  datatypes of the plugin's own (members, methods, macro variables, inheriting another type's
+  datatypes of the plugin's own (members, methods, a catch-all for any name, macro variables, inheriting another type's
   members) to macros and Lua, returning MacroQuest's own values (spawns, items...) from them, and adding members to MacroQuest's types
 - **Game data:** spawns, items, inventory, bank, spells, buffs (yours, your target's and pet's, MacroQuest's cache), spell gems and book, group, raid, mercenary, extended targets, alternate abilities, skills, zones, ground items, the merchant and loot windows, tasks (objectives, progress, shared task members), the friends list, tribute and achievements
 - **Acting in game:** movement and facing; casting, stopping, memorizing and forgetting spells;
@@ -44,6 +44,8 @@ Each area is supported in full, except for what's listed under **Missing**.
 - `${Menu.Items}` and `menuselect` find nothing: the count they go by isn't the menu's on this client. mq-emu reads and picks from context menus itself.
 - Forgetting gem 16 or later stops the client on a breakpoint (`int3`); gems past the 12 are refused.
 - The game's `/autoinventory` does nothing unless the cursor's icon shows the item, and `CInvSlot::SliderComplete` (the quantity window's split) leaves the icon alone. mq-emu shows it after splitting and before `/autoinventory`.
+- MacroQuest prints "No such member" for a type's NULL when the name isn't on the type's list, and Lua won't read a name that isn't on it at all. A datatype's catch-all (`DataTypeDef::any_member`) adds a name to the list when it answers NULL, and takes the names to list for Lua: Lua can't read the others.
+- MacroQuest keeps the pointer it's given for a member's name; mq-emu keeps the names of its types and extensions for as long as they last.
 - MacroQuest keeps calling a plugin's key binds after it unloads, never removes its aliases, and deletes macro variables through their datatype; mq-emu removes binds and aliases at unload and turns variables of its types into strings first.
 - `Child[]` carries on into the windows after the one searched; mq-emu looks only inside it.
 - MacroQuest's `DrawUITexture` draws at the screen's top left rather than the cursor, and nothing

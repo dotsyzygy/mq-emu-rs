@@ -70,6 +70,8 @@ function handlers.tlo()
         bot_role = bot.Role(),
         bot_is_me = bot.Level() == mq.TLO.Me.Level() and bot.CleanName() == mq.TLO.Me.CleanName(),
         word_length = mq.TLO.RustTest('word Hello').Length(),
+        any_listed = tostring(mq.TLO.RustTest('any Me').Listed),
+        any_unlisted_is_nil = mq.TLO.RustTest('any Me').NeverRead == nil,
         tag_is_mine = mq.TLO.Spawn('id ' .. id).RustTestTag() == 'tag ' .. mq.TLO.Me.CleanName(),
         counter = tostring(five),
         counter_label = five.Label(),

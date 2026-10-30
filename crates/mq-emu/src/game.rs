@@ -216,6 +216,19 @@ impl<'a> Spawn<'a> {
         self.raw.Level()
     }
 
+    /// Class ID, 1 (warrior) to 16 (berserker) for players, higher for some
+    /// NPCs such as merchants; name it with [`Mq::class_name`]. As the spawn
+    /// holds it: `${Spawn.Class}` gives auras, banners and campfires classes
+    /// of their own that this doesn't.
+    pub fn class(&self) -> u8 {
+        self.raw.mActorClient().Class()
+    }
+
+    /// Race ID; name it with [`Mq::race_name`].
+    pub fn race(&self) -> i32 {
+        self.raw.mActorClient().Race()
+    }
+
     pub fn spawn_type(&self) -> SpawnType {
         SpawnType::from(self.raw.Type())
     }
@@ -436,8 +449,12 @@ mod tests {
                 *d = *s as std::ffi::c_char;
             }
             raw.set_DisplayedName(name);
+            raw.mActorClient().set_Class(5);
+            raw.mActorClient().set_Race(128);
 
             assert_eq!(spawn.id(), SpawnId(77));
+            assert_eq!(spawn.class(), 5);
+            assert_eq!(spawn.race(), 128);
             assert_eq!(spawn.level(), 65);
             assert_eq!(spawn.spawn_type(), SpawnType::Npc);
             assert_eq!(spawn.position(), Position { x: 10.0, y: -20.0, z: 3.5 });

@@ -213,6 +213,7 @@ pub(crate) struct DataApi {
     /// Ownership of the user pointer passes over; see `mqemu_add_type`.
     pub add_type: fn(&MQPluginHandle, &str, i32, shim::mqemu_member_fn, shim::mqemu_type_text_fn, *mut c_void, shim::mqemu_drop_fn) -> *mut mqemu_type,
     pub type_add_member: fn(*mut mqemu_type, i32, &str, bool) -> bool,
+    pub type_any_member: fn(*mut mqemu_type, shim::mqemu_any_member_fn),
     /// Returns a `shim::inherit` result.
     pub type_inherit: fn(*mut mqemu_type, &str, shim::mqemu_downcast_fn) -> i32,
     pub remove_type: fn(*mut mqemu_type),
@@ -252,6 +253,7 @@ pub(crate) const fn real<P>() -> DataApi {
             shim::mqemu_add_type(handle, to_c(name).as_ptr(), key_kind, member, text, user, Some(drop))
         },
         type_add_member: |ty, id, name, method| unsafe { shim::mqemu_type_add_member(ty, id, to_c(name).as_ptr(), method) },
+        type_any_member: |ty, any_member| unsafe { shim::mqemu_type_any_member(ty, any_member) },
         type_inherit: |ty, parent, downcast| unsafe { shim::mqemu_type_inherit(ty, to_c(parent).as_ptr(), downcast) },
         remove_type: |ty| unsafe { shim::mqemu_remove_type(ty) },
         free_type: |ty| unsafe { shim::mqemu_free_type(ty) },

@@ -93,6 +93,7 @@ struct RustTest {
     /// The `RustTestBot` and `RustTestWord` datatypes, which inherit
     /// MacroQuest's `spawn` and `string`.
     bot_type: Option<mq_emu::DataType<u32>>,
+    any_type: Option<mq_emu::DataType<String>>,
     word_type: Option<mq_emu::DataType<String>>,
     /// What the selftest's events matched, by event.
     events_seen: Vec<(String, EventMatch)>,
@@ -144,10 +145,11 @@ impl Plugin for RustTest {
         let plugin_window = Some(plugin_window_checks::add(mq));
         let counter_type = data_checks::add_counter_type(mq);
         let bot_type = data_checks::add_bot_type(mq);
+        let any_type = data_checks::add_any_type(mq);
         let word_type = data_checks::add_word_type(mq);
         data_checks::extend_types(mq);
         mq.chat(format!("{GREEN}[{}]{RESET} loaded. Try {YELLOW}{COMMAND} selftest{RESET}.", mq.plugin_name()));
-        RustTest { plugin_window, counter_type, bot_type, word_type, ..RustTest::default() }
+        RustTest { plugin_window, counter_type, bot_type, any_type, word_type, ..RustTest::default() }
     }
 
     fn shutdown(&mut self, mq: &Mq<Self>) {
@@ -298,6 +300,9 @@ impl RustTest {
             _ => {
                 if let Some(n) = index.strip_prefix("counter ") {
                     return Some(self.counter_type.as_ref()?.value(n.parse().ok()?));
+                }
+                if let Some(path) = index.strip_prefix("any ") {
+                    return Some(self.any_type.as_ref()?.value(path.to_owned()));
                 }
                 if let Some(id) = index.strip_prefix("bot ") {
                     return Some(self.bot_type.as_ref()?.value(id.parse().ok()?));
@@ -496,6 +501,7 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     data_checks::provided_tlo(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Providing a datatype"));
     data_checks::provided_type(&task, &mut report).await;
+    data_checks::any_member_type(&task, &mut report).await;
     data_checks::macroquest_types(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Turning and walking"));
     turning(&task, &mut report).await;
