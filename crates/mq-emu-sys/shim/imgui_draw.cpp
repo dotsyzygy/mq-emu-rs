@@ -6,6 +6,10 @@
 // with a thickness are outlined, and filled when it's 0 or less.
 
 #include "imgui_shim.h"
+#include "imgui/imgui_internal.h"
+
+#include <windows.h>
+#include <unknwn.h>
 
 using namespace mqemu;
 
@@ -282,4 +286,108 @@ extern "C" bool mqemu_imgui_draw_channels_set_current(ImDrawList* list, int chan
 extern "C" void mqemu_imgui_draw_channels_merge(ImDrawList* list)
 {
 	guarded_void([&] { list->ChannelsMerge(); });
+}
+
+// ----- textures from memory -----
+//
+// RGBA pixels (IM_COL32 layout, not premultiplied) in an ImTextureData that
+// ImGui's renderer uploads before drawing, and uploads again after the
+// graphics device is lost (the backend's SetStatus(Destroyed) asks for that).
+
+// A `w` x `h` texture of `pixels`, row by row.
+extern "C" ImTextureData* mqemu_imgui_user_texture_new(int w, int h, const ImU32* pixels)
+{
+	return guarded<ImTextureData*>(nullptr, [&] {
+		ImTextureData* texture = IM_NEW(ImTextureData)();
+		texture->Create(ImTextureFormat_RGBA32, w, h);
+		// Without this the DX9 backend copies raw RGBA into BGRA textures.
+		texture->UseColors = true;
+		memcpy(texture->Pixels, pixels, size_t(w) * h * 4);
+		ImGui::RegisterUserTexture(texture);
+		return texture;
+	});
+}
+
+// Replaces the rectangle (x, y, w, h), `pixels` its rows; uploaded before
+// the next draw.
+extern "C" void mqemu_imgui_user_texture_update(ImTextureData* texture, int x, int y, int w, int h, const ImU32* pixels)
+{
+	guarded_void([&] {
+		for (int row = 0; row < h; row++)
+			memcpy(texture->GetPixelsAt(x, y + row), pixels + size_t(row) * w, size_t(w) * 4);
+		ImTextureRect rect = { (unsigned short)x, (unsigned short)y, (unsigned short)w, (unsigned short)h };
+		switch (texture->Status)
+		{
+		case ImTextureStatus_OK:
+			// The backend leaves the last updates listed once it has done them.
+			texture->Updates.resize(0);
+			texture->UpdateRect = rect;
+			texture->Updates.push_back(rect);
+			texture->SetStatus(ImTextureStatus_WantUpdates);
+			break;
+		case ImTextureStatus_WantUpdates:
+		{
+			ImTextureRect& all = texture->UpdateRect;
+			int x0 = ImMin<int>(all.x, x), y0 = ImMin<int>(all.y, y);
+			int x1 = ImMax<int>(all.x + all.w, x + w), y1 = ImMax<int>(all.y + all.h, y + h);
+			all = { (unsigned short)x0, (unsigned short)y0, (unsigned short)(x1 - x0), (unsigned short)(y1 - y0) };
+			texture->Updates.push_back(rect);
+			break;
+		}
+		default:
+			// Not uploaded yet: it will be whole.
+			break;
+		}
+	});
+}
+
+// Whether the renderer has uploaded it (it can be drawn before then, and
+// shows from the frame it's uploaded in).
+extern "C" bool mqemu_imgui_user_texture_uploaded(const ImTextureData* texture)
+{
+	return guarded(false, [&] { return texture->TexID != ImTextureID_Invalid; });
+}
+
+// Frees it and its graphics texture: only once no frame drawing it is still
+// to be rendered. Releases the texture as the DX9 backend would (on emu, a
+// TexID is an IDirect3DTexture9*).
+extern "C" void mqemu_imgui_user_texture_free(ImTextureData* texture)
+{
+	guarded_void([&] {
+		if (texture->TexID != ImTextureID_Invalid)
+			static_cast<IUnknown*>(texture->TexID)->Release();
+		texture->SetTexID(ImTextureID_Invalid);
+		ImGui::UnregisterUserTexture(texture);
+		IM_DELETE(texture);
+	});
+}
+
+// ----- meshes -----
+
+// Triangles: `vtx_count` ImDrawVerts (position, texture coordinate, packed
+// color: 20 bytes each) and `idx_count` indices into them, 3 per triangle,
+// textured with `texture`. Clipped to `clip` (2 points) within the list's
+// current clip rectangle. At most 65536 vertices (ImDrawIdx is 16 bits).
+extern "C" void mqemu_imgui_draw_mesh(ImDrawList* list, ImTextureData* texture, const ImDrawVert* vtx, int vtx_count,
+	const ImDrawIdx* idx, int idx_count, const float* clip)
+{
+	guarded_void([&] {
+		if (vtx_count == 0 || idx_count == 0)
+			return;
+		ImTextureRef ref;
+		ref._TexData = texture;
+		list->PushClipRect(point(clip, 0), point(clip, 1), true);
+		list->PushTexture(ref);
+		// May start a new vertex offset, resetting _VtxCurrentIdx: read it after.
+		list->PrimReserve(idx_count, vtx_count);
+		ImDrawIdx base = (ImDrawIdx)list->_VtxCurrentIdx;
+		memcpy(list->_VtxWritePtr, vtx, size_t(vtx_count) * sizeof(ImDrawVert));
+		for (int i = 0; i < idx_count; i++)
+			list->_IdxWritePtr[i] = (ImDrawIdx)(base + idx[i]);
+		list->_VtxWritePtr += vtx_count;
+		list->_IdxWritePtr += idx_count;
+		list->_VtxCurrentIdx += vtx_count;
+		list->PopTexture();
+		list->PopClipRect();
+	});
 }

@@ -471,5 +471,6 @@ mod eq;
 mod interaction;
 mod plot;
 mod plot_fn;
+mod renderer;
 mod select;
 mod windows;

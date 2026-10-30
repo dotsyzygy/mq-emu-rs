@@ -31,6 +31,9 @@ Each area is supported in full, except for what's listed under **Missing**.
   EQ-styled widgets (spell gems, item links, EQ text) and EQ UI drawing (the game's UI texture
   files and pieces of them, screen pieces); MacroQuest's ImGui add-ons: the text editor (with
   languages of your own, by regexes or a tokenizer function), the memory editor (with closures for its bytes) and the file dialog
+- **Other UI libraries in ImGui windows:** textures from pixels and raw triangle meshes, input as
+  ImGui took it (events, keys with repeat, modifiers, focus, keyboard and mouse capture, the
+  clipboard)
 - **Runtime:** async tasks on the game thread, caught panics, re-entrant callbacks queued, slow-pulse warnings and queue limits
 - **Talking to others:** actors messaging between plugins and characters, and with Lua scripts
 - **Raw access:** generated layouts of the game's objects, and every import, through `sys`

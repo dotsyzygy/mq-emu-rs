@@ -245,6 +245,7 @@ mod dock;
 mod draw;
 mod eq;
 mod file_dialog;
+mod input;
 mod font;
 mod memory_editor;
 mod plot;
@@ -257,10 +258,11 @@ pub use clip::ListClipper;
 pub use custom::{ButtonState, Item, ItemId, Split};
 pub use dnd::{DragDropFlags, DragSource, DropTarget, MAX_PAYLOAD_KIND, Payload};
 pub use dock::{Dir, DockBuilder, DockNode};
-pub use draw::{Channels, Corners, DrawList, Path, Vec2, pack_color};
+pub use draw::{Channels, Corners, DrawList, DrawVert, Path, Vec2, pack_color};
 pub use eq::{EqTextFlags, ScreenPiece, ScreenPieceKind, SpellGemFlags};
 pub use file_dialog::{DrawPane, FileDialog, FileDialogFlags, FileDialogOpen, FileStyle, FileStyleFlags, ResultMode, SelectedFile};
 pub use font::{Font, LoadedFont};
+pub use input::{FocusedFlags, InputEvent, KeyCode};
 pub use memory_editor::{MemoryData, MemoryEditor, MemoryEditorHooks, MemoryEditorOptions};
 pub use plot::{
     Axis, AxisFlags, BarGroupsFlags, BarsFlags, Bins, Colormap, ColormapScaleFlags, DigitalFlags, DragState, DragToolFlags, DummyFlags,
@@ -270,7 +272,7 @@ pub use plot::{
 };
 pub use select::{MultiSelect, MultiSelectFlags, MultiSelectIo, Selection, SelectionRequest};
 pub use text_editor::{Language, LanguageDefinition, Palette, PaletteIndex, PaletteKind, SelectionMode, TextEditor, TextPosition};
-pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId, TexturePiece, UiImageOptions, UiTexture};
+pub use texture::{ITEM_ICONS, ImageOptions, SPELL_ICONS, Texture, TextureAnimation, TextureId, TexturePiece, UiImageOptions, UiTexture, UserTexture};
 pub use windows::{FocusRequestFlags, ScrollFlags, WindowId, WindowInfo, WindowKind, WindowRef};
 pub(crate) use font::remove_loaded_fonts;
 pub(crate) use texture::{free_retired_textures, ui_unloaded};
@@ -388,7 +390,8 @@ flags! {
 }
 
 flags! {
-    /// Modifier keys (`ImGuiMod_`), as [`PlotInputMap`] takes them.
+    /// Modifier keys (`ImGuiMod_`), as [`PlotInputMap`] takes them and
+    /// [`Ui::key_mods`] gives them.
     KeyMods {
         CTRL = ImGuiMod_Ctrl,
         SHIFT = ImGuiMod_Shift,
@@ -1513,6 +1516,15 @@ impl Ui {
     pub fn mouse_pos(&self) -> Vec2 {
         let (mut x, mut y) = (0.0, 0.0);
         unsafe { (self.api.mqemu_imgui_mouse_pos)(&mut x, &mut y) };
+        [x, y]
+    }
+
+    /// How far the wheel turned this frame, `[x, y]` in notches (up and
+    /// left positive). In game MacroQuest adds the wheel here itself, from
+    /// DirectInput, so [`Ui::input_events`] doesn't see it.
+    pub fn mouse_wheel(&self) -> Vec2 {
+        let (mut x, mut y) = (0.0, 0.0);
+        unsafe { (self.api.mqemu_imgui_mouse_wheel)(&mut x, &mut y) };
         [x, y]
     }
 

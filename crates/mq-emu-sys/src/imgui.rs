@@ -52,6 +52,39 @@ pub struct ImFont {
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
+/// ImGui's `ImTextureData`: a texture ImGui's renderer uploads, made by
+/// [`mqemu_imgui_user_texture_new`].
+#[repr(C)]
+pub struct ImTextureData {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// ImGui's `ImDrawVert`: a vertex of [`mqemu_imgui_draw_mesh`].
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct ImDrawVert {
+    pub pos: [f32; 2],
+    pub uv: [f32; 2],
+    /// Packed RGBA (IM_COL32 layout).
+    pub col: u32,
+}
+
+/// One of the input events ImGui took in a frame, from
+/// [`mqemu_imgui_input_event`]. `kind` is an `ImGuiInputEventType_*`:
+/// MousePos and MouseWheel set `x` and `y`; MouseButton sets `code` (the
+/// button) and `down`; Key sets `code` (an `ImGuiKey_*`) and `down`; Text sets
+/// `code` (a UTF-32 character); Focus sets `down` (the game's window has focus).
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct InputEvent {
+    pub kind: i32,
+    pub code: i32,
+    pub x: f32,
+    pub y: f32,
+    pub down: bool,
+}
+
 /// ImGui's `ImGuiID`.
 pub type ImGuiID = u32;
 
@@ -393,10 +426,32 @@ function_table! {
     /// The main viewport's work area: the game's window, less any menu bars.
     pub fn mqemu_imgui_main_viewport_rect(x: *mut f32, y: *mut f32, w: *mut f32, h: *mut f32);
     pub fn mqemu_imgui_mouse_pos(x: *mut f32, y: *mut f32);
+    /// How far the wheel turned this frame (`io.MouseWheelH`, `io.MouseWheel`).
+    pub fn mqemu_imgui_mouse_wheel(x: *mut f32, y: *mut f32);
     /// `button` 0 left, 1 right, 2 middle.
     pub fn mqemu_imgui_is_mouse_down(button: i32) -> bool;
     pub fn mqemu_imgui_is_mouse_clicked(button: i32) -> bool;
     pub fn mqemu_imgui_is_mouse_hovering_rect(min_x: f32, min_y: f32, max_x: f32, max_y: f32) -> bool;
+
+    // ----- input events, focus and the clipboard -----
+    /// The input events ImGui took in this frame (its `InputEventsTrail`).
+    pub fn mqemu_imgui_input_event_count() -> i32;
+    /// Event `index`, oldest first; false past the last.
+    pub fn mqemu_imgui_input_event(index: i32, out: *mut InputEvent) -> bool;
+    /// `key` an `ImGuiKey_*` or `ImGuiMod_*`. Pressed this frame; with
+    /// `repeat`, also each time it repeats while held.
+    pub fn mqemu_imgui_is_key_pressed(key: i32, repeat: bool) -> bool;
+    pub fn mqemu_imgui_is_key_released(key: i32) -> bool;
+    pub fn mqemu_imgui_is_key_down(key: i32) -> bool;
+    /// The modifier keys held (`ImGuiMod_*`).
+    pub fn mqemu_imgui_key_mods() -> i32;
+    /// `flags` `ImGuiFocusedFlags_*`.
+    pub fn mqemu_imgui_is_window_focused(flags: i32) -> bool;
+    pub fn mqemu_imgui_set_next_frame_want_capture_keyboard(want: bool);
+    pub fn mqemu_imgui_set_next_frame_want_capture_mouse(want: bool);
+    /// NUL-terminated and cut to `cap`; returns the whole length.
+    pub fn mqemu_imgui_clipboard_text(out: *mut c_char, cap: usize) -> usize;
+    pub fn mqemu_imgui_set_clipboard_text(text: *const c_char, len: usize);
     /// An item with an ID and size but nothing drawn. Neither `w` nor `h` may
     /// be 0 (an ImGui error). `flags` are `ImGuiButtonFlags_`.
     pub fn mqemu_imgui_invisible_button(id: *const c_char, id_len: usize, w: f32, h: f32, flags: i32) -> bool;
@@ -469,6 +524,28 @@ function_table! {
     pub fn mqemu_imgui_draw_image(list: *mut ImDrawList, texture: *mut c_void, p: *const f32, uv: *const f32, col: u32, rounding: f32, flags: i32);
     /// `p` and `uv`: 4 points each, clockwise from the top left.
     pub fn mqemu_imgui_draw_image_quad(list: *mut ImDrawList, texture: *mut c_void, p: *const f32, uv: *const f32, col: u32);
+    /// Triangles: `vtx_count` vertices and `idx_count` indices into them (3
+    /// per triangle, each less than `vtx_count`), textured with `texture`,
+    /// clipped to `clip` (2 points). At most 65536 vertices.
+    pub fn mqemu_imgui_draw_mesh(
+        list: *mut ImDrawList,
+        texture: *mut ImTextureData,
+        vtx: *const ImDrawVert,
+        vtx_count: i32,
+        idx: *const u16,
+        idx_count: i32,
+        clip: *const f32,
+    );
+
+    // ----- textures from memory -----
+    /// A `w` x `h` texture of `pixels` (RGBA, IM_COL32 layout), row by row.
+    /// ImGui's renderer uploads it, and again after the device is lost.
+    pub fn mqemu_imgui_user_texture_new(w: i32, h: i32, pixels: *const u32) -> *mut ImTextureData;
+    /// Replaces the rectangle (x, y, w, h), `pixels` its rows.
+    pub fn mqemu_imgui_user_texture_update(texture: *mut ImTextureData, x: i32, y: i32, w: i32, h: i32, pixels: *const u32);
+    pub fn mqemu_imgui_user_texture_uploaded(texture: *const ImTextureData) -> bool;
+    /// Only once no frame drawing it is still to be rendered.
+    pub fn mqemu_imgui_user_texture_free(texture: *mut ImTextureData);
     /// The path: points added, then stroked or filled by [`mqemu_imgui_path_finish`], which clears it.
     pub fn mqemu_imgui_path_clear(list: *mut ImDrawList);
     pub fn mqemu_imgui_path_line_to(list: *mut ImDrawList, x: f32, y: f32);
@@ -791,6 +868,41 @@ pub mod testing {
         /// Whether `axis` of the plot titled `title` (NUL-terminated, in the
         /// current window) still has a formatter or a transform.
         pub fn mqemu_implot_test_axis_callbacks(title: *const c_char, axis: i32, formatter: *mut bool, transform: *mut bool);
+        /// What the renderer does with `texture` before drawing: creates or
+        /// updates it (with a fake texture).
+        pub fn mqemu_imgui_test_render_texture(texture: *mut super::ImTextureData);
+        /// What the renderer does when the graphics device is lost.
+        pub fn mqemu_imgui_test_lose_device(texture: *mut super::ImTextureData);
+        /// How many fake textures have been released.
+        pub fn mqemu_imgui_test_released_textures() -> i32;
+        /// How many user textures are registered.
+        pub fn mqemu_imgui_test_user_textures() -> i32;
+        /// `texture`'s status, queued updates, their bounding box (x, y, w,
+        /// h) and the pixel at (x, y).
+        pub fn mqemu_imgui_test_texture_state(
+            texture: *mut super::ImTextureData,
+            x: i32,
+            y: i32,
+            status: *mut i32,
+            updates: *mut i32,
+            rect: *mut i32,
+            pixel: *mut u32,
+        );
+        /// The last draw command of `list` drawing `texture`: its clip
+        /// rectangle (x0, y0, x1, y1) and index count. False if none does.
+        pub fn mqemu_imgui_test_list_texture_cmd(list: *mut super::ImDrawList, texture: *mut super::ImTextureData, clip: *mut f32, indices: *mut i32) -> bool;
+        pub fn mqemu_imgui_test_list_indices(list: *mut super::ImDrawList) -> i32;
+        pub fn mqemu_imgui_test_list_index(list: *mut super::ImDrawList, i: i32) -> i32;
+        pub fn mqemu_imgui_test_list_vertex(list: *mut super::ImDrawList, i: i32, out: *mut super::ImDrawVert);
+        /// Whether ImGui keeps the keyboard and the mouse from the game this frame.
+        pub fn mqemu_imgui_test_want_capture(keyboard: *mut bool, mouse: *mut bool);
+        /// Turns the mouse wheel, from the next frame.
+        pub fn mqemu_imgui_test_wheel(x: f32, y: f32);
+        /// Starts a frame with the mouse fed as MacroQuest feeds it in game:
+        /// the position as an event, but the left button and the wheel
+        /// written to `io.MouseDown` and `io.MouseWheel` from DirectInput, so
+        /// no input event says so. False if NewFrame threw.
+        pub fn mqemu_imgui_test_new_frame_as_mq(mouse_x: f32, mouse_y: f32, mouse_down: bool, wheel: f32) -> bool;
     }
 }
 
@@ -1253,6 +1365,181 @@ imgui_constants! {
     ImGuiSelectionRequestType_SetAll = 1,
     ImGuiSelectionRequestType_SetRange = 2,
 
+    // ImGuiFocusedFlags
+    ImGuiFocusedFlags_None = 0,
+    ImGuiFocusedFlags_ChildWindows = 1 << 0,
+    ImGuiFocusedFlags_RootWindow = 1 << 1,
+    ImGuiFocusedFlags_AnyWindow = 1 << 2,
+    ImGuiFocusedFlags_NoPopupHierarchy = 1 << 3,
+    ImGuiFocusedFlags_DockHierarchy = 1 << 4,
+    ImGuiFocusedFlags_RootAndChildWindows = ImGuiFocusedFlags_RootWindow | ImGuiFocusedFlags_ChildWindows,
+    // ImGuiKey (keyboard, gamepad and mouse keys)
+    ImGuiKey_None = 0,
+    ImGuiKey_NamedKey_BEGIN = 512,
+    ImGuiKey_Tab = 512,
+    ImGuiKey_LeftArrow = 513,
+    ImGuiKey_RightArrow = 514,
+    ImGuiKey_UpArrow = 515,
+    ImGuiKey_DownArrow = 516,
+    ImGuiKey_PageUp = 517,
+    ImGuiKey_PageDown = 518,
+    ImGuiKey_Home = 519,
+    ImGuiKey_End = 520,
+    ImGuiKey_Insert = 521,
+    ImGuiKey_Delete = 522,
+    ImGuiKey_Backspace = 523,
+    ImGuiKey_Space = 524,
+    ImGuiKey_Enter = 525,
+    ImGuiKey_Escape = 526,
+    ImGuiKey_LeftCtrl = 527,
+    ImGuiKey_LeftShift = 528,
+    ImGuiKey_LeftAlt = 529,
+    ImGuiKey_LeftSuper = 530,
+    ImGuiKey_RightCtrl = 531,
+    ImGuiKey_RightShift = 532,
+    ImGuiKey_RightAlt = 533,
+    ImGuiKey_RightSuper = 534,
+    ImGuiKey_Menu = 535,
+    ImGuiKey_0 = 536,
+    ImGuiKey_1 = 537,
+    ImGuiKey_2 = 538,
+    ImGuiKey_3 = 539,
+    ImGuiKey_4 = 540,
+    ImGuiKey_5 = 541,
+    ImGuiKey_6 = 542,
+    ImGuiKey_7 = 543,
+    ImGuiKey_8 = 544,
+    ImGuiKey_9 = 545,
+    ImGuiKey_A = 546,
+    ImGuiKey_B = 547,
+    ImGuiKey_C = 548,
+    ImGuiKey_D = 549,
+    ImGuiKey_E = 550,
+    ImGuiKey_F = 551,
+    ImGuiKey_G = 552,
+    ImGuiKey_H = 553,
+    ImGuiKey_I = 554,
+    ImGuiKey_J = 555,
+    ImGuiKey_K = 556,
+    ImGuiKey_L = 557,
+    ImGuiKey_M = 558,
+    ImGuiKey_N = 559,
+    ImGuiKey_O = 560,
+    ImGuiKey_P = 561,
+    ImGuiKey_Q = 562,
+    ImGuiKey_R = 563,
+    ImGuiKey_S = 564,
+    ImGuiKey_T = 565,
+    ImGuiKey_U = 566,
+    ImGuiKey_V = 567,
+    ImGuiKey_W = 568,
+    ImGuiKey_X = 569,
+    ImGuiKey_Y = 570,
+    ImGuiKey_Z = 571,
+    ImGuiKey_F1 = 572,
+    ImGuiKey_F2 = 573,
+    ImGuiKey_F3 = 574,
+    ImGuiKey_F4 = 575,
+    ImGuiKey_F5 = 576,
+    ImGuiKey_F6 = 577,
+    ImGuiKey_F7 = 578,
+    ImGuiKey_F8 = 579,
+    ImGuiKey_F9 = 580,
+    ImGuiKey_F10 = 581,
+    ImGuiKey_F11 = 582,
+    ImGuiKey_F12 = 583,
+    ImGuiKey_F13 = 584,
+    ImGuiKey_F14 = 585,
+    ImGuiKey_F15 = 586,
+    ImGuiKey_F16 = 587,
+    ImGuiKey_F17 = 588,
+    ImGuiKey_F18 = 589,
+    ImGuiKey_F19 = 590,
+    ImGuiKey_F20 = 591,
+    ImGuiKey_F21 = 592,
+    ImGuiKey_F22 = 593,
+    ImGuiKey_F23 = 594,
+    ImGuiKey_F24 = 595,
+    ImGuiKey_Apostrophe = 596,
+    ImGuiKey_Comma = 597,
+    ImGuiKey_Minus = 598,
+    ImGuiKey_Period = 599,
+    ImGuiKey_Slash = 600,
+    ImGuiKey_Semicolon = 601,
+    ImGuiKey_Equal = 602,
+    ImGuiKey_LeftBracket = 603,
+    ImGuiKey_Backslash = 604,
+    ImGuiKey_RightBracket = 605,
+    ImGuiKey_GraveAccent = 606,
+    ImGuiKey_CapsLock = 607,
+    ImGuiKey_ScrollLock = 608,
+    ImGuiKey_NumLock = 609,
+    ImGuiKey_PrintScreen = 610,
+    ImGuiKey_Pause = 611,
+    ImGuiKey_Keypad0 = 612,
+    ImGuiKey_Keypad1 = 613,
+    ImGuiKey_Keypad2 = 614,
+    ImGuiKey_Keypad3 = 615,
+    ImGuiKey_Keypad4 = 616,
+    ImGuiKey_Keypad5 = 617,
+    ImGuiKey_Keypad6 = 618,
+    ImGuiKey_Keypad7 = 619,
+    ImGuiKey_Keypad8 = 620,
+    ImGuiKey_Keypad9 = 621,
+    ImGuiKey_KeypadDecimal = 622,
+    ImGuiKey_KeypadDivide = 623,
+    ImGuiKey_KeypadMultiply = 624,
+    ImGuiKey_KeypadSubtract = 625,
+    ImGuiKey_KeypadAdd = 626,
+    ImGuiKey_KeypadEnter = 627,
+    ImGuiKey_KeypadEqual = 628,
+    ImGuiKey_AppBack = 629,
+    ImGuiKey_AppForward = 630,
+    ImGuiKey_Oem102 = 631,
+    ImGuiKey_GamepadStart = 632,
+    ImGuiKey_GamepadBack = 633,
+    ImGuiKey_GamepadFaceLeft = 634,
+    ImGuiKey_GamepadFaceRight = 635,
+    ImGuiKey_GamepadFaceUp = 636,
+    ImGuiKey_GamepadFaceDown = 637,
+    ImGuiKey_GamepadDpadLeft = 638,
+    ImGuiKey_GamepadDpadRight = 639,
+    ImGuiKey_GamepadDpadUp = 640,
+    ImGuiKey_GamepadDpadDown = 641,
+    ImGuiKey_GamepadL1 = 642,
+    ImGuiKey_GamepadR1 = 643,
+    ImGuiKey_GamepadL2 = 644,
+    ImGuiKey_GamepadR2 = 645,
+    ImGuiKey_GamepadL3 = 646,
+    ImGuiKey_GamepadR3 = 647,
+    ImGuiKey_GamepadLStickLeft = 648,
+    ImGuiKey_GamepadLStickRight = 649,
+    ImGuiKey_GamepadLStickUp = 650,
+    ImGuiKey_GamepadLStickDown = 651,
+    ImGuiKey_GamepadRStickLeft = 652,
+    ImGuiKey_GamepadRStickRight = 653,
+    ImGuiKey_GamepadRStickUp = 654,
+    ImGuiKey_GamepadRStickDown = 655,
+    ImGuiKey_MouseLeft = 656,
+    ImGuiKey_MouseRight = 657,
+    ImGuiKey_MouseMiddle = 658,
+    ImGuiKey_MouseX1 = 659,
+    ImGuiKey_MouseX2 = 660,
+    ImGuiKey_MouseWheelX = 661,
+    ImGuiKey_MouseWheelY = 662,
+    ImGuiKey_ReservedForModCtrl = 663,
+    ImGuiKey_ReservedForModShift = 664,
+    ImGuiKey_ReservedForModAlt = 665,
+    ImGuiKey_ReservedForModSuper = 666,
+    ImGuiKey_NamedKey_END = 667,
+
+    // ImTextureStatus (a user texture's upload state)
+    ImTextureStatus_OK = 0,
+    ImTextureStatus_Destroyed = 1,
+    ImTextureStatus_WantCreate = 2,
+    ImTextureStatus_WantUpdates = 3,
+    ImTextureStatus_WantDestroy = 4,
+
     // ImGuiMod (the modifier keys of ImGuiKey)
     ImGuiMod_None = 0,
     ImGuiMod_Ctrl = 1 << 12,
@@ -1308,6 +1595,15 @@ imgui_constants! {
 // scrolling windows.
 imgui_constants! {
     INTERNAL_CONSTANTS, "imgui_internal.h";
+    // ImGuiInputEventType (Ui's input events)
+    ImGuiInputEventType_None = 0,
+    ImGuiInputEventType_MousePos = 1,
+    ImGuiInputEventType_MouseWheel = 2,
+    ImGuiInputEventType_MouseButton = 3,
+    ImGuiInputEventType_MouseViewport = 4,
+    ImGuiInputEventType_Key = 5,
+    ImGuiInputEventType_Text = 6,
+    ImGuiInputEventType_Focus = 7,
     ImGuiDockNodeFlags_DockSpace = 1 << 10,
     ImGuiDockNodeFlags_CentralNode = 1 << 11,
     ImGuiDockNodeFlags_NoTabBar = 1 << 12,

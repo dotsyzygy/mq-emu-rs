@@ -13,10 +13,29 @@
 
 #include <cstring>
 #include <exception>
+#include <string>
+
+#include <windows.h>
+#include <unknwn.h>
 
 namespace {
 
 ImGuiContext* s_context = nullptr;
+
+// The clipboard, kept here rather than on the machine's.
+std::string s_clipboard;
+
+// A stand-in for the renderer's IDirect3DTexture9, counting its releases.
+int s_released = 0;
+
+struct FakeTexture final : IUnknown
+{
+	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void** out) override { *out = nullptr; return E_NOINTERFACE; }
+	ULONG STDMETHODCALLTYPE AddRef() override { return 2; }
+	ULONG STDMETHODCALLTYPE Release() override { s_released++; return 1; }
+};
+
+FakeTexture s_fake_texture;
 
 } // namespace
 
@@ -38,16 +57,24 @@ extern "C" void mqemu_imgui_test_init()
 	io.DeltaTime = 1.0f / 60.0f;
 	// Lets the atlas build itself on NewFrame, as a modern renderer would.
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasTextures;
+	ImGuiPlatformIO& platform = ImGui::GetPlatformIO();
+	platform.Platform_GetClipboardTextFn = [](ImGuiContext*) { return s_clipboard.c_str(); };
+	platform.Platform_SetClipboardTextFn = [](ImGuiContext*, const char* text) { s_clipboard = text; };
 }
 
 // Forgets which window and item have focus, keyboard navigation and the
 // active item, so a test doesn't start with an earlier one's: list clippers
-// also draw the window's navigation item, wherever it is.
+// also draw the window's navigation item, wherever it is. Also drops input
+// an earlier test left queued (ImGui trickles events over frames) or held.
 extern "C" void mqemu_imgui_test_forget_focus()
 {
 	mqemu_imgui_test_init();
 	ImGui::FocusWindow(nullptr);
 	ImGui::ClearActiveID();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ClearEventsQueue();
+	io.ClearInputKeys();
+	io.ClearInputMouse();
 }
 
 // The keyboard navigation item's ID (0 for none).
@@ -68,6 +95,30 @@ extern "C" bool mqemu_imgui_test_new_frame(float mouse_x, float mouse_y, bool mo
 		io.DeltaTime = 1.0f / 60.0f;
 		io.AddMousePosEvent(mouse_x, mouse_y);
 		io.AddMouseButtonEvent(0, mouse_down);
+		ImGui::NewFrame();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Starts a frame with the mouse fed as MacroQuest feeds it in game: the
+// position through the event queue (its Win32 backend polls the cursor), but
+// the buttons and wheel written straight into io from DirectInput (its
+// ProcessMouseEvents detour and ImGuiOverlay_HandleMouseEvent), so no input
+// event reports them.
+extern "C" bool mqemu_imgui_test_new_frame_as_mq(float mouse_x, float mouse_y, bool mouse_down, float wheel)
+{
+	mqemu_imgui_test_init();
+	try
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.DeltaTime = 1.0f / 60.0f;
+		io.AddMousePosEvent(mouse_x, mouse_y);
+		io.MouseDown[0] = mouse_down;
+		io.MouseWheel += wheel;
 		ImGui::NewFrame();
 		return true;
 	}
@@ -251,4 +302,100 @@ extern "C" void mqemu_implot_test_axis_callbacks(const char* title, int axis, bo
 	ImPlotPlot* plot = ImPlot::GetPlot(title);
 	*formatter = plot && plot->Axes[axis].Formatter != nullptr;
 	*transform = plot && plot->Axes[axis].TransformForward != nullptr;
+}
+
+// ----- user textures and meshes -----
+
+// Does what the renderer does with `texture` before drawing: creates or
+// updates it (with a fake texture).
+extern "C" void mqemu_imgui_test_render_texture(ImTextureData* texture)
+{
+	if (texture->Status == ImTextureStatus_WantCreate)
+		texture->SetTexID(static_cast<ImTextureID>(static_cast<IUnknown*>(&s_fake_texture)));
+	if (texture->Status == ImTextureStatus_WantCreate || texture->Status == ImTextureStatus_WantUpdates)
+		texture->SetStatus(ImTextureStatus_OK);
+}
+
+// Does what the renderer does when the graphics device is lost: frees the
+// texture and marks it destroyed.
+extern "C" void mqemu_imgui_test_lose_device(ImTextureData* texture)
+{
+	if (texture->TexID != ImTextureID_Invalid)
+		static_cast<IUnknown*>(texture->TexID)->Release();
+	texture->SetTexID(ImTextureID_Invalid);
+	texture->SetStatus(ImTextureStatus_Destroyed);
+}
+
+// How many fake textures have been released.
+extern "C" int mqemu_imgui_test_released_textures()
+{
+	return s_released;
+}
+
+// How many user textures are registered.
+extern "C" int mqemu_imgui_test_user_textures()
+{
+	return GImGui->UserTextures.Size;
+}
+
+// `texture`'s status (ImTextureStatus), its queued updates, their bounding
+// box (x, y, w, h) and the pixel at (x, y).
+extern "C" void mqemu_imgui_test_texture_state(ImTextureData* texture, int x, int y, int* status, int* updates, int* rect, ImU32* pixel)
+{
+	*status = texture->Status;
+	*updates = texture->Updates.Size;
+	rect[0] = texture->UpdateRect.x;
+	rect[1] = texture->UpdateRect.y;
+	rect[2] = texture->UpdateRect.w;
+	rect[3] = texture->UpdateRect.h;
+	*pixel = *static_cast<ImU32*>(texture->GetPixelsAt(x, y));
+}
+
+// The last draw command of `list` drawing `texture`: its clip rectangle
+// (x0, y0, x1, y1) and how many indices it has. False if none does.
+extern "C" bool mqemu_imgui_test_list_texture_cmd(ImDrawList* list, ImTextureData* texture, float* clip, int* indices)
+{
+	for (int i = list->CmdBuffer.Size - 1; i >= 0; i--)
+	{
+		const ImDrawCmd& cmd = list->CmdBuffer[i];
+		if (cmd.TexRef._TexData != texture || cmd.ElemCount == 0)
+			continue;
+		clip[0] = cmd.ClipRect.x;
+		clip[1] = cmd.ClipRect.y;
+		clip[2] = cmd.ClipRect.z;
+		clip[3] = cmd.ClipRect.w;
+		*indices = (int)cmd.ElemCount;
+		return true;
+	}
+	return false;
+}
+
+// `list`'s index count, and index `i` of it.
+extern "C" int mqemu_imgui_test_list_indices(ImDrawList* list)
+{
+	return list->IdxBuffer.Size;
+}
+
+extern "C" int mqemu_imgui_test_list_index(ImDrawList* list, int i)
+{
+	return list->IdxBuffer[i];
+}
+
+// Vertex `i` of `list`.
+extern "C" void mqemu_imgui_test_list_vertex(ImDrawList* list, int i, ImDrawVert* out)
+{
+	*out = list->VtxBuffer[i];
+}
+
+// Whether ImGui keeps the keyboard and the mouse from the game this frame.
+extern "C" void mqemu_imgui_test_want_capture(bool* keyboard, bool* mouse)
+{
+	*keyboard = ImGui::GetIO().WantCaptureKeyboard;
+	*mouse = ImGui::GetIO().WantCaptureMouse;
+}
+
+// Turns the mouse wheel, from the next frame.
+extern "C" void mqemu_imgui_test_wheel(float x, float y)
+{
+	ImGui::GetIO().AddMouseWheelEvent(x, y);
 }

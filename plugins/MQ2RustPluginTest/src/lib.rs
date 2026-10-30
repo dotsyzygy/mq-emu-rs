@@ -596,6 +596,9 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         report.print(mq, "an image file loads as a texture of its size", Check::that(exercise.texture_size == Some([16.0, 16.0]), || {
             format!("texture size {:?}", exercise.texture_size)
         }));
+        report.print(mq, "a texture made from pixels is uploaded by the renderer and drawn as a mesh", Check::that(exercise.pixel_texture_uploaded, || {
+            "not uploaded after the exercise's frames".into()
+        }));
         report.print(mq, "MacroQuest's default, console and large fonts are available", Check::that(exercise.mq_fonts, || {
             "one of them is missing".into()
         }));

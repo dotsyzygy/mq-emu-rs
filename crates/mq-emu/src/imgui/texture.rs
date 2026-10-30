@@ -6,6 +6,7 @@ use std::ffi::c_void;
 use std::marker::PhantomData;
 use std::ptr::NonNull;
 
+use mq_emu_sys::imgui as sys;
 use mq_emu_sys::imgui_mq as mq_sys;
 
 use super::draw::{DrawList, Vec2, pack_color};
@@ -59,7 +60,7 @@ impl Default for ImageOptions {
 thread_local! {
     /// Textures dropped, freed when the next frame starts: the frame that
     /// last drew them may not have been rendered when they were dropped.
-    static RETIRED: RefCell<Vec<(NonNull<mq_sys::MQTexture>, &'static mq_sys::Api)>> = const { RefCell::new(Vec::new()) };
+    static RETIRED: RefCell<Vec<Retired>> = const { RefCell::new(Vec::new()) };
     /// Bumped when the game unloads its UI, which frees the textures
     /// [`TextureAnimation`]s point into.
     static UI_GENERATION: Cell<u64> = const { Cell::new(0) };
@@ -69,9 +70,18 @@ thread_local! {
 /// starts (by then the frame that drew them has been rendered) and at shutdown.
 pub(crate) fn free_retired_textures() {
     let retired = RETIRED.with(|r| std::mem::take(&mut *r.borrow_mut()));
-    for (texture, api) in retired {
-        unsafe { (api.mqemu_texture_destroy)(texture.as_ptr()) };
+    for texture in retired {
+        match texture {
+            Retired::File(texture, api) => unsafe { (api.mqemu_texture_destroy)(texture.as_ptr()) },
+            Retired::User(texture, api) => unsafe { (api.mqemu_imgui_user_texture_free)(texture.as_ptr()) },
+        }
     }
+}
+
+/// A dropped texture, waiting for [`free_retired_textures`].
+enum Retired {
+    File(NonNull<mq_sys::MQTexture>, &'static mq_sys::Api),
+    User(NonNull<sys::ImTextureData>, &'static sys::Api),
 }
 
 /// Which loading of the game's UI this is: what it points into is gone once
@@ -116,7 +126,7 @@ impl Texture {
 
 impl Drop for Texture {
     fn drop(&mut self) {
-        let entry = (self.raw, self.api);
+        let entry = Retired::File(self.raw, self.api);
         RETIRED.with(|r| r.borrow_mut().push(entry));
     }
 }
@@ -124,6 +134,66 @@ impl Drop for Texture {
 impl std::fmt::Debug for Texture {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Texture").field("size", &self.size()).finish_non_exhaustive()
+    }
+}
+
+/// A texture made from pixels in memory ([`Ui::create_texture`]), which ImGui's
+/// renderer uploads before drawing it, and again after the game's graphics
+/// device is lost. Draw it with [`DrawList::add_mesh`]; change it with
+/// [`UserTexture::update`].
+///
+/// Dropping it frees it once the frame that may still draw it has been
+/// rendered.
+pub struct UserTexture {
+    raw: NonNull<sys::ImTextureData>,
+    api: &'static sys::Api,
+    size: [usize; 2],
+}
+
+impl UserTexture {
+    pub(super) fn raw(&self) -> *mut sys::ImTextureData {
+        self.raw.as_ptr()
+    }
+
+    /// Its size in pixels, `[w, h]`.
+    pub fn size(&self) -> [usize; 2] {
+        self.size
+    }
+
+    /// Replaces the `size` pixels with their top left at `pos`; `pixels` are
+    /// their rows, as for [`Ui::create_texture`]. Shown from the next frame
+    /// drawn.
+    ///
+    /// # Panics
+    /// If the rectangle isn't inside the texture, or `pixels` isn't `w * h`
+    /// long.
+    pub fn update(&mut self, pos: [usize; 2], size: [usize; 2], pixels: &[[u8; 4]]) {
+        let fits = |axis: usize| pos[axis].checked_add(size[axis]).is_some_and(|end| end <= self.size[axis]);
+        assert!(fits(0) && fits(1), "{size:?} at {pos:?} isn't inside the {:?} texture", self.size);
+        assert_eq!(pixels.len(), size[0] * size[1], "{size:?} needs {} pixels", size[0] * size[1]);
+        if pixels.is_empty() {
+            return;
+        }
+        let [x, y, w, h] = [pos[0], pos[1], size[0], size[1]].map(|v| v as i32);
+        unsafe { (self.api.mqemu_imgui_user_texture_update)(self.raw.as_ptr(), x, y, w, h, pixels.as_ptr().cast()) };
+    }
+
+    /// Whether the renderer has uploaded it yet (it draws from then on).
+    pub fn is_uploaded(&self) -> bool {
+        unsafe { (self.api.mqemu_imgui_user_texture_uploaded)(self.raw.as_ptr()) }
+    }
+}
+
+impl Drop for UserTexture {
+    fn drop(&mut self) {
+        let entry = Retired::User(self.raw, self.api);
+        RETIRED.with(|r| r.borrow_mut().push(entry));
+    }
+}
+
+impl std::fmt::Debug for UserTexture {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("UserTexture").field("size", &self.size).finish_non_exhaustive()
     }
 }
 
@@ -372,6 +442,20 @@ impl Ui {
         let (p, n) = s(path);
         let raw = NonNull::new(unsafe { (self.mq.mqemu_texture_create)(p, n) })?;
         Some(Texture { raw, api: self.mq })
+    }
+
+    /// A `size` texture of `pixels`: its rows top to bottom, each pixel RGBA,
+    /// not premultiplied by alpha. Make once and keep it; [`UserTexture::update`]
+    /// changes it.
+    ///
+    /// # Panics
+    /// If either size is 0 or over 8192, or `pixels` isn't `w * h` long.
+    pub fn create_texture(&self, size: [usize; 2], pixels: &[[u8; 4]]) -> UserTexture {
+        assert!((1..=8192).contains(&size[0]) && (1..=8192).contains(&size[1]), "a texture can't be {size:?}");
+        assert_eq!(pixels.len(), size[0] * size[1], "{size:?} needs {} pixels", size[0] * size[1]);
+        let raw = unsafe { (self.api.mqemu_imgui_user_texture_new)(size[0] as i32, size[1] as i32, pixels.as_ptr().cast()) };
+        let raw = NonNull::new(raw).expect("ImGui made no texture");
+        UserTexture { raw, api: self.api, size }
     }
 
     /// A copy of the game's UI texture `name` (such as [`ITEM_ICONS`]); None

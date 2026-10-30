@@ -754,6 +754,16 @@ extern "C" void mqemu_imgui_mouse_pos(float* x, float* y)
 	});
 }
 
+// How far the wheel turned this frame (notches; up and left positive), however
+// it reached ImGui: MacroQuest adds DirectInput's to io.MouseWheel itself.
+extern "C" void mqemu_imgui_mouse_wheel(float* x, float* y)
+{
+	guarded_void([&] {
+		*x = ImGui::GetIO().MouseWheelH;
+		*y = ImGui::GetIO().MouseWheel;
+	});
+}
+
 // `button` 0 left, 1 right, 2 middle.
 extern "C" bool mqemu_imgui_is_mouse_down(int button)
 {
@@ -768,6 +778,111 @@ extern "C" bool mqemu_imgui_is_mouse_clicked(int button)
 extern "C" bool mqemu_imgui_is_mouse_hovering_rect(float min_x, float min_y, float max_x, float max_y)
 {
 	return guarded(false, [&] { return ImGui::IsMouseHoveringRect(ImVec2(min_x, min_y), ImVec2(max_x, max_y)); });
+}
+
+// ----- input events -----
+
+// One of the input events ImGui took in this frame. `kind` is an
+// ImGuiInputEventType: MousePos and MouseWheel set x and y; MouseButton sets
+// code (0 left, 1 right, 2 middle, 3-4 extra) and down; Key sets code (an
+// ImGuiKey) and down; Text sets code (a UTF-32 character); Focus sets down
+// (whether the game's window has focus).
+struct InputEvent
+{
+	int kind;
+	int code;
+	float x, y;
+	bool down;
+};
+
+extern "C" int mqemu_imgui_input_event_count()
+{
+	return guarded(0, [] { return GImGui->InputEventsTrail.Size; });
+}
+
+// Event `index` (oldest first); false past the last.
+extern "C" bool mqemu_imgui_input_event(int index, InputEvent* out)
+{
+	return guarded(false, [&] {
+		const ImVector<ImGuiInputEvent>& events = GImGui->InputEventsTrail;
+		if (index < 0 || index >= events.Size)
+			return false;
+		const ImGuiInputEvent& e = events[index];
+		*out = { e.Type, 0, 0.0f, 0.0f, false };
+		switch (e.Type)
+		{
+		case ImGuiInputEventType_MousePos: out->x = e.MousePos.PosX; out->y = e.MousePos.PosY; break;
+		case ImGuiInputEventType_MouseWheel: out->x = e.MouseWheel.WheelX; out->y = e.MouseWheel.WheelY; break;
+		case ImGuiInputEventType_MouseButton: out->code = e.MouseButton.Button; out->down = e.MouseButton.Down; break;
+		case ImGuiInputEventType_Key: out->code = e.Key.Key; out->down = e.Key.Down; break;
+		case ImGuiInputEventType_Text: out->code = (int)e.Text.Char; break;
+		case ImGuiInputEventType_Focus: out->down = e.AppFocused.Focused; break;
+		default: break;
+		}
+		return true;
+	});
+}
+
+// `key` an ImGuiKey (a named key or an ImGuiMod_ one). Pressed this frame;
+// with `repeat`, also each time it repeats while held, at ImGui's rate.
+extern "C" bool mqemu_imgui_is_key_pressed(int key, bool repeat)
+{
+	return guarded(false, [&] { return ImGui::IsKeyPressed(static_cast<ImGuiKey>(key), repeat); });
+}
+
+extern "C" bool mqemu_imgui_is_key_released(int key)
+{
+	return guarded(false, [&] { return ImGui::IsKeyReleased(static_cast<ImGuiKey>(key)); });
+}
+
+extern "C" bool mqemu_imgui_is_key_down(int key)
+{
+	return guarded(false, [&] { return ImGui::IsKeyDown(static_cast<ImGuiKey>(key)); });
+}
+
+// The modifier keys held (ImGuiMod_* flags).
+extern "C" int mqemu_imgui_key_mods()
+{
+	return guarded(0, [] { return (int)ImGui::GetIO().KeyMods; });
+}
+
+// `flags` ImGuiFocusedFlags.
+extern "C" bool mqemu_imgui_is_window_focused(int flags)
+{
+	return guarded(false, [&] { return ImGui::IsWindowFocused(flags); });
+}
+
+// Whether ImGui keeps the keyboard (or mouse) from the game next frame,
+// whatever its own widgets want.
+extern "C" void mqemu_imgui_set_next_frame_want_capture_keyboard(bool want)
+{
+	guarded_void([&] { ImGui::SetNextFrameWantCaptureKeyboard(want); });
+}
+
+extern "C" void mqemu_imgui_set_next_frame_want_capture_mouse(bool want)
+{
+	guarded_void([&] { ImGui::SetNextFrameWantCaptureMouse(want); });
+}
+
+// The clipboard's text, NUL-terminated and cut to `cap`; returns its whole length.
+extern "C" size_t mqemu_imgui_clipboard_text(char* out, size_t cap)
+{
+	return guarded<size_t>(0, [&] {
+		const char* text = ImGui::GetClipboardText();
+		std::string_view view = text ? text : "";
+		if (cap)
+		{
+			size_t n = std::min(view.size(), cap - 1);
+			memcpy(out, view.data(), n);
+			out[n] = 0;
+		}
+		return view.size();
+	});
+}
+
+extern "C" void mqemu_imgui_set_clipboard_text(const char* text, size_t len)
+{
+	guarded_void([&] { ImGui::SetClipboardText(CString(text, len)); });
 }
 
 // An item with an ID and size but nothing drawn: a hit area for custom

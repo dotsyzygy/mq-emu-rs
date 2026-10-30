@@ -115,6 +115,17 @@
   from inside the plot doesn't compile. The input map changes for a scope and is restored, and
   maps ImGui would index out of bounds with are refused. Spell gems, item links and EQ text reach
   MacroQuest's stand-ins, and gems past the game's last aren't asked for.
+  For other UI libraries (`imgui/tests/renderer.rs`): a texture from pixels is queued for upload
+  with its pixels as given, updates queue their rectangles and bounding box (afresh once the
+  renderer has done the last ones), a lost device has it uploaded again whole, and dropping it
+  frees it, and the renderer's texture, only as the next frame starts; bad sizes and rectangles
+  panic first. A mesh's vertices land as given and its indices offset past what the list already
+  had, drawn with its texture and its clip rectangle within the window's, which is popped after;
+  65536 vertices twice start a new vertex offset, and bad indices panic first. Simulated mouse,
+  wheel, keys, ctrl and typed text come back as input events (each once, though ImGui trickles
+  them over frames), a held key repeats at ImGui's rate, unknown keys are never pressed, capture
+  requests hold for one frame, clicking a window focuses it, and the clipboard round-trips. Each
+  test starts with no input left queued or held by an earlier one.
 - **`mq-emu` window tests**: against fake windows and a stand-in for the shim's window functions:
   the window tree is walked depth first, and a loop in it ends the walk; controls are found by name
   or screen ID ignoring case, only inside their window (a negative test shows the sibling MacroQuest

@@ -39,10 +39,13 @@ const ENUMS: &[&str] = &[
     "ImGuiMultiSelectFlags_",
     "ImGuiSelectionRequestType_",
     "ImGuiKey:ImGuiMod_",
+    "ImGuiKey:ImGuiKey_",
+    "ImGuiFocusedFlags_",
+    "ImTextureStatus",
 ];
 
 /// The `imgui_internal.h` enums mq-emu-sys binds.
-const INTERNAL_ENUMS: &[&str] = &["ImGuiDockNodeFlagsPrivate_:ImGuiDockNodeFlags_", "ImGuiButtonFlagsPrivate_:ImGuiButtonFlags_", "ImGuiAxis", "ImGuiFocusRequestFlags_", "ImGuiScrollFlags_"];
+const INTERNAL_ENUMS: &[&str] = &["ImGuiDockNodeFlagsPrivate_:ImGuiDockNodeFlags_", "ImGuiButtonFlagsPrivate_:ImGuiButtonFlags_", "ImGuiAxis", "ImGuiInputEventType", "ImGuiFocusRequestFlags_", "ImGuiScrollFlags_"];
 
 /// The ImPlot enums mq-emu-sys binds.
 const IMPLOT_ENUMS: &[&str] = &[

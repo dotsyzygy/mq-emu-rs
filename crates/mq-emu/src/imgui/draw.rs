@@ -6,10 +6,25 @@ use std::ptr;
 use mq_emu_sys::imgui as sys;
 use mq_emu_sys::imgui_mq as mq_sys;
 
-use super::{Color, Dir, Font, OnDrop, TextureAnimation, TextureId, Ui, s};
+use super::{Color, Dir, Font, OnDrop, TextureAnimation, TextureId, Ui, UserTexture, s};
 
 /// A point or size, `[x, y]` in pixels.
 pub type Vec2 = [f32; 2];
+
+/// A vertex of [`DrawList::add_mesh`] (ImGui's `ImDrawVert`).
+#[repr(C)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct DrawVert {
+    /// On the screen.
+    pub pos: Vec2,
+    /// Texture coordinate (0 to 1).
+    pub uv: Vec2,
+    /// RGBA as [`pack_color`] packs it, not premultiplied by alpha:
+    /// multiplies the texture's.
+    pub color: u32,
+}
+
+const _: () = assert!(size_of::<DrawVert>() == size_of::<sys::ImDrawVert>());
 
 /// Packs a color as ImGui's draw lists take it (`ImGui::ColorConvertFloat4ToU32`):
 /// each component clamped to 0..=1 and rounded to a byte, red lowest.
@@ -266,6 +281,32 @@ impl<'ui> DrawList<'ui> {
     pub fn add_image_quad(&self, texture: TextureId<'_>, corners: [Vec2; 4], uv: [Vec2; 4], tint: Color) {
         self.with(|api, list| unsafe {
             (api.mqemu_imgui_draw_image_quad)(list, texture.raw(), corners.as_ptr().cast(), uv.as_ptr().cast(), pack_color(tint))
+        });
+    }
+
+    /// Triangles: `indices` index `vertices`, 3 per triangle, textured with
+    /// `texture` and clipped to `clip` (top left and bottom right, within the
+    /// list's own clip rectangle). For drawing what another renderer made.
+    ///
+    /// # Panics
+    /// If there are more than 65536 vertices, the indices aren't whole
+    /// triangles, or one is past the last vertex.
+    pub fn add_mesh(&self, texture: &UserTexture, vertices: &[DrawVert], indices: &[u16], clip: [Vec2; 2]) {
+        assert!(vertices.len() <= 1 << 16, "{} vertices: at most 65536 in one mesh", vertices.len());
+        assert!(indices.len() % 3 == 0, "{} indices aren't whole triangles", indices.len());
+        if let Some(&past) = indices.iter().find(|&&i| usize::from(i) >= vertices.len()) {
+            panic!("index {past} past the {} vertices", vertices.len());
+        }
+        self.with(|api, list| unsafe {
+            (api.mqemu_imgui_draw_mesh)(
+                list,
+                texture.raw(),
+                vertices.as_ptr().cast(),
+                vertices.len() as i32,
+                indices.as_ptr(),
+                indices.len() as i32,
+                clip.as_ptr().cast(),
+            )
         });
     }
 

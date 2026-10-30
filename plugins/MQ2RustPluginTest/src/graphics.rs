@@ -10,8 +10,8 @@ use std::time::Instant;
 use mq_emu::imgui::{
     Axis, AxisFlags, BarsFlags, Bins, Colormap, Cond, Corners, Dir, DockNodeFlags, DragDropFlags, DragToolFlags, EqTextFlags, Font,
     ButtonFlags, HeatmapFlags, HistogramFlags, ITEM_ICONS, ImageOptions, InfLinesFlags, LegendFlags, LineFlags, Location, Marker, MultiSelectFlags,
-    PieChartFlags, PlotFlags, SPELL_ICONS, ScatterFlags, Selection, SpellGemFlags, Split, StairsFlags, SubplotFlags, Texture, TextureAnimation, Ui, WindowFlags,
-    WindowKind,
+    PieChartFlags, PlotFlags, SPELL_ICONS, ScatterFlags, Selection, SpellGemFlags, Split, StairsFlags, SubplotFlags, Texture, TextureAnimation, Ui, UserTexture, WindowFlags,
+    WindowKind, DrawVert,
 };
 use mq_emu::{GameState, Mq, SpawnType};
 
@@ -46,6 +46,8 @@ pub struct Graphics {
     started: Instant,
     /// The test image, once loaded (`None` after a failed try).
     texture: Option<Option<Texture>>,
+    /// A texture made from pixels, drawn as a mesh by the exercise.
+    pixel_texture: Option<UserTexture>,
     item_icons: Option<TextureAnimation>,
     spell_icons: Option<TextureAnimation>,
     /// (seconds, HP %, mana %), oldest first.
@@ -75,6 +77,7 @@ impl Default for Graphics {
         Graphics {
             started: Instant::now(),
             texture: None,
+            pixel_texture: None,
             item_icons: None,
             spell_icons: None,
             history: VecDeque::new(),
@@ -137,6 +140,8 @@ pub struct Exercise {
     pub child_scroll: f32,
     /// What the add-ons window found.
     pub addons: crate::addons::AddonsExercise,
+    /// Whether the renderer uploaded the texture made from pixels.
+    pub pixel_texture_uploaded: bool,
 }
 
 impl Exercise {
@@ -421,10 +426,19 @@ impl RustTest {
         let ([sx, sy], [sw, sh]) = ui.screen_rect();
         ui.foreground_draw_list().add_rect([sx + 2.0, sy + 2.0], [sx + sw - 2.0, sy + sh - 2.0], YELLOW, 0.0, 2.0);
         ui.background_draw_list().add_text([sx + 8.0, sy + sh - 24.0], YELLOW, "mq-emu graphics selftest");
+        // A texture made from pixels (a 2x2 checker), drawn as a mesh in the top right corner.
+        let checker = [[255, 255, 0, 255], [40, 40, 40, 255], [40, 40, 40, 255], [255, 255, 0, 255]];
+        let pixels = g.pixel_texture.get_or_insert_with(|| ui.create_texture([2, 2], &checker));
+        let (x0, y0, x1, y1) = (sx + sw - 40.0, sy + 8.0, sx + sw - 8.0, sy + 40.0);
+        let corner = |pos, uv| DrawVert { pos, uv, color: 0xffff_ffff };
+        let quad = [corner([x0, y0], [0.0, 0.0]), corner([x1, y0], [1.0, 0.0]), corner([x1, y1], [1.0, 1.0]), corner([x0, y1], [0.0, 1.0])];
+        ui.foreground_draw_list().add_mesh(pixels, &quad, &[0, 1, 2, 0, 2, 3], [[x0, y0], [x1, y1]]);
+        let pixel_texture_uploaded = pixels.is_uploaded();
         if let Some(exercise) = g.exercise.as_mut() {
             exercise.frames_left -= 1;
             exercise.frames_drawn += 1;
             exercise.texture_size = size;
+            exercise.pixel_texture_uploaded = pixel_texture_uploaded;
             exercise.item_icon_cell = item_cell;
             exercise.spell_icon_cell = spell_cell;
             exercise.mq_fonts = mq_fonts;
