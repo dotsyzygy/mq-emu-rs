@@ -10,7 +10,7 @@ checksum = "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649"
 
 [[package]]
 name = "cargo-mq"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "mq-emu-bindgen",
  "serde_json",
@@ -110,7 +110,7 @@ dependencies = [
 
 [[package]]
 name = "lua-proto-oracle"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cc",
 ]
@@ -123,7 +123,7 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 
 [[package]]
 name = "mq-emu"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "lua-proto-oracle",
  "mq-emu-sys",
@@ -132,14 +132,14 @@ dependencies = [
 
 [[package]]
 name = "mq-emu-bindgen"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pdb2",
 ]
 
 [[package]]
 name = "mq-emu-sys"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cc",
  "object",
@@ -147,7 +147,7 @@ dependencies = [
 
 [[package]]
 name = "mq2-rust-plugin-test"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "mq-emu",
 ]

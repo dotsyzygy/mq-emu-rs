@@ -13,9 +13,14 @@ use std::process::{Command, ExitCode};
 const TARGET: &str = "i686-pc-windows-msvc";
 
 const USAGE: &str = "\
+Build, deploy and check MacroQuest plugins made with mq-emu.
+
 usage:
   cargo mq deploy [-p <package>] [--debug] [--no-build]
+      Build a plugin and copy it into a MacroQuest install.
   cargo mq doctor
+      Check that the MacroQuest a plugin builds against, the one it deploys
+      to and mq-emu's committed layouts all agree.
 
 MQ_INSTALL is the folder holding MQ2Main.dll. Without it, deploy uses
 $MQ_ROOT/build/bin/$MQ_BUILD_CONFIG (default release). Set either in your
