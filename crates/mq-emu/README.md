@@ -32,8 +32,7 @@ impl Plugin for Hello {
 mq_emu::plugin!(Hello);
 ```
 
-Build it as a `cdylib` whose library name is the DLL name (e.g. `[lib] name = "MQ2Hello"`),
-copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
+See [Using it in your own plugin](#using-it-in-your-own-plugin) to build and deploy it.
 
 ## What you get
 
@@ -114,5 +113,80 @@ copy the DLL into MacroQuest's `plugins` folder and `/plugin MQ2Hello`.
 - **Diagnostics**: `mq.stats()` (pulse timing, queued/dropped events, panics) is collected
   silently, with rate-limited chat warnings only when something is wrong.
 
-See `crates/mq-emu-sys/README.md` for build requirements (`MQ_ROOT`, 32-bit target, static C
-runtime).
+## Using it in your own plugin
+
+You need a built MacroQuest emu checkout (`Release|Win32`) and the 32-bit target
+(`rustup target add i686-pc-windows-msvc`). Your project needs three files.
+
+`Cargo.toml`:
+
+```toml
+[package]
+name = "mq2-hello"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "MQ2Hello"        # the DLL's name, which must start with MQ
+crate-type = ["cdylib"]
+test = false             # a plugin links MacroQuest, so a test binary can't start outside the game
+doctest = false
+
+[dependencies]
+mq-emu = { git = "https://github.com/dotsyzygy/mq-emu-rs", tag = "v0.1.0" }
+```
+
+`.cargo/config.toml` (a dependency's config doesn't carry over, so each plugin needs its own):
+
+```toml
+[build]
+target = "i686-pc-windows-msvc"
+
+[target.i686-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+```
+
+`src/lib.rs`: the example at the top of this page, starting with
+`#![allow(non_snake_case)]` because the crate is named after the DLL.
+
+Two settings, in your environment or under `[env]` in `~/.cargo/config.toml`:
+
+| Setting      | Used for  | Points at                                                                                        |
+| ------------ | --------- | ------------------------------------------------------------------------------------------------ |
+| `MQ_ROOT`    | Building  | Your MacroQuest checkout (headers and `.lib` files)                                              |
+| `MQ_INSTALL` | Deploying | The folder holding `MQ2Main.dll`. Optional: without it, `$MQ_ROOT/build/bin/release` is used |
+
+```toml
+[env]
+MQ_ROOT = "C:/path/to/macroquest"
+MQ_INSTALL = "C:/path/to/macroquest/build/bin/release"
+```
+
+Then install the tool once, and deploy from your plugin's folder:
+
+```powershell
+cargo install --git https://github.com/dotsyzygy/mq-emu-rs cargo-mq
+cargo mq deploy     # -p <package> to choose, --debug, --no-build
+cargo mq doctor     # checks your settings and mq-emu's layouts against your MacroQuest
+```
+
+`cargo mq deploy` builds the plugin and copies its DLL and `.pdb` into `plugins`, `lua/*.lua` into
+`lua` and everything in `resources` into `resources`. It assumes MacroQuest's default folders: it
+doesn't read `PluginPath` or `ResourcePath` from `MacroQuest.ini`, or `luaDir` from
+`Config/MQ2Lua.yaml`. It warns if `MQ_INSTALL` holds a different `MQ2Main.dll` from `MQ_ROOT`.
+
+**Build against the MacroQuest you run.** MacroQuest's loader only compares the EverQuest version,
+so it accepts a plugin built against a different MacroQuest commit, and mq-emu's game-object layouts
+are generated from one specific `eqlib.pdb`. Run `cargo mq doctor` after changing either one: wrong
+layouts make a plugin misread game memory.
+
+To work on mq-emu and your plugin together, add this to the plugin's `.cargo/config.toml`:
+
+```toml
+[patch."https://github.com/dotsyzygy/mq-emu-rs"]
+mq-emu = { path = "C:/path/to/mq-rs/crates/mq-emu" }
+mq-emu-sys = { path = "C:/path/to/mq-rs/crates/mq-emu-sys" }
+```
+
+See `crates/mq-emu-sys/README.md` for more on the build requirements.

@@ -16,6 +16,12 @@
   C++ `bool`, nested records and arrays of records.
 - **`tools/mq-emu-bindgen/tests`**: the committed layouts are up to date with `layouts.txt` and the PDB,
   and generation is deterministic.
+- **`tools/cargo-mq/tests`**: `cargo mq deploy` and `doctor` against throwaway plugins and MacroQuest
+  folders: what gets copied and where, finding the install and the plugin, and a clear failure or
+  warning for each thing that can be wrong (no settings, not an install, not a plugin, locked DLL,
+  another MacroQuest build, layouts from another PDB).
+- **`crates/mq-emu/tests/consumer.rs`**: a standalone plugin crate outside the workspace builds, with
+  the loader's exports.
 - **`tests/plugin_loader.rs`**: the plugin exports we document match every name MacroQuest's loader
   looks up, in both directions.
 - **`tests/shim.rs`**: the C++ shim against a fake `MainInterface`: arguments, handles and callback

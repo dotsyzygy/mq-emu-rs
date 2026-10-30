@@ -19,7 +19,7 @@ fn main() {
     }
 
     let mq_root = PathBuf::from(env::var("MQ_ROOT").unwrap_or_else(|_| {
-        fail("MQ_ROOT is not set. Point it at your MacroQuest (emu branch) checkout; see .cargo/config.toml.")
+        fail("MQ_ROOT is not set. Point it at your MacroQuest (emu branch) checkout, in your environment or under [env] in ~/.cargo/config.toml; see the mq-emu README.")
     }));
     let build_config = env::var("MQ_BUILD_CONFIG").unwrap_or_else(|_| "release".to_owned());
     let bin_dir = mq_root.join("build").join("bin").join(&build_config);

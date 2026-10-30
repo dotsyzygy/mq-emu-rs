@@ -45,7 +45,7 @@ which is usually the behaviour to match.
   `report.print(mq, label, Check::...)` in a `report.section` of `lib.rs`. Checks that need you in
   game return `Check::Skip` otherwise.
 - For something to look at or try by hand, add it to the debug window (`window.rs`).
-- Deploy with `scripts/deploy-plugin.sh`. Then in game: `/plugin MQ2RustPluginTest` and
+- Deploy with `cargo mq deploy`. Then in game: `/plugin MQ2RustPluginTest` and
   `/rusttest selftest`.
 
 ## 6. Docs and commit

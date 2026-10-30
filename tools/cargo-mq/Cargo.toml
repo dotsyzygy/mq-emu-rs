@@ -1,0 +1,15 @@
+[package]
+name = "cargo-mq"
+description = "`cargo mq deploy` and `cargo mq doctor` for MacroQuest plugins built with mq-emu"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+# No mq-emu-sys here: installing the tool must not need a MacroQuest build.
+[dependencies]
+mq-emu-bindgen = { path = "../mq-emu-bindgen" }
+serde_json = "1"
+toml = { version = "0.8", default-features = false, features = ["parse"] }

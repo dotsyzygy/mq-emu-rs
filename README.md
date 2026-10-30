@@ -51,20 +51,24 @@ What `mq-emu` supports, what it works around and what's missing: [docs/status.md
 | `plugins/MQ2RustPluginTest` | no        | Test plugin exercising the bindings in-game (builds `MQ2RustPluginTest.dll`)             |
 | `tools/mq-emu-bindgen`      | no        | Generates `mq-emu-sys`'s game-object layouts from `eqlib.pdb`                            |
 | `tools/lua-proto-oracle`    | no        | Test-only: MQ2Lua's message format via real C++ protobuf, to check `mq-emu::lua` against |
+| `tools/cargo-mq`            | no        | `cargo mq deploy` and `cargo mq doctor`, for building and deploying plugins              |
+
+To write your own plugin in its own repo, see
+[Using it in your own plugin](crates/mq-emu/README.md#using-it-in-your-own-plugin).
 
 ## Trying it in game
 
 ```powershell
-./scripts/deploy-plugin.ps1        # or, from bash: scripts/deploy-plugin.sh
+cargo install --path tools/cargo-mq   # once, and again when the tool changes
+cargo mq deploy
 ```
 
-This builds `MQ2RustPluginTest` in release and copies the DLL (and its `.pdb`) into
-`$MQ_ROOT/build/bin/release/plugins`, plus the plugin's Lua scripts (`plugins/<name>/lua/*.lua`)
-into `$MQ_ROOT/build/bin/release/lua` and its resources (`plugins/<name>/resources`, such as UI XML
-in `uifiles/default`) into `$MQ_ROOT/build/bin/release/resources`, finding `MQ_ROOT` the same way the build does: from your
-environment, or from `[env]` in `~/.cargo/config.toml`. Use `-Plugin <name>` for another plugin
-under `plugins/`, `-DebugBuild` for a debug build, and `-NoBuild` to only copy (from bash:
-`--plugin <name>`, `--debug`, `--no-build`). If the plugin is
+This builds `MQ2RustPluginTest` in release and copies the DLL (and its `.pdb`) into the `plugins`
+folder of `MQ_INSTALL`, plus the plugin's Lua scripts (`plugins/<name>/lua/*.lua`) into `lua` and its
+resources (`plugins/<name>/resources`, such as UI XML in `uifiles/default`) into `resources`. Without
+`MQ_INSTALL` it uses `$MQ_ROOT/build/bin/release`. Both are found the way the build finds `MQ_ROOT`:
+from your environment, or from `[env]` in `~/.cargo/config.toml`. Use `-p <package>` to choose a
+plugin, `--debug` for a debug build, and `--no-build` to only copy. If the plugin is
 loaded in game, `/plugin MQ2RustPluginTest unload` first so the DLL can be replaced. Then in game:
 
 | Command                     | What it does                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -215,7 +219,8 @@ This is a Cargo workspace for convenience (shared lockfile and `target/`), but e
 its own: it can be built from its own directory and published separately. Crates depend on each
 other via `[workspace.dependencies]` entries that give both a `path` and a `version`.
 `crates/mq-emu-sys/tests/consumer.rs` builds mq-emu-sys from a standalone consumer crate with no user cargo
-config and only explicitly passed settings, to check what a downstream user will see.
+config and only explicitly passed settings, to check what a downstream user will see;
+`crates/mq-emu/tests/consumer.rs` does the same for a whole plugin.
 
 ## Tests
 

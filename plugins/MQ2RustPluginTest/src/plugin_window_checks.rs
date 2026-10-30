@@ -114,7 +114,7 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) {
     let ready = task.with_plugin(|plugin, mq| {
         let loaded = mq.is_screen_piece_loaded(SCREEN);
         report.print(mq, &format!("add_xml_file({XML_FILE:?}) puts its screen piece in the UI (IsScreenPieceLoaded)"), Check::that(loaded, || {
-            format!("not loaded; is {XML_FILE} in MacroQuest's resources/uifiles/default (scripts/deploy-plugin copies it)?")
+            format!("not loaded; is {XML_FILE} in MacroQuest's resources/uifiles/default (cargo mq deploy copies it)?")
         }));
         let window = plugin.plugin_window.and_then(|id| mq.plugin_window(id));
         report.print(mq, "add_window's window exists once the UI has its screen piece", Check::that(window.is_some(), || "no window".into()));

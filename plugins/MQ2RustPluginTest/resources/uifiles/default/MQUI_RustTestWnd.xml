@@ -1,7 +1,7 @@
 <?xml version = "1.0"?>
 <!-- MQ2RustPluginTest's own window, for the selftest's plugin window checks
      (Mq::add_xml_file, Mq::add_window). Deployed to MacroQuest's
-     resources/uifiles/default by scripts/deploy-plugin. -->
+     resources/uifiles/default by cargo mq deploy. -->
 <XML ID = "EQInterfaceDefinitionLanguage">
 <Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
 
