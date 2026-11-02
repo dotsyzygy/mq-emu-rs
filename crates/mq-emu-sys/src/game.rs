@@ -72,6 +72,14 @@ function_table! {
     /// Your maximum endurance with its modifiers (`${Me.MaxEndurance}`); 0
     /// without a character.
     pub fn mqemu_max_endurance() -> i32;
+    /// Your current HP (`${Me.CurrentHPs}`); 0 without a character.
+    pub fn mqemu_hp_current() -> i32;
+    /// Your maximum HP with its modifiers (`${Me.MaxHPs}`); 0 without a
+    /// character.
+    pub fn mqemu_max_hp() -> i32;
+    /// Your maximum mana with its modifiers (`${Me.MaxMana}`); 0 without a
+    /// character.
+    pub fn mqemu_max_mana() -> i32;
     /// The name `${Spawn.Class}` shows for a class ID; false for none.
     pub fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool;
     /// The name `${Spawn.Race}` shows for a race ID; false for none.

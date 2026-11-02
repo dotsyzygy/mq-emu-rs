@@ -240,8 +240,6 @@ extern "C" bool mqemu_skill_name(int skill, char* out, size_t cap)
 	}
 }
 
-// The extended target window's name for a slot role (`xTargetType`: "Auto
-// Hater", "Group Tank", ...), NUL-terminated into `out`.
 // Your maximum endurance with its modifiers (${Me.MaxEndurance}). 0 if there's
 // no character.
 extern "C" int mqemu_max_endurance()
@@ -249,6 +247,47 @@ extern "C" int mqemu_max_endurance()
 	try
 	{
 		return pLocalPC ? pLocalPC->Max_Endurance() : 0;
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
+// Your current HP (${Me.CurrentHPs}, GetCurHPS). 0 if there's no character.
+extern "C" int mqemu_hp_current()
+{
+	try
+	{
+		return pLocalPC ? pLocalPC->Cur_HP(0) : 0;
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
+// Your maximum HP with its modifiers (${Me.MaxHPs}, GetMaxHPS). 0 if there's
+// no character.
+extern "C" int mqemu_max_hp()
+{
+	try
+	{
+		return pLocalPC ? pLocalPC->Max_HP(0) : 0;
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
+// Your maximum mana with its modifiers (${Me.MaxMana}, GetMaxMana). 0 if
+// there's no character.
+extern "C" int mqemu_max_mana()
+{
+	try
+	{
+		return pLocalPC ? pLocalPC->Max_Mana() : 0;
 	}
 	catch (...)
 	{
@@ -282,6 +321,8 @@ extern "C" bool mqemu_race_name(int32_t race, char* out, size_t cap)
 	}
 }
 
+// The extended target window's name for a slot role (`xTargetType`: "Auto
+// Hater", "Group Tank", ...), NUL-terminated into `out`.
 extern "C" bool mqemu_xtarget_role_name(uint32_t role, char* out, size_t cap)
 {
 	try

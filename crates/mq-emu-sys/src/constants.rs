@@ -210,6 +210,16 @@ pub const TOTAL_SPELL_COUNT: usize = 45001;
 /// Effect slots per spell (`EQ_Spell::Attrib`, `Base`, ...).
 pub const MAX_EFFECT_SLOTS: usize = 12;
 
+// Stand states, `PlayerClient::StandState` (eqlib `game/EQData.h`).
+pub const STANDSTATE_STAND: u8 = 0x64;
+pub const STANDSTATE_SIT: u8 = 0x6E;
+pub const STANDSTATE_DUCK: u8 = 0x6F;
+pub const STANDSTATE_FEIGN: u8 = 0x73;
+pub const STANDSTATE_DEAD: u8 = 0x78;
+
+/// `PlayerClient::PlayerState`'s bit for a stunned spawn (`${Spawn.Stunned}`).
+pub const PLAYER_STATE_STUNNED: u32 = 0x20;
+
 // Groups and zones (eqlib `game/Constants.h`, `game/EQClasses.h`).
 pub const MAX_GROUP_SIZE: usize = 6;
 /// Size of `EQWorldData::ZoneArray`; zone IDs are below this.

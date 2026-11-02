@@ -102,6 +102,8 @@ fn game_limits_match() {
     check!(read_header(file), file, [TOTAL_SPELL_COUNT, MAX_EFFECT_SLOTS]);
     let file = "src/eqlib/include/eqlib/game/EQClasses.h";
     check!(read_header(file), file, [MAX_ZONES]);
+    let file = "src/eqlib/include/eqlib/game/EQData.h";
+    check!(read_header(file), file, [STANDSTATE_STAND, STANDSTATE_SIT, STANDSTATE_DUCK, STANDSTATE_FEIGN, STANDSTATE_DEAD]);
 }
 
 #[test]

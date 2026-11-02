@@ -17,7 +17,7 @@ Each area is supported in full, except for what's listed under **Missing**.
 - **MacroQuest data:** parsing `${...}`, reading TLOs as typed values, and providing TLOs and
   datatypes of the plugin's own (members, methods, a catch-all for any name, macro variables, inheriting another type's
   members) to macros and Lua, returning MacroQuest's own values (spawns, items...) from them, and adding members to MacroQuest's types
-- **Game data:** spawns, items, inventory, bank, spells, buffs (yours, your target's and pet's, MacroQuest's cache), spell gems and book, group, raid, mercenary, extended targets, alternate abilities, skills, zones, ground items, the merchant and loot windows, tasks (objectives, progress, shared task members), the friends list, tribute and achievements
+- **Game data:** your HP, mana, endurance and state (combat, sitting, invisible...); spawns, items, inventory, bank, spells, buffs (yours, your target's and pet's, MacroQuest's cache), spell gems and book, group, raid, mercenary, extended targets, alternate abilities, skills, zones, ground items, the merchant and loot windows, tasks (objectives, progress, shared task members), the friends list, tribute, achievements and the server name
 - **Acting in game:** movement and facing; casting, stopping, memorizing and forgetting spells;
   picking up, dropping, splitting and using items, `/autoinventory`, opening bags; buying and selling at a merchant
 - **EverQuest's UI windows:** found as `${Window}` finds them, read, and acted on as `/notify` does

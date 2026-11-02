@@ -6,3 +6,6 @@
   README.md or docs/*.md, or dump `git show` diffs.
 - Research in MacroQuest's source (`$MQ_ROOT`), or any broad search, goes to an Explore subagent that
   returns only its conclusions (file:line and signatures), not to the main context.
+- Never put functionality the API should provide into a plugin (MQ2Posse, mq2-hud, mq2-bots or the
+  test plugin). Add it to mq-emu and release it, so every plugin gets it. A plugin reading a `${...}`
+  path or the raw game for something mq-emu could have a getter for is a missing binding: bind it.

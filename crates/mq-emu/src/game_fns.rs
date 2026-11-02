@@ -1,14 +1,67 @@
 //! Calling the game's own functions (`mq_emu_sys::game`) through
-//! [`Host::game_fns`](crate::host::Host), reading the game's arrays, and a
-//! fake of the functions for tests.
+//! [`Host::game_fns`](crate::host::Host), your character's HP, mana,
+//! endurance and state, reading the game's arrays, and a fake of the
+//! functions for tests.
 
 use std::ffi::{CString, c_char};
+
+use mq_emu_sys::layouts::eCharacterStatus;
 
 use crate::mq::Mq;
 use crate::plugin::Plugin;
 use crate::text::from_c_array;
 
 impl<P: Plugin> Mq<P> {
+    /// Your current HP (`${Me.CurrentHPs}`), if in game. Your spawn's
+    /// [`Spawn::hp_current`](crate::game::Spawn::hp_current) may lag behind it.
+    pub fn hp_current(&self) -> Option<i32> {
+        self.local_pc()?;
+        Some(unsafe { (self.host().game_fns.mqemu_hp_current)() })
+    }
+
+    /// Your maximum HP, with its modifiers (`${Me.MaxHPs}`), if in game.
+    pub fn hp_max(&self) -> Option<i32> {
+        self.local_pc()?;
+        Some(unsafe { (self.host().game_fns.mqemu_max_hp)() })
+    }
+
+    /// Your HP as 0..=100, from [`Mq::hp_current`] and [`Mq::hp_max`]
+    /// (`${Me.PctHPs}`), if in game.
+    pub fn hp_percent(&self) -> Option<i32> {
+        let (current, max) = (self.hp_current()?, self.hp_max()?);
+        Some(if max <= 0 { 0 } else { (i64::from(current) * 100 / i64::from(max)).clamp(0, 100) as i32 })
+    }
+
+    /// Your current mana (`${Me.CurrentMana}`), if in game. Not your spawn's
+    /// [`Spawn::mana_current`](crate::game::Spawn::mana_current): in game
+    /// that read 96 where this read 10277.
+    pub fn mana_current(&self) -> Option<i32> {
+        Some(self.profile()?.Mana())
+    }
+
+    /// Your maximum mana, with its modifiers (`${Me.MaxMana}`), if in game.
+    pub fn mana_max(&self) -> Option<i32> {
+        self.local_pc()?;
+        Some(unsafe { (self.host().game_fns.mqemu_max_mana)() })
+    }
+
+    /// Whether auto attack is on (`${Me.Combat}`).
+    pub fn in_combat(&self) -> bool {
+        unsafe { (self.host().everquest_info)().as_ref() }.is_some_and(|info| info.bAutoAttack())
+    }
+
+    /// Whether you're stunned (`${Me.Stunned}`, your character's status).
+    pub fn is_stunned(&self) -> bool {
+        self.local_pc().is_some_and(|pc| pc.Status() == eCharacterStatus::eCharStatusStunned)
+    }
+
+    /// The short name of the server you're on (`${EverQuest.Server}`); `None`
+    /// before you've picked one.
+    pub fn server_name(&self) -> Option<String> {
+        let info = unsafe { (self.host().everquest_info)().as_ref() }?;
+        Some(from_c_array(&info.WorldServerShortname())).filter(|name| !name.is_empty())
+    }
+
     /// Your current endurance (`${Me.CurrentEndurance}`), if in game.
     pub fn endurance_current(&self) -> Option<i32> {
         Some(self.profile()?.Endurance())
@@ -124,6 +177,9 @@ pub(crate) mod fake {
         pub skills: HashMap<i32, FakeSkill>,
         pub xtarget_roles: HashMap<u32, String>,
         pub max_endurance: i32,
+        /// Current and maximum HP.
+        pub hp: (i32, i32),
+        pub max_mana: i32,
         pub class_names: HashMap<i32, String>,
         pub race_names: HashMap<i32, String>,
         /// Every action taken (commands, memorizing, forgetting), in order.
@@ -156,6 +212,8 @@ pub(crate) mod fake {
                 skills: HashMap::new(),
                 xtarget_roles: HashMap::new(),
                 max_endurance: 0,
+                hp: (0, 0),
+                max_mana: 0,
                 class_names: HashMap::new(),
                 race_names: HashMap::new(),
                 log: Vec::new(),
@@ -217,6 +275,18 @@ pub(crate) mod fake {
 
     unsafe extern "C" fn max_endurance() -> i32 {
         with(|game| game.max_endurance)
+    }
+
+    unsafe extern "C" fn hp_current() -> i32 {
+        with(|game| game.hp.0)
+    }
+
+    unsafe extern "C" fn max_hp() -> i32 {
+        with(|game| game.hp.1)
+    }
+
+    unsafe extern "C" fn max_mana() -> i32 {
+        with(|game| game.max_mana)
     }
 
     unsafe extern "C" fn class_name(class: i32, out: *mut c_char, cap: usize) -> bool {
@@ -372,6 +442,9 @@ pub(crate) mod fake {
         mqemu_skill_name: skill_name,
         mqemu_xtarget_role_name: xtarget_role_name,
         mqemu_max_endurance: max_endurance,
+        mqemu_hp_current: hp_current,
+        mqemu_max_hp: max_hp,
+        mqemu_max_mana: max_mana,
         mqemu_class_name: class_name,
         mqemu_race_name: race_name,
         mqemu_clean_chat_line: clean_chat,

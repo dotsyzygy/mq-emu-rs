@@ -7,7 +7,7 @@
 use mq_emu_sys::constants::{DB_STRING_ALT_ABILITY_NAME, MAX_TOTAL_BUFFS};
 use mq_emu_sys::game::{SKILL_ACTIVATABLE, SKILL_HAS, mqemu_cached_buff};
 use mq_emu_sys::layouts::{
-    AchievementManager, CAltAbilityData, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, CTaskManager,
+    AchievementManager, CAltAbilityData, eCharacterStatus, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, CTaskManager,
     ClientSpellManager, EQGroundItem, EQGroundItemListManager, EQWorldData, EQZoneInfo, ExtendedTargetList, ExtendedTargetSlot,
     ItemContainerInstance, MerchantPageHandler, PcClient, PcProfile, ProfileList, SharedTaskPlayerInfo, TaskSystemType, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
 };
@@ -79,8 +79,99 @@ fn without_game_data_everything_is_empty() {
             mq.group().is_none(),
             mq.ground_items().count(),
         ));
+        plugin.log.push(format!(
+            "{:?} {:?} {:?} {:?} {:?} {} {} {:?}",
+            mq.hp_current(),
+            mq.hp_max(),
+            mq.hp_percent(),
+            mq.mana_current(),
+            mq.mana_max(),
+            mq.in_combat(),
+            mq.is_stunned(),
+            mq.server_name(),
+        ));
     });
-    assert_eq!(log_of(rt)[2..], ["true true 0 true true true 0"]);
+    assert_eq!(log_of(rt)[2..], ["true true 0 true true true 0", "None None None None None false false None"]);
+}
+
+#[test]
+fn your_hp_and_mana_are_your_characters_not_your_spawns() {
+    let game = game();
+    game.profile.get().set_Mana(10277);
+    fake_game::with(|g| {
+        g.hp = (450, 1800);
+        g.max_mana = 12000;
+    });
+    // The spawn's own fields, which lag behind or differ in game.
+    player().set_ManaCurrent(96);
+    player().set_HPCurrent(1);
+    let log = pulse_log(|mq| {
+        format!(
+            "{:?} {:?} {:?} {:?} {:?} {}",
+            mq.hp_current(),
+            mq.hp_max(),
+            mq.hp_percent(),
+            mq.mana_current(),
+            mq.mana_max(),
+            mq.me().unwrap().mana_current(),
+        )
+    });
+    assert_eq!(log, ["Some(450) Some(1800) Some(25) Some(10277) Some(12000) 96"]);
+}
+
+#[test]
+fn your_hp_percent_is_zero_without_a_maximum() {
+    game();
+    fake_game::with(|g| g.hp = (450, 0));
+    assert_eq!(pulse_log(|mq| format!("{:?}", mq.hp_percent())), ["Some(0)"]);
+}
+
+#[test]
+fn combat_stun_and_server_come_from_the_client_and_your_character() {
+    let game = game();
+    let info = unsafe { &*INFO.with(FakeObject::ptr) };
+    let log = || pulse_log(|mq| format!("{} {} {:?}", mq.in_combat(), mq.is_stunned(), mq.server_name()));
+    assert_eq!(log(), ["false false None"]);
+
+    info.set_bAutoAttack(true);
+    game.pc.get().set_Status(eCharacterStatus::eCharStatusStunned);
+    let mut name = [0 as std::ffi::c_char; 40];
+    for (dst, src) in name.iter_mut().zip(b"bristle") {
+        *dst = *src as std::ffi::c_char;
+    }
+    info.set_WorldServerShortname(name);
+    assert_eq!(log(), ["true true Some(\"bristle\")"]);
+
+    // Frozen or dead isn't stunned.
+    game.pc.get().set_Status(eCharacterStatus::eCharStatusFrozen);
+    assert_eq!(log(), ["true false Some(\"bristle\")"]);
+}
+
+#[test]
+fn spawn_states_match_macroquests_spawn_members() {
+    use mq_emu_sys::constants::{PLAYER_STATE_STUNNED, STANDSTATE_DUCK, STANDSTATE_FEIGN, STANDSTATE_SIT, STANDSTATE_STAND};
+    let log = || {
+        pulse_log(|mq| {
+            let me = mq.me().unwrap();
+            format!("{} {} {} {} {} {}", me.is_sitting(), me.is_feigning(), me.is_invisible(), me.is_hovering(), me.is_moving(), me.is_stunned())
+        })
+    };
+    player().set_StandState(STANDSTATE_STAND);
+    assert_eq!(log(), ["false false false false false false"]);
+
+    player().set_StandState(STANDSTATE_SIT);
+    player().set_HideMode(2);
+    player().set_SpeedRun(-0.7); // backing up
+    player().set_PlayerState(PLAYER_STATE_STUNNED | 4);
+    assert_eq!(log(), ["true false true false true true"]);
+
+    player().set_StandState(STANDSTATE_FEIGN);
+    player().set_RespawnTimer(12345);
+    player().set_PlayerState(4); // aggressive, not stunned
+    assert_eq!(log(), ["false true true true true false"]);
+
+    player().set_StandState(STANDSTATE_DUCK);
+    assert_eq!(log(), ["false false true true true false"]);
 }
 
 #[test]

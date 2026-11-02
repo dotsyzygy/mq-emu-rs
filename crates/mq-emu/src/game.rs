@@ -274,12 +274,49 @@ impl<'a> Spawn<'a> {
         if max <= 0 { 0 } else { (i64::from(current) * 100 / i64::from(max)).clamp(0, 100) as i32 }
     }
 
+    /// The spawn's mana as the client was last told it (`${Spawn.CurrentMana}`).
+    /// For your own, use [`Mq::mana_current`](crate::Mq::mana_current): in
+    /// game this read 96 where `${Me.CurrentMana}` read 10277.
     pub fn mana_current(&self) -> i32 {
         self.raw.ManaCurrent()
     }
 
+    /// See [`Spawn::mana_current`]; for your own, use
+    /// [`Mq::mana_max`](crate::Mq::mana_max).
     pub fn mana_max(&self) -> i32 {
         self.raw.ManaMax()
+    }
+
+    /// `${Spawn.Sitting}`.
+    pub fn is_sitting(&self) -> bool {
+        self.raw.StandState() == c::STANDSTATE_SIT
+    }
+
+    /// Feigning death (`${Spawn.Feigning}`).
+    pub fn is_feigning(&self) -> bool {
+        self.raw.StandState() == c::STANDSTATE_FEIGN
+    }
+
+    /// Invisible in any way (`${Spawn.Invis}`).
+    pub fn is_invisible(&self) -> bool {
+        self.raw.HideMode() != 0
+    }
+
+    /// Dead and hovering, waiting to respawn (`${Spawn.Hovering}`).
+    pub fn is_hovering(&self) -> bool {
+        self.raw.RespawnTimer() != 0
+    }
+
+    /// Moving under its own power (`${Spawn.Moving}`).
+    pub fn is_moving(&self) -> bool {
+        self.raw.SpeedRun().abs() > 0.0
+    }
+
+    /// Stunned, as the spawn's state says (`${Spawn.Stunned}`). For yourself,
+    /// `${Me.Stunned}` reads your character's status instead:
+    /// [`Mq::is_stunned`](crate::Mq::is_stunned).
+    pub fn is_stunned(&self) -> bool {
+        self.raw.PlayerState() & c::PLAYER_STATE_STUNNED != 0
     }
 
     pub fn distance_to(&self, other: &Spawn<'_>) -> f32 {

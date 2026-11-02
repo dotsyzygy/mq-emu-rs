@@ -212,6 +212,14 @@ fn same_angle(ours: f32, theirs: &str) -> Check {
     }
 }
 
+/// `ours` against a MacroQuest bool, which prints as TRUE or FALSE.
+fn same_bool(ours: bool, theirs: String) -> Check {
+    match theirs.as_str() {
+        "TRUE" | "FALSE" => Check::that(ours == (theirs == "TRUE"), || format!("mq-emu {ours}, MacroQuest {theirs}")),
+        _ => Check::Fail(format!("MacroQuest returned {theirs:?}")),
+    }
+}
+
 pub fn same_text(ours: impl ToString, theirs: String) -> Check {
     let ours = ours.to_string();
     Check::that(ours == theirs, || format!("mq-emu {ours:?}, MacroQuest {theirs:?}"))
@@ -249,6 +257,21 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     report.print(mq, "race_name() = ${Me.Race.Name}", same_text(mq.race_name(me.race()).unwrap_or_default(), mq.parse("${Me.Race.Name}")));
     report.print(mq, "endurance_current() = ${Me.CurrentEndurance}", same_text(mq.endurance_current().unwrap_or(-1), mq.parse("${Me.CurrentEndurance}")));
     report.print(mq, "endurance_max() = ${Me.MaxEndurance}", same_text(mq.endurance_max().unwrap_or(-1), mq.parse("${Me.MaxEndurance}")));
+    report.print(mq, "hp_current() = ${Me.CurrentHPs}", same_text(mq.hp_current().unwrap_or(-1), mq.parse("${Me.CurrentHPs}")));
+    report.print(mq, "hp_max() = ${Me.MaxHPs}", same_text(mq.hp_max().unwrap_or(-1), mq.parse("${Me.MaxHPs}")));
+    report.print(mq, "hp_percent() = ${Me.PctHPs}", same_text(mq.hp_percent().unwrap_or(-1), mq.parse("${Me.PctHPs}")));
+    report.print(mq, "mana_current() = ${Me.CurrentMana}", same_text(mq.mana_current().unwrap_or(-1), mq.parse("${Me.CurrentMana}")));
+    report.print(mq, "mana_max() = ${Me.MaxMana}", same_text(mq.mana_max().unwrap_or(-1), mq.parse("${Me.MaxMana}")));
+    report.print(mq, "in_combat() = ${Me.Combat}", same_bool(mq.in_combat(), mq.parse("${Me.Combat}")));
+    report.print(mq, "is_stunned() = ${Me.Stunned}", same_bool(mq.is_stunned(), mq.parse("${Me.Stunned}")));
+    report.print(mq, "server_name() = ${EverQuest.Server}", same_text(mq.server_name().unwrap_or_default(), mq.parse("${EverQuest.Server}")));
+    report.print(mq, "me().is_sitting() = ${Me.Sitting}", same_bool(me.is_sitting(), mq.parse("${Me.Sitting}")));
+    report.print(mq, "me().is_feigning() = ${Me.Feigning}", same_bool(me.is_feigning(), mq.parse("${Me.Feigning}")));
+    report.print(mq, "me().is_invisible() = ${Me.Invis}", same_bool(me.is_invisible(), mq.parse("${Me.Invis}")));
+    report.print(mq, "me().is_hovering() = ${Me.Hovering}", same_bool(me.is_hovering(), mq.parse("${Me.Hovering}")));
+    report.print(mq, "me().is_moving() = ${Me.Moving}", same_bool(me.is_moving(), mq.parse("${Me.Moving}")));
+    let spawn_stunned = mq.parse(&format!("${{Spawn[id {}].Stunned}}", me.id()));
+    report.print(mq, "me().is_stunned() = ${Spawn[id].Stunned}", same_bool(me.is_stunned(), spawn_stunned));
 
     match mq.target() {
         Some(target) => {
