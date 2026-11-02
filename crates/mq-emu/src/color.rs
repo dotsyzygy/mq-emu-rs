@@ -32,6 +32,26 @@ pub const DARK_TEAL: &str = "\x07-t";
 pub const DARK_MAGENTA: &str = "\x07-m";
 pub const DARK_PURPLE: &str = "\x07-p";
 
+macro_rules! color_macros {
+    ($d:tt $($name:ident => $code:ident),* $(,)?) => {$(
+        #[macro_export]
+        macro_rules! $name {
+            ($d($d arg:tt)*) => {
+                ::std::format!("{}{}{}", $crate::color::$code,
+                    ::std::format_args!($d($d arg)*), $crate::color::RESET)
+            };
+        }
+    )*};
+}
+
+color_macros!($ white => WHITE, black => BLACK, red => RED, green => GREEN, blue => BLUE,
+    yellow => YELLOW, orange => ORANGE, teal => TEAL, magenta => MAGENTA,
+    purple => PURPLE, dark_white => DARK_WHITE, dark_red => DARK_RED,
+    dark_green => DARK_GREEN, dark_blue => DARK_BLUE,
+    dark_yellow => DARK_YELLOW, dark_orange => DARK_ORANGE,
+    dark_teal => DARK_TEAL, dark_magenta => DARK_MAGENTA,
+    dark_purple => DARK_PURPLE);
+
 /// An exact color, e.g. `rgb(0xff, 0x80, 0x00)`.
 pub fn rgb(r: u8, g: u8, b: u8) -> String {
     format!("\x07#{r:02x}{g:02x}{b:02x}")
@@ -42,9 +62,38 @@ mod tests {
     use super::*;
 
     const ALL: &[&str] = &[
-        RESET, WHITE, BLACK, RED, GREEN, BLUE, YELLOW, ORANGE, TEAL, MAGENTA, PURPLE, DARK_WHITE, DARK_RED, DARK_GREEN,
-        DARK_BLUE, DARK_YELLOW, DARK_ORANGE, DARK_TEAL, DARK_MAGENTA, DARK_PURPLE,
+        RESET,
+        WHITE,
+        BLACK,
+        RED,
+        GREEN,
+        BLUE,
+        YELLOW,
+        ORANGE,
+        TEAL,
+        MAGENTA,
+        PURPLE,
+        DARK_WHITE,
+        DARK_RED,
+        DARK_GREEN,
+        DARK_BLUE,
+        DARK_YELLOW,
+        DARK_ORANGE,
+        DARK_TEAL,
+        DARK_MAGENTA,
+        DARK_PURPLE,
     ];
+
+    #[test]
+    fn blue_wraps_text() {
+        let hp = 5;
+        assert_eq!(blue!("hp: {hp}"), "\x07uhp: 5\x07x");
+    }
+
+    #[test]
+    fn nested_colors_return_to_outer_color() {
+        assert_eq!(green!("a {} b", red!("x")), "\x07ga \x07rx\x07x b\x07x");
+    }
 
     #[test]
     fn codes_use_the_bel_character_not_a_backslash() {
