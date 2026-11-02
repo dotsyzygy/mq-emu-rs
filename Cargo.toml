@@ -5,6 +5,7 @@ members = [
     "crates/mq-emu",
     "plugins/MQ2RustPluginTest",
     "tools/mq-emu-bindgen",
+    "tools/mq-member-names",
     "tools/lua-proto-oracle",
     "tools/cargo-mq",
 ]

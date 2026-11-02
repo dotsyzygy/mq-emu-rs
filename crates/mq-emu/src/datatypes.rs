@@ -55,6 +55,9 @@ use crate::plugin::Plugin;
 use crate::runtime::{KIND_DATATYPE, Runtime};
 use crate::text::from_c;
 
+mod macroquest_members;
+pub use macroquest_members::{MACROQUEST_MEMBERS, MACROQUEST_METHODS};
+
 mod sealed {
     /// A value's key as MacroQuest holds it.
     #[derive(Debug, Clone, PartialEq, Eq)]

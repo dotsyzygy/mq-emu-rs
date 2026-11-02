@@ -102,7 +102,7 @@ pub use achievements::{Achievement, AchievementCategory, AchievementObjective, A
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
 pub use alt_abilities::AltAbility;
 pub use data::{Data, DataPath, PathError, TloError, Value};
-pub use datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError, TypeExtension, TypeKey};
+pub use datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError, MACROQUEST_MEMBERS, MACROQUEST_METHODS, TypeExtension, TypeKey};
 pub use events::{ChatSource, EventError, EventMatch};
 pub use ground::{GroundItem, GroundItems, MAX_GROUND_ITEMS};
 pub use group::{Group, GroupMember, GroupRole};

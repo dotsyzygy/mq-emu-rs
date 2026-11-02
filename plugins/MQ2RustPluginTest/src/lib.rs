@@ -502,6 +502,7 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     task.with(|mq| report.section(mq, "Providing a datatype"));
     data_checks::provided_type(&task, &mut report).await;
     data_checks::any_member_type(&task, &mut report).await;
+    data_checks::macroquest_member_names(&task, &mut report).await;
     data_checks::macroquest_types(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Turning and walking"));
     turning(&task, &mut report).await;

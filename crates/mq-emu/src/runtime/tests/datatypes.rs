@@ -16,7 +16,7 @@ use mq_emu_sys::shim::{
 use super::data::{FAKE_MQ_TYPES, FakeData, fake_eval, fake_mq_member, live_data};
 use super::*;
 use crate::data::{Data, Value, parse_path};
-use crate::datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError, TypeExtension};
+use crate::datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError, MACROQUEST_MEMBERS, MACROQUEST_METHODS, TypeExtension};
 use crate::game::SpawnId;
 
 pub(super) struct FakeType {
@@ -467,6 +467,26 @@ fn without_a_catch_all_an_unknown_name_stays_unlisted() {
     runtime_with_counter();
     assert_eq!(read("Counter[5].Gone"), None);
     assert!(!listed(&fake_eval("Counter", "5").unwrap(), "Gone"));
+}
+
+/// MacroQuest's own names, as a type passing its paths through lists them,
+/// so that Lua can read every one.
+#[test]
+fn a_catch_all_takes_every_macroquest_member_name() {
+    let _main = FakeMain::install();
+    let rt = runtime();
+    set_hook(&ON_NEW, |_, mq| {
+        let remote = mq.add_type("Remote", DataTypeDef::new().any_member(MACROQUEST_MEMBERS, |_: &mut Recorder, _, path: &String, name, _| Some(format!("{path}.{name}").into()))).unwrap();
+        mq.add_tlo("Remote", move |_, _, index| Some(remote.value(index.to_owned()))).unwrap();
+    });
+    rt.initialize();
+    let bob = fake_eval("Remote", "Bob").unwrap();
+    for name in MACROQUEST_MEMBERS {
+        assert!(listed(&bob, name), "{name} isn't listed");
+    }
+    assert!(!listed(&bob, "Remove"), "methods aren't members");
+    assert!(MACROQUEST_METHODS.contains(&"Remove"));
+    assert_eq!(read("Remote[Bob].PctHPs").as_deref(), Some("Bob.PctHPs"));
 }
 
 #[test]

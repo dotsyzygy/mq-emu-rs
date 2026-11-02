@@ -6,7 +6,7 @@
 use std::time::Duration;
 
 use mq_emu::color::{RED, RESET};
-use mq_emu::{DataType, DataTypeDef, DataTypeError, GameState, Mq, Plugin, SpawnId, Task, TypeExtension, Value};
+use mq_emu::{DataType, DataTypeDef, DataTypeError, GameState, MACROQUEST_MEMBERS, Mq, Plugin, SpawnId, Task, TypeExtension, Value};
 
 use crate::RustTest;
 use crate::checks::{Check, Report, same_text};
@@ -29,6 +29,8 @@ pub const TAG: &str = "RustTestTag";
 const TEMP_MEMBER: &str = "RustTestTemp";
 /// A datatype the selftest adds and removes.
 const TEMP_TYPE: &str = "RustTestTemp";
+/// Added and removed by [`macroquest_member_names`].
+const NAMES_TYPE: &str = "RustTestNames";
 /// Macro variables the selftest declares.
 const VARIABLES: &[&str] = &["rusttest_v1", "rusttest_v2", "rusttest_v3", "rusttest_va", "rusttest_t", "rusttest_ta", "rusttest_sp"];
 /// Marks the `/echo` line that reads the TLO.
@@ -220,6 +222,28 @@ pub async fn any_member_type(task: &Task<RustTest>, report: &mut Report) {
             Some(line) => same_text(format!("{MARKER} Me.Buff[3].Duration fixed NULL Me.Listed -1 -1 NULL"), line),
             None => Check::Fail("the /echo never arrived".into()),
         });
+    });
+}
+
+/// A catch-all given every one of MacroQuest's member names: MacroQuest's own
+/// list of the type's members has each, so Lua can read them all.
+pub async fn macroquest_member_names(task: &Task<RustTest>, report: &mut Report) {
+    task.with(|mq| {
+        let def = DataTypeDef::new().any_member(MACROQUEST_MEMBERS, |_: &mut RustTest, _, _: &String, _, _| None);
+        let check = match mq.add_type(NAMES_TYPE, def) {
+            Err(e) => Check::Fail(format!("couldn't add {NAMES_TYPE}: {e}")),
+            Ok(_) => {
+                let unlisted: Vec<&str> =
+                    MACROQUEST_MEMBERS.iter().copied().filter(|name| mq.parse(&format!("${{Type[{NAMES_TYPE}].Member[{name}]}}")) == "NULL").collect();
+                let removed = mq.remove_type(NAMES_TYPE);
+                match (unlisted.as_slice(), removed) {
+                    (_, false) => Check::Fail(format!("{NAMES_TYPE} wasn't removed")),
+                    ([], true) => Check::Pass,
+                    (unlisted, true) => Check::Fail(format!("{} of {} names unlisted, first {}", unlisted.len(), MACROQUEST_MEMBERS.len(), unlisted[0])),
+                }
+            }
+        };
+        report.print(mq, &format!("a catch-all lists all {} of MacroQuest's member names", MACROQUEST_MEMBERS.len()), check);
     });
 }
 

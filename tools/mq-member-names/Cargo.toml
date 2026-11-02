@@ -1,0 +1,9 @@
+[package]
+name = "mq-member-names"
+description = "Generates mq-emu's list of MacroQuest's datatype member names from its source"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
