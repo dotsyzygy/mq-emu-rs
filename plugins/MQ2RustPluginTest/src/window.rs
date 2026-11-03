@@ -439,6 +439,17 @@ impl RustTest {
                 ui.bullet_text(format!("{} (rank {}/{}, {state})", aa.name(), aa.rank(), aa.max_rank()));
             }
         }
+        if ui.collapsing_header("Combat abilities") {
+            ui.text(format!("Active disc: {}", mq.active_disc().map_or("none".to_owned(), |s| s.name())));
+            for ability in mq.combat_abilities() {
+                if ui.small_button(&format!("Use##disc{}", ability.slot())) {
+                    mq.use_combat_ability(&ability);
+                }
+                ui.same_line();
+                let state = if ability.is_ready() { "ready".to_owned() } else { format!("{}s", ability.reuse().as_secs()) };
+                ui.text(format!("{} ({state})", ability.name()));
+            }
+        }
         if ui.collapsing_header("Skills") {
             for skill in mq.skills().filter(|s| s.value() > 0) {
                 let ready = if skill.is_ability() { if skill.is_ready() { ", ready" } else { ", not ready" } } else { "" };

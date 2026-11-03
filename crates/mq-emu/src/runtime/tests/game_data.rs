@@ -505,6 +505,46 @@ fn alt_abilities_come_from_the_profile_list() {
 }
 
 #[test]
+fn combat_abilities_list_the_highest_rank_with_its_timer() {
+    let game = game();
+    game.learn(100, "Leopard Claw");
+    game.learn(200, "Ashenhand Discipline");
+    game.learn(201, "Ashenhand Discipline Rk. II");
+    let [claw, ashen1, ashen2] = [&game.known[0], &game.known[1], &game.known[2]].map(|s| s.get());
+    claw.set_ReuseTimerIndex(3);
+    ashen1.set_SpellGroup(55);
+    ashen1.set_SpellRank(1);
+    ashen1.set_ReuseTimerIndex(-1);
+    ashen2.set_SpellGroup(55);
+    ashen2.set_SpellRank(2);
+    ashen2.set_ReuseTimerIndex(5);
+    let profile = game.profile.get();
+    profile.set_CombatAbilities_at(0, 200); // outranked by slot 4
+    profile.set_CombatAbilities_at(2, 100);
+    profile.set_CombatAbilities_at(4, 201);
+    profile.set_CombatAbilities_at(6, 9999); // a spell the client doesn't know
+    let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs() as u32;
+    profile.set_CombatAbilityTimers_at(3, now + 600);
+    profile.set_CombatAbilityTimers_at(5, now - 1);
+    fake_game::with(|g| g.spells_work = true);
+
+    let log = pulse_log(|mq| {
+        let list: Vec<(usize, String, bool)> = mq.combat_abilities().map(|a| (a.slot(), a.name(), a.is_ready())).collect();
+        let claw = mq.combat_ability_by_name("LEOPARD CLAW").unwrap();
+        let reuse = claw.reuse().as_secs();
+        format!(
+            "{list:?} {} {:?} {:?} {}",
+            (590..=600).contains(&reuse),
+            mq.combat_ability(0).map(|a| a.id()),
+            mq.combat_ability(300).map(|a| a.id()),
+            mq.use_combat_ability(&claw),
+        )
+    });
+    assert_eq!(log, ["[(2, \"Leopard Claw\", false), (4, \"Ashenhand Discipline Rk. II\", true)] true None None true"]);
+    assert_eq!(fake_game::with(|g| std::mem::take(&mut g.log)), ["disc 100"]);
+}
+
+#[test]
 fn skills_are_the_ones_your_class_has() {
     let game = game();
     game.profile.get().set_Skill_at(40, 50);

@@ -55,6 +55,7 @@ pub fn run<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     xtargets(mq, report);
     alt_abilities(mq, report);
     skills(mq, report);
+    combat_abilities(mq, report);
     merchant_and_loot(mq, report);
 }
 
@@ -368,6 +369,30 @@ fn skills<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         ]
     });
     report.print(mq, &format!("{} abilities match ${{Me.AbilityReady[name]}} and their reuse time", abilities.len()), all_match(mq, rows));
+}
+
+fn combat_abilities<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
+    let abilities: Vec<_> = mq.combat_abilities().collect();
+    let rows = abilities.iter().flat_map(|ability| {
+        let n = ability.slot() + 1;
+        let name = ability.name();
+        // ${Me.CombatAbilityTimer} counts 6-second ticks, rounding up a tick.
+        let left = ability.reuse().as_secs();
+        let ticks = if left > 0 { (left + 6) / 6 } else { 0 };
+        [
+            (format!("slot {n} name"), name.clone(), format!("${{Me.CombatAbility[{n}].Name}}")),
+            (format!("{name} slot"), n.to_string(), format!("${{Me.CombatAbility[{name}]}}")),
+            (format!("{name} ready"), tf(ability.is_ready()).to_owned(), format!("${{Me.CombatAbilityReady[{name}]}}")),
+            (format!("{name} timer"), (ticks * 6).to_string(), format!("${{Me.CombatAbilityTimer[{name}].TotalSeconds}}")),
+        ]
+    });
+    report.print(mq, &format!("{} combat abilities match ${{Me.CombatAbility[n]}} (name, slot, ready, timer)", abilities.len()), all_match(mq, rows));
+    let rows = abilities.iter().map(|ability| {
+        let name = ability.name();
+        (name.clone(), id_or_null(mq.combat_ability_by_name(&name).map(|a| a.slot() + 1)), format!("${{Me.CombatAbility[{name}]}}"))
+    });
+    report.print(mq, "combat_ability_by_name finds what ${Me.CombatAbility[name]} does", all_match(mq, rows));
+    report.print(mq, "active_disc() = ${Me.ActiveDisc.ID}", same_text(id_or_null(mq.active_disc().map(|s| s.id())), mq.parse("${Me.ActiveDisc.ID}")));
 }
 
 fn merchant_and_loot<P: Plugin>(mq: &Mq<P>, report: &mut Report) {

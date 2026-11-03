@@ -393,6 +393,13 @@ pub(crate) mod fake {
         with(|game| game.ready_gems.contains(&gem))
     }
 
+    unsafe extern "C" fn do_combat_ability(spell_id: i32) -> bool {
+        with(|game| {
+            game.log.push(format!("disc {spell_id}"));
+            game.spells_work
+        })
+    }
+
     unsafe extern "C" fn task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus {
         with(|game| game.task_statuses.get(&(task as usize)).copied().unwrap_or(std::ptr::null_mut()))
     }
@@ -452,6 +459,7 @@ pub(crate) mod fake {
         mqemu_memorize_spells: memorize_spells,
         mqemu_forget_gem: forget_gem,
         mqemu_gem_ready: gem_ready,
+        mqemu_do_combat_ability: do_combat_ability,
         mqemu_task_status: task_status,
         mqemu_task_objective_text: task_objective_text,
         mqemu_fast_time: fast_time,

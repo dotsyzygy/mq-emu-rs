@@ -102,6 +102,10 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
+    /// Uses combat ability `spell_id` as `/doability` does
+    /// (`PcZoneClient::DoCombatAbility`). False without a character or when
+    /// the game refuses.
+    pub fn mqemu_do_combat_ability(spell_id: i32) -> bool;
     /// Your progress on `task`, one of `pTaskManager`'s `QuestEntries` or
     /// `SharedTaskEntries` (`CTaskManager::GetTaskStatus`). Null for an entry
     /// in neither, or without a character.

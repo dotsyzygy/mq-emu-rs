@@ -442,6 +442,24 @@ extern "C" bool mqemu_gem_ready(int gem)
 	}
 }
 
+// Uses the combat ability (discipline) `spell_id` as /doability does
+// (PcZoneClient::DoCombatAbility, allowing a lower rank). The game checks
+// timers, endurance and the rest itself, and says why in chat when it won't.
+// False without a character or when the game refuses.
+extern "C" bool mqemu_do_combat_ability(int spell_id)
+{
+	try
+	{
+		if (!pLocalPC || spell_id <= 0)
+			return false;
+		return pLocalPC->DoCombatAbility(spell_id);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
 // Your progress on `task` (one of pTaskManager's QuestEntries or
 // SharedTaskEntries), as ${Task[n].Objective[m].Status} reads it
 // (CTaskManager::GetTaskStatus). Null for an entry in neither, or without a
