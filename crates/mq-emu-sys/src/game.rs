@@ -111,6 +111,10 @@ function_table! {
     /// (`PcZoneClient::DoCombatAbility`). False without a character or when
     /// the game refuses.
     pub fn mqemu_do_combat_ability(spell_id: i32) -> bool;
+    /// Milliseconds left on your buff (or with `song`, song) from spell
+    /// `spell_id`, as its window counts it down each frame; -1 if it isn't
+    /// in that window.
+    pub fn mqemu_buff_timer(spell_id: i32, song: bool) -> i32;
     /// How close `attacker` must be to hit `target` in melee, as
     /// `${Spawn.MaxRangeTo}` works it out (`mq::GetMeleeRange`); 14 to 75.
     /// Bytes the stack pointer moves across one call of skill function

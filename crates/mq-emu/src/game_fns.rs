@@ -274,6 +274,8 @@ pub(crate) mod fake {
         pub spells_work: bool,
         /// The gems that are ready to cast.
         pub ready_gems: Vec<i32>,
+        /// Buff and song window timers (ms), by spell ID and whether a song.
+        pub buff_timers: HashMap<(i32, bool), i32>,
         /// Melee ranges, by attacker and target.
         pub melee_ranges: HashMap<(usize, usize), f32>,
         /// Task progress, by task entry.
@@ -306,6 +308,7 @@ pub(crate) mod fake {
                 commands: Vec::new(),
                 spells_work: false,
                 ready_gems: Vec::new(),
+                buff_timers: HashMap::new(),
                 melee_ranges: HashMap::new(),
                 task_statuses: HashMap::new(),
                 objective_texts: HashMap::new(),
@@ -509,6 +512,10 @@ pub(crate) mod fake {
         }
     }
 
+    unsafe extern "C" fn buff_timer(spell_id: i32, song: bool) -> i32 {
+        with(|game| game.buff_timers.get(&(spell_id, song)).copied().unwrap_or(-1))
+    }
+
     /// The range set for the pair, or MacroQuest's least.
     unsafe extern "C" fn melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32 {
         with(|game| game.melee_ranges.get(&(attacker as usize, target as usize)).copied().unwrap_or(14.0))
@@ -576,6 +583,7 @@ pub(crate) mod fake {
         mqemu_use_skill: use_skill,
         mqemu_do_combat_ability: do_combat_ability,
         mqemu_melee_range: melee_range,
+        mqemu_buff_timer: buff_timer,
         mqemu_skill_call_stack_shift: skill_call_stack_shift,
         mqemu_task_status: task_status,
         mqemu_task_objective_text: task_objective_text,

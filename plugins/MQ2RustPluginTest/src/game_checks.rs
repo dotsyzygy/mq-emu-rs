@@ -123,6 +123,10 @@ fn spells<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         .map(|b| (b.name(), b.level().to_string(), format!("${{Me.Buff[{}].Level}}", b.slot() + 1)))
         .chain(mq.songs().map(|b| (b.name(), b.level().to_string(), format!("${{Me.Song[{}].Level}}", b.slot() + 1))));
     report.print(mq, "buff caster levels match ${Me.Buff[n].Level}", all_match(mq, levels));
+    // The windows count down each frame, and a pulse is in one frame.
+    let left = |buff: &mq_emu::Buff<'_>, path: &str| buff.remaining().map(|left| (buff.name(), left.as_secs().to_string(), format!("${{Me.{path}[{}].Duration.TotalSeconds}}", buff.slot() + 1)));
+    let rows: Vec<_> = mq.buffs().filter_map(|b| left(&b, "Buff")).chain(mq.songs().filter_map(|b| left(&b, "Song"))).collect();
+    report.print(mq, "buff time left matches ${Me.Buff[n].Duration}", if rows.is_empty() { Check::Skip("no buffs or songs that wear off".into()) } else { all_match(mq, rows) });
 
     let rows = (0..12).map(|gem| (format!("gem {}", gem + 1), id_or_null(mq.gem(gem).map(|s| s.id())), format!("${{Me.Gem[{}].ID}}", gem + 1)));
     report.print(mq, "gems match ${Me.Gem[n].ID}", all_match(mq, rows));

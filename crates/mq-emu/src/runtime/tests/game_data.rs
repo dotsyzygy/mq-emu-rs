@@ -23,7 +23,7 @@ use crate::skills::SkillId;
 use crate::game::{Spawn, SpawnId};
 use crate::CombatState;
 use crate::xtarget::XTARGET_AUTO_HATER;
-use crate::spells::SpellId;
+use crate::spells::{Buff, SpellId};
 use crate::spells::tests::fake_spell;
 use crate::zone::ZoneId;
 
@@ -241,6 +241,27 @@ fn spells_buffs_gems_and_book() {
             "1200 Some(1) None",
         ]
     );
+}
+
+#[test]
+fn buff_time_left_comes_from_its_own_window() {
+    let game = game();
+    game.learn(1200, "Courage");
+    game.learn(717, "Selo's Accelerando");
+    let profile = game.profile.get();
+    profile.Buffs(0).set_SpellID(1200);
+    profile.Buffs(0).set_Duration(10);
+    profile.Buffs(1).set_SpellID(717);
+    profile.Buffs(1).set_Duration(-1); // doesn't wear off
+    profile.Buffs(mq_emu_sys::constants::NUM_LONG_BUFFS).set_SpellID(717);
+    profile.Buffs(mq_emu_sys::constants::NUM_LONG_BUFFS).set_Duration(3);
+    // 717 in both windows: the song's time is the song window's.
+    fake_game::with(|g| g.buff_timers = [((1200, false), 58_500), ((717, false), 1), ((717, true), 4_200)].into());
+    let log = pulse_log(|mq| {
+        let left = |buff: Buff<'_>| (buff.is_song(), buff.remaining().map(|d| d.as_millis()));
+        format!("{:?} {:?}", mq.buffs().map(left).collect::<Vec<_>>(), mq.songs().map(left).collect::<Vec<_>>())
+    });
+    assert_eq!(log, ["[(false, Some(58500)), (false, None)] [(true, Some(4200))]"]);
 }
 
 #[test]

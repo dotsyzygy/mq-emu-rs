@@ -5,8 +5,10 @@
 //! from the callback's [`Mq`] like every game object; keep its ID.
 
 use std::fmt;
+use std::time::Duration;
 
 use mq_emu_sys::constants::{MAX_EFFECT_SLOTS, MAX_MEMORIZED_SPELLS, NUM_BOOK_SLOTS, NUM_LONG_BUFFS, NUM_SPELL_GEMS, NUM_TEMP_BUFFS, TOTAL_SPELL_COUNT};
+use mq_emu_sys::game::Api;
 use mq_emu_sys::layouts::{ClientSpellManager, EQ_Affect, EQ_Spell, PcProfile};
 
 use crate::mq::Mq;
@@ -228,6 +230,8 @@ pub struct Buff<'a> {
     raw: &'a EQ_Affect,
     slot: usize,
     spell: Option<Spell<'a>>,
+    song: bool,
+    api: &'static Api,
 }
 
 impl<'a> Buff<'a> {
@@ -266,6 +270,20 @@ impl<'a> Buff<'a> {
     /// between updates; this doesn't.
     pub fn ticks(&self) -> Option<u32> {
         u32::try_from(self.raw.Duration()).ok()
+    }
+
+    /// Whether it's a song (in the song window) rather than a buff.
+    pub fn is_song(&self) -> bool {
+        self.song
+    }
+
+    /// Time left now, as its window counts it down
+    /// (`${Me.Buff[n].Duration}`); `None` for a buff that doesn't wear off,
+    /// or one its window doesn't show yet.
+    pub fn remaining(&self) -> Option<Duration> {
+        self.ticks()?;
+        let ms = unsafe { (self.api.mqemu_buff_timer)(self.raw.SpellID(), self.song) };
+        u64::try_from(ms).ok().map(Duration::from_millis)
     }
 
     /// Hits left for buffs that wear off after a number of hits (runes, procs).
@@ -337,9 +355,9 @@ fn prefer_spell<'a>(matches: &[Spell<'a>], me: Option<(i32, i32)>) -> Option<Spe
 }
 
 /// A buff slot's contents, if it holds a spell.
-fn buff<'a>(raw: &'a EQ_Affect, slot: usize, spells: SpellTable<'a>) -> Option<Buff<'a>> {
+fn buff<'a>(raw: &'a EQ_Affect, slot: usize, spells: SpellTable<'a>, song: bool, api: &'static Api) -> Option<Buff<'a>> {
     let id = SpellId(raw.SpellID());
-    (id.0 > 0).then(|| Buff { raw, slot, spell: spells.get(id) })
+    (id.0 > 0).then(|| Buff { raw, slot, spell: spells.get(id), song, api })
 }
 
 impl<P: Plugin> Mq<P> {
@@ -383,7 +401,8 @@ impl<P: Plugin> Mq<P> {
     fn buff_slots(&self, first: usize, count: usize) -> impl Iterator<Item = Buff<'_>> + '_ {
         let profile = self.profile();
         let spells = self.spell_table();
-        (0..count).filter_map(move |slot| buff(profile?.Buffs(first + slot), slot, spells))
+        let api = self.host().game_fns;
+        (0..count).filter_map(move |slot| buff(profile?.Buffs(first + slot), slot, spells, first > 0, api))
     }
 
     /// The spell memorized in gem `gem` (0-based: `${Me.Gem[n]}` is gem n-1).
@@ -565,14 +584,14 @@ pub(crate) mod tests {
         let table = Fake::<ClientSpellManager>::new();
         let spells = unsafe { SpellTable::new(table.ptr()) };
         let slot = Fake::<EQ_Affect>::new();
-        assert!(buff(slot.get(), 0, spells).is_none());
+        assert!(buff(slot.get(), 0, spells, false, &crate::game_fns::fake::API).is_none());
         slot.get().set_SpellID(-1);
-        assert!(buff(slot.get(), 0, spells).is_none());
+        assert!(buff(slot.get(), 0, spells, false, &crate::game_fns::fake::API).is_none());
         slot.get().set_SpellID(1200);
         slot.get().set_Duration(-1);
-        let unknown = buff(slot.get(), 3, spells).unwrap();
+        let unknown = buff(slot.get(), 3, spells, false, &crate::game_fns::fake::API).unwrap();
         assert_eq!((unknown.slot(), unknown.name().as_str(), unknown.ticks()), (3, "", None));
         slot.get().set_Duration(12);
-        assert_eq!(buff(slot.get(), 3, spells).unwrap().ticks(), Some(12));
+        assert_eq!(buff(slot.get(), 3, spells, false, &crate::game_fns::fake::API).unwrap().ticks(), Some(12));
     }
 }

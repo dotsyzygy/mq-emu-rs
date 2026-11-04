@@ -530,6 +530,26 @@ extern "C" bool mqemu_do_combat_ability(int spell_id)
 	}
 }
 
+// Milliseconds left on your buff (or with `song`, song) from spell
+// `spell_id`, as its window counts it down each frame. GetSpellBuffTimer
+// does this, but looks in the buff window first even for a song. -1 if it
+// isn't in that window.
+extern "C" int mqemu_buff_timer(int spell_id, bool song)
+{
+	try
+	{
+		CBuffWindow* window = song ? pSongWnd : pBuffWnd;
+		if (!window || spell_id <= 0)
+			return -1;
+		auto info = window->GetBuffInfoBySpellID(spell_id);
+		return info ? info.GetBuffTimer() : -1;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
 // How close `attacker` must be to hit `target` in melee, as
 // ${Spawn.MaxRangeTo} works it out (mq::GetMeleeRange, from both spawns'
 // sizes and heights; 14 to 75). 14 for a null spawn.
