@@ -118,6 +118,41 @@ extern "C" size_t mqemu_cached_buffs(PlayerClient* spawn, mqemu_cached_buff* out
 	}
 }
 
+// Mirrors `mqemu_aura` in mq-emu-sys's game module.
+struct mqemu_aura
+{
+	char name[64];
+	uint32_t spawn_id;
+	int32_t cost;
+	int32_t icon_id;
+};
+
+// Your auras, as the aura window lists them (ClientAuraManager, what
+// ${Me.Aura} reads): up to `cap` into `out`. Returns how many there are.
+extern "C" size_t mqemu_auras(mqemu_aura* out, size_t cap)
+{
+	try
+	{
+		ClientAuraManager* auras = pAuraMgr;
+		if (auras == nullptr)
+			return 0;
+		int count = auras->Auras.GetLength();
+		for (int i = 0; i < count && static_cast<size_t>(i) < cap; ++i)
+		{
+			const AuraData& aura = auras->Auras[i];
+			copy_out(aura.Name, out[i].name, sizeof(out[i].name));
+			out[i].spawn_id = aura.SpawnID;
+			out[i].cost = aura.Cost;
+			out[i].icon_id = aura.IconID;
+		}
+		return static_cast<size_t>(std::max(count, 0));
+	}
+	catch (...)
+	{
+		return 0;
+	}
+}
+
 // The alternate ability with this index (one rank of one ability), as
 // AltAdvManager::GetAAById finds it. Null if there's none.
 extern "C" CAltAbilityData* mqemu_alt_ability(int index)

@@ -316,15 +316,33 @@ impl RustTest {
         };
         let here = me.position();
 
-        if ui.collapsing_header("Buffs and spells") {
-            for buff in mq.buffs() {
-                let ticks = buff.ticks().map_or("permanent".to_owned(), |t| format!("{t} ticks"));
-                ui.bullet_text(format!("{} (level {}, {ticks})", buff.name(), buff.level()));
+        if ui.collapsing_header("Buffs and auras") {
+            // Time left as the buff window counts it, and the server's ticks.
+            let left = |buff: &mq_emu::Buff<'_>| match (buff.remaining(), buff.ticks()) {
+                (_, None) => "permanent".to_owned(),
+                (Some(left), Some(ticks)) => format!("{}:{:02} left, {ticks} ticks", left.as_secs() / 60, left.as_secs() % 60),
+                (None, Some(ticks)) => format!("{ticks} ticks"),
+            };
+            let buffs: Vec<_> = mq.buffs().collect();
+            ui.text(format!("Buffs ({})", buffs.len()));
+            for buff in &buffs {
+                ui.bullet_text(format!("{}: {} (level {}, {})", buff.slot() + 1, buff.name(), buff.level(), left(buff)));
             }
-            for song in mq.songs() {
-                ui.bullet_text(format!("{} (song)", song.name()));
-            }
+            let songs: Vec<_> = mq.songs().collect();
             ui.separator();
+            ui.text(format!("Songs ({})", songs.len()));
+            for song in &songs {
+                ui.bullet_text(format!("{}: {} ({})", song.slot() + 1, song.name(), left(song)));
+            }
+            let auras = mq.auras();
+            ui.separator();
+            ui.text(format!("Auras ({})", auras.len()));
+            for (i, aura) in auras.iter().enumerate() {
+                let spawn = aura.spawn_id.map_or(String::new(), |id| format!(", spawn {id}"));
+                ui.bullet_text(format!("{}: {} (cost {}{spawn})", i + 1, aura.name, aura.cost));
+            }
+        }
+        if ui.collapsing_header("Spells") {
             for (gem, spell) in mq.gems() {
                 ui.text(format!("Gem {}: {} ({} mana)", gem + 1, spell.name(), spell.mana_cost()));
             }

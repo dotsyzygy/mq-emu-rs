@@ -392,6 +392,8 @@ impl RustTest {
         checks::game_data(mq, &mut report);
         report.section(mq, "Items, spells, group and zone");
         game_checks::run(mq, &mut report);
+        report.section(mq, "Buffs and auras");
+        game_checks::buffs(mq, &mut report);
         report.section(mq, "Pet buffs, raid, mercenary, AAs, skills, merchant and loot");
         play_checks::run(mq, &mut report);
         report.section(mq, "Tasks, friends, tribute and achievements");

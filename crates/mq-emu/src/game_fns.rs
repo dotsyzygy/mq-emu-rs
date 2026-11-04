@@ -274,6 +274,8 @@ pub(crate) mod fake {
         pub spells_work: bool,
         /// The gems that are ready to cast.
         pub ready_gems: Vec<i32>,
+        /// Your auras.
+        pub auras: Vec<mq_emu_sys::game::mqemu_aura>,
         /// Buff and song window timers (ms), by spell ID and whether a song.
         pub buff_timers: HashMap<(i32, bool), i32>,
         /// Melee ranges, by attacker and target.
@@ -308,6 +310,7 @@ pub(crate) mod fake {
                 commands: Vec::new(),
                 spells_work: false,
                 ready_gems: Vec::new(),
+                auras: Vec::new(),
                 buff_timers: HashMap::new(),
                 melee_ranges: HashMap::new(),
                 task_statuses: HashMap::new(),
@@ -512,6 +515,15 @@ pub(crate) mod fake {
         }
     }
 
+    unsafe extern "C" fn auras(out: *mut mq_emu_sys::game::mqemu_aura, cap: usize) -> usize {
+        with(|game| {
+            for (i, aura) in game.auras.iter().take(cap).enumerate() {
+                unsafe { *out.add(i) = *aura };
+            }
+            game.auras.len()
+        })
+    }
+
     unsafe extern "C" fn buff_timer(spell_id: i32, song: bool) -> i32 {
         with(|game| game.buff_timers.get(&(spell_id, song)).copied().unwrap_or(-1))
     }
@@ -584,6 +596,7 @@ pub(crate) mod fake {
         mqemu_do_combat_ability: do_combat_ability,
         mqemu_melee_range: melee_range,
         mqemu_buff_timer: buff_timer,
+        mqemu_auras: auras,
         mqemu_skill_call_stack_shift: skill_call_stack_shift,
         mqemu_task_status: task_status,
         mqemu_task_objective_text: task_objective_text,

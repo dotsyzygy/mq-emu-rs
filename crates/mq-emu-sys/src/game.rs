@@ -16,6 +16,16 @@ use core::ffi::c_char;
 use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
+/// One of your auras, copied out of the game's aura manager.
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
+pub struct mqemu_aura {
+    pub name: [c_char; 64],
+    pub spawn_id: u32,
+    pub cost: i32,
+    pub icon_id: i32,
+}
+
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
 pub struct mqemu_cached_buff {
@@ -47,6 +57,9 @@ function_table! {
     /// The alternate ability with this index (one rank of one ability), as
     /// `AltAdvManager::GetAAById` finds it; null if none.
     pub fn mqemu_alt_ability(index: i32) -> *mut CAltAbilityData;
+    /// Your auras as the aura window lists them (`ClientAuraManager`, what
+    /// `${Me.Aura}` reads): up to `cap` into `out`. Returns how many there are.
+    pub fn mqemu_auras(out: *mut mqemu_aura, cap: usize) -> usize;
     /// Whether you can use `ability` now; `reuse_seconds` gets its reuse time
     /// left (`${Me.AltAbilityTimer}` in seconds).
     pub fn mqemu_alt_ability_ready(ability: *mut CAltAbilityData, reuse_seconds: *mut i32) -> bool;

@@ -244,6 +244,21 @@ fn spells_buffs_gems_and_book() {
 }
 
 #[test]
+fn auras_are_listed_in_window_order() {
+    game();
+    let aura = |name: &str, spawn_id| {
+        let mut raw = mq_emu_sys::game::mqemu_aura { name: [0; 64], spawn_id, cost: 3, icon_id: 7 };
+        for (out, byte) in raw.name.iter_mut().zip(name.bytes()) {
+            *out = byte as std::ffi::c_char;
+        }
+        raw
+    };
+    fake_game::with(|g| g.auras = vec![aura("Disciple's Aura", 0), aura("Master's Aura", 55)]);
+    let log = pulse_log(|mq| format!("{:?}", mq.auras().iter().map(|a| (a.name.clone(), a.spawn_id.map(|id| id.0), a.cost, a.icon_id)).collect::<Vec<_>>()));
+    assert_eq!(log, ["[(\"Disciple's Aura\", None, 3, 7), (\"Master's Aura\", Some(55), 3, 7)]"]);
+}
+
+#[test]
 fn buff_time_left_comes_from_its_own_window() {
     let game = game();
     game.learn(1200, "Courage");
