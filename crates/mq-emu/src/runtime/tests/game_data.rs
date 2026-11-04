@@ -1,5 +1,6 @@
 //! Inventory, spells, buffs, group, zone, ground items, pets, other spawns'
-//! buffs, raids, mercenaries, extended targets, alternate abilities, skills,
+//! buffs, raids, mercenaries, extended targets, aggro, alternate abilities,
+//! skills (and using them), combat state, setting the target,
 //! the merchant and loot windows, tasks, friends, tribute and achievements
 //! through `Mq`, against fake game objects: what each finds, and that missing
 //! game data reads as nothing rather than crashing.
@@ -7,7 +8,7 @@
 use mq_emu_sys::constants::{DB_STRING_ALT_ABILITY_NAME, MAX_TOTAL_BUFFS};
 use mq_emu_sys::game::{SKILL_ACTIVATABLE, SKILL_HAS, mqemu_cached_buff};
 use mq_emu_sys::layouts::{
-    AchievementManager, CAltAbilityData, eCharacterStatus, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, CTaskManager,
+    AchievementManager, AggroMeterManagerClient, CAltAbilityData, eCharacterStatus, CGroup, CGroupMember, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid, CTargetWnd, CTaskManager,
     ClientSpellManager, EQGroundItem, EQGroundItemListManager, EQWorldData, EQZoneInfo, ExtendedTargetList, ExtendedTargetSlot,
     ItemContainerInstance, MerchantPageHandler, PcClient, PcProfile, ProfileList, SharedTaskPlayerInfo, TaskSystemType, VePointer_ItemClient, eMercenaryState, eRaidState, zoneHeader,
 };
@@ -19,6 +20,8 @@ use crate::windows::fake as fake_windows;
 use crate::windows::{ItemContainerKind, SlotLocation};
 use crate::items::tests::{Fake, FakeItem, fill, set_name};
 use crate::skills::SkillId;
+use crate::game::SpawnId;
+use crate::CombatState;
 use crate::xtarget::XTARGET_AUTO_HATER;
 use crate::spells::SpellId;
 use crate::spells::tests::fake_spell;
@@ -86,7 +89,7 @@ fn without_game_data_everything_is_empty() {
             mq.hp_percent(),
             mq.mana_current(),
             mq.mana_max(),
-            mq.in_combat(),
+            mq.is_auto_attacking(),
             mq.is_stunned(),
             mq.server_name(),
         ));
@@ -130,7 +133,7 @@ fn your_hp_percent_is_zero_without_a_maximum() {
 fn combat_stun_and_server_come_from_the_client_and_your_character() {
     let game = game();
     let info = unsafe { &*INFO.with(FakeObject::ptr) };
-    let log = || pulse_log(|mq| format!("{} {} {:?}", mq.in_combat(), mq.is_stunned(), mq.server_name()));
+    let log = || pulse_log(|mq| format!("{} {} {:?}", mq.is_auto_attacking(), mq.is_stunned(), mq.server_name()));
     assert_eq!(log(), ["false false None"]);
 
     info.set_bAutoAttack(true);
@@ -805,4 +808,102 @@ fn friends_tribute_and_achievements_need_a_character() {
     manager.get().set_achievementClientReadOnlyDataSet(true);
     manager.get().set_achievementClientStatesSet(true);
     assert_eq!(pulse_log(log), ["Some([\"Ann\", \"Bob\"]) true true 1500 9000 Some(25) 540 true 0"]);
+}
+
+#[test]
+fn combat_state_endurance_and_standing() {
+    use mq_emu_sys::constants::{COMBAT_STATE_COMBAT, COMBAT_STATE_REGEN, STANDSTATE_SIT, STANDSTATE_STAND};
+    let game = game();
+    game.profile.get().set_Endurance(30);
+    fake_game::with(|g| g.max_endurance = 120);
+    player().set_StandState(STANDSTATE_STAND);
+    let log = || pulse_log(|mq| format!("{:?} {:?} {}", mq.combat_state(), mq.endurance_percent(), mq.me().unwrap().is_standing()));
+    assert_eq!(log(), ["Some(Active) Some(25) true"]);
+
+    COMBAT_STATE.with(|state| state.set(COMBAT_STATE_COMBAT));
+    fake_game::with(|g| g.max_endurance = 0);
+    assert_eq!(log(), ["Some(Combat) Some(0) true"], "no maximum reads 0%");
+
+    COMBAT_STATE.with(|state| state.set(COMBAT_STATE_REGEN));
+    player().set_StandState(STANDSTATE_SIT);
+    assert_eq!(log(), ["Some(Resting) Some(0) false"]);
+    COMBAT_STATE.with(|state| state.set(99));
+    assert_eq!(pulse_log(|mq| format!("{:?}", mq.combat_state().map(CombatState::name))), ["Some(\"ACTIVE\")"], "as ${{Me.CombatState}} reads an unknown state");
+}
+
+#[test]
+fn aggro_and_target_of_target() {
+    game();
+    set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0), (30, "Soandso", 0, 2.0, 0.0)]);
+    let name = |spawn: Option<crate::Spawn<'_>>| spawn.map(|s| s.name());
+    let log = || {
+        pulse_log(move |mq| {
+            format!(
+                "{:?} {:?} {:?} {:?} {:?}",
+                mq.aggro_percent(),
+                mq.secondary_aggro_percent(),
+                name(mq.secondary_aggro_player()),
+                name(mq.aggro_lock()),
+                name(mq.target_of_target())
+            )
+        })
+    };
+    assert_eq!(log(), ["None None None None None"]);
+
+    let aggro = Box::leak(Box::new(Fake::<AggroMeterManagerClient>::new()));
+    aggro.get().aggroData(mq_emu_sys::constants::AD_PLAYER).set_AggroPct(70);
+    aggro.get().aggroData(mq_emu_sys::constants::AD_SECONDARY).set_AggroPct(40);
+    aggro.get().set_AggroSecondaryID(30);
+    aggro.get().set_AggroLockID(20);
+    set_windows(|w| w.aggro = aggro.ptr());
+    player().set_TargetOfTarget(30);
+    assert_eq!(log(), ["Some(70) Some(40) Some(\"Soandso\") Some(\"a rat\") Some(\"Soandso\")"]);
+
+    aggro.get().set_AggroLockID(0);
+    player().set_TargetOfTarget(99); // gone from the zone
+    assert_eq!(log(), ["Some(70) Some(40) Some(\"Soandso\") None None"]);
+}
+
+#[test]
+fn the_target_is_set_and_cleared() {
+    game();
+    set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0)]);
+    let log = pulse_log(|mq| {
+        let rat = mq.spawn(SpawnId(20)).unwrap();
+        let set = mq.set_target(Some(&rat));
+        let targeted = mq.target().map(|s| s.id().0);
+        let cleared = mq.set_target(None);
+        format!("{set} {targeted:?} {cleared} {:?}", mq.target().map(|s| s.id().0))
+    });
+    assert_eq!(log, ["true Some(20) true None"]);
+}
+
+#[test]
+fn abilities_and_alt_abilities_are_used() {
+    let game = game();
+    let (active, passive) = (Box::leak(Box::new(Fake::<CAltAbilityData>::new())), Box::leak(Box::new(Fake::<CAltAbilityData>::new())));
+    active.get().set_GroupID(35);
+    active.get().set_SpellID(1000);
+    passive.get().set_GroupID(36);
+    passive.get().set_SpellID(-1);
+    game.profile.get().AAList(0).set_AAIndex(500);
+    game.profile.get().AAList(1).set_AAIndex(612);
+    game.profile.get().set_Skill_at(40, 50);
+    game.profile.get().set_Skill_at(10, 200);
+    fake_game::with(|g| {
+        g.alt_abilities.insert(500, active.ptr());
+        g.alt_abilities.insert(612, passive.ptr());
+        g.skills.insert(40, FakeSkill { name: "Sneak".into(), flags: SKILL_HAS | SKILL_ACTIVATABLE, ..FakeSkill::default() });
+        g.skills.insert(10, FakeSkill { name: "Defense".into(), flags: SKILL_HAS, ..FakeSkill::default() });
+        // Longer than "/alt", as the game names it.
+        g.commands = vec!["/alternateadv".into()];
+    });
+
+    let log = pulse_log(|mq| {
+        let (sneak, defense) = (mq.skill(SkillId(40)).unwrap(), mq.skill(SkillId(10)).unwrap());
+        let (active, passive) = (mq.alt_ability(35).unwrap(), mq.alt_ability(36).unwrap());
+        format!("{} {} {} {}", mq.use_ability(&sneak), mq.use_ability(&defense), mq.use_alt_ability(&active), mq.use_alt_ability(&passive))
+    });
+    assert_eq!(log, ["true false true false"], "only abilities, and AAs that aren't passive");
+    assert_eq!(fake_game::log(), ["skill 40", "/alternateadv activate 35"]);
 }

@@ -180,6 +180,9 @@ unsafe extern "C" {
     /// the plugin was loaded, so `mq2lua=1` in MacroQuest.ini gives `"lua"`.
     /// Null if it isn't loaded. Imports from MQ2Main.dll.
     pub fn mqemu_loaded_plugin_name(name: *const c_char) -> *const c_char;
+    /// Targets `spawn`, or clears the target for null, as `/target` (and
+    /// `/target clear`) does. Imports from MQ2Main.dll.
+    pub fn mqemu_set_target(spawn: *mut crate::types::PlayerClient);
 }
 
 // ----- macro data (mq/api/MacroAPI.h) -----

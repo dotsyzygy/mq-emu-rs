@@ -71,6 +71,23 @@ fn game_states_match() {
 }
 
 #[test]
+fn combat_states_match() {
+    use mq_emu_sys::constants::*;
+    let states = enum_values(&read_header("src/eqlib/include/eqlib/game/UI.h"), "ECombatState");
+    let ours = [
+        ("eCombatState_Combat", COMBAT_STATE_COMBAT),
+        ("eCombatState_Debuff", COMBAT_STATE_DEBUFF),
+        ("eCombatState_Timer", COMBAT_STATE_TIMER),
+        ("eCombatState_Standing", COMBAT_STATE_STANDING),
+        ("eCombatState_Regen", COMBAT_STATE_REGEN),
+    ];
+    assert_eq!(states.len(), ours.len());
+    for (name, value) in ours {
+        assert_eq!(states.iter().find(|(n, _)| n == name).map(|(_, v)| *v), Some(i64::from(value)), "{name}");
+    }
+}
+
+#[test]
 fn chat_colors_match() {
     let file = "src/eqlib/include/eqlib/game/ChatFilters.h";
     check!(read_header(file), file, [
@@ -118,7 +135,10 @@ fn raid_skill_and_alt_ability_limits_match() {
     let header = read_header(file);
     check!(header, file, [MAX_AGGRO_METER_SIZE]);
     let aggro = enum_values(&header, "AggroDataTypes");
-    assert_eq!(aggro.iter().find(|(n, _)| n == "AD_xTarget1").map(|(_, v)| *v), Some(mq_emu_sys::constants::AD_XTARGET1 as i64));
+    let index = |name: &str| aggro.iter().find(|(n, _)| n == name).map(|(_, v)| *v as usize);
+    assert_eq!(index("AD_Player"), Some(mq_emu_sys::constants::AD_PLAYER));
+    assert_eq!(index("AD_Secondary"), Some(mq_emu_sys::constants::AD_SECONDARY));
+    assert_eq!(index("AD_xTarget1"), Some(mq_emu_sys::constants::AD_XTARGET1));
 
     let strings = enum_values(&header, "eDatabaseStringType");
     let ours = [

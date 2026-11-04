@@ -236,7 +236,20 @@ pub const MAX_RAID_LOOTERS: usize = 19;
 pub const MAX_AGGRO_METER_SIZE: usize = 27;
 /// `aggroData` index of extended target 1 (`AggroDataTypes::AD_xTarget1`);
 /// the others follow it.
+/// `aggroData` index of your own hate on your target (`AD_Player`).
+pub const AD_PLAYER: usize = 0;
+/// `aggroData` index of the hate of the player second on your target's list
+/// (`AD_Secondary`).
+pub const AD_SECONDARY: usize = 1;
 pub const AD_XTARGET1: usize = 7;
+
+// Combat states (eqlib `game/UI.h` `ECombatState`), as returned by
+// `GetCombatState`.
+pub const COMBAT_STATE_COMBAT: i32 = 0;
+pub const COMBAT_STATE_DEBUFF: i32 = 1;
+pub const COMBAT_STATE_TIMER: i32 = 2;
+pub const COMBAT_STATE_STANDING: i32 = 3;
+pub const COMBAT_STATE_REGEN: i32 = 4;
 
 // Skills and alternate abilities (eqlib `game/Constants.h`).
 pub const NUM_SKILLS: usize = 100;

@@ -53,6 +53,9 @@ thread_local! {
     static HAS_PLAYER: Cell<bool> = const { Cell::new(true) };
     static TARGET: FakeObject<PlayerClient> = FakeObject::new();
     static HAS_TARGET: Cell<bool> = const { Cell::new(false) };
+    /// A spawn targeted with `set_target`, if not `TARGET`.
+    static TARGETED: Cell<*mut PlayerClient> = const { Cell::new(ptr::null_mut()) };
+    static COMBAT_STATE: Cell<i32> = const { Cell::new(mq_emu_sys::constants::COMBAT_STATE_STANDING) };
     static INFO: FakeObject<EverQuestinfo> = FakeObject::new();
     /// A command the fake game reports as disabled.
     static DISABLED: Cell<Option<u32>> = const { Cell::new(None) };
@@ -170,6 +173,23 @@ impl Windows {
     };
 }
 
+fn fake_target() -> *mut PlayerClient {
+    let targeted = TARGETED.with(Cell::get);
+    if !targeted.is_null() {
+        targeted
+    } else if HAS_TARGET.with(Cell::get) {
+        TARGET.with(FakeObject::ptr)
+    } else {
+        ptr::null_mut()
+    }
+}
+
+fn fake_set_target(spawn: *mut PlayerClient) {
+    let is_target = spawn == TARGET.with(FakeObject::ptr);
+    HAS_TARGET.with(|t| t.set(is_target));
+    TARGETED.with(|t| t.set(if is_target { ptr::null_mut() } else { spawn }));
+}
+
 /// Changes the fake game's windows and managers for this thread.
 fn set_windows(f: impl FnOnce(&mut Windows)) {
     WINDOWS.with(|windows| {
@@ -186,7 +206,9 @@ const FAKE: Host = Host {
     now: fake_now,
     local_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
     controlled_player: || if HAS_PLAYER.with(Cell::get) { PLAYER.with(FakeObject::ptr) } else { ptr::null_mut() },
-    target: || if HAS_TARGET.with(Cell::get) { TARGET.with(FakeObject::ptr) } else { ptr::null_mut() },
+    target: fake_target,
+    set_target: fake_set_target,
+    combat_state: || COMBAT_STATE.with(Cell::get),
     spawn_manager: || if HAS_MANAGER.with(Cell::get) { MANAGER.with(FakeObject::ptr) } else { ptr::null_mut() },
     local_pc: || LOCAL_PC.with(Cell::get),
     spell_manager: || SPELL_MANAGER.with(Cell::get),

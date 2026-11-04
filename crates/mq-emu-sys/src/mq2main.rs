@@ -38,6 +38,9 @@ imports! {
         // Game state (MQ2Main.h)
         /// One of the `GAMESTATE_*` constants.
         pub fn GetGameState() -> c_int;
+        /// MacroQuest's combat state (`${Me.CombatState}`), one of the
+        /// `COMBAT_STATE_*` constants. MacroQuest works it out each pulse.
+        pub fn GetCombatState() -> c_int;
 
         // Key bindings (mq/utils/Keybinds.h)
         /// The `CMD_*` index of a key-bindable command by its game name

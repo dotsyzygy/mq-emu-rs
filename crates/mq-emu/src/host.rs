@@ -36,6 +36,10 @@ pub(crate) struct Host {
     /// The spawn whose movement the player controls (a mount when riding).
     pub controlled_player: fn() -> *mut PlayerClient,
     pub target: fn() -> *mut PlayerClient,
+    /// Targets a spawn, or clears the target for null (`mqemu_set_target`).
+    pub set_target: fn(*mut PlayerClient),
+    /// MacroQuest's combat state, a `COMBAT_STATE_*` (`GetCombatState`).
+    pub combat_state: fn() -> i32,
     /// Owns the zone's spawn list.
     pub spawn_manager: fn() -> *mut PlayerManagerClient,
     /// Your character's data (`pLocalPC`): profile, bank, group.
@@ -125,6 +129,8 @@ pub(crate) const fn real<P>() -> Host {
         local_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPlayer) },
         controlled_player: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pControlledPlayer) },
         target: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pTarget) },
+        set_target: |spawn| unsafe { mq_emu_sys::shim::mqemu_set_target(spawn) },
+        combat_state: || unsafe { mq_emu_sys::mq2main::GetCombatState() },
         spawn_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpawnManager) },
         local_pc: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pLocalPC) },
         spell_manager: || unsafe { foreign(&raw const mq_emu_sys::eqlib::pSpellMgr) },

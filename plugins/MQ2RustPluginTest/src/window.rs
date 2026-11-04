@@ -296,6 +296,13 @@ impl RustTest {
                 None => "none".to_owned(),
             };
             table.row(&["Target".to_owned(), target]);
+            let state = mq.combat_state().map_or("?", mq_emu::CombatState::name);
+            let attack = if mq.is_auto_attacking() { ", auto attack on" } else { "" };
+            let endurance = mq.endurance_percent().map_or(String::new(), |e| format!(", {e}% endurance"));
+            table.row(&["Combat".to_owned(), format!("{state}{attack}{endurance}")]);
+            let aggro = mq.aggro_percent().map_or("?".to_owned(), |a| format!("{a}%"));
+            let tot = mq.target_of_target().map_or("none".to_owned(), |s| s.name());
+            table.row(&["Aggro".to_owned(), format!("{aggro}, target of target {tot}")]);
             if let Some(zone) = mq.zone() {
                 let id = zone.id().map_or("?".to_owned(), |id| id.to_string());
                 table.row(&["Zone".to_owned(), format!("{} ({}, ID {id}, {:?})", zone.name(), zone.short_name(), zone.zone_type())]);
@@ -434,9 +441,14 @@ impl RustTest {
         if ui.collapsing_header("Alternate abilities") {
             ui.text(format!("{} points, {} spent", mq.alt_ability_points(), mq.alt_ability_points_spent()));
             for aa in mq.alt_abilities().filter(|aa| !aa.is_passive()) {
+                if ui.small_button(&format!("Use##aa{}", aa.group_id())) {
+                    let used = mq.use_alt_ability(&aa);
+                    mq.chat(format!("use_alt_ability({}, id {}): {used}", aa.name(), aa.group_id()));
+                }
+                ui.same_line();
                 let (ready, reuse) = aa.readiness();
                 let state = if ready { "ready".to_owned() } else { format!("{}s", reuse.as_secs()) };
-                ui.bullet_text(format!("{} (rank {}/{}, {state})", aa.name(), aa.rank(), aa.max_rank()));
+                ui.text(format!("{} (rank {}/{}, {state})", aa.name(), aa.rank(), aa.max_rank()));
             }
         }
         if ui.collapsing_header("Combat abilities") {
@@ -452,6 +464,13 @@ impl RustTest {
         }
         if ui.collapsing_header("Skills") {
             for skill in mq.skills().filter(|s| s.value() > 0) {
+                if skill.is_ability() {
+                    if ui.small_button(&format!("Use##skill{}", skill.id())) {
+                        let used = mq.use_ability(&skill);
+                        mq.chat(format!("use_ability({}): {used}", skill.name()));
+                    }
+                    ui.same_line();
+                }
                 let ready = if skill.is_ability() { if skill.is_ready() { ", ready" } else { ", not ready" } } else { "" };
                 ui.text(format!("{}: {} / {}{ready}", skill.name(), skill.value(), skill.cap()));
             }

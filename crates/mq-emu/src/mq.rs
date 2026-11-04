@@ -195,6 +195,16 @@ impl<P: Plugin> Mq<P> {
         Ini::new(self.config_dir().join(format!("{}.ini", self.plugin_name()))).expect("MacroQuest's config path is in the ANSI code page")
     }
 
+    // ----- plugins -----
+
+    /// Whether a plugin is loaded, by any name MacroQuest's `GetPlugin`
+    /// accepts for it, ignoring case: "MQ2MoveUtils", "MoveUtils",
+    /// "mq2moveutils.dll". `${Plugin[name]}` takes only the file name
+    /// ("MQ2MoveUtils").
+    pub fn is_plugin_loaded(&self, name: &str) -> bool {
+        (self.host().loaded_plugin_name)(&plugin_lookup_name(name)).is_some()
+    }
+
     // ----- macro data -----
 
     /// Expands MacroQuest data, e.g. `mq.parse("${Me.Level}")`, the same way
@@ -228,6 +238,16 @@ impl<P: Plugin> Mq<P> {
         unsafe { Spawn::from_raw((self.host().target)()) }
     }
 
+    /// Targets `spawn`, or clears your target for `None`, as `/target id`
+    /// and `/target clear` do. False out of game.
+    pub fn set_target(&self, spawn: Option<&Spawn<'_>>) -> bool {
+        if self.me().is_none() {
+            return false;
+        }
+        (self.host().set_target)(spawn.map_or(std::ptr::null_mut(), |spawn| std::ptr::from_ref(spawn.raw()).cast_mut()));
+        true
+    }
+
     // ----- diagnostics -----
 
     /// Counters the runtime keeps for this plugin (pulse timing, re-entrant
@@ -251,5 +271,66 @@ impl<P: Plugin> Mq<P> {
     /// one every 30 seconds). `None` disables it. Default: 16 ms.
     pub fn set_slow_pulse_warning(&self, threshold: Option<Duration>) {
         self.runtime.set_slow_pulse_warning(threshold)
+    }
+}
+
+/// The name to look `name` up by in MacroQuest's plugin list. MacroQuest
+/// strips ".dll", then "MQ" and a "2" (`GetCanonicalPluginName`), but its
+/// test for "MQ" lacks parentheses, so any name whose second letter is "Q"
+/// loses two letters: "EQBC" is looked up as "BC". Stripping the name
+/// properly and putting "MQ2" back gives it a prefix that strips cleanly.
+fn plugin_lookup_name(name: &str) -> String {
+    let name = match name.len().checked_sub(4) {
+        Some(dot) if name.len() >= 5 && name.is_char_boundary(dot) && name[dot..].eq_ignore_ascii_case(".dll") => &name[..dot],
+        _ => name,
+    };
+    let name = match name.get(..2) {
+        Some(prefix) if prefix.eq_ignore_ascii_case("mq") => name[2..].strip_prefix('2').unwrap_or(&name[2..]),
+        _ => name,
+    };
+    format!("MQ2{name}")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::plugin_lookup_name;
+
+    /// MacroQuest's `GetCanonicalPluginName`, as written.
+    fn macroquest_canonical(name: &str) -> &str {
+        let b = name.as_bytes();
+        let mut name = name;
+        if name.len() >= 5 && b[b.len() - 4] == b'.' && name[name.len() - 3..].eq_ignore_ascii_case("dll") {
+            name = &name[..name.len() - 4];
+        }
+        let b = name.as_bytes();
+        #[allow(clippy::nonminimal_bool)]
+        if name.len() >= 2 && ((b[0] == b'm' || b[0] == b'M') && b[1] == b'q' || b[1] == b'Q') {
+            name = &name[2..];
+            name = name.strip_prefix('2').unwrap_or(name);
+        }
+        name
+    }
+
+    #[test]
+    fn macroquest_loses_two_letters_of_a_name_with_a_second_q() {
+        assert_eq!(macroquest_canonical("MQ2EQBC"), "EQBC", "as the plugin is stored");
+        assert_eq!(macroquest_canonical("EQBC"), "BC", "MacroQuest's own lookup by short name misses it");
+    }
+
+    #[test]
+    fn every_name_for_a_plugin_is_looked_up_as_macroquest_stores_it() {
+        for (names, stored) in [
+            (["MQ2EQBC", "EQBC", "mq2eqbc.dll", "EQBC.DLL"], "EQBC"),
+            (["MQ2MoveUtils", "MoveUtils", "mq2moveutils.dll", "MQMoveUtils"], "MoveUtils"),
+            (["MQ2Lua", "lua", "Lua.dll", "MQ2lua.Dll"], "Lua"),
+        ] {
+            for name in names {
+                let found = macroquest_canonical(&plugin_lookup_name(name)).to_owned();
+                assert!(found.eq_ignore_ascii_case(stored), "{name}: {found}");
+            }
+        }
+        assert_eq!(plugin_lookup_name("x.dll"), "MQ2x");
+        assert_eq!(plugin_lookup_name(".dll"), "MQ2.dll", "too short to have .dll, as in MacroQuest");
+        assert_eq!(plugin_lookup_name("Mé"), "MQ2Mé", "not split inside a letter");
     }
 }

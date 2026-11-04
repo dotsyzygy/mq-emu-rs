@@ -66,16 +66,25 @@ bool copy_out(const char* text, char* out, size_t cap)
 // The game's own handler for slash command `name`, from its command table, as
 // MacroQuest finds /cast and /useitem's (cmdCast, cmdUseItem): not
 // MacroQuest's command of that name, nor an alias. Null if it has none.
+// The game's handler for slash command `name`: the command of that name, or
+// else the first in the game's list that `name` abbreviates, as typing it
+// does ("/alt" for the game's longer name).
 auto eq_command(const char* name) -> decltype(CMDLIST::fAddress)
 {
-	if (!EQADDR_CMDLIST)
+	if (!EQADDR_CMDLIST || name == nullptr || name[0] == 0)
 		return nullptr;
+	decltype(CMDLIST::fAddress) abbreviated = nullptr;
 	for (int i = 0; EQADDR_CMDLIST[i].fAddress != nullptr; ++i)
 	{
-		if (EQADDR_CMDLIST[i].szName && mq::ci_equals(EQADDR_CMDLIST[i].szName, name))
+		const char* command = EQADDR_CMDLIST[i].szName;
+		if (command == nullptr)
+			continue;
+		if (mq::ci_equals(command, name))
 			return EQADDR_CMDLIST[i].fAddress;
+		if (abbreviated == nullptr && mq::ci_starts_with(command, name))
+			abbreviated = EQADDR_CMDLIST[i].fAddress;
 	}
-	return nullptr;
+	return abbreviated;
 }
 
 } // namespace
@@ -435,6 +444,27 @@ extern "C" bool mqemu_gem_ready(int gem)
 		if (pCastSpellWnd && pCastSpellWnd->IsBardSongPlaying())
 			return true;
 		return pDisplay->TimeStamp > pLocalPlayer->SpellGemETA[gem] && pDisplay->TimeStamp > pLocalPlayer->GetSpellCooldownETA();
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+// Uses skill `skill` on your target, as /doability <name> does
+// (PcClient::UseSkill), if you have it and it's an ability you activate. The
+// game checks its timer and the rest itself. False otherwise, or without a
+// character.
+extern "C" bool mqemu_use_skill(int skill)
+{
+	try
+	{
+		if (!pLocalPC || !pLocalPlayer || skill < 0 || skill >= NUM_SKILLS)
+			return false;
+		if (!mq::HasSkillOrInnate(skill) || !mq::SkillOrInnateIsActivatable(skill))
+			return false;
+		pLocalPC->UseSkill(static_cast<uint8_t>(skill), pLocalPlayer);
+		return true;
 	}
 	catch (...)
 	{

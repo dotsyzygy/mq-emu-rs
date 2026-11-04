@@ -287,6 +287,11 @@ impl<'a> Spawn<'a> {
         self.raw.ManaMax()
     }
 
+    /// `${Spawn.Standing}`: not sitting, ducking, feigning or dead.
+    pub fn is_standing(&self) -> bool {
+        self.raw.StandState() == c::STANDSTATE_STAND
+    }
+
     /// `${Spawn.Sitting}`.
     pub fn is_sitting(&self) -> bool {
         self.raw.StandState() == c::STANDSTATE_SIT

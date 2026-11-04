@@ -262,9 +262,34 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     report.print(mq, "hp_percent() = ${Me.PctHPs}", same_text(mq.hp_percent().unwrap_or(-1), mq.parse("${Me.PctHPs}")));
     report.print(mq, "mana_current() = ${Me.CurrentMana}", same_text(mq.mana_current().unwrap_or(-1), mq.parse("${Me.CurrentMana}")));
     report.print(mq, "mana_max() = ${Me.MaxMana}", same_text(mq.mana_max().unwrap_or(-1), mq.parse("${Me.MaxMana}")));
-    report.print(mq, "in_combat() = ${Me.Combat}", same_bool(mq.in_combat(), mq.parse("${Me.Combat}")));
+    report.print(mq, "endurance_percent() = ${Me.PctEndurance}", same_text(mq.endurance_percent().unwrap_or(-1), mq.parse("${Me.PctEndurance}")));
+    report.print(mq, "is_auto_attacking() = ${Me.Combat}", same_bool(mq.is_auto_attacking(), mq.parse("${Me.Combat}")));
+    let state = mq.combat_state().map_or("NULL", mq_emu::CombatState::name);
+    report.print(mq, "combat_state() = ${Me.CombatState}", same_text(state, mq.parse("${Me.CombatState}")));
+    // MacroQuest gives a missing spawn's ID as 0.
+    let id = |spawn: Option<mq_emu::Spawn<'_>>| spawn.map_or(0, |s| s.id().0);
+    report.print(mq, "aggro_percent() = ${Me.PctAggro}", same_text(mq.aggro_percent().unwrap_or(0), mq.parse("${Me.PctAggro}")));
+    report.print(mq, "secondary_aggro_percent() = ${Me.SecondaryPctAggro}", same_text(mq.secondary_aggro_percent().unwrap_or(0), mq.parse("${Me.SecondaryPctAggro}")));
+    report.print(mq, "secondary_aggro_player() = ${Me.SecondaryAggroPlayer.ID}", same_text(id(mq.secondary_aggro_player()), mq.parse("${Me.SecondaryAggroPlayer.ID}")));
+    report.print(mq, "aggro_lock() = ${Me.AggroLock.ID}", same_text(id(mq.aggro_lock()), mq.parse("${Me.AggroLock.ID}")));
+    let (ours, theirs) = (id(mq.target_of_target()), mq.parse("${Me.TargetOfTarget.ID}"));
+    report.print(mq, "target_of_target() = ${Me.TargetOfTarget.ID}", if ours == 0 && theirs == "0" {
+        Check::Skip("no target of target (target something that's targeting; the server may not send it on this client)".into())
+    } else {
+        same_text(ours, theirs)
+    });
+    // ${Plugin[name]} takes only the file name; is_plugin_loaded also takes
+    // the others MacroQuest's GetPlugin does.
+    for name in ["MQ2RustPluginTest", "MQ2NoSuchPlugin"] {
+        let theirs = mq.parse(&format!("${{Plugin[{name}]}}")) != "NULL";
+        report.print(mq, &format!("is_plugin_loaded({name}) = ${{Plugin[{name}]}}"), same_bool(mq.is_plugin_loaded(name), theirs.to_string().to_uppercase()));
+    }
+    for name in ["RustPluginTest", "mq2rustplugintest.dll"] {
+        report.print(mq, &format!("is_plugin_loaded({name}), as for its file name"), Check::that(mq.is_plugin_loaded(name), || "not found".into()));
+    }
     report.print(mq, "is_stunned() = ${Me.Stunned}", same_bool(mq.is_stunned(), mq.parse("${Me.Stunned}")));
     report.print(mq, "server_name() = ${EverQuest.Server}", same_text(mq.server_name().unwrap_or_default(), mq.parse("${EverQuest.Server}")));
+    report.print(mq, "me().is_standing() = ${Me.Standing}", same_bool(me.is_standing(), mq.parse("${Me.Standing}")));
     report.print(mq, "me().is_sitting() = ${Me.Sitting}", same_bool(me.is_sitting(), mq.parse("${Me.Sitting}")));
     report.print(mq, "me().is_feigning() = ${Me.Feigning}", same_bool(me.is_feigning(), mq.parse("${Me.Feigning}")));
     report.print(mq, "me().is_invisible() = ${Me.Invis}", same_bool(me.is_invisible(), mq.parse("${Me.Invis}")));
@@ -301,9 +326,9 @@ pub fn targeting<P: Plugin>(mq: &Mq<P>, report: &mut Report) -> Option<SpawnId> 
         return None;
     };
     let (id, name) = (nearest.id(), nearest.name());
-    mq.command_now(format!("/target id {id}"));
+    mq.set_target(Some(&nearest));
     let targeted = mq.target().map(|target| target.id());
-    report.print(mq, &format!("/target id {id} targets the nearest spawn, {name}"), Check::that(targeted == Some(id), || {
+    report.print(mq, &format!("set_target targets the nearest spawn, {name} ({id})"), Check::that(targeted == Some(id), || {
         format!("target() is {targeted:?}")
     }));
     report.print(mq, "${Target.ID} agrees", same_text(id, mq.parse("${Target.ID}")));
@@ -312,11 +337,12 @@ pub fn targeting<P: Plugin>(mq: &Mq<P>, report: &mut Report) -> Option<SpawnId> 
 
 /// Clears a target that [`targeting`] set, leaving things as they were.
 pub fn clear_target<P: Plugin>(mq: &Mq<P>, report: &mut Report, id: SpawnId) {
-    mq.command_now("/target clear");
+    mq.set_target(None);
     let left = mq.target().map(|target| target.id());
-    report.print(mq, &format!("/target clear clears the selftest's target ({id})"), Check::that(left.is_none(), || {
+    report.print(mq, &format!("set_target(None) clears the selftest's target ({id})"), Check::that(left.is_none(), || {
         format!("target() is still {left:?}")
     }));
+    report.print(mq, "${Target.ID} agrees", same_text("0", mq.parse("${Target.ID}")));
 }
 
 /// Command registration through the C++ shim, against MacroQuest's command list.

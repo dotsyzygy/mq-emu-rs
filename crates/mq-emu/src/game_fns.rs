@@ -5,6 +5,7 @@
 
 use std::ffi::{CString, c_char};
 
+use mq_emu_sys::constants::{COMBAT_STATE_COMBAT, COMBAT_STATE_DEBUFF, COMBAT_STATE_REGEN, COMBAT_STATE_TIMER};
 use mq_emu_sys::layouts::eCharacterStatus;
 
 use crate::mq::Mq;
@@ -28,8 +29,7 @@ impl<P: Plugin> Mq<P> {
     /// Your HP as 0..=100, from [`Mq::hp_current`] and [`Mq::hp_max`]
     /// (`${Me.PctHPs}`), if in game.
     pub fn hp_percent(&self) -> Option<i32> {
-        let (current, max) = (self.hp_current()?, self.hp_max()?);
-        Some(if max <= 0 { 0 } else { (i64::from(current) * 100 / i64::from(max)).clamp(0, 100) as i32 })
+        Some(percent(self.hp_current()?, self.hp_max()?))
     }
 
     /// Your current mana (`${Me.CurrentMana}`), if in game. Not your spawn's
@@ -45,9 +45,23 @@ impl<P: Plugin> Mq<P> {
         Some(unsafe { (self.host().game_fns.mqemu_max_mana)() })
     }
 
-    /// Whether auto attack is on (`${Me.Combat}`).
-    pub fn in_combat(&self) -> bool {
+    /// Whether auto attack is on (`${Me.Combat}`). Not whether you're in
+    /// combat: see [`Mq::combat_state`].
+    pub fn is_auto_attacking(&self) -> bool {
         unsafe { (self.host().everquest_info)().as_ref() }.is_some_and(|info| info.bAutoAttack())
+    }
+
+    /// Whether auto attack is on, despite the name.
+    #[deprecated(since = "0.1.6", note = "this is auto attack: use `is_auto_attacking`, or `combat_state` for combat")]
+    pub fn in_combat(&self) -> bool {
+        self.is_auto_attacking()
+    }
+
+    /// Your combat state, as the player window's icon shows it
+    /// (`${Me.CombatState}`), if in game. MacroQuest works it out each pulse.
+    pub fn combat_state(&self) -> Option<CombatState> {
+        self.local_pc()?;
+        Some(CombatState::from((self.host().combat_state)()))
     }
 
     /// Whether you're stunned (`${Me.Stunned}`, your character's status).
@@ -74,6 +88,12 @@ impl<P: Plugin> Mq<P> {
         Some(unsafe { (self.host().game_fns.mqemu_max_endurance)() })
     }
 
+    /// Your endurance as 0..=100, from [`Mq::endurance_current`] and
+    /// [`Mq::endurance_max`] (`${Me.PctEndurance}`), if in game.
+    pub fn endurance_percent(&self) -> Option<i32> {
+        Some(percent(self.endurance_current()?, self.endurance_max()?))
+    }
+
     /// The name of a class ID ([`Spawn::class`](crate::game::Spawn::class)),
     /// as `${Spawn.Class}` shows it: "Warrior".
     pub fn class_name(&self, class: u8) -> Option<String> {
@@ -90,10 +110,59 @@ impl<P: Plugin> Mq<P> {
 
     /// Runs the game's own handler for slash command `name` with `args`, as
     /// MacroQuest's `/cast` runs the game's: not MacroQuest's command of that
-    /// name, nor an alias. False if the game has no such command.
+    /// name, nor an alias. `name` may abbreviate the game's command, as when
+    /// typed ("/alt", which the game names longer). False if the game has no
+    /// such command.
     pub(crate) fn eq_command(&self, name: &str, args: &str) -> bool {
         let (Ok(name), Ok(args)) = (CString::new(name), CString::new(args)) else { return false };
         unsafe { (self.host().game_fns.mqemu_eq_command)(name.as_ptr(), args.as_ptr()) }
+    }
+}
+
+/// `current` as a percentage of `max`, 0..=100; 0 without a maximum.
+fn percent(current: i32, max: i32) -> i32 {
+    if max <= 0 { 0 } else { (i64::from(current) * 100 / i64::from(max)).clamp(0, 100) as i32 }
+}
+
+/// Your combat state (`${Me.CombatState}`), the icon on the player window.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum CombatState {
+    /// In combat ("COMBAT").
+    Combat,
+    /// Out of combat with a detrimental effect on you ("DEBUFFED").
+    Debuffed,
+    /// Out of combat, waiting for the timer before resting ("COOLDOWN").
+    Cooldown,
+    /// Out of combat, standing ("ACTIVE").
+    Active,
+    /// Out of combat and regenerating faster: sitting, or on a mount that
+    /// allows it ("RESTING").
+    Resting,
+}
+
+impl CombatState {
+    /// The name `${Me.CombatState}` gives it ("COMBAT", "ACTIVE"...).
+    pub fn name(self) -> &'static str {
+        match self {
+            CombatState::Combat => "COMBAT",
+            CombatState::Debuffed => "DEBUFFED",
+            CombatState::Cooldown => "COOLDOWN",
+            CombatState::Active => "ACTIVE",
+            CombatState::Resting => "RESTING",
+        }
+    }
+}
+
+impl From<i32> for CombatState {
+    /// Like `${Me.CombatState}`, an unknown value is [`CombatState::Active`].
+    fn from(value: i32) -> CombatState {
+        match value {
+            COMBAT_STATE_COMBAT => CombatState::Combat,
+            COMBAT_STATE_DEBUFF => CombatState::Debuffed,
+            COMBAT_STATE_TIMER => CombatState::Cooldown,
+            COMBAT_STATE_REGEN => CombatState::Resting,
+            _ => CombatState::Active,
+        }
     }
 }
 
@@ -151,7 +220,7 @@ pub(crate) mod fake {
     use std::collections::HashMap;
     use std::ffi::c_char;
 
-    use mq_emu_sys::game::{Api, mqemu_cached_buff};
+    use mq_emu_sys::game::{Api, SKILL_ACTIVATABLE, SKILL_HAS, mqemu_cached_buff};
     use mq_emu_sys::layouts::{Achievement, AchievementManager, CAltAbilityData, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
 
     /// A skill as the fake game knows it.
@@ -366,11 +435,12 @@ pub(crate) mod fake {
         let name = unsafe { std::ffi::CStr::from_ptr(name) }.to_string_lossy().to_lowercase();
         let args = unsafe { std::ffi::CStr::from_ptr(args) }.to_string_lossy();
         with(|game| {
-            let known = game.commands.contains(&name);
-            if known {
-                game.log.push(format!("{name} {args}").trim_end().to_owned());
+            // As the shim does: the exact name, or else the first it abbreviates.
+            let found = game.commands.iter().find(|c| **c == name).or_else(|| game.commands.iter().find(|c| c.starts_with(&name))).cloned();
+            if let Some(command) = &found {
+                game.log.push(format!("{command} {args}").trim_end().to_owned());
             }
-            known
+            found.is_some()
         })
     }
 
@@ -391,6 +461,17 @@ pub(crate) mod fake {
 
     unsafe extern "C" fn gem_ready(gem: i32) -> bool {
         with(|game| game.ready_gems.contains(&gem))
+    }
+
+    /// Uses skills the fake game has as abilities.
+    unsafe extern "C" fn use_skill(skill: i32) -> bool {
+        with(|game| {
+            let usable = game.skills.get(&skill).is_some_and(|s| s.flags & (SKILL_HAS | SKILL_ACTIVATABLE) == SKILL_HAS | SKILL_ACTIVATABLE);
+            if usable {
+                game.log.push(format!("skill {skill}"));
+            }
+            usable
+        })
     }
 
     unsafe extern "C" fn do_combat_ability(spell_id: i32) -> bool {
@@ -459,6 +540,7 @@ pub(crate) mod fake {
         mqemu_memorize_spells: memorize_spells,
         mqemu_forget_gem: forget_gem,
         mqemu_gem_ready: gem_ready,
+        mqemu_use_skill: use_skill,
         mqemu_do_combat_ability: do_combat_ability,
         mqemu_task_status: task_status,
         mqemu_task_objective_text: task_objective_text,

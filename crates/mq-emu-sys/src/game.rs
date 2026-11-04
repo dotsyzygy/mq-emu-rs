@@ -86,7 +86,8 @@ function_table! {
     pub fn mqemu_race_name(race: i32, out: *mut c_char, cap: usize) -> bool;
     /// Runs the game's own handler for slash command `name` (`"/cast"`) with
     /// `args`, as you, from the game's command table (as MacroQuest finds
-    /// `cmdCast`): not MacroQuest's command of that name, nor an alias. False
+    /// `cmdCast`), or the first it abbreviates, as typing it does: not
+    /// MacroQuest's command of that name, nor an alias. False
     /// if the game has no such command or there's no character.
     pub fn mqemu_eq_command(name: *const c_char, args: *const c_char) -> bool;
     /// Memorizes spells as `/memspell` does (`CSpellBookWnd::MemorizeSet`):
@@ -102,6 +103,10 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
+    /// Uses skill `skill` on your target as `/doability <name>` does
+    /// (`PcClient::UseSkill`), if you have it and it's an ability you
+    /// activate. False otherwise, or without a character.
+    pub fn mqemu_use_skill(skill: i32) -> bool;
     /// Uses combat ability `spell_id` as `/doability` does
     /// (`PcZoneClient::DoCombatAbility`). False without a character or when
     /// the game refuses.

@@ -174,6 +174,13 @@ impl<P: Plugin> Mq<P> {
         self.alt_ability_at(index)
     }
 
+    /// Activates an alternate ability, as `/alt activate <id>` does. False
+    /// for a passive one, or out of game; the game itself checks whether
+    /// it's ready and says why in chat when it won't.
+    pub fn use_alt_ability(&self, ability: &AltAbility<'_>) -> bool {
+        self.local_pc().is_some() && !ability.is_passive() && self.eq_command("/alt", &format!("activate {}", ability.group_id()))
+    }
+
     /// Your unspent AA points (`${Me.AAPoints}`).
     pub fn alt_ability_points(&self) -> i32 {
         self.profile().map_or(0, |p| p.AAPoints())

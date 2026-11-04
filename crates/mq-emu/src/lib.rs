@@ -57,6 +57,7 @@ compile_error!(
 );
 
 mod achievements;
+mod aggro;
 mod actors;
 mod alt_abilities;
 pub mod color;
@@ -118,6 +119,7 @@ pub use keys::{Key, KeyCombo, ParseKeyComboError};
 pub use lua::{LuaTable, LuaValue};
 pub use mercenary::{Mercenary, MercenaryStance, MercenaryState, OwnedMercenary};
 pub use merchant::{LootWindow, Merchant};
+pub use game_fns::CombatState;
 pub use game::{
     GameState, Heading, Position, Spawn, SpawnId, SpawnType, angle_difference,
 };

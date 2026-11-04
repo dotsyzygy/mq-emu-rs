@@ -120,6 +120,13 @@ impl<P: Plugin> Mq<P> {
     pub fn abilities(&self) -> impl Iterator<Item = Skill> + '_ {
         self.skills().filter(Skill::is_ability)
     }
+
+    /// Uses an ability on your target, as `/doability <name>` does. False
+    /// unless it's one of your [`abilities`](Mq::abilities); the game itself
+    /// checks whether it's ready and says why in chat when it won't.
+    pub fn use_ability(&self, ability: &Skill) -> bool {
+        self.local_pc().is_some() && unsafe { (self.host().game_fns.mqemu_use_skill)(ability.id.0) }
+    }
 }
 
 #[cfg(test)]
