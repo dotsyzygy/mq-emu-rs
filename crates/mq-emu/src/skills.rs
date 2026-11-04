@@ -121,6 +121,15 @@ impl<P: Plugin> Mq<P> {
         self.skills().filter(Skill::is_ability)
     }
 
+    /// Bytes the stack pointer moves across one call of the game function
+    /// behind [`Skill::base`] (or, with `cap`, [`Skill::cap`]): through
+    /// eqlib's declaration with `through_eqlib`, which is wrong on this
+    /// client, or as mq-emu calls it, which should be 0. For the selftest.
+    #[doc(hidden)]
+    pub fn skill_call_stack_shift(&self, skill: &Skill, cap: bool, through_eqlib: bool) -> i32 {
+        unsafe { (self.host().game_fns.mqemu_skill_call_stack_shift)(if cap { 2 } else { 1 }, through_eqlib, skill.id.0) }
+    }
+
     /// Uses an ability on your target, as `/doability <name>` does. False
     /// unless it's one of your [`abilities`](Mq::abilities); the game itself
     /// checks whether it's ready and says why in chat when it won't.

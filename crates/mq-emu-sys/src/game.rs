@@ -111,6 +111,14 @@ function_table! {
     /// (`PcZoneClient::DoCombatAbility`). False without a character or when
     /// the game refuses.
     pub fn mqemu_do_combat_ability(spell_id: i32) -> bool;
+    /// How close `attacker` must be to hit `target` in melee, as
+    /// `${Spawn.MaxRangeTo}` works it out (`mq::GetMeleeRange`); 14 to 75.
+    /// Bytes the stack pointer moves across one call of skill function
+    /// `which` (1 `GetBaseSkill`, 2 `GetPcSkillLimit`) for skill `skill`,
+    /// through eqlib's declaration or as [`mqemu_skill_value`] calls it; 0 is
+    /// right. For the selftest; the stack pointer is put back.
+    pub fn mqemu_skill_call_stack_shift(which: i32, through_eqlib: bool, skill: i32) -> i32;
+    pub fn mqemu_melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32;
     /// Your progress on `task`, one of `pTaskManager`'s `QuestEntries` or
     /// `SharedTaskEntries` (`CTaskManager::GetTaskStatus`). Null for an entry
     /// in neither, or without a character.

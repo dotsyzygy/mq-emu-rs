@@ -305,6 +305,9 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
             let to = me.heading_to(&target);
             report.print(mq, "me().heading_to(target).degrees() = ${Target.HeadingTo.Degrees}", same_angle(to.degrees(), &mq.parse("${Target.HeadingTo.Degrees}")));
             report.print(mq, "me().heading_to(target).degrees_ccw() = ${Target.HeadingTo.DegreesCCW}", same_angle(to.degrees_ccw(), &mq.parse("${Target.HeadingTo.DegreesCCW}")));
+            report.print(mq, "melee_range(me, target) = ${Target.MaxRangeTo}", same_float(mq.melee_range(&me, &target), &mq.parse("${Target.MaxRangeTo}")));
+            let to_me = mq.parse(&format!("${{Spawn[id {}].MaxRange}}", target.id()));
+            report.print(mq, "melee_range(target, me) = ${Spawn[id].MaxRange}", same_float(mq.melee_range(&target, &me), &to_me));
         }
         None => report.print(mq, "target checks", Check::Skip("no target (target something to include them)".into())),
     }

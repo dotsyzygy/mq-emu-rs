@@ -8,6 +8,7 @@ use std::ffi::{CString, c_char};
 use mq_emu_sys::constants::{COMBAT_STATE_COMBAT, COMBAT_STATE_DEBUFF, COMBAT_STATE_REGEN, COMBAT_STATE_TIMER};
 use mq_emu_sys::layouts::eCharacterStatus;
 
+use crate::game::Spawn;
 use crate::mq::Mq;
 use crate::plugin::Plugin;
 use crate::text::from_c_array;
@@ -49,6 +50,20 @@ impl<P: Plugin> Mq<P> {
     /// combat: see [`Mq::combat_state`].
     pub fn is_auto_attacking(&self) -> bool {
         unsafe { (self.host().everquest_info)().as_ref() }.is_some_and(|info| info.bAutoAttack())
+    }
+
+    /// Turns auto attack on or off with the game's `/attack on|off`, which
+    /// attacks your target. False out of game.
+    pub fn set_auto_attack(&self, on: bool) -> bool {
+        self.local_pc().is_some() && self.eq_command("/attack", if on { "on" } else { "off" })
+    }
+
+    /// How close `attacker` must be to hit `target` in melee, from both
+    /// spawns' sizes and heights: 14 to 75. Yours to your target is
+    /// `${Target.MaxRangeTo}`.
+    pub fn melee_range(&self, attacker: &Spawn<'_>, target: &Spawn<'_>) -> f32 {
+        let raw = |spawn: &Spawn<'_>| std::ptr::from_ref(spawn.raw()).cast_mut();
+        unsafe { (self.host().game_fns.mqemu_melee_range)(raw(attacker), raw(target)) }
     }
 
     /// Whether auto attack is on, despite the name.
@@ -259,6 +274,8 @@ pub(crate) mod fake {
         pub spells_work: bool,
         /// The gems that are ready to cast.
         pub ready_gems: Vec<i32>,
+        /// Melee ranges, by attacker and target.
+        pub melee_ranges: HashMap<(usize, usize), f32>,
         /// Task progress, by task entry.
         pub task_statuses: HashMap<usize, *mut PCTaskStatus>,
         /// Task objective text, by objective.
@@ -289,6 +306,7 @@ pub(crate) mod fake {
                 commands: Vec::new(),
                 spells_work: false,
                 ready_gems: Vec::new(),
+                melee_ranges: HashMap::new(),
                 task_statuses: HashMap::new(),
                 objective_texts: HashMap::new(),
                 fast_time: 0,
@@ -481,6 +499,21 @@ pub(crate) mod fake {
         })
     }
 
+    /// As the game's functions move it: eqlib's calls 4 bytes off (up for
+    /// GetBaseSkill, down for GetPcSkillLimit), mq-emu's not at all.
+    unsafe extern "C" fn skill_call_stack_shift(which: i32, through_eqlib: bool, _skill: i32) -> i32 {
+        match (through_eqlib, which) {
+            (true, 1) => 4,
+            (true, _) => -4,
+            (false, _) => 0,
+        }
+    }
+
+    /// The range set for the pair, or MacroQuest's least.
+    unsafe extern "C" fn melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32 {
+        with(|game| game.melee_ranges.get(&(attacker as usize, target as usize)).copied().unwrap_or(14.0))
+    }
+
     unsafe extern "C" fn task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus {
         with(|game| game.task_statuses.get(&(task as usize)).copied().unwrap_or(std::ptr::null_mut()))
     }
@@ -542,6 +575,8 @@ pub(crate) mod fake {
         mqemu_gem_ready: gem_ready,
         mqemu_use_skill: use_skill,
         mqemu_do_combat_ability: do_combat_ability,
+        mqemu_melee_range: melee_range,
+        mqemu_skill_call_stack_shift: skill_call_stack_shift,
         mqemu_task_status: task_status,
         mqemu_task_objective_text: task_objective_text,
         mqemu_fast_time: fast_time,

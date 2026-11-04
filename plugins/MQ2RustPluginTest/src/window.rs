@@ -452,6 +452,15 @@ impl RustTest {
             }
         }
         if ui.collapsing_header("Combat abilities") {
+            let attacking = mq.is_auto_attacking();
+            if ui.small_button(if attacking { "Auto attack off" } else { "Auto attack on" }) {
+                let set = mq.set_auto_attack(!attacking);
+                mq.chat(format!("set_auto_attack({}): {set}", !attacking));
+            }
+            if let Some(target) = mq.target() {
+                ui.same_line();
+                ui.text(format!("melee range to target {:.1}, {:.1} away", mq.melee_range(&me, &target), me.distance_to(&target)));
+            }
             ui.text(format!("Active disc: {}", mq.active_disc().map_or("none".to_owned(), |s| s.name())));
             for ability in mq.combat_abilities() {
                 if ui.small_button(&format!("Use##disc{}", ability.slot())) {

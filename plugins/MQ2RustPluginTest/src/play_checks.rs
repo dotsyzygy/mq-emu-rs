@@ -355,6 +355,19 @@ fn skills<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         ]
     });
     report.print(mq, "skills match ${Me.Skill[n]}, ${Me.SkillBase[n]} and ${Me.SkillCap[n]}", all_match(mq, rows));
+    // eqlib declares GetBaseSkill and GetPcSkillLimit with other arguments
+    // than this client's take, so calling them as eqlib does moves the stack
+    // pointer (a crash in the caller later); mq-emu calls them as the game does.
+    match skills.iter().find(|s| s.is_known()) {
+        Some(skill) => {
+            for (cap, name) in [(false, "GetBaseSkill"), (true, "GetPcSkillLimit")] {
+                let (eqlib, ours) = (mq.skill_call_stack_shift(skill, cap, true), mq.skill_call_stack_shift(skill, cap, false));
+                report.print(mq, &format!("{name} through eqlib moves the stack pointer (MacroQuest's bug)"), Check::that(eqlib != 0, || "it didn't: eqlib's declaration may be fixed, and the workaround can go".into()));
+                report.print(mq, &format!("{name} as mq-emu calls it leaves the stack pointer"), Check::that(ours == 0, || format!("moved {ours} bytes")));
+            }
+        }
+        None => report.print(mq, "skill call stack checks", Check::Skip("no skills".into())),
+    }
     let rows = skills.iter().filter(|s| s.is_known()).map(|skill| {
         let n = skill.id().0 + 1;
         (format!("skill {n}"), skill.name(), format!("${{Skill[{n}].Name}}"))

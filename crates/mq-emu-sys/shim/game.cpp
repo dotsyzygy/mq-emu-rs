@@ -170,6 +170,26 @@ extern "C" bool mqemu_db_string(int id, int type, char* out, size_t cap)
 	}
 }
 
+// eqlib declares two skill functions with other arguments than this client's
+// take, so a call through eqlib leaves the stack pointer 4 bytes off (and the
+// caller's saved registers wrong; the debug window crashed on it). The game's
+// own: GetBaseSkill ends in `ret 8` (it takes a second argument it doesn't
+// read; eqlib passes one), GetPcSkillLimit in `ret 4` (one argument; eqlib
+// passes two). These call them as the game does.
+static int base_skill(int skill)
+{
+	using Fn = int(__thiscall*)(eqlib::CharacterZoneClient*, int, int);
+	eqlib::CharacterZoneClient* character = static_cast<eqlib::PcClient*>(pLocalPC);
+	return reinterpret_cast<Fn>(eqlib::CharacterZoneClient__GetBaseSkill)(character, skill, 0);
+}
+
+static int pc_skill_limit(int skill)
+{
+	using Fn = int(__thiscall*)(eqlib::PcZoneClient*, int);
+	eqlib::PcZoneClient* pc = static_cast<eqlib::PcClient*>(pLocalPC);
+	return reinterpret_cast<Fn>(eqlib::PcZoneClient__GetPcSkillLimit)(pc, skill);
+}
+
 // Your skill `skill` (0 to NUM_SKILLS - 1). `which`: 0 the value with
 // modifiers (${Me.Skill}), 1 the trained value (${Me.SkillBase}), 2 the cap at
 // your level (${Me.SkillCap}). 0 if there's no character.
@@ -182,8 +202,8 @@ extern "C" int mqemu_skill_value(int skill, int which)
 		switch (which)
 		{
 		case 0: return pLocalPC->GetAdjustedSkill(skill);
-		case 1: return pLocalPC->GetBaseSkill(skill);
-		case 2: return pLocalPC->GetPcSkillLimit(skill);
+		case 1: return base_skill(skill);
+		case 2: return pc_skill_limit(skill);
 		default: return 0;
 		}
 	}
@@ -191,6 +211,26 @@ extern "C" int mqemu_skill_value(int skill, int which)
 	{
 		return 0;
 	}
+}
+
+// How many bytes the stack pointer moves across one call of skill function
+// `which` (1 GetBaseSkill, 2 GetPcSkillLimit) for skill `skill`, made through
+// eqlib (`through_eqlib`) or as mqemu_skill_value makes it; 0 is right. For
+// the selftest, which shows eqlib's calls are off on this client. The stack
+// pointer is put back after, so the call itself does no harm.
+extern "C" int mqemu_skill_call_stack_shift(int which, bool through_eqlib, int skill)
+{
+	if (!pLocalPC || skill < 0 || skill >= NUM_SKILLS || (which != 1 && which != 2))
+		return 0;
+	uintptr_t before = 0, after = 0;
+	__asm mov before, esp
+	if (through_eqlib)
+		which == 1 ? pLocalPC->GetBaseSkill(skill) : pLocalPC->GetPcSkillLimit(skill);
+	else
+		which == 1 ? base_skill(skill) : pc_skill_limit(skill);
+	__asm mov after, esp
+	__asm mov esp, before
+	return static_cast<int>(after - before);
 }
 
 // Facts about skill `skill`, as bits: 1 you have it, 2 it's an ability you
@@ -487,6 +527,21 @@ extern "C" bool mqemu_do_combat_ability(int spell_id)
 	catch (...)
 	{
 		return false;
+	}
+}
+
+// How close `attacker` must be to hit `target` in melee, as
+// ${Spawn.MaxRangeTo} works it out (mq::GetMeleeRange, from both spawns'
+// sizes and heights; 14 to 75). 14 for a null spawn.
+extern "C" float mqemu_melee_range(eqlib::PlayerClient* attacker, eqlib::PlayerClient* target)
+{
+	try
+	{
+		return mq::GetMeleeRange(attacker, target);
+	}
+	catch (...)
+	{
+		return 14.0f;
 	}
 }
 

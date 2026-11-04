@@ -20,7 +20,7 @@ use crate::windows::fake as fake_windows;
 use crate::windows::{ItemContainerKind, SlotLocation};
 use crate::items::tests::{Fake, FakeItem, fill, set_name};
 use crate::skills::SkillId;
-use crate::game::SpawnId;
+use crate::game::{Spawn, SpawnId};
 use crate::CombatState;
 use crate::xtarget::XTARGET_AUTO_HATER;
 use crate::spells::SpellId;
@@ -906,4 +906,31 @@ fn abilities_and_alt_abilities_are_used() {
     });
     assert_eq!(log, ["true false true false"], "only abilities, and AAs that aren't passive");
     assert_eq!(fake_game::log(), ["skill 40", "/alternateadv activate 35"]);
+}
+
+#[test]
+fn auto_attack_is_switched_and_melee_range_read() {
+    game();
+    set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0)]);
+    fake_game::with(|g| g.commands = vec!["/attack".into()]);
+    let log = pulse_log(|mq| {
+        let (me, rat) = (mq.me().unwrap(), mq.spawn(SpawnId(20)).unwrap());
+        let key = |spawn: &Spawn<'_>| std::ptr::from_ref(spawn.raw()) as usize;
+        fake_game::with(|g| g.melee_ranges = [((key(&me), key(&rat)), 22.5)].into());
+        format!("{} {} {} {}", mq.set_auto_attack(true), mq.set_auto_attack(false), mq.melee_range(&me, &rat), mq.melee_range(&rat, &me))
+    });
+    assert_eq!(log, ["true true 22.5 14"], "each way round is its own range");
+    assert_eq!(fake_game::log(), ["/attack on", "/attack off"]);
+}
+
+#[test]
+fn the_skill_stack_probe_reaches_the_shim() {
+    let game = game();
+    game.profile.get().set_Skill_at(10, 200);
+    let log = pulse_log(|mq| {
+        let skill = mq.skill(SkillId(10)).unwrap();
+        let shift = |cap, through_eqlib| mq.skill_call_stack_shift(&skill, cap, through_eqlib);
+        format!("{} {} {} {}", shift(false, true), shift(true, true), shift(false, false), shift(true, false))
+    });
+    assert_eq!(log, ["4 -4 0 0"]);
 }
