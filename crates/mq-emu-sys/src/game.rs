@@ -116,6 +116,9 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
+    /// The spell gems you have, as `${Me.NumGems}` counts them: 8, plus each
+    /// of gems 9 to 12 the cast spell window shows. 8 without the window.
+    pub fn mqemu_gem_count() -> i32;
     /// Milliseconds left on your cast as `${Me.CastTimeLeft}` counts them
     /// (`CastingData.SpellETA - pDisplay->TimeStamp`, 0 once due), or -1 when
     /// you aren't casting.

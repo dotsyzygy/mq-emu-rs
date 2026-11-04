@@ -526,6 +526,30 @@ extern "C" bool mqemu_gem_ready(int gem)
 	}
 }
 
+// The spell gems you have, as ${Me.NumGems} counts them: 8, and one more for
+// each of gems 9 to 12 the cast spell window shows (the client shows them as
+// level and AAs give them). 8 without the window.
+extern "C" int mqemu_gem_count()
+{
+	try
+	{
+		int count = 8;
+		if (pCastSpellWnd)
+		{
+			for (int gem = 8; gem < NUM_SPELL_GEMS; gem++)
+			{
+				if (pCastSpellWnd->SpellSlots[gem] && pCastSpellWnd->SpellSlots[gem]->IsVisible())
+					count++;
+			}
+		}
+		return count;
+	}
+	catch (...)
+	{
+		return 8;
+	}
+}
+
 // Milliseconds left on your cast, as ${Me.CastTimeLeft} counts them: 0 once
 // it's due, -1 when you aren't casting.
 extern "C" int mqemu_cast_time_left_ms()

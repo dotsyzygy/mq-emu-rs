@@ -274,6 +274,8 @@ pub(crate) mod fake {
         pub spells_work: bool,
         /// The gems that are ready to cast.
         pub ready_gems: Vec<i32>,
+        /// What `mqemu_gem_count` says: 8.
+        pub gem_count: i32,
         /// What `mqemu_cast_time_left_ms` says: -1, not casting.
         pub cast_time_left_ms: i32,
         /// Your auras.
@@ -312,6 +314,7 @@ pub(crate) mod fake {
                 commands: Vec::new(),
                 spells_work: false,
                 ready_gems: Vec::new(),
+                gem_count: 8,
                 cast_time_left_ms: -1,
                 auras: Vec::new(),
                 buff_timers: HashMap::new(),
@@ -490,6 +493,10 @@ pub(crate) mod fake {
         with(|game| game.ready_gems.contains(&gem))
     }
 
+    unsafe extern "C" fn gem_count() -> i32 {
+        with(|game| game.gem_count)
+    }
+
     unsafe extern "C" fn cast_time_left_ms() -> i32 {
         with(|game| game.cast_time_left_ms)
     }
@@ -599,6 +606,7 @@ pub(crate) mod fake {
         mqemu_memorize_spells: memorize_spells,
         mqemu_forget_gem: forget_gem,
         mqemu_gem_ready: gem_ready,
+        mqemu_gem_count: gem_count,
         mqemu_cast_time_left_ms: cast_time_left_ms,
         mqemu_use_skill: use_skill,
         mqemu_do_combat_ability: do_combat_ability,

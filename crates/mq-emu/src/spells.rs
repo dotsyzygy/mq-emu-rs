@@ -470,6 +470,15 @@ impl<P: Plugin> Mq<P> {
         gem < NUM_SPELL_GEMS && unsafe { (self.host().game_fns.mqemu_gem_ready)(gem as i32) }
     }
 
+    /// The spell gems you have, 8 to 12 in RoF2 as level and AAs give them,
+    /// as `${Me.NumGems}` counts them: 8, plus each of gems 9 to 12 the cast
+    /// spell window shows. Gems `0..gem_count()` are yours to memorize into
+    /// and cast from.
+    pub fn gem_count(&self) -> usize {
+        let count = unsafe { (self.host().game_fns.mqemu_gem_count)() };
+        usize::try_from(count).map_or(0, |count| count.min(NUM_SPELL_GEMS))
+    }
+
     /// Time left on the spell you're casting, as `${Me.CastTimeLeft}` counts
     /// it: zero once it's due to land, `None` when you aren't casting.
     pub fn cast_time_left(&self) -> Option<Duration> {

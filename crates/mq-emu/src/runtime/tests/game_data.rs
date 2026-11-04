@@ -690,6 +690,19 @@ fn spells_are_cast_memorized_and_forgotten() {
     assert_eq!(fake_game::log(), [loadout(&[(4, 1200)]), "forget 2".into()]);
 }
 
+#[test]
+fn gem_count_is_the_games_within_the_12_gems() {
+    let _game = game();
+    let counts: Vec<String> = [8, 12, 13, -1]
+        .into_iter()
+        .flat_map(|count| {
+            fake_game::with(|g| g.gem_count = count);
+            pulse_log(|mq| mq.gem_count().to_string())
+        })
+        .collect();
+    assert_eq!(counts, ["8", "12", "12", "0"]);
+}
+
 /// A shaman with Inner Fire (3 s, 10 mana, range 100) in gem 3, ready, and
 /// two spawns: Jo (40) near and Far (41) out of range.
 fn caster() {

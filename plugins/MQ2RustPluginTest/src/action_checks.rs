@@ -45,6 +45,8 @@ pub async fn spells(task: &Task<RustTest>, report: &mut Report) {
         let ours: Vec<bool> = (0..GEMS).map(|gem| mq.gem_ready(gem)).collect();
         let theirs: Vec<bool> = (1..=GEMS).map(|gem| mq.parse(&format!("${{Me.SpellReady[{gem}]}}")) == "TRUE").collect();
         report.print(mq, "gem_ready matches ${Me.SpellReady[n]} for every gem", Check::that(ours == theirs, || format!("mq-emu {ours:?}, MacroQuest {theirs:?}")));
+        let (ours, theirs) = (mq.gem_count().to_string(), mq.parse("${Me.NumGems}"));
+        report.print(mq, "gem_count matches ${Me.NumGems}", Check::that(ours == theirs, || format!("mq-emu {ours}, MacroQuest {theirs}")));
         true
     });
     if !ready {
