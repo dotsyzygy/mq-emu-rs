@@ -22,12 +22,13 @@
 
 use std::any::Any;
 use std::cell::{Cell, RefCell};
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, VecDeque};
 use std::fmt;
 use std::future::Future;
 use std::marker::PhantomData;
 use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::pin::Pin;
+use std::rc::{Rc, Weak};
 use std::task::{Context, Poll, Waker};
 use std::time::Duration;
 
@@ -82,6 +83,11 @@ impl<P: Plugin> Task<P> {
         self.runtime.with_plugin(f)
     }
 
+    /// The runtime's clock (faked in tests).
+    pub(crate) fn now(&self) -> fn() -> std::time::Instant {
+        self.runtime.host().now
+    }
+
     /// Waits for the next pulse.
     pub fn next_pulse(&self) -> NextPulse {
         NextPulse { waited: false }
@@ -104,6 +110,28 @@ impl<P: Plugin> Task<P> {
         }
     }
 
+    /// Starts collecting the client's messages with these eqstr_us.txt IDs
+    /// ([`eqstr`](crate::eqstr)) for this task, from now until the
+    /// [`Messages`] is dropped. They're the messages the client shows, by
+    /// ID rather than by their text: the server's and the client's own
+    /// (eqclient.dll hooks the client's string lookup; see the `eq-client`
+    /// crate). An error says why they can't be had: eqclient.dll missing, or
+    /// a client build it doesn't know.
+    pub fn watch_messages(&self, ids: &[u32]) -> Result<Messages, MessageError> {
+        let api = (self.runtime.host().client)().map_err(MessageError)?;
+        let status = unsafe { (api.watch_string_ids)(ids.as_ptr(), ids.len()) };
+        if !status.is_hooked() {
+            return Err(MessageError(status.to_string()));
+        }
+        let executor = self.runtime.executor();
+        if executor.message_cursor.get().is_none() {
+            executor.message_cursor.set(Some(unsafe { (api.string_ids_head)() }));
+        }
+        let inbox = Rc::new(Inbox { ids: ids.to_vec(), shown: RefCell::new(VecDeque::new()), missed: Cell::new(0) });
+        executor.messages.borrow_mut().push(Rc::downgrade(&inbox));
+        Ok(Messages { inbox })
+    }
+
     /// Like [`Task::wait_until`], giving up after `timeout`. Returns whether
     /// the condition held.
     pub async fn wait_until_timeout(&self, mut condition: impl FnMut(&Mq<P>) -> bool, timeout: Duration) -> bool {
@@ -119,6 +147,46 @@ impl<P: Plugin> Task<P> {
             self.next_pulse().await;
         }
     }
+}
+
+/// The watched messages shown since [`Task::watch_messages`], by ID, kept
+/// until taken. Holds the newest [`Messages::CAPACITY`]; older ones are dropped.
+pub struct Messages {
+    inbox: Rc<Inbox>,
+}
+
+impl Messages {
+    pub const CAPACITY: usize = 256;
+
+    /// The IDs shown since the last call, oldest first.
+    pub fn take(&self) -> Vec<u32> {
+        self.inbox.shown.borrow_mut().drain(..).collect()
+    }
+
+    /// Messages lost since watching began, because the client showed more
+    /// than eqclient.dll keeps between two pulses. 0 unless something is very
+    /// wrong; anything waiting on a message then can't trust its absence.
+    pub fn missed(&self) -> u64 {
+        self.inbox.missed.get()
+    }
+}
+
+/// Why [`Task::watch_messages`] can't watch.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct MessageError(pub String);
+
+impl fmt::Display for MessageError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "the client's messages can't be watched: {}", self.0)
+    }
+}
+
+impl std::error::Error for MessageError {}
+
+struct Inbox {
+    ids: Vec<u32>,
+    shown: RefCell<VecDeque<u32>>,
+    missed: Cell<u64>,
 }
 
 /// Completes on the pulse after the one it was first awaited in.
@@ -159,6 +227,10 @@ pub(crate) struct Executor {
     /// Cancelled while their round was running; dropped when reached.
     cancelled: RefCell<BTreeSet<u64>>,
     next_id: Cell<u64>,
+    /// Tasks' [`Messages`]; dropped ones are pruned each pulse.
+    messages: RefCell<Vec<Weak<Inbox>>>,
+    /// Where this plugin reads eqclient.dll's IDs from, once it watches any.
+    message_cursor: Cell<Option<u64>>,
 }
 
 impl Executor {
@@ -169,7 +241,43 @@ impl Executor {
             live: RefCell::new(BTreeSet::new()),
             cancelled: RefCell::new(BTreeSet::new()),
             next_id: Cell::new(1),
+            messages: RefCell::new(Vec::new()),
+            message_cursor: Cell::new(None),
         }
+    }
+
+    /// Whether any task watches messages, so they needn't be polled otherwise.
+    pub fn watching_messages(&self) -> bool {
+        !self.messages.borrow().is_empty()
+    }
+
+    /// Hands the client's messages shown since the last pulse to the tasks
+    /// watching them.
+    pub fn deliver_messages(&self, api: &eq_client::abi::Api) {
+        let Some(mut cursor) = self.message_cursor.get() else { return };
+        let mut missed = 0;
+        let mut shown = Vec::new();
+        loop {
+            let mut batch = [0u32; 256];
+            let n = unsafe { (api.poll_string_ids)(&mut cursor, batch.as_mut_ptr(), batch.len(), &mut missed) };
+            shown.extend_from_slice(&batch[..n]);
+            if n < batch.len() {
+                break;
+            }
+        }
+        self.message_cursor.set(Some(cursor));
+        self.messages.borrow_mut().retain(|inbox| {
+            let Some(inbox) = inbox.upgrade() else { return false };
+            inbox.missed.set(inbox.missed.get() + missed);
+            let mut kept = inbox.shown.borrow_mut();
+            for id in shown.iter().filter(|id| inbox.ids.contains(id)) {
+                if kept.len() == Messages::CAPACITY {
+                    kept.pop_front();
+                }
+                kept.push_back(*id);
+            }
+            true
+        });
     }
 
     pub fn next_id(&self) -> TaskId {
@@ -250,6 +358,7 @@ impl Executor {
         let slots: Vec<_> = self.tasks.borrow_mut().drain(..).chain(self.spawned.borrow_mut().drain(..)).collect();
         self.live.borrow_mut().clear();
         self.cancelled.borrow_mut().clear();
+        self.messages.borrow_mut().clear();
         for slot in slots {
             drop_quietly(slot);
         }

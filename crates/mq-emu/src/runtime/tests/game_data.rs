@@ -690,6 +690,277 @@ fn spells_are_cast_memorized_and_forgotten() {
     assert_eq!(fake_game::log(), [loadout(&[(4, 1200)]), "forget 2".into()]);
 }
 
+/// A shaman with Inner Fire (3 s, 10 mana, range 100) in gem 3, ready, and
+/// two spawns: Jo (40) near and Far (41) out of range.
+fn caster() {
+    let game = game();
+    game.learn(1200, "Inner Fire");
+    let spell = game.known[0].get();
+    spell.set_CastTime(3000);
+    spell.set_ManaCost(10);
+    spell.set_Range(100.0);
+    game.profile.get().set_MemorizedSpells_at(2, 1200);
+    game.profile.get().set_Mana(100);
+    fake_game::with(|g| {
+        g.commands = vec!["/cast".into(), "/stopcast".into(), "/stand".into()];
+        g.spells_work = true;
+        g.ready_gems = vec![2];
+    });
+    player().CastingData().set_SpellID(-1);
+    set_zone((1, 0.0, 0.0), &[(40, "Jo", 0, 10.0, 0.0), (41, "Far", 0, 500.0, 0.0)]);
+}
+
+thread_local! {
+    static CAST_TASK: Cell<Option<crate::TaskId>> = const { Cell::new(None) };
+}
+
+/// Runs `cast` as a task that notes its result.
+fn cast_task(cast: crate::Cast) -> &'static Runtime<Recorder> {
+    let rt = with_task(move |task| async move {
+        CAST_TASK.with(|id| id.set(Some(task.id())));
+        let result = task.cast(cast).await;
+        note(&task, &format!("{result:?}"));
+    });
+    rt.pulse();
+    rt
+}
+
+/// The client shows a message, as eqclient.dll sees it.
+fn client_shows(id: u32) {
+    super::fake_client::shows(id);
+}
+
+#[test]
+fn a_cast_that_fails_its_checks_ends_at_once() {
+    use crate::{Cast, CastResult};
+    caster();
+    for (cast, expected) in [
+        (Cast::new(SpellId(999)), CastResult::NotMemorized),
+        (Cast::new(SpellId(1200)).on(SpawnId(41)), CastResult::OutOfRange),
+        (Cast::new(SpellId(1200)).on(SpawnId(99)), CastResult::NoTarget),
+    ] {
+        let rt = cast_task(cast);
+        rt.pulse();
+        assert_eq!(task_notes(rt), [format!("{expected:?}")]);
+        rt.shutdown();
+    }
+    fake_game::with(|g| g.ready_gems.clear());
+    let rt = cast_task(Cast::new(SpellId(1200)));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["NotReady"]);
+    assert!(fake_game::log().is_empty(), "nothing was cast");
+}
+
+#[test]
+fn a_cast_follows_the_casting_state_and_the_games_messages() {
+    use crate::{Cast, CastResult};
+    caster();
+    let rt = cast_task(Cast::new(SpellId(1200)).on(SpawnId(40)).restoring_target());
+    rt.pulse();
+    assert_eq!(fake_game::log(), ["/cast 3"]);
+    assert_eq!(fake_target(), ZONE.with(|zone| zone.borrow()[0].ptr()), "targeted Jo to cast");
+    player().CastingData().set_SpellID(1200);
+    advance_clock(Duration::from_secs(2));
+    rt.pulse();
+    player().CastingData().set_SpellID(-1);
+    client_shows(crate::eqstr::TARGET_RESISTED);
+    rt.pulse();
+    assert!(task_notes(rt).is_empty(), "a later message could still come");
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), [format!("{:?}", CastResult::Resisted)]);
+    assert!(fake_target().is_null(), "back to no target");
+}
+
+#[test]
+fn a_cast_with_no_message_landed() {
+    caster();
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    player().CastingData().set_SpellID(1200);
+    fake_game::with(|g| g.cast_time_left_ms = 2500);
+    rt.pulse();
+    fake_game::with(|g| g.cast_time_left_ms = 100);
+    rt.pulse();
+    player().CastingData().set_SpellID(-1);
+    fake_game::with(|g| g.cast_time_left_ms = -1);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["Landed"], "it ran its time");
+}
+
+#[test]
+fn a_cast_that_stops_early_without_a_message_didnt_land() {
+    caster();
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    super::fake_client::shows(crate::eqstr::BEGIN_CASTING);
+    player().CastingData().set_SpellID(1200);
+    fake_game::with(|g| g.cast_time_left_ms = 2500);
+    rt.pulse();
+    player().CastingData().set_SpellID(-1);
+    fake_game::with(|g| g.cast_time_left_ms = -1);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["EndedEarly"], "2.5 s were left");
+
+    // Begun by its message, but never seen casting: no evidence it ran.
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    super::fake_client::shows(crate::eqstr::BEGIN_CASTING);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["EndedEarly"]);
+}
+
+#[test]
+fn a_cast_the_game_never_starts_ends() {
+    caster();
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    advance_clock(Duration::from_secs(2));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["NotStarted"]);
+
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    client_shows(crate::eqstr::CANNOT_SEE_TARGET);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["CannotSee"], "a message without a cast is the outcome");
+}
+
+#[test]
+fn messages_decide_the_outcome_and_the_worst_wins() {
+    use crate::eqstr::*;
+    caster();
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    client_shows(BEGIN_CASTING);
+    player().CastingData().set_SpellID(1200);
+    rt.pulse();
+    client_shows(SPELL_INTERRUPTED);
+    client_shows(SPELL_FIZZLES);
+    client_shows(SPELL_INTERRUPTED);
+    player().CastingData().set_SpellID(-1);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["Fizzled"], "fizzled outranks interrupted, whatever the order");
+}
+
+#[test]
+fn an_earlier_casts_late_interrupt_isnt_this_casts() {
+    use crate::eqstr::*;
+    caster();
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    // The server's answer to stopping the last cast arrives after this one is sent.
+    client_shows(SPELL_INTERRUPTED);
+    client_shows(BEGIN_CASTING);
+    player().CastingData().set_SpellID(1200);
+    fake_game::with(|g| g.cast_time_left_ms = 200);
+    rt.pulse();
+    player().CastingData().set_SpellID(-1);
+    fake_game::with(|g| g.cast_time_left_ms = -1);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["Landed"]);
+
+    // A stopped cast's begin and interrupt both arrive late, before this one's
+    // begin (seen in game: [12205, 439, 12205], and the buff landed).
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    client_shows(BEGIN_CASTING);
+    client_shows(SPELL_INTERRUPTED);
+    client_shows(BEGIN_CASTING);
+    player().CastingData().set_SpellID(1200);
+    fake_game::with(|g| g.cast_time_left_ms = 200);
+    rt.pulse();
+    player().CastingData().set_SpellID(-1);
+    fake_game::with(|g| g.cast_time_left_ms = -1);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["Landed"], "only what follows the last begin is this cast's");
+
+    // Once it has begun, an interrupt is its own, by message or casting state.
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    player().CastingData().set_SpellID(1200);
+    rt.pulse();
+    client_shows(SPELL_INTERRUPTED);
+    player().CastingData().set_SpellID(-1);
+    rt.pulse();
+    advance_clock(Duration::from_secs(1));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["Interrupted"]);
+}
+
+#[test]
+fn without_the_clients_messages_nothing_is_cast() {
+    caster();
+    super::fake_client::set_status(eq_client::abi::Status::UNKNOWN_CLIENT);
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["NoMessages"]);
+    assert!(fake_game::log().is_empty(), "nothing was cast");
+}
+
+#[test]
+fn a_cast_past_its_timeout_or_cancelled_is_stopped() {
+    caster();
+    let rt = cast_task(crate::Cast::new(SpellId(1200)).timeout(Duration::from_secs(4)));
+    rt.pulse();
+    player().CastingData().set_SpellID(1200);
+    rt.pulse();
+    advance_clock(Duration::from_secs(5));
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["TimedOut"]);
+    assert_eq!(fake_game::log(), ["/cast 3", "/stopcast"]);
+
+    rt.shutdown();
+    player().CastingData().set_SpellID(-1);
+    let rt = cast_task(crate::Cast::new(SpellId(1200)));
+    rt.pulse();
+    player().CastingData().set_SpellID(1200);
+    rt.pulse();
+    assert!(Mq::new(rt).cancel_task(CAST_TASK.with(Cell::get).unwrap()));
+    assert_eq!(fake_game::log(), ["/cast 3", "/stopcast"], "cancelling stops the cast");
+}
+
+#[test]
+fn memorizing_waits_for_the_gem() {
+    use crate::MemorizeResult;
+    let game = game();
+    game.learn(1200, "Inner Fire");
+    game.known[0].get().set_ClassLevel_at(10, 1);
+    let profile = game.profile.get();
+    profile.set_Class(10);
+    profile.set_Level(10);
+    profile.set_SpellBook_at(0, 1200);
+    fake_game::with(|g| g.spells_work = true);
+    let rt = with_task(move |task| async move {
+        let refused = task.memorize(4, SpellId(2000)).await;
+        let memorized = task.memorize(4, SpellId(1200)).await;
+        note(&task, &format!("{refused:?} {memorized:?}"));
+    });
+    rt.pulse();
+    rt.pulse();
+    assert_eq!(fake_game::log(), [loadout(&[(4, 1200)])], "only a spell in the book is memorized");
+    profile.set_MemorizedSpells_at(4, 1200);
+    rt.pulse();
+    assert!(task_notes(rt).is_empty(), "in the gem but not ready yet");
+    fake_game::with(|g| g.ready_gems = vec![4]);
+    rt.pulse();
+    assert_eq!(task_notes(rt), [format!("{:?} {:?}", MemorizeResult::Refused, MemorizeResult::Memorized)]);
+}
+
 #[test]
 fn what_a_spawn_is_casting() {
     let log = |mq: &Mq<Recorder>| format!("{:?}", mq.me().and_then(|me| me.casting()));

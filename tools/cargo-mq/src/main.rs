@@ -157,8 +157,12 @@ fn manifest_dir(package: &Value) -> PathBuf {
     Path::new(text(package, "manifest_path")).parent().unwrap_or(Path::new("")).to_path_buf()
 }
 
-/// The DLL's name without `.dll`: the package's `cdylib` library, if it has one.
+/// The DLL's name without `.dll`: the package's `cdylib` library, if it has
+/// one. eq-client-host's (eqclient.dll) isn't a plugin; deploy ships it with them.
 fn plugin_name(package: &Value) -> Option<String> {
+    if text(package, "name") == "eq-client-host" {
+        return None;
+    }
     let targets = package["targets"].as_array()?;
     let library = targets.iter().find(|target| target["kind"].as_array().is_some_and(|kinds| kinds.iter().any(|kind| kind == "cdylib")))?;
     Some(text(library, "name").replace('-', "_"))
@@ -247,6 +251,7 @@ fn deploy(args: &DeployArgs) -> Result<()> {
         copy_plugin_dll(&pdb, &plugins_dir, name)?;
     }
 
+    deploy_client_hooks(&plugin, profile, &plugins_dir, args.no_build)?;
     copy_lua(&plugin.dir.join("lua"), &install.join("lua"))?;
     copy_resources(&plugin.dir.join("resources"), &install.join("resources"))?;
 
@@ -261,6 +266,48 @@ fn deploy(args: &DeployArgs) -> Result<()> {
     println!("In game: /plugin {name}");
     Ok(())
 }
+
+/// eqclient.dll, the client hooks every mq-emu plugin shares, from the
+/// eq-client the plugin was built with (its sibling eq-client-host package, in
+/// this repo or a git checkout of it). Nothing for a plugin without eq-client.
+fn deploy_client_hooks(plugin: &PluginCrate, profile: &str, plugins_dir: &Path, no_build: bool) -> Result<()> {
+    let metadata = metadata(false)?;
+    let packages = metadata["packages"].as_array().map(Vec::as_slice).unwrap_or_default();
+    let Some(eq_client) = packages.iter().find(|package| text(package, "name") == "eq-client") else { return Ok(()) };
+    let host = manifest_dir(eq_client).parent().unwrap_or(Path::new("")).join("eq-client-host").join("Cargo.toml");
+    if !host.is_file() {
+        return Err(format!("{} isn't there, so eqclient.dll can't be built (eq-client from crates.io doesn't include it yet).", host.display()));
+    }
+    if !no_build {
+        let mut command = cargo();
+        command.args(["build", "--target", TARGET, "--manifest-path"]).arg(&host).arg("--target-dir").arg(&plugin.target_dir).current_dir(&plugin.dir);
+        if profile == "release" {
+            command.arg("--release");
+        }
+        let status = command.status().map_err(|e| format!("couldn't run cargo: {e}"))?;
+        if !status.success() {
+            return Err("building eqclient.dll failed.".to_owned());
+        }
+    }
+    let dll = plugin.target_dir.join(TARGET).join(profile).join(CLIENT_DLL);
+    let target = plugins_dir.join(CLIENT_DLL);
+    if std::fs::read(&target).ok() == std::fs::read(&dll).ok() {
+        return Ok(());
+    }
+    match std::fs::copy(&dll, &target) {
+        Ok(_) => println!("Copied {CLIENT_DLL} to {}", plugins_dir.display()),
+        // It stays loaded for the life of a game client, so it can't be replaced while one runs.
+        Err(e) if target.is_file() => eprintln!(
+            "warning: couldn't replace {} ({e}): a running client has it loaded, and keeps it until it exits. Plugins needing a newer one say so; close the game and deploy again.",
+            target.display()
+        ),
+        Err(e) => return Err(format!("couldn't copy {} to {}: {e}", dll.display(), target.display())),
+    }
+    Ok(())
+}
+
+/// The DLL eq-client-host builds.
+const CLIENT_DLL: &str = "eqclient.dll";
 
 fn create_dir(dir: &Path) -> Result<()> {
     std::fs::create_dir_all(dir).map_err(|e| format!("couldn't create {}: {e}", dir.display()))

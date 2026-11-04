@@ -1,0 +1,17 @@
+[package]
+name = "eq-client-host"
+description = "eqclient.dll: owns eq-client's hooks in the game process, shared by every plugin that uses them, and stays loaded once loaded."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[lib]
+name = "eqclient"
+# rlib too, so `cargo test` builds the DLL its integration test loads.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+eq-client.workspace = true

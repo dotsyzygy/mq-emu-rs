@@ -1,0 +1,13 @@
+[package]
+name = "eq-client"
+description = "Unofficial hooks into the EverQuest RoF2 emu client (32-bit), independent of MacroQuest: the shared eqclient.dll's ABI, its loader, and what it hooks. Not for live EverQuest."
+keywords = ["everquest", "emu", "rof2", "hooks"]
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[package.metadata.docs.rs]
+default-target = "i686-pc-windows-msvc"
+targets = ["i686-pc-windows-msvc"]

@@ -335,6 +335,11 @@ impl<P: Plugin> Runtime<P> {
             self.attach_subclasses();
             self.busy.set(true);
             self.run_one(Event::Pulse);
+            if self.executor.watching_messages() {
+                if let Ok(api) = (self.host.client)() {
+                    self.executor.deliver_messages(api);
+                }
+            }
             // Tasks run in the same busy section, after on_pulse; anything
             // they cause for the plugin is delivered right after them.
             self.executor.poll_all(

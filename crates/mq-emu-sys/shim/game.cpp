@@ -526,6 +526,23 @@ extern "C" bool mqemu_gem_ready(int gem)
 	}
 }
 
+// Milliseconds left on your cast, as ${Me.CastTimeLeft} counts them: 0 once
+// it's due, -1 when you aren't casting.
+extern "C" int mqemu_cast_time_left_ms()
+{
+	try
+	{
+		if (!pDisplay || !pLocalPlayer || !pLocalPlayer->CastingData.SpellETA)
+			return -1;
+		int64_t left = static_cast<int64_t>(pLocalPlayer->CastingData.SpellETA) - static_cast<int64_t>(pDisplay->TimeStamp);
+		return left > 0 ? static_cast<int>(left) : 0;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
 // Uses skill `skill` on your target, as /doability <name> does
 // (PcClient::UseSkill), if you have it and it's an ability you activate. The
 // game checks its timer and the rest itself. False otherwise, or without a

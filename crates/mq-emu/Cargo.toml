@@ -14,6 +14,7 @@ default-target = "i686-pc-windows-msvc"
 targets = ["i686-pc-windows-msvc"]
 
 [dependencies]
+eq-client.workspace = true
 mq-emu-sys.workspace = true
 
 [dev-dependencies]

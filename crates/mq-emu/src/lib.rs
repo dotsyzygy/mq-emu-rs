@@ -61,6 +61,7 @@ mod aggro;
 mod actors;
 mod alt_abilities;
 mod auras;
+mod cast;
 pub mod color;
 mod combat_abilities;
 mod data;
@@ -105,6 +106,7 @@ pub use achievements::{Achievement, AchievementCategory, AchievementObjective, A
 pub use actors::{ActorError, Address, DEFAULT_REQUEST_TIMEOUT, Message};
 pub use alt_abilities::AltAbility;
 pub use auras::Aura;
+pub use cast::{Cast, CastResult, MemorizeResult};
 pub use combat_abilities::CombatAbility;
 pub use data::{Data, DataPath, PathError, TloError, Value};
 pub use datatypes::{CustomValue, DataType, DataTypeDef, DataTypeError, MACROQUEST_MEMBERS, MACROQUEST_METHODS, TypeExtension, TypeKey};
@@ -135,7 +137,9 @@ pub use skills::{Skill, SkillId};
 pub use spawn_buffs::{CachedBuff, WindowBuff};
 pub use spawns::{MAX_SPAWNS, Spawns};
 pub use spells::{Buff, Spell, SpellEffect, SpellId};
-pub use tasks::{NextPulse, Task, TaskId};
+pub use tasks::{MessageError, Messages, NextPulse, Task, TaskId};
+/// The client's message IDs (eqstr_us.txt's), for [`Task::watch_messages`].
+pub use eq_client::eqstr;
 pub use tribute::Tribute;
 pub use stats::{DEFAULT_SLOW_PULSE, Stats, WARNING_INTERVAL};
 pub use windows::{

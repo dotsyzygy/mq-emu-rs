@@ -32,6 +32,8 @@ What `mq-emu` supports, what it works around and what's missing: [docs/status.md
 
 | Crate                       | Published | Purpose                                                                                  |
 | --------------------------- | --------- | ---------------------------------------------------------------------------------------- |
+| `crates/eq-client`          | yes       | Hooks into the RoF2 client itself, with no MacroQuest: offsets, patching, `eqclient.dll`'s ABI and loader |
+| `crates/eq-client-host`     | no        | Builds `eqclient.dll`, which owns the client hooks once per game process for every plugin |
 | `crates/mq-emu-sys`         | yes       | Raw, `unsafe` 1:1 FFI declarations for `MQ2Main.dll` / `eqlib.dll` exports               |
 | `crates/mq-emu`             | yes       | Safe, idiomatic API on top of `mq-emu-sys`; what plugins depend on                       |
 | `plugins/MQ2RustPluginTest` | no        | Test plugin exercising the bindings in-game (builds `MQ2RustPluginTest.dll`)             |

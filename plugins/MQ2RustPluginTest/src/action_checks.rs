@@ -1,19 +1,21 @@
 //! Selftest checks for acting on spells and items: a spell cast and stopped,
-//! a spell memorized and forgotten (leaving the gems as they were), a stack
+//! cast as a task that's cancelled and one that lands, a spell memorized and forgotten (leaving the gems as they were), a stack
 //! split and its part put back by hand and with /autoinventory, and items
 //! selected in an open merchant window (nothing is bought or sold).
 
 use std::time::Duration;
 
-use mq_emu::{GameState, ItemLocation, Mq, SlotLocation, SpellId, Task};
+use mq_emu::{Cast, CastResult, GameState, eqstr, ItemLocation, MemorizeResult, Mq, SlotLocation, SpellId, Task};
 
 use crate::RustTest;
 use crate::checks::{Check, Report};
 
 /// How long a cast, a stop or an item move may take to show.
 const TIMEOUT: Duration = Duration::from_secs(3);
-/// How long memorizing one spell may take.
-const MEMORIZE_TIMEOUT: Duration = Duration::from_secs(30);
+/// Tries at a cast that lands, as each may fizzle.
+const CAST_ATTEMPTS: u32 = 3;
+/// How long a cast task may take: the spell, its message and the gem's recast.
+const CAST_TASK_TIMEOUT: Duration = Duration::from_secs(20);
 /// Spell target types (`eSpellTargetType`) that reach only you and your group.
 const TT_GROUP_V1: u8 = 3;
 const TT_SELF: u8 = 6;
@@ -67,14 +69,19 @@ async fn cast_and_stop(task: &Task<RustTest>, report: &mut Report) {
             None
         };
         let mana: i32 = mq.parse("${Me.CurrentMana}").parse().unwrap_or(0);
-        let chosen = mq.gems().find(|(gem, spell)| {
-            *gem < GEMS
-                && spell.is_beneficial()
-                && [TT_SELF, TT_GROUP_V1, TT_GROUP_V2].contains(&spell.target_type())
-                && spell.cast_time_ms() >= 1000
-                && spell.mana_cost() <= mana
-                && mq.gem_ready(*gem)
-        });
+        let usable: Vec<_> = mq
+            .gems()
+            .filter(|(gem, spell)| {
+                *gem < GEMS
+                    && spell.is_beneficial()
+                    && [TT_SELF, TT_GROUP_V1, TT_GROUP_V2].contains(&spell.target_type())
+                    && spell.cast_time_ms() >= 1000
+                    && spell.mana_cost() <= mana
+                    && mq.gem_ready(*gem)
+            })
+            .collect();
+        // A buff, so landing shows in your buff window; else any of them.
+        let chosen = usable.iter().find(|(_, spell)| spell.duration_cap() > 0).or(usable.first()).map(|(gem, spell)| (*gem, *spell));
         let chosen = chosen.filter(|_| skip.is_none()).map(|(gem, spell)| (gem, spell.id(), spell.name()));
         if chosen.is_none() {
             let why = skip.unwrap_or_else(|| "no ready gem with a self or group buff (cast time 1s or more) you have the mana for".into());
@@ -84,6 +91,19 @@ async fn cast_and_stop(task: &Task<RustTest>, report: &mut Report) {
     });
     let Some((gem, id, name)) = chosen else { return };
 
+    let watched = task.watch_messages(&[eqstr::BEGIN_CASTING]);
+    task.with(|mq| {
+        report.print(mq, "eqclient.dll is loaded and hooks the client's messages", Check::that(watched.is_ok(), || {
+            watched.as_ref().err().map(ToString::to_string).unwrap_or_default()
+        }));
+    });
+    land(task, report, gem, id, &name, "first, before any cast is stopped").await;
+    let shown = watched.map(|messages| messages.take()).unwrap_or_default();
+    task.with(|mq| {
+        report.print(mq, "casting shows \"You begin casting\" (12205), by ID", Check::that(shown.contains(&eqstr::BEGIN_CASTING), || format!("messages seen: {shown:?}")));
+    });
+
+    task.wait_until_timeout(move |mq| mq.gem_ready(gem), CAST_TASK_TIMEOUT).await;
     let cast = task.with(|mq| mq.cast_gem(gem));
     let started = task.wait_until_timeout(move |mq| casting(mq) == Some(id), TIMEOUT).await;
     task.with(|mq| {
@@ -93,10 +113,160 @@ async fn cast_and_stop(task: &Task<RustTest>, report: &mut Report) {
             format!("cast_gem: {cast}; casting {:?}, ${{Me.Casting.ID}} {theirs}", casting(mq))
         }));
     });
+    task.with(|mq| {
+        let ours = mq.cast_time_left().map(|left| left.as_millis() as i64);
+        let theirs: Option<i64> = mq.parse("${Me.CastTimeLeft.Raw}").parse().ok();
+        let close = matches!((ours, theirs), (Some(ours), Some(theirs)) if ours > 0 && (ours - theirs).abs() <= 100);
+        report.print(mq, "cast_time_left matches ${Me.CastTimeLeft} while casting", Check::that(close, || format!("mq-emu {ours:?} ms, MacroQuest {theirs:?} ms")));
+    });
     let stopped = task.with(|mq| mq.stop_casting());
     let done = task.wait_until_timeout(|mq| casting(mq).is_none(), TIMEOUT).await;
     task.with(|mq| {
         report.print(mq, "stop_casting() stops it", Check::that(stopped && done, || format!("stop_casting: {stopped}; casting {:?}", casting(mq))));
+        let left = mq.cast_time_left();
+        report.print(mq, "cast_time_left is None when not casting", Check::that(left.is_none(), || format!("{left:?}")));
+    });
+    cast_tasks(task, report, gem, id, &name).await;
+}
+
+/// The same spell through `Task::cast`: cancelled mid-cast, then left to land.
+async fn cast_tasks(task: &Task<RustTest>, report: &mut Report, gem: usize, id: SpellId, name: &str) {
+    task.wait_until_timeout(move |mq| mq.gem_ready(gem), CAST_TASK_TIMEOUT).await;
+    let cast = task.with(|mq| {
+        mq.spawn_task(move |task: Task<RustTest>| async move {
+            task.cast(Cast::new(id)).await;
+        })
+    });
+    let started = task.wait_until_timeout(move |mq| casting(mq) == Some(id), TIMEOUT).await;
+    let cancelled = task.with(|mq| mq.cancel_task(cast));
+    let stopped = task.wait_until_timeout(|mq| casting(mq).is_none(), TIMEOUT).await;
+    task.with(|mq| {
+        report.print(mq, &format!("cancelling a Task::cast of {name} stops the cast"), Check::that(started && cancelled && stopped, || {
+            format!("started {started}, cancelled {cancelled}; casting {:?}", casting(mq))
+        }));
+    });
+
+    // Stopping a cast may leave the server ending the next one early; give it time.
+    task.delay(Duration::from_secs(3)).await;
+    land(task, report, gem, id, name, "after two stopped casts and 3 s").await;
+    let unknown = task.cast(Cast::new(SpellId(-5))).await;
+    task.with(|mq| {
+        report.print(mq, "Task::cast of a spell not in a gem ends NotMemorized at once", Check::that(unknown == CastResult::NotMemorized, || format!("ended {unknown:?}")));
+    });
+}
+
+/// Casts `id` through `Task::cast` until it doesn't fizzle, checks it landed
+/// and spent its mana, and prints a trace of it.
+async fn land(task: &Task<RustTest>, report: &mut Report, gem: usize, id: SpellId, name: &str, when: &str) {
+    task.wait_until_timeout(move |mq| casting(mq).is_none() && mq.gem_ready(gem), CAST_TASK_TIMEOUT).await;
+    let is_buff = task.with(|mq| mq.spell(id).is_some_and(|spell| spell.duration_cap() > 0));
+    let buff_before = task.with(|mq| buff_left(mq, id));
+    let trace = start_trace(task);
+    let watched = task.watch_messages(TRACED);
+    // A fizzle is chance, not a failure: cast again once the gem is ready.
+    let mut fizzles = 0;
+    let result = loop {
+        let result = task.cast(Cast::new(id).timeout(CAST_TASK_TIMEOUT)).await;
+        if result != CastResult::Fizzled || fizzles + 1 == CAST_ATTEMPTS {
+            break result;
+        }
+        fizzles += 1;
+        task.wait_until_timeout(move |mq| casting(mq).is_none() && mq.gem_ready(gem), CAST_TASK_TIMEOUT).await;
+    };
+    // The buff shows up a moment after the cast lands. A refresh of one
+    // already on can't be told from its time left, so only a new one counts.
+    let checkable = is_buff && buff_before.is_none();
+    let landed_buff = checkable && task.wait_until_timeout(move |mq| buff_left(mq, id).is_some(), Duration::from_secs(3)).await;
+    let shown = watched.map(|messages| messages.take()).unwrap_or_default();
+    task.with(|mq| {
+        let buff_label = format!("{name} {when}: Task::cast says Landed exactly when the buff lands on you");
+        if !is_buff {
+            report.print(mq, &buff_label, Check::Skip(format!("{name} isn't a buff; memorize a self buff to check landing")));
+        } else if !checkable {
+            report.print(mq, &buff_label, Check::Skip(format!("{name} was already on you; click it off before the selftest to check landing")));
+        } else {
+            let agree = (result == CastResult::Landed) == landed_buff;
+            report.print(mq, &buff_label, Check::that(agree, || {
+                format!("Task::cast ended {result:?}; buff before {buff_before:?}, now {:?}", buff_left(mq, id))
+            }));
+        }
+        // Didn't take hold (a stronger buff on you) still went off.
+        let label = format!("Task::cast of {name} {when} completes: Landed, or the spell went off and didn't stick (fizzles cast again, up to {CAST_ATTEMPTS} tries)");
+        report.print(mq, &label, Check::that(result.completed(), || format!("ended {result:?} ({result}) after {fizzles} fizzle(s); messages seen, in order: {shown:?}")));
+    });
+    // The trace explains a failure; otherwise it's noise. (Mana isn't a
+    // check: a regeneration tick can give the cost straight back.)
+    let failed = !result.completed() || (checkable && (result == CastResult::Landed) != landed_buff);
+    if failed {
+        end_trace(task, &trace, &format!("{name} {when}"));
+    } else {
+        task.with(|mq| mq.cancel_task(trace.task));
+    }
+}
+
+/// Time left on your buff from `id`: `None` without it; a permanent one counts as a day.
+fn buff_left(mq: &Mq<RustTest>, id: SpellId) -> Option<Duration> {
+    mq.buff(id).map(|buff| buff.remaining().unwrap_or(Duration::from_secs(86_400)))
+}
+
+/// A timeline of the cast checks, while casts can't be told apart reliably:
+/// every change in the casting state, time left and mana, and every cast
+/// message as it arrives, printed to chat when the checks are done.
+pub(crate) struct Trace {
+    lines: std::rc::Rc<std::cell::RefCell<Vec<String>>>,
+    task: mq_emu::TaskId,
+}
+
+const TRACED: &[u32] = &[
+    eqstr::BEGIN_CASTING,
+    eqstr::SPELL_INTERRUPTED,
+    eqstr::CASTING_INTERRUPTED,
+    eqstr::SPELL_FIZZLES,
+    eqstr::TARGET_RESISTED,
+    eqstr::SPELL_DID_NOT_TAKE_HOLD,
+    eqstr::SPELL_WOULD_NOT_TAKE_HOLD,
+    eqstr::RECAST_NOT_MET,
+    eqstr::RECOVERY_NOT_MET,
+    eqstr::NOT_RECOVERED,
+];
+
+pub(crate) fn start_trace(task: &Task<RustTest>) -> Trace {
+    let lines = std::rc::Rc::new(std::cell::RefCell::new(Vec::new()));
+    let kept = lines.clone();
+    let task = task.with(|mq| {
+        mq.spawn_task(move |task: Task<RustTest>| async move {
+            let messages = task.watch_messages(TRACED).ok();
+            let start = std::time::Instant::now();
+            let mut last = String::new();
+            loop {
+                let shown = messages.as_ref().map(|m| m.take()).unwrap_or_default();
+                let state = task.with(|mq| {
+                    let casting = mq.me().and_then(|me| me.casting()).map(|id| id.0);
+                    let left = mq.cast_time_left().map(|left| left.as_millis());
+                    format!("casting {casting:?}, left {left:?} ms, mana {:?}/{:?}", mq.mana_current(), mq.mana_max())
+                });
+                let ms = start.elapsed().as_millis();
+                for message in shown {
+                    kept.borrow_mut().push(format!("{ms:>6} ms  message {message}"));
+                }
+                if state != last {
+                    kept.borrow_mut().push(format!("{ms:>6} ms  {state}"));
+                    last = state;
+                }
+                task.next_pulse().await;
+            }
+        })
+    });
+    Trace { lines, task }
+}
+
+pub(crate) fn end_trace(task: &Task<RustTest>, trace: &Trace, name: &str) {
+    task.with(|mq| {
+        mq.cancel_task(trace.task);
+        crate::say(mq, &format!("cast trace for {name} (12205 begin, 439/12477 interrupted, 173 fizzle):"));
+        for line in trace.lines.borrow().iter() {
+            crate::say(mq, line);
+        }
     });
 }
 
@@ -139,12 +309,14 @@ async fn memorize_and_forget(task: &Task<RustTest>, report: &mut Report) {
 }
 
 async fn memorize(task: &Task<RustTest>, report: &mut Report, gem: usize, id: SpellId, name: &str) {
-    let asked = task.with(|mq| mq.memorize_spell(gem, id));
-    let filled = task.wait_until_timeout(move |mq| mq.gem(gem).map(|spell| spell.id()) == Some(id), MEMORIZE_TIMEOUT).await;
+    // Task::memorize asks with memorize_spell, and waits for the gem to be ready.
+    let result = task.memorize(gem, id).await;
     task.with(|mq| {
         let theirs = mq.parse(&format!("${{Me.Gem[{}].ID}}", gem + 1));
-        report.print(mq, &format!("memorize_spell({gem}, {name}) fills the gem, as ${{Me.Gem}} sees"), Check::that(asked && filled && theirs == id.to_string(), || {
-            format!("memorize_spell: {asked}; gem {gem} has {:?}, ${{Me.Gem}} {theirs} (memorize {name} again if it's left empty)", mq.gem(gem).map(|s| s.id()))
+        let ready = mq.parse(&format!("${{Me.SpellReady[{}]}}", gem + 1));
+        let label = format!("Task::memorize({gem}, {name}) ends Memorized with the gem filled and ready, as ${{Me.Gem}} and ${{Me.SpellReady}} see");
+        report.print(mq, &label, Check::that(result == MemorizeResult::Memorized && theirs == id.to_string() && ready == "TRUE", || {
+            format!("ended {result:?}; ${{Me.Gem}} {theirs}, ${{Me.SpellReady}} {ready} (memorize {name} again if it's left empty)")
         }));
     });
 }

@@ -116,6 +116,10 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
+    /// Milliseconds left on your cast as `${Me.CastTimeLeft}` counts them
+    /// (`CastingData.SpellETA - pDisplay->TimeStamp`, 0 once due), or -1 when
+    /// you aren't casting.
+    pub fn mqemu_cast_time_left_ms() -> i32;
     /// Uses skill `skill` on your target as `/doability <name>` does
     /// (`PcClient::UseSkill`), if you have it and it's an ability you
     /// activate. False otherwise, or without a character.

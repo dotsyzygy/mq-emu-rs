@@ -274,6 +274,8 @@ pub(crate) mod fake {
         pub spells_work: bool,
         /// The gems that are ready to cast.
         pub ready_gems: Vec<i32>,
+        /// What `mqemu_cast_time_left_ms` says: -1, not casting.
+        pub cast_time_left_ms: i32,
         /// Your auras.
         pub auras: Vec<mq_emu_sys::game::mqemu_aura>,
         /// Buff and song window timers (ms), by spell ID and whether a song.
@@ -310,6 +312,7 @@ pub(crate) mod fake {
                 commands: Vec::new(),
                 spells_work: false,
                 ready_gems: Vec::new(),
+                cast_time_left_ms: -1,
                 auras: Vec::new(),
                 buff_timers: HashMap::new(),
                 melee_ranges: HashMap::new(),
@@ -487,6 +490,10 @@ pub(crate) mod fake {
         with(|game| game.ready_gems.contains(&gem))
     }
 
+    unsafe extern "C" fn cast_time_left_ms() -> i32 {
+        with(|game| game.cast_time_left_ms)
+    }
+
     /// Uses skills the fake game has as abilities.
     unsafe extern "C" fn use_skill(skill: i32) -> bool {
         with(|game| {
@@ -592,6 +599,7 @@ pub(crate) mod fake {
         mqemu_memorize_spells: memorize_spells,
         mqemu_forget_gem: forget_gem,
         mqemu_gem_ready: gem_ready,
+        mqemu_cast_time_left_ms: cast_time_left_ms,
         mqemu_use_skill: use_skill,
         mqemu_do_combat_ability: do_combat_ability,
         mqemu_melee_range: melee_range,

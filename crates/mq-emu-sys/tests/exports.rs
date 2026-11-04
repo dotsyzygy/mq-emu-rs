@@ -81,7 +81,11 @@ fn existing_plugin_exports_the_sentinels_we_document() {
         .unwrap_or_else(|e| panic!("failed to list {}: {e}", plugins.display()))
         .filter_map(Result::ok)
         .map(|entry| entry.path())
-        .find(|path| path.extension().is_some_and(|ext| ext.eq_ignore_ascii_case("dll")))
+        // Plugins only: MacroQuest loads MQ*.dll, and eqclient.dll lives here too.
+        .find(|path| {
+            let name = path.file_name().unwrap_or_default().to_string_lossy().to_ascii_lowercase();
+            name.starts_with("mq") && name.ends_with(".dll")
+        })
         .expect("no built plugin DLLs to compare against");
 
     let missing = missing_exports(&std::fs::read(&reference).unwrap(), &PLUGIN_SENTINELS);

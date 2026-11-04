@@ -116,6 +116,9 @@ pub(crate) struct Host {
     pub print_var: mq_emu_sys::events::mqemu_print_var_fn,
     /// MacroQuest's key binds.
     pub key_binds: crate::key_binds::KeyBindApi,
+    /// eqclient.dll, the client hooks shared by every plugin (see `eq_client`),
+    /// loaded on first use; the error says why it isn't there.
+    pub client: fn() -> Result<&'static eq_client::abi::Api, String>,
 }
 
 /// The real MacroQuest host. Only referenced by `Runtime::new`, which only
@@ -175,7 +178,14 @@ pub(crate) const fn real<P>() -> Host {
         },
         print_var: real_print_var::<P>,
         key_binds: crate::key_binds::real::<P>(),
+        client: real_client::<P>,
     }
+}
+
+/// eqclient.dll from beside this plugin's DLL, loaded once.
+fn real_client<P>() -> Result<&'static eq_client::abi::Api, String> {
+    static CLIENT: std::sync::OnceLock<Result<&'static eq_client::abi::Api, String>> = std::sync::OnceLock::new();
+    CLIENT.get_or_init(|| eq_client::loader::load_beside(real_client::<P> as *const std::ffi::c_void).map_err(|e| e.to_string())).clone()
 }
 
 /// As MacroQuest's own (`MQ2DataVariableLookup`): the text between the bars,

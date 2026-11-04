@@ -19,6 +19,10 @@ The MacroQuest source is at `$MQ_ROOT`. Grep for the function or type, then read
 - Closures called from C++ go through `imgui/plot.rs`'s `Callback`, which catches a panic and resumes it after the C++ call returns.
 - MacroQuest bugs are worked around here or in the shim, never patched upstream. Each one gets a test showing MacroQuest's own behaviour failing (a permanent negative test) next to the fixed one.
 
+## 3b. eq-client (the client itself)
+
+What MacroQuest doesn't offer and needs a hook in the client goes in `crates/eq-client`, never in mq-emu-sys's C++ shims: it must work with no MacroQuest at all. A hook site in `rof2.rs` names its address and the exact, position-independent bytes it replaces, checked against the client by a test (disassemble outside this repo; never commit a disassembler). The hook runs in `eqclient.dll` (`host.rs`), shared through the versioned ABI in `abi.rs`: only add fields at the end, and raise `API_VERSION`. mq-emu reaches it through `Host::client`.
+
 ## 4. Tests without the game
 
 - Game data: `crates/mq-emu/src/runtime/tests/*.rs` against the fake game.

@@ -348,6 +348,14 @@ impl RustTest {
     fn command(&mut self, mq: &Mq<Self>, args: &str) {
         match args.split_whitespace().next().unwrap_or("help") {
             "selftest" => self.start_selftest(mq),
+            "casttrace" => {
+                say(mq, "tracing casts for 15 s: cast something by hand now");
+                mq.spawn_task(|task: Task<RustTest>| async move {
+                    let trace = action_checks::start_trace(&task);
+                    task.delay(Duration::from_secs(15)).await;
+                    action_checks::end_trace(&task, &trace, "your casts");
+                });
+            }
             "window" => self.window.open = !self.window.open,
             "stats" => {
                 for line in mq.stats().summary() {
@@ -374,7 +382,7 @@ impl RustTest {
                 }
             }
             _ => {
-                say(mq, &format!("{COMMAND} selftest | stats | stop | window"));
+                say(mq, &format!("{COMMAND} selftest | casttrace | stats | stop | window"));
                 say(mq, &format!("  for the Lua checks: /lua run {} (here and on your other characters)", lua_checks::PEER_SCRIPT));
             }
         }
@@ -844,7 +852,7 @@ async fn walking(task: &Task<RustTest>, report: &mut Report) {
     }
 }
 
-fn say<P: Plugin>(mq: &Mq<P>, text: &str) {
+pub(crate) fn say<P: Plugin>(mq: &Mq<P>, text: &str) {
     mq.chat(format!("{TEAL}[{}]{RESET} {text}", mq.plugin_name()));
 }
 

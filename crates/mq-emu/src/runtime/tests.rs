@@ -18,6 +18,7 @@ use crate::host::Host;
 use crate::movement::{MoveError, MoveKey};
 
 mod aliases;
+mod fake_client;
 mod data;
 mod datatypes;
 mod events;
@@ -249,6 +250,7 @@ const FAKE: Host = Host {
     imgui: &crate::imgui::fake::APIS,
     print_var: fake_print_var,
     key_binds: crate::key_binds::fake::API,
+    client: fake_client::client,
 };
 
 /// Expands `|${Me.Name}|` to "Tester"; anything else to itself.
@@ -1157,6 +1159,65 @@ fn wait_until_checks_every_pulse_and_can_time_out() {
     advance_clock(Duration::from_secs(3));
     rt.pulse();
     assert_eq!(log_of(rt), ["pulse", "pulse", "pulse", "target seen", "pulse", "target lost: false"]);
+}
+
+/// The log without the plugin's own entries for pulses and chat.
+fn task_notes(rt: &'static Runtime<Recorder>) -> Vec<String> {
+    log_of(rt).into_iter().filter(|entry| entry != "pulse" && !entry.starts_with("incoming:") && !entry.starts_with("chat:")).collect()
+}
+
+#[test]
+fn a_task_gets_the_messages_it_watches_shown_after_it_started() {
+    use crate::eqstr::{SPELL_FIZZLES, TARGET_RESISTED};
+    fake_client::shows(SPELL_FIZZLES);
+    let rt = with_task(|task| async move {
+        let messages = task.watch_messages(&[SPELL_FIZZLES]).unwrap();
+        let others = task.watch_messages(&[TARGET_RESISTED]).unwrap();
+        task.next_pulse().await;
+        note(&task, &format!("{:?} {:?}", messages.take(), others.take()));
+        task.next_pulse().await;
+        note(&task, &format!("{:?} {}", messages.take(), messages.missed()));
+    });
+    rt.pulse();
+    fake_client::shows(SPELL_FIZZLES);
+    fake_client::shows(TARGET_RESISTED);
+    fake_client::shows(SPELL_FIZZLES);
+    rt.pulse();
+    fake_client::lose(3);
+    rt.pulse();
+    assert_eq!(task_notes(rt), ["[173, 173] [425]", "[] 3"], "each task gets only its own IDs, from when it started; losses are counted");
+    assert_eq!(fake_client::watched(), [SPELL_FIZZLES, TARGET_RESISTED]);
+}
+
+#[test]
+fn watching_messages_says_why_it_cant() {
+    let rt = with_task(|task| async move {
+        let error = task.watch_messages(&[173]).err().unwrap();
+        note(&task, &error.to_string());
+    });
+    fake_client::set_status(eq_client::abi::Status::UNKNOWN_CLIENT);
+    rt.pulse();
+    assert_eq!(task_notes(rt).len(), 1);
+    assert!(task_notes(rt)[0].contains("isn't the RoF2 build"), "{:?}", task_notes(rt));
+
+    let rt = with_task(|task| async move {
+        note(&task, &task.watch_messages(&[173]).err().unwrap().to_string());
+    });
+    fake_client::set_missing(r"C:\MQ\plugins\eqclient.dll isn't there or wouldn't load");
+    rt.pulse();
+    assert_eq!(task_notes(rt), [r"the client's messages can't be watched: C:\MQ\plugins\eqclient.dll isn't there or wouldn't load"]);
+}
+
+#[test]
+fn a_dropped_watch_gets_nothing_more() {
+    let rt = with_task(|task| async move {
+        drop(task.watch_messages(&[173]).unwrap());
+        task.next_pulse().await;
+    });
+    rt.pulse();
+    fake_client::shows(173);
+    rt.pulse();
+    assert!(!rt.executor().watching_messages(), "pruned on the next pulse");
 }
 
 #[test]

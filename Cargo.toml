@@ -1,6 +1,8 @@
 [workspace]
 resolver = "3"
 members = [
+    "crates/eq-client",
+    "crates/eq-client-host",
     "crates/mq-emu-sys",
     "crates/mq-emu",
     "plugins/MQ2RustPluginTest",
@@ -22,5 +24,6 @@ repository = "https://github.com/dotsyzygy/mq-emu-rs"
 # Internal crates are referenced by path *and* version, so they resolve locally
 # here and from crates.io once published.
 [workspace.dependencies]
+eq-client = { path = "crates/eq-client", version = "0.1.9" }
 mq-emu-sys = { path = "crates/mq-emu-sys", version = "0.1.9" }
 mq-emu = { path = "crates/mq-emu", version = "0.1.9" }

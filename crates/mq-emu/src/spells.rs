@@ -470,6 +470,13 @@ impl<P: Plugin> Mq<P> {
         gem < NUM_SPELL_GEMS && unsafe { (self.host().game_fns.mqemu_gem_ready)(gem as i32) }
     }
 
+    /// Time left on the spell you're casting, as `${Me.CastTimeLeft}` counts
+    /// it: zero once it's due to land, `None` when you aren't casting.
+    pub fn cast_time_left(&self) -> Option<Duration> {
+        let left = unsafe { (self.host().game_fns.mqemu_cast_time_left_ms)() };
+        u64::try_from(left).ok().map(Duration::from_millis)
+    }
+
     /// Memorizes a spell from your spell book into gem `gem` (0-based), as
     /// `/memspell` does. See [`memorize_spells`](Mq::memorize_spells).
     pub fn memorize_spell(&self, gem: usize, id: SpellId) -> bool {
