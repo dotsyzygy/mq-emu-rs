@@ -65062,6 +65062,560 @@ impl ItemAugmentationSocket {
     }
 }
 
+/// C++ class `ItemBase` (0x140 bytes).
+#[repr(C)]
+pub struct ItemBase {
+    _bytes: UnsafeCell<[u8; 0x140]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ItemBase {
+    /// `VeBaseReferenceCount::__vfptr` at 0x0 (0x0 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `VeBaseReferenceCount::__vfptr` at 0x0 (0x0 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `VeBaseReferenceCount::ReferenceCount` at 0x4 (0x4 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn ReferenceCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `VeBaseReferenceCount::ReferenceCount` at 0x4 (0x4 within `VeBaseReferenceCount`).
+    #[inline]
+    pub fn set_ReferenceCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `IChildItemContainer::__vfptr` at 0x8 (0x0 within `IChildItemContainer`).
+    #[inline]
+    pub fn IChildItemContainer___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `IChildItemContainer::__vfptr` at 0x8 (0x0 within `IChildItemContainer`).
+    #[inline]
+    pub fn set_IChildItemContainer___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ItemBase::AugFlag` at 0xc (0xc within `ItemBase`).
+    #[inline]
+    pub fn AugFlag(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ItemBase::AugFlag` at 0xc (0xc within `ItemBase`).
+    #[inline]
+    pub fn set_AugFlag(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ItemBase::SaveString` at 0x10 (0x10 within `ItemBase`).
+    #[inline]
+    pub fn SaveString(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ItemBase::Open` at 0x14 (0x14 within `ItemBase`).
+    #[inline]
+    pub fn Open(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ItemBase::Open` at 0x14 (0x14 within `ItemBase`).
+    #[inline]
+    pub fn set_Open(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ItemBase::ItemHash` at 0x18 (0x18 within `ItemBase`).
+    #[inline]
+    pub fn ItemHash(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `ItemBase::ItemHash` at 0x18 (0x18 within `ItemBase`).
+    #[inline]
+    pub fn set_ItemHash(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `ItemBase::bCopied` at 0x1c (0x1c within `ItemBase`).
+    #[inline]
+    pub fn bCopied(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c) != 0 }
+    }
+
+    /// `ItemBase::bCopied` at 0x1c (0x1c within `ItemBase`).
+    #[inline]
+    pub fn set_bCopied(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, u8::from(value)) }
+    }
+
+    /// `ItemBase::EvolvingExpPct` at 0x20 (0x20 within `ItemBase`).
+    #[inline]
+    pub fn EvolvingExpPct(&self) -> f64 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `ItemBase::EvolvingExpPct` at 0x20 (0x20 within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingExpPct(&self, value: f64) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `ItemBase::Price` at 0x28 (0x28 within `ItemBase`).
+    #[inline]
+    pub fn Price(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `ItemBase::Price` at 0x28 (0x28 within `ItemBase`).
+    #[inline]
+    pub fn set_Price(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `ItemBase::EvolvingMaxLevel` at 0x2c (0x2c within `ItemBase`).
+    #[inline]
+    pub fn EvolvingMaxLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `ItemBase::EvolvingMaxLevel` at 0x2c (0x2c within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingMaxLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+
+    /// `ItemBase::bItemNeedsUpdate` at 0x30 (0x30 within `ItemBase`).
+    #[inline]
+    pub fn bItemNeedsUpdate(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x30) != 0 }
+    }
+
+    /// `ItemBase::bItemNeedsUpdate` at 0x30 (0x30 within `ItemBase`).
+    #[inline]
+    pub fn set_bItemNeedsUpdate(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x30, u8::from(value)) }
+    }
+
+    /// `ItemBase::LastCastTime` at 0x34 (0x34 within `ItemBase`).
+    #[inline]
+    pub fn LastCastTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `ItemBase::LastCastTime` at 0x34 (0x34 within `ItemBase`).
+    #[inline]
+    pub fn set_LastCastTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `ItemBase::GlobalIndex` at 0x38 (0x38 within `ItemBase`).
+    #[inline]
+    pub fn GlobalIndex(&self) -> &ItemGlobalIndex {
+        unsafe { at(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `ItemBase::Charges` at 0x44 (0x44 within `ItemBase`).
+    #[inline]
+    pub fn Charges(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `ItemBase::Charges` at 0x44 (0x44 within `ItemBase`).
+    #[inline]
+    pub fn set_Charges(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `ItemBase::NewArmorID` at 0x48 (0x48 within `ItemBase`).
+    #[inline]
+    pub fn NewArmorID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `ItemBase::NewArmorID` at 0x48 (0x48 within `ItemBase`).
+    #[inline]
+    pub fn set_NewArmorID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    #[inline]
+    pub fn ActorTag1(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    #[inline]
+    pub fn set_ActorTag1(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn ActorTag1_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4c + index * 0x1) }
+    }
+
+    /// `ItemBase::ActorTag1` at 0x4c (0x4c within `ItemBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_ActorTag1_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4c + index * 0x1, value) }
+    }
+
+    /// `ItemBase::NoteStatus` at 0x6c (0x6c within `ItemBase`).
+    #[inline]
+    pub fn NoteStatus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6c) }
+    }
+
+    /// `ItemBase::NoteStatus` at 0x6c (0x6c within `ItemBase`).
+    #[inline]
+    pub fn set_NoteStatus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6c, value) }
+    }
+
+    /// `ItemBase::ScriptIndex` at 0x70 (0x70 within `ItemBase`).
+    #[inline]
+    pub fn ScriptIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `ItemBase::ScriptIndex` at 0x70 (0x70 within `ItemBase`).
+    #[inline]
+    pub fn set_ScriptIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `ItemBase::bRealEstateItemPlaceable` at 0x74 (0x74 within `ItemBase`).
+    #[inline]
+    pub fn bRealEstateItemPlaceable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `ItemBase::bRealEstateItemPlaceable` at 0x74 (0x74 within `ItemBase`).
+    #[inline]
+    pub fn set_bRealEstateItemPlaceable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `ItemBase::RespawnTime` at 0x78 (0x78 within `ItemBase`).
+    #[inline]
+    pub fn RespawnTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `ItemBase::RespawnTime` at 0x78 (0x78 within `ItemBase`).
+    #[inline]
+    pub fn set_RespawnTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `ItemBase::RealEstateID` at 0x7c (0x7c within `ItemBase`).
+    #[inline]
+    pub fn RealEstateID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `ItemBase::RealEstateID` at 0x7c (0x7c within `ItemBase`).
+    #[inline]
+    pub fn set_RealEstateID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+
+    /// `ItemBase::NoDropFlag` at 0x80 (0x80 within `ItemBase`).
+    #[inline]
+    pub fn NoDropFlag(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `ItemBase::NoDropFlag` at 0x80 (0x80 within `ItemBase`).
+    #[inline]
+    pub fn set_NoDropFlag(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `ItemBase::OrnamentationIcon` at 0x84 (0x84 within `ItemBase`).
+    #[inline]
+    pub fn OrnamentationIcon(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `ItemBase::OrnamentationIcon` at 0x84 (0x84 within `ItemBase`).
+    #[inline]
+    pub fn set_OrnamentationIcon(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `ItemBase::RealEstateArray` at 0x88 (0x88 within `ItemBase`).
+    #[inline]
+    pub fn RealEstateArray(&self) -> &ArrayClass_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `ItemBase::StackCount` at 0x98 (0x98 within `ItemBase`).
+    #[inline]
+    pub fn StackCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x98) }
+    }
+
+    /// `ItemBase::StackCount` at 0x98 (0x98 within `ItemBase`).
+    #[inline]
+    pub fn set_StackCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x98, value) }
+    }
+
+    /// `ItemBase::Item1` at 0x9c (0x9c within `ItemBase`).
+    #[inline]
+    pub fn Item1(&self) -> *mut ItemDefinition {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `ItemBase::Item1` at 0x9c (0x9c within `ItemBase`).
+    #[inline]
+    pub fn set_Item1(&self, value: *mut ItemDefinition) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `ItemBase::Contents` at 0xa0 (0xa0 within `ItemBase`).
+    #[inline]
+    pub fn Contents(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `ItemBase::ItemGUID` at 0xd8 (0xd8 within `ItemBase`).
+    #[inline]
+    pub fn ItemGUID(&self) -> &EqItemGuid {
+        unsafe { at(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `ItemBase::GroupID` at 0xec (0xec within `ItemBase`).
+    #[inline]
+    pub fn GroupID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `ItemBase::GroupID` at 0xec (0xec within `ItemBase`).
+    #[inline]
+    pub fn set_GroupID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `ItemBase::ArmorType` at 0xf0 (0xf0 within `ItemBase`).
+    #[inline]
+    pub fn ArmorType(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `ItemBase::ArmorType` at 0xf0 (0xf0 within `ItemBase`).
+    #[inline]
+    pub fn set_ArmorType(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `ItemBase::LastEquipped` at 0xf4 (0xf4 within `ItemBase`).
+    #[inline]
+    pub fn LastEquipped(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xf4) }
+    }
+
+    /// `ItemBase::LastEquipped` at 0xf4 (0xf4 within `ItemBase`).
+    #[inline]
+    pub fn set_LastEquipped(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, value) }
+    }
+
+    /// `ItemBase::MerchantSlot` at 0xf8 (0xf8 within `ItemBase`).
+    #[inline]
+    pub fn MerchantSlot(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `ItemBase::MerchantSlot` at 0xf8 (0xf8 within `ItemBase`).
+    #[inline]
+    pub fn set_MerchantSlot(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `ItemBase::bDisableAugTexture` at 0x100 (0x100 within `ItemBase`).
+    #[inline]
+    pub fn bDisableAugTexture(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x100) != 0 }
+    }
+
+    /// `ItemBase::bDisableAugTexture` at 0x100 (0x100 within `ItemBase`).
+    #[inline]
+    pub fn set_bDisableAugTexture(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x100, u8::from(value)) }
+    }
+
+    /// `ItemBase::bRankDisabled` at 0x101 (0x101 within `ItemBase`).
+    #[inline]
+    pub fn bRankDisabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x101) != 0 }
+    }
+
+    /// `ItemBase::bRankDisabled` at 0x101 (0x101 within `ItemBase`).
+    #[inline]
+    pub fn set_bRankDisabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x101, u8::from(value)) }
+    }
+
+    /// `ItemBase::MerchantQuantity` at 0x104 (0x104 within `ItemBase`).
+    #[inline]
+    pub fn MerchantQuantity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x104) }
+    }
+
+    /// `ItemBase::MerchantQuantity` at 0x104 (0x104 within `ItemBase`).
+    #[inline]
+    pub fn set_MerchantQuantity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x104, value) }
+    }
+
+    /// `ItemBase::EvolvingCurrentLevel` at 0x108 (0x108 within `ItemBase`).
+    #[inline]
+    pub fn EvolvingCurrentLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `ItemBase::EvolvingCurrentLevel` at 0x108 (0x108 within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingCurrentLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `ItemBase::IsEvolvingItem` at 0x10c (0x10c within `ItemBase`).
+    #[inline]
+    pub fn IsEvolvingItem(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10c) != 0 }
+    }
+
+    /// `ItemBase::IsEvolvingItem` at 0x10c (0x10c within `ItemBase`).
+    #[inline]
+    pub fn set_IsEvolvingItem(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10c, u8::from(value)) }
+    }
+
+    /// `ItemBase::Power` at 0x110 (0x110 within `ItemBase`).
+    #[inline]
+    pub fn Power(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x110) }
+    }
+
+    /// `ItemBase::Power` at 0x110 (0x110 within `ItemBase`).
+    #[inline]
+    pub fn set_Power(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x110, value) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    #[inline]
+    pub fn ActorTag2(&self) -> [c_char; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x114) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    #[inline]
+    pub fn set_ActorTag2(&self, value: [c_char; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x114, value) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn ActorTag2_at(&self, index: usize) -> c_char {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x114 + index * 0x1) }
+    }
+
+    /// `ItemBase::ActorTag2` at 0x114 (0x114 within `ItemBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_ActorTag2_at(&self, index: usize, value: c_char) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x114 + index * 0x1, value) }
+    }
+
+    /// `ItemBase::EvolvingExpOn` at 0x132 (0x132 within `ItemBase`).
+    #[inline]
+    pub fn EvolvingExpOn(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x132) != 0 }
+    }
+
+    /// `ItemBase::EvolvingExpOn` at 0x132 (0x132 within `ItemBase`).
+    #[inline]
+    pub fn set_EvolvingExpOn(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x132, u8::from(value)) }
+    }
+
+    /// `ItemBase::ItemColor` at 0x134 (0x134 within `ItemBase`).
+    #[inline]
+    pub fn ItemColor(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `ItemBase::ItemColor` at 0x134 (0x134 within `ItemBase`).
+    #[inline]
+    pub fn set_ItemColor(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `ItemBase::Tint` at 0x138 (0x138 within `ItemBase`).
+    #[inline]
+    pub fn Tint(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x138) }
+    }
+
+    /// `ItemBase::Tint` at 0x138 (0x138 within `ItemBase`).
+    #[inline]
+    pub fn set_Tint(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x138, value) }
+    }
+
+    /// `ItemBase::ID` at 0x13c (0x13c within `ItemBase`).
+    #[inline]
+    pub fn ID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `ItemBase::ID` at 0x13c (0x13c within `ItemBase`).
+    #[inline]
+    pub fn set_ID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c, value) }
+    }
+
+    /// The `VeBaseReferenceCount` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_VeBaseReferenceCount(&self) -> *mut VeBaseReferenceCount {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// Byte offset of the virtual `GetItemDefinition` in this class's vtable.
+    pub const VTABLE_GetItemDefinition: usize = 0x8;
+
+    /// Byte offset of the virtual `SetItemDefinition` in this class's vtable.
+    pub const VTABLE_SetItemDefinition: usize = 0xc;
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x4;
+}
+
 /// C++ class `ItemClient` (0x150 bytes).
 #[repr(C)]
 pub struct ItemClient {
@@ -65622,6 +66176,12 @@ impl ItemClient {
     #[inline]
     pub fn ClientString(&self) -> &CXStr {
         unsafe { at(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// The `ItemBase` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_ItemBase(&self) -> *mut ItemBase {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
     }
 
     /// The `VeBaseReferenceCount` base, at 0x0: what C++ passes as `this` to its methods.
@@ -93936,6 +94496,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "HotButtonData", rust_name: "HotButtonData", size: 0x6c },
     RecordInfo { name: "HotButtonLoadout", rust_name: "HotButtonLoadout", size: 0x20 },
     RecordInfo { name: "ItemAugmentationSocket", rust_name: "ItemAugmentationSocket", size: 0x8 },
+    RecordInfo { name: "ItemBase", rust_name: "ItemBase", size: 0x140 },
     RecordInfo { name: "ItemClient", rust_name: "ItemClient", size: 0x150 },
     RecordInfo { name: "ItemContainer", rust_name: "ItemContainer", size: 0x38 },
     RecordInfo { name: "ItemDefinition", rust_name: "ItemDefinition", size: 0x634 },
@@ -99322,6 +99883,50 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ItemAugmentationSocket", field: "Type", accessor: "Type", declared_in: "ItemAugmentationSocket", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ItemAugmentationSocket", field: "bVisible", accessor: "bVisible", declared_in: "ItemAugmentationSocket", offset: 0x4, decl_offset: 0x4, size: 0x1, bits: None },
     FieldInfo { record: "ItemAugmentationSocket", field: "bInfusible", accessor: "bInfusible", declared_in: "ItemAugmentationSocket", offset: 0x5, decl_offset: 0x5, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "__vfptr", accessor: "__vfptr", declared_in: "VeBaseReferenceCount", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ReferenceCount", accessor: "ReferenceCount", declared_in: "VeBaseReferenceCount", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "__vfptr", accessor: "IChildItemContainer___vfptr", declared_in: "IChildItemContainer", offset: 0x8, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "AugFlag", accessor: "AugFlag", declared_in: "ItemBase", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "SaveString", accessor: "SaveString", declared_in: "ItemBase", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "Open", accessor: "Open", declared_in: "ItemBase", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ItemHash", accessor: "ItemHash", declared_in: "ItemBase", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "bCopied", accessor: "bCopied", declared_in: "ItemBase", offset: 0x1c, decl_offset: 0x1c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "EvolvingExpPct", accessor: "EvolvingExpPct", declared_in: "ItemBase", offset: 0x20, decl_offset: 0x20, size: 0x8, bits: None },
+    FieldInfo { record: "ItemBase", field: "Price", accessor: "Price", declared_in: "ItemBase", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "EvolvingMaxLevel", accessor: "EvolvingMaxLevel", declared_in: "ItemBase", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "bItemNeedsUpdate", accessor: "bItemNeedsUpdate", declared_in: "ItemBase", offset: 0x30, decl_offset: 0x30, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "LastCastTime", accessor: "LastCastTime", declared_in: "ItemBase", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "GlobalIndex", accessor: "GlobalIndex", declared_in: "ItemBase", offset: 0x38, decl_offset: 0x38, size: 0xc, bits: None },
+    FieldInfo { record: "ItemBase", field: "Charges", accessor: "Charges", declared_in: "ItemBase", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "NewArmorID", accessor: "NewArmorID", declared_in: "ItemBase", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ActorTag1", accessor: "ActorTag1", declared_in: "ItemBase", offset: 0x4c, decl_offset: 0x4c, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemBase", field: "NoteStatus", accessor: "NoteStatus", declared_in: "ItemBase", offset: 0x6c, decl_offset: 0x6c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ScriptIndex", accessor: "ScriptIndex", declared_in: "ItemBase", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "bRealEstateItemPlaceable", accessor: "bRealEstateItemPlaceable", declared_in: "ItemBase", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "RespawnTime", accessor: "RespawnTime", declared_in: "ItemBase", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "RealEstateID", accessor: "RealEstateID", declared_in: "ItemBase", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "NoDropFlag", accessor: "NoDropFlag", declared_in: "ItemBase", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "OrnamentationIcon", accessor: "OrnamentationIcon", declared_in: "ItemBase", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "RealEstateArray", accessor: "RealEstateArray", declared_in: "ItemBase", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "ItemBase", field: "StackCount", accessor: "StackCount", declared_in: "ItemBase", offset: 0x98, decl_offset: 0x98, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "Item1", accessor: "Item1", declared_in: "ItemBase", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "Contents", accessor: "Contents", declared_in: "ItemBase", offset: 0xa0, decl_offset: 0xa0, size: 0x38, bits: None },
+    FieldInfo { record: "ItemBase", field: "ItemGUID", accessor: "ItemGUID", declared_in: "ItemBase", offset: 0xd8, decl_offset: 0xd8, size: 0x12, bits: None },
+    FieldInfo { record: "ItemBase", field: "GroupID", accessor: "GroupID", declared_in: "ItemBase", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ArmorType", accessor: "ArmorType", declared_in: "ItemBase", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "LastEquipped", accessor: "LastEquipped", declared_in: "ItemBase", offset: 0xf4, decl_offset: 0xf4, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "MerchantSlot", accessor: "MerchantSlot", declared_in: "ItemBase", offset: 0xf8, decl_offset: 0xf8, size: 0x8, bits: None },
+    FieldInfo { record: "ItemBase", field: "bDisableAugTexture", accessor: "bDisableAugTexture", declared_in: "ItemBase", offset: 0x100, decl_offset: 0x100, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "bRankDisabled", accessor: "bRankDisabled", declared_in: "ItemBase", offset: 0x101, decl_offset: 0x101, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "MerchantQuantity", accessor: "MerchantQuantity", declared_in: "ItemBase", offset: 0x104, decl_offset: 0x104, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "EvolvingCurrentLevel", accessor: "EvolvingCurrentLevel", declared_in: "ItemBase", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "IsEvolvingItem", accessor: "IsEvolvingItem", declared_in: "ItemBase", offset: 0x10c, decl_offset: 0x10c, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "Power", accessor: "Power", declared_in: "ItemBase", offset: 0x110, decl_offset: 0x110, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ActorTag2", accessor: "ActorTag2", declared_in: "ItemBase", offset: 0x114, decl_offset: 0x114, size: 0x1e, bits: None },
+    FieldInfo { record: "ItemBase", field: "EvolvingExpOn", accessor: "EvolvingExpOn", declared_in: "ItemBase", offset: 0x132, decl_offset: 0x132, size: 0x1, bits: None },
+    FieldInfo { record: "ItemBase", field: "ItemColor", accessor: "ItemColor", declared_in: "ItemBase", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "Tint", accessor: "Tint", declared_in: "ItemBase", offset: 0x138, decl_offset: 0x138, size: 0x4, bits: None },
+    FieldInfo { record: "ItemBase", field: "ID", accessor: "ID", declared_in: "ItemBase", offset: 0x13c, decl_offset: 0x13c, size: 0x4, bits: None },
     FieldInfo { record: "ItemClient", field: "__vfptr", accessor: "__vfptr", declared_in: "VeBaseReferenceCount", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ItemClient", field: "ReferenceCount", accessor: "ReferenceCount", declared_in: "VeBaseReferenceCount", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ItemClient", field: "__vfptr", accessor: "IChildItemContainer___vfptr", declared_in: "IChildItemContainer", offset: 0x8, decl_offset: 0x0, size: 0x4, bits: None },
@@ -101573,6 +102178,9 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "EQZoneInfo", function: "~EQZoneInfo", offset: 0x0 },
     VtableInfo { record: "EQZoneInfo", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "ExtendedTargetList", function: "SetAutoAddHaters", offset: 0x0 },
+    VtableInfo { record: "ItemBase", function: "GetItemDefinition", offset: 0x8 },
+    VtableInfo { record: "ItemBase", function: "SetItemDefinition", offset: 0xc },
+    VtableInfo { record: "ItemBase", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "ItemClient", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "MerchantPageHandler", function: "DestroyItemByUniqueId", offset: 0x8 },
     VtableInfo { record: "MerchantPageHandler", function: "DestroyItemByItemGuid", offset: 0xc },

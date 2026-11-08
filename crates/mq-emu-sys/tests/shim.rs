@@ -502,7 +502,7 @@ mod subclass {
     const ALL: u32 = (1 << HOOK_KINDS) - 1;
 
     fn slot(kind: i32) -> usize {
-        let slot = unsafe { mqemu_window_hook_slot(kind) };
+        let slot = mqemu_window_hook_slot(kind);
         usize::try_from(slot).unwrap_or_else(|_| panic!("no slot for kind {kind}"))
     }
 
@@ -613,7 +613,7 @@ mod subclass {
         for (kind, name) in expected {
             assert_eq!(slot(kind) * 4, offset(name), "{name}");
         }
-        assert_eq!(unsafe { mqemu_window_hook_slot(HOOK_KINDS) }, -1);
+        assert_eq!(mqemu_window_hook_slot(HOOK_KINDS), -1);
     }
 
     #[test]

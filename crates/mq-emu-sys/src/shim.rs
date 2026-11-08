@@ -395,13 +395,21 @@ unsafe extern "C" {
     pub fn mqemu_free_extension(extension: *mut mqemu_extension);
 }
 
-// shim/items.cpp: game objects through their virtual functions. No DLL
-// imports, so tests may call these.
-unsafe extern "C" {
-    /// `item->GetItemDefinition()`, dispatched through the item's vtable, so
-    /// the game's own implementation answers for items the game created.
-    /// Null for a null item.
-    pub fn mqemu_item_definition(item: *const crate::layouts::ItemClient) -> *mut crate::layouts::ItemDefinition;
+/// `item->GetItemDefinition()`, dispatched through the item's vtable, so
+/// the game's own implementation answers for items the game created (which
+/// leave eqlib's inline `Item1`/`SharedItemDef` empty). Null for a null item.
+/// It imports nothing, so tests may call it with a fake vtable.
+///
+/// # Safety
+/// `item` is null or points at a live item with a vtable.
+pub unsafe fn mqemu_item_definition(item: *const crate::layouts::ItemClient) -> *mut crate::layouts::ItemDefinition {
+    use crate::layouts::{ItemBase, ItemClient, ItemDefinition};
+    type GetItemDefinition = unsafe extern "thiscall" fn(*const ItemClient) -> *mut ItemDefinition;
+    if item.is_null() {
+        return core::ptr::null_mut();
+    }
+    // ItemBase is ItemClient's primary base, at offset 0: same `this`.
+    unsafe { crate::types::virtual_fn::<GetItemDefinition>(item.cast(), ItemBase::VTABLE_GetItemDefinition)(item) }
 }
 
 /// A fake `MainInterface` that records command API calls, for testing code

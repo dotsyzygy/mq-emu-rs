@@ -1,5 +1,5 @@
 // What a plugin hooks in a window: the events a plugin's own window
-// (windows.cpp) or a subclassed game window (subclass.cpp) passes on, and
+// (windows.cpp) or a subclassed game window (src/windows/subclass.rs) passes on, and
 // to whom.
 
 #pragma once

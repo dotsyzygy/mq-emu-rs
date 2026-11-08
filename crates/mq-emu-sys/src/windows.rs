@@ -25,6 +25,9 @@ use crate::layouts::{
 };
 use crate::types::{OwnedCXStr, foreign, virtual_fn};
 
+mod subclass;
+pub use subclass::{mqemu_window_hook_slot, mqemu_window_subclass, mqemu_window_unsubclass};
+
 /// A rectangle in screen or parent coordinates, as eqlib's `CXRect`: right
 /// and bottom are one past the last pixel.
 #[repr(C)]
@@ -106,22 +109,22 @@ function_table! {
     pub fn mqemu_plugin_window_create(screen: *const c_char, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> *mut CXWnd;
     /// Deletes a window [`mqemu_plugin_window_create`] made.
     pub fn mqemu_plugin_window_destroy(window: *mut CXWnd) -> bool;
-    /// Subclasses one of the game's windows, as MacroQuest's `WindowOverride`
-    /// does: gives it a copy of its vtable whose notification, `PostDraw` and
-    /// mouse entries pass the events `mask` asks for to `hook` first. False
-    /// for null, or a window this plugin already subclassed. Its code is in
-    /// the plugin: take it off ([`mqemu_window_unsubclass`]) before the
-    /// window is deleted (before the UI is cleaned up) and before the plugin
-    /// unloads.
-    pub fn mqemu_window_subclass(window: *mut CXWnd, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> bool;
-    /// Takes a subclass off. True if the window has its old vtable back;
-    /// false if it wasn't subclassed, or if another hook went on after this
-    /// one, which then passes everything on to the window's own functions
-    /// for good (and never calls into the plugin again). A window that isn't
-    /// `live` (the game deleted it) isn't touched; its subclass only stops.
-    pub fn mqemu_window_unsubclass(window: *mut CXWnd, live: bool) -> bool;
 
     rust {
+        /// Subclasses one of the game's windows, as MacroQuest's `WindowOverride`
+        /// does: gives it a copy of its vtable whose notification, `PostDraw` and
+        /// mouse entries pass the events `mask` asks for to `hook` first. False
+        /// for null, or a window this plugin already subclassed. Its code is in
+        /// the plugin: take it off ([`mqemu_window_unsubclass`]) before the
+        /// window is deleted (before the UI is cleaned up) and before the plugin
+        /// unloads.
+        pub fn mqemu_window_subclass(window: *mut CXWnd, hook: mqemu_window_hook_fn, user: *mut c_void, mask: u32) -> bool;
+        /// Takes a subclass off. True if the window has its old vtable back;
+        /// false if it wasn't subclassed, or if another hook went on after this
+        /// one, which then passes everything on to the window's own functions
+        /// for good (and never calls into the plugin again). A window that isn't
+        /// `live` (the game deleted it) isn't touched; its subclass only stops.
+        pub fn mqemu_window_unsubclass(window: *mut CXWnd, live: bool) -> bool;
         /// Picks up the item at a place onto the cursor, as `/itemnotify` does
         /// when it finds no slot window for it. `container` is an
         /// `ItemContainerInstance`, `in_bag` -1 for none. Outside bags (and with
@@ -1674,13 +1677,6 @@ pub unsafe extern "C" fn mqemu_merchant_trade(buy: bool, count: i32) -> bool {
         }
     }
     true
-}
-
-unsafe extern "C" {
-    /// The vtable entry (counted in pointers from the first) a subclass
-    /// ([`mqemu_window_subclass`]) replaces for hook kind `kind`; -1 for none.
-    /// For tests; it imports nothing, so it links anywhere.
-    pub fn mqemu_window_hook_slot(kind: i32) -> i32;
 }
 
 #[cfg(test)]
