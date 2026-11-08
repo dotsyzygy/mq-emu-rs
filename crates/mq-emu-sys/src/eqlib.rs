@@ -4,7 +4,7 @@ use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    Achievement, AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -111,6 +111,14 @@ imports! {
         pub static mut pEverQuest: ForeignPointer<CEverQuest>;
         /// The game's token strings, which name skills.
         pub static mut pStringTable: ForeignPointer<StringTable>;
+        /// Your auras, as the aura window lists them; null without them.
+        pub static mut pAuraMgr: ComputedPointer<ClientAuraManager>;
+        /// The game's `CharacterZoneClient::GetBaseSkill`, which takes two
+        /// arguments (`ret 8`) where eqlib declares one.
+        pub static mut CharacterZoneClient__GetBaseSkill: usize;
+        /// The game's `PcZoneClient::GetPcSkillLimit`, which takes one argument
+        /// (`ret 4`) where eqlib declares two.
+        pub static mut PcZoneClient__GetPcSkillLimit: usize;
         /// Points to a byte that's nonzero while your tribute is active.
         pub static mut pTributeActive: *mut u8;
         /// The spell gem bar; `SpellSlots` past the eighth are shown only if
@@ -152,6 +160,15 @@ imports! {
         /// (C++'s default).
         pub fn CharacterZoneClient_Max_Mana(this: *mut CharacterZoneClient, cap_at_max: bool) -> c_int
             = "?Max_Mana@CharacterZoneClient@eqlib@@QAEH_N@Z";
+        /// Your skill `skill` with its modifiers (`${Me.Skill}`).
+        pub fn CharacterZoneClient_GetAdjustedSkill(this: *mut CharacterZoneClient, skill: c_int) -> c_int = "?GetAdjustedSkill@CharacterZoneClient@eqlib@@QAEHH@Z";
+        /// eqlib's `GetBaseSkill`, declared with one argument: never call it,
+        /// as the game's pops two and leaves the stack 4 bytes off. Here for
+        /// the selftest's stack check (`mqemu_skill_call_stack_shift`).
+        pub fn CharacterZoneClient_GetBaseSkill(this: *mut CharacterZoneClient, skill: c_int) -> c_int = "?GetBaseSkill@CharacterZoneClient@eqlib@@QAEHH@Z";
+        /// eqlib's `GetPcSkillLimit`, declared with two arguments: never call
+        /// it, as the game's pops one. Here for the selftest's stack check.
+        pub fn PcZoneClient_GetPcSkillLimit(this: *mut PcZoneClient, skill: c_int, unused: bool) -> c_int = "?GetPcSkillLimit@PcZoneClient@eqlib@@QAEHH_N@Z";
         /// Whether you have skill `skill` (0 to `NUM_SKILLS - 1`).
         pub fn CharacterZoneClient_HasSkill(this: *mut CharacterZoneClient, skill: c_int) -> bool = "?HasSkill@CharacterZoneClient@eqlib@@QAE_NH@Z";
         /// Uses skill `skill` on `target`, as `/doability` does; the game checks its timer.

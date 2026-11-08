@@ -67,6 +67,8 @@ CItemDisplayManager     # the item display windows (pItemDisplayManager)
 CSpellDisplayManager    # the spell display windows (pSpellDisplayManager)
 CTaskManager            # your tasks: solo quests and the shared task (pTaskManager)
 DatabaseStringTable     # the game's string table (pDBStr)
+ClientAuraManager       # your auras (pAuraMgr), as the aura window lists them
+AuraData                # one aura (ClientAuraManager::Auras)
 StringTable             # the game's token strings (pStringTable): skill names
 CEverQuest              # the game's top object (pEverQuest): class and race names
 CMDLIST                 # one of the game's slash commands (EQADDR_CMDLIST): name and handler

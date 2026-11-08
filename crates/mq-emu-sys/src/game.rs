@@ -1,5 +1,5 @@
-//! Game data only the game's (or MacroQuest's) own functions can answer, from
-//! `shim/game.cpp`: MacroQuest's cache of other spawns' buffs, alternate
+//! Game data only the game's (or MacroQuest's) own functions can answer, in
+//! Rust over eqlib (`shim/game.cpp` keeps only MacroQuest's buff cache): MacroQuest's cache of other spawns' buffs, alternate
 //! abilities, skill values and caps, the game's string table and extended
 //! target role names, task progress and objective text, the friends list,
 //! tribute's cost and achievements; chat lines cleaned for event matching; and
@@ -15,7 +15,7 @@ use core::ffi::{CStr, c_char, c_void};
 
 use crate::constants::{MAX_MEMORIZED_SPELLS, MAX_STRING, MAX_QUEST_ENTRIES, MAX_SHARED_TASK_ENTRIES, NUM_SKILLS, NUM_SPELL_GEMS, TOTAL_SPELL_COUNT};
 use crate::eqlib;
-use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CDisplay, CMDLIST, CTaskElement, CTaskEntry, CTaskManager, ClientSpellManager, EQ_Spell, PCTaskStatus, PcClient, PcProfile, PlayerClient, SkillManager, TaskSystemType};
+use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CDisplay, CharacterZoneClient, ClientAuraManager, PcZoneClient, CMDLIST, CTaskElement, CTaskEntry, CTaskManager, ClientSpellManager, EQ_Spell, PCTaskStatus, PcClient, PcProfile, PlayerClient, SkillManager, TaskSystemType};
 use crate::types::{OwnedCXStr, StringView, foreign};
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
@@ -57,19 +57,19 @@ function_table! {
     /// to `cap` into `out`. Returns how many there are. The cache holds what
     /// the server last sent for each spawn you targeted, without expired buffs.
     pub fn mqemu_cached_buffs(spawn: *mut PlayerClient, out: *mut mqemu_cached_buff, cap: usize) -> usize;
-    /// Your auras as the aura window lists them (`ClientAuraManager`, what
-    /// `${Me.Aura}` reads): up to `cap` into `out`. Returns how many there are.
-    pub fn mqemu_auras(out: *mut mqemu_aura, cap: usize) -> usize;
-    /// Your skill `skill`: `which` 0 with modifiers (`${Me.Skill}`), 1
-    /// trained (`${Me.SkillBase}`), 2 the cap at your level (`${Me.SkillCap}`).
-    pub fn mqemu_skill_value(skill: i32, which: i32) -> i32;
-    /// Bytes the stack pointer moves across one call of skill function
-    /// `which` (1 `GetBaseSkill`, 2 `GetPcSkillLimit`) for skill `skill`,
-    /// through eqlib's declaration or as [`mqemu_skill_value`] calls it; 0 is
-    /// right. For the selftest; the stack pointer is put back.
-    pub fn mqemu_skill_call_stack_shift(which: i32, through_eqlib: bool, skill: i32) -> i32;
 
     rust {
+        /// Your auras as the aura window lists them (`ClientAuraManager`, what
+        /// `${Me.Aura}` reads): up to `cap` into `out`. Returns how many there are.
+        pub fn mqemu_auras(out: *mut mqemu_aura, cap: usize) -> usize;
+        /// Your skill `skill`: `which` 0 with modifiers (`${Me.Skill}`), 1
+        /// trained (`${Me.SkillBase}`), 2 the cap at your level (`${Me.SkillCap}`).
+        pub fn mqemu_skill_value(skill: i32, which: i32) -> i32;
+        /// Bytes the stack pointer moves across one call of skill function
+        /// `which` (1 `GetBaseSkill`, 2 `GetPcSkillLimit`) for skill `skill`,
+        /// through eqlib's declaration or as [`mqemu_skill_value`] calls it; 0 is
+        /// right. For the selftest; the stack pointer is put back.
+        pub fn mqemu_skill_call_stack_shift(which: i32, through_eqlib: bool, skill: i32) -> i32;
         /// The skill's name as the game shows it; false for none.
         pub fn mqemu_skill_name(skill: i32, out: *mut c_char, cap: usize) -> bool;
         /// `line` as MQ2Lua matches events against it: item links replaced by
@@ -891,6 +891,151 @@ pub unsafe extern "C" fn mqemu_achievement_link(achievement: *const Achievement,
     }
 }
 
+
+/// Element `index` of an `ArrayClass2` (eqlib's array of bins: element `i`
+/// is in bin `i >> m_binShift` at `i & m_slotMask`), as its `operator[]`
+/// finds it; None past `length` or where a bin is missing.
+///
+/// # Safety
+/// `bins` must be null or the array's live bins.
+unsafe fn binned<'a, T>(bins: *mut *mut T, length: i32, shift: i32, mask: i32, index: usize) -> Option<&'a T> {
+    let shift = u32::try_from(shift).ok().filter(|shift| *shift < 32)?;
+    if bins.is_null() || index >= usize::try_from(length).ok()? {
+        return None;
+    }
+    let bin = unsafe { *bins.add(index >> shift) };
+    let slot = index & usize::try_from(mask).ok()?;
+    if bin.is_null() || slot >= 1usize << shift {
+        return None;
+    }
+    unsafe { bin.add(slot).as_ref() }
+}
+
+/// Copies `manager`'s auras (`Auras`, what `${Me.Aura}` reads) into `out`, as
+/// many as fit; returns how many there are.
+///
+/// # Safety
+/// `manager`'s `Auras` must be live.
+unsafe fn auras(manager: Option<&ClientAuraManager>, out: &mut [mqemu_aura]) -> usize {
+    let Some(manager) = manager else { return 0 };
+    let array = manager.Auras();
+    let count = usize::try_from(array.m_length()).unwrap_or(0);
+    for (i, slot) in out.iter_mut().enumerate().take(count) {
+        let Some(aura) = (unsafe { binned(array.m_array(), array.m_length(), array.m_binShift(), array.m_slotMask(), i) }) else { break };
+        let name = aura.Name();
+        let len = name.iter().position(|&c| c == 0).unwrap_or(name.len());
+        let name = unsafe { core::slice::from_raw_parts(name.as_ptr().cast::<u8>(), len) };
+        unsafe { copy_out(Some(name), slot.name.as_mut_ptr(), slot.name.len()) };
+        slot.spawn_id = aura.SpawnID();
+        slot.cost = aura.Cost();
+        slot.icon_id = aura.IconID();
+    }
+    count
+}
+
+/// [`Api::mqemu_auras`], from `pAuraMgr`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` auras.
+pub unsafe extern "C" fn mqemu_auras(out: *mut mqemu_aura, cap: usize) -> usize {
+    unsafe {
+        let out = if cap == 0 { &mut [][..] } else { core::slice::from_raw_parts_mut(out, cap) };
+        auras(crate::types::computed(&raw const eqlib::pAuraMgr).as_ref(), out)
+    }
+}
+
+// eqlib declares two skill functions with other arguments than this client's
+// take, so a call through eqlib leaves the stack pointer 4 bytes off (and the
+// caller's saved registers wrong; the debug window crashed on it). The
+// game's own: GetBaseSkill ends in `ret 8` (it takes a second argument it
+// doesn't read; eqlib passes one), GetPcSkillLimit in `ret 4` (one argument;
+// eqlib passes two). These call them as the game does.
+
+/// `CharacterZoneClient::GetBaseSkill` as the game takes it.
+type BaseSkillFn = unsafe extern "thiscall" fn(this: *mut CharacterZoneClient, skill: i32, unused: i32) -> i32;
+/// `PcZoneClient::GetPcSkillLimit` as the game takes it.
+type PcSkillLimitFn = unsafe extern "thiscall" fn(this: *mut PcZoneClient, skill: i32) -> i32;
+
+/// [`Api::mqemu_skill_value`]: `which` 0 `GetAdjustedSkill`, 1
+/// `GetBaseSkill`, 2 `GetPcSkillLimit`, the last two at the game's addresses.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_skill_value(skill: i32, which: i32) -> i32 {
+    unsafe {
+        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return 0 };
+        if !usize::try_from(skill).is_ok_and(|skill| skill < NUM_SKILLS) {
+            return 0;
+        }
+        match which {
+            0 => eqlib::CharacterZoneClient_GetAdjustedSkill(pc.as_CharacterZoneClient(), skill),
+            1 => core::mem::transmute::<usize, BaseSkillFn>(eqlib::CharacterZoneClient__GetBaseSkill)(pc.as_CharacterZoneClient(), skill, 0),
+            2 => core::mem::transmute::<usize, PcSkillLimitFn>(eqlib::PcZoneClient__GetPcSkillLimit)(pc.as_PcZoneClient(), skill),
+            _ => 0,
+        }
+    }
+}
+
+/// Calls `__thiscall` function `f` on `this` with `args` pushed as its stack
+/// arguments, and returns how many bytes the stack pointer moved across the
+/// call (0 when `f` pops exactly what was pushed). The stack pointer is put
+/// back after, so a function popping the wrong amount does no harm.
+///
+/// # Safety
+/// `f` must be safe to call on `this` with `args`, whatever it pops.
+unsafe fn stack_shift(f: usize, this: *mut c_void, args: &[i32]) -> i32 {
+    let shift: i32;
+    unsafe {
+        core::arch::asm!(
+            // edi is callee-saved in every x86 convention: it keeps esp.
+            "mov edi, esp",
+            "2:",
+            "test edx, edx",
+            "jz 3f",
+            "dec edx",
+            "push dword ptr [eax + edx*4]",
+            "jmp 2b",
+            "3:",
+            "call {f}",
+            "mov eax, esp",
+            "sub eax, edi",
+            "mov esp, edi",
+            f = in(reg) f,
+            in("ecx") this,
+            inout("edx") args.len() => _,
+            inout("eax") args.as_ptr() => shift,
+            out("edi") _,
+            clobber_abi("C"),
+        );
+    }
+    shift
+}
+
+/// [`Api::mqemu_skill_call_stack_shift`]: [`stack_shift`] of eqlib's
+/// declaration (`through_eqlib`) or the game's, as [`mqemu_skill_value`]
+/// calls it.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_skill_call_stack_shift(which: i32, through_eqlib: bool, skill: i32) -> i32 {
+    unsafe {
+        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return 0 };
+        if !usize::try_from(skill).is_ok_and(|skill| skill < NUM_SKILLS) {
+            return 0;
+        }
+        let character = pc.as_CharacterZoneClient().cast();
+        let pc_zone = pc.as_PcZoneClient().cast();
+        match (which, through_eqlib) {
+            // eqlib: GetBaseSkill(int), GetPcSkillLimit(int, bool).
+            (1, true) => stack_shift(eqlib::CharacterZoneClient_GetBaseSkill as *const () as usize, character, &[skill]),
+            (2, true) => stack_shift(eqlib::PcZoneClient_GetPcSkillLimit as *const () as usize, pc_zone, &[skill, 0]),
+            (1, false) => stack_shift(eqlib::CharacterZoneClient__GetBaseSkill, character, &[skill, 0]),
+            (2, false) => stack_shift(eqlib::PcZoneClient__GetPcSkillLimit, pc_zone, &[skill]),
+            _ => 0,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1139,6 +1284,78 @@ mod tests {
         assert_eq!(special_class_name(255), Some(c"Aura"));
         for class in [1, 16, 41, 65, 75, 252] {
             assert_eq!(special_class_name(class), None, "class {class}");
+        }
+    }
+
+    #[test]
+    fn auras_reads_the_binned_array_up_to_what_fits() {
+        let (_manager_storage, manager) = zeroed::<ClientAuraManager>();
+        let manager = unsafe { &*manager };
+        let size = size_of::<crate::layouts::AuraData>();
+        // Two bins of two auras each.
+        let mut first = vec![0u64; (2 * size).div_ceil(8)];
+        let mut second = vec![0u64; (2 * size).div_ceil(8)];
+        let (first_ptr, second_ptr) = (first.as_mut_ptr().cast::<u8>(), second.as_mut_ptr().cast::<u8>());
+        let aura = |bin: *mut u8, slot: usize| unsafe { &*bin.add(slot * size).cast::<crate::layouts::AuraData>() };
+        for (i, (bin, slot)) in [(first_ptr, 0), (first_ptr, 1), (second_ptr, 0)].into_iter().enumerate() {
+            let aura = aura(bin, slot);
+            aura.set_Name_at(0, b'A' as c_char);
+            aura.set_Name_at(1, b'0' as c_char + i as c_char);
+            aura.set_SpawnID(100 + i as u32);
+            aura.set_Cost(10 * i as i32);
+            aura.set_IconID(7);
+        }
+        let mut bins = [first_ptr.cast::<crate::layouts::AuraData>(), second_ptr.cast()];
+        let array = manager.Auras();
+        array.set_m_array(bins.as_mut_ptr());
+        array.set_m_length(3);
+        array.set_m_binShift(1);
+        array.set_m_slotMask(1);
+
+        let empty = mqemu_aura { name: [0; 64], spawn_id: 0, cost: 0, icon_id: 0 };
+        let mut out = [empty; 4];
+        assert_eq!(unsafe { auras(Some(manager), &mut out) }, 3);
+        let name = |aura: &mqemu_aura| unsafe { CStr::from_ptr(aura.name.as_ptr()) }.to_str().unwrap();
+        assert_eq!([name(&out[0]), name(&out[1]), name(&out[2])], ["A0", "A1", "A2"]);
+        assert_eq!((out[2].spawn_id, out[2].cost, out[2].icon_id), (102, 20, 7), "from the second bin");
+        assert_eq!(name(&out[3]), "", "past the count");
+
+        let mut one = [empty; 1];
+        assert_eq!(unsafe { auras(Some(manager), &mut one) }, 3, "says how many there are");
+        assert_eq!(name(&one[0]), "A0");
+        assert_eq!(unsafe { auras(None, &mut out) }, 0);
+    }
+
+    #[test]
+    fn binned_refuses_what_its_counts_dont_allow() {
+        let mut bin = [1i32, 2];
+        let mut bins = [bin.as_mut_ptr(), core::ptr::null_mut()];
+        let bins = bins.as_mut_ptr();
+        let get = |index, length, shift| unsafe { binned(bins, length, shift, 1, index) }.copied();
+        assert_eq!(get(1, 4, 1), Some(2));
+        assert_eq!(get(2, 4, 1), None, "a missing bin");
+        assert_eq!(get(4, 4, 1), None, "past the length");
+        assert_eq!(get(0, 4, 40), None, "a damaged shift");
+        assert_eq!(get(0, -1, 1), None);
+        assert_eq!(unsafe { binned::<i32>(core::ptr::null_mut(), 4, 1, 1, 0) }, None);
+    }
+
+    #[test]
+    fn stack_shift_sees_a_callee_popping_the_wrong_amount() {
+        // ret 4: pops one argument.
+        unsafe extern "thiscall" fn one(_this: *mut c_void, a: i32) -> i32 {
+            a
+        }
+        // ret 8: pops two.
+        unsafe extern "thiscall" fn two(_this: *mut c_void, a: i32, _b: i32) -> i32 {
+            a
+        }
+        let this = core::ptr::null_mut();
+        unsafe {
+            assert_eq!(stack_shift(one as *const () as usize, this, &[5]), 0, "pops what was pushed");
+            assert_eq!(stack_shift(two as *const () as usize, this, &[5, 0]), 0);
+            assert_eq!(stack_shift(two as *const () as usize, this, &[5]), 4, "pops one more than pushed");
+            assert_eq!(stack_shift(one as *const () as usize, this, &[5, 0]), -4, "leaves one behind");
         }
     }
 

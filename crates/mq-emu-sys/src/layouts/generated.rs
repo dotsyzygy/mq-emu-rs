@@ -1667,6 +1667,99 @@ impl ArrayClass2_AchievementCategory {
     }
 }
 
+/// C++ class `ArrayClass2<AuraData>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_AuraData {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_AuraData {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_binShift` at 0xc (0xc within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_binShift` at 0xc (0xc within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_array` at 0x10 (0x10 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut AuraData {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_array` at 0x10 (0x10 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut AuraData) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_binCount` at 0x14 (0x14 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_binCount` at 0x14 (0x14 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<AuraData>::m_valid` at 0x18 (0x18 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<AuraData>::m_valid` at 0x18 (0x18 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass2<CXWnd *>` (0x1c bytes).
 #[repr(C)]
 pub struct ArrayClass2_CXWnd {
@@ -3725,6 +3818,79 @@ impl ArrayClass_unsigned_int {
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `AuraData` (0x4c bytes).
+#[repr(C)]
+pub struct AuraData {
+    _bytes: UnsafeCell<[u8; 0x4c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl AuraData {
+    /// `AuraData::Name` at 0x0 (0x0 within `AuraData`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `AuraData::Name` at 0x0 (0x0 within `AuraData`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `AuraData::Name` at 0x0 (0x0 within `AuraData`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x0 + index * 0x1) }
+    }
+
+    /// `AuraData::Name` at 0x0 (0x0 within `AuraData`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x0 + index * 0x1, value) }
+    }
+
+    /// `AuraData::SpawnID` at 0x40 (0x40 within `AuraData`).
+    #[inline]
+    pub fn SpawnID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x40) }
+    }
+
+    /// `AuraData::SpawnID` at 0x40 (0x40 within `AuraData`).
+    #[inline]
+    pub fn set_SpawnID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x40, value) }
+    }
+
+    /// `AuraData::Cost` at 0x44 (0x44 within `AuraData`).
+    #[inline]
+    pub fn Cost(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `AuraData::Cost` at 0x44 (0x44 within `AuraData`).
+    #[inline]
+    pub fn set_Cost(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x44, value) }
+    }
+
+    /// `AuraData::IconID` at 0x48 (0x48 within `AuraData`).
+    #[inline]
+    pub fn IconID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `AuraData::IconID` at 0x48 (0x48 within `AuraData`).
+    #[inline]
+    pub fn set_IconID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x48, value) }
     }
 }
 
@@ -45262,6 +45428,21 @@ impl ClaimDataCollection {
     }
 }
 
+/// C++ class `ClientAuraManager` (0x1c bytes).
+#[repr(C)]
+pub struct ClientAuraManager {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ClientAuraManager {
+    /// `ClientAuraManager::Auras` at 0x0 (0x0 within `ClientAuraManager`).
+    #[inline]
+    pub fn Auras(&self) -> &ArrayClass2_AuraData {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+}
+
 /// C++ class `ClientSpellManager` (0xafeec bytes).
 #[repr(C)]
 pub struct ClientSpellManager {
@@ -85229,6 +85410,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
     RecordInfo { name: "ArrayClass2<Achievement>", rust_name: "ArrayClass2_Achievement", size: 0x1c },
     RecordInfo { name: "ArrayClass2<AchievementCategory>", rust_name: "ArrayClass2_AchievementCategory", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<AuraData>", rust_name: "ArrayClass2_AuraData", size: 0x1c },
     RecordInfo { name: "ArrayClass2<CXWnd *>", rust_name: "ArrayClass2_CXWnd", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SHistoryElement>", rust_name: "ArrayClass2_SHistoryElement", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SLinkInfo>", rust_name: "ArrayClass2_SLinkInfo", size: 0x1c },
@@ -85262,6 +85444,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass<bool>", rust_name: "ArrayClass_bool", size: 0x10 },
     RecordInfo { name: "ArrayClass<int>", rust_name: "ArrayClass_int", size: 0x10 },
     RecordInfo { name: "ArrayClass<unsigned int>", rust_name: "ArrayClass_unsigned_int", size: 0x10 },
+    RecordInfo { name: "AuraData", rust_name: "AuraData", size: 0x4c },
     RecordInfo { name: "BandolierItemInfo", rust_name: "BandolierItemInfo", size: 0x48 },
     RecordInfo { name: "BandolierSet", rust_name: "BandolierSet", size: 0x140 },
     RecordInfo { name: "BenefitSelection", rust_name: "BenefitSelection", size: 0x8 },
@@ -85324,6 +85507,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ChatFilterData", rust_name: "ChatFilterData", size: 0x88 },
     RecordInfo { name: "CircularArrayClass2<STextLine>", rust_name: "CircularArrayClass2_STextLine", size: 0x28 },
     RecordInfo { name: "ClaimDataCollection", rust_name: "ClaimDataCollection", size: 0x10 },
+    RecordInfo { name: "ClientAuraManager", rust_name: "ClientAuraManager", size: 0x1c },
     RecordInfo { name: "ClientSpellManager", rust_name: "ClientSpellManager", size: 0xafeec },
     RecordInfo { name: "ControllerBase", rust_name: "ControllerBase", size: 0x4 },
     RecordInfo { name: "ControllerFactory", rust_name: "ControllerFactory", size: 0x14 },
@@ -85582,6 +85766,13 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<AuraData>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<AuraData>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<AuraData>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<AuraData>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<AuraData>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<AuraData>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<AuraData>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85729,6 +85920,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<unsigned int>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<unsigned int>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<unsigned int>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<unsigned int>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<unsigned int>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<unsigned int>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "AuraData", field: "Name", accessor: "Name", declared_in: "AuraData", offset: 0x0, decl_offset: 0x0, size: 0x40, bits: None },
+    FieldInfo { record: "AuraData", field: "SpawnID", accessor: "SpawnID", declared_in: "AuraData", offset: 0x40, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "AuraData", field: "Cost", accessor: "Cost", declared_in: "AuraData", offset: 0x44, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "AuraData", field: "IconID", accessor: "IconID", declared_in: "AuraData", offset: 0x48, decl_offset: 0x48, size: 0x4, bits: None },
     FieldInfo { record: "BandolierItemInfo", field: "ItemID", accessor: "ItemID", declared_in: "BandolierItemInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "BandolierItemInfo", field: "IconID", accessor: "IconID", declared_in: "BandolierItemInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "BandolierItemInfo", field: "Name", accessor: "Name", declared_in: "BandolierItemInfo", offset: 0x8, decl_offset: 0x8, size: 0x40, bits: None },
@@ -89223,6 +89418,7 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CircularArrayClass2<STextLine>", field: "ChunkAlloc", accessor: "ChunkAlloc", declared_in: "CircularArrayClass2<STextLine>", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "CircularArrayClass2<STextLine>", field: "bValid", accessor: "bValid", declared_in: "CircularArrayClass2<STextLine>", offset: 0x24, decl_offset: 0x24, size: 0x1, bits: None },
     FieldInfo { record: "ClaimDataCollection", field: "claimData", accessor: "claimData", declared_in: "ClaimDataCollection", offset: 0x0, decl_offset: 0x0, size: 0x10, bits: None },
+    FieldInfo { record: "ClientAuraManager", field: "Auras", accessor: "Auras", declared_in: "ClientAuraManager", offset: 0x0, decl_offset: 0x0, size: 0x1c, bits: None },
     FieldInfo { record: "ClientSpellManager", field: "__vfptr", accessor: "__vfptr", declared_in: "SpellManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ClientSpellManager", field: "FileStats", accessor: "FileStats", declared_in: "FileStatMgr", offset: 0x4, decl_offset: 0x0, size: 0x10, bits: None },
     FieldInfo { record: "ClientSpellManager", field: "SpellsCrc32", accessor: "SpellsCrc32", declared_in: "SpellManager", offset: 0x14, decl_offset: 0x14, size: 0x2bf24, bits: None },
