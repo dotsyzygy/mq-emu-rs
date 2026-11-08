@@ -19,6 +19,7 @@ const INVENTORY: &str = "InventoryWindow";
 const INVENTORY_DONE: &str = "IW_DoneButton";
 /// The main chat window and its input, for typing.
 const CHAT_INPUT: &str = "ChatWindow/CW_ChatInput";
+const CHAT: &str = "ChatWindow";
 /// Texts longer than this don't fit `${...}`'s result (MAX_STRING), so
 /// they aren't compared.
 const MAX_COMPARED_TEXT: usize = 1500;
@@ -105,6 +106,7 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) {
         acting(task, report).await;
         typing(task, report).await;
         context_menu(task, report).await;
+        chat_minimize(task, report).await;
     }
 }
 
@@ -251,6 +253,71 @@ async fn typing(task: &Task<RustTest>, report: &mut Report) {
 
 /// The inventory window's context menu, opened with a right click, read
 /// against ${Menu} and closed.
+/// Right-clicks the chat window and selects the first item of its context
+/// menu whose text has one of `words` (lowercase); closes the menu if it's
+/// still open afterwards.
+async fn select_from_chat_menu(task: &Task<RustTest>, words: &[&str]) -> Result<(), String> {
+    if !task.with(|mq| mq.window(CHAT).is_some_and(|chat| chat.click(Click::Right))) {
+        return Err(format!("click(Right) on {CHAT} failed"));
+    }
+    if !task.wait_until_timeout(|mq| mq.context_menu().is_some(), CLICK_TIMEOUT).await {
+        return Err("no context menu opened".into());
+    }
+    task.with(|mq| {
+        let menu = mq.context_menu().ok_or("the context menu closed")?;
+        let items: Vec<String> = menu.items().collect();
+        let found = items.iter().position(|item| {
+            let item = item.to_ascii_lowercase();
+            words.iter().any(|word| item.contains(word))
+        });
+        let selected = found.map(|index| menu.select(index));
+        if let Some(menu) = mq.context_menu() {
+            menu.close();
+        }
+        match selected {
+            Some(true) => Ok(()),
+            Some(false) => Err(format!("select refused item {found:?} of {items:?}")),
+            None => Err(format!("no {words:?} in {items:?}")),
+        }
+    })
+}
+
+/// Selects Minimize in the chat window's context menu, then again to
+/// restore it.
+async fn chat_minimize(task: &Task<RustTest>, report: &mut Report) {
+    let ready = task.with(|mq| {
+        let skip = if mq.context_menu().is_some() {
+            Some("a context menu is already open".to_owned())
+        } else {
+            match mq.window(CHAT) {
+                Some(chat) if chat.is_open() && !chat.is_minimized() => None,
+                Some(_) => Some(format!("{CHAT} is closed or minimized")),
+                None => Some(format!("no {CHAT}")),
+            }
+        };
+        if let Some(why) = &skip {
+            report.print(mq, "selecting a context menu item", Check::Skip(why.clone()));
+        }
+        skip.is_none()
+    });
+    if !ready {
+        return;
+    }
+    let minimized = |want: bool| move |mq: &Mq<RustTest>| mq.window(CHAT).is_some_and(|chat| chat.is_minimized() == want);
+
+    let picked = select_from_chat_menu(task, &["minimize"]).await;
+    let done = picked.is_ok() && task.wait_until_timeout(minimized(true), CLICK_TIMEOUT).await;
+    task.with(|mq| report.print(mq, &format!("select(Minimize) in {CHAT}'s context menu minimizes it"), Check::that(done, || {
+        picked.clone().err().unwrap_or_else(|| "not minimized".into())
+    })));
+
+    let picked = select_from_chat_menu(task, &["minimize", "restore", "maximize"]).await;
+    let done = picked.is_ok() && task.wait_until_timeout(minimized(false), CLICK_TIMEOUT).await;
+    task.with(|mq| report.print(mq, "selecting it again restores it", Check::that(done, || {
+        picked.clone().err().unwrap_or_else(|| "still minimized".into())
+    })));
+}
+
 async fn context_menu(task: &Task<RustTest>, report: &mut Report) {
     let opened = task.with(|mq| {
         if mq.context_menu().is_some() {
