@@ -4,7 +4,7 @@ use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CComboWnd, CContainerMgr, CHotButtonWnd, CharacterBase, ItemGlobalIndex, VeBaseReferenceCount, VePointer_ItemClient,CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -89,6 +89,9 @@ imports! {
         pub static mut pWndMgr: ForeignPointer<CXWndManager>;
         /// The context menus: which are open (`pCurrMenus`, `NumVisibleMenus`).
         pub static mut pContextMenuManager: ForeignPointer<CContextMenuManager>;
+        /// The bag windows: which are open, and on what (`pContainerWnds`), and
+        /// the world container (`WorldContainer`).
+        pub static mut pContainerMgr: ForeignPointer<CContainerMgr>;
         /// Every item slot window (`SlotArray`), as `/itemnotify` finds them.
         pub static mut pInvSlotMgr: ForeignPointer<CInvSlotMgr>;
         /// The trade window: what's offered, and whether each side is ready.
@@ -258,6 +261,24 @@ imports! {
         pub fn CHotButton_GetHotButtonData(this: *const CHotButton) -> *const HotButtonData = "?GetHotButtonData@CHotButton@eqlib@@QBEPBUHotButtonData@2@XZ";
         /// Moves the slider to `value`.
         pub fn CSliderWnd_SetValue(this: *mut CSliderWnd, value: c_int) = "?SetValue@CSliderWnd@eqlib@@QAEXH@Z";
+        /// Selects row `row` (without telling anyone).
+        pub fn CListWnd_SetCurSel(this: *mut CListWnd, row: c_int) = "?SetCurSel@CListWnd@eqlib@@QAEXH@Z";
+        /// The selected row, or -1.
+        pub fn CListWnd_GetCurSel(this: *const CListWnd) -> c_int = "?GetCurSel@CListWnd@eqlib@@QBEHXZ";
+        /// Scrolls the list so row `row` shows.
+        pub fn CListWnd_EnsureVisible(this: *mut CListWnd, row: c_int) = "?EnsureVisible@CListWnd@eqlib@@QAEXH@Z";
+        /// Picks row `row` of the combo box's list and shows it as the choice.
+        pub fn CComboWnd_SetChoice(this: *mut CComboWnd, row: c_int) = "?SetChoice@CComboWnd@eqlib@@QAEXH@Z";
+        /// Presses the bar's button `button` (0-based), as its key does;
+        /// `allow_auto_right_click` is a BOOL.
+        pub fn CHotButtonWnd_DoHotButton(this: *mut CHotButtonWnd, button: c_int, allow_auto_right_click: c_int) = "?DoHotButton@CHotButtonWnd@eqlib@@QAEXHH@Z";
+        /// The item at `location`, constructed into `out` (C++ returns the
+        /// `VePointer` by value, holding a reference), which it returns.
+        pub fn CharacterBase_GetItemByGlobalIndex(this: *const CharacterBase, out: *mut VePointer_ItemClient, location: *const ItemGlobalIndex) -> *mut VePointer_ItemClient
+            = "?GetItemByGlobalIndex@CharacterBase@eqlib@@QBE?AV?$VePointer@VItemClient@eqlib@@@2@ABVItemGlobalIndex@2@@Z";
+        /// Drops a reference, deleting the object with the last (what a
+        /// `VePointer`'s destructor does).
+        pub fn VeBaseReferenceCount_DecrementRefCount(this: *mut VeBaseReferenceCount) = "?DecrementRefCount@VeBaseReferenceCount@eqlib@@QAEXXZ";
 
         // eqlib/game/CXStr.h
         /// Constructs a CXStr in `this` from NUL-terminated `text`.

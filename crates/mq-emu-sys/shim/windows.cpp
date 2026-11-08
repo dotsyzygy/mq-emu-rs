@@ -1,11 +1,8 @@
-// EverQuest's own UI windows: finding them as MacroQuest does, what only the
-// game's functions can say about them (their kind, XML names, tooltip, list
-// text, the item in an item slot or behind a hot button), clicking and
-// notifying them as /notify and ${Window} do, a plugin's own windows, made
-// from screen pieces in UI XML it adds (AddXMLFile), subclassing the game's
-// windows, drawing on them, what /itemnotify does with an item it finds no
-// slot window for, picking up part of a stack, and buying and selling at a
-// merchant.
+// EverQuest's own UI windows, what the Rust side (windows.rs) doesn't do yet:
+// a plugin's own windows, made from screen pieces in UI XML it adds
+// (AddXMLFile), drawing on windows, what /itemnotify does with an item it
+// finds no slot window for, picking up part of a stack, and buying and
+// selling at a merchant. Subclassing is in subclass.cpp.
 //
 // This file imports MQ2Main.dll and eqlib.dll, so only plugins link it;
 // mq-emu's tests use fakes instead. Every function checks its window for null
@@ -36,131 +33,6 @@ struct mqemu_rect
 	int32_t right;
 	int32_t bottom;
 };
-
-namespace {
-
-// MacroQuest's click names (MQ2Windows.cpp's szClickNotification), in the
-// order mqemu_window_click numbers them.
-const char* const kClickNames[] = {
-	"leftmouse",
-	"leftmouseup",
-	"leftmouseheld",
-	"leftmouseheldup",
-	"rightmouse",
-	"rightmouseup",
-	"rightmouseheld",
-	"rightmouseheldup",
-};
-
-} // namespace
-
-extern "C" CXWnd* mqemu_find_window(const char* name)
-{
-	try
-	{
-		if (name == nullptr || name[0] == 0 || std::strchr(name, '/'))
-			return nullptr;
-		return mq::FindMQ2Window(name);
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
-
-extern "C" bool mqemu_window_click(CXWnd* window, int click)
-{
-	try
-	{
-		if (window == nullptr || click < 0 || click >= static_cast<int>(std::size(kClickNames)))
-			return false;
-		return mq::SendWndClick2(window, kClickNames[click]);
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_list_select(CXWnd* window, int row)
-{
-	try
-	{
-		if (window == nullptr || row < 0)
-			return false;
-		CListWnd* list = nullptr;
-		switch (window->GetType())
-		{
-		case UI_Listbox:
-		case UI_TreeView:
-			list = static_cast<CListWnd*>(window);
-			break;
-		case UI_Combobox:
-			list = static_cast<CComboWnd*>(window)->pListWnd;
-			break;
-		default:
-			return false;
-		}
-		// SendListSelect2 checks the end but not the start, and reports
-		// failures as macro errors; neither is wanted here.
-		if (list == nullptr || row >= list->ItemsArray.GetCount())
-			return false;
-		return mq::SendListSelect2(window, row);
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-// ----- item slots -----
-
-extern "C" ItemClient* mqemu_inv_slot_item(CInvSlotWnd* slot)
-{
-	try
-	{
-		if (slot == nullptr || slot->GetType() != UI_InvSlot)
-			return nullptr;
-		// ${Window.InvSlot.Item}: the item the slot is linked to (a hot
-		// button's), else what's at its location. The item outlives the
-		// ItemPtr: its container (or the slot) holds it.
-		if (slot->LinkedItem)
-			return slot->LinkedItem.get();
-		if (!pLocalPC)
-			return nullptr;
-		return pLocalPC->GetItemByGlobalIndex(slot->ItemLocation).get();
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
-
-// ----- hot buttons -----
-
-extern "C" bool mqemu_hot_button_activate(CHotButton* button)
-{
-	try
-	{
-		if (button == nullptr || button->GetType() != UI_HotButton)
-			return false;
-		// ${Window.HotButton.Activate}: the bar's window presses it, as its key would.
-		char name[64];
-		if (button->BarIndex > 0)
-			sprintf_s(name, "HotButtonWnd%d", button->BarIndex + 1);
-		else
-			strcpy_s(name, "HotButtonWnd");
-		CHotButtonWnd* bar = static_cast<CHotButtonWnd*>(mq::FindMQ2Window(name));
-		if (bar == nullptr)
-			return false;
-		bar->DoHotButton(button->ButtonIndex, false);
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
 
 // ----- a plugin's own windows -----
 

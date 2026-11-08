@@ -20,6 +20,7 @@ const INVENTORY_DONE: &str = "IW_DoneButton";
 /// The main chat window and its input, for typing.
 const CHAT_INPUT: &str = "ChatWindow/CW_ChatInput";
 const CHAT: &str = "ChatWindow";
+const AA_WINDOW: &str = "AAWindow";
 /// Texts longer than this don't fit `${...}`'s result (MAX_STRING), so
 /// they aren't compared.
 const MAX_COMPARED_TEXT: usize = 1500;
@@ -107,6 +108,35 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) {
         typing(task, report).await;
         context_menu(task, report).await;
         chat_scrollbar(task, report).await;
+        task.with(|mq| aa_list_select(mq, report));
+    }
+}
+
+/// `select` on a list, as `/notify AAWindow <list> listselect <n>` does: in
+/// the AA window (the user's pick), where selecting an ability only shows
+/// it; then the row selected before is selected again.
+fn aa_list_select(mq: &Mq<RustTest>, report: &mut Report) {
+    const LABEL: &str = "list select picks a row of the AA window's list";
+    let Some(aa) = mq.window(AA_WINDOW).filter(|w| w.is_open()) else {
+        report.print(mq, LABEL, Check::Skip(format!("{AA_WINDOW} isn't open")));
+        return;
+    };
+    let Some(list) = aa.descendants().filter_map(|w| w.as_list()).find(|list| list.window().is_open() && list.len() > 1) else {
+        report.print(mq, LABEL, Check::Skip(format!("no list in {AA_WINDOW} with two rows")));
+        return;
+    };
+    let id = list.window().screen_id().unwrap_or_default();
+    let before = list.selected();
+    let other = if before == Some(0) { 1 } else { 0 };
+    let selected = list.select(other);
+    let cur_sel = mq.parse(&format!("${{Window[{AA_WINDOW}].Child[{id}].GetCurSel}}"));
+    report.print(mq, &format!("{LABEL} ({id}, row {})", other + 1), Check::that(selected && list.selected() == Some(other) && cur_sel == (other + 1).to_string(), || {
+        format!("select: {selected}; selected {:?}; ${{...GetCurSel}} is {cur_sel}", list.selected())
+    }));
+    report.print(mq, "list select refuses a row past its end", Check::that(!list.select(list.len()), || "select took it".into()));
+    if let Some(before) = before {
+        let back = list.select(before);
+        report.print(mq, "and back", Check::that(back && list.selected() == Some(before), || format!("selected {:?}, was {before}", list.selected())));
     }
 }
 

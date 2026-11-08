@@ -18,9 +18,11 @@
 
 use core::ffi::{CStr, c_char, c_void};
 
-use crate::constants::{UI_HOT_BUTTON, UI_INV_SLOT, UI_SLIDER, UI_TAB_BOX, UI_UNKNOWN, XWM_CLOSE, XWM_HISTORY, XWM_HITENTER, XWM_LCLICK, XWM_LCLICKHOLD, XWM_LINK, XWM_LMOUSEUP, XWM_MAXIMIZEBOX, XWM_MENUSELECT, XWM_MOUSEOVER, XWM_NEWVALUE, XWM_QMARKBOX, XWM_RCLICK};
+use crate::constants::{UI_COMBOBOX, UI_HOT_BUTTON, UI_INV_SLOT, UI_LISTBOX, UI_SCREEN, UI_SLIDER, UI_TAB_BOX, UI_TREE_VIEW, UI_UNKNOWN, XWM_CLOSE, XWM_HISTORY, XWM_HITENTER, XWM_LCLICK, XWM_LCLICKHOLD, XWM_LINK, XWM_LMOUSEUP, XWM_MAXIMIZEBOX, XWM_MENUSELECT, XWM_MOUSEOVER, XWM_NEWVALUE, XWM_QMARKBOX, XWM_RCLICK};
 use crate::eqlib;
-use crate::layouts::{CContextMenu, CHotButton, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CXRect, CXStr, CXWnd, ItemClient};
+use crate::layouts::{
+    CComboWnd, CContainerMgr, CContainerWnd, CContextMenu, CHotButton, CHotButtonWnd, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CXPoint, CXRect, CXStr, CXWnd, ItemClient, ItemContainerInstance, VePointer_ItemClient,
+};
 use crate::types::{OwnedCXStr, foreign, virtual_fn};
 
 /// A rectangle in screen or parent coordinates, as eqlib's `CXRect`: right
@@ -89,26 +91,6 @@ pub struct mqemu_window_event {
 pub type mqemu_window_hook_fn = unsafe extern "C" fn(user: *mut c_void, window: *mut CXWnd, event: *const mqemu_window_event) -> bool;
 
 function_table! {
-    /// The window `name` names, as `${Window[name]}` finds it: a top-level
-    /// window by name (a shown one first, if several share it), or a bag's
-    /// window as `pack1`..., `bank1`... or `enviro`. Null if none. Paths
-    /// (`a/b`) aren't taken here; the caller walks children itself.
-    pub fn mqemu_find_window(name: *const c_char) -> *mut CXWnd;
-    /// Clicks the window's center as `/notify` does (`SendWndClick2`):
-    /// `click` below [`CLICK_KINDS`] names `leftmouse`, `leftmouseup`,
-    /// `leftmouseheld`, `leftmouseheldup`, then the same for the right button.
-    pub fn mqemu_window_click(window: *mut CXWnd, click: i32) -> bool;
-    /// Selects a row of a list or a combo box and tells its parent, as
-    /// `/notify ... listselect` does (`SendListSelect2`). False for null,
-    /// another kind of window or a row that isn't there.
-    pub fn mqemu_list_select(window: *mut CXWnd, row: i32) -> bool;
-    /// The item an item slot shows (`${Window.InvSlot.Item}`): the one it's
-    /// linked to (a hot button's), else the one at its location. Null for
-    /// none, or a window that isn't an item slot.
-    pub fn mqemu_inv_slot_item(slot: *mut CInvSlotWnd) -> *mut ItemClient;
-    /// Presses a hot button as its bar does when its key is pressed
-    /// (`${Window.HotButton.Activate}`). False if its bar isn't found.
-    pub fn mqemu_hot_button_activate(button: *mut CHotButton) -> bool;
     /// MacroQuest's `AddXMLFile`. False only for an empty name.
     pub fn mqemu_add_xml_file(filename: *const c_char) -> bool;
     /// MacroQuest's `RemoveXMLFile`.
@@ -199,6 +181,26 @@ function_table! {
     pub fn mqemu_merchant_trade(buy: bool, count: i32) -> bool;
 
     rust {
+        /// The window `name` names, as `${Window[name]}` finds it: a top-level
+        /// window by name (a shown one first, if several share it), or a bag's
+        /// window as `pack1`..., `bank1`... or `enviro`. Null if none. Paths
+        /// (`a/b`) aren't taken here; the caller walks children itself.
+        pub fn mqemu_find_window(name: *const c_char) -> *mut CXWnd;
+        /// Clicks the window's center as `/notify` does (`SendWndClick2`):
+        /// `click` below [`CLICK_KINDS`] names `leftmouse`, `leftmouseup`,
+        /// `leftmouseheld`, `leftmouseheldup`, then the same for the right button.
+        pub fn mqemu_window_click(window: *mut CXWnd, click: i32) -> bool;
+        /// Selects a row of a list or a combo box and tells its parent, as
+        /// `/notify ... listselect` does (`SendListSelect2`). False for null,
+        /// another kind of window or a row that isn't there.
+        pub fn mqemu_list_select(window: *mut CXWnd, row: i32) -> bool;
+        /// The item an item slot shows (`${Window.InvSlot.Item}`): the one it's
+        /// linked to (a hot button's), else the one at its location. Null for
+        /// none, or a window that isn't an item slot.
+        pub fn mqemu_inv_slot_item(slot: *mut CInvSlotWnd) -> *mut ItemClient;
+        /// Presses a hot button as its bar does when its key is pressed
+        /// (`${Window.HotButton.Activate}`). False if its bar isn't found.
+        pub fn mqemu_hot_button_activate(button: *mut CHotButton) -> bool;
         /// The window's kind (`CXWnd::GetType`, a `UI_*` constant); `UI_UNKNOWN`
         /// for null or a window the UI's XML didn't create.
         pub fn mqemu_window_type(window: *mut CXWnd) -> i32;
@@ -259,10 +261,8 @@ function_table! {
 /// or NUL-terminated.
 pub unsafe extern "C" fn mqemu_window_set_text(window: *mut CXWnd, text: *const c_char) -> bool {
     use crate::constants::{UI_EDIT_BOX, XWM_NEWVALUE};
-    use crate::layouts::ControllerBase;
 
     type SetWindowText = unsafe extern "thiscall" fn(*mut CXWnd, *const CXStr);
-    type ControllerNotification = unsafe extern "thiscall" fn(*mut ControllerBase, *mut CXWnd, u32, *mut c_void);
 
     unsafe {
         let Some(edit) = window.as_ref() else { return false };
@@ -271,16 +271,7 @@ pub unsafe extern "C" fn mqemu_window_set_text(window: *mut CXWnd, text: *const 
         }
         let text = OwnedCXStr::new(text);
         virtual_fn::<SetWindowText>(window.cast(), CXWnd::VTABLE_SetWindowText)(window, text.as_ptr());
-
-        // CXWnd::ParentWndNotification, inline in eqlib.
-        let controller = edit.pController();
-        if !controller.is_null() {
-            virtual_fn::<ControllerNotification>(controller.cast(), ControllerBase::VTABLE_WndNotification)(controller, window, XWM_NEWVALUE, core::ptr::null_mut());
-        }
-        let parent = edit.ParentWindow();
-        if !parent.is_null() {
-            virtual_fn::<WndNotification>(parent.cast(), CXWnd::VTABLE_WndNotification)(parent, window, XWM_NEWVALUE, core::ptr::null_mut());
-        }
+        parent_notify(edit, XWM_NEWVALUE, core::ptr::null_mut());
         crate::mq2main::WeDidStuff();
     }
     true
@@ -288,6 +279,28 @@ pub unsafe extern "C" fn mqemu_window_set_text(window: *mut CXWnd, text: *const 
 
 /// `CXWnd::WndNotification`, a virtual.
 type WndNotification = unsafe extern "thiscall" fn(*mut CXWnd, *mut CXWnd, u32, *mut c_void) -> i32;
+
+/// `window.ParentWndNotification(window, message, data)`, inline in eqlib:
+/// tells the window's controller, then its parent, as if `window` sent it.
+///
+/// # Safety
+/// In game, on the game thread; `window` live.
+unsafe fn parent_notify(window: &CXWnd, message: u32, data: *mut c_void) {
+    use crate::layouts::ControllerBase;
+    type ControllerNotification = unsafe extern "thiscall" fn(*mut ControllerBase, *mut CXWnd, u32, *mut c_void);
+
+    let sender = core::ptr::from_ref(window).cast_mut();
+    unsafe {
+        let controller = window.pController();
+        if !controller.is_null() {
+            virtual_fn::<ControllerNotification>(controller.cast(), ControllerBase::VTABLE_WndNotification)(controller, sender, message, data);
+        }
+        let parent = window.ParentWindow();
+        if !parent.is_null() {
+            virtual_fn::<WndNotification>(parent.cast(), CXWnd::VTABLE_WndNotification)(parent, sender, message, data);
+        }
+    }
+}
 
 /// The NUL-terminated text of a CXStr, valid while the CXStr lives.
 ///
@@ -595,6 +608,326 @@ pub unsafe extern "C" fn mqemu_hot_button_item(button: *mut CHotButton) -> *mut 
     }
 }
 
+// ----- finding windows (FindMQ2Window) -----
+
+/// [`Api::mqemu_find_window`]: MacroQuest's `FindMQ2Window`, without paths.
+///
+/// # Safety
+/// In game, on the game thread; `name` null or NUL-terminated.
+pub unsafe extern "C" fn mqemu_find_window(name: *const c_char) -> *mut CXWnd {
+    if name.is_null() {
+        return core::ptr::null_mut();
+    }
+    let name = unsafe { CStr::from_ptr(name) }.to_bytes();
+    if name.is_empty() || name.contains(&b'/') {
+        return core::ptr::null_mut();
+    }
+    unsafe { find_window(name) }
+}
+
+/// `FindMQ2Window(name)` for a name without `/`. MacroQuest looks in a map
+/// it keeps from detours (windows the UI's XML made, and every screen
+/// `CSidlScreenWnd::Init` makes later), each under its XML name; this reads
+/// the same windows from the window manager, as MacroQuest fills its map at
+/// load. Else the bag names.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn find_window(name: &[u8]) -> *mut CXWnd {
+    unsafe {
+        if let Some(window) = screen_window(name) {
+            return window;
+        }
+        let Some(bag) = bag_name(name) else { return core::ptr::null_mut() };
+        foreign(&raw const eqlib::pContainerMgr).as_ref().map_or(core::ptr::null_mut(), |manager| bag_window(manager, bag).cast())
+    }
+}
+
+/// The screen (`UI_Screen`) whose XML name is `name`, ignoring ASCII case: a
+/// shown one first, else the first.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn screen_window(name: &[u8]) -> Option<*mut CXWnd> {
+    unsafe {
+        let manager = foreign(&raw const eqlib::pWndMgr).as_ref()?;
+        if !sidl_loaded() {
+            return None;
+        }
+        let windows = manager.pWindows();
+        let windows = game_slice(windows.m_array(), windows.m_length());
+        let named = |window: *mut CXWnd| {
+            !window.is_null()
+                && eqlib::CXWnd_GetXMLData(window).as_ref().is_some_and(|xml| xml.nClassIdx() == UI_SCREEN && cxstr_bytes(xml.sItemName()).eq_ignore_ascii_case(name))
+        };
+        first_shown(windows.iter().copied().filter(|window| named(*window)).map(|window| (window, (*window).dShow())))
+    }
+}
+
+/// The first candidate that's shown, else the first; as MacroQuest picks
+/// among windows that share a name.
+fn first_shown<T: Copy>(candidates: impl Iterator<Item = (T, bool)>) -> Option<T> {
+    let mut first = None;
+    for (candidate, shown) in candidates {
+        if shown {
+            return Some(candidate);
+        }
+        first.get_or_insert(candidate);
+    }
+    first
+}
+
+/// The game's array of `len` at `data`; empty for null or a length below one.
+///
+/// # Safety
+/// `data` null or valid for `len` elements, for `'a`.
+unsafe fn game_slice<'a, T>(data: *const T, len: i32) -> &'a [T] {
+    match usize::try_from(len) {
+        Ok(len) if len > 0 && !data.is_null() => unsafe { core::slice::from_raw_parts(data, len) },
+        _ => &[],
+    }
+}
+
+/// The inventory slot of the first bag (`InvSlot_FirstBagSlot`, `pack1`).
+const FIRST_BAG_SLOT: i16 = 23;
+
+/// A bag window name `FindMQ2Window` takes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum BagName {
+    /// `enviro`: the world container (a forge, a tradeskill container) open.
+    World,
+    /// `pack<n>`, `bank<n>`: the bag at a slot of a container.
+    At(ItemContainerInstance, i16),
+}
+
+/// The bag `name` names (ASCII case ignored): `pack<n>` for inventory bag
+/// slot n, `bank<n>` for bank slot n (counted from 1), or `enviro`.
+/// MacroQuest's `bank<n>` asks the bank for slot n-2, which is a bug.
+fn bag_name(name: &[u8]) -> Option<BagName> {
+    if name.eq_ignore_ascii_case(b"enviro") {
+        return Some(BagName::World);
+    }
+    let (prefix, number) = name.split_at_checked(4)?;
+    if number.is_empty() || !number.iter().all(u8::is_ascii_digit) {
+        return None;
+    }
+    let n = core::str::from_utf8(number).ok()?.parse::<i16>().ok().filter(|n| *n >= 1)?;
+    if prefix.eq_ignore_ascii_case(b"pack") {
+        Some(BagName::At(ItemContainerInstance::eItemContainerPossessions, FIRST_BAG_SLOT.checked_add(n - 1)?))
+    } else if prefix.eq_ignore_ascii_case(b"bank") {
+        Some(BagName::At(ItemContainerInstance::eItemContainerBank, n - 1))
+    } else {
+        None
+    }
+}
+
+/// The open window of bag `bag`, or null. MacroQuest finds the bag's item
+/// and asks for the window holding it (`GetWindowForItem`); a bag's window
+/// also knows where its bag is (`Location`, set with it), so this looks
+/// for that. A window holds a bag while it's open (`Container`).
+///
+/// # Safety
+/// `manager`'s window pointers null or live, as their bag pointers.
+unsafe fn bag_window(manager: &CContainerMgr, bag: BagName) -> *mut CContainerWnd {
+    let holds = |window: &CContainerWnd| {
+        let item = window.Container().m_pObject();
+        !item.is_null()
+            && match bag {
+                BagName::World => item == manager.WorldContainer().m_pObject(),
+                BagName::At(kind, slot) => {
+                    let location = window.CContainerWnd_Location();
+                    location.Location() == kind && location.Index().m_slots() == [slot, -1, -1]
+                }
+            }
+    };
+    manager.pContainerWnds().into_iter().find(|window| unsafe { window.as_ref() }.is_some_and(holds)).unwrap_or(core::ptr::null_mut())
+}
+
+// ----- clicking (SendWndClick2) -----
+
+/// The handlers [`mqemu_window_click`] calls for each click (MacroQuest's
+/// click names, in order): vtable offsets of `CXWnd`'s mouse virtuals, far
+/// before `CButtonWnd`'s undeclared one, so right for every window.
+const CLICKS: [&[usize]; CLICK_KINDS] = [
+    &[CXWnd::VTABLE_HandleLButtonDown],
+    &[CXWnd::VTABLE_HandleLButtonDown, CXWnd::VTABLE_HandleLButtonUp],
+    &[CXWnd::VTABLE_HandleLButtonDown, CXWnd::VTABLE_HandleLButtonHeld],
+    &[CXWnd::VTABLE_HandleLButtonDown, CXWnd::VTABLE_HandleLButtonHeld, CXWnd::VTABLE_HandleLButtonUpAfterHeld],
+    &[CXWnd::VTABLE_HandleRButtonDown],
+    &[CXWnd::VTABLE_HandleRButtonDown, CXWnd::VTABLE_HandleRButtonUp],
+    &[CXWnd::VTABLE_HandleRButtonDown, CXWnd::VTABLE_HandleRButtonHeld],
+    &[CXWnd::VTABLE_HandleRButtonDown, CXWnd::VTABLE_HandleRButtonHeld, CXWnd::VTABLE_HandleRButtonUpAfterHeld],
+];
+
+/// A point on screen, laid out as eqlib's `CXPoint`.
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+const _: () = assert!(size_of::<CXPoint>() == size_of::<Point>());
+
+/// `CXRect::CenterPoint`.
+fn center(rect: &mqemu_rect) -> Point {
+    Point {
+        x: rect.left.wrapping_add(rect.right.wrapping_sub(rect.left) / 2),
+        y: rect.top.wrapping_add(rect.bottom.wrapping_sub(rect.top) / 2),
+    }
+}
+
+/// [`Api::mqemu_window_click`]: MacroQuest's `SendWndClick2`: the click's
+/// handlers, at the window's center on screen, with no keys down.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window.
+pub unsafe extern "C" fn mqemu_window_click(window: *mut CXWnd, click: i32) -> bool {
+    type Handler = unsafe extern "thiscall" fn(*mut CXWnd, *const CXPoint, u32) -> i32;
+    let Some(handlers) = usize::try_from(click).ok().and_then(|click| CLICKS.get(click)) else { return false };
+    if window.is_null() {
+        return false;
+    }
+    unsafe {
+        let mut rect = mqemu_rect::default();
+        eqlib::CXWnd_GetScreenRect(window, (&raw mut rect).cast());
+        let point = center(&rect);
+        for &handler in *handlers {
+            virtual_fn::<Handler>(window.cast(), handler)(window, (&raw const point).cast(), 0);
+        }
+        crate::mq2main::WeDidStuff();
+    }
+    true
+}
+
+// ----- lists (SendListSelect2) -----
+
+/// The list a `listselect` acts on in a window of kind `kind`: a list or
+/// tree view itself, or a combo box's drop-down; and whether it's a combo
+/// box's.
+///
+/// # Safety
+/// `window` live, of kind `kind`.
+unsafe fn select_list(kind: i32, window: *mut CXWnd) -> Option<(*mut CListWnd, bool)> {
+    match kind {
+        UI_LISTBOX | UI_TREE_VIEW => Some((window.cast(), false)),
+        UI_COMBOBOX => {
+            let list = unsafe { (*window.cast::<CComboWnd>()).pListWnd() };
+            (!list.is_null()).then_some((list, true))
+        }
+        _ => None,
+    }
+}
+
+/// [`Api::mqemu_list_select`]: MacroQuest's `SendListSelect2`, which
+/// selects the row (`SetCurSel`, or a combo box's `SetChoice`), then tells
+/// the list's parent of a click on the row now selected (and scrolls a list
+/// to it). Rows below 0 are refused too, and nothing is said in chat.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window.
+pub unsafe extern "C" fn mqemu_list_select(window: *mut CXWnd, row: i32) -> bool {
+    unsafe {
+        if window.is_null() || row < 0 {
+            return false;
+        }
+        let Some((list, combo)) = select_list(eqlib::CXWnd_GetType(window), window) else { return false };
+        if !in_range(row, (*list).ItemsArray().m_length()) {
+            return false;
+        }
+        if combo {
+            eqlib::CComboWnd_SetChoice(window.cast(), row);
+        } else {
+            eqlib::CListWnd_SetCurSel(list, row);
+        }
+        let selected = eqlib::CListWnd_GetCurSel(list);
+        parent_notify(&*(*list).as_CXWnd(), XWM_LCLICK, selected as usize as *mut c_void);
+        if !combo {
+            eqlib::CListWnd_EnsureVisible(list, selected);
+        }
+        crate::mq2main::WeDidStuff();
+    }
+    true
+}
+
+// ----- item slots and hot buttons -----
+
+/// [`Api::mqemu_inv_slot_item`]: the slot's `LinkedItem`, else
+/// `pLocalPC->GetItemByGlobalIndex(ItemLocation)`. That returns a
+/// `VePointer` holding a reference, dropped here; the item lives on in its
+/// container, as the C++ shim's `.get()` on the temporary relied on.
+///
+/// # Safety
+/// In game, on the game thread; `slot` null or a live window.
+pub unsafe extern "C" fn mqemu_inv_slot_item(slot: *mut CInvSlotWnd) -> *mut ItemClient {
+    unsafe {
+        let Some(window) = slot.as_ref() else { return core::ptr::null_mut() };
+        if eqlib::CXWnd_GetType(window.as_CXWnd()) != UI_INV_SLOT {
+            return core::ptr::null_mut();
+        }
+        let linked = window.LinkedItem().m_pObject();
+        if !linked.is_null() {
+            return linked;
+        }
+        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return core::ptr::null_mut() };
+        let mut held = [0usize; size_of::<VePointer_ItemClient>().div_ceil(size_of::<usize>())];
+        let held = held.as_mut_ptr().cast::<VePointer_ItemClient>();
+        eqlib::CharacterBase_GetItemByGlobalIndex(pc.as_CharacterBase(), held, window.ItemLocation());
+        let item = (*held).m_pObject();
+        if let Some(reference) = item.as_ref() {
+            eqlib::VeBaseReferenceCount_DecrementRefCount(reference.as_VeBaseReferenceCount());
+        }
+        item
+    }
+}
+
+/// The name of hot bar `bar` (0-based) into `out`: `HotButtonWnd`, then
+/// `HotButtonWnd2`...
+fn hot_bar_name(bar: i32, out: &mut [u8; 24]) -> &[u8] {
+    const BASE: &[u8] = b"HotButtonWnd";
+    out[..BASE.len()].copy_from_slice(BASE);
+    let mut len = BASE.len();
+    if bar > 0 {
+        let mut number = bar.unsigned_abs() + 1;
+        let mut digits = [0u8; 10];
+        let mut count = 0;
+        loop {
+            digits[count] = b'0' + (number % 10) as u8;
+            count += 1;
+            number /= 10;
+            if number == 0 {
+                break;
+            }
+        }
+        for digit in digits[..count].iter().rev() {
+            out[len] = *digit;
+            len += 1;
+        }
+    }
+    &out[..len]
+}
+
+/// [`Api::mqemu_hot_button_activate`]: as `${Window.HotButton.Activate}`,
+/// the button's bar (found by name) presses it: `DoHotButton(index, false)`.
+///
+/// # Safety
+/// In game, on the game thread; `button` null or a live window.
+pub unsafe extern "C" fn mqemu_hot_button_activate(button: *mut CHotButton) -> bool {
+    unsafe {
+        let Some(window) = button.as_ref() else { return false };
+        if eqlib::CXWnd_GetType(window.as_CXWnd()) != UI_HOT_BUTTON {
+            return false;
+        }
+        let mut name = [0; 24];
+        let bar = find_window(hot_bar_name(window.BarIndex(), &mut name));
+        if bar.is_null() {
+            return false;
+        }
+        eqlib::CHotButtonWnd_DoHotButton(bar.cast::<CHotButtonWnd>(), window.ButtonIndex(), 0);
+    }
+    true
+}
+
 unsafe extern "C" {
     /// The vtable entry (counted in pointers from the first) a subclass
     /// ([`mqemu_window_subclass`]) replaces for hook kind `kind`; -1 for none.
@@ -605,6 +938,128 @@ unsafe extern "C" {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    extern crate std;
+    use std::{vec, vec::Vec};
+
+    /// Zeroed storage for a game object of type `T`.
+    fn zeroed<T>() -> (Vec<u64>, *mut T) {
+        let mut storage = vec![0u64; size_of::<T>().div_ceil(8)];
+        let ptr = storage.as_mut_ptr().cast();
+        (storage, ptr)
+    }
+
+    #[test]
+    fn first_shown_prefers_a_shown_window_else_the_first() {
+        assert_eq!(first_shown([(1, false), (2, true), (3, true)].into_iter()), Some(2));
+        assert_eq!(first_shown([(1, false), (2, false)].into_iter()), Some(1));
+        assert_eq!(first_shown(core::iter::empty::<(i32, bool)>()), None);
+    }
+
+    #[test]
+    fn game_slice_is_empty_for_null_or_no_length() {
+        let data = [1, 2, 3];
+        assert_eq!(unsafe { game_slice(data.as_ptr(), 2) }, [1, 2]);
+        assert!(unsafe { game_slice(data.as_ptr(), 0) }.is_empty());
+        assert!(unsafe { game_slice(data.as_ptr(), -1) }.is_empty());
+        assert!(unsafe { game_slice(core::ptr::null::<i32>(), 3) }.is_empty());
+    }
+
+    #[test]
+    fn bag_names_are_pack_bank_and_enviro() {
+        use ItemContainerInstance as Kind;
+        assert_eq!(bag_name(b"pack1"), Some(BagName::At(Kind::eItemContainerPossessions, 23)));
+        assert_eq!(bag_name(b"PACK10"), Some(BagName::At(Kind::eItemContainerPossessions, 32)));
+        assert_eq!(bag_name(b"bank1"), Some(BagName::At(Kind::eItemContainerBank, 0)), "not MacroQuest's slot -1");
+        assert_eq!(bag_name(b"Bank24"), Some(BagName::At(Kind::eItemContainerBank, 23)));
+        assert_eq!(bag_name(b"Enviro"), Some(BagName::World));
+        for name in [&b"pack"[..], b"pack0", b"pack-1", b"pack+1", b"pack1x", b"pak1", b"bank", b"enviro1", b"pack99999", b"", b"InventoryWindow"] {
+            assert_eq!(bag_name(name), None, "{}", std::string::String::from_utf8_lossy(name));
+        }
+    }
+
+    #[test]
+    fn bag_window_finds_the_open_window_on_the_bag() {
+        use ItemContainerInstance as Kind;
+        let (_manager_storage, manager) = zeroed::<CContainerMgr>();
+        let (_a_storage, a) = zeroed::<CContainerWnd>();
+        let (_b_storage, b) = zeroed::<CContainerWnd>();
+        let (_bag_storage, bag) = zeroed::<ItemClient>();
+        let (_world_storage, world) = zeroed::<ItemClient>();
+        let (manager_ref, a_ref, b_ref) = unsafe { (&*manager, &*a, &*b) };
+        let pack1 = BagName::At(Kind::eItemContainerPossessions, 23);
+        let find = |name| unsafe { bag_window(manager_ref, name) };
+        assert!(find(pack1).is_null(), "no windows");
+
+        // Window 3 was on pack1 but is closed; window 7 is on bank slot 1.
+        manager_ref.set_pContainerWnds_at(3, a);
+        manager_ref.set_pContainerWnds_at(7, b);
+        a_ref.CContainerWnd_Location().set_Location(Kind::eItemContainerPossessions);
+        a_ref.CContainerWnd_Location().Index().set_m_slots([23, -1, -1]);
+        b_ref.CContainerWnd_Location().set_Location(Kind::eItemContainerBank);
+        b_ref.CContainerWnd_Location().Index().set_m_slots([0, -1, -1]);
+        b_ref.Container().set_m_pObject(bag);
+        assert!(find(pack1).is_null(), "closed");
+        a_ref.Container().set_m_pObject(bag);
+        assert_eq!(find(pack1), a);
+        assert_eq!(find(BagName::At(Kind::eItemContainerBank, 0)), b);
+        assert!(find(BagName::At(Kind::eItemContainerPossessions, 24)).is_null());
+        assert!(find(BagName::At(Kind::eItemContainerBank, 23)).is_null(), "the bank's slot, not pack1's");
+
+        // A bag in a bag isn't pack1.
+        a_ref.CContainerWnd_Location().Index().set_m_slots([23, 0, -1]);
+        assert!(find(pack1).is_null());
+
+        assert!(find(BagName::World).is_null(), "no world container");
+        manager_ref.WorldContainer().set_m_pObject(world);
+        assert!(find(BagName::World).is_null(), "its window isn't open");
+        b_ref.Container().set_m_pObject(world);
+        assert_eq!(find(BagName::World), b);
+    }
+
+    #[test]
+    fn clicks_press_then_release_or_hold_as_their_names_say() {
+        use CXWnd as W;
+        assert_eq!(CLICKS[0], [W::VTABLE_HandleLButtonDown]);
+        assert_eq!(CLICKS[1], [W::VTABLE_HandleLButtonDown, W::VTABLE_HandleLButtonUp]);
+        assert_eq!(CLICKS[3], [W::VTABLE_HandleLButtonDown, W::VTABLE_HandleLButtonHeld, W::VTABLE_HandleLButtonUpAfterHeld]);
+        assert_eq!(CLICKS[5], [W::VTABLE_HandleRButtonDown, W::VTABLE_HandleRButtonUp]);
+        assert_eq!(CLICKS[7], [W::VTABLE_HandleRButtonDown, W::VTABLE_HandleRButtonHeld, W::VTABLE_HandleRButtonUpAfterHeld]);
+        // Below CButtonWnd's undeclared virtual at 0x164, where the PDB's
+        // offsets go wrong.
+        assert!(CLICKS.iter().flat_map(|c| c.iter()).all(|offset| *offset < 0x164));
+    }
+
+    #[test]
+    fn center_is_the_rects_middle_rounded_toward_its_corner() {
+        assert_eq!(center(&mqemu_rect { left: 10, top: 20, right: 31, bottom: 40 }), Point { x: 20, y: 30 });
+        assert_eq!(center(&mqemu_rect::default()), Point { x: 0, y: 0 });
+    }
+
+    #[test]
+    fn listselect_acts_on_a_list_or_a_combo_boxs_drop_down() {
+        let (_combo_storage, combo) = zeroed::<CComboWnd>();
+        let (_list_storage, list) = zeroed::<CListWnd>();
+        let window = combo.cast::<CXWnd>();
+        unsafe {
+            assert_eq!(select_list(UI_LISTBOX, window), Some((window.cast(), false)));
+            assert_eq!(select_list(UI_TREE_VIEW, window), Some((window.cast(), false)));
+            assert_eq!(select_list(UI_COMBOBOX, window), None, "no drop-down");
+            (*combo).set_pListWnd(list);
+            assert_eq!(select_list(UI_COMBOBOX, window), Some((list, true)));
+            assert_eq!(select_list(UI_TAB_BOX, window), None);
+        }
+    }
+
+    #[test]
+    fn hot_bars_are_named_from_hot_button_wnd() {
+        let mut out = [0; 24];
+        assert_eq!(hot_bar_name(0, &mut out), b"HotButtonWnd");
+        assert_eq!(hot_bar_name(-1, &mut out), b"HotButtonWnd");
+        assert_eq!(hot_bar_name(1, &mut out), b"HotButtonWnd2");
+        assert_eq!(hot_bar_name(9, &mut out), b"HotButtonWnd10");
+        assert_eq!(hot_bar_name(i32::MAX, &mut out), b"HotButtonWnd2147483648");
+    }
 
     #[test]
     fn notify_takes_the_messages_notify_names_but_not_link() {

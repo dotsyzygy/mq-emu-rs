@@ -119,8 +119,15 @@ impl<'a> Decoder<'a> {
             self.rest = &self.rest[1..];
             return self.names.get(digit as usize).cloned().ok_or_else(|| format!("bad name back-reference {digit}"));
         }
+        if self.eat("?$") {
+            let name = self.template_name()?;
+            if self.names.len() < 10 {
+                self.names.push(name.clone());
+            }
+            return Ok(name);
+        }
         if self.rest.starts_with('?') {
-            return self.fail("special or template name");
+            return self.fail("special name");
         }
         let end = self.rest.find('@').ok_or("unterminated name")?;
         let name = self.rest[..end].to_owned();
@@ -128,6 +135,31 @@ impl<'a> Decoder<'a> {
         if self.names.len() < 10 {
             self.names.push(name.clone());
         }
+        Ok(name)
+    }
+
+    /// A template instance's name after `?$` (`VePointer@VItemClient@eqlib@@@`),
+    /// as the layouts name it (`VePointer_ItemClient`). Its arguments have
+    /// their own name back-references, starting with the template's name.
+    /// Only class arguments are taken.
+    fn template_name(&mut self) -> Result<String> {
+        let end = self.rest.find('@').ok_or("unterminated template name")?;
+        let mut name = self.rest[..end].to_owned();
+        let mut inner = Decoder {
+            rest: &self.rest[end + 1..],
+            names: vec![name.clone()],
+            param_types: Vec::new(),
+        };
+        while !inner.eat("@") {
+            match inner.ty()? {
+                Type::Class(arg) => {
+                    name.push('_');
+                    name.push_str(&arg);
+                }
+                other => return Err(format!("can't decode template argument {other:?}")),
+            }
+        }
+        self.rest = inner.rest;
         Ok(name)
     }
 
@@ -543,6 +575,20 @@ fn a_class_returned_by_value_is_an_out_parameter_and_the_return() {
     );
     assert_eq!(check(List::CppFunctions, mangled, "out: *mut CXStr, text: *const CXStr, flag: bool", ""), ["the return type is ``, C++ has * mut CXStr"]);
     assert_eq!(check(List::CppFunctions, mangled, "", "*mut CXStr"), ["no out parameter for the CXStr C++ returns by value"]);
+}
+
+#[test]
+fn decodes_template_names_as_the_layouts_name_them() {
+    let mangled = "?GetItemByGlobalIndex@CharacterBase@eqlib@@QBE?AV?$VePointer@VItemClient@eqlib@@@2@ABVItemGlobalIndex@2@@Z";
+    let method = decode(mangled).unwrap();
+    assert_eq!(method.returns, Some(Type::Class("VePointer_ItemClient".into())));
+    // `2` after the template is still the outer `eqlib`.
+    assert_eq!(method.params, [Type::Reference { is_const: true, to: Box::new(Type::Class("ItemGlobalIndex".into())) }]);
+    let args = "this: *const CharacterBase, out: *mut VePointer_ItemClient, location: *const ItemGlobalIndex";
+    assert_eq!(check(List::Methods, mangled, args, "*mut VePointer_ItemClient"), Vec::<String>::new());
+    assert_eq!(check(List::Methods, mangled, args, "*mut VePointer_PcClient"), ["the return type is `* mut VePointer_PcClient`, C++ has * mut VePointer_ItemClient"]);
+    // A template argument that isn't a class isn't taken.
+    assert!(decode("?Get@?$Array@H@eqlib@@QAEXXZ").unwrap_err().starts_with("can't decode template argument"));
 }
 
 #[test]
