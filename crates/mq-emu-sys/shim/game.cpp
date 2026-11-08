@@ -627,20 +627,6 @@ extern "C" bool mqemu_friend_name(int index, char* out, size_t cap)
 	}
 }
 
-// The achievement manager (AchievementManager::Instance): every achievement
-// and category the client knows, and your progress.
-extern "C" AchievementManager* mqemu_achievement_manager()
-{
-	try
-	{
-		return &AchievementManager::Instance();
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
-
 // A chat link to `achievement` as `player` has it (FormatAchievementLink,
 // ${Achievement[...].Link}).
 extern "C" bool mqemu_achievement_link(const Achievement* achievement, const char* player, char* out, size_t cap)

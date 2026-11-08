@@ -19,12 +19,26 @@ macro_rules! imports {
             $( $(#[$mattr:meta])* pub fn $mname:ident ( $($margs:tt)* ) $(-> $mret:ty)? = $mlink:literal ; )*
         }
         )?
+        $(
+        // C++ functions that aren't members, and static members, by their
+        // mangled export names: `__cdecl`. `$csigs` lists them as `$sigs` does.
+        cpp_functions($csigs:ident) {
+            $( $(#[$cattr:meta])* pub fn $cname:ident ( $($cargs:tt)* ) $(-> $cret:ty)? = $clink:literal ; )*
+        }
+        )?
     ) => {
         #[link(name = $dll)]
         unsafe extern "C" {
             $( $(#[$fattr])* pub fn $fname( $($fargs)* ) $(-> $fret)?; )*
             $( $(#[$sattr])* pub static mut $sname: $sty; )*
         }
+
+        $(
+        #[link(name = $dll)]
+        unsafe extern "C" {
+            $( $(#[$cattr])* #[link_name = $clink] pub fn $cname( $($cargs)* ) $(-> $cret)?; )*
+        }
+        )?
 
         $(
         #[link(name = $dll)]
@@ -35,13 +49,19 @@ macro_rules! imports {
 
         /// Every symbol name declared in this module, as exported by the DLL.
         #[doc(hidden)]
-        pub const $names: &[&str] = &[ $(stringify!($fname),)* $(stringify!($sname),)* $($($mlink,)*)? ];
+        pub const $names: &[&str] = &[ $(stringify!($fname),)* $(stringify!($sname),)* $($($mlink,)*)? $($($clink,)*)? ];
 
         $(
         /// Every method declared in this module: its mangled name, then its
         /// Rust parameters and return type (empty for none) as written.
         #[doc(hidden)]
         pub const $sigs: &[(&str, &str, &str)] = &[ $( ($mlink, stringify!($($margs)*), concat!("" $(, stringify!($mret))?)), )* ];
+        )?
+
+        $(
+        /// Every C++ function declared in this module, as the methods' list.
+        #[doc(hidden)]
+        pub const $csigs: &[(&str, &str, &str)] = &[ $( ($clink, stringify!($($cargs)*), concat!("" $(, stringify!($cret))?)), )* ];
         )?
     };
 }
@@ -107,6 +127,9 @@ mod tests {
             pub fn Thing_Get(this: *const c_char, index: i32) -> bool = "?Get@Thing@@QBE_NH@Z";
             pub fn Thing_drop(this: *mut c_char) = "??1Thing@@QAE@XZ";
         }
+        cpp_functions(TEST_CPP_FUNCTIONS) {
+            pub fn Thing_Count() -> i32 = "?Count@Thing@@SAHXZ";
+        }
     }
 
     imports! {
@@ -118,7 +141,7 @@ mod tests {
 
     #[test]
     fn names_list_every_function_then_static() {
-        assert_eq!(TEST_IMPORTS, ["VariadicFn", "ReturnsValue", "SomeGlobal", "?Get@Thing@@QBE_NH@Z", "??1Thing@@QAE@XZ"]);
+        assert_eq!(TEST_IMPORTS, ["VariadicFn", "ReturnsValue", "SomeGlobal", "?Get@Thing@@QBE_NH@Z", "??1Thing@@QAE@XZ", "?Count@Thing@@SAHXZ"]);
     }
 
     #[test]
@@ -130,6 +153,7 @@ mod tests {
         for (&(link, args, ret), (elink, eargs, eret)) in TEST_METHODS.iter().zip(expected) {
             assert!(link == elink && same(args, eargs) && same(ret, eret), "{link}: ({args}) -> {ret}");
         }
+        assert!(matches!(TEST_CPP_FUNCTIONS, [("?Count@Thing@@SAHXZ", "", ret)] if same(ret, "i32")), "{TEST_CPP_FUNCTIONS:?}");
     }
 
     #[test]

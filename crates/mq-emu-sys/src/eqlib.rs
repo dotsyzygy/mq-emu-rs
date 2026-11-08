@@ -4,7 +4,7 @@ use core::ffi::{c_char, c_int, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AggroMeterManagerClient, CCastSpellWnd, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    AchievementManager, AggroMeterManagerClient, CCastSpellWnd, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -139,5 +139,11 @@ imports! {
         pub fn CXStr_from_c_str(this: *mut CXStr, text: *const c_char) -> *mut CXStr = "??0CXStr@eqlib@@QAE@PBD@Z";
         /// Destroys the CXStr in `this`, releasing its text.
         pub fn CXStr_drop(this: *mut CXStr) = "??1CXStr@eqlib@@QAE@XZ";
+    }
+    cpp_functions(EQLIB_CPP_FUNCTIONS) {
+        // eqlib/game/Achievements.h
+        /// The achievement manager (C++ returns a reference): every achievement
+        /// and category the client knows, and your progress.
+        pub fn AchievementManager_Instance() -> *mut AchievementManager = "?Instance@AchievementManager@eqlib@@SAAAV12@XZ";
     }
 }

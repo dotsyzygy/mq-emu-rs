@@ -138,8 +138,6 @@ function_table! {
     pub fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool;
     /// Your friend `index` (0-based); false past the end.
     pub fn mqemu_friend_name(index: i32, out: *mut c_char, cap: usize) -> bool;
-    /// The achievement manager (`AchievementManager::Instance`).
-    pub fn mqemu_achievement_manager() -> *mut AchievementManager;
     /// A chat link to `achievement` as `player` has it
     /// (`${Achievement[...].Link}`).
     pub fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool;
@@ -156,6 +154,8 @@ function_table! {
         /// Your maximum mana with its modifiers (`${Me.MaxMana}`); 0 without a
         /// character.
         pub fn mqemu_max_mana() -> i32;
+        /// The achievement manager (`AchievementManager::Instance`).
+        pub fn mqemu_achievement_manager() -> *mut AchievementManager;
         /// What your active tribute costs in favor (`${Me.ActiveFavorCost}`); 0
         /// without the tribute manager.
         pub fn mqemu_active_favor_cost() -> i32;
@@ -257,6 +257,14 @@ pub unsafe extern "C" fn mqemu_active_favor_cost() -> i32 {
         let tribute = crate::eqlib::pTribute;
         if tribute.is_null() { 0 } else { crate::eqlib::CTribute_GetActiveFavorCost(tribute) }
     }
+}
+
+/// [`Api::mqemu_achievement_manager`]: `&AchievementManager::Instance()`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_achievement_manager() -> *mut AchievementManager {
+    unsafe { crate::eqlib::AchievementManager_Instance() }
 }
 
 #[cfg(test)]

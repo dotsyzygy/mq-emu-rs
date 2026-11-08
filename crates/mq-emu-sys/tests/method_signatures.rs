@@ -1,4 +1,5 @@
-//! Checks each eqlib method's Rust declaration against its mangled name. The
+//! Checks each eqlib method's and C++ function's Rust declaration against its
+//! mangled name. The
 //! link only checks the name; a wrong parameter type, a missing parameter or a
 //! `*mut this` on a const method would link and then corrupt the stack or
 //! the object. MSVC mangling encodes the full C++ signature, so this decodes
@@ -7,7 +8,7 @@
 //! The decoder covers the part of MSVC mangling eqlib's methods use so far.
 //! Anything else fails with "can't decode", and the decoder needs teaching.
 
-use mq_emu_sys::eqlib::EQLIB_METHODS;
+use mq_emu_sys::eqlib::{EQLIB_CPP_FUNCTIONS, EQLIB_METHODS};
 
 /// A C++ type, as far as the Rust side can tell types apart.
 #[derive(Debug, Clone, PartialEq)]
@@ -53,11 +54,30 @@ fn pointers(is_const: bool, to: &Type, or_reference: bool) -> Vec<String> {
     forms
 }
 
-/// A decoded non-static member function.
+/// What a function belongs to, which decides how it's called.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum Scope {
+    /// A non-static member: `__thiscall`, with `this` (const or not) first.
+    Member { const_this: bool },
+    /// A static member: `__cdecl`.
+    Static,
+    /// Not a member: `__cdecl`.
+    Free,
+}
+
+/// Which `imports!` list a declaration is in.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum List {
+    Methods,
+    CppFunctions,
+}
+
+/// A decoded function.
 #[derive(Debug, PartialEq)]
 struct Method {
+    /// The class (the namespace for a free function; empty without one).
     class: String,
-    const_this: bool,
+    scope: Scope,
     /// `None` for constructors and destructors.
     returns: Option<Type>,
     params: Vec<Type>,
@@ -200,29 +220,29 @@ fn decode(mangled: &str) -> Result<Method> {
     };
     let mut fragments = d.qualified_name()?;
     if structor.is_none() {
-        if fragments.len() < 2 {
-            return d.fail("unscoped function");
-        }
-        fragments.remove(0); // the method's own name
+        fragments.remove(0); // the function's own name
     }
-    let class = fragments.first().cloned().ok_or("no class name")?;
-    match d.next()? {
-        'Q' | 'A' | 'I' | 'U' | 'E' | 'M' => {}
-        'S' | 'C' | 'K' => {
-            return Err("a static member function: declare it under `functions`, not `methods`".to_owned());
-        }
-        'Y' => {
-            return Err("a free function: declare it under `functions`, not `methods`".to_owned());
-        }
+    let class = fragments.first().cloned().unwrap_or_default();
+    let scope = match d.next()? {
+        'Q' | 'A' | 'I' | 'U' | 'E' | 'M' => Scope::Member {
+            const_this: match d.next()? {
+                'A' => false,
+                'B' => true,
+                _ => return d.fail("`this` qualifier"),
+            },
+        },
+        'S' | 'C' | 'K' => Scope::Static,
+        'Y' => Scope::Free,
         _ => return d.fail("access"),
-    }
-    let const_this = match d.next()? {
-        'A' => false,
-        'B' => true,
-        _ => return d.fail("`this` qualifier"),
     };
-    if d.next()? != 'E' {
-        return Err("not __thiscall".to_owned());
+    let convention = d.next()?;
+    match scope {
+        Scope::Member { .. } if convention != 'E' => return Err("not __thiscall".to_owned()),
+        Scope::Static | Scope::Free if convention != 'A' => return Err("not __cdecl".to_owned()),
+        _ => {}
+    }
+    if class.is_empty() && scope != Scope::Free {
+        return d.fail("member without a class");
     }
     let returns = if d.eat("@") {
         if structor.is_none() {
@@ -248,7 +268,7 @@ fn decode(mangled: &str) -> Result<Method> {
     }
     Ok(Method {
         class,
-        const_this,
+        scope,
         returns,
         params,
         is_constructor: structor == Some(true),
@@ -340,31 +360,43 @@ fn rust_params(args: &str) -> Vec<String> {
         .collect()
 }
 
-/// Compares a declaration with its mangled name; returns what's wrong.
-fn check(mangled: &str, args: &str, ret: &str) -> Vec<String> {
+/// Compares a declaration in `list` with its mangled name; returns what's wrong.
+fn check(list: List, mangled: &str, args: &str, ret: &str) -> Vec<String> {
     let method = match decode(mangled) {
         Ok(method) => method,
         Err(e) => return vec![e],
     };
+    match (list, method.scope) {
+        (List::Methods, Scope::Static) => return vec!["a static member function: declare it under `cpp_functions`, not `methods`".to_owned()],
+        (List::Methods, Scope::Free) => return vec!["a free function: declare it under `cpp_functions`, not `methods`".to_owned()],
+        (List::CppFunctions, Scope::Member { .. }) => return vec!["a non-static member function: declare it under `methods`, not `cpp_functions`".to_owned()],
+        _ => {}
+    }
     let mut problems = Vec::new();
     let mismatch = |what: String, actual: &str, ty: &Type| {
         let forms = ty.rust_forms();
         (!forms.iter().any(|f| f == actual)).then(|| format!("{what} is `{actual}`, C++ has {}", forms.join(" or ")))
     };
-    let params = rust_params(args);
-    let Some((this, params)) = params.split_first() else {
-        return vec!["no `this` parameter".to_owned()];
+    let all = rust_params(args);
+    let (params, first, after) = match method.scope {
+        Scope::Member { const_this } => {
+            let Some((this, params)) = all.split_first() else {
+                return vec!["no `this` parameter".to_owned()];
+            };
+            let this_type = Type::Pointer {
+                is_const: const_this,
+                to: Box::new(Type::Class(method.class.clone())),
+            };
+            problems.extend(mismatch("`this`".to_owned(), this, &this_type));
+            (params, 2, " after `this`")
+        }
+        Scope::Static | Scope::Free => (&all[..], 1, ""),
     };
-    let this_type = Type::Pointer {
-        is_const: method.const_this,
-        to: Box::new(Type::Class(method.class.clone())),
-    };
-    problems.extend(mismatch("`this`".to_owned(), this, &this_type));
     if params.len() != method.params.len() {
-        problems.push(format!("{} parameters after `this`, C++ has {}", params.len(), method.params.len()));
+        problems.push(format!("{} parameters{after}, C++ has {}", params.len(), method.params.len()));
     } else {
         for (i, (actual, ty)) in params.iter().zip(&method.params).enumerate() {
-            problems.extend(mismatch(format!("parameter {}", i + 2), actual, ty));
+            problems.extend(mismatch(format!("parameter {}", i + first), actual, ty));
         }
     }
     let ret = normalize(&tokens(ret));
@@ -393,11 +425,13 @@ fn check(mangled: &str, args: &str, ret: &str) -> Vec<String> {
 }
 
 #[test]
-fn every_eqlib_method_matches_its_mangled_signature() {
-    let failures: Vec<String> = EQLIB_METHODS
+fn every_eqlib_method_and_cpp_function_matches_its_mangled_signature() {
+    let lists = [(List::Methods, EQLIB_METHODS), (List::CppFunctions, EQLIB_CPP_FUNCTIONS)];
+    let failures: Vec<String> = lists
         .iter()
-        .filter_map(|&(mangled, args, ret)| {
-            let problems = check(mangled, args, ret);
+        .flat_map(|&(list, declared)| declared.iter().map(move |&(mangled, args, ret)| (list, mangled, args, ret)))
+        .filter_map(|(list, mangled, args, ret)| {
+            let problems = check(list, mangled, args, ret);
             (!problems.is_empty()).then(|| format!("{mangled}: {}", problems.join("; ")))
         })
         .collect();
@@ -411,7 +445,7 @@ fn decodes_name_back_references_and_enum_returns() {
         method,
         Method {
             class: "CXWnd".into(),
-            const_this: true,
+            scope: Scope::Member { const_this: true },
             returns: Some(Type::Enum("UIType".into())),
             params: vec![],
             is_constructor: false
@@ -447,7 +481,7 @@ fn decodes_constructors_and_destructors() {
 
 #[test]
 fn accepts_a_matching_declaration() {
-    let problems = check("?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool", "c_int");
+    let problems = check(List::Methods, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool", "c_int");
     assert!(problems.is_empty(), "{problems:?}");
 }
 
@@ -455,45 +489,78 @@ fn accepts_a_matching_declaration() {
 
 #[test]
 fn rejects_a_wrong_parameter_type() {
-    let problems = check("?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: c_int", "c_int");
+    let problems = check(List::Methods, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: c_int", "c_int");
     assert_eq!(problems, ["parameter 3 is `i32`, C++ has bool"]);
 }
 
 #[test]
 fn rejects_a_missing_parameter() {
-    let problems = check("?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int", "c_int");
+    let problems = check(List::Methods, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int", "c_int");
     assert_eq!(problems, ["1 parameters after `this`, C++ has 2"]);
 }
 
 #[test]
 fn rejects_a_mutable_this_on_a_const_method() {
-    let problems = check("?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ", "this: *mut CXWnd", "c_int");
+    let problems = check(List::Methods, "?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ", "this: *mut CXWnd", "c_int");
     assert_eq!(problems, ["`this` is `* mut CXWnd`, C++ has * const CXWnd"]);
 }
 
 #[test]
 fn rejects_the_wrong_class() {
-    let problems = check("?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ", "this: *const CSidlScreenWnd", "c_int");
+    let problems = check(List::Methods, "?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ", "this: *const CSidlScreenWnd", "c_int");
     assert_eq!(problems, ["`this` is `* const CSidlScreenWnd`, C++ has * const CXWnd"]);
 }
 
 #[test]
 fn rejects_a_wrong_return_type() {
-    let problems = check("??1CXStr@eqlib@@QAE@XZ", "this: *mut CXStr", "bool");
+    let problems = check(List::Methods, "??1CXStr@eqlib@@QAE@XZ", "this: *mut CXStr", "bool");
     assert_eq!(problems, ["returns `bool`, C++ returns nothing"]);
-    let problems = check("?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool", "");
+    let problems = check(List::Methods, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool", "");
     assert_eq!(problems, ["the return type is ``, C++ has i32"]);
 }
 
 #[test]
-fn rejects_static_and_free_functions() {
-    assert_eq!(check("?Get@CXStr@eqlib@@SAHXZ", "this: *mut CXStr", ""), ["a static member function: declare it under `functions`, not `methods`"]);
-    assert_eq!(check("?Get@eqlib@@YAHXZ", "this: *mut CXStr", ""), ["a free function: declare it under `functions`, not `methods`"]);
+fn decodes_static_members_and_free_functions() {
+    let instance = decode("?Instance@AchievementManager@eqlib@@SAAAV12@XZ").unwrap();
+    assert_eq!(instance.scope, Scope::Static);
+    let manager = Type::Class("AchievementManager".into());
+    assert_eq!(instance.returns, Some(Type::Reference { is_const: false, to: Box::new(manager) }));
+    let free = decode("?GetSpellByID@eqlib@@YAPAVEQ_Spell@1@H@Z").unwrap();
+    assert_eq!(free.scope, Scope::Free);
+    assert_eq!(free.params, [Type::Prim("i32")]);
+    assert_eq!(decode("?Count@@YAHXZ").unwrap().class, "");
+}
+
+#[test]
+fn accepts_a_matching_cpp_function() {
+    let problems = check(List::CppFunctions, "?Instance@AchievementManager@eqlib@@SAAAV12@XZ", "", "*mut AchievementManager");
+    assert!(problems.is_empty(), "{problems:?}");
+    let problems = check(List::CppFunctions, "?GetSpellByID@eqlib@@YAPAVEQ_Spell@1@H@Z", "id: c_int", "*mut EQ_Spell");
+    assert!(problems.is_empty(), "{problems:?}");
+}
+
+#[test]
+fn rejects_a_function_in_the_wrong_list() {
+    assert_eq!(check(List::Methods, "?Get@CXStr@eqlib@@SAHXZ", "this: *mut CXStr", ""), ["a static member function: declare it under `cpp_functions`, not `methods`"]);
+    assert_eq!(check(List::Methods, "?Get@eqlib@@YAHXZ", "this: *mut CXStr", ""), ["a free function: declare it under `cpp_functions`, not `methods`"]);
+    assert_eq!(check(List::CppFunctions, "?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ", "", "c_int"), ["a non-static member function: declare it under `methods`, not `cpp_functions`"]);
+}
+
+#[test]
+fn rejects_a_cpp_function_with_a_wrong_parameter() {
+    assert_eq!(check(List::CppFunctions, "?GetSpellByID@eqlib@@YAPAVEQ_Spell@1@H@Z", "id: bool", "*mut EQ_Spell"), ["parameter 1 is `bool`, C++ has i32"]);
+    assert_eq!(check(List::CppFunctions, "?GetSpellByID@eqlib@@YAPAVEQ_Spell@1@H@Z", "", "*mut EQ_Spell"), ["0 parameters, C++ has 1"]);
+}
+
+#[test]
+fn rejects_another_calling_convention() {
+    // A __stdcall (`G`) static member.
+    assert_eq!(check(List::CppFunctions, "?Get@CXStr@eqlib@@SGHXZ", "", "c_int"), ["not __cdecl"]);
 }
 
 #[test]
 fn rejects_what_it_cant_decode() {
-    let problems = check("?Get@CXWnd@eqlib@@QAEX$$QAVCXStr@2@@Z", "this: *mut CXWnd, s: *mut CXStr", "");
+    let problems = check(List::Methods, "?Get@CXWnd@eqlib@@QAEX$$QAVCXStr@2@@Z", "this: *mut CXWnd, s: *mut CXStr", "");
     assert_eq!(problems.len(), 1);
     assert!(problems[0].starts_with("can't decode"), "{problems:?}");
 }
