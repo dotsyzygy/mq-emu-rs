@@ -16,9 +16,12 @@
 //! buffer), or -1 for none. Every function checks its window for null and the
 //! kind of window it needs, and answers "nothing" (null, -1, false) otherwise.
 
-use core::ffi::{c_char, c_void};
+use core::ffi::{CStr, c_char, c_void};
 
-use crate::layouts::{CContextMenu, CHotButton, CInvSlotWnd, CListWnd, CTabWnd, CTextureAnimation, CXWnd, ItemClient};
+use crate::constants::{UI_HOT_BUTTON, UI_INV_SLOT, UI_SLIDER, UI_TAB_BOX, UI_UNKNOWN, XWM_CLOSE, XWM_HISTORY, XWM_HITENTER, XWM_LCLICK, XWM_LCLICKHOLD, XWM_LINK, XWM_LMOUSEUP, XWM_MAXIMIZEBOX, XWM_MENUSELECT, XWM_MOUSEOVER, XWM_NEWVALUE, XWM_QMARKBOX, XWM_RCLICK};
+use crate::eqlib;
+use crate::layouts::{CContextMenu, CHotButton, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CXRect, CXStr, CXWnd, ItemClient};
+use crate::types::{OwnedCXStr, foreign, virtual_fn};
 
 /// A rectangle in screen or parent coordinates, as eqlib's `CXRect`: right
 /// and bottom are one past the last pixel.
@@ -91,64 +94,18 @@ function_table! {
     /// window as `pack1`..., `bank1`... or `enviro`. Null if none. Paths
     /// (`a/b`) aren't taken here; the caller walks children itself.
     pub fn mqemu_find_window(name: *const c_char) -> *mut CXWnd;
-    /// The window's kind (`CXWnd::GetType`, a `UI_*` constant); `UI_UNKNOWN`
-    /// for null or a window the UI's XML didn't create.
-    pub fn mqemu_window_type(window: *mut CXWnd) -> i32;
-    /// One of the window's XML names: [`XML_NAME`], [`XML_SCREEN_ID`] or
-    /// [`XML_TYPE_NAME`]. -1 if it has none.
-    pub fn mqemu_window_xml_text(window: *mut CXWnd, which: i32, out: *mut c_char, cap: usize) -> i32;
-    /// The window's tooltip (the virtual `GetTooltip`, `${Window.Tooltip}`).
-    pub fn mqemu_window_tooltip(window: *mut CXWnd, out: *mut c_char, cap: usize) -> i32;
-    /// Where the window is on screen (`GetScreenRect`). False for null.
-    pub fn mqemu_window_screen_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool;
     /// Clicks the window's center as `/notify` does (`SendWndClick2`):
     /// `click` below [`CLICK_KINDS`] names `leftmouse`, `leftmouseup`,
     /// `leftmouseheld`, `leftmouseheldup`, then the same for the right button.
     pub fn mqemu_window_click(window: *mut CXWnd, click: i32) -> bool;
-    /// Sends `window` the notification `message` (`XWM_*`, one of those
-    /// `/notify` names) as if `sender` (null, or one of its controls) sent it,
-    /// with `data`: `window->WndNotification(sender, message, data)`. For
-    /// `XWM_NEWVALUE` from a slider, sets the slider to `data` first, as
-    /// `/notify` does. False for null or another message.
-    pub fn mqemu_window_notify(window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: i32) -> bool;
-    /// Shows (and brings to the front) or hides the window, as
-    /// `${Window.DoOpen}` and `${Window.DoClose}` do.
-    pub fn mqemu_window_show(window: *mut CXWnd, show: bool) -> bool;
-    /// Moves and sizes the window (`rect` in its parent's coordinates, as
-    /// `${Window.X}` reads them), as `${Window.Move}` does.
-    pub fn mqemu_window_move(window: *mut CXWnd, rect: *const mqemu_rect) -> bool;
-    /// Redraws the window's background and fade after its `BGColor`, `Alpha`
-    /// or `FadeToAlpha` changed (`CXWnd::Refade`).
-    pub fn mqemu_window_refade(window: *mut CXWnd) -> bool;
-    /// The text of a list's cell (`CListWnd::GetItemText`); -1 if the row or
-    /// column isn't there.
-    pub fn mqemu_list_item_text(list: *mut CListWnd, row: i32, column: i32, out: *mut c_char, cap: usize) -> i32;
     /// Selects a row of a list or a combo box and tells its parent, as
     /// `/notify ... listselect` does (`SendListSelect2`). False for null,
     /// another kind of window or a row that isn't there.
     pub fn mqemu_list_select(window: *mut CXWnd, row: i32) -> bool;
-    /// Shows page `page` of a tab box and tells its parent (`SetPage`), as
-    /// `/notify ... tabselect` does. False for a page that isn't there.
-    pub fn mqemu_tab_select(tab: *mut CTabWnd, page: i32) -> bool;
-    /// Picks item `item` of an open context menu, as `/notify <text>
-    /// menuselect` does. False if the item isn't there.
-    pub fn mqemu_menu_select(menu: *mut CContextMenu, item: i32) -> bool;
-    /// Closes every open context menu (`CContextMenuManager::Flush`).
-    pub fn mqemu_menus_close() -> bool;
-    /// Sends `window` a `link` notification (`XWM_LINK`) from `sender`,
-    /// whose data is the link's text, as `/notify <window> <control> link
-    /// <text>` does. False for null.
-    pub fn mqemu_window_notify_link(window: *mut CXWnd, sender: *mut CXWnd, text: *const c_char) -> bool;
     /// The item an item slot shows (`${Window.InvSlot.Item}`): the one it's
     /// linked to (a hot button's), else the one at its location. Null for
     /// none, or a window that isn't an item slot.
     pub fn mqemu_inv_slot_item(slot: *mut CInvSlotWnd) -> *mut ItemClient;
-    /// The text an item slot draws over its item (`${Window.InvSlot.Text}`).
-    pub fn mqemu_inv_slot_text(slot: *mut CInvSlotWnd, out: *mut c_char, cap: usize) -> i32;
-    /// A UI texture's name (`CTextureAnimation::GetName`).
-    pub fn mqemu_texture_animation_name(animation: *mut CTextureAnimation, out: *mut c_char, cap: usize) -> i32;
-    /// The item a hot button holds (`GetHotButtonData()->Item`), if any.
-    pub fn mqemu_hot_button_item(button: *mut CHotButton) -> *mut ItemClient;
     /// Presses a hot button as its bar does when its key is pressed
     /// (`${Window.HotButton.Activate}`). False if its bar isn't found.
     pub fn mqemu_hot_button_activate(button: *mut CHotButton) -> bool;
@@ -242,6 +199,52 @@ function_table! {
     pub fn mqemu_merchant_trade(buy: bool, count: i32) -> bool;
 
     rust {
+        /// The window's kind (`CXWnd::GetType`, a `UI_*` constant); `UI_UNKNOWN`
+        /// for null or a window the UI's XML didn't create.
+        pub fn mqemu_window_type(window: *mut CXWnd) -> i32;
+        /// One of the window's XML names: [`XML_NAME`], [`XML_SCREEN_ID`] or
+        /// [`XML_TYPE_NAME`]. -1 if it has none.
+        pub fn mqemu_window_xml_text(window: *mut CXWnd, which: i32, out: *mut c_char, cap: usize) -> i32;
+        /// The window's tooltip (the virtual `GetTooltip`, `${Window.Tooltip}`).
+        pub fn mqemu_window_tooltip(window: *mut CXWnd, out: *mut c_char, cap: usize) -> i32;
+        /// Where the window is on screen (`GetScreenRect`). False for null.
+        pub fn mqemu_window_screen_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool;
+        /// Sends `window` the notification `message` (`XWM_*`, one of those
+        /// `/notify` names) as if `sender` (null, or one of its controls) sent it,
+        /// with `data`: `window->WndNotification(sender, message, data)`. For
+        /// `XWM_NEWVALUE` from a slider, sets the slider to `data` first, as
+        /// `/notify` does. False for null or another message.
+        pub fn mqemu_window_notify(window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: i32) -> bool;
+        /// Shows (and brings to the front) or hides the window, as
+        /// `${Window.DoOpen}` and `${Window.DoClose}` do.
+        pub fn mqemu_window_show(window: *mut CXWnd, show: bool) -> bool;
+        /// Moves and sizes the window (`rect` in its parent's coordinates, as
+        /// `${Window.X}` reads them), as `${Window.Move}` does.
+        pub fn mqemu_window_move(window: *mut CXWnd, rect: *const mqemu_rect) -> bool;
+        /// Redraws the window's background and fade after its `BGColor`, `Alpha`
+        /// or `FadeToAlpha` changed (`CXWnd::Refade`).
+        pub fn mqemu_window_refade(window: *mut CXWnd) -> bool;
+        /// The text of a list's cell (`CListWnd::GetItemText`); -1 if the row or
+        /// column isn't there.
+        pub fn mqemu_list_item_text(list: *mut CListWnd, row: i32, column: i32, out: *mut c_char, cap: usize) -> i32;
+        /// Shows page `page` of a tab box and tells its parent (`SetPage`), as
+        /// `/notify ... tabselect` does. False for a page that isn't there.
+        pub fn mqemu_tab_select(tab: *mut CTabWnd, page: i32) -> bool;
+        /// Picks item `item` of an open context menu, as `/notify <text>
+        /// menuselect` does. False if the item isn't there.
+        pub fn mqemu_menu_select(menu: *mut CContextMenu, item: i32) -> bool;
+        /// Closes every open context menu (`CContextMenuManager::Flush`).
+        pub fn mqemu_menus_close() -> bool;
+        /// Sends `window` a `link` notification (`XWM_LINK`) from `sender`,
+        /// whose data is the link's text, as `/notify <window> <control> link
+        /// <text>` does. False for null.
+        pub fn mqemu_window_notify_link(window: *mut CXWnd, sender: *mut CXWnd, text: *const c_char) -> bool;
+        /// The text an item slot draws over its item (`${Window.InvSlot.Text}`).
+        pub fn mqemu_inv_slot_text(slot: *mut CInvSlotWnd, out: *mut c_char, cap: usize) -> i32;
+        /// A UI texture's name (`CTextureAnimation::GetName`).
+        pub fn mqemu_texture_animation_name(animation: *mut CTextureAnimation, out: *mut c_char, cap: usize) -> i32;
+        /// The item a hot button holds (`GetHotButtonData()->Item`), if any.
+        pub fn mqemu_hot_button_item(button: *mut CHotButton) -> *mut ItemClient;
         /// Sets an edit box's text and tells its parent, as `${Window.SetText}`
         /// does. False for null or a window that isn't an edit box.
         pub fn mqemu_window_set_text(window: *mut CXWnd, text: *const c_char) -> bool;
@@ -256,16 +259,14 @@ function_table! {
 /// or NUL-terminated.
 pub unsafe extern "C" fn mqemu_window_set_text(window: *mut CXWnd, text: *const c_char) -> bool {
     use crate::constants::{UI_EDIT_BOX, XWM_NEWVALUE};
-    use crate::layouts::{CXStr, ControllerBase};
-    use crate::types::{OwnedCXStr, virtual_fn};
+    use crate::layouts::ControllerBase;
 
     type SetWindowText = unsafe extern "thiscall" fn(*mut CXWnd, *const CXStr);
-    type WndNotification = unsafe extern "thiscall" fn(*mut CXWnd, *mut CXWnd, u32, *mut c_void) -> i32;
     type ControllerNotification = unsafe extern "thiscall" fn(*mut ControllerBase, *mut CXWnd, u32, *mut c_void);
 
     unsafe {
         let Some(edit) = window.as_ref() else { return false };
-        if text.is_null() || crate::eqlib::CXWnd_GetType(window) != UI_EDIT_BOX {
+        if text.is_null() || eqlib::CXWnd_GetType(window) != UI_EDIT_BOX {
             return false;
         }
         let text = OwnedCXStr::new(text);
@@ -285,9 +286,356 @@ pub unsafe extern "C" fn mqemu_window_set_text(window: *mut CXWnd, text: *const 
     true
 }
 
+/// `CXWnd::WndNotification`, a virtual.
+type WndNotification = unsafe extern "thiscall" fn(*mut CXWnd, *mut CXWnd, u32, *mut c_void) -> i32;
+
+/// The NUL-terminated text of a CXStr, valid while the CXStr lives.
+///
+/// # Safety
+/// In game; `text` points to a live CXStr.
+unsafe fn cxstr_bytes<'a>(text: *const CXStr) -> &'a [u8] {
+    unsafe { CStr::from_ptr(eqlib::CXStr_c_str(text)).to_bytes() }
+}
+
+/// [`crate::game::copy_out`] as this module's text functions answer: the
+/// text's whole length, or -1 for none.
+///
+/// # Safety
+/// `out` must be writable for `cap` bytes.
+unsafe fn copy_len(text: Option<&[u8]>, out: *mut c_char, cap: usize) -> i32 {
+    unsafe { crate::game::copy_out(text, out, cap) };
+    text.map_or(-1, |text| i32::try_from(text.len()).unwrap_or(i32::MAX))
+}
+
+/// Whether `index` is a valid index into an eqlib array of `count`.
+fn in_range(index: i32, count: i32) -> bool {
+    (0..count).contains(&index)
+}
+
+/// The notifications `/notify` sends by name (MQ2Windows.cpp's
+/// `szWndNotification`), except `link`, whose data is text.
+fn is_notify_message(message: u32) -> bool {
+    matches!(
+        message,
+        XWM_LCLICK | XWM_LMOUSEUP | XWM_RCLICK | XWM_HITENTER | XWM_QMARKBOX | XWM_CLOSE | XWM_NEWVALUE | XWM_MENUSELECT | XWM_MOUSEOVER | XWM_HISTORY | XWM_LCLICKHOLD | XWM_MAXIMIZEBOX
+    )
+}
+
+/// Whether the UI's XML manager exists; before it does, windows have no
+/// kind or XML data.
+///
+/// # Safety
+/// In game.
+unsafe fn sidl_loaded() -> bool {
+    unsafe { !foreign(&raw const eqlib::pSidlMgr).is_null() }
+}
+
+/// [`Api::mqemu_window_type`]: `CXWnd::GetType`.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window.
+pub unsafe extern "C" fn mqemu_window_type(window: *mut CXWnd) -> i32 {
+    unsafe {
+        if window.is_null() || !sidl_loaded() {
+            return UI_UNKNOWN;
+        }
+        eqlib::CXWnd_GetType(window)
+    }
+}
+
+/// [`Api::mqemu_window_xml_text`]: a name from `CXWnd::GetXMLData`, as
+/// `${Window.Name}`, `.ScreenID` and `.Type` read it (none when empty).
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `out`
+/// writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_window_xml_text(window: *mut CXWnd, which: i32, out: *mut c_char, cap: usize) -> i32 {
+    unsafe {
+        if window.is_null() || !sidl_loaded() {
+            return copy_len(None, out, cap);
+        }
+        let xml = eqlib::CXWnd_GetXMLData(window);
+        let Some(data) = xml.as_ref() else { return copy_len(None, out, cap) };
+        let text: *const CXStr = match which {
+            XML_NAME => data.sItemName(),
+            // CXMLData::ScreenID, which eqlib reads as a screen piece's
+            // whatever the data is.
+            XML_SCREEN_ID => (*xml.cast::<CParamScreenPiece>()).sScreenID(),
+            XML_TYPE_NAME => data.sClassName(),
+            _ => return copy_len(None, out, cap),
+        };
+        let text = cxstr_bytes(text);
+        copy_len((!text.is_empty()).then_some(text), out, cap)
+    }
+}
+
+/// [`Api::mqemu_window_tooltip`]: the virtual `GetTooltip`.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `out`
+/// writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_window_tooltip(window: *mut CXWnd, out: *mut c_char, cap: usize) -> i32 {
+    type GetTooltip = unsafe extern "thiscall" fn(*const CXWnd, *mut CXStr) -> *mut CXStr;
+    unsafe {
+        if window.is_null() {
+            return copy_len(None, out, cap);
+        }
+        let tooltip = OwnedCXStr::returned(|tooltip| {
+            virtual_fn::<GetTooltip>(window.cast(), CXWnd::VTABLE_GetTooltip)(window, tooltip);
+        });
+        copy_len(Some(cxstr_bytes(tooltip.as_ptr())), out, cap)
+    }
+}
+
+const _: () = assert!(size_of::<CXRect>() == size_of::<mqemu_rect>());
+
+/// [`Api::mqemu_window_screen_rect`]: `CXWnd::GetScreenRect`, constructed
+/// straight into `out` (`mqemu_rect` is laid out as `CXRect`).
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `out` writable.
+pub unsafe extern "C" fn mqemu_window_screen_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool {
+    unsafe {
+        *out = mqemu_rect::default();
+        if window.is_null() {
+            return false;
+        }
+        eqlib::CXWnd_GetScreenRect(window, out.cast());
+    }
+    true
+}
+
+/// [`Api::mqemu_window_notify`]: the virtual `WndNotification`, setting a
+/// slider first for `XWM_NEWVALUE` as `/notify` does.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `sender`
+/// null or a live window.
+pub unsafe extern "C" fn mqemu_window_notify(window: *mut CXWnd, sender: *mut CXWnd, message: u32, data: i32) -> bool {
+    unsafe {
+        if window.is_null() || !is_notify_message(message) {
+            return false;
+        }
+        // /notify casts any control to a slider here; only a slider is one.
+        if message == XWM_NEWVALUE && !sender.is_null() && eqlib::CXWnd_GetType(sender) == UI_SLIDER {
+            eqlib::CSliderWnd_SetValue(sender.cast::<CSliderWnd>(), data);
+        }
+        virtual_fn::<WndNotification>(window.cast(), CXWnd::VTABLE_WndNotification)(window, sender, message, data as usize as *mut c_void);
+        crate::mq2main::WeDidStuff();
+    }
+    true
+}
+
+/// [`Api::mqemu_window_show`]: the virtual `Show(show, true, true)`.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window.
+pub unsafe extern "C" fn mqemu_window_show(window: *mut CXWnd, show: bool) -> bool {
+    type Show = unsafe extern "thiscall" fn(*mut CXWnd, bool, bool, bool) -> i32;
+    if window.is_null() {
+        return false;
+    }
+    unsafe { virtual_fn::<Show>(window.cast(), CXWnd::VTABLE_Show)(window, show, true, true) };
+    true
+}
+
+/// [`Api::mqemu_window_move`]: the virtual `UpdateGeometry(rect, true, true,
+/// true, true)` (eqlib's inline `Move`).
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `rect` null
+/// or readable.
+pub unsafe extern "C" fn mqemu_window_move(window: *mut CXWnd, rect: *const mqemu_rect) -> bool {
+    type UpdateGeometry = unsafe extern "thiscall" fn(*mut CXWnd, *const CXRect, bool, bool, bool, bool) -> i32;
+    if window.is_null() || rect.is_null() {
+        return false;
+    }
+    unsafe { virtual_fn::<UpdateGeometry>(window.cast(), CXWnd::VTABLE_UpdateGeometry)(window, rect.cast(), true, true, true, true) };
+    true
+}
+
+/// [`Api::mqemu_window_refade`]: `CXWnd::Refade`.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window.
+pub unsafe extern "C" fn mqemu_window_refade(window: *mut CXWnd) -> bool {
+    if window.is_null() {
+        return false;
+    }
+    unsafe { eqlib::CXWnd_Refade(window) };
+    true
+}
+
+/// [`Api::mqemu_list_item_text`]: `CListWnd::GetItemText`, for a row and
+/// column the list has.
+///
+/// # Safety
+/// In game, on the game thread; `list` null or a live list, `out` writable
+/// for `cap` bytes.
+pub unsafe extern "C" fn mqemu_list_item_text(list: *mut CListWnd, row: i32, column: i32, out: *mut c_char, cap: usize) -> i32 {
+    unsafe {
+        let Some(lines) = list.as_ref() else { return copy_len(None, out, cap) };
+        if !in_range(row, lines.ItemsArray().m_length()) || !in_range(column, lines.Columns().m_length()) {
+            return copy_len(None, out, cap);
+        }
+        let text = OwnedCXStr::returned(|text| {
+            eqlib::CListWnd_GetItemText(list, text, row, column);
+        });
+        copy_len(Some(cxstr_bytes(text.as_ptr())), out, cap)
+    }
+}
+
+/// [`Api::mqemu_tab_select`]: `CTabWnd::SetPage(page, true)`.
+///
+/// # Safety
+/// In game, on the game thread; `tab` null or a live window.
+pub unsafe extern "C" fn mqemu_tab_select(tab: *mut CTabWnd, page: i32) -> bool {
+    unsafe {
+        let Some(pages) = tab.as_ref() else { return false };
+        if eqlib::CXWnd_GetType(pages.as_CXWnd()) != UI_TAB_BOX || !in_range(page, pages.PageArray().m_length()) {
+            return false;
+        }
+        eqlib::CTabWnd_SetPage(tab, page, true);
+        crate::mq2main::WeDidStuff();
+    }
+    true
+}
+
+/// [`Api::mqemu_menu_select`]: the context menu manager's `WndNotification`
+/// of `XWM_LMOUSEUP` on the item, as clicking it does.
+///
+/// # Safety
+/// In game, on the game thread; `menu` null or a live context menu.
+pub unsafe extern "C" fn mqemu_menu_select(menu: *mut CContextMenu, item: i32) -> bool {
+    unsafe {
+        let manager = foreign(&raw const eqlib::pContextMenuManager);
+        let Some(items) = menu.as_ref() else { return false };
+        if manager.is_null() || !in_range(item, items.ItemsArray().m_length()) {
+            return false;
+        }
+        let manager = (*manager).as_CXWnd();
+        virtual_fn::<WndNotification>(manager.cast(), CXWnd::VTABLE_WndNotification)(manager, items.as_CXWnd(), XWM_LMOUSEUP, item as usize as *mut c_void);
+    }
+    true
+}
+
+/// [`Api::mqemu_menus_close`]: `CContextMenuManager::Flush`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_menus_close() -> bool {
+    unsafe {
+        let manager = foreign(&raw const eqlib::pContextMenuManager);
+        if manager.is_null() {
+            return false;
+        }
+        eqlib::CContextMenuManager_Flush(manager);
+    }
+    true
+}
+
+/// [`Api::mqemu_window_notify_link`]: the virtual `WndNotification` of
+/// `XWM_LINK` with the text itself, as `/notify ... link` sends it.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `sender`
+/// null or a live window, `text` null or NUL-terminated.
+pub unsafe extern "C" fn mqemu_window_notify_link(window: *mut CXWnd, sender: *mut CXWnd, text: *const c_char) -> bool {
+    if window.is_null() || text.is_null() {
+        return false;
+    }
+    unsafe {
+        virtual_fn::<WndNotification>(window.cast(), CXWnd::VTABLE_WndNotification)(window, sender, XWM_LINK, text.cast_mut().cast());
+        crate::mq2main::WeDidStuff();
+    }
+    true
+}
+
+/// [`Api::mqemu_inv_slot_text`]: the virtual `GetText` of the slot's own
+/// text object (`CInvSlotWnd::pTextObject`, not `CXWnd`'s).
+///
+/// # Safety
+/// In game, on the game thread; `slot` null or a live window, `out` writable
+/// for `cap` bytes.
+pub unsafe extern "C" fn mqemu_inv_slot_text(slot: *mut CInvSlotWnd, out: *mut c_char, cap: usize) -> i32 {
+    type GetText = unsafe extern "thiscall" fn(*mut CTextObjectInterface) -> *mut CXStr;
+    unsafe {
+        let Some(window) = slot.as_ref() else { return copy_len(None, out, cap) };
+        let object = window.CInvSlotWnd_pTextObject();
+        if eqlib::CXWnd_GetType(window.as_CXWnd()) != UI_INV_SLOT || object.is_null() {
+            return copy_len(None, out, cap);
+        }
+        let text = virtual_fn::<GetText>(object.cast(), CTextObjectInterface::VTABLE_GetText)(object);
+        copy_len(Some(cxstr_bytes(text)), out, cap)
+    }
+}
+
+/// [`Api::mqemu_texture_animation_name`]: its `Name` (eqlib's inline `GetName`).
+///
+/// # Safety
+/// In game; `animation` null or live, `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_texture_animation_name(animation: *mut CTextureAnimation, out: *mut c_char, cap: usize) -> i32 {
+    unsafe {
+        let Some(animation) = animation.as_ref() else { return copy_len(None, out, cap) };
+        copy_len(Some(cxstr_bytes(animation.Name())), out, cap)
+    }
+}
+
+/// [`Api::mqemu_hot_button_item`]: the item in `CHotButton::GetHotButtonData`.
+///
+/// # Safety
+/// In game, on the game thread; `button` null or a live window.
+pub unsafe extern "C" fn mqemu_hot_button_item(button: *mut CHotButton) -> *mut ItemClient {
+    unsafe {
+        let Some(window) = button.as_ref() else { return core::ptr::null_mut() };
+        if eqlib::CXWnd_GetType(window.as_CXWnd()) != UI_HOT_BUTTON {
+            return core::ptr::null_mut();
+        }
+        eqlib::CHotButton_GetHotButtonData(button).as_ref().map_or(core::ptr::null_mut(), |data| data.Item().m_pObject())
+    }
+}
+
 unsafe extern "C" {
     /// The vtable entry (counted in pointers from the first) a subclass
     /// ([`mqemu_window_subclass`]) replaces for hook kind `kind`; -1 for none.
     /// For tests; it imports nothing, so it links anywhere.
     pub fn mqemu_window_hook_slot(kind: i32) -> i32;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn notify_takes_the_messages_notify_names_but_not_link() {
+        for message in [XWM_LCLICK, XWM_LMOUSEUP, XWM_RCLICK, XWM_HITENTER, XWM_QMARKBOX, XWM_CLOSE, XWM_NEWVALUE, XWM_MENUSELECT, XWM_MOUSEOVER, XWM_HISTORY, XWM_LCLICKHOLD, XWM_MAXIMIZEBOX] {
+            assert!(is_notify_message(message), "{message}");
+        }
+        for message in [0, XWM_LINK, 4, 100] {
+            assert!(!is_notify_message(message), "{message}");
+        }
+    }
+
+    #[test]
+    fn in_range_is_zero_to_count() {
+        assert!(in_range(0, 1));
+        assert!(in_range(2, 3));
+        assert!(!in_range(3, 3));
+        assert!(!in_range(-1, 3));
+        assert!(!in_range(0, 0));
+        assert!(!in_range(0, -1));
+    }
+
+    #[test]
+    fn copy_len_returns_the_whole_length_or_minus_one() {
+        let mut out = [b'x' as c_char; 4];
+        assert_eq!(unsafe { copy_len(Some(b"hello"), out.as_mut_ptr(), out.len()) }, 5);
+        assert_eq!(out.map(|c| c as u8), *b"hel\0");
+        assert_eq!(unsafe { copy_len(Some(b""), out.as_mut_ptr(), out.len()) }, 0);
+        assert_eq!(out[0], 0);
+        out[0] = b'x' as c_char;
+        assert_eq!(unsafe { copy_len(None, out.as_mut_ptr(), out.len()) }, -1);
+        assert_eq!(out[0], 0);
+        assert_eq!(unsafe { copy_len(Some(b"abc"), out.as_mut_ptr(), 0) }, 3);
+    }
 }

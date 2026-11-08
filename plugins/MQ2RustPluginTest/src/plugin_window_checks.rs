@@ -9,7 +9,7 @@ use std::ops::ControlFlow;
 use std::time::Duration;
 
 use mq_emu::imgui::EqTextFlags;
-use mq_emu::{Click, GameState, Mq, Task, WindowEvent, WindowHooks, WindowRect};
+use mq_emu::{Click, GameState, Mq, Notification, Task, WindowEvent, WindowHooks, WindowRect};
 
 use crate::RustTest;
 use crate::checks::{Check, Report, same_text};
@@ -158,6 +158,14 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) {
     task.with(|mq| mq.command(format!("/notify {SCREEN} {BUTTON} enter")));
     let notified = got(task, &format!("enter {BUTTON} 0")).await;
     task.with(|mq| report.print(mq, &format!("/notify {SCREEN} {BUTTON} enter reaches it too"), Check::that(notified, || format!("got {:?}", events(task)))));
+
+    // notify, as /notify sends it, with data.
+    task.with(|mq| {
+        let window = mq.window(SCREEN);
+        window.map(|w| w.notify(w.child(BUTTON), Notification::Enter, 7))
+    });
+    let sent = got(task, &format!("enter {BUTTON} 7")).await;
+    task.with(|mq| report.print(mq, "notify reaches it with its data (enter from RTW_Button, 7)", Check::that(sent, || format!("got {:?}", events(task)))));
 
     // Typing into its edit box tells the window.
     task.with(|mq| mq.window(&format!("{SCREEN}/{INPUT}")).map(|input| input.set_text("typed")));

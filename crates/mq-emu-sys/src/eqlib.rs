@@ -4,7 +4,7 @@ use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -142,6 +142,8 @@ imports! {
         pub static mut pCastingWnd: ForeignPointer<CCastingWnd>;
         /// The spell book window, open or not; it memorizes spell sets.
         pub static mut pSpellBookWnd: ForeignPointer<CSpellBookWnd>;
+        /// The UI's XML manager; windows have no XML data before it exists.
+        pub static mut pSidlMgr: ForeignPointer<CSidlManager>;
     }
     methods(EQLIB_METHODS) {
         // eqlib/game/PcClient.h
@@ -236,6 +238,26 @@ imports! {
         // eqlib/game/CXWnd.h
         /// What kind of control `this` is (`UI_*`).
         pub fn CXWnd_GetType(this: *const CXWnd) -> c_int = "?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ";
+        /// The window's definition in the UI's XML, or null for a window it didn't create.
+        pub fn CXWnd_GetXMLData(this: *const CXWnd) -> *mut CXMLData = "?GetXMLData@CXWnd@eqlib@@QBEPAVCXMLData@2@XZ";
+        /// Where the window is on screen, constructed into `out` (C++ returns
+        /// the CXRect by value), which it returns.
+        pub fn CXWnd_GetScreenRect(this: *const CXWnd, out: *mut CXRect) -> *mut CXRect = "?GetScreenRect@CXWnd@eqlib@@QBE?AVCXRect@2@XZ";
+        /// Redraws the window's background and fade after its colors and alpha.
+        pub fn CXWnd_Refade(this: *mut CXWnd) = "?Refade@CXWnd@eqlib@@QAEXXZ";
+
+        // eqlib/game/UI.h
+        /// The text of row `row`, column `column`, constructed into `out`
+        /// (C++ returns the CXStr by value), which it returns.
+        pub fn CListWnd_GetItemText(this: *const CListWnd, out: *mut CXStr, row: c_int, column: c_int) -> *mut CXStr = "?GetItemText@CListWnd@eqlib@@QBE?AVCXStr@2@HH@Z";
+        /// Shows page `page`, telling the tab box's parent when `notify_parent`.
+        pub fn CTabWnd_SetPage(this: *mut CTabWnd, page: c_int, notify_parent: bool) = "?SetPage@CTabWnd@eqlib@@QAEXH_N@Z";
+        /// Closes every open context menu.
+        pub fn CContextMenuManager_Flush(this: *mut CContextMenuManager) = "?Flush@CContextMenuManager@eqlib@@QAEXXZ";
+        /// What the hot button holds (an item, a spell, a social...), or null.
+        pub fn CHotButton_GetHotButtonData(this: *const CHotButton) -> *const HotButtonData = "?GetHotButtonData@CHotButton@eqlib@@QBEPBUHotButtonData@2@XZ";
+        /// Moves the slider to `value`.
+        pub fn CSliderWnd_SetValue(this: *mut CSliderWnd, value: c_int) = "?SetValue@CSliderWnd@eqlib@@QAEXH@Z";
 
         // eqlib/game/CXStr.h
         /// Constructs a CXStr in `this` from NUL-terminated `text`.

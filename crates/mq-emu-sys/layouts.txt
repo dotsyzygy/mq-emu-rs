@@ -82,3 +82,9 @@ AchievementInfo         # one achievement in a category
 CTribute                # tribute state (pTribute)
 UniversalChatProxy      # the chat service: your friends list (pChatService)
 CDisplay                # the display: the game clock in ms (TimeStamp) (pDisplay)
+CXMLData                # a window's XML definition: its name, screen ID and type name
+CTextureAnimation       # an animated texture (its name)
+CTextObjectInterface    # a text object, as an item slot shows its count
+CSidlManager            # the UI's XML manager (pSidlMgr)
+CSliderWnd              # a slider
+CParamScreenPiece       # a screen piece's XML parameters: its screen ID (CXMLData::ScreenID)

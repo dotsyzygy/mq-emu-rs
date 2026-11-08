@@ -1667,6 +1667,192 @@ impl ArrayClass2_AchievementCategory {
     }
 }
 
+/// C++ class `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_slotMask` at 0x8 (0x8 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_slotMask` at 0x8 (0x8 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_binShift` at 0xc (0xc within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_binShift` at 0xc (0xc within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_array` at 0x10 (0x10 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_array` at 0x10 (0x10 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_binCount` at 0x14 (0x14 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_binCount` at 0x14 (0x14 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_valid` at 0x18 (0x18 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >::m_valid` at 0x18 (0x18 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_slotMask` at 0x8 (0x8 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_slotMask` at 0x8 (0x8 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_binShift` at 0xc (0xc within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_binShift` at 0xc (0xc within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_array` at 0x10 (0x10 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_array` at 0x10 (0x10 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_binCount` at 0x14 (0x14 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_binCount` at 0x14 (0x14 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_valid` at 0x18 (0x18 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >::m_valid` at 0x18 (0x18 within `ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass2<AuraData>` (0x1c bytes).
 #[repr(C)]
 pub struct ArrayClass2_AuraData {
@@ -1754,6 +1940,378 @@ impl ArrayClass2_AuraData {
     }
 
     /// `ArrayClass2<AuraData>::m_valid` at 0x18 (0x18 within `ArrayClass2<AuraData>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<CXMLDataClass>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_CXMLDataClass {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_CXMLDataClass {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CXMLDataClass {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CXMLDataClass) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<CXMLDataClass>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLDataClass>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<CXMLEnumInfo>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_CXMLEnumInfo {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_CXMLEnumInfo {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CXMLEnumInfo {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CXMLEnumInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<CXMLEnumInfo>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLEnumInfo>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<CXMLSOMCursor>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_CXMLSOMCursor {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_CXMLSOMCursor {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CXMLSOMCursor {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CXMLSOMCursor) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<CXMLSOMCursor>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLSOMCursor>`).
+    #[inline]
+    pub fn set_m_valid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass2<CXMLSymbolClass>` (0x1c bytes).
+#[repr(C)]
+pub struct ArrayClass2_CXMLSymbolClass {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass2_CXMLSymbolClass {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn m_maxPerBin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_maxPerBin` at 0x4 (0x4 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn set_m_maxPerBin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn m_slotMask(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_slotMask` at 0x8 (0x8 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn set_m_slotMask(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn m_binShift(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_binShift` at 0xc (0xc within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn set_m_binShift(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CXMLSymbolClass {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_array` at 0x10 (0x10 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CXMLSymbolClass) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn m_binCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_binCount` at 0x14 (0x14 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn set_m_binCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLSymbolClass>`).
+    #[inline]
+    pub fn m_valid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `ArrayClass2<CXMLSymbolClass>::m_valid` at 0x18 (0x18 within `ArrayClass2<CXMLSymbolClass>`).
     #[inline]
     pub fn set_m_valid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
@@ -2339,6 +2897,63 @@ impl ArrayClass_AchievementInfo {
     }
 }
 
+/// C++ class `ArrayClass<CButtonDrawTemplate *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CButtonDrawTemplate {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CButtonDrawTemplate {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CButtonDrawTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CButtonDrawTemplate *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CButtonDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CButtonDrawTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CButtonDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CButtonDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CButtonDrawTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CButtonDrawTemplate *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CButtonDrawTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CButtonDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CButtonDrawTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CButtonDrawTemplate *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CButtonDrawTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CButtonDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass<CCastSpellWnd::SpellCategoryMajor *>` (0x10 bytes).
 #[repr(C)]
 pub struct ArrayClass_CCastSpellWnd_SpellCategoryMajor {
@@ -2390,6 +3005,63 @@ impl ArrayClass_CCastSpellWnd_SpellCategoryMajor {
     }
 
     /// `ArrayClass<CCastSpellWnd::SpellCategoryMajor *>::m_isValid` at 0xc (0xc within `ArrayClass<CCastSpellWnd::SpellCategoryMajor *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CLayoutStrategyTemplate *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CLayoutStrategyTemplate {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CLayoutStrategyTemplate {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CLayoutStrategyTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CLayoutStrategyTemplate *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CLayoutStrategyTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CLayoutStrategyTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CLayoutStrategyTemplate *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CLayoutStrategyTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CLayoutStrategyTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CLayoutStrategyTemplate *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CLayoutStrategyTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CLayoutStrategyTemplate *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CLayoutStrategyTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CLayoutStrategyTemplate *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CLayoutStrategyTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CLayoutStrategyTemplate *>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -2510,6 +3182,120 @@ impl ArrayClass_CRadioGroup {
     }
 }
 
+/// C++ class `ArrayClass<CScreenPieceTemplate *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CScreenPieceTemplate {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CScreenPieceTemplate {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CScreenPieceTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CScreenPieceTemplate *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CScreenPieceTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CScreenPieceTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CScreenPieceTemplate *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CScreenPieceTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CScreenPieceTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CScreenPieceTemplate *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CScreenPieceTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CScreenPieceTemplate *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CScreenPieceTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CScreenPieceTemplate *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CScreenPieceTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CScreenPieceTemplate *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CScrollbarTemplate *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CScrollbarTemplate {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CScrollbarTemplate {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CScrollbarTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CScrollbarTemplate *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CScrollbarTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CScrollbarTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CScrollbarTemplate *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CScrollbarTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CScrollbarTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CScrollbarTemplate *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CScrollbarTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CScrollbarTemplate *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CScrollbarTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CScrollbarTemplate *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CScrollbarTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CScrollbarTemplate *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass<CSidlScreenWnd *>` (0x10 bytes).
 #[repr(C)]
 pub struct ArrayClass_CSidlScreenWnd {
@@ -2567,6 +3353,177 @@ impl ArrayClass_CSidlScreenWnd {
     }
 }
 
+/// C++ class `ArrayClass<CSliderDrawTemplate *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CSliderDrawTemplate {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CSliderDrawTemplate {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CSliderDrawTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CSliderDrawTemplate *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CSliderDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CSliderDrawTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CSliderDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CSliderDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CSliderDrawTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CSliderDrawTemplate *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CSliderDrawTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CSliderDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CSliderDrawTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CSliderDrawTemplate *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CSliderDrawTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CSliderDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CTAFrameDraw *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CTAFrameDraw {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CTAFrameDraw {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CTAFrameDraw *>::m_array` at 0x4 (0x4 within `ArrayClass<CTAFrameDraw *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CTAFrameDraw {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CTAFrameDraw *>::m_array` at 0x4 (0x4 within `ArrayClass<CTAFrameDraw *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CTAFrameDraw) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CTAFrameDraw *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CTAFrameDraw *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CTAFrameDraw *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CTAFrameDraw *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CTAFrameDraw *>::m_isValid` at 0xc (0xc within `ArrayClass<CTAFrameDraw *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CTAFrameDraw *>::m_isValid` at 0xc (0xc within `ArrayClass<CTAFrameDraw *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CTextureAnimation *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CTextureAnimation {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CTextureAnimation {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CTextureAnimation *>::m_array` at 0x4 (0x4 within `ArrayClass<CTextureAnimation *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CTextureAnimation *>::m_array` at 0x4 (0x4 within `ArrayClass<CTextureAnimation *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CTextureAnimation *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CTextureAnimation *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CTextureAnimation *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CTextureAnimation *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CTextureAnimation *>::m_isValid` at 0xc (0xc within `ArrayClass<CTextureAnimation *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CTextureAnimation *>::m_isValid` at 0xc (0xc within `ArrayClass<CTextureAnimation *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass<CTextureFont *>` (0x10 bytes).
 #[repr(C)]
 pub struct ArrayClass_CTextureFont {
@@ -2618,6 +3575,63 @@ impl ArrayClass_CTextureFont {
     }
 
     /// `ArrayClass<CTextureFont *>::m_isValid` at 0xc (0xc within `ArrayClass<CTextureFont *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CUITextureInfo *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CUITextureInfo {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CUITextureInfo {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CUITextureInfo *>::m_array` at 0x4 (0x4 within `ArrayClass<CUITextureInfo *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CUITextureInfo {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CUITextureInfo *>::m_array` at 0x4 (0x4 within `ArrayClass<CUITextureInfo *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CUITextureInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CUITextureInfo *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CUITextureInfo *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CUITextureInfo *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CUITextureInfo *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CUITextureInfo *>::m_isValid` at 0xc (0xc within `ArrayClass<CUITextureInfo *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CUITextureInfo *>::m_isValid` at 0xc (0xc within `ArrayClass<CUITextureInfo *>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -2732,6 +3746,63 @@ impl ArrayClass_CXWnd {
     }
 
     /// `ArrayClass<CXWnd *>::m_isValid` at 0xc (0xc within `ArrayClass<CXWnd *>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<CXWndDrawTemplate *>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CXWndDrawTemplate {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CXWndDrawTemplate {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CXWndDrawTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CXWndDrawTemplate *>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CXWndDrawTemplate *>::m_array` at 0x4 (0x4 within `ArrayClass<CXWndDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CXWndDrawTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CXWndDrawTemplate *>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CXWndDrawTemplate *>::m_alloc` at 0x8 (0x8 within `ArrayClass<CXWndDrawTemplate *>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CXWndDrawTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CXWndDrawTemplate *>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CXWndDrawTemplate *>::m_isValid` at 0xc (0xc within `ArrayClass<CXWndDrawTemplate *>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -3530,6 +4601,63 @@ impl ArrayClass_STable {
     }
 
     /// `ArrayClass<STable>::m_isValid` at 0xc (0xc within `ArrayClass<STable>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
+/// C++ class `ArrayClass<STextureAnimationFrame>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_STextureAnimationFrame {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_STextureAnimationFrame {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<STextureAnimationFrame>::m_array` at 0x4 (0x4 within `ArrayClass<STextureAnimationFrame>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut STextureAnimationFrame {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<STextureAnimationFrame>::m_array` at 0x4 (0x4 within `ArrayClass<STextureAnimationFrame>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut STextureAnimationFrame) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<STextureAnimationFrame>::m_alloc` at 0x8 (0x8 within `ArrayClass<STextureAnimationFrame>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<STextureAnimationFrame>::m_alloc` at 0x8 (0x8 within `ArrayClass<STextureAnimationFrame>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<STextureAnimationFrame>::m_isValid` at 0xc (0xc within `ArrayClass<STextureAnimationFrame>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<STextureAnimationFrame>::m_isValid` at 0xc (0xc within `ArrayClass<STextureAnimationFrame>`).
     #[inline]
     pub fn set_m_isValid(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
@@ -18499,6 +19627,36 @@ impl CGroupMember {
     pub const VTABLE___vecDelDtor: usize = 0x0;
 }
 
+/// C++ class `CHashKeyArray<CHashCXStrElementBase<CXMLDataPtr,16384> >` (0x1c bytes).
+#[repr(C)]
+pub struct CHashKeyArray_CHashCXStrElementBase_CXMLDataPtr_16384 {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CHashKeyArray_CHashCXStrElementBase_CXMLDataPtr_16384 {
+    /// `CHashCXStrElementBase<CXMLDataPtr,16384>::m_data` at 0x0 (0x0 within `CHashCXStrElementBase<CXMLDataPtr,16384>`).
+    #[inline]
+    pub fn m_data(&self) -> &ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+}
+
+/// C++ class `CHashKeyArray<CHashCXStrElementBase<int,4096> >` (0x1c bytes).
+#[repr(C)]
+pub struct CHashKeyArray_CHashCXStrElementBase_int_4096 {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CHashKeyArray_CHashCXStrElementBase_int_4096 {
+    /// `CHashCXStrElementBase<int,4096>::m_data` at 0x0 (0x0 within `CHashCXStrElementBase<int,4096>`).
+    #[inline]
+    pub fn m_data(&self) -> &ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue {
+        unsafe { at(self._bytes.get().cast(), 0x0) }
+    }
+}
+
 /// C++ class `CHotButton` (0x258 bytes).
 #[repr(C)]
 pub struct CHotButton {
@@ -30349,6 +31507,756 @@ impl CPageWnd {
     pub const VTABLE___vecDelDtor: usize = 0x4;
 }
 
+/// C++ class `CParamPoint` (0x24 bytes).
+#[repr(C)]
+pub struct CParamPoint {
+    _bytes: UnsafeCell<[u8; 0x24]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CParamPoint {
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn nRefCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn set_nRefCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn nClassIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn set_nClassIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn nItemIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn set_nItemIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn nVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn set_nVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CXMLData::sClassName` at 0x14 (0x14 within `CXMLData`).
+    #[inline]
+    pub fn sClassName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CXMLData::sItemName` at 0x18 (0x18 within `CXMLData`).
+    #[inline]
+    pub fn sItemName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CParamPoint::nX` at 0x1c (0x1c within `CParamPoint`).
+    #[inline]
+    pub fn nX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CParamPoint::nX` at 0x1c (0x1c within `CParamPoint`).
+    #[inline]
+    pub fn set_nX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CParamPoint::nY` at 0x20 (0x20 within `CParamPoint`).
+    #[inline]
+    pub fn nY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CParamPoint::nY` at 0x20 (0x20 within `CParamPoint`).
+    #[inline]
+    pub fn set_nY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// The `CXMLData` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXMLData(&self) -> *mut CXMLData {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `CParamRGB` (0x30 bytes).
+#[repr(C)]
+pub struct CParamRGB {
+    _bytes: UnsafeCell<[u8; 0x30]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CParamRGB {
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn nRefCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn set_nRefCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn nClassIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn set_nClassIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn nItemIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn set_nItemIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn nVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn set_nVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CXMLData::sClassName` at 0x14 (0x14 within `CXMLData`).
+    #[inline]
+    pub fn sClassName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CXMLData::sItemName` at 0x18 (0x18 within `CXMLData`).
+    #[inline]
+    pub fn sItemName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CParamClass::Item` at 0x1c (0x1c within `CParamClass`).
+    #[inline]
+    pub fn Item(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CParamRGB::nAlpha` at 0x20 (0x20 within `CParamRGB`).
+    #[inline]
+    pub fn nAlpha(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CParamRGB::nAlpha` at 0x20 (0x20 within `CParamRGB`).
+    #[inline]
+    pub fn set_nAlpha(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CParamRGB::nR` at 0x24 (0x24 within `CParamRGB`).
+    #[inline]
+    pub fn nR(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CParamRGB::nR` at 0x24 (0x24 within `CParamRGB`).
+    #[inline]
+    pub fn set_nR(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CParamRGB::nG` at 0x28 (0x28 within `CParamRGB`).
+    #[inline]
+    pub fn nG(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CParamRGB::nG` at 0x28 (0x28 within `CParamRGB`).
+    #[inline]
+    pub fn set_nG(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CParamRGB::nB` at 0x2c (0x2c within `CParamRGB`).
+    #[inline]
+    pub fn nB(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `CParamRGB::nB` at 0x2c (0x2c within `CParamRGB`).
+    #[inline]
+    pub fn set_nB(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, value) }
+    }
+
+    /// The `CXMLData` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXMLData(&self) -> *mut CXMLData {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `CParamScreenPiece` (0x180 bytes).
+#[repr(C)]
+pub struct CParamScreenPiece {
+    _bytes: UnsafeCell<[u8; 0x180]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CParamScreenPiece {
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn nRefCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn set_nRefCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn nClassIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn set_nClassIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn nItemIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn set_nItemIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn nVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn set_nVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CXMLData::sClassName` at 0x14 (0x14 within `CXMLData`).
+    #[inline]
+    pub fn sClassName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CXMLData::sItemName` at 0x18 (0x18 within `CXMLData`).
+    #[inline]
+    pub fn sItemName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CParamClass::Item` at 0x1c (0x1c within `CParamClass`).
+    #[inline]
+    pub fn Item(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CParamScreenPiece::sScreenID` at 0x20 (0x20 within `CParamScreenPiece`).
+    #[inline]
+    pub fn sScreenID(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CParamScreenPiece::nFont` at 0x24 (0x24 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nFont(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CParamScreenPiece::nFont` at 0x24 (0x24 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nFont(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CParamScreenPiece::bRelativePosition` at 0x28 (0x28 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bRelativePosition(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x28) != 0 }
+    }
+
+    /// `CParamScreenPiece::bRelativePosition` at 0x28 (0x28 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bRelativePosition(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x28, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::Location` at 0x2c (0x2c within `CParamScreenPiece`).
+    #[inline]
+    pub fn Location(&self) -> &CParamPoint {
+        unsafe { at(self._bytes.get().cast(), 0x2c) }
+    }
+
+    /// `CParamScreenPiece::Size` at 0x50 (0x50 within `CParamScreenPiece`).
+    #[inline]
+    pub fn Size(&self) -> &CParamSize {
+        unsafe { at(self._bytes.get().cast(), 0x50) }
+    }
+
+    /// `CParamScreenPiece::bAutoStretch` at 0x74 (0x74 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bAutoStretch(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CParamScreenPiece::bAutoStretch` at 0x74 (0x74 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bAutoStretch(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bAutoStretchVertical` at 0x75 (0x75 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bAutoStretchVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CParamScreenPiece::bAutoStretchVertical` at 0x75 (0x75 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bAutoStretchVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bAutoStretchHorizontal` at 0x76 (0x76 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bAutoStretchHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CParamScreenPiece::bAutoStretchHorizontal` at 0x76 (0x76 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bAutoStretchHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bTopAnchorToTop` at 0x77 (0x77 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bTopAnchorToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x77) != 0 }
+    }
+
+    /// `CParamScreenPiece::bTopAnchorToTop` at 0x77 (0x77 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bTopAnchorToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x77, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bLeftAnchorToLeft` at 0x78 (0x78 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bLeftAnchorToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x78) != 0 }
+    }
+
+    /// `CParamScreenPiece::bLeftAnchorToLeft` at 0x78 (0x78 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bLeftAnchorToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x78, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bBottomAnchorToTop` at 0x79 (0x79 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bBottomAnchorToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x79) != 0 }
+    }
+
+    /// `CParamScreenPiece::bBottomAnchorToTop` at 0x79 (0x79 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bBottomAnchorToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x79, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bRightAnchorToLeft` at 0x7a (0x7a within `CParamScreenPiece`).
+    #[inline]
+    pub fn bRightAnchorToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7a) != 0 }
+    }
+
+    /// `CParamScreenPiece::bRightAnchorToLeft` at 0x7a (0x7a within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bRightAnchorToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7a, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::nTopAnchorOffset` at 0x7c (0x7c within `CParamScreenPiece`).
+    #[inline]
+    pub fn nTopAnchorOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `CParamScreenPiece::nTopAnchorOffset` at 0x7c (0x7c within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nTopAnchorOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+
+    /// `CParamScreenPiece::nBottomAnchorOffset` at 0x80 (0x80 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nBottomAnchorOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CParamScreenPiece::nBottomAnchorOffset` at 0x80 (0x80 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nBottomAnchorOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CParamScreenPiece::nLeftAnchorOffset` at 0x84 (0x84 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nLeftAnchorOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CParamScreenPiece::nLeftAnchorOffset` at 0x84 (0x84 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nLeftAnchorOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CParamScreenPiece::nRightAnchorOffset` at 0x88 (0x88 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nRightAnchorOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CParamScreenPiece::nRightAnchorOffset` at 0x88 (0x88 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nRightAnchorOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x88, value) }
+    }
+
+    /// `CParamScreenPiece::nMinVSize` at 0x8c (0x8c within `CParamScreenPiece`).
+    #[inline]
+    pub fn nMinVSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8c) }
+    }
+
+    /// `CParamScreenPiece::nMinVSize` at 0x8c (0x8c within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nMinVSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8c, value) }
+    }
+
+    /// `CParamScreenPiece::nMinHSize` at 0x90 (0x90 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nMinHSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x90) }
+    }
+
+    /// `CParamScreenPiece::nMinHSize` at 0x90 (0x90 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nMinHSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x90, value) }
+    }
+
+    /// `CParamScreenPiece::nMaxVSize` at 0x94 (0x94 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nMaxVSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x94) }
+    }
+
+    /// `CParamScreenPiece::nMaxVSize` at 0x94 (0x94 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nMaxVSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x94, value) }
+    }
+
+    /// `CParamScreenPiece::nMaxHSize` at 0x98 (0x98 within `CParamScreenPiece`).
+    #[inline]
+    pub fn nMaxHSize(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x98) }
+    }
+
+    /// `CParamScreenPiece::nMaxHSize` at 0x98 (0x98 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_nMaxHSize(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x98, value) }
+    }
+
+    /// `CParamScreenPiece::sText` at 0x9c (0x9c within `CParamScreenPiece`).
+    #[inline]
+    pub fn sText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CParamScreenPiece::TextColor` at 0xa0 (0xa0 within `CParamScreenPiece`).
+    #[inline]
+    pub fn TextColor(&self) -> &CParamRGB {
+        unsafe { at(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CParamScreenPiece::DisabledColor` at 0xd0 (0xd0 within `CParamScreenPiece`).
+    #[inline]
+    pub fn DisabledColor(&self) -> &CParamRGB {
+        unsafe { at(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CParamScreenPiece::bUseInLayoutHorizontal` at 0x100 (0x100 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x100) != 0 }
+    }
+
+    /// `CParamScreenPiece::bUseInLayoutHorizontal` at 0x100 (0x100 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x100, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::bUseInLayoutVertical` at 0x101 (0x101 within `CParamScreenPiece`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x101) != 0 }
+    }
+
+    /// `CParamScreenPiece::bUseInLayoutVertical` at 0x101 (0x101 within `CParamScreenPiece`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x101, u8::from(value)) }
+    }
+
+    /// `CParamScreenPiece::BackgroundTextureTint` at 0x104 (0x104 within `CParamScreenPiece`).
+    #[inline]
+    pub fn BackgroundTextureTint(&self) -> &CParamRGB {
+        unsafe { at(self._bytes.get().cast(), 0x104) }
+    }
+
+    /// `CParamScreenPiece::DisabledBackgroundTextureTint` at 0x134 (0x134 within `CParamScreenPiece`).
+    #[inline]
+    pub fn DisabledBackgroundTextureTint(&self) -> &CParamRGB {
+        unsafe { at(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CParamScreenPiece::cursor` at 0x164 (0x164 within `CParamScreenPiece`).
+    #[inline]
+    pub fn cursor(&self) -> &ArrayClass2_CXMLSOMCursor {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// The `CXMLData` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXMLData(&self) -> *mut CXMLData {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `CParamSize` (0x24 bytes).
+#[repr(C)]
+pub struct CParamSize {
+    _bytes: UnsafeCell<[u8; 0x24]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CParamSize {
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn nRefCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn set_nRefCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn nClassIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn set_nClassIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn nItemIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn set_nItemIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn nVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn set_nVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CXMLData::sClassName` at 0x14 (0x14 within `CXMLData`).
+    #[inline]
+    pub fn sClassName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CXMLData::sItemName` at 0x18 (0x18 within `CXMLData`).
+    #[inline]
+    pub fn sItemName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CParamSize::nCX` at 0x1c (0x1c within `CParamSize`).
+    #[inline]
+    pub fn nCX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CParamSize::nCX` at 0x1c (0x1c within `CParamSize`).
+    #[inline]
+    pub fn set_nCX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CParamSize::nCY` at 0x20 (0x20 within `CParamSize`).
+    #[inline]
+    pub fn nCY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CParamSize::nCY` at 0x20 (0x20 within `CParamSize`).
+    #[inline]
+    pub fn set_nCY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// The `CXMLData` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXMLData(&self) -> *mut CXMLData {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
 /// C++ class `CPetInfoWnd` (0x920 bytes).
 #[repr(C)]
 pub struct CPetInfoWnd {
@@ -32774,6 +34682,1414 @@ impl CRaid {
     pub fn set_bGroupOnInvite(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x3961, u8::from(value)) }
     }
+}
+
+/// C++ class `CSidlManager` (0x200 bytes).
+#[repr(C)]
+pub struct CSidlManager {
+    _bytes: UnsafeCell<[u8; 0x200]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CSidlManager {
+    /// `CSidlManagerBase::__vfptr` at 0x0 (0x0 within `CSidlManagerBase`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CSidlManagerBase::__vfptr` at 0x0 (0x0 within `CSidlManagerBase`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CSidlManagerBase::ScreenPieceClassIndex` at 0x4 (0x4 within `CSidlManagerBase`).
+    #[inline]
+    pub fn ScreenPieceClassIndex(&self) -> [EStaticScreenPieceClasses; 5] {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CSidlManagerBase::ScreenPieceClassIndex` at 0x4 (0x4 within `CSidlManagerBase`).
+    #[inline]
+    pub fn set_ScreenPieceClassIndex(&self, value: [EStaticScreenPieceClasses; 5]) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CSidlManagerBase::ScreenPieceClassIndex` at 0x4 (0x4 within `CSidlManagerBase`).
+    /// One element; panics if `index >= 5`.
+    #[inline]
+    pub fn ScreenPieceClassIndex_at(&self, index: usize) -> EStaticScreenPieceClasses {
+        assert!(index < 5, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4 + index * 0x4) }
+    }
+
+    /// `CSidlManagerBase::ScreenPieceClassIndex` at 0x4 (0x4 within `CSidlManagerBase`).
+    /// Sets one element; panics if `index >= 5`.
+    #[inline]
+    pub fn set_ScreenPieceClassIndex_at(&self, index: usize, value: EStaticScreenPieceClasses) {
+        assert!(index < 5, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4 + index * 0x4, value) }
+    }
+
+    /// `CSidlManagerBase::Textures` at 0x18 (0x18 within `CSidlManagerBase`).
+    #[inline]
+    pub fn Textures(&self) -> &ArrayClass_CUITextureInfo {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CSidlManagerBase::ButtonDrawTemplateArray` at 0x28 (0x28 within `CSidlManagerBase`).
+    #[inline]
+    pub fn ButtonDrawTemplateArray(&self) -> &ArrayClass_CButtonDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CSidlManagerBase::ScrollbarTemplateArray` at 0x38 (0x38 within `CSidlManagerBase`).
+    #[inline]
+    pub fn ScrollbarTemplateArray(&self) -> &ArrayClass_CScrollbarTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `CSidlManagerBase::SliderDrawTemplateArray` at 0x48 (0x48 within `CSidlManagerBase`).
+    #[inline]
+    pub fn SliderDrawTemplateArray(&self) -> &ArrayClass_CSliderDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x48) }
+    }
+
+    /// `CSidlManagerBase::ScreenNameArray` at 0x58 (0x58 within `CSidlManagerBase`).
+    #[inline]
+    pub fn ScreenNameArray(&self) -> &ArrayClass_CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `CSidlManagerBase::DrawTemplateArray` at 0x68 (0x68 within `CSidlManagerBase`).
+    #[inline]
+    pub fn DrawTemplateArray(&self) -> &ArrayClass_CXWndDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `CSidlManagerBase::DrawTemplateHash` at 0x78 (0x78 within `CSidlManagerBase`).
+    #[inline]
+    pub fn DrawTemplateHash(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CSidlManagerBase::AnimationArray` at 0x94 (0x94 within `CSidlManagerBase`).
+    #[inline]
+    pub fn AnimationArray(&self) -> &ArrayClass_CTextureAnimation {
+        unsafe { at(self._bytes.get().cast(), 0x94) }
+    }
+
+    /// `CSidlManagerBase::AnimationsHash` at 0xa4 (0xa4 within `CSidlManagerBase`).
+    #[inline]
+    pub fn AnimationsHash(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0xa4) }
+    }
+
+    /// `CSidlManagerBase::TAFrameArray` at 0xc0 (0xc0 within `CSidlManagerBase`).
+    #[inline]
+    pub fn TAFrameArray(&self) -> &ArrayClass_CTAFrameDraw {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CSidlManagerBase::TAFrameHash` at 0xd0 (0xd0 within `CSidlManagerBase`).
+    #[inline]
+    pub fn TAFrameHash(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CSidlManagerBase::ScreenPieceArray` at 0xec (0xec within `CSidlManagerBase`).
+    #[inline]
+    pub fn ScreenPieceArray(&self) -> &ArrayClass_CScreenPieceTemplate {
+        unsafe { at(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CSidlManagerBase::ScreenPiecesHash` at 0xfc (0xfc within `CSidlManagerBase`).
+    #[inline]
+    pub fn ScreenPiecesHash(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CSidlManagerBase::LayoutStrategyTemplateArray` at 0x118 (0x118 within `CSidlManagerBase`).
+    #[inline]
+    pub fn LayoutStrategyTemplateArray(&self) -> &ArrayClass_CLayoutStrategyTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x118) }
+    }
+
+    /// `CSidlManagerBase::LayoutStrategyTemplatesHash` at 0x128 (0x128 within `CSidlManagerBase`).
+    #[inline]
+    pub fn LayoutStrategyTemplatesHash(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CSidlManagerBase::XMLDataMgr` at 0x144 (0x144 within `CSidlManagerBase`).
+    #[inline]
+    pub fn XMLDataMgr(&self) -> &CXMLParamManager {
+        unsafe { at(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CSidlManagerBase::bLoadError` at 0x1f8 (0x1f8 within `CSidlManagerBase`).
+    #[inline]
+    pub fn bLoadError(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f8) != 0 }
+    }
+
+    /// `CSidlManagerBase::bLoadError` at 0x1f8 (0x1f8 within `CSidlManagerBase`).
+    #[inline]
+    pub fn set_bLoadError(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, u8::from(value)) }
+    }
+
+    /// `CSidlManagerBase::ErrorString` at 0x1fc (0x1fc within `CSidlManagerBase`).
+    #[inline]
+    pub fn ErrorString(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `CSliderWnd` (0x218 bytes).
+#[repr(C)]
+pub struct CSliderWnd {
+    _bytes: UnsafeCell<[u8; 0x218]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CSliderWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CSliderWnd::bdtThumb` at 0x1d8 (0x1d8 within `CSliderWnd`).
+    #[inline]
+    pub fn bdtThumb(&self) -> &CButtonDrawTemplate {
+        unsafe { at(self._bytes.get().cast(), 0x1d8) }
+    }
+
+    /// `CSliderWnd::ptaBackground` at 0x20c (0x20c within `CSliderWnd`).
+    #[inline]
+    pub fn ptaBackground(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `CSliderWnd::ptaBackground` at 0x20c (0x20c within `CSliderWnd`).
+    #[inline]
+    pub fn set_ptaBackground(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `CSliderWnd::ptaEndCapLeft` at 0x210 (0x210 within `CSliderWnd`).
+    #[inline]
+    pub fn ptaEndCapLeft(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CSliderWnd::ptaEndCapLeft` at 0x210 (0x210 within `CSliderWnd`).
+    #[inline]
+    pub fn set_ptaEndCapLeft(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CSliderWnd::ptaEndCapRight` at 0x214 (0x214 within `CSliderWnd`).
+    #[inline]
+    pub fn ptaEndCapRight(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `CSliderWnd::ptaEndCapRight` at 0x214 (0x214 within `CSliderWnd`).
+    #[inline]
+    pub fn set_ptaEndCapRight(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// The `CXWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXWnd(&self) -> *mut CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `TList<CXWnd>` base, at 0x10: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_TList_CXWnd(&self) -> *mut TList_CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x10).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x4;
 }
 
 /// C++ class `CSpellBookWnd` (0x248 bytes).
@@ -41248,6 +44564,204 @@ impl CTaskManager {
     }
 }
 
+/// C++ class `CTextObjectInterface` (0x4 bytes).
+#[repr(C)]
+pub struct CTextObjectInterface {
+    _bytes: UnsafeCell<[u8; 0x4]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTextObjectInterface {
+    /// `CTextObjectInterface::__vfptr` at 0x0 (0x0 within `CTextObjectInterface`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CTextObjectInterface::__vfptr` at 0x0 (0x0 within `CTextObjectInterface`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// Byte offset of the virtual `SetText` in this class's vtable.
+    pub const VTABLE_SetText: usize = 0x0;
+
+    /// Byte offset of the virtual `GetText` in this class's vtable.
+    pub const VTABLE_GetText: usize = 0x4;
+}
+
+/// C++ class `CTextureAnimation` (0x4c bytes).
+#[repr(C)]
+pub struct CTextureAnimation {
+    _bytes: UnsafeCell<[u8; 0x4c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTextureAnimation {
+    /// `CTextureAnimation::__vfptr` at 0x0 (0x0 within `CTextureAnimation`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CTextureAnimation::__vfptr` at 0x0 (0x0 within `CTextureAnimation`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CTextureAnimation::Name` at 0x4 (0x4 within `CTextureAnimation`).
+    #[inline]
+    pub fn Name(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CTextureAnimation::Frames` at 0x8 (0x8 within `CTextureAnimation`).
+    #[inline]
+    pub fn Frames(&self) -> &ArrayClass_STextureAnimationFrame {
+        unsafe { at(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CTextureAnimation::TotalTicks` at 0x18 (0x18 within `CTextureAnimation`).
+    #[inline]
+    pub fn TotalTicks(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CTextureAnimation::TotalTicks` at 0x18 (0x18 within `CTextureAnimation`).
+    #[inline]
+    pub fn set_TotalTicks(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `CTextureAnimation::ZeroFrame` at 0x1c (0x1c within `CTextureAnimation`).
+    #[inline]
+    pub fn ZeroFrame(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CTextureAnimation::ZeroFrame` at 0x1c (0x1c within `CTextureAnimation`).
+    #[inline]
+    pub fn set_ZeroFrame(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CTextureAnimation::StartTicks` at 0x20 (0x20 within `CTextureAnimation`).
+    #[inline]
+    pub fn StartTicks(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CTextureAnimation::StartTicks` at 0x20 (0x20 within `CTextureAnimation`).
+    #[inline]
+    pub fn set_StartTicks(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CTextureAnimation::Size` at 0x24 (0x24 within `CTextureAnimation`).
+    #[inline]
+    pub fn Size(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CTextureAnimation::bPaused` at 0x2c (0x2c within `CTextureAnimation`).
+    #[inline]
+    pub fn bPaused(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CTextureAnimation::bPaused` at 0x2c (0x2c within `CTextureAnimation`).
+    #[inline]
+    pub fn set_bPaused(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CTextureAnimation::bCycle` at 0x2d (0x2d within `CTextureAnimation`).
+    #[inline]
+    pub fn bCycle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CTextureAnimation::bCycle` at 0x2d (0x2d within `CTextureAnimation`).
+    #[inline]
+    pub fn set_bCycle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CTextureAnimation::bGrid` at 0x2e (0x2e within `CTextureAnimation`).
+    #[inline]
+    pub fn bGrid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2e) != 0 }
+    }
+
+    /// `CTextureAnimation::bGrid` at 0x2e (0x2e within `CTextureAnimation`).
+    #[inline]
+    pub fn set_bGrid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2e, u8::from(value)) }
+    }
+
+    /// `CTextureAnimation::bVertical` at 0x2f (0x2f within `CTextureAnimation`).
+    #[inline]
+    pub fn bVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2f) != 0 }
+    }
+
+    /// `CTextureAnimation::bVertical` at 0x2f (0x2f within `CTextureAnimation`).
+    #[inline]
+    pub fn set_bVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2f, u8::from(value)) }
+    }
+
+    /// `CTextureAnimation::CellWidth` at 0x30 (0x30 within `CTextureAnimation`).
+    #[inline]
+    pub fn CellWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CTextureAnimation::CellWidth` at 0x30 (0x30 within `CTextureAnimation`).
+    #[inline]
+    pub fn set_CellWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CTextureAnimation::CellHeight` at 0x34 (0x34 within `CTextureAnimation`).
+    #[inline]
+    pub fn CellHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CTextureAnimation::CellHeight` at 0x34 (0x34 within `CTextureAnimation`).
+    #[inline]
+    pub fn set_CellHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CTextureAnimation::CurCell` at 0x38 (0x38 within `CTextureAnimation`).
+    #[inline]
+    pub fn CurCell(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `CTextureAnimation::CurCell` at 0x38 (0x38 within `CTextureAnimation`).
+    #[inline]
+    pub fn set_CurCell(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38, value) }
+    }
+
+    /// `CTextureAnimation::CellRect` at 0x3c (0x3c within `CTextureAnimation`).
+    #[inline]
+    pub fn CellRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// Byte offset of the virtual `~CTextureAnimation` in this class's vtable.
+    pub const VTABLE_CTextureAnimation: usize = 0x0;
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
 /// C++ class `CTradeWnd` (0x2fc bytes).
 #[repr(C)]
 pub struct CTradeWnd {
@@ -43048,6 +46562,207 @@ impl CVector3 {
     pub fn set_Z(&self, value: f32) {
         unsafe { write(self._bytes.get().cast(), 0x8, value) }
     }
+}
+
+/// C++ class `CXMLData` (0x1c bytes).
+#[repr(C)]
+pub struct CXMLData {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CXMLData {
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLData::__vfptr` at 0x0 (0x0 within `CXMLData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn nRefCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLData::nRefCount` at 0x4 (0x4 within `CXMLData`).
+    #[inline]
+    pub fn set_nRefCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn nClassIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CXMLData::nClassIdx` at 0x8 (0x8 within `CXMLData`).
+    #[inline]
+    pub fn set_nClassIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn nItemIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CXMLData::nItemIdx` at 0xc (0xc within `CXMLData`).
+    #[inline]
+    pub fn set_nItemIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn nVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CXMLData::nVersion` at 0x10 (0x10 within `CXMLData`).
+    #[inline]
+    pub fn set_nVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CXMLData::sClassName` at 0x14 (0x14 within `CXMLData`).
+    #[inline]
+    pub fn sClassName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CXMLData::sItemName` at 0x18 (0x18 within `CXMLData`).
+    #[inline]
+    pub fn sItemName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// Byte offset of the virtual `~CXMLData` in this class's vtable.
+    pub const VTABLE_CXMLData: usize = 0x0;
+
+    /// Byte offset of the virtual `GetStreamSize` in this class's vtable.
+    pub const VTABLE_GetStreamSize: usize = 0x4;
+
+    /// Byte offset of the virtual `ReadFromStream` in this class's vtable.
+    pub const VTABLE_ReadFromStream: usize = 0x8;
+
+    /// Byte offset of the virtual `WriteToStream` in this class's vtable.
+    pub const VTABLE_WriteToStream: usize = 0xc;
+
+    /// Byte offset of the virtual `ReadFromXMLSOM` in this class's vtable.
+    pub const VTABLE_ReadFromXMLSOM: usize = 0x10;
+
+    /// Byte offset of the virtual `WriteToXMLSOM` in this class's vtable.
+    pub const VTABLE_WriteToXMLSOM: usize = 0x14;
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `CXMLParamManager` (0xb4 bytes).
+#[repr(C)]
+pub struct CXMLParamManager {
+    _bytes: UnsafeCell<[u8; 0xb4]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CXMLParamManager {
+    /// `CXMLDataManager::__vfptr` at 0x0 (0x0 within `CXMLDataManager`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLDataManager::__vfptr` at 0x0 (0x0 within `CXMLDataManager`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLDataManager::enumTypeHashes` at 0x4 (0x4 within `CXMLDataManager`).
+    #[inline]
+    pub fn enumTypeHashes(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLDataManager::enumArray` at 0x20 (0x20 within `CXMLDataManager`).
+    #[inline]
+    pub fn enumArray(&self) -> &ArrayClass2_CXMLEnumInfo {
+        unsafe { at(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CXMLDataManager::classItemHashes` at 0x3c (0x3c within `CXMLDataManager`).
+    #[inline]
+    pub fn classItemHashes(&self) -> &CHashKeyArray_CHashCXStrElementBase_CXMLDataPtr_16384 {
+        unsafe { at(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXMLDataManager::dataArray` at 0x58 (0x58 within `CXMLDataManager`).
+    #[inline]
+    pub fn dataArray(&self) -> &ArrayClass2_CXMLDataClass {
+        unsafe { at(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `CXMLDataManager::symbolTable` at 0x74 (0x74 within `CXMLDataManager`).
+    #[inline]
+    pub fn symbolTable(&self) -> &CXMLSymbolTable {
+        unsafe { at(self._bytes.get().cast(), 0x74) }
+    }
+
+    /// `CXMLDataManager::errorString` at 0xb0 (0xb0 within `CXMLDataManager`).
+    #[inline]
+    pub fn errorString(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xb0) }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `CXMLSymbolTable` (0x3c bytes).
+#[repr(C)]
+pub struct CXMLSymbolTable {
+    _bytes: UnsafeCell<[u8; 0x3c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CXMLSymbolTable {
+    /// `CXMLSymbolTable::__vfptr` at 0x0 (0x0 within `CXMLSymbolTable`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXMLSymbolTable::__vfptr` at 0x0 (0x0 within `CXMLSymbolTable`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CXMLSymbolTable::classes` at 0x4 (0x4 within `CXMLSymbolTable`).
+    #[inline]
+    pub fn classes(&self) -> &ArrayClass2_CXMLSymbolClass {
+        unsafe { at(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CXMLSymbolTable::hashes` at 0x20 (0x20 within `CXMLSymbolTable`).
+    #[inline]
+    pub fn hashes(&self) -> &CHashKeyArray_CHashCXStrElementBase_int_4096 {
+        unsafe { at(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// Byte offset of the virtual `~CXMLSymbolTable` in this class's vtable.
+    pub const VTABLE_CXMLSymbolTable: usize = 0x0;
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
 }
 
 /// C++ class `CXPoint` (0x8 bytes).
@@ -84283,6 +87998,22 @@ impl ESTMLParseState {
     pub const STML_PARSE_STATE_HEAD: Self = Self(1);
 }
 
+/// C++ enum `EStaticScreenPieceClasses`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct EStaticScreenPieceClasses(pub i32);
+
+impl EStaticScreenPieceClasses {
+    pub const StaticScreenPieceUnknown: Self = Self(-1);
+    pub const StaticScreenPieceHeader: Self = Self(0);
+    pub const StaticScreenPieceFrame: Self = Self(1);
+    pub const StaticScreenPieceText: Self = Self(2);
+    pub const StaticScreenPieceAnimation: Self = Self(3);
+    pub const StaticScreenPieceTintedBlendAnimation: Self = Self(4);
+    pub const StaticScreenPieceMax: Self = Self(5);
+}
+
 /// C++ enum `EStringEncoding`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -84787,6 +88518,20 @@ pub struct ActorTagManager {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct AssociatedNPCSaveStringNode {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -84871,6 +88616,13 @@ pub struct CLayoutStrategy {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct CLayoutStrategyTemplate {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct CLightDefinitionInterface {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -84906,6 +88658,13 @@ pub struct CRadioGroup {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct CScreenPieceTemplate {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct CScreenTemplate {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -84913,7 +88672,21 @@ pub struct CScreenTemplate {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct CScrollbarTemplate {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct CSidlScreenWnd {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct CSliderDrawTemplate {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -84948,20 +88721,6 @@ pub struct CTAFrameDraw {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
-pub struct CTextObjectInterface {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
-pub struct CTextureAnimation {
-    _opaque: [u8; 0],
-    _marker: PhantomData<(*mut u8, PhantomPinned)>,
-}
-
-/// Opaque: only reached through pointers from generated records.
-#[repr(C)]
 pub struct CTextureFont {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -84977,6 +88736,34 @@ pub struct CTileLayoutWnd {
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct CXFreeList {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct CXMLDataClass {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct CXMLEnumInfo {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct CXMLSOMCursor {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct CXMLSymbolClass {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -85333,6 +89120,13 @@ pub struct STextLine {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct STextureAnimationFrame {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct SWadFile {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -85410,7 +89204,13 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArmorProperties", rust_name: "ArmorProperties", size: 0x14 },
     RecordInfo { name: "ArrayClass2<Achievement>", rust_name: "ArrayClass2_Achievement", size: 0x1c },
     RecordInfo { name: "ArrayClass2<AchievementCategory>", rust_name: "ArrayClass2_AchievementCategory", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", rust_name: "ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_CXMLDataPtr_KeyValue", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", rust_name: "ArrayClass2_ArrayClass2_CHashKeyValueElement_CXStr_int_KeyValue", size: 0x1c },
     RecordInfo { name: "ArrayClass2<AuraData>", rust_name: "ArrayClass2_AuraData", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<CXMLDataClass>", rust_name: "ArrayClass2_CXMLDataClass", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<CXMLEnumInfo>", rust_name: "ArrayClass2_CXMLEnumInfo", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<CXMLSOMCursor>", rust_name: "ArrayClass2_CXMLSOMCursor", size: 0x1c },
+    RecordInfo { name: "ArrayClass2<CXMLSymbolClass>", rust_name: "ArrayClass2_CXMLSymbolClass", size: 0x1c },
     RecordInfo { name: "ArrayClass2<CXWnd *>", rust_name: "ArrayClass2_CXWnd", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SHistoryElement>", rust_name: "ArrayClass2_SHistoryElement", size: 0x1c },
     RecordInfo { name: "ArrayClass2<SLinkInfo>", rust_name: "ArrayClass2_SLinkInfo", size: 0x1c },
@@ -85418,13 +89218,22 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass2<unsigned int>", rust_name: "ArrayClass2_unsigned_int", size: 0x1c },
     RecordInfo { name: "ArrayClass<AchievementComponent>", rust_name: "ArrayClass_AchievementComponent", size: 0x10 },
     RecordInfo { name: "ArrayClass<AchievementInfo>", rust_name: "ArrayClass_AchievementInfo", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CButtonDrawTemplate *>", rust_name: "ArrayClass_CButtonDrawTemplate", size: 0x10 },
     RecordInfo { name: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", rust_name: "ArrayClass_CCastSpellWnd_SpellCategoryMajor", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CLayoutStrategyTemplate *>", rust_name: "ArrayClass_CLayoutStrategyTemplate", size: 0x10 },
     RecordInfo { name: "ArrayClass<CPageWnd *>", rust_name: "ArrayClass_CPageWnd", size: 0x10 },
     RecordInfo { name: "ArrayClass<CRadioGroup *>", rust_name: "ArrayClass_CRadioGroup", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CScreenPieceTemplate *>", rust_name: "ArrayClass_CScreenPieceTemplate", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CScrollbarTemplate *>", rust_name: "ArrayClass_CScrollbarTemplate", size: 0x10 },
     RecordInfo { name: "ArrayClass<CSidlScreenWnd *>", rust_name: "ArrayClass_CSidlScreenWnd", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CSliderDrawTemplate *>", rust_name: "ArrayClass_CSliderDrawTemplate", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CTAFrameDraw *>", rust_name: "ArrayClass_CTAFrameDraw", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CTextureAnimation *>", rust_name: "ArrayClass_CTextureAnimation", size: 0x10 },
     RecordInfo { name: "ArrayClass<CTextureFont *>", rust_name: "ArrayClass_CTextureFont", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CUITextureInfo *>", rust_name: "ArrayClass_CUITextureInfo", size: 0x10 },
     RecordInfo { name: "ArrayClass<CXStr>", rust_name: "ArrayClass_CXStr", size: 0x10 },
     RecordInfo { name: "ArrayClass<CXWnd *>", rust_name: "ArrayClass_CXWnd", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CXWndDrawTemplate *>", rust_name: "ArrayClass_CXWndDrawTemplate", size: 0x10 },
     RecordInfo { name: "ArrayClass<CharSelectInfo>", rust_name: "ArrayClass_CharSelectInfo", size: 0x10 },
     RecordInfo { name: "ArrayClass<ChatBufferEntry *>", rust_name: "ArrayClass_ChatBufferEntry", size: 0x10 },
     RecordInfo { name: "ArrayClass<ClaimData>", rust_name: "ArrayClass_ClaimData", size: 0x10 },
@@ -85439,6 +89248,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass<SListWndColumn>", rust_name: "ArrayClass_SListWndColumn", size: 0x10 },
     RecordInfo { name: "ArrayClass<SListWndLine>", rust_name: "ArrayClass_SListWndLine", size: 0x10 },
     RecordInfo { name: "ArrayClass<STable>", rust_name: "ArrayClass_STable", size: 0x10 },
+    RecordInfo { name: "ArrayClass<STextureAnimationFrame>", rust_name: "ArrayClass_STextureAnimationFrame", size: 0x10 },
     RecordInfo { name: "ArrayClass<ScreenWndManager::ScreenRecord>", rust_name: "ArrayClass_ScreenWndManager_ScreenRecord", size: 0x10 },
     RecordInfo { name: "ArrayClass<SingleAchievementAndComponentsInfo>", rust_name: "ArrayClass_SingleAchievementAndComponentsInfo", size: 0x10 },
     RecordInfo { name: "ArrayClass<bool>", rust_name: "ArrayClass_bool", size: 0x10 },
@@ -85465,6 +89275,8 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CGaugeWnd", rust_name: "CGaugeWnd", size: 0x240 },
     RecordInfo { name: "CGroup", rust_name: "CGroup", size: 0x28 },
     RecordInfo { name: "CGroupMember", rust_name: "CGroupMember", size: 0x30 },
+    RecordInfo { name: "CHashKeyArray<CHashCXStrElementBase<CXMLDataPtr,16384> >", rust_name: "CHashKeyArray_CHashCXStrElementBase_CXMLDataPtr_16384", size: 0x1c },
+    RecordInfo { name: "CHashKeyArray<CHashCXStrElementBase<int,4096> >", rust_name: "CHashKeyArray_CHashCXStrElementBase_int_4096", size: 0x1c },
     RecordInfo { name: "CHotButton", rust_name: "CHotButton", size: 0x258 },
     RecordInfo { name: "CHotButtonWnd", rust_name: "CHotButtonWnd", size: 0x308 },
     RecordInfo { name: "CInvSlot", rust_name: "CInvSlot", size: 0x14 },
@@ -85477,10 +89289,16 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CMercenaryManager", rust_name: "CMercenaryManager", size: 0x268 },
     RecordInfo { name: "CMerchantWnd", rust_name: "CMerchantWnd", size: 0x2b0 },
     RecordInfo { name: "CPageWnd", rust_name: "CPageWnd", size: 0x234 },
+    RecordInfo { name: "CParamPoint", rust_name: "CParamPoint", size: 0x24 },
+    RecordInfo { name: "CParamRGB", rust_name: "CParamRGB", size: 0x30 },
+    RecordInfo { name: "CParamScreenPiece", rust_name: "CParamScreenPiece", size: 0x180 },
+    RecordInfo { name: "CParamSize", rust_name: "CParamSize", size: 0x24 },
     RecordInfo { name: "CPetInfoWnd", rust_name: "CPetInfoWnd", size: 0x920 },
     RecordInfo { name: "CPhysicsInfo", rust_name: "CPhysicsInfo", size: 0x30 },
     RecordInfo { name: "CPlayerPointManager", rust_name: "CPlayerPointManager", size: 0x14 },
     RecordInfo { name: "CRaid", rust_name: "CRaid", size: 0x3964 },
+    RecordInfo { name: "CSidlManager", rust_name: "CSidlManager", size: 0x200 },
+    RecordInfo { name: "CSliderWnd", rust_name: "CSliderWnd", size: 0x218 },
     RecordInfo { name: "CSpellBookWnd", rust_name: "CSpellBookWnd", size: 0x248 },
     RecordInfo { name: "CSpellDisplayManager", rust_name: "CSpellDisplayManager", size: 0x40 },
     RecordInfo { name: "CSpellGemDrawTemplate", rust_name: "CSpellGemDrawTemplate", size: 0x10 },
@@ -85492,11 +89310,16 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CTaskElement", rust_name: "CTaskElement", size: 0x164 },
     RecordInfo { name: "CTaskEntry", rust_name: "CTaskEntry", size: 0x3bfc },
     RecordInfo { name: "CTaskManager", rust_name: "CTaskManager", size: 0x19c698 },
+    RecordInfo { name: "CTextObjectInterface", rust_name: "CTextObjectInterface", size: 0x4 },
+    RecordInfo { name: "CTextureAnimation", rust_name: "CTextureAnimation", size: 0x4c },
     RecordInfo { name: "CTradeWnd", rust_name: "CTradeWnd", size: 0x2fc },
     RecordInfo { name: "CTribute", rust_name: "CTribute", size: 0x1 },
     RecordInfo { name: "CUITextureInfo", rust_name: "CUITextureInfo", size: 0x18 },
     RecordInfo { name: "CVector2", rust_name: "CVector2", size: 0x8 },
     RecordInfo { name: "CVector3", rust_name: "CVector3", size: 0xc },
+    RecordInfo { name: "CXMLData", rust_name: "CXMLData", size: 0x1c },
+    RecordInfo { name: "CXMLParamManager", rust_name: "CXMLParamManager", size: 0xb4 },
+    RecordInfo { name: "CXMLSymbolTable", rust_name: "CXMLSymbolTable", size: 0x3c },
     RecordInfo { name: "CXPoint", rust_name: "CXPoint", size: 0x8 },
     RecordInfo { name: "CXRect", rust_name: "CXRect", size: 0x10 },
     RecordInfo { name: "CXSize", rust_name: "CXSize", size: 0x8 },
@@ -85766,6 +89589,20 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AchievementCategory>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<AchievementCategory>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,CXMLDataPtr>::KeyValue> >", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<ArrayClass2<CHashKeyValueElement<CXStr,int>::KeyValue> >", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<AuraData>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AuraData>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<AuraData>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AuraData>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<AuraData>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85773,6 +89610,34 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass2<AuraData>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<AuraData>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AuraData>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<AuraData>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<AuraData>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<AuraData>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXMLDataClass>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXMLDataClass>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<CXMLDataClass>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<CXMLDataClass>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<CXMLDataClass>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLDataClass>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<CXMLDataClass>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXMLEnumInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXMLEnumInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<CXMLEnumInfo>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<CXMLEnumInfo>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<CXMLEnumInfo>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLEnumInfo>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<CXMLEnumInfo>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXMLSOMCursor>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXMLSOMCursor>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<CXMLSOMCursor>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<CXMLSOMCursor>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<CXMLSOMCursor>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSOMCursor>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<CXMLSOMCursor>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXMLSymbolClass>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXMLSymbolClass>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_binShift", accessor: "m_binShift", declared_in: "ArrayClass2<CXMLSymbolClass>", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass2<CXMLSymbolClass>", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_binCount", accessor: "m_binCount", declared_in: "ArrayClass2<CXMLSymbolClass>", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass2<CXMLSymbolClass>", field: "m_valid", accessor: "m_valid", declared_in: "ArrayClass2<CXMLSymbolClass>", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_maxPerBin", accessor: "m_maxPerBin", declared_in: "ArrayClass2<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass2<CXWnd *>", field: "m_slotMask", accessor: "m_slotMask", declared_in: "ArrayClass2<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85816,10 +89681,18 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<AchievementInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<AchievementInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<AchievementInfo>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<AchievementInfo>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CButtonDrawTemplate *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CButtonDrawTemplate *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CButtonDrawTemplate *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CButtonDrawTemplate *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CButtonDrawTemplate *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CButtonDrawTemplate *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CButtonDrawTemplate *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CCastSpellWnd::SpellCategoryMajor *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CLayoutStrategyTemplate *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CLayoutStrategyTemplate *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CLayoutStrategyTemplate *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CLayoutStrategyTemplate *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CLayoutStrategyTemplate *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CLayoutStrategyTemplate *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CLayoutStrategyTemplate *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CPageWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CPageWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CPageWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85828,14 +89701,38 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CRadioGroup *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CRadioGroup *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CRadioGroup *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CRadioGroup *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CScreenPieceTemplate *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CScreenPieceTemplate *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CScreenPieceTemplate *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CScreenPieceTemplate *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CScreenPieceTemplate *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CScreenPieceTemplate *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CScreenPieceTemplate *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CScrollbarTemplate *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CScrollbarTemplate *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CScrollbarTemplate *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CScrollbarTemplate *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CScrollbarTemplate *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CScrollbarTemplate *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CScrollbarTemplate *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CSidlScreenWnd *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CSidlScreenWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CSidlScreenWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CSidlScreenWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CSidlScreenWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CSidlScreenWnd *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CSidlScreenWnd *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CSliderDrawTemplate *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CSliderDrawTemplate *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CSliderDrawTemplate *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CSliderDrawTemplate *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CSliderDrawTemplate *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CSliderDrawTemplate *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CSliderDrawTemplate *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CTAFrameDraw *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTAFrameDraw *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CTAFrameDraw *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTAFrameDraw *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CTAFrameDraw *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTAFrameDraw *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CTAFrameDraw *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureAnimation *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureAnimation *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CTextureAnimation *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureAnimation *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CTextureAnimation *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CTextureAnimation *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CTextureAnimation *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CTextureFont *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CTextureFont *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CTextureFont *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CTextureFont *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CUITextureInfo *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CUITextureInfo *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CUITextureInfo *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CUITextureInfo *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CUITextureInfo *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CUITextureInfo *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CUITextureInfo *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXStr>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXStr>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXStr>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85844,6 +89741,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CXWnd *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CXWndDrawTemplate *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CXWndDrawTemplate *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXWndDrawTemplate *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CXWndDrawTemplate *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXWndDrawTemplate *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CXWndDrawTemplate *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CXWndDrawTemplate *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CharSelectInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CharSelectInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85900,6 +89801,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<STable>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<STable>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<STable>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<STable>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<STable>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<STable>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<STextureAnimationFrame>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<STextureAnimationFrame>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<STextureAnimationFrame>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<STextureAnimationFrame>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<STextureAnimationFrame>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<STextureAnimationFrame>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<STextureAnimationFrame>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<ScreenWndManager::ScreenRecord>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ScreenWndManager::ScreenRecord>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<ScreenWndManager::ScreenRecord>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ScreenWndManager::ScreenRecord>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<ScreenWndManager::ScreenRecord>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -87154,6 +91059,8 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CGroupMember", field: "pCharacter", accessor: "pCharacter", declared_in: "CGroupMember", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
     FieldInfo { record: "CGroupMember", field: "pPlayer", accessor: "pPlayer", declared_in: "CGroupMember", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
     FieldInfo { record: "CGroupMember", field: "GroupIndex", accessor: "GroupIndex", declared_in: "CGroupMember", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "CHashKeyArray<CHashCXStrElementBase<CXMLDataPtr,16384> >", field: "m_data", accessor: "m_data", declared_in: "CHashCXStrElementBase<CXMLDataPtr,16384>", offset: 0x0, decl_offset: 0x0, size: 0x1c, bits: None },
+    FieldInfo { record: "CHashKeyArray<CHashCXStrElementBase<int,4096> >", field: "m_data", accessor: "m_data", declared_in: "CHashCXStrElementBase<int,4096>", offset: 0x0, decl_offset: 0x0, size: 0x1c, bits: None },
     FieldInfo { record: "CHotButton", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CHotButton", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CHotButton", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -88186,6 +92093,72 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CPageWnd", field: "CRTabTextActive", accessor: "CRTabTextActive", declared_in: "CPageWnd", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
     FieldInfo { record: "CPageWnd", field: "pTATabIcon", accessor: "pTATabIcon", declared_in: "CPageWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
     FieldInfo { record: "CPageWnd", field: "pTATabIconActive", accessor: "pTATabIconActive", declared_in: "CPageWnd", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "nRefCount", accessor: "nRefCount", declared_in: "CXMLData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "nClassIdx", accessor: "nClassIdx", declared_in: "CXMLData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "nItemIdx", accessor: "nItemIdx", declared_in: "CXMLData", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "nVersion", accessor: "nVersion", declared_in: "CXMLData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "sClassName", accessor: "sClassName", declared_in: "CXMLData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "sItemName", accessor: "sItemName", declared_in: "CXMLData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "nX", accessor: "nX", declared_in: "CParamPoint", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamPoint", field: "nY", accessor: "nY", declared_in: "CParamPoint", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nRefCount", accessor: "nRefCount", declared_in: "CXMLData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nClassIdx", accessor: "nClassIdx", declared_in: "CXMLData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nItemIdx", accessor: "nItemIdx", declared_in: "CXMLData", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nVersion", accessor: "nVersion", declared_in: "CXMLData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "sClassName", accessor: "sClassName", declared_in: "CXMLData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "sItemName", accessor: "sItemName", declared_in: "CXMLData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "Item", accessor: "Item", declared_in: "CParamClass", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nAlpha", accessor: "nAlpha", declared_in: "CParamRGB", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nR", accessor: "nR", declared_in: "CParamRGB", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nG", accessor: "nG", declared_in: "CParamRGB", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CParamRGB", field: "nB", accessor: "nB", declared_in: "CParamRGB", offset: 0x2c, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nRefCount", accessor: "nRefCount", declared_in: "CXMLData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nClassIdx", accessor: "nClassIdx", declared_in: "CXMLData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nItemIdx", accessor: "nItemIdx", declared_in: "CXMLData", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nVersion", accessor: "nVersion", declared_in: "CXMLData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "sClassName", accessor: "sClassName", declared_in: "CXMLData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "sItemName", accessor: "sItemName", declared_in: "CXMLData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "Item", accessor: "Item", declared_in: "CParamClass", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "sScreenID", accessor: "sScreenID", declared_in: "CParamScreenPiece", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nFont", accessor: "nFont", declared_in: "CParamScreenPiece", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bRelativePosition", accessor: "bRelativePosition", declared_in: "CParamScreenPiece", offset: 0x28, decl_offset: 0x28, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "Location", accessor: "Location", declared_in: "CParamScreenPiece", offset: 0x2c, decl_offset: 0x2c, size: 0x24, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "Size", accessor: "Size", declared_in: "CParamScreenPiece", offset: 0x50, decl_offset: 0x50, size: 0x24, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bAutoStretch", accessor: "bAutoStretch", declared_in: "CParamScreenPiece", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bAutoStretchVertical", accessor: "bAutoStretchVertical", declared_in: "CParamScreenPiece", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bAutoStretchHorizontal", accessor: "bAutoStretchHorizontal", declared_in: "CParamScreenPiece", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bTopAnchorToTop", accessor: "bTopAnchorToTop", declared_in: "CParamScreenPiece", offset: 0x77, decl_offset: 0x77, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bLeftAnchorToLeft", accessor: "bLeftAnchorToLeft", declared_in: "CParamScreenPiece", offset: 0x78, decl_offset: 0x78, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bBottomAnchorToTop", accessor: "bBottomAnchorToTop", declared_in: "CParamScreenPiece", offset: 0x79, decl_offset: 0x79, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bRightAnchorToLeft", accessor: "bRightAnchorToLeft", declared_in: "CParamScreenPiece", offset: 0x7a, decl_offset: 0x7a, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nTopAnchorOffset", accessor: "nTopAnchorOffset", declared_in: "CParamScreenPiece", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nBottomAnchorOffset", accessor: "nBottomAnchorOffset", declared_in: "CParamScreenPiece", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nLeftAnchorOffset", accessor: "nLeftAnchorOffset", declared_in: "CParamScreenPiece", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nRightAnchorOffset", accessor: "nRightAnchorOffset", declared_in: "CParamScreenPiece", offset: 0x88, decl_offset: 0x88, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nMinVSize", accessor: "nMinVSize", declared_in: "CParamScreenPiece", offset: 0x8c, decl_offset: 0x8c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nMinHSize", accessor: "nMinHSize", declared_in: "CParamScreenPiece", offset: 0x90, decl_offset: 0x90, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nMaxVSize", accessor: "nMaxVSize", declared_in: "CParamScreenPiece", offset: 0x94, decl_offset: 0x94, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "nMaxHSize", accessor: "nMaxHSize", declared_in: "CParamScreenPiece", offset: 0x98, decl_offset: 0x98, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "sText", accessor: "sText", declared_in: "CParamScreenPiece", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "TextColor", accessor: "TextColor", declared_in: "CParamScreenPiece", offset: 0xa0, decl_offset: 0xa0, size: 0x30, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "DisabledColor", accessor: "DisabledColor", declared_in: "CParamScreenPiece", offset: 0xd0, decl_offset: 0xd0, size: 0x30, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CParamScreenPiece", offset: 0x100, decl_offset: 0x100, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CParamScreenPiece", offset: 0x101, decl_offset: 0x101, size: 0x1, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "BackgroundTextureTint", accessor: "BackgroundTextureTint", declared_in: "CParamScreenPiece", offset: 0x104, decl_offset: 0x104, size: 0x30, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "DisabledBackgroundTextureTint", accessor: "DisabledBackgroundTextureTint", declared_in: "CParamScreenPiece", offset: 0x134, decl_offset: 0x134, size: 0x30, bits: None },
+    FieldInfo { record: "CParamScreenPiece", field: "cursor", accessor: "cursor", declared_in: "CParamScreenPiece", offset: 0x164, decl_offset: 0x164, size: 0x1c, bits: None },
+    FieldInfo { record: "CParamSize", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "nRefCount", accessor: "nRefCount", declared_in: "CXMLData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "nClassIdx", accessor: "nClassIdx", declared_in: "CXMLData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "nItemIdx", accessor: "nItemIdx", declared_in: "CXMLData", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "nVersion", accessor: "nVersion", declared_in: "CXMLData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "sClassName", accessor: "sClassName", declared_in: "CXMLData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "sItemName", accessor: "sItemName", declared_in: "CXMLData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "nCX", accessor: "nCX", declared_in: "CParamSize", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CParamSize", field: "nCY", accessor: "nCY", declared_in: "CParamSize", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "CPetInfoWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CPetInfoWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CPetInfoWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -88376,6 +92349,135 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CRaid", field: "levelTotal", accessor: "levelTotal", declared_in: "CRaid", offset: 0x395c, decl_offset: 0x395c, size: 0x4, bits: None },
     FieldInfo { record: "CRaid", field: "Locked", accessor: "Locked", declared_in: "CRaid", offset: 0x3960, decl_offset: 0x3960, size: 0x1, bits: None },
     FieldInfo { record: "CRaid", field: "bGroupOnInvite", accessor: "bGroupOnInvite", declared_in: "CRaid", offset: 0x3961, decl_offset: 0x3961, size: 0x1, bits: None },
+    FieldInfo { record: "CSidlManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CSidlManagerBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ScreenPieceClassIndex", accessor: "ScreenPieceClassIndex", declared_in: "CSidlManagerBase", offset: 0x4, decl_offset: 0x4, size: 0x14, bits: None },
+    FieldInfo { record: "CSidlManager", field: "Textures", accessor: "Textures", declared_in: "CSidlManagerBase", offset: 0x18, decl_offset: 0x18, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ButtonDrawTemplateArray", accessor: "ButtonDrawTemplateArray", declared_in: "CSidlManagerBase", offset: 0x28, decl_offset: 0x28, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ScrollbarTemplateArray", accessor: "ScrollbarTemplateArray", declared_in: "CSidlManagerBase", offset: 0x38, decl_offset: 0x38, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "SliderDrawTemplateArray", accessor: "SliderDrawTemplateArray", declared_in: "CSidlManagerBase", offset: 0x48, decl_offset: 0x48, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ScreenNameArray", accessor: "ScreenNameArray", declared_in: "CSidlManagerBase", offset: 0x58, decl_offset: 0x58, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "DrawTemplateArray", accessor: "DrawTemplateArray", declared_in: "CSidlManagerBase", offset: 0x68, decl_offset: 0x68, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "DrawTemplateHash", accessor: "DrawTemplateHash", declared_in: "CSidlManagerBase", offset: 0x78, decl_offset: 0x78, size: 0x1c, bits: None },
+    FieldInfo { record: "CSidlManager", field: "AnimationArray", accessor: "AnimationArray", declared_in: "CSidlManagerBase", offset: 0x94, decl_offset: 0x94, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "AnimationsHash", accessor: "AnimationsHash", declared_in: "CSidlManagerBase", offset: 0xa4, decl_offset: 0xa4, size: 0x1c, bits: None },
+    FieldInfo { record: "CSidlManager", field: "TAFrameArray", accessor: "TAFrameArray", declared_in: "CSidlManagerBase", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "TAFrameHash", accessor: "TAFrameHash", declared_in: "CSidlManagerBase", offset: 0xd0, decl_offset: 0xd0, size: 0x1c, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ScreenPieceArray", accessor: "ScreenPieceArray", declared_in: "CSidlManagerBase", offset: 0xec, decl_offset: 0xec, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ScreenPiecesHash", accessor: "ScreenPiecesHash", declared_in: "CSidlManagerBase", offset: 0xfc, decl_offset: 0xfc, size: 0x1c, bits: None },
+    FieldInfo { record: "CSidlManager", field: "LayoutStrategyTemplateArray", accessor: "LayoutStrategyTemplateArray", declared_in: "CSidlManagerBase", offset: 0x118, decl_offset: 0x118, size: 0x10, bits: None },
+    FieldInfo { record: "CSidlManager", field: "LayoutStrategyTemplatesHash", accessor: "LayoutStrategyTemplatesHash", declared_in: "CSidlManagerBase", offset: 0x128, decl_offset: 0x128, size: 0x1c, bits: None },
+    FieldInfo { record: "CSidlManager", field: "XMLDataMgr", accessor: "XMLDataMgr", declared_in: "CSidlManagerBase", offset: 0x144, decl_offset: 0x144, size: 0xb4, bits: None },
+    FieldInfo { record: "CSidlManager", field: "bLoadError", accessor: "bLoadError", declared_in: "CSidlManagerBase", offset: 0x1f8, decl_offset: 0x1f8, size: 0x1, bits: None },
+    FieldInfo { record: "CSidlManager", field: "ErrorString", accessor: "ErrorString", declared_in: "CSidlManagerBase", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "bdtThumb", accessor: "bdtThumb", declared_in: "CSliderWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x34, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ptaBackground", accessor: "ptaBackground", declared_in: "CSliderWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ptaEndCapLeft", accessor: "ptaEndCapLeft", declared_in: "CSliderWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CSliderWnd", field: "ptaEndCapRight", accessor: "ptaEndCapRight", declared_in: "CSliderWnd", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
     FieldInfo { record: "CSpellBookWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CSpellBookWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CSpellBookWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -89093,6 +93195,22 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CTaskManager", field: "bAddPlayerIsSwap", accessor: "bAddPlayerIsSwap", declared_in: "CTaskManager", offset: 0x19c650, decl_offset: 0x19c650, size: 0x1, bits: None },
     FieldInfo { record: "CTaskManager", field: "AddPlayerSwapeeName", accessor: "AddPlayerSwapeeName", declared_in: "CTaskManager", offset: 0x19c651, decl_offset: 0x19c651, size: 0x40, bits: None },
     FieldInfo { record: "CTaskManager", field: "pFirstMember", accessor: "pFirstMember", declared_in: "CTaskManager", offset: 0x19c694, decl_offset: 0x19c694, size: 0x4, bits: None },
+    FieldInfo { record: "CTextObjectInterface", field: "__vfptr", accessor: "__vfptr", declared_in: "CTextObjectInterface", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "__vfptr", accessor: "__vfptr", declared_in: "CTextureAnimation", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "Name", accessor: "Name", declared_in: "CTextureAnimation", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "Frames", accessor: "Frames", declared_in: "CTextureAnimation", offset: 0x8, decl_offset: 0x8, size: 0x10, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "TotalTicks", accessor: "TotalTicks", declared_in: "CTextureAnimation", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "ZeroFrame", accessor: "ZeroFrame", declared_in: "CTextureAnimation", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "StartTicks", accessor: "StartTicks", declared_in: "CTextureAnimation", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "Size", accessor: "Size", declared_in: "CTextureAnimation", offset: 0x24, decl_offset: 0x24, size: 0x8, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "bPaused", accessor: "bPaused", declared_in: "CTextureAnimation", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "bCycle", accessor: "bCycle", declared_in: "CTextureAnimation", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "bGrid", accessor: "bGrid", declared_in: "CTextureAnimation", offset: 0x2e, decl_offset: 0x2e, size: 0x1, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "bVertical", accessor: "bVertical", declared_in: "CTextureAnimation", offset: 0x2f, decl_offset: 0x2f, size: 0x1, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "CellWidth", accessor: "CellWidth", declared_in: "CTextureAnimation", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "CellHeight", accessor: "CellHeight", declared_in: "CTextureAnimation", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "CurCell", accessor: "CurCell", declared_in: "CTextureAnimation", offset: 0x38, decl_offset: 0x38, size: 0x4, bits: None },
+    FieldInfo { record: "CTextureAnimation", field: "CellRect", accessor: "CellRect", declared_in: "CTextureAnimation", offset: 0x3c, decl_offset: 0x3c, size: 0x10, bits: None },
     FieldInfo { record: "CTradeWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CTradeWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CTradeWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -89241,6 +93359,23 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CVector3", field: "X", accessor: "X", declared_in: "CVector3", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "Y", accessor: "Y", declared_in: "CVector3", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CVector3", field: "Z", accessor: "Z", declared_in: "CVector3", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "nRefCount", accessor: "nRefCount", declared_in: "CXMLData", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "nClassIdx", accessor: "nClassIdx", declared_in: "CXMLData", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "nItemIdx", accessor: "nItemIdx", declared_in: "CXMLData", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "nVersion", accessor: "nVersion", declared_in: "CXMLData", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "sClassName", accessor: "sClassName", declared_in: "CXMLData", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLData", field: "sItemName", accessor: "sItemName", declared_in: "CXMLData", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLDataManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "enumTypeHashes", accessor: "enumTypeHashes", declared_in: "CXMLDataManager", offset: 0x4, decl_offset: 0x4, size: 0x1c, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "enumArray", accessor: "enumArray", declared_in: "CXMLDataManager", offset: 0x20, decl_offset: 0x20, size: 0x1c, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "classItemHashes", accessor: "classItemHashes", declared_in: "CXMLDataManager", offset: 0x3c, decl_offset: 0x3c, size: 0x1c, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "dataArray", accessor: "dataArray", declared_in: "CXMLDataManager", offset: 0x58, decl_offset: 0x58, size: 0x1c, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "symbolTable", accessor: "symbolTable", declared_in: "CXMLDataManager", offset: 0x74, decl_offset: 0x74, size: 0x3c, bits: None },
+    FieldInfo { record: "CXMLParamManager", field: "errorString", accessor: "errorString", declared_in: "CXMLDataManager", offset: 0xb0, decl_offset: 0xb0, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLSymbolTable", field: "__vfptr", accessor: "__vfptr", declared_in: "CXMLSymbolTable", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CXMLSymbolTable", field: "classes", accessor: "classes", declared_in: "CXMLSymbolTable", offset: 0x4, decl_offset: 0x4, size: 0x1c, bits: None },
+    FieldInfo { record: "CXMLSymbolTable", field: "hashes", accessor: "hashes", declared_in: "CXMLSymbolTable", offset: 0x20, decl_offset: 0x20, size: 0x1c, bits: None },
     FieldInfo { record: "CXPoint", field: "x", accessor: "x", declared_in: "CXPoint", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CXPoint", field: "y", accessor: "y", declared_in: "CXPoint", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CXRect", field: "left", accessor: "left", declared_in: "CXRect", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
@@ -92355,13 +96490,33 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "CLootWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CMerchantWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CPageWnd", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CParamPoint", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "CParamRGB", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "CParamScreenPiece", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "CParamSize", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "CPetInfoWnd", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CSidlManager", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "CSliderWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CSpellBookWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CSpellGemWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CStmlWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CTabWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CTargetWnd", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CTextObjectInterface", function: "SetText", offset: 0x0 },
+    VtableInfo { record: "CTextObjectInterface", function: "GetText", offset: 0x4 },
+    VtableInfo { record: "CTextureAnimation", function: "~CTextureAnimation", offset: 0x0 },
+    VtableInfo { record: "CTextureAnimation", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "CTradeWnd", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CXMLData", function: "~CXMLData", offset: 0x0 },
+    VtableInfo { record: "CXMLData", function: "GetStreamSize", offset: 0x4 },
+    VtableInfo { record: "CXMLData", function: "ReadFromStream", offset: 0x8 },
+    VtableInfo { record: "CXMLData", function: "WriteToStream", offset: 0xc },
+    VtableInfo { record: "CXMLData", function: "ReadFromXMLSOM", offset: 0x10 },
+    VtableInfo { record: "CXMLData", function: "WriteToXMLSOM", offset: 0x14 },
+    VtableInfo { record: "CXMLData", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "CXMLParamManager", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "CXMLSymbolTable", function: "~CXMLSymbolTable", offset: 0x0 },
+    VtableInfo { record: "CXMLSymbolTable", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "CXWnd", function: "IsValid", offset: 0x0 },
     VtableInfo { record: "CXWnd", function: "~CXWnd", offset: 0x4 },
     VtableInfo { record: "CXWnd", function: "DrawNC", offset: 0x8 },

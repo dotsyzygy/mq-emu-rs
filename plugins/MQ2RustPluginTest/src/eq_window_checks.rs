@@ -183,6 +183,13 @@ async fn acting(task: &Task<RustTest>, report: &mut Report) {
         let back = window.location();
         report.print(mq, "and back", Check::that(back == location, || format!("{back:?}, was {location:?}")));
 
+        let alpha = window.alpha();
+        let other = if alpha == u8::MAX { alpha - 1 } else { alpha + 1 };
+        window.set_alpha(other);
+        report.print(mq, "set_alpha changes its alpha (and refades it)", same_text(other, window.alpha().to_string()));
+        window.set_alpha(alpha);
+        report.print(mq, "and back", same_text(alpha, window.alpha().to_string()));
+
         match window.descendants().find_map(|w| w.as_tabs()).filter(|tabs| tabs.len() > 1) {
             Some(tabs) => {
                 let before = tabs.current().unwrap_or(0);
@@ -274,6 +281,7 @@ async fn context_menu(task: &Task<RustTest>, report: &mut Report) {
             report.print(mq, "its items have text (separators aside)", Check::that(menu.len() > 1 && filled > menu.len() / 2, || {
                 format!("{filled} of {} items have text", menu.len())
             }));
+            report.print(mq, "select refuses an item past its end", Check::that(!menu.select(menu.len()), || "select took it".into()));
             let closed = menu.close();
             report.print(mq, "close() closes it", Check::that(closed && mq.context_menu().is_none(), || {
                 format!("close() gave {closed}; ${{Menu.NumVisibleMenus}} is {}", mq.parse("${Menu.NumVisibleMenus}"))

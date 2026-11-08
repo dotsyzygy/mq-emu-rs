@@ -650,7 +650,7 @@ pub unsafe extern "C" fn mqemu_eq_command(name: *const c_char, args: *const c_ch
 ///
 /// # Safety
 /// `out` must be writable for `cap` bytes.
-unsafe fn copy_out(text: Option<&[u8]>, out: *mut c_char, cap: usize) -> bool {
+pub(crate) unsafe fn copy_out(text: Option<&[u8]>, out: *mut c_char, cap: usize) -> bool {
     if cap == 0 {
         return text.is_some();
     }

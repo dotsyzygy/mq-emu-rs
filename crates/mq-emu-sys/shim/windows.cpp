@@ -52,51 +52,6 @@ const char* const kClickNames[] = {
 	"rightmouseheldup",
 };
 
-// The notifications /notify sends by name (MQ2Windows.cpp's
-// szWndNotification), except `link`, whose data is text.
-bool is_notify_message(uint32_t message)
-{
-	switch (message)
-	{
-	case XWM_LCLICK:
-	case XWM_LMOUSEUP:
-	case XWM_RCLICK:
-	case XWM_HITENTER:
-	case XWM_QMARKBOX:
-	case XWM_CLOSE:
-	case XWM_NEWVALUE:
-	case XWM_MENUSELECT:
-	case XWM_MOUSEOVER:
-	case XWM_HISTORY:
-	case XWM_LCLICKHOLD:
-	case XWM_MAXIMIZEBOX:
-		return true;
-	default:
-		return false;
-	}
-}
-
-// Copies `text` into `out` (cut to fit) and returns its whole length.
-int copy_out(const CXStr& text, char* out, size_t cap)
-{
-	const char* chars = text.c_str();
-	size_t len = std::strlen(chars);
-	if (cap > 0)
-	{
-		size_t n = std::min(len, cap - 1);
-		std::memcpy(out, chars, n);
-		out[n] = 0;
-	}
-	return static_cast<int>(len);
-}
-
-int none(char* out, size_t cap)
-{
-	if (cap > 0)
-		out[0] = 0;
-	return -1;
-}
-
 } // namespace
 
 extern "C" CXWnd* mqemu_find_window(const char* name)
@@ -113,77 +68,6 @@ extern "C" CXWnd* mqemu_find_window(const char* name)
 	}
 }
 
-extern "C" int mqemu_window_type(CXWnd* window)
-{
-	try
-	{
-		if (window == nullptr || !pSidlMgr)
-			return UI_Unknown;
-		return window->GetType();
-	}
-	catch (...)
-	{
-		return UI_Unknown;
-	}
-}
-
-extern "C" int mqemu_window_xml_text(CXWnd* window, int which, char* out, size_t cap)
-{
-	try
-	{
-		if (window == nullptr || !pSidlMgr)
-			return none(out, cap);
-		CXMLData* xml = window->GetXMLData();
-		if (xml == nullptr)
-			return none(out, cap);
-		// ${Window.Name}, .ScreenID and .Type, which read nothing for empty names.
-		CXStr text;
-		switch (which)
-		{
-		case 0: text = xml->Name; break;
-		case 1: text = xml->ScreenID; break;
-		case 2: text = xml->TypeName; break;
-		default: return none(out, cap);
-		}
-		return text.empty() ? none(out, cap) : copy_out(text, out, cap);
-	}
-	catch (...)
-	{
-		return none(out, cap);
-	}
-}
-
-extern "C" int mqemu_window_tooltip(CXWnd* window, char* out, size_t cap)
-{
-	try
-	{
-		if (window == nullptr)
-			return none(out, cap);
-		return copy_out(window->GetTooltip(), out, cap);
-	}
-	catch (...)
-	{
-		return none(out, cap);
-	}
-}
-
-extern "C" bool mqemu_window_screen_rect(CXWnd* window, mqemu_rect* out)
-{
-	*out = {};
-	try
-	{
-		if (window == nullptr)
-			return false;
-		CXRect rect = window->GetScreenRect();
-		*out = { rect.left, rect.top, rect.right, rect.bottom };
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
 extern "C" bool mqemu_window_click(CXWnd* window, int click)
 {
 	try
@@ -195,85 +79,6 @@ extern "C" bool mqemu_window_click(CXWnd* window, int click)
 	catch (...)
 	{
 		return false;
-	}
-}
-
-extern "C" bool mqemu_window_notify(CXWnd* window, CXWnd* sender, uint32_t message, int data)
-{
-	try
-	{
-		if (window == nullptr || !is_notify_message(message))
-			return false;
-		// /notify casts any control to a slider here; only a slider is one.
-		if (message == XWM_NEWVALUE && sender != nullptr && sender->GetType() == UI_Slider)
-			static_cast<CSliderWnd*>(sender)->SetValue(data);
-#pragma warning(suppress : 4312)
-		window->WndNotification(sender, message, reinterpret_cast<void*>(data));
-		mq::WeDidStuff();
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_window_show(CXWnd* window, bool show)
-{
-	try
-	{
-		if (window == nullptr)
-			return false;
-		window->Show(show, true);
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_window_move(CXWnd* window, const mqemu_rect* rect)
-{
-	try
-	{
-		if (window == nullptr)
-			return false;
-		window->Move(CXRect(rect->left, rect->top, rect->right, rect->bottom), true, true, true, true);
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_window_refade(CXWnd* window)
-{
-	try
-	{
-		if (window == nullptr)
-			return false;
-		window->Refade();
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" int mqemu_list_item_text(CListWnd* list, int row, int column, char* out, size_t cap)
-{
-	try
-	{
-		if (list == nullptr || row < 0 || row >= list->ItemsArray.GetCount() || column < 0 || column >= list->Columns.GetCount())
-			return none(out, cap);
-		return copy_out(list->GetItemText(row, column), out, cap);
-	}
-	catch (...)
-	{
-		return none(out, cap);
 	}
 }
 
@@ -308,70 +113,6 @@ extern "C" bool mqemu_list_select(CXWnd* window, int row)
 	}
 }
 
-extern "C" bool mqemu_tab_select(CTabWnd* tab, int page)
-{
-	try
-	{
-		if (tab == nullptr || tab->GetType() != UI_TabBox || page < 0 || page >= tab->PageArray.GetCount())
-			return false;
-		tab->SetPage(page, true);
-		mq::WeDidStuff();
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_menu_select(CContextMenu* menu, int item)
-{
-	try
-	{
-		if (menu == nullptr || !pContextMenuManager || item < 0 || item >= menu->ItemsArray.GetCount())
-			return false;
-#pragma warning(suppress : 4312)
-		pContextMenuManager->WndNotification(menu, XWM_LMOUSEUP, reinterpret_cast<void*>(item));
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_menus_close()
-{
-	try
-	{
-		if (!pContextMenuManager)
-			return false;
-		pContextMenuManager->Flush();
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_window_notify_link(CXWnd* window, CXWnd* sender, const char* text)
-{
-	try
-	{
-		if (window == nullptr || text == nullptr)
-			return false;
-		// As /notify <window> <control> link <text> sends it: the text itself.
-		window->WndNotification(sender, XWM_LINK, const_cast<char*>(text));
-		mq::WeDidStuff();
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
 // ----- item slots -----
 
 extern "C" ItemClient* mqemu_inv_slot_item(CInvSlotWnd* slot)
@@ -395,50 +136,7 @@ extern "C" ItemClient* mqemu_inv_slot_item(CInvSlotWnd* slot)
 	}
 }
 
-extern "C" int mqemu_inv_slot_text(CInvSlotWnd* slot, char* out, size_t cap)
-{
-	try
-	{
-		if (slot == nullptr || slot->GetType() != UI_InvSlot || slot->pTextObject == nullptr)
-			return none(out, cap);
-		return copy_out(slot->pTextObject->GetText(), out, cap);
-	}
-	catch (...)
-	{
-		return none(out, cap);
-	}
-}
-
-extern "C" int mqemu_texture_animation_name(CTextureAnimation* animation, char* out, size_t cap)
-{
-	try
-	{
-		if (animation == nullptr)
-			return none(out, cap);
-		return copy_out(animation->GetName(), out, cap);
-	}
-	catch (...)
-	{
-		return none(out, cap);
-	}
-}
-
 // ----- hot buttons -----
-
-extern "C" ItemClient* mqemu_hot_button_item(CHotButton* button)
-{
-	try
-	{
-		if (button == nullptr || button->GetType() != UI_HotButton)
-			return nullptr;
-		const HotButtonData* data = button->GetHotButtonData();
-		return data ? data->Item.get() : nullptr;
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
 
 extern "C" bool mqemu_hot_button_activate(CHotButton* button)
 {
