@@ -2,7 +2,7 @@
 
 use std::path::PathBuf;
 
-use eq_client::abi::{API_VERSION, DLL_NAME, Status};
+use eq_client::abi::{API_VERSION, DLL_NAME, DllVersion, Status, VERSION_EXPORT};
 use eq_client::loader;
 
 /// The DLL cargo built for this test, next to it in `deps`.
@@ -14,6 +14,7 @@ fn built_dll() -> PathBuf {
 unsafe extern "system" {
     fn GetModuleHandleW(name: *const u16) -> *mut std::ffi::c_void;
     fn FreeLibrary(module: *mut std::ffi::c_void) -> i32;
+    fn GetProcAddress(module: *mut std::ffi::c_void, name: *const std::ffi::c_char) -> *const std::ffi::c_void;
 }
 
 fn module_handle() -> *mut std::ffi::c_void {
@@ -36,4 +37,15 @@ fn the_dll_loads_speaks_its_version_and_stays_loaded() {
     }
     assert_eq!(module_handle(), module, "pinned on first use");
     assert!(std::ptr::eq(loader::load(&built_dll()).unwrap(), api), "loading again gets the same one");
+}
+
+#[test]
+fn the_dll_exports_its_version_as_data() {
+    loader::load(&built_dll()).unwrap_or_else(|e| panic!("{e}"));
+    let version = unsafe { GetProcAddress(module_handle(), VERSION_EXPORT.as_ptr()) }.cast::<DllVersion>();
+    assert!(!version.is_null(), "no {VERSION_EXPORT:?} export");
+    assert_eq!(unsafe { *version }, DllVersion::CURRENT);
+    let package: Vec<u32> = env!("CARGO_PKG_VERSION").split('.').map(|n| n.parse().unwrap()).collect();
+    assert_eq!([DllVersion::CURRENT.major, DllVersion::CURRENT.minor, DllVersion::CURRENT.patch][..], package[..]);
+    assert_eq!(DllVersion::CURRENT.api, API_VERSION);
 }

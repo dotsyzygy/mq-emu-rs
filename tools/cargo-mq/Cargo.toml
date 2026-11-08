@@ -11,5 +11,6 @@ publish = false
 # No mq-emu-sys here: installing the tool must not need a MacroQuest build.
 [dependencies]
 mq-emu-bindgen = { path = "../mq-emu-bindgen" }
+object = { version = "0.36", default-features = false, features = ["std", "read_core", "pe"] }
 serde_json = "1"
 toml = { version = "0.8", default-features = false, features = ["parse"] }

@@ -291,7 +291,16 @@ fn deploy_client_hooks(plugin: &PluginCrate, profile: &str, plugins_dir: &Path, 
     }
     let dll = plugin.target_dir.join(TARGET).join(profile).join(CLIENT_DLL);
     let target = plugins_dir.join(CLIENT_DLL);
-    if std::fs::read(&target).ok() == std::fs::read(&dll).ok() {
+    let built = std::fs::read(&dll).map_err(|e| format!("couldn't read {}: {e}", dll.display()))?;
+    let installed = std::fs::read(&target).ok();
+    if installed.as_deref() == Some(&built[..]) {
+        return Ok(());
+    }
+    // Every plugin's deploy ships one, built from the eq-client that plugin
+    // uses; the newest serves them all, so never go back to an older one.
+    let (built_version, installed_version) = (client_version(&built), installed.as_deref().and_then(client_version));
+    if installed.is_some() && built_version < installed_version {
+        println!("Kept the installed {CLIENT_DLL} ({}): it's newer than this plugin's ({}).", describe(installed_version), describe(built_version));
         return Ok(());
     }
     match std::fs::copy(&dll, &target) {
@@ -308,6 +317,30 @@ fn deploy_client_hooks(plugin: &PluginCrate, profile: &str, plugins_dir: &Path, 
 
 /// The DLL eq-client-host builds.
 const CLIENT_DLL: &str = "eqclient.dll";
+
+/// The data export holding eqclient.dll's version (`eq_client::abi::VERSION_EXPORT`).
+const CLIENT_VERSION_EXPORT: &[u8] = b"eqclient_version";
+
+/// eqclient.dll's version, read from the file (`eq_client::abi::DllVersion`:
+/// its API version, then its eq-client's major, minor and patch). None for an
+/// eqclient.dll from before the export, which is older than any with it.
+fn client_version(image: &[u8]) -> Option<[u32; 4]> {
+    use object::read::pe::{ExportTarget, PeFile32};
+    let file = PeFile32::parse(image).ok()?;
+    let exports = file.export_table().ok()??.exports().ok()?;
+    let export = exports.iter().find(|export| export.name == Some(CLIENT_VERSION_EXPORT))?;
+    let ExportTarget::Address(rva) = export.target else { return None };
+    let bytes = file.section_table().pe_data_at(image, rva)?.get(..16)?;
+    let field = |i: usize| u32::from_le_bytes(bytes[i * 4..i * 4 + 4].try_into().unwrap());
+    Some([field(0), field(1), field(2), field(3)])
+}
+
+fn describe(version: Option<[u32; 4]>) -> String {
+    match version {
+        Some([api, major, minor, patch]) => format!("API {api}, eq-client {major}.{minor}.{patch}"),
+        None => "unversioned, from an older eq-client".to_owned(),
+    }
+}
 
 fn create_dir(dir: &Path) -> Result<()> {
     std::fs::create_dir_all(dir).map_err(|e| format!("couldn't create {}: {e}", dir.display()))
@@ -451,4 +484,43 @@ fn check_layouts(package: &Value) -> Result<String> {
         ));
     }
     Ok(format!("mq-emu's layouts match {}", pdb.display()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_file_that_is_not_a_versioned_dll_has_no_version() {
+        assert_eq!(client_version(b"not a DLL"), None);
+        // A real DLL without the export, as eqclient.dll was before it.
+        let without = std::fs::read(std::env::current_exe().unwrap()).unwrap();
+        assert_eq!(client_version(&without), None);
+    }
+
+    #[test]
+    fn versions_order_by_api_then_eq_client_and_unversioned_is_oldest() {
+        assert!(Some([1, 0, 1, 12]) > Some([1, 0, 1, 11]));
+        assert!(Some([2, 0, 1, 0]) > Some([1, 0, 9, 0]));
+        assert!(Some([1, 0, 0, 0]) > None);
+    }
+
+    /// Builds eqclient.dll from this workspace and reads its version from the file.
+    #[test]
+    fn reads_the_version_of_a_built_eqclient_dll() {
+        let workspace = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let target_dir = std::env::current_exe().unwrap().parent().unwrap().join("eqclient-version");
+        let status = cargo()
+            .args(["build", "-p", "eq-client-host", "--target", TARGET, "--target-dir"])
+            .arg(&target_dir)
+            .current_dir(&workspace)
+            .status()
+            .unwrap();
+        assert!(status.success());
+        let image = std::fs::read(target_dir.join(TARGET).join("debug").join(CLIENT_DLL)).unwrap();
+        let package: Vec<u32> = env!("CARGO_PKG_VERSION").split('.').map(|n| n.parse().unwrap()).collect();
+        let version = client_version(&image).expect("no version export");
+        assert!(version[0] >= 1, "API version {}", version[0]);
+        assert_eq!(version[1..], package[..], "eq-client-host's version is the workspace's, as cargo-mq's is");
+    }
 }

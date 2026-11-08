@@ -21,7 +21,7 @@ The MacroQuest source is at `$MQ_ROOT`. Grep for the function or type, then read
 
 ## 3b. eq-client (the client itself)
 
-What MacroQuest doesn't offer and needs a hook in the client goes in `crates/eq-client`, never in mq-emu-sys's C++ shims: it must work with no MacroQuest at all. A hook site in `rof2.rs` names its address and the exact, position-independent bytes it replaces, checked against the client by a test (disassemble outside this repo; never commit a disassembler). The hook runs in `eqclient.dll` (`host.rs`), shared through the versioned ABI in `abi.rs`: only add fields at the end, and raise `API_VERSION`. mq-emu reaches it through `Host::client`.
+What MacroQuest doesn't offer and needs a hook in the client goes in `crates/eq-client`, never in mq-emu-sys's C++ shims: it must work with no MacroQuest at all. A hook site in `rof2.rs` names its address and the exact, position-independent bytes it replaces, checked against the client by a test (disassemble outside this repo; never commit a disassembler). The hook runs in `eqclient.dll` (`host.rs`), shared through the versioned ABI in `abi.rs`: only add fields at the end, and raise `API_VERSION`. Every plugin's `cargo mq deploy` ships the DLL, keeping whichever is newer by its `eqclient_version` export. mq-emu reaches it through `Host::client`.
 
 ## 4. Tests without the game
 

@@ -13,6 +13,7 @@ name = "cargo-mq"
 version = "0.1.11"
 dependencies = [
  "mq-emu-bindgen",
+ "object",
  "serde_json",
  "toml",
 ]
