@@ -153,11 +153,18 @@ fn reading<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     report.print(mq, &format!("windows() lists the game's top-level windows ({})", windows.len()), Check::that(windows.len() > 20, || {
         format!("only {} windows", windows.len())
     }));
-    // Several windows can share a name; ${Window[name]} is a shown one.
-    let found: Vec<(String, Window<'_>)> =
-        windows.iter().filter_map(|w| w.name().map(|name| (name.clone(), w))).filter(|(name, w)| mq.window(name) == Some(**w)).map(|(n, w)| (n, *w)).collect();
     let missed: Vec<String> = windows.iter().filter_map(|w| w.name()).filter(|name| mq.window(name).is_none()).collect();
     report.print(mq, "window(name) finds every listed window by its name", Check::that(missed.is_empty(), || format!("not found: {missed:?}")));
+    // Several windows can share a name (the chat windows); ${Window[name]} is
+    // a shown one, but not necessarily the one mq-emu picks, so those names
+    // are left out of the comparisons.
+    let shared = |name: &str| windows.iter().filter(|w| w.name().is_some_and(|n| n.eq_ignore_ascii_case(name))).count() > 1;
+    let found: Vec<(String, Window<'_>)> = windows
+        .iter()
+        .filter_map(|w| w.name().map(|name| (name.clone(), w)))
+        .filter(|(name, w)| !shared(name) && mq.window(name) == Some(**w))
+        .map(|(n, w)| (n, *w))
+        .collect();
     let rows = found.iter().flat_map(|(name, window)| window_rows(mq, *window, name, &format!("Window[{name}]")));
     report.print(mq, &format!("{} top-level windows match ${{Window[name]}} (open, place, style, color, names, text, focus)", found.len()), all_match(mq, rows));
 

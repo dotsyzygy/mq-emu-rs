@@ -1136,29 +1136,45 @@ unsafe fn container_item(container: &ItemContainer, index: i32) -> *mut ItemClie
     usize::try_from(index).ok().filter(|index| *index < size).and_then(|index| items.get(index)).map_or(core::ptr::null_mut(), VePointer_ItemClient::m_pObject)
 }
 
-/// `ItemBase::GetItemDefinition`, eqlib's own code: its own definition, else
-/// the shared one.
+/// The item's definition: the virtual `GetItemDefinition` (shim/items.cpp),
+/// as MacroQuest calls it. The game's implementation doesn't read the
+/// `Item1`/`SharedItemDef` fields eqlib's inline version does.
 ///
 /// # Safety
-/// `item`'s definition pointers null or live.
+/// `item` live, with a game vtable.
 unsafe fn item_definition(item: &ItemClient) -> Option<&ItemDefinition> {
-    unsafe { item.Item1().as_ref().or_else(|| item.SharedItemDef().m_ptr().as_ref()) }
+    unsafe { crate::shim::mqemu_item_definition(item).as_ref() }
 }
 
-/// `IsContainer`, inline in eqlib: a bag.
+/// `IsContainer`, inline in eqlib, of a definition: a bag.
+fn is_bag(definition: &ItemDefinition) -> bool {
+    definition.Type() == ITEM_TYPE_PACK
+}
+
+/// `IsStackable`, inline in eqlib, of a definition.
+fn stacks(definition: &ItemDefinition) -> bool {
+    definition.StackSize() > 1
+}
+
+/// A copy of a definition's name; [`until_nul`] gives its text.
+fn definition_name(definition: &ItemDefinition) -> [u8; 64] {
+    definition.Name().map(|c| c as u8)
+}
+
+/// Whether the item is a bag ([`is_bag`]).
 ///
 /// # Safety
 /// As [`item_definition`].
 unsafe fn is_container(item: &ItemClient) -> bool {
-    unsafe { item_definition(item) }.is_some_and(|definition| definition.Type() == ITEM_TYPE_PACK)
+    unsafe { item_definition(item) }.is_some_and(is_bag)
 }
 
-/// `IsStackable`, inline in eqlib.
+/// Whether the item stacks ([`stacks`]).
 ///
 /// # Safety
 /// As [`item_definition`].
 unsafe fn is_stackable(item: &ItemClient) -> bool {
-    unsafe { item_definition(item) }.is_some_and(|definition| definition.StackSize() > 1)
+    unsafe { item_definition(item) }.is_some_and(stacks)
 }
 
 /// A copy of the item's name (`GetName`); [`until_nul`] gives its text.
@@ -1166,7 +1182,7 @@ unsafe fn is_stackable(item: &ItemClient) -> bool {
 /// # Safety
 /// As [`item_definition`].
 unsafe fn item_name(item: &ItemClient) -> [u8; 64] {
-    unsafe { item_definition(item) }.map_or([0; 64], |definition| definition.Name().map(|c| c as u8))
+    unsafe { item_definition(item) }.map_or([0; 64], definition_name)
 }
 
 /// The text in a fixed buffer, up to its first NUL.
@@ -1802,23 +1818,26 @@ mod tests {
         assert_eq!(unsafe { merchant_item(page, 0) }, a, "a's place is zeroed");
         assert!(unsafe { merchant_item(page, 2) }.is_null(), "slot 2 isn't index 2");
 
-        let (_own_storage, own) = zeroed::<ItemDefinition>();
-        let (_shared_storage, shared) = zeroed::<ItemDefinition>();
-        let (a, own_ref, shared_ref) = unsafe { (&*a, &*own, &*shared) };
-        assert!(unsafe { item_definition(a) }.is_none() && !unsafe { is_container(a) } && unsafe { item_name(a) } == [0; 64]);
-        a.SharedItemDef().set_m_ptr(shared);
-        shared_ref.set_Type(ITEM_TYPE_PACK);
-        assert!(unsafe { is_container(a) }, "the shared definition");
-        a.set_Item1(own);
-        assert!(!unsafe { is_container(a) } && !unsafe { is_stackable(a) }, "its own definition first");
-        own_ref.set_StackSize(20);
+    }
+
+    #[test]
+    fn definitions_say_bag_stack_and_name() {
+        let (_storage, definition) = zeroed::<ItemDefinition>();
+        let definition = unsafe { &*definition };
+        assert!(!is_bag(definition) && !stacks(definition) && definition_name(definition) == [0; 64]);
+        definition.set_Type(ITEM_TYPE_PACK);
+        assert!(is_bag(definition));
+        definition.set_StackSize(1);
+        assert!(!stacks(definition));
+        definition.set_StackSize(20);
+        assert!(stacks(definition));
         let mut name = [0; 64];
-        name[..5].copy_from_slice(&[b'B' as c_char, b'r' as c_char, b'e' as c_char, b'a' as c_char, b'd' as c_char]);
-        own_ref.set_Name(name);
-        assert!(unsafe { is_stackable(a) });
-        assert_eq!(until_nul(&unsafe { item_name(a) }), b"Bread");
-        own_ref.set_StackSize(1);
-        assert!(!unsafe { is_stackable(a) });
+        for (d, s) in name.iter_mut().zip(b"Bread") {
+            *d = *s as c_char;
+        }
+        definition.set_Name(name);
+        assert_eq!(until_nul(&definition_name(definition)), b"Bread");
+        assert_eq!(until_nul(b"no nul"), b"no nul");
     }
 
     #[test]
