@@ -414,6 +414,55 @@ pub async fn items(task: &Task<RustTest>, report: &mut Report) {
     });
 }
 
+/// A clicky item that's safe to use (the user's pick).
+const CLICKY: &str = "Little Buddy Confidence Booster 5000";
+
+/// MacroQuest's reuse time left on the clicky, in seconds (0 when ready).
+fn clicky_timer(mq: &Mq<RustTest>) -> i64 {
+    mq.parse(&format!("${{FindItem[={CLICKY}].TimerReady}}")).parse().unwrap_or(0)
+}
+
+/// Uses the clicky as `/useitem` does: it starts casting its spell, or its
+/// reuse timer starts.
+pub async fn use_clicky(task: &Task<RustTest>, report: &mut Report) {
+    const WHAT: &str = "using a clicky item";
+    let found = task.with(|mq| {
+        if !in_game(mq, report, WHAT) {
+            return None;
+        }
+        let item = mq.inventory().and_then(|inventory| {
+            inventory.slots().all().find_map(|(at, item)| {
+                (item.name() == CLICKY).then(|| (at, item.effect(mq_emu::ItemEffect::Clicky).map(|effect| effect.spell_id())))
+            })
+        });
+        let skip = if casting(mq).is_some() {
+            Some("already casting".to_owned())
+        } else if let Some(open) = NO_CASTING_WINDOWS.iter().find(|name| mq.window(name).is_some_and(|w| w.is_open())) {
+            Some(format!("{open} is open"))
+        } else if item.is_none() {
+            Some(format!("no {CLICKY} in your inventory"))
+        } else if clicky_timer(mq) > 0 {
+            Some(format!("{CLICKY} isn't ready ({} s)", clicky_timer(mq)))
+        } else {
+            None
+        };
+        if let Some(why) = skip {
+            report.print(mq, WHAT, Check::Skip(why));
+            return None;
+        }
+        item
+    });
+    let Some((at, spell)) = found else { return };
+    let place = SlotLocation::inventory(at);
+    let used = task.with(|mq| mq.use_item(place));
+    let took = task.wait_until_timeout(move |mq| (spell.is_some() && casting(mq) == spell) || clicky_timer(mq) > 0, TIMEOUT).await;
+    task.with(|mq| {
+        report.print(mq, &format!("use_item({place}) uses {CLICKY} (casts its spell, or its timer starts)"), Check::that(used && took, || {
+            format!("use_item: {used}; casting {:?} (its spell {spell:?}); ${{FindItem[={CLICKY}].TimerReady}} {}", casting(mq), clicky_timer(mq))
+        }));
+    });
+}
+
 /// Selects one of the merchant's items and one of yours, without buying or
 /// selling.
 pub async fn merchant(task: &Task<RustTest>, report: &mut Report) {

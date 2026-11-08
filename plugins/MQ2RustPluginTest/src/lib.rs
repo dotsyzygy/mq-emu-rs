@@ -508,6 +508,7 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     task.with(|mq| report.section(mq, "Acting on spells and items"));
     action_checks::spells(&task, &mut report).await;
     action_checks::items(&task, &mut report).await;
+    action_checks::use_clicky(&task, &mut report).await;
     action_checks::merchant(&task, &mut report).await;
 
     task.with(|mq| report.section(mq, "ImGui"));
