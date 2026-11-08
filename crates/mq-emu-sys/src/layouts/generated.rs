@@ -25974,6 +25974,99 @@ impl CLootWnd {
     pub const VTABLE___vecDelDtor: usize = 0x4;
 }
 
+/// C++ class `CMDLIST` (0x1c bytes).
+#[repr(C)]
+pub struct CMDLIST {
+    _bytes: UnsafeCell<[u8; 0x1c]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CMDLIST {
+    /// `CMDLIST::LocalizedStringID` at 0x0 (0x0 within `CMDLIST`).
+    #[inline]
+    pub fn LocalizedStringID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CMDLIST::LocalizedStringID` at 0x0 (0x0 within `CMDLIST`).
+    #[inline]
+    pub fn set_LocalizedStringID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `CMDLIST::szName` at 0x4 (0x4 within `CMDLIST`).
+    #[inline]
+    pub fn szName(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `CMDLIST::szName` at 0x4 (0x4 within `CMDLIST`).
+    #[inline]
+    pub fn set_szName(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `CMDLIST::szLocalized` at 0x8 (0x8 within `CMDLIST`).
+    #[inline]
+    pub fn szLocalized(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `CMDLIST::szLocalized` at 0x8 (0x8 within `CMDLIST`).
+    #[inline]
+    pub fn set_szLocalized(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CMDLIST::fAddress` at 0xc (0xc within `CMDLIST`).
+    #[inline]
+    pub fn fAddress(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CMDLIST::fAddress` at 0xc (0xc within `CMDLIST`).
+    #[inline]
+    pub fn set_fAddress(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CMDLIST::Restriction` at 0x10 (0x10 within `CMDLIST`).
+    #[inline]
+    pub fn Restriction(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `CMDLIST::Restriction` at 0x10 (0x10 within `CMDLIST`).
+    #[inline]
+    pub fn set_Restriction(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `CMDLIST::Category` at 0x14 (0x14 within `CMDLIST`).
+    #[inline]
+    pub fn Category(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `CMDLIST::Category` at 0x14 (0x14 within `CMDLIST`).
+    #[inline]
+    pub fn set_Category(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CMDLIST::Flags` at 0x18 (0x18 within `CMDLIST`).
+    #[inline]
+    pub fn Flags(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CMDLIST::Flags` at 0x18 (0x18 within `CMDLIST`).
+    #[inline]
+    pub fn set_Flags(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+}
+
 /// C++ class `CMercenaryManager` (0x268 bytes).
 #[repr(C)]
 pub struct CMercenaryManager {
@@ -84202,6 +84295,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CItemDisplayManager", rust_name: "CItemDisplayManager", size: 0x40 },
     RecordInfo { name: "CListWnd", rust_name: "CListWnd", size: 0x27c },
     RecordInfo { name: "CLootWnd", rust_name: "CLootWnd", size: 0x3a8 },
+    RecordInfo { name: "CMDLIST", rust_name: "CMDLIST", size: 0x1c },
     RecordInfo { name: "CMercenaryManager", rust_name: "CMercenaryManager", size: 0x268 },
     RecordInfo { name: "CMerchantWnd", rust_name: "CMerchantWnd", size: 0x2b0 },
     RecordInfo { name: "CPageWnd", rust_name: "CPageWnd", size: 0x234 },
@@ -86541,6 +86635,13 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CLootWnd", field: "msgData", accessor: "msgData", declared_in: "CLootWnd", offset: 0x39c, decl_offset: 0x39c, size: 0x4, bits: None },
     FieldInfo { record: "CLootWnd", field: "lootAllMsgs", accessor: "lootAllMsgs", declared_in: "CLootWnd", offset: 0x3a0, decl_offset: 0x3a0, size: 0x4, bits: None },
     FieldInfo { record: "CLootWnd", field: "lastLootAllMsgSent", accessor: "lastLootAllMsgSent", declared_in: "CLootWnd", offset: 0x3a4, decl_offset: 0x3a4, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "LocalizedStringID", accessor: "LocalizedStringID", declared_in: "CMDLIST", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "szName", accessor: "szName", declared_in: "CMDLIST", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "szLocalized", accessor: "szLocalized", declared_in: "CMDLIST", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "fAddress", accessor: "fAddress", declared_in: "CMDLIST", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "Restriction", accessor: "Restriction", declared_in: "CMDLIST", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "Category", accessor: "Category", declared_in: "CMDLIST", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "CMDLIST", field: "Flags", accessor: "Flags", declared_in: "CMDLIST", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
     FieldInfo { record: "CMercenaryManager", field: "__vfptr", accessor: "__vfptr", declared_in: "PopDialogHandler", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CMercenaryManager", field: "listeners", accessor: "listeners", declared_in: "EQUtil::EventHandler<MercenaryEventBase,30>", offset: 0x4, decl_offset: 0x0, size: 0x10, bits: None },
     FieldInfo { record: "CMercenaryManager", field: "events", accessor: "events", declared_in: "EQUtil::EventHandler<MercenaryEventBase,30>", offset: 0x14, decl_offset: 0x10, size: 0x8, bits: None },

@@ -66,6 +66,7 @@ CTradeWnd               # the trade window (pTradeWnd)
 CItemDisplayManager     # the item display windows (pItemDisplayManager)
 CSpellDisplayManager    # the spell display windows (pSpellDisplayManager)
 CTaskManager            # your tasks: solo quests and the shared task (pTaskManager)
+CMDLIST                 # one of the game's slash commands (EQADDR_CMDLIST): name and handler
 SharedTaskPlayerInfo    # one member of your shared task (pTaskMember, then each pNext)
 AchievementManager      # every achievement, its categories and your progress (AchievementManager::Instance)
 AchievementCategory     # one achievement category

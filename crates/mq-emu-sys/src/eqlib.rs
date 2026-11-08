@@ -4,8 +4,8 @@ use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
-    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
+    AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CMDLIST, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
@@ -97,6 +97,8 @@ imports! {
         pub static mut pTaskManager: *mut CTaskManager;
         /// The first member of your shared task, then each `pNext`.
         pub static mut pTaskMember: ForeignPointer<SharedTaskPlayerInfo>;
+        /// The game's slash commands, ended by an entry with no handler.
+        pub static mut EQADDR_CMDLIST: *mut CMDLIST;
         /// Points to a byte that's nonzero while your tribute is active.
         pub static mut pTributeActive: *mut u8;
         /// The spell gem bar; `SpellSlots` past the eighth are shown only if
@@ -171,6 +173,12 @@ imports! {
         pub fn SkillManager_GetSkillTimerDuration(this: *mut SkillManager, skill: c_int) -> c_uint = "?GetSkillTimerDuration@SkillManager@eqlib@@QAEIH@Z";
         /// When you last used skill `skill`, by [`EQGetTime`].
         pub fn SkillManager_GetSkillLastUsed(this: *mut SkillManager, skill: c_int) -> c_uint = "?GetSkillLastUsed@SkillManager@eqlib@@QAEIH@Z";
+
+        // eqlib/game/TaskSystem.h
+        /// `pc`'s progress on entry `index` of the list `system` names
+        /// (`QuestEntries` for solo quests, `SharedTaskEntries`).
+        pub fn CTaskManager_GetTaskStatus(this: *mut CTaskManager, pc: *mut PcClient, index: c_int, system: TaskSystemType) -> *mut PCTaskStatus
+            = "?GetTaskStatus@CTaskManager@eqlib@@QAEPAUPCTaskStatus@2@PAVPcClient@2@HW4TaskSystemType@2@@Z";
 
         // eqlib/game/CXWnd.h
         /// What kind of control `this` is (`UI_*`).

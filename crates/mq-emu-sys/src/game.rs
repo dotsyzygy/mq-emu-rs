@@ -11,11 +11,11 @@
 //! NUL-terminated in the caller's buffer, cut to fit; functions return
 //! "nothing" (null, 0, false) when the game objects they need are missing.
 
-use core::ffi::c_char;
+use core::ffi::{CStr, c_char, c_void};
 
-use crate::constants::{MAX_MEMORIZED_SPELLS, NUM_SKILLS, NUM_SPELL_GEMS, TOTAL_SPELL_COUNT};
+use crate::constants::{MAX_MEMORIZED_SPELLS, MAX_QUEST_ENTRIES, MAX_SHARED_TASK_ENTRIES, NUM_SKILLS, NUM_SPELL_GEMS, TOTAL_SPELL_COUNT};
 use crate::eqlib;
-use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CDisplay, CTaskElement, CTaskEntry, ClientSpellManager, EQ_Spell, PCTaskStatus, PcClient, PcProfile, PlayerClient, SkillManager};
+use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CDisplay, CMDLIST, CTaskElement, CTaskEntry, CTaskManager, ClientSpellManager, EQ_Spell, PCTaskStatus, PcClient, PcProfile, PlayerClient, SkillManager, TaskSystemType};
 use crate::types::foreign;
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
@@ -78,24 +78,11 @@ function_table! {
     pub fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool;
     /// The name `${Spawn.Race}` shows for a race ID; false for none.
     pub fn mqemu_race_name(race: i32, out: *mut c_char, cap: usize) -> bool;
-    /// Runs the game's own handler for slash command `name` (`"/cast"`) with
-    /// `args`, as you, from the game's command table (as MacroQuest finds
-    /// `cmdCast`), or the first it abbreviates, as typing it does: not
-    /// MacroQuest's command of that name, nor an alias. False
-    /// if the game has no such command or there's no character.
-    pub fn mqemu_eq_command(name: *const c_char, args: *const c_char) -> bool;
-    /// How close `attacker` must be to hit `target` in melee, as
-    /// `${Spawn.MaxRangeTo}` works it out (`mq::GetMeleeRange`); 14 to 75.
     /// Bytes the stack pointer moves across one call of skill function
     /// `which` (1 `GetBaseSkill`, 2 `GetPcSkillLimit`) for skill `skill`,
     /// through eqlib's declaration or as [`mqemu_skill_value`] calls it; 0 is
     /// right. For the selftest; the stack pointer is put back.
     pub fn mqemu_skill_call_stack_shift(which: i32, through_eqlib: bool, skill: i32) -> i32;
-    pub fn mqemu_melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32;
-    /// Your progress on `task`, one of `pTaskManager`'s `QuestEntries` or
-    /// `SharedTaskEntries` (`CTaskManager::GetTaskStatus`). Null for an entry
-    /// in neither, or without a character.
-    pub fn mqemu_task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus;
     /// What a task objective asks, as the task window says it
     /// (`${Task[n].Objective[m]}`); false for none.
     pub fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool;
@@ -106,6 +93,19 @@ function_table! {
     pub fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool;
 
     rust {
+        /// Runs the game's own handler for slash command `name` (`"/cast"`) with
+        /// `args`, as you, from the game's command table (as MacroQuest finds
+        /// `cmdCast`), or the first it abbreviates, as typing it does: not
+        /// MacroQuest's command of that name, nor an alias. False
+        /// if the game has no such command or there's no character.
+        pub fn mqemu_eq_command(name: *const c_char, args: *const c_char) -> bool;
+        /// How close `attacker` must be to hit `target` in melee, as
+        /// `${Spawn.MaxRangeTo}` works it out (`mq::GetMeleeRange`); 14 to 75.
+        pub fn mqemu_melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32;
+        /// Your progress on `task`, one of `pTaskManager`'s `QuestEntries` or
+        /// `SharedTaskEntries` (`CTaskManager::GetTaskStatus`). Null for an entry
+        /// in neither, or without a character.
+        pub fn mqemu_task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus;
         /// [`SKILL_HAS`], [`SKILL_ACTIVATABLE`] and [`SKILL_AVAILABLE`] bits.
         pub fn mqemu_skill_flags(skill: i32) -> u32;
         /// Milliseconds until you can use the skill again (`${Me.AbilityTimer}`);
@@ -545,6 +545,104 @@ pub unsafe extern "C" fn mqemu_memorize_spells(spells: *const i32, count: usize)
     }
 }
 
+/// Which of `manager`'s entries `task` is, as `CTaskManager::GetTaskStatus`
+/// takes it: its index among `QuestEntries` (solo) or `SharedTaskEntries`,
+/// and that list's system type. None for an entry in neither.
+fn task_entry_index(manager: &CTaskManager, task: *const CTaskEntry) -> Option<(i32, TaskSystemType)> {
+    let solo = (0..MAX_QUEST_ENTRIES).find(|&i| core::ptr::eq(manager.QuestEntries(i), task)).map(|i| (i, TaskSystemType::cTaskSystemTypeSoloQuest));
+    let shared = || (0..MAX_SHARED_TASK_ENTRIES).find(|&i| core::ptr::eq(manager.SharedTaskEntries(i), task)).map(|i| (i, TaskSystemType::cTaskSystemTypeSharedQuest));
+    solo.or_else(shared).map(|(i, system)| (i as i32, system))
+}
+
+/// [`Api::mqemu_task_status`]: `pTaskManager->GetTaskStatus(pLocalPC, index, type)`
+/// for the entry `task` is.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus {
+    unsafe {
+        let manager = eqlib::pTaskManager;
+        let pc = foreign(&raw const eqlib::pLocalPC);
+        let Some(manager_ref) = manager.as_ref() else { return core::ptr::null_mut() };
+        if pc.is_null() || task.is_null() {
+            return core::ptr::null_mut();
+        }
+        match task_entry_index(manager_ref, task) {
+            Some((index, kind)) => eqlib::CTaskManager_GetTaskStatus(manager, pc, index, kind),
+            None => core::ptr::null_mut(),
+        }
+    }
+}
+
+/// [`Api::mqemu_melee_range`]: `mq::GetMeleeRange`, from both spawns' melee
+/// radius, scale and height: the radii's scaled sum times 0.75 (at least 14),
+/// plus 2 and the height difference, at most 75. 14 for a null spawn.
+///
+/// # Safety
+/// Each spawn is null or live.
+pub unsafe extern "C" fn mqemu_melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32 {
+    unsafe { melee_range(attacker.as_ref(), target.as_ref()) }
+}
+
+fn melee_range(attacker: Option<&PlayerClient>, target: Option<&PlayerClient>) -> f32 {
+    let (Some(a), Some(b)) = (attacker, target) else { return 14.0 };
+    let reach = ((a.GetMeleeRangeVar1() * a.MeleeRadius() + b.GetMeleeRangeVar1() * b.MeleeRadius()) * 0.75).max(14.0);
+    (reach + 2.0 + (a.AvatarHeight() - b.AvatarHeight()).abs()).min(75.0)
+}
+
+/// A game slash command's handler (`CMDLIST::fAddress`).
+type EqCommandFn = unsafe extern "C" fn(me: *mut PlayerClient, args: *const c_char);
+
+/// The game's handler for slash command `name` in `list` (`EQADDR_CMDLIST`,
+/// ended by an entry with no handler): the command of that name, or else the
+/// first that `name` abbreviates, as typing it does; ASCII case doesn't
+/// matter. Null for none, or an empty `name`.
+///
+/// # Safety
+/// `list` is null or a live, terminated command list.
+unsafe fn eq_command(list: *const CMDLIST, name: &[u8]) -> *mut c_void {
+    if list.is_null() || name.is_empty() {
+        return core::ptr::null_mut();
+    }
+    let mut abbreviated: *mut c_void = core::ptr::null_mut();
+    for i in 0.. {
+        let entry = unsafe { &*list.add(i) };
+        let handler = entry.fAddress();
+        if handler.is_null() {
+            break;
+        }
+        let Some(command) = (unsafe { entry.szName().as_ref() }) else { continue };
+        let command = unsafe { CStr::from_ptr(command) }.to_bytes();
+        if command.eq_ignore_ascii_case(name) {
+            return handler;
+        }
+        if abbreviated.is_null() && command.len() >= name.len() && command[..name.len()].eq_ignore_ascii_case(name) {
+            abbreviated = handler;
+        }
+    }
+    abbreviated
+}
+
+/// [`Api::mqemu_eq_command`]: runs [`eq_command`]'s handler as you.
+///
+/// # Safety
+/// In game, on the game thread; `name` is null or NUL-terminated, and `args`
+/// NUL-terminated.
+pub unsafe extern "C" fn mqemu_eq_command(name: *const c_char, args: *const c_char) -> bool {
+    unsafe {
+        if name.is_null() {
+            return false;
+        }
+        let handler = eq_command(eqlib::EQADDR_CMDLIST, CStr::from_ptr(name).to_bytes());
+        let me = foreign(&raw const eqlib::pLocalPlayer);
+        if handler.is_null() || me.is_null() {
+            return false;
+        }
+        core::mem::transmute::<*mut c_void, EqCommandFn>(handler)(me, args);
+        true
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -687,6 +785,62 @@ mod tests {
         assert_eq!(skill_time_left(10_000, 50_000, 90_000), 0, "long over");
         assert_eq!(skill_time_left(0, 0, 123), 0, "no timer");
         assert_eq!(skill_time_left(10_000, u32::MAX - 999, 2_000), 7_000, "across the clock's wrap");
+    }
+
+    #[test]
+    fn task_entry_index_finds_solo_and_shared_entries_by_address() {
+        let (_manager_storage, manager) = zeroed::<CTaskManager>();
+        let manager = unsafe { &*manager };
+        let solo = |i| manager.QuestEntries(i) as *const CTaskEntry;
+        assert_eq!(task_entry_index(manager, solo(0)), Some((0, TaskSystemType::cTaskSystemTypeSoloQuest)));
+        assert_eq!(task_entry_index(manager, solo(MAX_QUEST_ENTRIES - 1)), Some((MAX_QUEST_ENTRIES as i32 - 1, TaskSystemType::cTaskSystemTypeSoloQuest)));
+        let shared = manager.SharedTaskEntries(0) as *const CTaskEntry;
+        assert_eq!(task_entry_index(manager, shared), Some((0, TaskSystemType::cTaskSystemTypeSharedQuest)));
+        let (_other_storage, other) = zeroed::<CTaskEntry>();
+        assert_eq!(task_entry_index(manager, other), None, "not the manager's");
+        assert_eq!(task_entry_index(manager, solo(0).wrapping_byte_add(4)), None, "inside an entry");
+    }
+
+    #[test]
+    fn melee_range_is_14_to_75_from_both_spawns_reach_and_heights() {
+        let (_a_storage, a) = zeroed::<PlayerClient>();
+        let (_b_storage, b) = zeroed::<PlayerClient>();
+        let (a, b) = unsafe { (&*a, &*b) };
+        assert_eq!(melee_range(None, Some(b)), 14.0);
+        assert_eq!(melee_range(Some(a), None), 14.0);
+        assert_eq!(melee_range(Some(a), Some(b)), 16.0, "14 at least, plus 2");
+        a.set_GetMeleeRangeVar1(1.0);
+        a.set_MeleeRadius(10.0);
+        b.set_GetMeleeRangeVar1(2.0);
+        b.set_MeleeRadius(5.0);
+        a.set_AvatarHeight(6.0);
+        b.set_AvatarHeight(9.0);
+        assert_eq!(melee_range(Some(a), Some(b)), 20.0, "(10 + 10) * 0.75 + 2 + 3");
+        b.set_MeleeRadius(100.0);
+        assert_eq!(melee_range(Some(a), Some(b)), 75.0, "75 at most");
+    }
+
+    #[test]
+    fn eq_command_takes_the_exact_name_else_the_first_it_abbreviates() {
+        let names: [&CStr; 3] = [c"/alternateadv", c"/alt", c"/autoinventory"];
+        let size = size_of::<CMDLIST>();
+        let mut storage = vec![0u64; (size * (names.len() + 2)).div_ceil(8)];
+        let list: *mut CMDLIST = storage.as_mut_ptr().cast();
+        let entry = |i: usize| unsafe { &*list.cast::<u8>().add(i * size).cast::<CMDLIST>() };
+        for (i, name) in names.iter().enumerate() {
+            entry(i).set_szName(name.as_ptr().cast_mut());
+            entry(i).set_fAddress((0x1000 + i) as *mut c_void);
+        }
+        // A nameless entry is skipped; the one after has no handler and ends the list.
+        entry(3).set_fAddress(0x2000 as *mut c_void);
+        let handler = |name: &[u8]| unsafe { eq_command(list, name) } as usize;
+        assert_eq!(handler(b"/ALT"), 0x1001, "exact, any case");
+        assert_eq!(handler(b"/al"), 0x1000, "the first it abbreviates");
+        assert_eq!(handler(b"/autoinv"), 0x1002);
+        assert_eq!(handler(b"/autoinventoryx"), 0, "longer than any");
+        assert_eq!(handler(b"/sit"), 0);
+        assert_eq!(handler(b""), 0, "empty");
+        assert!(unsafe { eq_command(core::ptr::null(), b"/alt") }.is_null(), "no list");
     }
 
     #[test]

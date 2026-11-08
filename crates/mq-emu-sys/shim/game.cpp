@@ -63,30 +63,6 @@ bool copy_out(const char* text, char* out, size_t cap)
 	return true;
 }
 
-// The game's own handler for slash command `name`, from its command table, as
-// MacroQuest finds /cast and /useitem's (cmdCast, cmdUseItem): not
-// MacroQuest's command of that name, nor an alias. Null if it has none.
-// The game's handler for slash command `name`: the command of that name, or
-// else the first in the game's list that `name` abbreviates, as typing it
-// does ("/alt" for the game's longer name).
-auto eq_command(const char* name) -> decltype(CMDLIST::fAddress)
-{
-	if (!EQADDR_CMDLIST || name == nullptr || name[0] == 0)
-		return nullptr;
-	decltype(CMDLIST::fAddress) abbreviated = nullptr;
-	for (int i = 0; EQADDR_CMDLIST[i].fAddress != nullptr; ++i)
-	{
-		const char* command = EQADDR_CMDLIST[i].szName;
-		if (command == nullptr)
-			continue;
-		if (mq::ci_equals(command, name))
-			return EQADDR_CMDLIST[i].fAddress;
-		if (abbreviated == nullptr && mq::ci_starts_with(command, name))
-			abbreviated = EQADDR_CMDLIST[i].fAddress;
-	}
-	return abbreviated;
-}
-
 } // namespace
 
 // MacroQuest's cached buffs for `spawn` (${Spawn.Buff[n]} order), up to `cap`
@@ -312,69 +288,6 @@ extern "C" bool mqemu_clean_chat_line(const char* line, bool keep_links, char* o
 }
 
 // ----- acting on spells, and the game's own commands -----
-
-// Runs the game's own handler for slash command `name` ("/autoinventory")
-// with `args` (what follows the command), as you: what typing it does once
-// MacroQuest passes it on. False if the game has no such command or there's
-// no character.
-extern "C" bool mqemu_eq_command(const char* name, const char* args)
-{
-	try
-	{
-		auto command = eq_command(name);
-		if (command == nullptr || !pLocalPlayer)
-			return false;
-		command(pLocalPlayer, args);
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-// How close `attacker` must be to hit `target` in melee, as
-// ${Spawn.MaxRangeTo} works it out (mq::GetMeleeRange, from both spawns'
-// sizes and heights; 14 to 75). 14 for a null spawn.
-extern "C" float mqemu_melee_range(eqlib::PlayerClient* attacker, eqlib::PlayerClient* target)
-{
-	try
-	{
-		return mq::GetMeleeRange(attacker, target);
-	}
-	catch (...)
-	{
-		return 14.0f;
-	}
-}
-
-// Your progress on `task` (one of pTaskManager's QuestEntries or
-// SharedTaskEntries), as ${Task[n].Objective[m].Status} reads it
-// (CTaskManager::GetTaskStatus). Null for an entry in neither, or without a
-// character.
-extern "C" PCTaskStatus* mqemu_task_status(CTaskEntry* task)
-{
-	try
-	{
-		if (!pTaskManager || !pLocalPC || task == nullptr)
-			return nullptr;
-		for (int i = 0; i < MAX_QUEST_ENTRIES; ++i)
-		{
-			if (&pTaskManager->QuestEntries[i] == task)
-				return pTaskManager->GetTaskStatus(pLocalPC, i, cTaskSystemTypeSoloQuest);
-		}
-		for (int i = 0; i < MAX_SHARED_TASK_ENTRIES; ++i)
-		{
-			if (&pTaskManager->SharedTaskEntries[i] == task)
-				return pTaskManager->GetTaskStatus(pLocalPC, i, cTaskSystemTypeSharedQuest);
-		}
-		return nullptr;
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
 
 // What a task objective asks, as the task window says it
 // (CTaskManager::GetElementDescription, ${Task[n].Objective[m]}). False
