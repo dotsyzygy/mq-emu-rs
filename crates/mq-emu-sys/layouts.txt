@@ -4,6 +4,8 @@
 
 PlayerClient            # a spawn: you, other players, NPCs, corpses (pLocalPlayer, pTarget)
 PcClient                # your character's data (pLocalPC)
+PcZoneClient            # PcClient's base whose methods take it as `this` (DoCombatAbility)
+PlayerZoneClient        # PlayerClient's base, as the game's methods take a spawn (UseSkill)
 PcProfile               # your character's current profile: inventory, buffs, spell book, gems
 ProfileList             # PcClient::ProfileManager's lists of profiles
 PlayerManagerClient     # the spawn list (pSpawnManager)
@@ -41,6 +43,9 @@ CXWndManager            # every window, focus (pWndMgr)
 ControllerBase          # a window's controller (CXWnd::pController), told of its notifications
 CCastSpellWnd           # the spell gem bar (pCastSpellWnd): which gems are shown
 CSpellGemWnd            # one spell gem (CCastSpellWnd::SpellSlots)
+CBuffWindow             # the buff and song windows (pBuffWnd, pSongWnd): spell IDs and timers
+CCastingWnd             # the casting window (pCastingWnd), shown while you cast
+CSpellBookWnd           # the spell book (pSpellBookWnd), which memorizes spell sets
 CButtonWnd              # a button or checkbox
 CListWnd                # a list (and a combo box's drop-down, a context menu)
 SListWndLine            # one row of a list

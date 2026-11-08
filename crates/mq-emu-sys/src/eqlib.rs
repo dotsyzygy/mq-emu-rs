@@ -1,11 +1,11 @@
 //! Imports from `eqlib.dll` (`EQLIB_API` / `EQLIB_VAR`).
 
-use core::ffi::{c_char, c_int, c_uint, c_ulong, c_void};
+use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CCastSpellWnd, CDisplay, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
-    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
+    AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
@@ -21,6 +21,8 @@ imports! {
         pub fn EQExecuteCmd(command: c_uint, key_down: bool, data: *mut c_void, combo: *const KeyCombo) -> bool;
         /// The game's clock in seconds, which task timers count by.
         pub fn GetFastTime() -> c_ulong;
+        /// The game's clock in milliseconds, which skill timers count by.
+        pub fn EQGetTime() -> c_ulong;
     }
     statics {
         // eqlib/game/Globals.h
@@ -110,6 +112,14 @@ imports! {
         /// The display; `TimeStamp` is the game's clock in milliseconds, which
         /// cast and gem timers count by.
         pub static mut pDisplay: ForeignPointer<CDisplay>;
+        /// The buff window: your long buffs' spell IDs and timers.
+        pub static mut pBuffWnd: ForeignPointer<CBuffWindow>;
+        /// The song window (short-duration buffs), likewise.
+        pub static mut pSongWnd: ForeignPointer<CBuffWindow>;
+        /// The casting window, shown while you cast.
+        pub static mut pCastingWnd: ForeignPointer<CCastingWnd>;
+        /// The spell book window, open or not; it memorizes spell sets.
+        pub static mut pSpellBookWnd: ForeignPointer<CSpellBookWnd>;
     }
     methods(EQLIB_METHODS) {
         // eqlib/game/PcClient.h
@@ -128,12 +138,39 @@ imports! {
         /// (C++'s default).
         pub fn CharacterZoneClient_Max_Mana(this: *mut CharacterZoneClient, cap_at_max: bool) -> c_int
             = "?Max_Mana@CharacterZoneClient@eqlib@@QAEH_N@Z";
+        /// Whether you have skill `skill` (0 to `NUM_SKILLS - 1`).
+        pub fn CharacterZoneClient_HasSkill(this: *mut CharacterZoneClient, skill: c_int) -> bool = "?HasSkill@CharacterZoneClient@eqlib@@QAE_NH@Z";
+        /// Uses skill `skill` on `target`, as `/doability` does; the game checks its timer.
+        pub fn CharacterZoneClient_UseSkill(this: *mut CharacterZoneClient, skill: c_uchar, target: *mut PlayerZoneClient)
+            = "?UseSkill@CharacterZoneClient@eqlib@@QAEXEPAVPlayerZoneClient@2@@Z";
+        /// Uses combat ability `spell_id` (allowing a lower rank you have when
+        /// `allow_lower_rank`, C++'s default); false when the game refuses.
+        pub fn PcZoneClient_DoCombatAbility(this: *mut PcZoneClient, spell_id: c_int, allow_lower_rank: bool) -> bool
+            = "?DoCombatAbility@PcZoneClient@eqlib@@QAE_NH_N@Z";
 
         // eqlib/game/EQClasses.h, eqlib/game/EQData.h
         /// What your active tribute costs in favor.
         pub fn CTribute_GetActiveFavorCost(this: *mut CTribute) -> c_int = "?GetActiveFavorCost@CTribute@eqlib@@QAEHXZ";
         /// How many friends your friends list has.
         pub fn UniversalChatProxy_GetNumberOfFriends(this: *mut UniversalChatProxy) -> c_int = "?GetNumberOfFriends@UniversalChatProxy@eqlib@@QAEHXZ";
+
+        // eqlib/game/UI.h
+        /// Forgets the spell in gem `gem` (0-based), as right-clicking it does.
+        pub fn CCastSpellWnd_ForgetMemorizedSpell(this: *mut CCastSpellWnd, gem: c_int) = "?ForgetMemorizedSpell@CCastSpellWnd@eqlib@@QAEXH@Z";
+        /// Whether a bard song is playing.
+        pub fn CCastSpellWnd_IsBardSongPlaying(this: *mut CCastSpellWnd) -> bool = "?IsBardSongPlaying@CCastSpellWnd@eqlib@@QAE_NXZ";
+
+        /// Memorizes `count` spells, one per gem (-1 leaves a gem as it is),
+        /// one after another, as `/memspell` does.
+        pub fn CSpellBookWnd_MemorizeSet(this: *mut CSpellBookWnd, spells: *mut c_int, count: c_int) = "?MemorizeSet@CSpellBookWnd@eqlib@@QAEXPAHH@Z";
+
+        // eqlib/game/EQClasses.h
+        /// Whether skill `skill` is ready to use now.
+        pub fn SkillManager_IsAvailable(this: *mut SkillManager, skill: c_int) -> bool = "?IsAvailable@SkillManager@eqlib@@QAE_NH@Z";
+        /// Skill `skill`'s full reuse time in milliseconds.
+        pub fn SkillManager_GetSkillTimerDuration(this: *mut SkillManager, skill: c_int) -> c_uint = "?GetSkillTimerDuration@SkillManager@eqlib@@QAEIH@Z";
+        /// When you last used skill `skill`, by [`EQGetTime`].
+        pub fn SkillManager_GetSkillLastUsed(this: *mut SkillManager, skill: c_int) -> c_uint = "?GetSkillLastUsed@SkillManager@eqlib@@QAEIH@Z";
 
         // eqlib/game/CXWnd.h
         /// What kind of control `this` is (`UI_*`).

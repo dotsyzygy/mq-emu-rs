@@ -2,15 +2,12 @@
 
 use std::fmt;
 
+use mq_emu_sys::game::current_profile;
 use mq_emu_sys::layouts::{PcClient, PcProfile};
 
 use crate::items::{Item, ItemLocation, ItemSlots};
 use crate::mq::Mq;
 use crate::plugin::Plugin;
-
-/// The most profile lists [`Mq::inventory`] and friends walk to find the
-/// current profile; the client has a handful. Guards against a damaged list.
-const MAX_PROFILE_LISTS: usize = 64;
 
 /// An inventory slot (`InvSlot_*`): worn slots, the ten bag slots, then the
 /// cursor. Its number is MacroQuest's `${Me.Inventory[n]}` index.
@@ -162,21 +159,6 @@ impl fmt::Debug for Inventory<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_map().entries(self.slots.iter().map(|(slot, item)| (InvSlot(slot as u8), item))).finish()
     }
-}
-
-/// `PcClient::GetCurrentPcProfile`: the profile list the manager marks current.
-fn current_profile(pc: &PcClient) -> Option<&PcProfile> {
-    let manager = pc.ProfileManager();
-    let mut list = manager.pFirst();
-    for _ in 0..MAX_PROFILE_LISTS {
-        // SAFETY: the lists and their profiles live as long as the PcClient.
-        let current = unsafe { list.as_ref() }?;
-        if current.ListType() == manager.CurProfileList() {
-            return unsafe { current.pFirst().as_ref() };
-        }
-        list = current.pNext();
-    }
-    None
 }
 
 impl<P: Plugin> Mq<P> {

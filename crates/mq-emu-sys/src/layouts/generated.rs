@@ -4191,6 +4191,1780 @@ impl CAltAbilityData {
     }
 }
 
+/// C++ class `CBuffWindow` (0x708 bytes).
+#[repr(C)]
+pub struct CBuffWindow {
+    _bytes: UnsafeCell<[u8; 0x708]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CBuffWindow {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bControlsCreated(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d8) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bControlsCreated(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::SidlText` at 0x1dc (0x1dc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlPiece(&self) -> *mut CScreenTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_SidlPiece(&self, value: *mut CScreenTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CSidlScreenWnd::RadioGroup` at 0x1e4 (0x1e4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn RadioGroup(&self) -> &ArrayClass_CRadioGroup {
+        unsafe { at(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bInitVisibility(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f4) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bInitVisibility(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bVisibleBeforeResize(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f5) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bVisibleBeforeResize(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f5, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniFlags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniFlags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CSidlScreenWnd::IniStorageName` at 0x1fc (0x1fc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniStorageName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bLastResFullscreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bLastResFullscreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn pFirstVScrollChild(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_pFirstVScrollChild(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuTipID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuTipID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bHasActivatedFirstTimeAlert(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bHasActivatedFirstTimeAlert(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, u8::from(value)) }
+    }
+
+    /// `WndEventHandler::lastUpdate` at 0x220 (0x0 within `WndEventHandler`).
+    #[inline]
+    pub fn lastUpdate(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `WndEventHandler::lastUpdate` at 0x220 (0x0 within `WndEventHandler`).
+    #[inline]
+    pub fn set_lastUpdate(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `CBuffWindow::bOldIconArrangement` at 0x224 (0x224 within `CBuffWindow`).
+    #[inline]
+    pub fn bOldIconArrangement(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x224) != 0 }
+    }
+
+    /// `CBuffWindow::bOldIconArrangement` at 0x224 (0x224 within `CBuffWindow`).
+    #[inline]
+    pub fn set_bOldIconArrangement(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x224, u8::from(value)) }
+    }
+
+    /// `CBuffWindow::ptaBlueIconBackground` at 0x228 (0x228 within `CBuffWindow`).
+    #[inline]
+    pub fn ptaBlueIconBackground(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `CBuffWindow::ptaBlueIconBackground` at 0x228 (0x228 within `CBuffWindow`).
+    #[inline]
+    pub fn set_ptaBlueIconBackground(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `CBuffWindow::ptaRedIconBackground` at 0x22c (0x22c within `CBuffWindow`).
+    #[inline]
+    pub fn ptaRedIconBackground(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CBuffWindow::ptaRedIconBackground` at 0x22c (0x22c within `CBuffWindow`).
+    #[inline]
+    pub fn set_ptaRedIconBackground(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `CBuffWindow::ptaYellowIconBackground` at 0x230 (0x230 within `CBuffWindow`).
+    #[inline]
+    pub fn ptaYellowIconBackground(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `CBuffWindow::ptaYellowIconBackground` at 0x230 (0x230 within `CBuffWindow`).
+    #[inline]
+    pub fn set_ptaYellowIconBackground(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `CBuffWindow::ptaBuffIcons` at 0x234 (0x234 within `CBuffWindow`).
+    #[inline]
+    pub fn ptaBuffIcons(&self) -> [*mut CTextureAnimation; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `CBuffWindow::ptaBuffIcons` at 0x234 (0x234 within `CBuffWindow`).
+    #[inline]
+    pub fn set_ptaBuffIcons(&self, value: [*mut CTextureAnimation; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x234, value) }
+    }
+
+    /// `CBuffWindow::ptaBuffIcons` at 0x234 (0x234 within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn ptaBuffIcons_at(&self, index: usize) -> *mut CTextureAnimation {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x234 + index * 0x4) }
+    }
+
+    /// `CBuffWindow::ptaBuffIcons` at 0x234 (0x234 within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_ptaBuffIcons_at(&self, index: usize, value: *mut CTextureAnimation) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x234 + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::pBuffButtons` at 0x2dc (0x2dc within `CBuffWindow`).
+    #[inline]
+    pub fn pBuffButtons(&self) -> [*mut CButtonWnd; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x2dc) }
+    }
+
+    /// `CBuffWindow::pBuffButtons` at 0x2dc (0x2dc within `CBuffWindow`).
+    #[inline]
+    pub fn set_pBuffButtons(&self, value: [*mut CButtonWnd; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x2dc, value) }
+    }
+
+    /// `CBuffWindow::pBuffButtons` at 0x2dc (0x2dc within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn pBuffButtons_at(&self, index: usize) -> *mut CButtonWnd {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2dc + index * 0x4) }
+    }
+
+    /// `CBuffWindow::pBuffButtons` at 0x2dc (0x2dc within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_pBuffButtons_at(&self, index: usize, value: *mut CButtonWnd) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2dc + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::pTimeRemainingTexts` at 0x384 (0x384 within `CBuffWindow`).
+    #[inline]
+    pub fn pTimeRemainingTexts(&self) -> [*mut CTextObjectInterface; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x384) }
+    }
+
+    /// `CBuffWindow::pTimeRemainingTexts` at 0x384 (0x384 within `CBuffWindow`).
+    #[inline]
+    pub fn set_pTimeRemainingTexts(&self, value: [*mut CTextObjectInterface; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x384, value) }
+    }
+
+    /// `CBuffWindow::pTimeRemainingTexts` at 0x384 (0x384 within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn pTimeRemainingTexts_at(&self, index: usize) -> *mut CTextObjectInterface {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x384 + index * 0x4) }
+    }
+
+    /// `CBuffWindow::pTimeRemainingTexts` at 0x384 (0x384 within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_pTimeRemainingTexts_at(&self, index: usize, value: *mut CTextObjectInterface) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x384 + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::pCounterTexts` at 0x42c (0x42c within `CBuffWindow`).
+    #[inline]
+    pub fn pCounterTexts(&self) -> [*mut CTextObjectInterface; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x42c) }
+    }
+
+    /// `CBuffWindow::pCounterTexts` at 0x42c (0x42c within `CBuffWindow`).
+    #[inline]
+    pub fn set_pCounterTexts(&self, value: [*mut CTextObjectInterface; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x42c, value) }
+    }
+
+    /// `CBuffWindow::pCounterTexts` at 0x42c (0x42c within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn pCounterTexts_at(&self, index: usize) -> *mut CTextObjectInterface {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x42c + index * 0x4) }
+    }
+
+    /// `CBuffWindow::pCounterTexts` at 0x42c (0x42c within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_pCounterTexts_at(&self, index: usize, value: *mut CTextObjectInterface) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x42c + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::pLimitedUseTexts` at 0x4d4 (0x4d4 within `CBuffWindow`).
+    #[inline]
+    pub fn pLimitedUseTexts(&self) -> [*mut CTextObjectInterface; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x4d4) }
+    }
+
+    /// `CBuffWindow::pLimitedUseTexts` at 0x4d4 (0x4d4 within `CBuffWindow`).
+    #[inline]
+    pub fn set_pLimitedUseTexts(&self, value: [*mut CTextObjectInterface; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x4d4, value) }
+    }
+
+    /// `CBuffWindow::pLimitedUseTexts` at 0x4d4 (0x4d4 within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn pLimitedUseTexts_at(&self, index: usize) -> *mut CTextObjectInterface {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4d4 + index * 0x4) }
+    }
+
+    /// `CBuffWindow::pLimitedUseTexts` at 0x4d4 (0x4d4 within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_pLimitedUseTexts_at(&self, index: usize, value: *mut CTextObjectInterface) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4d4 + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::spellIds` at 0x57c (0x57c within `CBuffWindow`).
+    #[inline]
+    pub fn spellIds(&self) -> [i32; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x57c) }
+    }
+
+    /// `CBuffWindow::spellIds` at 0x57c (0x57c within `CBuffWindow`).
+    #[inline]
+    pub fn set_spellIds(&self, value: [i32; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x57c, value) }
+    }
+
+    /// `CBuffWindow::spellIds` at 0x57c (0x57c within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn spellIds_at(&self, index: usize) -> i32 {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x57c + index * 0x4) }
+    }
+
+    /// `CBuffWindow::spellIds` at 0x57c (0x57c within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_spellIds_at(&self, index: usize, value: i32) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x57c + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::buffTimers` at 0x624 (0x624 within `CBuffWindow`).
+    #[inline]
+    pub fn buffTimers(&self) -> [i32; 42] {
+        unsafe { read(self._bytes.get().cast(), 0x624) }
+    }
+
+    /// `CBuffWindow::buffTimers` at 0x624 (0x624 within `CBuffWindow`).
+    #[inline]
+    pub fn set_buffTimers(&self, value: [i32; 42]) {
+        unsafe { write(self._bytes.get().cast(), 0x624, value) }
+    }
+
+    /// `CBuffWindow::buffTimers` at 0x624 (0x624 within `CBuffWindow`).
+    /// One element; panics if `index >= 42`.
+    #[inline]
+    pub fn buffTimers_at(&self, index: usize) -> i32 {
+        assert!(index < 42, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x624 + index * 0x4) }
+    }
+
+    /// `CBuffWindow::buffTimers` at 0x624 (0x624 within `CBuffWindow`).
+    /// Sets one element; panics if `index >= 42`.
+    #[inline]
+    pub fn set_buffTimers_at(&self, index: usize, value: i32) {
+        assert!(index < 42, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x624 + index * 0x4, value) }
+    }
+
+    /// `CBuffWindow::whoCastHash` at 0x6cc (0x6cc within `CBuffWindow`).
+    #[inline]
+    pub fn whoCastHash(&self) -> &HashTable_CXStr_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x6cc) }
+    }
+
+    /// `CBuffWindow::nextRefreshTime` at 0x6dc (0x6dc within `CBuffWindow`).
+    #[inline]
+    pub fn nextRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x6dc) }
+    }
+
+    /// `CBuffWindow::nextRefreshTime` at 0x6dc (0x6dc within `CBuffWindow`).
+    #[inline]
+    pub fn set_nextRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x6dc, value) }
+    }
+
+    /// `CBuffWindow::initWindowWidth` at 0x6e0 (0x6e0 within `CBuffWindow`).
+    #[inline]
+    pub fn initWindowWidth(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6e0) }
+    }
+
+    /// `CBuffWindow::initWindowWidth` at 0x6e0 (0x6e0 within `CBuffWindow`).
+    #[inline]
+    pub fn set_initWindowWidth(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6e0, value) }
+    }
+
+    /// `CBuffWindow::initWindowHeight` at 0x6e4 (0x6e4 within `CBuffWindow`).
+    #[inline]
+    pub fn initWindowHeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6e4) }
+    }
+
+    /// `CBuffWindow::initWindowHeight` at 0x6e4 (0x6e4 within `CBuffWindow`).
+    #[inline]
+    pub fn set_initWindowHeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6e4, value) }
+    }
+
+    /// `CBuffWindow::buffWindowType` at 0x6e8 (0x6e8 within `CBuffWindow`).
+    #[inline]
+    pub fn buffWindowType(&self) -> BuffWindowType {
+        unsafe { read(self._bytes.get().cast(), 0x6e8) }
+    }
+
+    /// `CBuffWindow::buffWindowType` at 0x6e8 (0x6e8 within `CBuffWindow`).
+    #[inline]
+    pub fn set_buffWindowType(&self, value: BuffWindowType) {
+        unsafe { write(self._bytes.get().cast(), 0x6e8, value) }
+    }
+
+    /// `CBuffWindow::firstEffectSlot` at 0x6ec (0x6ec within `CBuffWindow`).
+    #[inline]
+    pub fn firstEffectSlot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6ec) }
+    }
+
+    /// `CBuffWindow::firstEffectSlot` at 0x6ec (0x6ec within `CBuffWindow`).
+    #[inline]
+    pub fn set_firstEffectSlot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6ec, value) }
+    }
+
+    /// `CBuffWindow::lastEffectSlot` at 0x6f0 (0x6f0 within `CBuffWindow`).
+    #[inline]
+    pub fn lastEffectSlot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6f0) }
+    }
+
+    /// `CBuffWindow::lastEffectSlot` at 0x6f0 (0x6f0 within `CBuffWindow`).
+    #[inline]
+    pub fn set_lastEffectSlot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6f0, value) }
+    }
+
+    /// `CBuffWindow::maxBuffButtons` at 0x6f4 (0x6f4 within `CBuffWindow`).
+    #[inline]
+    pub fn maxBuffButtons(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6f4) }
+    }
+
+    /// `CBuffWindow::maxBuffButtons` at 0x6f4 (0x6f4 within `CBuffWindow`).
+    #[inline]
+    pub fn set_maxBuffButtons(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6f4, value) }
+    }
+
+    /// `CBuffWindow::contextMenuId` at 0x6f8 (0x6f8 within `CBuffWindow`).
+    #[inline]
+    pub fn contextMenuId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x6f8) }
+    }
+
+    /// `CBuffWindow::contextMenuId` at 0x6f8 (0x6f8 within `CBuffWindow`).
+    #[inline]
+    pub fn set_contextMenuId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x6f8, value) }
+    }
+
+    /// `CBuffWindow::selectedButtonWnd` at 0x6fc (0x6fc within `CBuffWindow`).
+    #[inline]
+    pub fn selectedButtonWnd(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x6fc) }
+    }
+
+    /// `CBuffWindow::selectedButtonWnd` at 0x6fc (0x6fc within `CBuffWindow`).
+    #[inline]
+    pub fn set_selectedButtonWnd(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x6fc, value) }
+    }
+
+    /// `CBuffWindow::updatedMenuItems` at 0x700 (0x700 within `CBuffWindow`).
+    #[inline]
+    pub fn updatedMenuItems(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x700) != 0 }
+    }
+
+    /// `CBuffWindow::updatedMenuItems` at 0x700 (0x700 within `CBuffWindow`).
+    #[inline]
+    pub fn set_updatedMenuItems(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x700, u8::from(value)) }
+    }
+
+    /// `CBuffWindow::lastBuffRefreshTime` at 0x704 (0x704 within `CBuffWindow`).
+    #[inline]
+    pub fn lastBuffRefreshTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x704) }
+    }
+
+    /// `CBuffWindow::lastBuffRefreshTime` at 0x704 (0x704 within `CBuffWindow`).
+    #[inline]
+    pub fn set_lastBuffRefreshTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x704, value) }
+    }
+
+    /// The `CSidlScreenWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CSidlScreenWnd(&self) -> *mut CSidlScreenWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `CXWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXWnd(&self) -> *mut CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `TList<CXWnd>` base, at 0x10: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_TList_CXWnd(&self) -> *mut TList_CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x10).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x4;
+}
+
 /// C++ class `CButtonDrawTemplate` (0x34 bytes).
 #[repr(C)]
 pub struct CButtonDrawTemplate {
@@ -7486,6 +9260,1386 @@ impl CCastSpellWnd {
     #[inline]
     pub fn set_pDeleteMenu(&self, value: *mut CContextMenu) {
         unsafe { write(self._bytes.get().cast(), 0x2b0, value) }
+    }
+
+    /// The `CSidlScreenWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CSidlScreenWnd(&self) -> *mut CSidlScreenWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `CXWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXWnd(&self) -> *mut CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `TList<CXWnd>` base, at 0x10: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_TList_CXWnd(&self) -> *mut TList_CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x10).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x4;
+}
+
+/// C++ class `CCastingWnd` (0x220 bytes).
+#[repr(C)]
+pub struct CCastingWnd {
+    _bytes: UnsafeCell<[u8; 0x220]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CCastingWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bControlsCreated(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d8) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bControlsCreated(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::SidlText` at 0x1dc (0x1dc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlPiece(&self) -> *mut CScreenTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_SidlPiece(&self, value: *mut CScreenTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CSidlScreenWnd::RadioGroup` at 0x1e4 (0x1e4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn RadioGroup(&self) -> &ArrayClass_CRadioGroup {
+        unsafe { at(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bInitVisibility(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f4) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bInitVisibility(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bVisibleBeforeResize(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f5) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bVisibleBeforeResize(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f5, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniFlags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniFlags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CSidlScreenWnd::IniStorageName` at 0x1fc (0x1fc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniStorageName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bLastResFullscreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bLastResFullscreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn pFirstVScrollChild(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_pFirstVScrollChild(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuTipID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuTipID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bHasActivatedFirstTimeAlert(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bHasActivatedFirstTimeAlert(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, u8::from(value)) }
     }
 
     /// The `CSidlScreenWnd` base, at 0x0: what C++ passes as `this` to its methods.
@@ -28620,6 +31774,1506 @@ impl CRaid {
     pub fn set_bGroupOnInvite(&self, value: bool) {
         unsafe { write(self._bytes.get().cast(), 0x3961, u8::from(value)) }
     }
+}
+
+/// C++ class `CSpellBookWnd` (0x248 bytes).
+#[repr(C)]
+pub struct CSpellBookWnd {
+    _bytes: UnsafeCell<[u8; 0x248]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CSpellBookWnd {
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CXWnd::__vfptr` at 0x0 (0x0 within `CXWnd`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<CXWnd>::m_pPrev` at 0x4 (0x0 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<CXWnd>::m_pNext` at 0x8 (0x4 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<CXWnd>::m_pList` at 0xc (0x8 within `TListNode<CXWnd>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pFirstNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `TList<CXWnd>::m_pFirstNode` at 0x10 (0x0 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pFirstNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn m_pLastNode(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `TList<CXWnd>::m_pLastNode` at 0x14 (0x4 within `TList<CXWnd>`).
+    #[inline]
+    pub fn set_m_pLastNode(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn bClipToParent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18) != 0 }
+    }
+
+    /// `CXWnd::bClipToParent` at 0x18 (0x18 within `CXWnd`).
+    #[inline]
+    pub fn set_bClipToParent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18, u8::from(value)) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn Alpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19) }
+    }
+
+    /// `CXWnd::Alpha` at 0x19 (0x19 within `CXWnd`).
+    #[inline]
+    pub fn set_Alpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19, value) }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn Enabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a) != 0 }
+    }
+
+    /// `CXWnd::Enabled` at 0x1a (0x1a within `CXWnd`).
+    #[inline]
+    pub fn set_Enabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a, u8::from(value)) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn Transition(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `CXWnd::Transition` at 0x1c (0x1c within `CXWnd`).
+    #[inline]
+    pub fn set_Transition(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn MouseOver(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20) != 0 }
+    }
+
+    /// `CXWnd::MouseOver` at 0x20 (0x20 within `CXWnd`).
+    #[inline]
+    pub fn set_MouseOver(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20, u8::from(value)) }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn bBottomAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21) != 0 }
+    }
+
+    /// `CXWnd::bBottomAnchoredToTop` at 0x21 (0x21 within `CXWnd`).
+    #[inline]
+    pub fn set_bBottomAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21, u8::from(value)) }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn bScreenClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22) != 0 }
+    }
+
+    /// `CXWnd::bScreenClipRectChanged` at 0x22 (0x22 within `CXWnd`).
+    #[inline]
+    pub fn set_bScreenClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn BlinkState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `CXWnd::BlinkState` at 0x24 (0x24 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn BackgroundDrawType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `CXWnd::BackgroundDrawType` at 0x28 (0x28 within `CXWnd`).
+    #[inline]
+    pub fn set_BackgroundDrawType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutHorizontal(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutHorizontal` at 0x2c (0x2c within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutHorizontal(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn Locked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2d) != 0 }
+    }
+
+    /// `CXWnd::Locked` at 0x2d (0x2d within `CXWnd`).
+    #[inline]
+    pub fn set_Locked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2d, u8::from(value)) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn ParentAndContextMenuArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `CXWnd::ParentAndContextMenuArrayIndex` at 0x30 (0x30 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentAndContextMenuArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn Data(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `CXWnd::Data` at 0x34 (0x34 within `CXWnd`).
+    #[inline]
+    pub fn set_Data(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn bClientClipRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38) != 0 }
+    }
+
+    /// `CXWnd::bClientClipRectChanged` at 0x38 (0x38 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientClipRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38, u8::from(value)) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn pController(&self) -> *mut ControllerBase {
+        unsafe { read(self._bytes.get().cast(), 0x3c) }
+    }
+
+    /// `CXWnd::pController` at 0x3c (0x3c within `CXWnd`).
+    #[inline]
+    pub fn set_pController(&self, value: *mut ControllerBase) {
+        unsafe { write(self._bytes.get().cast(), 0x3c, value) }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn bRightAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x40) != 0 }
+    }
+
+    /// `CXWnd::bRightAnchoredToLeft` at 0x40 (0x40 within `CXWnd`).
+    #[inline]
+    pub fn set_bRightAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x40, u8::from(value)) }
+    }
+
+    /// `CXWnd::RuntimeTypes` at 0x44 (0x44 within `CXWnd`).
+    #[inline]
+    pub fn RuntimeTypes(&self) -> &ArrayClass2_unsigned_int {
+        unsafe { at(self._bytes.get().cast(), 0x44) }
+    }
+
+    /// `CXWnd::Location` at 0x60 (0x60 within `CXWnd`).
+    #[inline]
+    pub fn Location(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn LastBlinkFadeRefreshTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `CXWnd::LastBlinkFadeRefreshTime` at 0x70 (0x70 within `CXWnd`).
+    #[inline]
+    pub fn set_LastBlinkFadeRefreshTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn bMarkedForDelete(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x74) != 0 }
+    }
+
+    /// `CXWnd::bMarkedForDelete` at 0x74 (0x74 within `CXWnd`).
+    #[inline]
+    pub fn set_bMarkedForDelete(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x74, u8::from(value)) }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn bClientRectChanged(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x75) != 0 }
+    }
+
+    /// `CXWnd::bClientRectChanged` at 0x75 (0x75 within `CXWnd`).
+    #[inline]
+    pub fn set_bClientRectChanged(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x75, u8::from(value)) }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn bTiled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x76) != 0 }
+    }
+
+    /// `CXWnd::bTiled` at 0x76 (0x76 within `CXWnd`).
+    #[inline]
+    pub fn set_bTiled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x76, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn BlinkStartTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `CXWnd::BlinkStartTimer` at 0x78 (0x78 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkStartTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn bCaptureTitle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x7c) != 0 }
+    }
+
+    /// `CXWnd::bCaptureTitle` at 0x7c (0x7c within `CXWnd`).
+    #[inline]
+    pub fn set_bCaptureTitle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn FadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `CXWnd::FadeDuration` at 0x80 (0x80 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn WindowStyle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `CXWnd::WindowStyle` at 0x84 (0x84 within `CXWnd`).
+    #[inline]
+    pub fn set_WindowStyle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `CXWnd::ClipRectScreen` at 0x88 (0x88 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectScreen(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn bEscapable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x98) != 0 }
+    }
+
+    /// `CXWnd::bEscapable` at 0x98 (0x98 within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x98, u8::from(value)) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeFreq(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `CXWnd::BlinkFadeFreq` at 0x9c (0x9c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeFreq(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn pTipTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CXWnd::pTipTextObject` at 0xa0 (0xa0 within `CXWnd`).
+    #[inline]
+    pub fn set_pTipTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn bIsParentOrContextMenuWindow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xa4) != 0 }
+    }
+
+    /// `CXWnd::bIsParentOrContextMenuWindow` at 0xa4 (0xa4 within `CXWnd`).
+    #[inline]
+    pub fn set_bIsParentOrContextMenuWindow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, u8::from(value)) }
+    }
+
+    /// `CXWnd::ClipRectClient` at 0xa8 (0xa8 within `CXWnd`).
+    #[inline]
+    pub fn ClipRectClient(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xa8) }
+    }
+
+    /// `CXWnd::MinClientSize` at 0xb8 (0xb8 within `CXWnd`).
+    #[inline]
+    pub fn MinClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0xb8) }
+    }
+
+    /// `CXWnd::OldLocation` at 0xc0 (0xc0 within `CXWnd`).
+    #[inline]
+    pub fn OldLocation(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn FocusProxy(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// `CXWnd::FocusProxy` at 0xd0 (0xd0 within `CXWnd`).
+    #[inline]
+    pub fn set_FocusProxy(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0xd0, value) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn LastTimeMouseOver(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd4) }
+    }
+
+    /// `CXWnd::LastTimeMouseOver` at 0xd4 (0xd4 within `CXWnd`).
+    #[inline]
+    pub fn set_LastTimeMouseOver(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd4, value) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn XMLIndex(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xd8) }
+    }
+
+    /// `CXWnd::XMLIndex` at 0xd8 (0xd8 within `CXWnd`).
+    #[inline]
+    pub fn set_XMLIndex(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xd8, value) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xdc) }
+    }
+
+    /// `CXWnd::BlinkFadeStartTime` at 0xdc (0xdc within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xdc, value) }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn bBringToTopWhenClicked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xe0) != 0 }
+    }
+
+    /// `CXWnd::bBringToTopWhenClicked` at 0xe0 (0xe0 within `CXWnd`).
+    #[inline]
+    pub fn set_bBringToTopWhenClicked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xe0, u8::from(value)) }
+    }
+
+    /// `CXWnd::DataStr` at 0xe4 (0xe4 within `CXWnd`).
+    #[inline]
+    pub fn DataStr(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `CXWnd::Tooltip` at 0xe8 (0xe8 within `CXWnd`).
+    #[inline]
+    pub fn Tooltip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xe8) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn IconTextureAnim(&self) -> *mut CTextureAnimation {
+        unsafe { read(self._bytes.get().cast(), 0xec) }
+    }
+
+    /// `CXWnd::IconTextureAnim` at 0xec (0xec within `CXWnd`).
+    #[inline]
+    pub fn set_IconTextureAnim(&self, value: *mut CTextureAnimation) {
+        unsafe { write(self._bytes.get().cast(), 0xec, value) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn FadeDelay(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf0) }
+    }
+
+    /// `CXWnd::FadeDelay` at 0xf0 (0xf0 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeDelay(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf0, value) }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn bUseInLayoutVertical(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xf4) != 0 }
+    }
+
+    /// `CXWnd::bUseInLayoutVertical` at 0xf4 (0xf4 within `CXWnd`).
+    #[inline]
+    pub fn set_bUseInLayoutVertical(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xf4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xf8) }
+    }
+
+    /// `CXWnd::TransitionDuration` at 0xf8 (0xf8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xf8, value) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn RightOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xfc) }
+    }
+
+    /// `CXWnd::RightOffset` at 0xfc (0xfc within `CXWnd`).
+    #[inline]
+    pub fn set_RightOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xfc, value) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn BottomOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x100) }
+    }
+
+    /// `CXWnd::BottomOffset` at 0x100 (0x100 within `CXWnd`).
+    #[inline]
+    pub fn set_BottomOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x100, value) }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn bLeftAnchoredToLeft(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x104) != 0 }
+    }
+
+    /// `CXWnd::bLeftAnchoredToLeft` at 0x104 (0x104 within `CXWnd`).
+    #[inline]
+    pub fn set_bLeftAnchoredToLeft(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x104, u8::from(value)) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn pLayoutStrategy(&self) -> *mut CLayoutStrategy {
+        unsafe { read(self._bytes.get().cast(), 0x108) }
+    }
+
+    /// `CXWnd::pLayoutStrategy` at 0x108 (0x108 within `CXWnd`).
+    #[inline]
+    pub fn set_pLayoutStrategy(&self, value: *mut CLayoutStrategy) {
+        unsafe { write(self._bytes.get().cast(), 0x108, value) }
+    }
+
+    /// `CXWnd::TransitionRect` at 0x10c (0x10c within `CXWnd`).
+    #[inline]
+    pub fn TransitionRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x10c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn DeleteCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x11c) }
+    }
+
+    /// `CXWnd::DeleteCount` at 0x11c (0x11c within `CXWnd`).
+    #[inline]
+    pub fn set_DeleteCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x11c, value) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn ZLayer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x120) }
+    }
+
+    /// `CXWnd::ZLayer` at 0x120 (0x120 within `CXWnd`).
+    #[inline]
+    pub fn set_ZLayer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x120, value) }
+    }
+
+    /// `CXWnd::XMLToolTip` at 0x124 (0x124 within `CXWnd`).
+    #[inline]
+    pub fn XMLToolTip(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn BGColor(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `CXWnd::BGColor` at 0x128 (0x128 within `CXWnd`).
+    #[inline]
+    pub fn set_BGColor(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x128, value) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn CRNormal(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x12c) }
+    }
+
+    /// `CXWnd::CRNormal` at 0x12c (0x12c within `CXWnd`).
+    #[inline]
+    pub fn set_CRNormal(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x12c, value) }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn bAction(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x130) != 0 }
+    }
+
+    /// `CXWnd::bAction` at 0x130 (0x130 within `CXWnd`).
+    #[inline]
+    pub fn set_bAction(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x130, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece2(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x134) }
+    }
+
+    /// `CXWnd::TitlePiece2` at 0x134 (0x134 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece2(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x134, value) }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x138) != 0 }
+    }
+
+    /// `CXWnd::bClickThrough` at 0x138 (0x138 within `CXWnd`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x138, u8::from(value)) }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn bMaximized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x139) != 0 }
+    }
+
+    /// `CXWnd::bMaximized` at 0x139 (0x139 within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x139, u8::from(value)) }
+    }
+
+    /// `CXWnd::MaxClientSize` at 0x13c (0x13c within `CXWnd`).
+    #[inline]
+    pub fn MaxClientSize(&self) -> &CXSize {
+        unsafe { at(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn pTextObject(&self) -> *mut CTextObjectInterface {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `CXWnd::pTextObject` at 0x144 (0x144 within `CXWnd`).
+    #[inline]
+    pub fn set_pTextObject(&self, value: *mut CTextObjectInterface) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn bResizableMask(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `CXWnd::bResizableMask` at 0x148 (0x148 within `CXWnd`).
+    #[inline]
+    pub fn set_bResizableMask(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn BlinkDuration(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `CXWnd::BlinkDuration` at 0x14c (0x14c within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkDuration(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn bTopAnchoredToTop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x150) != 0 }
+    }
+
+    /// `CXWnd::bTopAnchoredToTop` at 0x150 (0x150 within `CXWnd`).
+    #[inline]
+    pub fn set_bTopAnchoredToTop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x150, u8::from(value)) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn TitlePiece(&self) -> *mut CStaticTintedBlendAnimationTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `CXWnd::TitlePiece` at 0x154 (0x154 within `CXWnd`).
+    #[inline]
+    pub fn set_TitlePiece(&self, value: *mut CStaticTintedBlendAnimationTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn bKeepOnScreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x158) != 0 }
+    }
+
+    /// `CXWnd::bKeepOnScreen` at 0x158 (0x158 within `CXWnd`).
+    #[inline]
+    pub fn set_bKeepOnScreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x158, u8::from(value)) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn pFont(&self) -> *mut CTextureFont {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `CXWnd::pFont` at 0x15c (0x15c within `CXWnd`).
+    #[inline]
+    pub fn set_pFont(&self, value: *mut CTextureFont) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn managerArrayIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x160) }
+    }
+
+    /// `CXWnd::managerArrayIndex` at 0x160 (0x160 within `CXWnd`).
+    #[inline]
+    pub fn set_managerArrayIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x160, value) }
+    }
+
+    /// `CXWnd::IconRect` at 0x164 (0x164 within `CXWnd`).
+    #[inline]
+    pub fn IconRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn ParentWindow(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `CXWnd::ParentWindow` at 0x174 (0x174 within `CXWnd`).
+    #[inline]
+    pub fn set_ParentWindow(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn FadeAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `CXWnd::FadeAlpha` at 0x178 (0x178 within `CXWnd`).
+    #[inline]
+    pub fn set_FadeAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn VScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17c) }
+    }
+
+    /// `CXWnd::VScrollPos` at 0x17c (0x17c within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, value) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn BlinkFadeDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `CXWnd::BlinkFadeDuration` at 0x180 (0x180 within `CXWnd`).
+    #[inline]
+    pub fn set_BlinkFadeDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn LeftOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `CXWnd::LeftOffset` at 0x184 (0x184 within `CXWnd`).
+    #[inline]
+    pub fn set_LeftOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn DrawTemplate(&self) -> *mut CXWndDrawTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `CXWnd::DrawTemplate` at 0x188 (0x188 within `CXWnd`).
+    #[inline]
+    pub fn set_DrawTemplate(&self, value: *mut CXWndDrawTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn Faded(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x18c) != 0 }
+    }
+
+    /// `CXWnd::Faded` at 0x18c (0x18c within `CXWnd`).
+    #[inline]
+    pub fn set_Faded(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, u8::from(value)) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn VScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `CXWnd::VScrollMax` at 0x190 (0x190 within `CXWnd`).
+    #[inline]
+    pub fn set_VScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn ValidCXWnd(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `CXWnd::ValidCXWnd` at 0x194 (0x194 within `CXWnd`).
+    #[inline]
+    pub fn set_ValidCXWnd(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn bNeedsSaving(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x195) != 0 }
+    }
+
+    /// `CXWnd::bNeedsSaving` at 0x195 (0x195 within `CXWnd`).
+    #[inline]
+    pub fn set_bNeedsSaving(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x195, u8::from(value)) }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn dShow(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x196) != 0 }
+    }
+
+    /// `CXWnd::dShow` at 0x196 (0x196 within `CXWnd`).
+    #[inline]
+    pub fn set_dShow(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x196, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn HScrollPos(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `CXWnd::HScrollPos` at 0x198 (0x198 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollPos(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn bEscapableLocked(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19c) != 0 }
+    }
+
+    /// `CXWnd::bEscapableLocked` at 0x19c (0x19c within `CXWnd`).
+    #[inline]
+    pub fn set_bEscapableLocked(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, u8::from(value)) }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn Fades(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `CXWnd::Fades` at 0x19d (0x19d within `CXWnd`).
+    #[inline]
+    pub fn set_Fades(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn HScrollMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `CXWnd::HScrollMax` at 0x1a0 (0x1a0 within `CXWnd`).
+    #[inline]
+    pub fn set_HScrollMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn bHCenterTooltip(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1a4) != 0 }
+    }
+
+    /// `CXWnd::bHCenterTooltip` at 0x1a4 (0x1a4 within `CXWnd`).
+    #[inline]
+    pub fn set_bHCenterTooltip(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, u8::from(value)) }
+    }
+
+    /// `CXWnd::WindowText` at 0x1a8 (0x1a8 within `CXWnd`).
+    #[inline]
+    pub fn WindowText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn StartAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ac) }
+    }
+
+    /// `CXWnd::StartAlpha` at 0x1ac (0x1ac within `CXWnd`).
+    #[inline]
+    pub fn set_StartAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ac, value) }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn bIsTransitioning(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ad) != 0 }
+    }
+
+    /// `CXWnd::bIsTransitioning` at 0x1ad (0x1ad within `CXWnd`).
+    #[inline]
+    pub fn set_bIsTransitioning(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ad, u8::from(value)) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn FadeToAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1ae) }
+    }
+
+    /// `CXWnd::FadeToAlpha` at 0x1ae (0x1ae within `CXWnd`).
+    #[inline]
+    pub fn set_FadeToAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1ae, value) }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn bFullyScreenClipped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1af) != 0 }
+    }
+
+    /// `CXWnd::bFullyScreenClipped` at 0x1af (0x1af within `CXWnd`).
+    #[inline]
+    pub fn set_bFullyScreenClipped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1af, u8::from(value)) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn BGType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1b0) }
+    }
+
+    /// `CXWnd::BGType` at 0x1b0 (0x1b0 within `CXWnd`).
+    #[inline]
+    pub fn set_BGType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1b0, value) }
+    }
+
+    /// `CXWnd::ClientRect` at 0x1b4 (0x1b4 within `CXWnd`).
+    #[inline]
+    pub fn ClientRect(&self) -> &CXRect {
+        unsafe { at(self._bytes.get().cast(), 0x1b4) }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn Unlockable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1c4) != 0 }
+    }
+
+    /// `CXWnd::Unlockable` at 0x1c4 (0x1c4 within `CXWnd`).
+    #[inline]
+    pub fn set_Unlockable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1c4, u8::from(value)) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn TransitionStartTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `CXWnd::TransitionStartTick` at 0x1c8 (0x1c8 within `CXWnd`).
+    #[inline]
+    pub fn set_TransitionStartTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn bMaximizable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1cc) != 0 }
+    }
+
+    /// `CXWnd::bMaximizable` at 0x1cc (0x1cc within `CXWnd`).
+    #[inline]
+    pub fn set_bMaximizable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1cc, u8::from(value)) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn TargetAlpha(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x1cd) }
+    }
+
+    /// `CXWnd::TargetAlpha` at 0x1cd (0x1cd within `CXWnd`).
+    #[inline]
+    pub fn set_TargetAlpha(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x1cd, value) }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn Minimized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1ce) != 0 }
+    }
+
+    /// `CXWnd::Minimized` at 0x1ce (0x1ce within `CXWnd`).
+    #[inline]
+    pub fn set_Minimized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1ce, u8::from(value)) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn TopOffset(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1d0) }
+    }
+
+    /// `CXWnd::TopOffset` at 0x1d0 (0x1d0 within `CXWnd`).
+    #[inline]
+    pub fn set_TopOffset(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1d0, value) }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn bActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d4) != 0 }
+    }
+
+    /// `CXWnd::bActive` at 0x1d4 (0x1d4 within `CXWnd`).
+    #[inline]
+    pub fn set_bActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bControlsCreated(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1d8) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bControlsCreated` at 0x1d8 (0x1d8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bControlsCreated(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1d8, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::SidlText` at 0x1dc (0x1dc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlText(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1dc) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn SidlPiece(&self) -> *mut CScreenTemplate {
+        unsafe { read(self._bytes.get().cast(), 0x1e0) }
+    }
+
+    /// `CSidlScreenWnd::SidlPiece` at 0x1e0 (0x1e0 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_SidlPiece(&self, value: *mut CScreenTemplate) {
+        unsafe { write(self._bytes.get().cast(), 0x1e0, value) }
+    }
+
+    /// `CSidlScreenWnd::RadioGroup` at 0x1e4 (0x1e4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn RadioGroup(&self) -> &ArrayClass_CRadioGroup {
+        unsafe { at(self._bytes.get().cast(), 0x1e4) }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bInitVisibility(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f4) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bInitVisibility` at 0x1f4 (0x1f4 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bInitVisibility(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f4, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bVisibleBeforeResize(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x1f5) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bVisibleBeforeResize` at 0x1f5 (0x1f5 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bVisibleBeforeResize(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x1f5, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniFlags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1f8) }
+    }
+
+    /// `CSidlScreenWnd::IniFlags` at 0x1f8 (0x1f8 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniFlags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1f8, value) }
+    }
+
+    /// `CSidlScreenWnd::IniStorageName` at 0x1fc (0x1fc within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniStorageName(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x1fc) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn IniVersion(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x200) }
+    }
+
+    /// `CSidlScreenWnd::IniVersion` at 0x200 (0x200 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_IniVersion(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x200, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x204) }
+    }
+
+    /// `CSidlScreenWnd::LastResX` at 0x204 (0x204 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x204, value) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn LastResY(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x208) }
+    }
+
+    /// `CSidlScreenWnd::LastResY` at 0x208 (0x208 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_LastResY(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x208, value) }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bLastResFullscreen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bLastResFullscreen` at 0x20c (0x20c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bLastResFullscreen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, u8::from(value)) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuID` at 0x210 (0x210 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn pFirstVScrollChild(&self) -> *mut CXWnd {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `CSidlScreenWnd::pFirstVScrollChild` at 0x214 (0x214 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_pFirstVScrollChild(&self, value: *mut CXWnd) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn ContextMenuTipID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `CSidlScreenWnd::ContextMenuTipID` at 0x218 (0x218 within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_ContextMenuTipID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn bHasActivatedFirstTimeAlert(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x21c) != 0 }
+    }
+
+    /// `CSidlScreenWnd::bHasActivatedFirstTimeAlert` at 0x21c (0x21c within `CSidlScreenWnd`).
+    #[inline]
+    pub fn set_bHasActivatedFirstTimeAlert(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, u8::from(value)) }
+    }
+
+    /// `PopDialogHandler::__vfptr` at 0x220 (0x0 within `PopDialogHandler`).
+    #[inline]
+    pub fn PopDialogHandler___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `PopDialogHandler::__vfptr` at 0x220 (0x0 within `PopDialogHandler`).
+    #[inline]
+    pub fn set_PopDialogHandler___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `WndEventHandler::lastUpdate` at 0x224 (0x0 within `WndEventHandler`).
+    #[inline]
+    pub fn lastUpdate(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `WndEventHandler::lastUpdate` at 0x224 (0x0 within `WndEventHandler`).
+    #[inline]
+    pub fn set_lastUpdate(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `CSpellBookWnd::m_currentPopup` at 0x228 (0x228 within `CSpellBookWnd`).
+    #[inline]
+    pub fn m_currentPopup(&self) -> *mut CConfirmationDialog {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `CSpellBookWnd::m_currentPopup` at 0x228 (0x228 within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_m_currentPopup(&self, value: *mut CConfirmationDialog) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `CSpellBookWnd::LeftPageNbr` at 0x22c (0x22c within `CSpellBookWnd`).
+    #[inline]
+    pub fn LeftPageNbr(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `CSpellBookWnd::LeftPageNbr` at 0x22c (0x22c within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_LeftPageNbr(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `CSpellBookWnd::SelectedBookIndex` at 0x230 (0x230 within `CSpellBookWnd`).
+    #[inline]
+    pub fn SelectedBookIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `CSpellBookWnd::SelectedBookIndex` at 0x230 (0x230 within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_SelectedBookIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `CSpellBookWnd::MemSlotIndex` at 0x234 (0x234 within `CSpellBookWnd`).
+    #[inline]
+    pub fn MemSlotIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `CSpellBookWnd::MemSlotIndex` at 0x234 (0x234 within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_MemSlotIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x234, value) }
+    }
+
+    /// `CSpellBookWnd::SpellId` at 0x238 (0x238 within `CSpellBookWnd`).
+    #[inline]
+    pub fn SpellId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x238) }
+    }
+
+    /// `CSpellBookWnd::SpellId` at 0x238 (0x238 within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_SpellId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x238, value) }
+    }
+
+    /// `CSpellBookWnd::MemTicksLeft` at 0x23c (0x23c within `CSpellBookWnd`).
+    #[inline]
+    pub fn MemTicksLeft(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x23c) }
+    }
+
+    /// `CSpellBookWnd::MemTicksLeft` at 0x23c (0x23c within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_MemTicksLeft(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, value) }
+    }
+
+    /// `CSpellBookWnd::ScribeBookSlot` at 0x240 (0x240 within `CSpellBookWnd`).
+    #[inline]
+    pub fn ScribeBookSlot(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x240) }
+    }
+
+    /// `CSpellBookWnd::ScribeBookSlot` at 0x240 (0x240 within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_ScribeBookSlot(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x240, value) }
+    }
+
+    /// `CSpellBookWnd::ScribeTicksLeft` at 0x244 (0x244 within `CSpellBookWnd`).
+    #[inline]
+    pub fn ScribeTicksLeft(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x244) }
+    }
+
+    /// `CSpellBookWnd::ScribeTicksLeft` at 0x244 (0x244 within `CSpellBookWnd`).
+    #[inline]
+    pub fn set_ScribeTicksLeft(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x244, value) }
+    }
+
+    /// The `CSidlScreenWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CSidlScreenWnd(&self) -> *mut CSidlScreenWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `CXWnd` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CXWnd(&self) -> *mut CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
+    /// The `TList<CXWnd>` base, at 0x10: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_TList_CXWnd(&self) -> *mut TList_CXWnd {
+        unsafe { self._bytes.get().cast::<u8>().add(0x10).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x4;
 }
 
 /// C++ class `CSpellDisplayManager` (0x40 bytes).
@@ -60776,6 +65430,12 @@ impl PcClient {
         unsafe { write(self._bytes.get().cast(), 0x3728 + index * 0x1, value) }
     }
 
+    /// The `PcZoneClient` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_PcZoneClient(&self) -> *mut PcZoneClient {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
     /// The `CharacterZoneClient` base, at 0x2dc8: what C++ passes as `this` to its methods.
     #[inline]
     pub fn as_CharacterZoneClient(&self) -> *mut CharacterZoneClient {
@@ -62412,6 +67072,4276 @@ impl PcProfile {
 
     /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
     pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
+/// C++ class `PcZoneClient` (0x57d0 bytes).
+#[repr(C)]
+pub struct PcZoneClient {
+    _bytes: UnsafeCell<[u8; 0x57d0]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl PcZoneClient {
+    /// `PcBase::__vfptr` at 0x0 (0x0 within `PcBase`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `PcBase::__vfptr` at 0x0 (0x0 within `PcBase`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `PcBase::__vbptr` at 0x8 (0x8 within `PcBase`).
+    #[inline]
+    pub fn __vbptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `PcBase::__vbptr` at 0x8 (0x8 within `PcBase`).
+    #[inline]
+    pub fn set___vbptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `PcBase::RecentTasks` at 0x10 (0x10 within `PcBase`).
+    #[inline]
+    pub fn RecentTasks(&self) -> [i32; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `PcBase::RecentTasks` at 0x10 (0x10 within `PcBase`).
+    #[inline]
+    pub fn set_RecentTasks(&self, value: [i32; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `PcBase::RecentTasks` at 0x10 (0x10 within `PcBase`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn RecentTasks_at(&self, index: usize) -> i32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10 + index * 0x4) }
+    }
+
+    /// `PcBase::RecentTasks` at 0x10 (0x10 within `PcBase`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_RecentTasks_at(&self, index: usize, value: i32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10 + index * 0x4, value) }
+    }
+
+    /// `PcBase::Tasks` at 0x38 (0x38 within `PcBase`).
+    /// Indexes the 1 elements in memory order.
+    #[inline]
+    pub fn Tasks(&self, index: usize) -> &PCTaskStatus {
+        assert!(index < 1, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x38 + index * 0x70) }
+    }
+
+    /// `PcBase::Quests` at 0xa8 (0xa8 within `PcBase`).
+    /// Indexes the 29 elements in memory order.
+    #[inline]
+    pub fn Quests(&self, index: usize) -> &PCTaskStatus {
+        assert!(index < 29, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0xa8 + index * 0x70) }
+    }
+
+    /// `PcBase::BitFlags` at 0xd58 (0xd58 within `PcBase`).
+    #[inline]
+    pub fn BitFlags(&self) -> [u8; 800] {
+        unsafe { read(self._bytes.get().cast(), 0xd58) }
+    }
+
+    /// `PcBase::BitFlags` at 0xd58 (0xd58 within `PcBase`).
+    #[inline]
+    pub fn set_BitFlags(&self, value: [u8; 800]) {
+        unsafe { write(self._bytes.get().cast(), 0xd58, value) }
+    }
+
+    /// `PcBase::BitFlags` at 0xd58 (0xd58 within `PcBase`).
+    /// One element; panics if `index >= 800`.
+    #[inline]
+    pub fn BitFlags_at(&self, index: usize) -> u8 {
+        assert!(index < 800, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xd58 + index * 0x1) }
+    }
+
+    /// `PcBase::BitFlags` at 0xd58 (0xd58 within `PcBase`).
+    /// Sets one element; panics if `index >= 800`.
+    #[inline]
+    pub fn set_BitFlags_at(&self, index: usize, value: u8) {
+        assert!(index < 800, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xd58 + index * 0x1, value) }
+    }
+
+    /// `PcBase::ActiveTributeBenefits` at 0x1078 (0x1078 within `PcBase`).
+    /// Indexes the 5 elements in memory order.
+    #[inline]
+    pub fn ActiveTributeBenefits(&self, index: usize) -> &BenefitSelection {
+        assert!(index < 5, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x1078 + index * 0x8) }
+    }
+
+    /// `PcBase::ActiveTrophyTributeBenefits` at 0x10a0 (0x10a0 within `PcBase`).
+    /// Indexes the 10 elements in memory order.
+    #[inline]
+    pub fn ActiveTrophyTributeBenefits(&self, index: usize) -> &BenefitSelection {
+        assert!(index < 10, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x10a0 + index * 0x8) }
+    }
+
+    /// `PcBase::BitFlags2` at 0x10f0 (0x10f0 within `PcBase`).
+    #[inline]
+    pub fn BitFlags2(&self) -> [u8; 800] {
+        unsafe { read(self._bytes.get().cast(), 0x10f0) }
+    }
+
+    /// `PcBase::BitFlags2` at 0x10f0 (0x10f0 within `PcBase`).
+    #[inline]
+    pub fn set_BitFlags2(&self, value: [u8; 800]) {
+        unsafe { write(self._bytes.get().cast(), 0x10f0, value) }
+    }
+
+    /// `PcBase::BitFlags2` at 0x10f0 (0x10f0 within `PcBase`).
+    /// One element; panics if `index >= 800`.
+    #[inline]
+    pub fn BitFlags2_at(&self, index: usize) -> u8 {
+        assert!(index < 800, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10f0 + index * 0x1) }
+    }
+
+    /// `PcBase::BitFlags2` at 0x10f0 (0x10f0 within `PcBase`).
+    /// Sets one element; panics if `index >= 800`.
+    #[inline]
+    pub fn set_BitFlags2_at(&self, index: usize, value: u8) {
+        assert!(index < 800, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10f0 + index * 0x1, value) }
+    }
+
+    /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
+    #[inline]
+    pub fn Unknown0x1410(&self) -> [u8; 2448] {
+        unsafe { read(self._bytes.get().cast(), 0x1410) }
+    }
+
+    /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
+    #[inline]
+    pub fn set_Unknown0x1410(&self, value: [u8; 2448]) {
+        unsafe { write(self._bytes.get().cast(), 0x1410, value) }
+    }
+
+    /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
+    /// One element; panics if `index >= 2448`.
+    #[inline]
+    pub fn Unknown0x1410_at(&self, index: usize) -> u8 {
+        assert!(index < 2448, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1410 + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x1410` at 0x1410 (0x1410 within `PcBase`).
+    /// Sets one element; panics if `index >= 2448`.
+    #[inline]
+    pub fn set_Unknown0x1410_at(&self, index: usize, value: u8) {
+        assert!(index < 2448, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1410 + index * 0x1, value) }
+    }
+
+    /// `PcBase::MyLeadershipAbilities` at 0x1da0 (0x1da0 within `PcBase`).
+    #[inline]
+    pub fn MyLeadershipAbilities(&self) -> &LeadershipAbilities {
+        unsafe { at(self._bytes.get().cast(), 0x1da0) }
+    }
+
+    /// `PcBase::Unknown0x1ddc` at 0x1ddc (0x1ddc within `PcBase`).
+    #[inline]
+    pub fn Unknown0x1ddc(&self) -> [u8; 196] {
+        unsafe { read(self._bytes.get().cast(), 0x1ddc) }
+    }
+
+    /// `PcBase::Unknown0x1ddc` at 0x1ddc (0x1ddc within `PcBase`).
+    #[inline]
+    pub fn set_Unknown0x1ddc(&self, value: [u8; 196]) {
+        unsafe { write(self._bytes.get().cast(), 0x1ddc, value) }
+    }
+
+    /// `PcBase::Unknown0x1ddc` at 0x1ddc (0x1ddc within `PcBase`).
+    /// One element; panics if `index >= 196`.
+    #[inline]
+    pub fn Unknown0x1ddc_at(&self, index: usize) -> u8 {
+        assert!(index < 196, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1ddc + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x1ddc` at 0x1ddc (0x1ddc within `PcBase`).
+    /// Sets one element; panics if `index >= 196`.
+    #[inline]
+    pub fn set_Unknown0x1ddc_at(&self, index: usize, value: u8) {
+        assert!(index < 196, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1ddc + index * 0x1, value) }
+    }
+
+    /// `PcBase::BankItems` at 0x1ea0 (0x1ea0 within `PcBase`).
+    #[inline]
+    pub fn BankItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x1ea0) }
+    }
+
+    /// `PcBase::SharedBankItems` at 0x1ed8 (0x1ed8 within `PcBase`).
+    #[inline]
+    pub fn SharedBankItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x1ed8) }
+    }
+
+    /// `PcBase::LimboBufferItems` at 0x1f10 (0x1f10 within `PcBase`).
+    #[inline]
+    pub fn LimboBufferItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x1f10) }
+    }
+
+    /// `PcBase::AltStorageItems` at 0x1f48 (0x1f48 within `PcBase`).
+    #[inline]
+    pub fn AltStorageItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x1f48) }
+    }
+
+    /// `PcBase::ArchivedDeletedItems` at 0x1f80 (0x1f80 within `PcBase`).
+    #[inline]
+    pub fn ArchivedDeletedItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x1f80) }
+    }
+
+    /// `PcBase::MailItems` at 0x1fb8 (0x1fb8 within `PcBase`).
+    #[inline]
+    pub fn MailItems(&self) -> &ItemContainer {
+        unsafe { at(self._bytes.get().cast(), 0x1fb8) }
+    }
+
+    /// `PcBase::MailItemsData` at 0x1ff0 (0x1ff0 within `PcBase`).
+    #[inline]
+    pub fn MailItemsData(&self) -> &HashTable_MailItemData_EqItemGuid_ResizePolicyNoShrink {
+        unsafe { at(self._bytes.get().cast(), 0x1ff0) }
+    }
+
+    /// `PcBase::CurrentDynamicZones` at 0x2000 (0x2000 within `PcBase`).
+    #[inline]
+    pub fn CurrentDynamicZones(&self) -> &HashTable_DynamicZoneData_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2000) }
+    }
+
+    /// `PcBase::LearnedRecipes` at 0x2010 (0x2010 within `PcBase`).
+    #[inline]
+    pub fn LearnedRecipes(&self) -> &HashTable_int_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2010) }
+    }
+
+    /// `PcBase::NonrepeatableQuests` at 0x2020 (0x2020 within `PcBase`).
+    #[inline]
+    pub fn NonrepeatableQuests(&self) -> &HashTable_int_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2020) }
+    }
+
+    /// `PcBase::CompletedTasks` at 0x2030 (0x2030 within `PcBase`).
+    #[inline]
+    pub fn CompletedTasks(&self) -> &HashTable_int_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2030) }
+    }
+
+    /// `PcBase::AlchemyTimestamp` at 0x2040 (0x2040 within `PcBase`).
+    #[inline]
+    pub fn AlchemyTimestamp(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2040) }
+    }
+
+    /// `PcBase::AlchemyTimestamp` at 0x2040 (0x2040 within `PcBase`).
+    #[inline]
+    pub fn set_AlchemyTimestamp(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2040, value) }
+    }
+
+    /// `PcBase::bGoHomeOverride` at 0x2044 (0x2044 within `PcBase`).
+    #[inline]
+    pub fn bGoHomeOverride(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2044) != 0 }
+    }
+
+    /// `PcBase::bGoHomeOverride` at 0x2044 (0x2044 within `PcBase`).
+    #[inline]
+    pub fn set_bGoHomeOverride(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2044, u8::from(value)) }
+    }
+
+    /// `PcBase::LoginTime` at 0x2048 (0x2048 within `PcBase`).
+    #[inline]
+    pub fn LoginTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2048) }
+    }
+
+    /// `PcBase::LoginTime` at 0x2048 (0x2048 within `PcBase`).
+    #[inline]
+    pub fn set_LoginTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2048, value) }
+    }
+
+    /// `PcBase::GuildID` at 0x204c (0x204c within `PcBase`).
+    #[inline]
+    pub fn GuildID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x204c) }
+    }
+
+    /// `PcBase::GuildID` at 0x204c (0x204c within `PcBase`).
+    #[inline]
+    pub fn set_GuildID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x204c, value) }
+    }
+
+    /// `PcBase::FullSaveToPDS` at 0x2050 (0x2050 within `PcBase`).
+    #[inline]
+    pub fn FullSaveToPDS(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2050) }
+    }
+
+    /// `PcBase::FullSaveToPDS` at 0x2050 (0x2050 within `PcBase`).
+    #[inline]
+    pub fn set_FullSaveToPDS(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2050, value) }
+    }
+
+    /// `PcBase::FellowshipID` at 0x2054 (0x2054 within `PcBase`).
+    #[inline]
+    pub fn FellowshipID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2054) }
+    }
+
+    /// `PcBase::FellowshipID` at 0x2054 (0x2054 within `PcBase`).
+    #[inline]
+    pub fn set_FellowshipID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2054, value) }
+    }
+
+    /// `PcBase::pFellowship` at 0x2058 (0x2058 within `PcBase`).
+    #[inline]
+    pub fn pFellowship(&self) -> *mut SFellowship {
+        unsafe { read(self._bytes.get().cast(), 0x2058) }
+    }
+
+    /// `PcBase::pFellowship` at 0x2058 (0x2058 within `PcBase`).
+    #[inline]
+    pub fn set_pFellowship(&self, value: *mut SFellowship) {
+        unsafe { write(self._bytes.get().cast(), 0x2058, value) }
+    }
+
+    /// `PcBase::GuildStatus` at 0x205c (0x205c within `PcBase`).
+    #[inline]
+    pub fn GuildStatus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x205c) }
+    }
+
+    /// `PcBase::GuildStatus` at 0x205c (0x205c within `PcBase`).
+    #[inline]
+    pub fn set_GuildStatus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x205c, value) }
+    }
+
+    /// `PcBase::GuildFlags` at 0x2060 (0x2060 within `PcBase`).
+    #[inline]
+    pub fn GuildFlags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2060) }
+    }
+
+    /// `PcBase::GuildFlags` at 0x2060 (0x2060 within `PcBase`).
+    #[inline]
+    pub fn set_GuildFlags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2060, value) }
+    }
+
+    /// `PcBase::GuildShowSprite` at 0x2064 (0x2064 within `PcBase`).
+    #[inline]
+    pub fn GuildShowSprite(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2064) != 0 }
+    }
+
+    /// `PcBase::GuildShowSprite` at 0x2064 (0x2064 within `PcBase`).
+    #[inline]
+    pub fn set_GuildShowSprite(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2064, u8::from(value)) }
+    }
+
+    /// `PcBase::CreationTime` at 0x2068 (0x2068 within `PcBase`).
+    #[inline]
+    pub fn CreationTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2068) }
+    }
+
+    /// `PcBase::CreationTime` at 0x2068 (0x2068 within `PcBase`).
+    #[inline]
+    pub fn set_CreationTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2068, value) }
+    }
+
+    /// `PcBase::AccountCreationTime` at 0x206c (0x206c within `PcBase`).
+    #[inline]
+    pub fn AccountCreationTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x206c) }
+    }
+
+    /// `PcBase::AccountCreationTime` at 0x206c (0x206c within `PcBase`).
+    #[inline]
+    pub fn set_AccountCreationTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x206c, value) }
+    }
+
+    /// `PcBase::LastPlayedTime` at 0x2070 (0x2070 within `PcBase`).
+    #[inline]
+    pub fn LastPlayedTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2070) }
+    }
+
+    /// `PcBase::LastPlayedTime` at 0x2070 (0x2070 within `PcBase`).
+    #[inline]
+    pub fn set_LastPlayedTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2070, value) }
+    }
+
+    /// `PcBase::MinutesPlayed` at 0x2074 (0x2074 within `PcBase`).
+    #[inline]
+    pub fn MinutesPlayed(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2074) }
+    }
+
+    /// `PcBase::MinutesPlayed` at 0x2074 (0x2074 within `PcBase`).
+    #[inline]
+    pub fn set_MinutesPlayed(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2074, value) }
+    }
+
+    /// `PcBase::Anonymous` at 0x2078 (0x2078 within `PcBase`).
+    #[inline]
+    pub fn Anonymous(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x2078) }
+    }
+
+    /// `PcBase::Anonymous` at 0x2078 (0x2078 within `PcBase`).
+    #[inline]
+    pub fn set_Anonymous(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x2078, value) }
+    }
+
+    /// `PcBase::bGM` at 0x2079 (0x2079 within `PcBase`).
+    #[inline]
+    pub fn bGM(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2079) != 0 }
+    }
+
+    /// `PcBase::bGM` at 0x2079 (0x2079 within `PcBase`).
+    #[inline]
+    pub fn set_bGM(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2079, u8::from(value)) }
+    }
+
+    /// `PcBase::bGMStealth` at 0x207a (0x207a within `PcBase`).
+    #[inline]
+    pub fn bGMStealth(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x207a) != 0 }
+    }
+
+    /// `PcBase::bGMStealth` at 0x207a (0x207a within `PcBase`).
+    #[inline]
+    pub fn set_bGMStealth(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x207a, u8::from(value)) }
+    }
+
+    /// `PcBase::AAExp` at 0x207c (0x207c within `PcBase`).
+    #[inline]
+    pub fn AAExp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x207c) }
+    }
+
+    /// `PcBase::AAExp` at 0x207c (0x207c within `PcBase`).
+    #[inline]
+    pub fn set_AAExp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x207c, value) }
+    }
+
+    /// `PcBase::NobilityRank` at 0x2080 (0x2080 within `PcBase`).
+    #[inline]
+    pub fn NobilityRank(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x2080) }
+    }
+
+    /// `PcBase::NobilityRank` at 0x2080 (0x2080 within `PcBase`).
+    #[inline]
+    pub fn set_NobilityRank(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x2080, value) }
+    }
+
+    /// `PcBase::PercentEXPtoAA` at 0x2081 (0x2081 within `PcBase`).
+    #[inline]
+    pub fn PercentEXPtoAA(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x2081) }
+    }
+
+    /// `PcBase::PercentEXPtoAA` at 0x2081 (0x2081 within `PcBase`).
+    #[inline]
+    pub fn set_PercentEXPtoAA(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x2081, value) }
+    }
+
+    /// `PcBase::AirSupply` at 0x2084 (0x2084 within `PcBase`).
+    #[inline]
+    pub fn AirSupply(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2084) }
+    }
+
+    /// `PcBase::AirSupply` at 0x2084 (0x2084 within `PcBase`).
+    #[inline]
+    pub fn set_AirSupply(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2084, value) }
+    }
+
+    /// `PcBase::SerialNum` at 0x2088 (0x2088 within `PcBase`).
+    #[inline]
+    pub fn SerialNum(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2088) }
+    }
+
+    /// `PcBase::SerialNum` at 0x2088 (0x2088 within `PcBase`).
+    #[inline]
+    pub fn set_SerialNum(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2088, value) }
+    }
+
+    /// `PcBase::bNewCharacter` at 0x208c (0x208c within `PcBase`).
+    #[inline]
+    pub fn bNewCharacter(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x208c) != 0 }
+    }
+
+    /// `PcBase::bNewCharacter` at 0x208c (0x208c within `PcBase`).
+    #[inline]
+    pub fn set_bNewCharacter(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x208c, u8::from(value)) }
+    }
+
+    /// `PcBase::TasksAssigned` at 0x2090 (0x2090 within `PcBase`).
+    #[inline]
+    pub fn TasksAssigned(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2090) }
+    }
+
+    /// `PcBase::TasksAssigned` at 0x2090 (0x2090 within `PcBase`).
+    #[inline]
+    pub fn set_TasksAssigned(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2090, value) }
+    }
+
+    /// `PcBase::TasksCompleted` at 0x2094 (0x2094 within `PcBase`).
+    #[inline]
+    pub fn TasksCompleted(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2094) }
+    }
+
+    /// `PcBase::TasksCompleted` at 0x2094 (0x2094 within `PcBase`).
+    #[inline]
+    pub fn set_TasksCompleted(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2094, value) }
+    }
+
+    /// `PcBase::TaskPoints` at 0x2098 (0x2098 within `PcBase`).
+    #[inline]
+    pub fn TaskPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2098) }
+    }
+
+    /// `PcBase::TaskPoints` at 0x2098 (0x2098 within `PcBase`).
+    #[inline]
+    pub fn set_TaskPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2098, value) }
+    }
+
+    /// `PcBase::CareerTaskPoints` at 0x209c (0x209c within `PcBase`).
+    #[inline]
+    pub fn CareerTaskPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x209c) }
+    }
+
+    /// `PcBase::CareerTaskPoints` at 0x209c (0x209c within `PcBase`).
+    #[inline]
+    pub fn set_CareerTaskPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x209c, value) }
+    }
+
+    /// `PcBase::TasksAbandoned` at 0x20a0 (0x20a0 within `PcBase`).
+    #[inline]
+    pub fn TasksAbandoned(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20a0) }
+    }
+
+    /// `PcBase::TasksAbandoned` at 0x20a0 (0x20a0 within `PcBase`).
+    #[inline]
+    pub fn set_TasksAbandoned(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20a0, value) }
+    }
+
+    /// `PcBase::TaskRequestTimer` at 0x20a4 (0x20a4 within `PcBase`).
+    #[inline]
+    pub fn TaskRequestTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20a4) }
+    }
+
+    /// `PcBase::TaskRequestTimer` at 0x20a4 (0x20a4 within `PcBase`).
+    #[inline]
+    pub fn set_TaskRequestTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20a4, value) }
+    }
+
+    /// `PcBase::UniquePlayerID` at 0x20a8 (0x20a8 within `PcBase`).
+    #[inline]
+    pub fn UniquePlayerID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x20a8) }
+    }
+
+    /// `PcBase::UniquePlayerID` at 0x20a8 (0x20a8 within `PcBase`).
+    #[inline]
+    pub fn set_UniquePlayerID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x20a8, value) }
+    }
+
+    /// `PcBase::DynamicZoneSafeReturnLocation` at 0x20ac (0x20ac within `PcBase`).
+    #[inline]
+    pub fn DynamicZoneSafeReturnLocation(&self) -> &WorldLocation {
+        unsafe { at(self._bytes.get().cast(), 0x20ac) }
+    }
+
+    /// `PcBase::pDZTimerRoot` at 0x20c0 (0x20c0 within `PcBase`).
+    #[inline]
+    pub fn pDZTimerRoot(&self) -> *mut DynamicZoneTimerData {
+        unsafe { read(self._bytes.get().cast(), 0x20c0) }
+    }
+
+    /// `PcBase::pDZTimerRoot` at 0x20c0 (0x20c0 within `PcBase`).
+    #[inline]
+    pub fn set_pDZTimerRoot(&self, value: *mut DynamicZoneTimerData) {
+        unsafe { write(self._bytes.get().cast(), 0x20c0, value) }
+    }
+
+    /// `PcBase::BenefitTimer` at 0x20c4 (0x20c4 within `PcBase`).
+    #[inline]
+    pub fn BenefitTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c4) }
+    }
+
+    /// `PcBase::BenefitTimer` at 0x20c4 (0x20c4 within `PcBase`).
+    #[inline]
+    pub fn set_BenefitTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c4, value) }
+    }
+
+    /// `PcBase::TrophyBenefitTimer` at 0x20c8 (0x20c8 within `PcBase`).
+    #[inline]
+    pub fn TrophyBenefitTimer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c8) }
+    }
+
+    /// `PcBase::TrophyBenefitTimer` at 0x20c8 (0x20c8 within `PcBase`).
+    #[inline]
+    pub fn set_TrophyBenefitTimer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c8, value) }
+    }
+
+    /// `PcBase::CareerFavor` at 0x20d0 (0x20d0 within `PcBase`).
+    #[inline]
+    pub fn CareerFavor(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x20d0) }
+    }
+
+    /// `PcBase::CareerFavor` at 0x20d0 (0x20d0 within `PcBase`).
+    #[inline]
+    pub fn set_CareerFavor(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x20d0, value) }
+    }
+
+    /// `PcBase::CurrFavor` at 0x20d8 (0x20d8 within `PcBase`).
+    #[inline]
+    pub fn CurrFavor(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x20d8) }
+    }
+
+    /// `PcBase::CurrFavor` at 0x20d8 (0x20d8 within `PcBase`).
+    #[inline]
+    pub fn set_CurrFavor(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x20d8, value) }
+    }
+
+    /// `PcBase::bBenefitsActive` at 0x20e0 (0x20e0 within `PcBase`).
+    #[inline]
+    pub fn bBenefitsActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20e0) != 0 }
+    }
+
+    /// `PcBase::bBenefitsActive` at 0x20e0 (0x20e0 within `PcBase`).
+    #[inline]
+    pub fn set_bBenefitsActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20e0, u8::from(value)) }
+    }
+
+    /// `PcBase::bTrophyBenefitsActive` at 0x20e1 (0x20e1 within `PcBase`).
+    #[inline]
+    pub fn bTrophyBenefitsActive(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x20e1) != 0 }
+    }
+
+    /// `PcBase::bTrophyBenefitsActive` at 0x20e1 (0x20e1 within `PcBase`).
+    #[inline]
+    pub fn set_bTrophyBenefitsActive(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x20e1, u8::from(value)) }
+    }
+
+    /// `PcBase::GroupLeadershipExp` at 0x20e8 (0x20e8 within `PcBase`).
+    #[inline]
+    pub fn GroupLeadershipExp(&self) -> f64 {
+        unsafe { read(self._bytes.get().cast(), 0x20e8) }
+    }
+
+    /// `PcBase::GroupLeadershipExp` at 0x20e8 (0x20e8 within `PcBase`).
+    #[inline]
+    pub fn set_GroupLeadershipExp(&self, value: f64) {
+        unsafe { write(self._bytes.get().cast(), 0x20e8, value) }
+    }
+
+    /// `PcBase::RaidLeadershipExp` at 0x20f0 (0x20f0 within `PcBase`).
+    #[inline]
+    pub fn RaidLeadershipExp(&self) -> f64 {
+        unsafe { read(self._bytes.get().cast(), 0x20f0) }
+    }
+
+    /// `PcBase::RaidLeadershipExp` at 0x20f0 (0x20f0 within `PcBase`).
+    #[inline]
+    pub fn set_RaidLeadershipExp(&self, value: f64) {
+        unsafe { write(self._bytes.get().cast(), 0x20f0, value) }
+    }
+
+    /// `PcBase::GroupLeadershipPoints` at 0x20f8 (0x20f8 within `PcBase`).
+    #[inline]
+    pub fn GroupLeadershipPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20f8) }
+    }
+
+    /// `PcBase::GroupLeadershipPoints` at 0x20f8 (0x20f8 within `PcBase`).
+    #[inline]
+    pub fn set_GroupLeadershipPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20f8, value) }
+    }
+
+    /// `PcBase::RaidLeadershipPoints` at 0x20fc (0x20fc within `PcBase`).
+    #[inline]
+    pub fn RaidLeadershipPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x20fc) }
+    }
+
+    /// `PcBase::RaidLeadershipPoints` at 0x20fc (0x20fc within `PcBase`).
+    #[inline]
+    pub fn set_RaidLeadershipPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x20fc, value) }
+    }
+
+    /// `PcBase::DoLeadershipExp` at 0x2100 (0x2100 within `PcBase`).
+    #[inline]
+    pub fn DoLeadershipExp(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2100) != 0 }
+    }
+
+    /// `PcBase::DoLeadershipExp` at 0x2100 (0x2100 within `PcBase`).
+    #[inline]
+    pub fn set_DoLeadershipExp(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2100, u8::from(value)) }
+    }
+
+    /// `PcBase::szGroupMentoringName` at 0x2101 (0x2101 within `PcBase`).
+    #[inline]
+    pub fn szGroupMentoringName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x2101) }
+    }
+
+    /// `PcBase::szGroupMentoringName` at 0x2101 (0x2101 within `PcBase`).
+    #[inline]
+    pub fn set_szGroupMentoringName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x2101, value) }
+    }
+
+    /// `PcBase::szGroupMentoringName` at 0x2101 (0x2101 within `PcBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn szGroupMentoringName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2101 + index * 0x1) }
+    }
+
+    /// `PcBase::szGroupMentoringName` at 0x2101 (0x2101 within `PcBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_szGroupMentoringName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2101 + index * 0x1, value) }
+    }
+
+    /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
+    #[inline]
+    pub fn Unknown0x2141(&self) -> [u8; 4] {
+        unsafe { read(self._bytes.get().cast(), 0x2141) }
+    }
+
+    /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
+    #[inline]
+    pub fn set_Unknown0x2141(&self, value: [u8; 4]) {
+        unsafe { write(self._bytes.get().cast(), 0x2141, value) }
+    }
+
+    /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
+    /// One element; panics if `index >= 4`.
+    #[inline]
+    pub fn Unknown0x2141_at(&self, index: usize) -> u8 {
+        assert!(index < 4, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2141 + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x2141` at 0x2141 (0x2141 within `PcBase`).
+    /// Sets one element; panics if `index >= 4`.
+    #[inline]
+    pub fn set_Unknown0x2141_at(&self, index: usize, value: u8) {
+        assert!(index < 4, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2141 + index * 0x1, value) }
+    }
+
+    /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
+    #[inline]
+    pub fn szMyMentor(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x2145) }
+    }
+
+    /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
+    #[inline]
+    pub fn set_szMyMentor(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x2145, value) }
+    }
+
+    /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn szMyMentor_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2145 + index * 0x1) }
+    }
+
+    /// `PcBase::szMyMentor` at 0x2145 (0x2145 within `PcBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_szMyMentor_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2145 + index * 0x1, value) }
+    }
+
+    /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
+    #[inline]
+    pub fn Unknown0x2185(&self) -> [u8; 7] {
+        unsafe { read(self._bytes.get().cast(), 0x2185) }
+    }
+
+    /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
+    #[inline]
+    pub fn set_Unknown0x2185(&self, value: [u8; 7]) {
+        unsafe { write(self._bytes.get().cast(), 0x2185, value) }
+    }
+
+    /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
+    /// One element; panics if `index >= 7`.
+    #[inline]
+    pub fn Unknown0x2185_at(&self, index: usize) -> u8 {
+        assert!(index < 7, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2185 + index * 0x1) }
+    }
+
+    /// `PcBase::Unknown0x2185` at 0x2185 (0x2185 within `PcBase`).
+    /// Sets one element; panics if `index >= 7`.
+    #[inline]
+    pub fn set_Unknown0x2185_at(&self, index: usize, value: u8) {
+        assert!(index < 7, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2185 + index * 0x1, value) }
+    }
+
+    /// `PcBase::GroupMentoringPercent` at 0x218c (0x218c within `PcBase`).
+    #[inline]
+    pub fn GroupMentoringPercent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x218c) }
+    }
+
+    /// `PcBase::GroupMentoringPercent` at 0x218c (0x218c within `PcBase`).
+    #[inline]
+    pub fn set_GroupMentoringPercent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x218c, value) }
+    }
+
+    /// `PcBase::bHasResetStartingCity` at 0x2190 (0x2190 within `PcBase`).
+    #[inline]
+    pub fn bHasResetStartingCity(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2190) != 0 }
+    }
+
+    /// `PcBase::bHasResetStartingCity` at 0x2190 (0x2190 within `PcBase`).
+    #[inline]
+    pub fn set_bHasResetStartingCity(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2190, u8::from(value)) }
+    }
+
+    /// `PcBase::bIsHeadStartCharacter` at 0x2191 (0x2191 within `PcBase`).
+    #[inline]
+    pub fn bIsHeadStartCharacter(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2191) != 0 }
+    }
+
+    /// `PcBase::bIsHeadStartCharacter` at 0x2191 (0x2191 within `PcBase`).
+    #[inline]
+    pub fn set_bIsHeadStartCharacter(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2191, u8::from(value)) }
+    }
+
+    /// `PcBase::PvPKills` at 0x2194 (0x2194 within `PcBase`).
+    #[inline]
+    pub fn PvPKills(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2194) }
+    }
+
+    /// `PcBase::PvPKills` at 0x2194 (0x2194 within `PcBase`).
+    #[inline]
+    pub fn set_PvPKills(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2194, value) }
+    }
+
+    /// `PcBase::PvPDeaths` at 0x2198 (0x2198 within `PcBase`).
+    #[inline]
+    pub fn PvPDeaths(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2198) }
+    }
+
+    /// `PcBase::PvPDeaths` at 0x2198 (0x2198 within `PcBase`).
+    #[inline]
+    pub fn set_PvPDeaths(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2198, value) }
+    }
+
+    /// `PcBase::PvPCurrentPoints` at 0x219c (0x219c within `PcBase`).
+    #[inline]
+    pub fn PvPCurrentPoints(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x219c) }
+    }
+
+    /// `PcBase::PvPCurrentPoints` at 0x219c (0x219c within `PcBase`).
+    #[inline]
+    pub fn set_PvPCurrentPoints(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x219c, value) }
+    }
+
+    /// `PcBase::PvPTotalPointsEarned` at 0x21a0 (0x21a0 within `PcBase`).
+    #[inline]
+    pub fn PvPTotalPointsEarned(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21a0) }
+    }
+
+    /// `PcBase::PvPTotalPointsEarned` at 0x21a0 (0x21a0 within `PcBase`).
+    #[inline]
+    pub fn set_PvPTotalPointsEarned(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21a0, value) }
+    }
+
+    /// `PcBase::PvPKillStreak` at 0x21a4 (0x21a4 within `PcBase`).
+    #[inline]
+    pub fn PvPKillStreak(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21a4) }
+    }
+
+    /// `PcBase::PvPKillStreak` at 0x21a4 (0x21a4 within `PcBase`).
+    #[inline]
+    pub fn set_PvPKillStreak(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21a4, value) }
+    }
+
+    /// `PcBase::PvPDeathStreak` at 0x21a8 (0x21a8 within `PcBase`).
+    #[inline]
+    pub fn PvPDeathStreak(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21a8) }
+    }
+
+    /// `PcBase::PvPDeathStreak` at 0x21a8 (0x21a8 within `PcBase`).
+    #[inline]
+    pub fn set_PvPDeathStreak(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21a8, value) }
+    }
+
+    /// `PcBase::PvPCurrentStreak` at 0x21ac (0x21ac within `PcBase`).
+    #[inline]
+    pub fn PvPCurrentStreak(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21ac) }
+    }
+
+    /// `PcBase::PvPCurrentStreak` at 0x21ac (0x21ac within `PcBase`).
+    #[inline]
+    pub fn set_PvPCurrentStreak(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21ac, value) }
+    }
+
+    /// `PcBase::LastKill` at 0x21b0 (0x21b0 within `PcBase`).
+    #[inline]
+    pub fn LastKill(&self) -> &PvPKill {
+        unsafe { at(self._bytes.get().cast(), 0x21b0) }
+    }
+
+    /// `PcBase::LastDeath` at 0x2208 (0x2208 within `PcBase`).
+    #[inline]
+    pub fn LastDeath(&self) -> &PvPDeath {
+        unsafe { at(self._bytes.get().cast(), 0x2208) }
+    }
+
+    /// `PcBase::PvPLast24HoursKillHash` at 0x2260 (0x2260 within `PcBase`).
+    #[inline]
+    pub fn PvPLast24HoursKillHash(&self) -> &HashTable_PvPKill24HourData_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2260) }
+    }
+
+    /// `PcBase::PvPInfamyLevel` at 0x2270 (0x2270 within `PcBase`).
+    #[inline]
+    pub fn PvPInfamyLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2270) }
+    }
+
+    /// `PcBase::PvPInfamyLevel` at 0x2270 (0x2270 within `PcBase`).
+    #[inline]
+    pub fn set_PvPInfamyLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2270, value) }
+    }
+
+    /// `PcBase::PvPVitality` at 0x2274 (0x2274 within `PcBase`).
+    #[inline]
+    pub fn PvPVitality(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2274) }
+    }
+
+    /// `PcBase::PvPVitality` at 0x2274 (0x2274 within `PcBase`).
+    #[inline]
+    pub fn set_PvPVitality(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2274, value) }
+    }
+
+    /// `PcBase::PvPLastInfamyTime` at 0x2278 (0x2278 within `PcBase`).
+    #[inline]
+    pub fn PvPLastInfamyTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2278) }
+    }
+
+    /// `PcBase::PvPLastInfamyTime` at 0x2278 (0x2278 within `PcBase`).
+    #[inline]
+    pub fn set_PvPLastInfamyTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2278, value) }
+    }
+
+    /// `PcBase::LastLastNameChange` at 0x227c (0x227c within `PcBase`).
+    #[inline]
+    pub fn LastLastNameChange(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x227c) }
+    }
+
+    /// `PcBase::LastLastNameChange` at 0x227c (0x227c within `PcBase`).
+    #[inline]
+    pub fn set_LastLastNameChange(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x227c, value) }
+    }
+
+    /// `PcBase::LastNameChangePriv` at 0x2280 (0x2280 within `PcBase`).
+    #[inline]
+    pub fn LastNameChangePriv(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2280) }
+    }
+
+    /// `PcBase::LastNameChangePriv` at 0x2280 (0x2280 within `PcBase`).
+    #[inline]
+    pub fn set_LastNameChangePriv(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2280, value) }
+    }
+
+    /// `PcBase::PvPLastVitalityTime` at 0x2284 (0x2284 within `PcBase`).
+    #[inline]
+    pub fn PvPLastVitalityTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2284) }
+    }
+
+    /// `PcBase::PvPLastVitalityTime` at 0x2284 (0x2284 within `PcBase`).
+    #[inline]
+    pub fn set_PvPLastVitalityTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2284, value) }
+    }
+
+    /// `PcBase::bKeepItemsOnDeath` at 0x2288 (0x2288 within `PcBase`).
+    #[inline]
+    pub fn bKeepItemsOnDeath(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2288) != 0 }
+    }
+
+    /// `PcBase::bKeepItemsOnDeath` at 0x2288 (0x2288 within `PcBase`).
+    #[inline]
+    pub fn set_bKeepItemsOnDeath(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2288, u8::from(value)) }
+    }
+
+    /// `PcBase::bResetSpecializationSkills` at 0x2289 (0x2289 within `PcBase`).
+    #[inline]
+    pub fn bResetSpecializationSkills(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2289) != 0 }
+    }
+
+    /// `PcBase::bResetSpecializationSkills` at 0x2289 (0x2289 within `PcBase`).
+    #[inline]
+    pub fn set_bResetSpecializationSkills(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2289, u8::from(value)) }
+    }
+
+    /// `PcBase::CharityPointsAvailable` at 0x228c (0x228c within `PcBase`).
+    #[inline]
+    pub fn CharityPointsAvailable(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x228c) }
+    }
+
+    /// `PcBase::CharityPointsAvailable` at 0x228c (0x228c within `PcBase`).
+    #[inline]
+    pub fn set_CharityPointsAvailable(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x228c, value) }
+    }
+
+    /// `PcBase::CharityPointsEarned` at 0x2290 (0x2290 within `PcBase`).
+    #[inline]
+    pub fn CharityPointsEarned(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2290) }
+    }
+
+    /// `PcBase::CharityPointsEarned` at 0x2290 (0x2290 within `PcBase`).
+    #[inline]
+    pub fn set_CharityPointsEarned(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2290, value) }
+    }
+
+    /// `PcBase::GoodPointsAvailable` at 0x2294 (0x2294 within `PcBase`).
+    #[inline]
+    pub fn GoodPointsAvailable(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2294) }
+    }
+
+    /// `PcBase::GoodPointsAvailable` at 0x2294 (0x2294 within `PcBase`).
+    #[inline]
+    pub fn set_GoodPointsAvailable(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2294, value) }
+    }
+
+    /// `PcBase::GoodTotalPointsEarned` at 0x2298 (0x2298 within `PcBase`).
+    #[inline]
+    pub fn GoodTotalPointsEarned(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2298) }
+    }
+
+    /// `PcBase::GoodTotalPointsEarned` at 0x2298 (0x2298 within `PcBase`).
+    #[inline]
+    pub fn set_GoodTotalPointsEarned(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2298, value) }
+    }
+
+    /// `PcBase::EvilPointsAvailable` at 0x229c (0x229c within `PcBase`).
+    #[inline]
+    pub fn EvilPointsAvailable(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x229c) }
+    }
+
+    /// `PcBase::EvilPointsAvailable` at 0x229c (0x229c within `PcBase`).
+    #[inline]
+    pub fn set_EvilPointsAvailable(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x229c, value) }
+    }
+
+    /// `PcBase::EvilTotalPointsEarned` at 0x22a0 (0x22a0 within `PcBase`).
+    #[inline]
+    pub fn EvilTotalPointsEarned(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22a0) }
+    }
+
+    /// `PcBase::EvilTotalPointsEarned` at 0x22a0 (0x22a0 within `PcBase`).
+    #[inline]
+    pub fn set_EvilTotalPointsEarned(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22a0, value) }
+    }
+
+    /// `PcBase::bCanRequestNameChange` at 0x22a4 (0x22a4 within `PcBase`).
+    #[inline]
+    pub fn bCanRequestNameChange(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22a4) != 0 }
+    }
+
+    /// `PcBase::bCanRequestNameChange` at 0x22a4 (0x22a4 within `PcBase`).
+    #[inline]
+    pub fn set_bCanRequestNameChange(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22a4, u8::from(value)) }
+    }
+
+    /// `PcBase::bCanRequestNameChange2` at 0x22a5 (0x22a5 within `PcBase`).
+    #[inline]
+    pub fn bCanRequestNameChange2(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22a5) != 0 }
+    }
+
+    /// `PcBase::bCanRequestNameChange2` at 0x22a5 (0x22a5 within `PcBase`).
+    #[inline]
+    pub fn set_bCanRequestNameChange2(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22a5, u8::from(value)) }
+    }
+
+    /// `PcBase::bCanRequestServerTransfer` at 0x22a6 (0x22a6 within `PcBase`).
+    #[inline]
+    pub fn bCanRequestServerTransfer(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22a6) != 0 }
+    }
+
+    /// `PcBase::bCanRequestServerTransfer` at 0x22a6 (0x22a6 within `PcBase`).
+    #[inline]
+    pub fn set_bCanRequestServerTransfer(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22a6, u8::from(value)) }
+    }
+
+    /// `PcBase::ServerTransferGrantTime` at 0x22a8 (0x22a8 within `PcBase`).
+    #[inline]
+    pub fn ServerTransferGrantTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22a8) }
+    }
+
+    /// `PcBase::ServerTransferGrantTime` at 0x22a8 (0x22a8 within `PcBase`).
+    #[inline]
+    pub fn set_ServerTransferGrantTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22a8, value) }
+    }
+
+    /// `PcBase::bCanRequestRaceChange` at 0x22ac (0x22ac within `PcBase`).
+    #[inline]
+    pub fn bCanRequestRaceChange(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22ac) != 0 }
+    }
+
+    /// `PcBase::bCanRequestRaceChange` at 0x22ac (0x22ac within `PcBase`).
+    #[inline]
+    pub fn set_bCanRequestRaceChange(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22ac, u8::from(value)) }
+    }
+
+    /// `PcBase::LastAAResetTime` at 0x22b0 (0x22b0 within `PcBase`).
+    #[inline]
+    pub fn LastAAResetTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x22b0) }
+    }
+
+    /// `PcBase::LastAAResetTime` at 0x22b0 (0x22b0 within `PcBase`).
+    #[inline]
+    pub fn set_LastAAResetTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x22b0, value) }
+    }
+
+    /// `PcBase::NewZoneID` at 0x22b4 (0x22b4 within `PcBase`).
+    #[inline]
+    pub fn NewZoneID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22b4) }
+    }
+
+    /// `PcBase::NewZoneID` at 0x22b4 (0x22b4 within `PcBase`).
+    #[inline]
+    pub fn set_NewZoneID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22b4, value) }
+    }
+
+    /// `PcBase::NewAreaID` at 0x22b8 (0x22b8 within `PcBase`).
+    #[inline]
+    pub fn NewAreaID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22b8) }
+    }
+
+    /// `PcBase::NewAreaID` at 0x22b8 (0x22b8 within `PcBase`).
+    #[inline]
+    pub fn set_NewAreaID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22b8, value) }
+    }
+
+    /// `PcBase::eNewAreaCorner` at 0x22bc (0x22bc within `PcBase`).
+    #[inline]
+    pub fn eNewAreaCorner(&self) -> EAreaCorner {
+        unsafe { read(self._bytes.get().cast(), 0x22bc) }
+    }
+
+    /// `PcBase::eNewAreaCorner` at 0x22bc (0x22bc within `PcBase`).
+    #[inline]
+    pub fn set_eNewAreaCorner(&self, value: EAreaCorner) {
+        unsafe { write(self._bytes.get().cast(), 0x22bc, value) }
+    }
+
+    /// `PcBase::PreviousZoneID` at 0x22c0 (0x22c0 within `PcBase`).
+    #[inline]
+    pub fn PreviousZoneID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c0) }
+    }
+
+    /// `PcBase::PreviousZoneID` at 0x22c0 (0x22c0 within `PcBase`).
+    #[inline]
+    pub fn set_PreviousZoneID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c0, value) }
+    }
+
+    /// `PcBase::RealEstateZoneID` at 0x22c4 (0x22c4 within `PcBase`).
+    #[inline]
+    pub fn RealEstateZoneID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x22c4) }
+    }
+
+    /// `PcBase::RealEstateZoneID` at 0x22c4 (0x22c4 within `PcBase`).
+    #[inline]
+    pub fn set_RealEstateZoneID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x22c4, value) }
+    }
+
+    /// `PcBase::ServerCreated` at 0x22c8 (0x22c8 within `PcBase`).
+    #[inline]
+    pub fn ServerCreated(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x22c8) }
+    }
+
+    /// `PcBase::ServerCreated` at 0x22c8 (0x22c8 within `PcBase`).
+    #[inline]
+    pub fn set_ServerCreated(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x22c8, value) }
+    }
+
+    /// `PcBase::ServerCreated` at 0x22c8 (0x22c8 within `PcBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn ServerCreated_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x22c8 + index * 0x1) }
+    }
+
+    /// `PcBase::ServerCreated` at 0x22c8 (0x22c8 within `PcBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_ServerCreated_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x22c8 + index * 0x1, value) }
+    }
+
+    /// `PcBase::AdventureData` at 0x22e8 (0x22e8 within `PcBase`).
+    #[inline]
+    pub fn AdventureData(&self) -> &PCAdventureData {
+        unsafe { at(self._bytes.get().cast(), 0x22e8) }
+    }
+
+    /// `PcBase::SharedTaskData` at 0x23c0 (0x23c0 within `PcBase`).
+    #[inline]
+    pub fn SharedTaskData(&self) -> &PCSharedTaskData {
+        unsafe { at(self._bytes.get().cast(), 0x23c0) }
+    }
+
+    /// `PcBase::pTaskTimerData` at 0x244c (0x244c within `PcBase`).
+    #[inline]
+    pub fn pTaskTimerData(&self) -> *mut TaskTimerData {
+        unsafe { read(self._bytes.get().cast(), 0x244c) }
+    }
+
+    /// `PcBase::pTaskTimerData` at 0x244c (0x244c within `PcBase`).
+    #[inline]
+    pub fn set_pTaskTimerData(&self, value: *mut TaskTimerData) {
+        unsafe { write(self._bytes.get().cast(), 0x244c, value) }
+    }
+
+    /// `PcBase::QuestHistoryData` at 0x2450 (0x2450 within `PcBase`).
+    #[inline]
+    pub fn QuestHistoryData(&self) -> &PCQuestHistoryData {
+        unsafe { at(self._bytes.get().cast(), 0x2450) }
+    }
+
+    /// `PcBase::PcStatistics` at 0x26a8 (0x26a8 within `PcBase`).
+    #[inline]
+    pub fn PcStatistics(&self) -> &PCStatistics {
+        unsafe { at(self._bytes.get().cast(), 0x26a8) }
+    }
+
+    /// `PcBase::GroupStats` at 0x27ac (0x27ac within `PcBase`).
+    #[inline]
+    pub fn GroupStats(&self) -> &GroupMemberStats {
+        unsafe { at(self._bytes.get().cast(), 0x27ac) }
+    }
+
+    /// `PcBase::bIsLfg` at 0x28fc (0x28fc within `PcBase`).
+    #[inline]
+    pub fn bIsLfg(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x28fc) != 0 }
+    }
+
+    /// `PcBase::bIsLfg` at 0x28fc (0x28fc within `PcBase`).
+    #[inline]
+    pub fn set_bIsLfg(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x28fc, u8::from(value)) }
+    }
+
+    /// `PcBase::RaidId` at 0x2900 (0x2900 within `PcBase`).
+    #[inline]
+    pub fn RaidId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2900) }
+    }
+
+    /// `PcBase::RaidId` at 0x2900 (0x2900 within `PcBase`).
+    #[inline]
+    pub fn set_RaidId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2900, value) }
+    }
+
+    /// `PcBase::GroupID` at 0x2904 (0x2904 within `PcBase`).
+    #[inline]
+    pub fn GroupID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2904) }
+    }
+
+    /// `PcBase::GroupID` at 0x2904 (0x2904 within `PcBase`).
+    #[inline]
+    pub fn set_GroupID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2904, value) }
+    }
+
+    /// `PcBase::UniqueGuildID` at 0x2908 (0x2908 within `PcBase`).
+    #[inline]
+    pub fn UniqueGuildID(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x2908) }
+    }
+
+    /// `PcBase::UniqueGuildID` at 0x2908 (0x2908 within `PcBase`).
+    #[inline]
+    pub fn set_UniqueGuildID(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x2908, value) }
+    }
+
+    /// `PcBase::Exp` at 0x2910 (0x2910 within `PcBase`).
+    #[inline]
+    pub fn Exp(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x2910) }
+    }
+
+    /// `PcBase::Exp` at 0x2910 (0x2910 within `PcBase`).
+    #[inline]
+    pub fn set_Exp(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x2910, value) }
+    }
+
+    /// `PcBase::DaysEntitled` at 0x2918 (0x2918 within `PcBase`).
+    #[inline]
+    pub fn DaysEntitled(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2918) }
+    }
+
+    /// `PcBase::DaysEntitled` at 0x2918 (0x2918 within `PcBase`).
+    #[inline]
+    pub fn set_DaysEntitled(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2918, value) }
+    }
+
+    /// `PcBase::VeteranRewardsConsumed` at 0x291c (0x291c within `PcBase`).
+    #[inline]
+    pub fn VeteranRewardsConsumed(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x291c) }
+    }
+
+    /// `PcBase::VeteranRewardsConsumed` at 0x291c (0x291c within `PcBase`).
+    #[inline]
+    pub fn set_VeteranRewardsConsumed(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x291c, value) }
+    }
+
+    /// `PcBase::bIsVeteranRewardEntitled` at 0x2920 (0x2920 within `PcBase`).
+    #[inline]
+    pub fn bIsVeteranRewardEntitled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2920) != 0 }
+    }
+
+    /// `PcBase::bIsVeteranRewardEntitled` at 0x2920 (0x2920 within `PcBase`).
+    #[inline]
+    pub fn set_bIsVeteranRewardEntitled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2920, u8::from(value)) }
+    }
+
+    /// `PcBase::bAutoConsentGroup` at 0x2921 (0x2921 within `PcBase`).
+    #[inline]
+    pub fn bAutoConsentGroup(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2921) != 0 }
+    }
+
+    /// `PcBase::bAutoConsentGroup` at 0x2921 (0x2921 within `PcBase`).
+    #[inline]
+    pub fn set_bAutoConsentGroup(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2921, u8::from(value)) }
+    }
+
+    /// `PcBase::bAutoConsentRaid` at 0x2922 (0x2922 within `PcBase`).
+    #[inline]
+    pub fn bAutoConsentRaid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2922) != 0 }
+    }
+
+    /// `PcBase::bAutoConsentRaid` at 0x2922 (0x2922 within `PcBase`).
+    #[inline]
+    pub fn set_bAutoConsentRaid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2922, u8::from(value)) }
+    }
+
+    /// `PcBase::bAutoConsentGuild` at 0x2923 (0x2923 within `PcBase`).
+    #[inline]
+    pub fn bAutoConsentGuild(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2923) != 0 }
+    }
+
+    /// `PcBase::bAutoConsentGuild` at 0x2923 (0x2923 within `PcBase`).
+    #[inline]
+    pub fn set_bAutoConsentGuild(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2923, u8::from(value)) }
+    }
+
+    /// `PcBase::bPrivateForEqPlayers` at 0x2924 (0x2924 within `PcBase`).
+    #[inline]
+    pub fn bPrivateForEqPlayers(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2924) != 0 }
+    }
+
+    /// `PcBase::bPrivateForEqPlayers` at 0x2924 (0x2924 within `PcBase`).
+    #[inline]
+    pub fn set_bPrivateForEqPlayers(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2924, u8::from(value)) }
+    }
+
+    /// `PcBase::AchievementFilesModificationTime` at 0x2928 (0x2928 within `PcBase`).
+    #[inline]
+    pub fn AchievementFilesModificationTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2928) }
+    }
+
+    /// `PcBase::AchievementFilesModificationTime` at 0x2928 (0x2928 within `PcBase`).
+    #[inline]
+    pub fn set_AchievementFilesModificationTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2928, value) }
+    }
+
+    /// `PcBase::StationID` at 0x292c (0x292c within `PcBase`).
+    #[inline]
+    pub fn StationID(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x292c) }
+    }
+
+    /// `PcBase::StationID` at 0x292c (0x292c within `PcBase`).
+    #[inline]
+    pub fn set_StationID(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x292c, value) }
+    }
+
+    /// `PcBase::StationID` at 0x292c (0x292c within `PcBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn StationID_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x292c + index * 0x1) }
+    }
+
+    /// `PcBase::StationID` at 0x292c (0x292c within `PcBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_StationID_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x292c + index * 0x1, value) }
+    }
+
+    /// `PcBase::Guid` at 0x2950 (0x2950 within `PcBase`).
+    #[inline]
+    pub fn Guid(&self) -> &EqGuid {
+        unsafe { at(self._bytes.get().cast(), 0x2950) }
+    }
+
+    /// `PcBase::bBetaBuffed` at 0x2958 (0x2958 within `PcBase`).
+    #[inline]
+    pub fn bBetaBuffed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2958) != 0 }
+    }
+
+    /// `PcBase::bBetaBuffed` at 0x2958 (0x2958 within `PcBase`).
+    #[inline]
+    pub fn set_bBetaBuffed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2958, u8::from(value)) }
+    }
+
+    /// `PcBase::StartingCity` at 0x295c (0x295c within `PcBase`).
+    #[inline]
+    pub fn StartingCity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x295c) }
+    }
+
+    /// `PcBase::StartingCity` at 0x295c (0x295c within `PcBase`).
+    #[inline]
+    pub fn set_StartingCity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x295c, value) }
+    }
+
+    /// `PcBase::MainLevel` at 0x2960 (0x2960 within `PcBase`).
+    #[inline]
+    pub fn MainLevel(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2960) }
+    }
+
+    /// `PcBase::MainLevel` at 0x2960 (0x2960 within `PcBase`).
+    #[inline]
+    pub fn set_MainLevel(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2960, value) }
+    }
+
+    /// `PcBase::bShowHelm` at 0x2964 (0x2964 within `PcBase`).
+    #[inline]
+    pub fn bShowHelm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2964) != 0 }
+    }
+
+    /// `PcBase::bShowHelm` at 0x2964 (0x2964 within `PcBase`).
+    #[inline]
+    pub fn set_bShowHelm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2964, u8::from(value)) }
+    }
+
+    /// `PcBase::LastForcedUpdate` at 0x2968 (0x2968 within `PcBase`).
+    #[inline]
+    pub fn LastForcedUpdate(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x2968) }
+    }
+
+    /// `PcBase::LastForcedUpdate` at 0x2968 (0x2968 within `PcBase`).
+    #[inline]
+    pub fn set_LastForcedUpdate(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x2968, value) }
+    }
+
+    /// `PcBase::LastTestCopyTime` at 0x2970 (0x2970 within `PcBase`).
+    #[inline]
+    pub fn LastTestCopyTime(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x2970) }
+    }
+
+    /// `PcBase::LastTestCopyTime` at 0x2970 (0x2970 within `PcBase`).
+    #[inline]
+    pub fn set_LastTestCopyTime(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x2970, value) }
+    }
+
+    /// `PcBase::PointManager` at 0x2978 (0x2978 within `PcBase`).
+    #[inline]
+    pub fn PointManager(&self) -> &CPlayerPointManager {
+        unsafe { at(self._bytes.get().cast(), 0x2978) }
+    }
+
+    /// `PcBase::PointSystem` at 0x298c (0x298c within `PcBase`).
+    #[inline]
+    pub fn PointSystem(&self) -> &PointSystemBase {
+        unsafe { at(self._bytes.get().cast(), 0x298c) }
+    }
+
+    /// `PcBase::LoyaltyVelocity` at 0x29a0 (0x29a0 within `PcBase`).
+    #[inline]
+    pub fn LoyaltyVelocity(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x29a0) }
+    }
+
+    /// `PcBase::LoyaltyVelocity` at 0x29a0 (0x29a0 within `PcBase`).
+    #[inline]
+    pub fn set_LoyaltyVelocity(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x29a0, value) }
+    }
+
+    /// `PcBase::LoyaltyTokens` at 0x29a4 (0x29a4 within `PcBase`).
+    #[inline]
+    pub fn LoyaltyTokens(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x29a4) }
+    }
+
+    /// `PcBase::LoyaltyTokens` at 0x29a4 (0x29a4 within `PcBase`).
+    #[inline]
+    pub fn set_LoyaltyTokens(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x29a4, value) }
+    }
+
+    /// `PcBase::bHasLoyaltyInfo` at 0x29a8 (0x29a8 within `PcBase`).
+    #[inline]
+    pub fn bHasLoyaltyInfo(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x29a8) != 0 }
+    }
+
+    /// `PcBase::bHasLoyaltyInfo` at 0x29a8 (0x29a8 within `PcBase`).
+    #[inline]
+    pub fn set_bHasLoyaltyInfo(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x29a8, u8::from(value)) }
+    }
+
+    /// `PcBase::OwnedRealEstates` at 0x29ac (0x29ac within `PcBase`).
+    #[inline]
+    pub fn OwnedRealEstates(&self) -> &ArrayClass_int {
+        unsafe { at(self._bytes.get().cast(), 0x29ac) }
+    }
+
+    /// `PcBase::OwnedItemRealEstates` at 0x29bc (0x29bc within `PcBase`).
+    #[inline]
+    pub fn OwnedItemRealEstates(&self) -> &ArrayClass_int {
+        unsafe { at(self._bytes.get().cast(), 0x29bc) }
+    }
+
+    /// `PcBase::ArchivedRealEstates` at 0x29cc (0x29cc within `PcBase`).
+    #[inline]
+    pub fn ArchivedRealEstates(&self) -> &ArrayClass_int {
+        unsafe { at(self._bytes.get().cast(), 0x29cc) }
+    }
+
+    /// `PcBase::OverridePetName` at 0x29dc (0x29dc within `PcBase`).
+    #[inline]
+    pub fn OverridePetName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x29dc) }
+    }
+
+    /// `PcBase::OverridePetName` at 0x29dc (0x29dc within `PcBase`).
+    #[inline]
+    pub fn set_OverridePetName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x29dc, value) }
+    }
+
+    /// `PcBase::OverridePetName` at 0x29dc (0x29dc within `PcBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn OverridePetName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x29dc + index * 0x1) }
+    }
+
+    /// `PcBase::OverridePetName` at 0x29dc (0x29dc within `PcBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_OverridePetName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x29dc + index * 0x1, value) }
+    }
+
+    /// `PcBase::bCanRequestPetNameChange` at 0x2a1c (0x2a1c within `PcBase`).
+    #[inline]
+    pub fn bCanRequestPetNameChange(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2a1c) != 0 }
+    }
+
+    /// `PcBase::bCanRequestPetNameChange` at 0x2a1c (0x2a1c within `PcBase`).
+    #[inline]
+    pub fn set_bCanRequestPetNameChange(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2a1c, u8::from(value)) }
+    }
+
+    /// `PcBase::OverrideMercName` at 0x2a20 (0x2a20 within `PcBase`).
+    /// Indexes the 10 elements in memory order.
+    #[inline]
+    pub fn OverrideMercName(&self, index: usize) -> &CXStr {
+        assert!(index < 10, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x2a20 + index * 0x4) }
+    }
+
+    /// `PcBase::bCanRequestMercNameChange` at 0x2a48 (0x2a48 within `PcBase`).
+    #[inline]
+    pub fn bCanRequestMercNameChange(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2a48) != 0 }
+    }
+
+    /// `PcBase::bCanRequestMercNameChange` at 0x2a48 (0x2a48 within `PcBase`).
+    #[inline]
+    pub fn set_bCanRequestMercNameChange(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2a48, u8::from(value)) }
+    }
+
+    /// `PcBase::PendingRewards` at 0x2a4c (0x2a4c within `PcBase`).
+    #[inline]
+    pub fn PendingRewards(&self) -> &PendingRewardList {
+        unsafe { at(self._bytes.get().cast(), 0x2a4c) }
+    }
+
+    /// `PcBase::DowntimeReductionTime` at 0x2a78 (0x2a78 within `PcBase`).
+    #[inline]
+    pub fn DowntimeReductionTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a78) }
+    }
+
+    /// `PcBase::DowntimeReductionTime` at 0x2a78 (0x2a78 within `PcBase`).
+    #[inline]
+    pub fn set_DowntimeReductionTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a78, value) }
+    }
+
+    /// `PcBase::DowntimeTimerStart` at 0x2a7c (0x2a7c within `PcBase`).
+    #[inline]
+    pub fn DowntimeTimerStart(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a7c) }
+    }
+
+    /// `PcBase::DowntimeTimerStart` at 0x2a7c (0x2a7c within `PcBase`).
+    #[inline]
+    pub fn set_DowntimeTimerStart(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a7c, value) }
+    }
+
+    /// `PcBase::ActivityValue` at 0x2a80 (0x2a80 within `PcBase`).
+    #[inline]
+    pub fn ActivityValue(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a80) }
+    }
+
+    /// `PcBase::ActivityValue` at 0x2a80 (0x2a80 within `PcBase`).
+    #[inline]
+    pub fn set_ActivityValue(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a80, value) }
+    }
+
+    /// `PcBase::NextItemId` at 0x2a84 (0x2a84 within `PcBase`).
+    #[inline]
+    pub fn NextItemId(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a84) }
+    }
+
+    /// `PcBase::NextItemId` at 0x2a84 (0x2a84 within `PcBase`).
+    #[inline]
+    pub fn set_NextItemId(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a84, value) }
+    }
+
+    /// `PcBase::SharedBank` at 0x2a88 (0x2a88 within `PcBase`).
+    #[inline]
+    pub fn SharedBank(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2a88) }
+    }
+
+    /// `PcBase::BankBuffer` at 0x2a8c (0x2a8c within `PcBase`).
+    #[inline]
+    pub fn BankBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2a8c) }
+    }
+
+    /// `PcBase::LimboBuffer` at 0x2a90 (0x2a90 within `PcBase`).
+    #[inline]
+    pub fn LimboBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2a90) }
+    }
+
+    /// `PcBase::AltStorageBuffer` at 0x2a94 (0x2a94 within `PcBase`).
+    #[inline]
+    pub fn AltStorageBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2a94) }
+    }
+
+    /// `PcBase::AltStorageTimestamp` at 0x2a98 (0x2a98 within `PcBase`).
+    #[inline]
+    pub fn AltStorageTimestamp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2a98) }
+    }
+
+    /// `PcBase::AltStorageTimestamp` at 0x2a98 (0x2a98 within `PcBase`).
+    #[inline]
+    pub fn set_AltStorageTimestamp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2a98, value) }
+    }
+
+    /// `PcBase::LockoutCharacterReason` at 0x2a9c (0x2a9c within `PcBase`).
+    #[inline]
+    pub fn LockoutCharacterReason(&self) -> ELockoutCharacterReason {
+        unsafe { read(self._bytes.get().cast(), 0x2a9c) }
+    }
+
+    /// `PcBase::LockoutCharacterReason` at 0x2a9c (0x2a9c within `PcBase`).
+    #[inline]
+    pub fn set_LockoutCharacterReason(&self, value: ELockoutCharacterReason) {
+        unsafe { write(self._bytes.get().cast(), 0x2a9c, value) }
+    }
+
+    /// `PcBase::ProgressionExp` at 0x2aa0 (0x2aa0 within `PcBase`).
+    #[inline]
+    pub fn ProgressionExp(&self) -> &HashTable_ProgressionExperience_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2aa0) }
+    }
+
+    /// `PcBase::ArchivedStorageBuffer` at 0x2ab0 (0x2ab0 within `PcBase`).
+    #[inline]
+    pub fn ArchivedStorageBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2ab0) }
+    }
+
+    /// `PcBase::MailItemsBuffer` at 0x2ab4 (0x2ab4 within `PcBase`).
+    #[inline]
+    pub fn MailItemsBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2ab4) }
+    }
+
+    /// `PcBase::MailItemsDataBuffer` at 0x2ab8 (0x2ab8 within `PcBase`).
+    #[inline]
+    pub fn MailItemsDataBuffer(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2ab8) }
+    }
+
+    /// `PcBase::MailItemsOverCapWarningCount` at 0x2abc (0x2abc within `PcBase`).
+    #[inline]
+    pub fn MailItemsOverCapWarningCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2abc) }
+    }
+
+    /// `PcBase::MailItemsOverCapWarningCount` at 0x2abc (0x2abc within `PcBase`).
+    #[inline]
+    pub fn set_MailItemsOverCapWarningCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2abc, value) }
+    }
+
+    /// `PcBase::bIsCorrupted` at 0x2ac0 (0x2ac0 within `PcBase`).
+    #[inline]
+    pub fn bIsCorrupted(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2ac0) != 0 }
+    }
+
+    /// `PcBase::bIsCorrupted` at 0x2ac0 (0x2ac0 within `PcBase`).
+    #[inline]
+    pub fn set_bIsCorrupted(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2ac0, u8::from(value)) }
+    }
+
+    /// `PcBase::pCorruptionReport` at 0x2ac4 (0x2ac4 within `PcBase`).
+    #[inline]
+    pub fn pCorruptionReport(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0x2ac4) }
+    }
+
+    /// `PcBase::pCorruptionReport` at 0x2ac4 (0x2ac4 within `PcBase`).
+    #[inline]
+    pub fn set_pCorruptionReport(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x2ac4, value) }
+    }
+
+    /// `PcBase::InspectText` at 0x2ac8 (0x2ac8 within `PcBase`).
+    #[inline]
+    pub fn InspectText(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0x2ac8) }
+    }
+
+    /// `PcBase::InspectText` at 0x2ac8 (0x2ac8 within `PcBase`).
+    #[inline]
+    pub fn set_InspectText(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0x2ac8, value) }
+    }
+
+    /// `PcBase::InspectText` at 0x2ac8 (0x2ac8 within `PcBase`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn InspectText_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2ac8 + index * 0x1) }
+    }
+
+    /// `PcBase::InspectText` at 0x2ac8 (0x2ac8 within `PcBase`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_InspectText_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2ac8 + index * 0x1, value) }
+    }
+
+    /// `PcBase::BlockedSpellsHash` at 0x2bc8 (0x2bc8 within `PcBase`).
+    #[inline]
+    pub fn BlockedSpellsHash(&self) -> &HashTable_int_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2bc8) }
+    }
+
+    /// `PcBase::BlockedSpell` at 0x2bd8 (0x2bd8 within `PcBase`).
+    #[inline]
+    pub fn BlockedSpell(&self) -> [i32; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x2bd8) }
+    }
+
+    /// `PcBase::BlockedSpell` at 0x2bd8 (0x2bd8 within `PcBase`).
+    #[inline]
+    pub fn set_BlockedSpell(&self, value: [i32; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x2bd8, value) }
+    }
+
+    /// `PcBase::BlockedSpell` at 0x2bd8 (0x2bd8 within `PcBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn BlockedSpell_at(&self, index: usize) -> i32 {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2bd8 + index * 0x4) }
+    }
+
+    /// `PcBase::BlockedSpell` at 0x2bd8 (0x2bd8 within `PcBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_BlockedSpell_at(&self, index: usize, value: i32) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2bd8 + index * 0x4, value) }
+    }
+
+    /// `PcBase::BlockedPetSpellsHash` at 0x2c50 (0x2c50 within `PcBase`).
+    #[inline]
+    pub fn BlockedPetSpellsHash(&self) -> &HashTable_int_int_ResizePolicyNoResize {
+        unsafe { at(self._bytes.get().cast(), 0x2c50) }
+    }
+
+    /// `PcBase::BlockedPetSpell` at 0x2c60 (0x2c60 within `PcBase`).
+    #[inline]
+    pub fn BlockedPetSpell(&self) -> [i32; 30] {
+        unsafe { read(self._bytes.get().cast(), 0x2c60) }
+    }
+
+    /// `PcBase::BlockedPetSpell` at 0x2c60 (0x2c60 within `PcBase`).
+    #[inline]
+    pub fn set_BlockedPetSpell(&self, value: [i32; 30]) {
+        unsafe { write(self._bytes.get().cast(), 0x2c60, value) }
+    }
+
+    /// `PcBase::BlockedPetSpell` at 0x2c60 (0x2c60 within `PcBase`).
+    /// One element; panics if `index >= 30`.
+    #[inline]
+    pub fn BlockedPetSpell_at(&self, index: usize) -> i32 {
+        assert!(index < 30, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2c60 + index * 0x4) }
+    }
+
+    /// `PcBase::BlockedPetSpell` at 0x2c60 (0x2c60 within `PcBase`).
+    /// Sets one element; panics if `index >= 30`.
+    #[inline]
+    pub fn set_BlockedPetSpell_at(&self, index: usize, value: i32) {
+        assert!(index < 30, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2c60 + index * 0x4, value) }
+    }
+
+    /// `PcBase::ConsumableFeatures` at 0x2cd8 (0x2cd8 within `PcBase`).
+    #[inline]
+    pub fn ConsumableFeatures(&self) -> &ClaimDataCollection {
+        unsafe { at(self._bytes.get().cast(), 0x2cd8) }
+    }
+
+    /// `PcBase::bGrantItemsRegistered` at 0x2ce8 (0x2ce8 within `PcBase`).
+    #[inline]
+    pub fn bGrantItemsRegistered(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2ce8) != 0 }
+    }
+
+    /// `PcBase::bGrantItemsRegistered` at 0x2ce8 (0x2ce8 within `PcBase`).
+    #[inline]
+    pub fn set_bGrantItemsRegistered(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2ce8, u8::from(value)) }
+    }
+
+    /// `PcBase::CreatedGuildID` at 0x2cf0 (0x2cf0 within `PcBase`).
+    #[inline]
+    pub fn CreatedGuildID(&self) -> u64 {
+        unsafe { read(self._bytes.get().cast(), 0x2cf0) }
+    }
+
+    /// `PcBase::CreatedGuildID` at 0x2cf0 (0x2cf0 within `PcBase`).
+    #[inline]
+    pub fn set_CreatedGuildID(&self, value: u64) {
+        unsafe { write(self._bytes.get().cast(), 0x2cf0, value) }
+    }
+
+    /// `PcBase::bInventoryUnserialized` at 0x2cf8 (0x2cf8 within `PcBase`).
+    #[inline]
+    pub fn bInventoryUnserialized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2cf8) != 0 }
+    }
+
+    /// `PcBase::bInventoryUnserialized` at 0x2cf8 (0x2cf8 within `PcBase`).
+    #[inline]
+    pub fn set_bInventoryUnserialized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2cf8, u8::from(value)) }
+    }
+
+    /// `PcBase::bAltStorageUnserialized` at 0x2cf9 (0x2cf9 within `PcBase`).
+    #[inline]
+    pub fn bAltStorageUnserialized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2cf9) != 0 }
+    }
+
+    /// `PcBase::bAltStorageUnserialized` at 0x2cf9 (0x2cf9 within `PcBase`).
+    #[inline]
+    pub fn set_bAltStorageUnserialized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2cf9, u8::from(value)) }
+    }
+
+    /// `PcBase::bArchivedStorageUnserialized` at 0x2cfa (0x2cfa within `PcBase`).
+    #[inline]
+    pub fn bArchivedStorageUnserialized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2cfa) != 0 }
+    }
+
+    /// `PcBase::bArchivedStorageUnserialized` at 0x2cfa (0x2cfa within `PcBase`).
+    #[inline]
+    pub fn set_bArchivedStorageUnserialized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2cfa, u8::from(value)) }
+    }
+
+    /// `PcBase::bMailUnserialized` at 0x2cfb (0x2cfb within `PcBase`).
+    #[inline]
+    pub fn bMailUnserialized(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2cfb) != 0 }
+    }
+
+    /// `PcBase::bMailUnserialized` at 0x2cfb (0x2cfb within `PcBase`).
+    #[inline]
+    pub fn set_bMailUnserialized(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2cfb, u8::from(value)) }
+    }
+
+    /// `PcBase::bPendingInventorySerialization` at 0x2cfc (0x2cfc within `PcBase`).
+    #[inline]
+    pub fn bPendingInventorySerialization(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2cfc) != 0 }
+    }
+
+    /// `PcBase::bPendingInventorySerialization` at 0x2cfc (0x2cfc within `PcBase`).
+    #[inline]
+    pub fn set_bPendingInventorySerialization(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2cfc, u8::from(value)) }
+    }
+
+    /// `PcBase::BuyLines` at 0x2d00 (0x2d00 within `PcBase`).
+    #[inline]
+    pub fn BuyLines(&self) -> &CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2d00) }
+    }
+
+    /// `PcBase::OfflineTraderSoldItems` at 0x2d04 (0x2d04 within `PcBase`).
+    #[inline]
+    pub fn OfflineTraderSoldItems(&self) -> &ArrayClass_CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2d04) }
+    }
+
+    /// `PcBase::OfflineBuyerBoughtItems` at 0x2d14 (0x2d14 within `PcBase`).
+    #[inline]
+    pub fn OfflineBuyerBoughtItems(&self) -> &ArrayClass_CXStr {
+        unsafe { at(self._bytes.get().cast(), 0x2d14) }
+    }
+
+    /// `PcBase::Krono` at 0x2d24 (0x2d24 within `PcBase`).
+    #[inline]
+    pub fn Krono(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d24) }
+    }
+
+    /// `PcBase::Krono` at 0x2d24 (0x2d24 within `PcBase`).
+    #[inline]
+    pub fn set_Krono(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d24, value) }
+    }
+
+    /// `PcBase::CursorKrono` at 0x2d28 (0x2d28 within `PcBase`).
+    #[inline]
+    pub fn CursorKrono(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d28) }
+    }
+
+    /// `PcBase::CursorKrono` at 0x2d28 (0x2d28 within `PcBase`).
+    #[inline]
+    pub fn set_CursorKrono(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d28, value) }
+    }
+
+    /// `PcBase::CompletedAchievements` at 0x2d2c (0x2d2c within `PcBase`).
+    #[inline]
+    pub fn CompletedAchievements(&self) -> &HashTable_CompletedAchievementData_int_ResizePolicyNoShrink {
+        unsafe { at(self._bytes.get().cast(), 0x2d2c) }
+    }
+
+    /// `PcBase::CompletedEventBasedSubComponents` at 0x2d3c (0x2d3c within `PcBase`).
+    #[inline]
+    pub fn CompletedEventBasedSubComponents(&self) -> &HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink {
+        unsafe { at(self._bytes.get().cast(), 0x2d3c) }
+    }
+
+    /// `PcBase::OpenEventBasedSubComponents` at 0x2d4c (0x2d4c within `PcBase`).
+    #[inline]
+    pub fn OpenEventBasedSubComponents(&self) -> &HashTable_AchievementSubComponentCountData_int_ResizePolicyNoShrink {
+        unsafe { at(self._bytes.get().cast(), 0x2d4c) }
+    }
+
+    /// `PcBase::LastFellowshipJoin` at 0x2d5c (0x2d5c within `PcBase`).
+    #[inline]
+    pub fn LastFellowshipJoin(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d5c) }
+    }
+
+    /// `PcBase::LastFellowshipJoin` at 0x2d5c (0x2d5c within `PcBase`).
+    #[inline]
+    pub fn set_LastFellowshipJoin(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d5c, value) }
+    }
+
+    /// `PcBase::Vitality` at 0x2d60 (0x2d60 within `PcBase`).
+    #[inline]
+    pub fn Vitality(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x2d60) }
+    }
+
+    /// `PcBase::Vitality` at 0x2d60 (0x2d60 within `PcBase`).
+    #[inline]
+    pub fn set_Vitality(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x2d60, value) }
+    }
+
+    /// `PcBase::AAVitality` at 0x2d68 (0x2d68 within `PcBase`).
+    #[inline]
+    pub fn AAVitality(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d68) }
+    }
+
+    /// `PcBase::AAVitality` at 0x2d68 (0x2d68 within `PcBase`).
+    #[inline]
+    pub fn set_AAVitality(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d68, value) }
+    }
+
+    /// `PcBase::FreeToPlayUnlocks` at 0x2d6c (0x2d6c within `PcBase`).
+    #[inline]
+    pub fn FreeToPlayUnlocks(&self) -> [i32; 22] {
+        unsafe { read(self._bytes.get().cast(), 0x2d6c) }
+    }
+
+    /// `PcBase::FreeToPlayUnlocks` at 0x2d6c (0x2d6c within `PcBase`).
+    #[inline]
+    pub fn set_FreeToPlayUnlocks(&self, value: [i32; 22]) {
+        unsafe { write(self._bytes.get().cast(), 0x2d6c, value) }
+    }
+
+    /// `PcBase::FreeToPlayUnlocks` at 0x2d6c (0x2d6c within `PcBase`).
+    /// One element; panics if `index >= 22`.
+    #[inline]
+    pub fn FreeToPlayUnlocks_at(&self, index: usize) -> i32 {
+        assert!(index < 22, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2d6c + index * 0x4) }
+    }
+
+    /// `PcBase::FreeToPlayUnlocks` at 0x2d6c (0x2d6c within `PcBase`).
+    /// Sets one element; panics if `index >= 22`.
+    #[inline]
+    pub fn set_FreeToPlayUnlocks_at(&self, index: usize, value: i32) {
+        assert!(index < 22, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2d6c + index * 0x4, value) }
+    }
+
+    /// `CharacterZoneClient::__vfptr` at 0x2dc8 (0x0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn CharacterZoneClient___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x2dc8) }
+    }
+
+    /// `CharacterZoneClient::__vfptr` at 0x2dc8 (0x0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_CharacterZoneClient___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x2dc8, value) }
+    }
+
+    /// `CharacterZoneClient::__vbptr` at 0x2dcc (0x4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn CharacterZoneClient___vbptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x2dcc) }
+    }
+
+    /// `CharacterZoneClient::__vbptr` at 0x2dcc (0x4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_CharacterZoneClient___vbptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x2dcc, value) }
+    }
+
+    /// `CharacterZoneClient::me` at 0x2dd0 (0x8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn me(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x2dd0) }
+    }
+
+    /// `CharacterZoneClient::me` at 0x2dd0 (0x8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_me(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x2dd0, value) }
+    }
+
+    /// `CharacterZoneClient::statDirtyFlag` at 0x2dd4 (0xc within `CharacterZoneClient`).
+    #[inline]
+    pub fn statDirtyFlag(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2dd4) != 0 }
+    }
+
+    /// `CharacterZoneClient::statDirtyFlag` at 0x2dd4 (0xc within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_statDirtyFlag(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2dd4, u8::from(value)) }
+    }
+
+    /// `CharacterZoneClient::zoningStatProcessing` at 0x2dd5 (0xd within `CharacterZoneClient`).
+    #[inline]
+    pub fn zoningStatProcessing(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2dd5) != 0 }
+    }
+
+    /// `CharacterZoneClient::zoningStatProcessing` at 0x2dd5 (0xd within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_zoningStatProcessing(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2dd5, u8::from(value)) }
+    }
+
+    /// `CharacterZoneClient::ArmorClassBonus` at 0x2dd8 (0x10 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ArmorClassBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2dd8) }
+    }
+
+    /// `CharacterZoneClient::ArmorClassBonus` at 0x2dd8 (0x10 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ArmorClassBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2dd8, value) }
+    }
+
+    /// `CharacterZoneClient::CurrWeight` at 0x2ddc (0x14 within `CharacterZoneClient`).
+    #[inline]
+    pub fn CurrWeight(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ddc) }
+    }
+
+    /// `CharacterZoneClient::CurrWeight` at 0x2ddc (0x14 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_CurrWeight(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ddc, value) }
+    }
+
+    /// `CharacterZoneClient::LastHitPointSendPercent` at 0x2de0 (0x18 within `CharacterZoneClient`).
+    #[inline]
+    pub fn LastHitPointSendPercent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2de0) }
+    }
+
+    /// `CharacterZoneClient::LastHitPointSendPercent` at 0x2de0 (0x18 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_LastHitPointSendPercent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2de0, value) }
+    }
+
+    /// `CharacterZoneClient::LastManaPointSendPercent` at 0x2de4 (0x1c within `CharacterZoneClient`).
+    #[inline]
+    pub fn LastManaPointSendPercent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2de4) }
+    }
+
+    /// `CharacterZoneClient::LastManaPointSendPercent` at 0x2de4 (0x1c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_LastManaPointSendPercent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2de4, value) }
+    }
+
+    /// `CharacterZoneClient::LastEndurancePointSendPercent` at 0x2de8 (0x20 within `CharacterZoneClient`).
+    #[inline]
+    pub fn LastEndurancePointSendPercent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2de8) }
+    }
+
+    /// `CharacterZoneClient::LastEndurancePointSendPercent` at 0x2de8 (0x20 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_LastEndurancePointSendPercent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2de8, value) }
+    }
+
+    /// `CharacterZoneClient::HPBonus` at 0x2dec (0x24 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HPBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2dec) }
+    }
+
+    /// `CharacterZoneClient::HPBonus` at 0x2dec (0x24 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HPBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2dec, value) }
+    }
+
+    /// `CharacterZoneClient::ManaBonus` at 0x2df0 (0x28 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ManaBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2df0) }
+    }
+
+    /// `CharacterZoneClient::ManaBonus` at 0x2df0 (0x28 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ManaBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2df0, value) }
+    }
+
+    /// `CharacterZoneClient::EnduranceBonus` at 0x2df4 (0x2c within `CharacterZoneClient`).
+    #[inline]
+    pub fn EnduranceBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2df4) }
+    }
+
+    /// `CharacterZoneClient::EnduranceBonus` at 0x2df4 (0x2c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_EnduranceBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2df4, value) }
+    }
+
+    /// `CharacterZoneClient::CombatEffectsBonus` at 0x2df8 (0x30 within `CharacterZoneClient`).
+    #[inline]
+    pub fn CombatEffectsBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2df8) }
+    }
+
+    /// `CharacterZoneClient::CombatEffectsBonus` at 0x2df8 (0x30 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_CombatEffectsBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2df8, value) }
+    }
+
+    /// `CharacterZoneClient::ShieldingBonus` at 0x2dfc (0x34 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ShieldingBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2dfc) }
+    }
+
+    /// `CharacterZoneClient::ShieldingBonus` at 0x2dfc (0x34 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ShieldingBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2dfc, value) }
+    }
+
+    /// `CharacterZoneClient::SpellShieldBonus` at 0x2e00 (0x38 within `CharacterZoneClient`).
+    #[inline]
+    pub fn SpellShieldBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e00) }
+    }
+
+    /// `CharacterZoneClient::SpellShieldBonus` at 0x2e00 (0x38 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_SpellShieldBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e00, value) }
+    }
+
+    /// `CharacterZoneClient::AvoidanceBonus` at 0x2e04 (0x3c within `CharacterZoneClient`).
+    #[inline]
+    pub fn AvoidanceBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e04) }
+    }
+
+    /// `CharacterZoneClient::AvoidanceBonus` at 0x2e04 (0x3c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_AvoidanceBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e04, value) }
+    }
+
+    /// `CharacterZoneClient::AccuracyBonus` at 0x2e08 (0x40 within `CharacterZoneClient`).
+    #[inline]
+    pub fn AccuracyBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e08) }
+    }
+
+    /// `CharacterZoneClient::AccuracyBonus` at 0x2e08 (0x40 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_AccuracyBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e08, value) }
+    }
+
+    /// `CharacterZoneClient::StunResistBonus` at 0x2e0c (0x44 within `CharacterZoneClient`).
+    #[inline]
+    pub fn StunResistBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e0c) }
+    }
+
+    /// `CharacterZoneClient::StunResistBonus` at 0x2e0c (0x44 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_StunResistBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e0c, value) }
+    }
+
+    /// `CharacterZoneClient::StrikeThroughBonus` at 0x2e10 (0x48 within `CharacterZoneClient`).
+    #[inline]
+    pub fn StrikeThroughBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e10) }
+    }
+
+    /// `CharacterZoneClient::StrikeThroughBonus` at 0x2e10 (0x48 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_StrikeThroughBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e10, value) }
+    }
+
+    /// `CharacterZoneClient::ItemSkillMinDamageMod` at 0x2e14 (0x4c within `CharacterZoneClient`).
+    #[inline]
+    pub fn ItemSkillMinDamageMod(&self) -> [i32; 9] {
+        unsafe { read(self._bytes.get().cast(), 0x2e14) }
+    }
+
+    /// `CharacterZoneClient::ItemSkillMinDamageMod` at 0x2e14 (0x4c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ItemSkillMinDamageMod(&self, value: [i32; 9]) {
+        unsafe { write(self._bytes.get().cast(), 0x2e14, value) }
+    }
+
+    /// `CharacterZoneClient::ItemSkillMinDamageMod` at 0x2e14 (0x4c within `CharacterZoneClient`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn ItemSkillMinDamageMod_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e14 + index * 0x4) }
+    }
+
+    /// `CharacterZoneClient::ItemSkillMinDamageMod` at 0x2e14 (0x4c within `CharacterZoneClient`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_ItemSkillMinDamageMod_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e14 + index * 0x4, value) }
+    }
+
+    /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
+    #[inline]
+    pub fn SkillMinDamageModBonus(&self) -> [i32; 9] {
+        unsafe { read(self._bytes.get().cast(), 0x2e38) }
+    }
+
+    /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_SkillMinDamageModBonus(&self, value: [i32; 9]) {
+        unsafe { write(self._bytes.get().cast(), 0x2e38, value) }
+    }
+
+    /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn SkillMinDamageModBonus_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e38 + index * 0x4) }
+    }
+
+    /// `CharacterZoneClient::SkillMinDamageModBonus` at 0x2e38 (0x70 within `CharacterZoneClient`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_SkillMinDamageModBonus_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e38 + index * 0x4, value) }
+    }
+
+    /// `CharacterZoneClient::Unknown0x2e5c` at 0x2e5c (0x94 within `CharacterZoneClient`).
+    #[inline]
+    pub fn Unknown0x2e5c(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e5c) }
+    }
+
+    /// `CharacterZoneClient::Unknown0x2e5c` at 0x2e5c (0x94 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_Unknown0x2e5c(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e5c, value) }
+    }
+
+    /// `CharacterZoneClient::DoTShieldBonus` at 0x2e60 (0x98 within `CharacterZoneClient`).
+    #[inline]
+    pub fn DoTShieldBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e60) }
+    }
+
+    /// `CharacterZoneClient::DoTShieldBonus` at 0x2e60 (0x98 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_DoTShieldBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e60, value) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldMitigationBonus` at 0x2e64 (0x9c within `CharacterZoneClient`).
+    #[inline]
+    pub fn DamageShieldMitigationBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e64) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldMitigationBonus` at 0x2e64 (0x9c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_DamageShieldMitigationBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e64, value) }
+    }
+
+    /// `CharacterZoneClient::CombatEffectsBonus2` at 0x2e68 (0xa0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn CombatEffectsBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e68) }
+    }
+
+    /// `CharacterZoneClient::CombatEffectsBonus2` at 0x2e68 (0xa0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_CombatEffectsBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e68, value) }
+    }
+
+    /// `CharacterZoneClient::SpellShieldBonus2` at 0x2e6c (0xa4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn SpellShieldBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e6c) }
+    }
+
+    /// `CharacterZoneClient::SpellShieldBonus2` at 0x2e6c (0xa4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_SpellShieldBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e6c, value) }
+    }
+
+    /// `CharacterZoneClient::ShieldingBonus2` at 0x2e70 (0xa8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ShieldingBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e70) }
+    }
+
+    /// `CharacterZoneClient::ShieldingBonus2` at 0x2e70 (0xa8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ShieldingBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e70, value) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldBonus2` at 0x2e74 (0xac within `CharacterZoneClient`).
+    #[inline]
+    pub fn DamageShieldBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e74) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldBonus2` at 0x2e74 (0xac within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_DamageShieldBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e74, value) }
+    }
+
+    /// `CharacterZoneClient::DoTShieldBonus2` at 0x2e78 (0xb0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn DoTShieldBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e78) }
+    }
+
+    /// `CharacterZoneClient::DoTShieldBonus2` at 0x2e78 (0xb0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_DoTShieldBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e78, value) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldMitigationBonus2` at 0x2e7c (0xb4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn DamageShieldMitigationBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e7c) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldMitigationBonus2` at 0x2e7c (0xb4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_DamageShieldMitigationBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e7c, value) }
+    }
+
+    /// `CharacterZoneClient::AvoidanceBonus2` at 0x2e80 (0xb8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn AvoidanceBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e80) }
+    }
+
+    /// `CharacterZoneClient::AvoidanceBonus2` at 0x2e80 (0xb8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_AvoidanceBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e80, value) }
+    }
+
+    /// `CharacterZoneClient::AccuracyBonus2` at 0x2e84 (0xbc within `CharacterZoneClient`).
+    #[inline]
+    pub fn AccuracyBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e84) }
+    }
+
+    /// `CharacterZoneClient::AccuracyBonus2` at 0x2e84 (0xbc within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_AccuracyBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e84, value) }
+    }
+
+    /// `CharacterZoneClient::StunResistBonus2` at 0x2e88 (0xc0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn StunResistBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e88) }
+    }
+
+    /// `CharacterZoneClient::StunResistBonus2` at 0x2e88 (0xc0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_StunResistBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e88, value) }
+    }
+
+    /// `CharacterZoneClient::StrikeThroughBonus2` at 0x2e8c (0xc4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn StrikeThroughBonus2(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e8c) }
+    }
+
+    /// `CharacterZoneClient::StrikeThroughBonus2` at 0x2e8c (0xc4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_StrikeThroughBonus2(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e8c, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSTRBonus` at 0x2e90 (0xc8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSTRBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e90) }
+    }
+
+    /// `CharacterZoneClient::HeroicSTRBonus` at 0x2e90 (0xc8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSTRBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e90, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicINTBonus` at 0x2e94 (0xcc within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicINTBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e94) }
+    }
+
+    /// `CharacterZoneClient::HeroicINTBonus` at 0x2e94 (0xcc within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicINTBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e94, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicWISBonus` at 0x2e98 (0xd0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicWISBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e98) }
+    }
+
+    /// `CharacterZoneClient::HeroicWISBonus` at 0x2e98 (0xd0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicWISBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e98, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicAGIBonus` at 0x2e9c (0xd4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicAGIBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e9c) }
+    }
+
+    /// `CharacterZoneClient::HeroicAGIBonus` at 0x2e9c (0xd4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicAGIBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e9c, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicDEXBonus` at 0x2ea0 (0xd8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicDEXBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ea0) }
+    }
+
+    /// `CharacterZoneClient::HeroicDEXBonus` at 0x2ea0 (0xd8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicDEXBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ea0, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSTABonus` at 0x2ea4 (0xdc within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSTABonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ea4) }
+    }
+
+    /// `CharacterZoneClient::HeroicSTABonus` at 0x2ea4 (0xdc within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSTABonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ea4, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicCHABonus` at 0x2ea8 (0xe0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicCHABonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ea8) }
+    }
+
+    /// `CharacterZoneClient::HeroicCHABonus` at 0x2ea8 (0xe0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicCHABonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ea8, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvMagicBonus` at 0x2eac (0xe4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSvMagicBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2eac) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvMagicBonus` at 0x2eac (0xe4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSvMagicBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2eac, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvFireBonus` at 0x2eb0 (0xe8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSvFireBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2eb0) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvFireBonus` at 0x2eb0 (0xe8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSvFireBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2eb0, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvColdBonus` at 0x2eb4 (0xec within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSvColdBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2eb4) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvColdBonus` at 0x2eb4 (0xec within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSvColdBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2eb4, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvDiseaseBonus` at 0x2eb8 (0xf0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSvDiseaseBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2eb8) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvDiseaseBonus` at 0x2eb8 (0xf0 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSvDiseaseBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2eb8, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvPoisonBonus` at 0x2ebc (0xf4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSvPoisonBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ebc) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvPoisonBonus` at 0x2ebc (0xf4 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSvPoisonBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ebc, value) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvCorruptionBonus` at 0x2ec0 (0xf8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HeroicSvCorruptionBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ec0) }
+    }
+
+    /// `CharacterZoneClient::HeroicSvCorruptionBonus` at 0x2ec0 (0xf8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HeroicSvCorruptionBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ec0, value) }
+    }
+
+    /// `CharacterZoneClient::HealAmountBonus` at 0x2ec4 (0xfc within `CharacterZoneClient`).
+    #[inline]
+    pub fn HealAmountBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ec4) }
+    }
+
+    /// `CharacterZoneClient::HealAmountBonus` at 0x2ec4 (0xfc within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HealAmountBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ec4, value) }
+    }
+
+    /// `CharacterZoneClient::SpellDamageBonus` at 0x2ec8 (0x100 within `CharacterZoneClient`).
+    #[inline]
+    pub fn SpellDamageBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ec8) }
+    }
+
+    /// `CharacterZoneClient::SpellDamageBonus` at 0x2ec8 (0x100 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_SpellDamageBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ec8, value) }
+    }
+
+    /// `CharacterZoneClient::ItemHealAmountDotMod` at 0x2ecc (0x104 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ItemHealAmountDotMod(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ecc) }
+    }
+
+    /// `CharacterZoneClient::ItemHealAmountDotMod` at 0x2ecc (0x104 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ItemHealAmountDotMod(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ecc, value) }
+    }
+
+    /// `CharacterZoneClient::ItemSpellDamageDotMod` at 0x2ed0 (0x108 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ItemSpellDamageDotMod(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ed0) }
+    }
+
+    /// `CharacterZoneClient::ItemSpellDamageDotMod` at 0x2ed0 (0x108 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ItemSpellDamageDotMod(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ed0, value) }
+    }
+
+    /// `CharacterZoneClient::ClairvoyanceBonus` at 0x2ed4 (0x10c within `CharacterZoneClient`).
+    #[inline]
+    pub fn ClairvoyanceBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ed4) }
+    }
+
+    /// `CharacterZoneClient::ClairvoyanceBonus` at 0x2ed4 (0x10c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ClairvoyanceBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ed4, value) }
+    }
+
+    /// `CharacterZoneClient::AttackBonus` at 0x2ed8 (0x110 within `CharacterZoneClient`).
+    #[inline]
+    pub fn AttackBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ed8) }
+    }
+
+    /// `CharacterZoneClient::AttackBonus` at 0x2ed8 (0x110 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_AttackBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ed8, value) }
+    }
+
+    /// `CharacterZoneClient::HPRegenBonus` at 0x2edc (0x114 within `CharacterZoneClient`).
+    #[inline]
+    pub fn HPRegenBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2edc) }
+    }
+
+    /// `CharacterZoneClient::HPRegenBonus` at 0x2edc (0x114 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_HPRegenBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2edc, value) }
+    }
+
+    /// `CharacterZoneClient::ManaRegenBonus` at 0x2ee0 (0x118 within `CharacterZoneClient`).
+    #[inline]
+    pub fn ManaRegenBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ee0) }
+    }
+
+    /// `CharacterZoneClient::ManaRegenBonus` at 0x2ee0 (0x118 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_ManaRegenBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ee0, value) }
+    }
+
+    /// `CharacterZoneClient::EnduranceRegenBonus` at 0x2ee4 (0x11c within `CharacterZoneClient`).
+    #[inline]
+    pub fn EnduranceRegenBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ee4) }
+    }
+
+    /// `CharacterZoneClient::EnduranceRegenBonus` at 0x2ee4 (0x11c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_EnduranceRegenBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ee4, value) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldBonus` at 0x2ee8 (0x120 within `CharacterZoneClient`).
+    #[inline]
+    pub fn DamageShieldBonus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2ee8) }
+    }
+
+    /// `CharacterZoneClient::DamageShieldBonus` at 0x2ee8 (0x120 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_DamageShieldBonus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2ee8, value) }
+    }
+
+    /// `CharacterZoneClient::AttackSpeed` at 0x2eec (0x124 within `CharacterZoneClient`).
+    #[inline]
+    pub fn AttackSpeed(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2eec) }
+    }
+
+    /// `CharacterZoneClient::AttackSpeed` at 0x2eec (0x124 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_AttackSpeed(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2eec, value) }
+    }
+
+    /// `CharacterZoneClient::NoBuffItemSkillMinDamageMod` at 0x2ef0 (0x128 within `CharacterZoneClient`).
+    #[inline]
+    pub fn NoBuffItemSkillMinDamageMod(&self) -> [i32; 9] {
+        unsafe { read(self._bytes.get().cast(), 0x2ef0) }
+    }
+
+    /// `CharacterZoneClient::NoBuffItemSkillMinDamageMod` at 0x2ef0 (0x128 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_NoBuffItemSkillMinDamageMod(&self, value: [i32; 9]) {
+        unsafe { write(self._bytes.get().cast(), 0x2ef0, value) }
+    }
+
+    /// `CharacterZoneClient::NoBuffItemSkillMinDamageMod` at 0x2ef0 (0x128 within `CharacterZoneClient`).
+    /// One element; panics if `index >= 9`.
+    #[inline]
+    pub fn NoBuffItemSkillMinDamageMod_at(&self, index: usize) -> i32 {
+        assert!(index < 9, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2ef0 + index * 0x4) }
+    }
+
+    /// `CharacterZoneClient::NoBuffItemSkillMinDamageMod` at 0x2ef0 (0x128 within `CharacterZoneClient`).
+    /// Sets one element; panics if `index >= 9`.
+    #[inline]
+    pub fn set_NoBuffItemSkillMinDamageMod_at(&self, index: usize, value: i32) {
+        assert!(index < 9, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2ef0 + index * 0x4, value) }
+    }
+
+    /// `CharacterZoneClient::bOutputHpRegen` at 0x2f14 (0x14c within `CharacterZoneClient`).
+    #[inline]
+    pub fn bOutputHpRegen(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2f14) != 0 }
+    }
+
+    /// `CharacterZoneClient::bOutputHpRegen` at 0x2f14 (0x14c within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_bOutputHpRegen(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2f14, u8::from(value)) }
+    }
+
+    /// `CharacterZoneClient::bInvulnerable` at 0x2f15 (0x14d within `CharacterZoneClient`).
+    #[inline]
+    pub fn bInvulnerable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2f15) != 0 }
+    }
+
+    /// `CharacterZoneClient::bInvulnerable` at 0x2f15 (0x14d within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_bInvulnerable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2f15, u8::from(value)) }
+    }
+
+    /// `CharacterZoneClient::bOnAVehicle` at 0x2f16 (0x14e within `CharacterZoneClient`).
+    #[inline]
+    pub fn bOnAVehicle(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2f16) != 0 }
+    }
+
+    /// `CharacterZoneClient::bOnAVehicle` at 0x2f16 (0x14e within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_bOnAVehicle(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2f16, u8::from(value)) }
+    }
+
+    /// `CharacterZoneClient::spellCache` at 0x2f18 (0x150 within `CharacterZoneClient`).
+    #[inline]
+    pub fn spellCache(&self) -> &SpellCache {
+        unsafe { at(self._bytes.get().cast(), 0x2f18) }
+    }
+
+    /// `CharacterZoneClient::DoomEffectsBySlot` at 0x2f70 (0x1a8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn DoomEffectsBySlot(&self) -> &HashListSet_int_128_1 {
+        unsafe { at(self._bytes.get().cast(), 0x2f70) }
+    }
+
+    /// `CharacterZoneClient::LastHitEval` at 0x3180 (0x3b8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn LastHitEval(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3180) }
+    }
+
+    /// `CharacterZoneClient::LastHitEval` at 0x3180 (0x3b8 within `CharacterZoneClient`).
+    #[inline]
+    pub fn set_LastHitEval(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3180, value) }
+    }
+
+    /// `DebugText::__vfptr` at 0x3184 (0x0 within `DebugText`).
+    #[inline]
+    pub fn DebugText___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x3184) }
+    }
+
+    /// `DebugText::__vfptr` at 0x3184 (0x0 within `DebugText`).
+    #[inline]
+    pub fn set_DebugText___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x3184, value) }
+    }
+
+    /// `PcZoneClient::Flags` at 0x3188 (0x3188 within `PcZoneClient`).
+    #[inline]
+    pub fn Flags(&self) -> [u32; 3] {
+        unsafe { read(self._bytes.get().cast(), 0x3188) }
+    }
+
+    /// `PcZoneClient::Flags` at 0x3188 (0x3188 within `PcZoneClient`).
+    #[inline]
+    pub fn set_Flags(&self, value: [u32; 3]) {
+        unsafe { write(self._bytes.get().cast(), 0x3188, value) }
+    }
+
+    /// `PcZoneClient::Flags` at 0x3188 (0x3188 within `PcZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn Flags_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3188 + index * 0x4) }
+    }
+
+    /// `PcZoneClient::Flags` at 0x3188 (0x3188 within `PcZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_Flags_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3188 + index * 0x4, value) }
+    }
+
+    /// `PcZoneClient::TransfersReceived` at 0x3194 (0x3194 within `PcZoneClient`).
+    #[inline]
+    pub fn TransfersReceived(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3194) }
+    }
+
+    /// `PcZoneClient::TransfersReceived` at 0x3194 (0x3194 within `PcZoneClient`).
+    #[inline]
+    pub fn set_TransfersReceived(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3194, value) }
+    }
+
+    /// `PcZoneClient::LastLanguageSpoken` at 0x3198 (0x3198 within `PcZoneClient`).
+    #[inline]
+    pub fn LastLanguageSpoken(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3198) }
+    }
+
+    /// `PcZoneClient::LastLanguageSpoken` at 0x3198 (0x3198 within `PcZoneClient`).
+    #[inline]
+    pub fn set_LastLanguageSpoken(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3198, value) }
+    }
+
+    /// `PcZoneClient::CurPowerSourceDrain` at 0x319c (0x319c within `PcZoneClient`).
+    #[inline]
+    pub fn CurPowerSourceDrain(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x319c) }
+    }
+
+    /// `PcZoneClient::CurPowerSourceDrain` at 0x319c (0x319c within `PcZoneClient`).
+    #[inline]
+    pub fn set_CurPowerSourceDrain(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x319c, value) }
+    }
+
+    /// `PcZoneClient::AlchemyBaseSkillBonusList` at 0x31a0 (0x31a0 within `PcZoneClient`).
+    #[inline]
+    pub fn AlchemyBaseSkillBonusList(&self) -> &EQList_AlchemyBonusSkillData {
+        unsafe { at(self._bytes.get().cast(), 0x31a0) }
+    }
+
+    /// `PcZoneClient::MomentumBalance` at 0x31b0 (0x31b0 within `PcZoneClient`).
+    #[inline]
+    pub fn MomentumBalance(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x31b0) }
+    }
+
+    /// `PcZoneClient::MomentumBalance` at 0x31b0 (0x31b0 within `PcZoneClient`).
+    #[inline]
+    pub fn set_MomentumBalance(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x31b0, value) }
+    }
+
+    /// `PcZoneClient::LoyaltyRewardBalance` at 0x31b4 (0x31b4 within `PcZoneClient`).
+    #[inline]
+    pub fn LoyaltyRewardBalance(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x31b4) }
+    }
+
+    /// `PcZoneClient::LoyaltyRewardBalance` at 0x31b4 (0x31b4 within `PcZoneClient`).
+    #[inline]
+    pub fn set_LoyaltyRewardBalance(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x31b4, value) }
+    }
+
+    /// `IFreeToPlayInfo::__vfptr` at 0x31b8 (0x0 within `IFreeToPlayInfo`).
+    #[inline]
+    pub fn IFreeToPlayInfo___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x31b8) }
+    }
+
+    /// `IFreeToPlayInfo::__vfptr` at 0x31b8 (0x0 within `IFreeToPlayInfo`).
+    #[inline]
+    pub fn set_IFreeToPlayInfo___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x31b8, value) }
+    }
+
+    /// `CharacterBase::ProfileManager` at 0x31bc (0x4 within `CharacterBase`).
+    #[inline]
+    pub fn ProfileManager(&self) -> &ProfileManager {
+        unsafe { at(self._bytes.get().cast(), 0x31bc) }
+    }
+
+    /// `CharacterBase::languages` at 0x31c4 (0xc within `CharacterBase`).
+    #[inline]
+    pub fn languages(&self) -> [u8; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x31c4) }
+    }
+
+    /// `CharacterBase::languages` at 0x31c4 (0xc within `CharacterBase`).
+    #[inline]
+    pub fn set_languages(&self, value: [u8; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x31c4, value) }
+    }
+
+    /// `CharacterBase::languages` at 0x31c4 (0xc within `CharacterBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn languages_at(&self, index: usize) -> u8 {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x31c4 + index * 0x1) }
+    }
+
+    /// `CharacterBase::languages` at 0x31c4 (0xc within `CharacterBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_languages_at(&self, index: usize, value: u8) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x31c4 + index * 0x1, value) }
+    }
+
+    /// `CharacterBase::X` at 0x31e4 (0x2c within `CharacterBase`).
+    #[inline]
+    pub fn X(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x31e4) }
+    }
+
+    /// `CharacterBase::X` at 0x31e4 (0x2c within `CharacterBase`).
+    #[inline]
+    pub fn set_X(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x31e4, value) }
+    }
+
+    /// `CharacterBase::Y` at 0x31e8 (0x30 within `CharacterBase`).
+    #[inline]
+    pub fn Y(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x31e8) }
+    }
+
+    /// `CharacterBase::Y` at 0x31e8 (0x30 within `CharacterBase`).
+    #[inline]
+    pub fn set_Y(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x31e8, value) }
+    }
+
+    /// `CharacterBase::Z` at 0x31ec (0x34 within `CharacterBase`).
+    #[inline]
+    pub fn Z(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x31ec) }
+    }
+
+    /// `CharacterBase::Z` at 0x31ec (0x34 within `CharacterBase`).
+    #[inline]
+    pub fn set_Z(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x31ec, value) }
+    }
+
+    /// `CharacterBase::Heading` at 0x31f0 (0x38 within `CharacterBase`).
+    #[inline]
+    pub fn Heading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x31f0) }
+    }
+
+    /// `CharacterBase::Heading` at 0x31f0 (0x38 within `CharacterBase`).
+    #[inline]
+    pub fn set_Heading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x31f0, value) }
+    }
+
+    /// `CharacterBase::Name` at 0x31f4 (0x3c within `CharacterBase`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x31f4) }
+    }
+
+    /// `CharacterBase::Name` at 0x31f4 (0x3c within `CharacterBase`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x31f4, value) }
+    }
+
+    /// `CharacterBase::Name` at 0x31f4 (0x3c within `CharacterBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x31f4 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Name` at 0x31f4 (0x3c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x31f4 + index * 0x1, value) }
+    }
+
+    /// `CharacterBase::Lastname` at 0x3234 (0x7c within `CharacterBase`).
+    #[inline]
+    pub fn Lastname(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x3234) }
+    }
+
+    /// `CharacterBase::Lastname` at 0x3234 (0x7c within `CharacterBase`).
+    #[inline]
+    pub fn set_Lastname(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x3234, value) }
+    }
+
+    /// `CharacterBase::Lastname` at 0x3234 (0x7c within `CharacterBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Lastname_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3234 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Lastname` at 0x3234 (0x7c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Lastname_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3234 + index * 0x1, value) }
+    }
+
+    /// `CharacterBase::Title` at 0x3254 (0x9c within `CharacterBase`).
+    #[inline]
+    pub fn Title(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x3254) }
+    }
+
+    /// `CharacterBase::Title` at 0x3254 (0x9c within `CharacterBase`).
+    #[inline]
+    pub fn set_Title(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x3254, value) }
+    }
+
+    /// `CharacterBase::Title` at 0x3254 (0x9c within `CharacterBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Title_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3254 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Title` at 0x3254 (0x9c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Title_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3254 + index * 0x1, value) }
+    }
+
+    /// `CharacterBase::VehicleName` at 0x3274 (0xbc within `CharacterBase`).
+    #[inline]
+    pub fn VehicleName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x3274) }
+    }
+
+    /// `CharacterBase::VehicleName` at 0x3274 (0xbc within `CharacterBase`).
+    #[inline]
+    pub fn set_VehicleName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x3274, value) }
+    }
+
+    /// `CharacterBase::VehicleName` at 0x3274 (0xbc within `CharacterBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn VehicleName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3274 + index * 0x1) }
+    }
+
+    /// `CharacterBase::VehicleName` at 0x3274 (0xbc within `CharacterBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_VehicleName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3274 + index * 0x1, value) }
+    }
+
+    /// `CharacterBase::Status` at 0x32b4 (0xfc within `CharacterBase`).
+    #[inline]
+    pub fn Status(&self) -> eCharacterStatus {
+        unsafe { read(self._bytes.get().cast(), 0x32b4) }
+    }
+
+    /// `CharacterBase::Status` at 0x32b4 (0xfc within `CharacterBase`).
+    #[inline]
+    pub fn set_Status(&self, value: eCharacterStatus) {
+        unsafe { write(self._bytes.get().cast(), 0x32b4, value) }
+    }
+
+    /// `CharacterBase::currentZoneId` at 0x32b8 (0x100 within `CharacterBase`).
+    #[inline]
+    pub fn currentZoneId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x32b8) }
+    }
+
+    /// `CharacterBase::currentZoneId` at 0x32b8 (0x100 within `CharacterBase`).
+    #[inline]
+    pub fn set_currentZoneId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x32b8, value) }
+    }
+
+    /// `CharacterBase::standstate` at 0x32bc (0x104 within `CharacterBase`).
+    #[inline]
+    pub fn standstate(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x32bc) }
+    }
+
+    /// `CharacterBase::standstate` at 0x32bc (0x104 within `CharacterBase`).
+    #[inline]
+    pub fn set_standstate(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x32bc, value) }
+    }
+
+    /// `CharacterBase::unknown0x32f4` at 0x32c0 (0x108 within `CharacterBase`).
+    #[inline]
+    pub fn unknown0x32f4(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x32c0) }
+    }
+
+    /// `CharacterBase::unknown0x32f4` at 0x32c0 (0x108 within `CharacterBase`).
+    #[inline]
+    pub fn set_unknown0x32f4(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x32c0, value) }
+    }
+
+    /// `CharacterBase::ActiveAbilities` at 0x32c4 (0x10c within `CharacterBase`).
+    #[inline]
+    pub fn ActiveAbilities(&self) -> &LeadershipAbilities {
+        unsafe { at(self._bytes.get().cast(), 0x32c4) }
+    }
+
+    /// `CharacterBase::unknown0x3334` at 0x3300 (0x148 within `CharacterBase`).
+    #[inline]
+    pub fn unknown0x3334(&self) -> [u8; 788] {
+        unsafe { read(self._bytes.get().cast(), 0x3300) }
+    }
+
+    /// `CharacterBase::unknown0x3334` at 0x3300 (0x148 within `CharacterBase`).
+    #[inline]
+    pub fn set_unknown0x3334(&self, value: [u8; 788]) {
+        unsafe { write(self._bytes.get().cast(), 0x3300, value) }
+    }
+
+    /// `CharacterBase::unknown0x3334` at 0x3300 (0x148 within `CharacterBase`).
+    /// One element; panics if `index >= 788`.
+    #[inline]
+    pub fn unknown0x3334_at(&self, index: usize) -> u8 {
+        assert!(index < 788, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3300 + index * 0x1) }
+    }
+
+    /// `CharacterBase::unknown0x3334` at 0x3300 (0x148 within `CharacterBase`).
+    /// Sets one element; panics if `index >= 788`.
+    #[inline]
+    pub fn set_unknown0x3334_at(&self, index: usize, value: u8) {
+        assert!(index < 788, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3300 + index * 0x1, value) }
+    }
+
+    /// `CharacterBase::ExpansionFlags` at 0x3614 (0x45c within `CharacterBase`).
+    #[inline]
+    pub fn ExpansionFlags(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3614) }
+    }
+
+    /// `CharacterBase::ExpansionFlags` at 0x3614 (0x45c within `CharacterBase`).
+    #[inline]
+    pub fn set_ExpansionFlags(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3614, value) }
+    }
+
+    /// `CharacterBase::bSuperPKILL` at 0x3618 (0x460 within `CharacterBase`).
+    #[inline]
+    pub fn bSuperPKILL(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3618) != 0 }
+    }
+
+    /// `CharacterBase::bSuperPKILL` at 0x3618 (0x460 within `CharacterBase`).
+    #[inline]
+    pub fn set_bSuperPKILL(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3618, u8::from(value)) }
+    }
+
+    /// `CharacterBase::bUnclone` at 0x3619 (0x461 within `CharacterBase`).
+    #[inline]
+    pub fn bUnclone(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3619) != 0 }
+    }
+
+    /// `CharacterBase::bUnclone` at 0x3619 (0x461 within `CharacterBase`).
+    #[inline]
+    pub fn set_bUnclone(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3619, u8::from(value)) }
+    }
+
+    /// `CharacterBase::bDead` at 0x361a (0x462 within `CharacterBase`).
+    #[inline]
+    pub fn bDead(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x361a) != 0 }
+    }
+
+    /// `CharacterBase::bDead` at 0x361a (0x462 within `CharacterBase`).
+    #[inline]
+    pub fn set_bDead(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x361a, u8::from(value)) }
+    }
+
+    /// `CharacterBase::LD_Timer` at 0x361c (0x464 within `CharacterBase`).
+    #[inline]
+    pub fn LD_Timer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x361c) }
+    }
+
+    /// `CharacterBase::LD_Timer` at 0x361c (0x464 within `CharacterBase`).
+    #[inline]
+    pub fn set_LD_Timer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x361c, value) }
+    }
+
+    /// `CharacterBase::SpellInterruptCount` at 0x3620 (0x468 within `CharacterBase`).
+    #[inline]
+    pub fn SpellInterruptCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3620) }
+    }
+
+    /// `CharacterBase::SpellInterruptCount` at 0x3620 (0x468 within `CharacterBase`).
+    #[inline]
+    pub fn set_SpellInterruptCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3620, value) }
+    }
+
+    /// `CharacterBase::bAutoSplit` at 0x3624 (0x46c within `CharacterBase`).
+    #[inline]
+    pub fn bAutoSplit(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3624) != 0 }
+    }
+
+    /// `CharacterBase::bAutoSplit` at 0x3624 (0x46c within `CharacterBase`).
+    #[inline]
+    pub fn set_bAutoSplit(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3624, u8::from(value)) }
+    }
+
+    /// `CharacterBase::bTellsOff` at 0x3625 (0x46d within `CharacterBase`).
+    #[inline]
+    pub fn bTellsOff(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3625) != 0 }
+    }
+
+    /// `CharacterBase::bTellsOff` at 0x3625 (0x46d within `CharacterBase`).
+    #[inline]
+    pub fn set_bTellsOff(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3625, u8::from(value)) }
+    }
+
+    /// `CharacterBase::bGmInvis` at 0x3626 (0x46e within `CharacterBase`).
+    #[inline]
+    pub fn bGmInvis(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3626) != 0 }
+    }
+
+    /// `CharacterBase::bGmInvis` at 0x3626 (0x46e within `CharacterBase`).
+    #[inline]
+    pub fn set_bGmInvis(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3626, u8::from(value)) }
+    }
+
+    /// `CharacterBase::KillMe` at 0x3628 (0x470 within `CharacterBase`).
+    #[inline]
+    pub fn KillMe(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3628) }
+    }
+
+    /// `CharacterBase::KillMe` at 0x3628 (0x470 within `CharacterBase`).
+    #[inline]
+    pub fn set_KillMe(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3628, value) }
+    }
+
+    /// `CharacterBase::CheaterLdFlag` at 0x362c (0x474 within `CharacterBase`).
+    #[inline]
+    pub fn CheaterLdFlag(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x362c) != 0 }
+    }
+
+    /// `CharacterBase::CheaterLdFlag` at 0x362c (0x474 within `CharacterBase`).
+    #[inline]
+    pub fn set_CheaterLdFlag(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x362c, u8::from(value)) }
+    }
+
+    /// `CharacterBase::NoRent` at 0x362d (0x475 within `CharacterBase`).
+    #[inline]
+    pub fn NoRent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x362d) != 0 }
+    }
+
+    /// `CharacterBase::NoRent` at 0x362d (0x475 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoRent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x362d, u8::from(value)) }
+    }
+
+    /// `CharacterBase::Corpse` at 0x362e (0x476 within `CharacterBase`).
+    #[inline]
+    pub fn Corpse(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x362e) != 0 }
+    }
+
+    /// `CharacterBase::Corpse` at 0x362e (0x476 within `CharacterBase`).
+    #[inline]
+    pub fn set_Corpse(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x362e, u8::from(value)) }
+    }
+
+    /// `CharacterBase::SouldMarkCount` at 0x3630 (0x478 within `CharacterBase`).
+    #[inline]
+    pub fn SouldMarkCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3630) }
+    }
+
+    /// `CharacterBase::SouldMarkCount` at 0x3630 (0x478 within `CharacterBase`).
+    #[inline]
+    pub fn set_SouldMarkCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3630, value) }
+    }
+
+    /// `CharacterBase::ClientGmFlagSet` at 0x3634 (0x47c within `CharacterBase`).
+    #[inline]
+    pub fn ClientGmFlagSet(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3634) != 0 }
+    }
+
+    /// `CharacterBase::ClientGmFlagSet` at 0x3634 (0x47c within `CharacterBase`).
+    #[inline]
+    pub fn set_ClientGmFlagSet(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3634, u8::from(value)) }
+    }
+
+    /// `CharacterBase::BankSharedPlat` at 0x3638 (0x480 within `CharacterBase`).
+    #[inline]
+    pub fn BankSharedPlat(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3638) }
+    }
+
+    /// `CharacterBase::BankSharedPlat` at 0x3638 (0x480 within `CharacterBase`).
+    #[inline]
+    pub fn set_BankSharedPlat(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3638, value) }
+    }
+
+    /// `CharacterBase::BankSharedGold` at 0x363c (0x484 within `CharacterBase`).
+    #[inline]
+    pub fn BankSharedGold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x363c) }
+    }
+
+    /// `CharacterBase::BankSharedGold` at 0x363c (0x484 within `CharacterBase`).
+    #[inline]
+    pub fn set_BankSharedGold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x363c, value) }
+    }
+
+    /// `CharacterBase::BankSharedSilver` at 0x3640 (0x488 within `CharacterBase`).
+    #[inline]
+    pub fn BankSharedSilver(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3640) }
+    }
+
+    /// `CharacterBase::BankSharedSilver` at 0x3640 (0x488 within `CharacterBase`).
+    #[inline]
+    pub fn set_BankSharedSilver(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3640, value) }
+    }
+
+    /// `CharacterBase::BankSharedCopper` at 0x3644 (0x48c within `CharacterBase`).
+    #[inline]
+    pub fn BankSharedCopper(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3644) }
+    }
+
+    /// `CharacterBase::BankSharedCopper` at 0x3644 (0x48c within `CharacterBase`).
+    #[inline]
+    pub fn set_BankSharedCopper(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3644, value) }
+    }
+
+    /// `CharacterBase::BankPlat` at 0x3648 (0x490 within `CharacterBase`).
+    #[inline]
+    pub fn BankPlat(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3648) }
+    }
+
+    /// `CharacterBase::BankPlat` at 0x3648 (0x490 within `CharacterBase`).
+    #[inline]
+    pub fn set_BankPlat(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3648, value) }
+    }
+
+    /// `CharacterBase::BankGold` at 0x364c (0x494 within `CharacterBase`).
+    #[inline]
+    pub fn BankGold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x364c) }
+    }
+
+    /// `CharacterBase::BankGold` at 0x364c (0x494 within `CharacterBase`).
+    #[inline]
+    pub fn set_BankGold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x364c, value) }
+    }
+
+    /// `CharacterBase::BankSilver` at 0x3650 (0x498 within `CharacterBase`).
+    #[inline]
+    pub fn BankSilver(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3650) }
+    }
+
+    /// `CharacterBase::BankSilver` at 0x3650 (0x498 within `CharacterBase`).
+    #[inline]
+    pub fn set_BankSilver(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3650, value) }
+    }
+
+    /// `CharacterBase::BankCopper` at 0x3654 (0x49c within `CharacterBase`).
+    #[inline]
+    pub fn BankCopper(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3654) }
+    }
+
+    /// `CharacterBase::BankCopper` at 0x3654 (0x49c within `CharacterBase`).
+    #[inline]
+    pub fn set_BankCopper(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3654, value) }
+    }
+
+    /// `CharacterBase::STR` at 0x3658 (0x4a0 within `CharacterBase`).
+    #[inline]
+    pub fn STR(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3658) }
+    }
+
+    /// `CharacterBase::STR` at 0x3658 (0x4a0 within `CharacterBase`).
+    #[inline]
+    pub fn set_STR(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3658, value) }
+    }
+
+    /// `CharacterBase::STA` at 0x365c (0x4a4 within `CharacterBase`).
+    #[inline]
+    pub fn STA(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x365c) }
+    }
+
+    /// `CharacterBase::STA` at 0x365c (0x4a4 within `CharacterBase`).
+    #[inline]
+    pub fn set_STA(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x365c, value) }
+    }
+
+    /// `CharacterBase::CHA` at 0x3660 (0x4a8 within `CharacterBase`).
+    #[inline]
+    pub fn CHA(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3660) }
+    }
+
+    /// `CharacterBase::CHA` at 0x3660 (0x4a8 within `CharacterBase`).
+    #[inline]
+    pub fn set_CHA(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3660, value) }
+    }
+
+    /// `CharacterBase::DEX` at 0x3664 (0x4ac within `CharacterBase`).
+    #[inline]
+    pub fn DEX(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3664) }
+    }
+
+    /// `CharacterBase::DEX` at 0x3664 (0x4ac within `CharacterBase`).
+    #[inline]
+    pub fn set_DEX(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3664, value) }
+    }
+
+    /// `CharacterBase::INT` at 0x3668 (0x4b0 within `CharacterBase`).
+    #[inline]
+    pub fn INT(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3668) }
+    }
+
+    /// `CharacterBase::INT` at 0x3668 (0x4b0 within `CharacterBase`).
+    #[inline]
+    pub fn set_INT(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3668, value) }
+    }
+
+    /// `CharacterBase::AGI` at 0x366c (0x4b4 within `CharacterBase`).
+    #[inline]
+    pub fn AGI(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x366c) }
+    }
+
+    /// `CharacterBase::AGI` at 0x366c (0x4b4 within `CharacterBase`).
+    #[inline]
+    pub fn set_AGI(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x366c, value) }
+    }
+
+    /// `CharacterBase::WIS` at 0x3670 (0x4b8 within `CharacterBase`).
+    #[inline]
+    pub fn WIS(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3670) }
+    }
+
+    /// `CharacterBase::WIS` at 0x3670 (0x4b8 within `CharacterBase`).
+    #[inline]
+    pub fn set_WIS(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3670, value) }
+    }
+
+    /// `CharacterBase::SavePoison` at 0x3674 (0x4bc within `CharacterBase`).
+    #[inline]
+    pub fn SavePoison(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3674) }
+    }
+
+    /// `CharacterBase::SavePoison` at 0x3674 (0x4bc within `CharacterBase`).
+    #[inline]
+    pub fn set_SavePoison(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3674, value) }
+    }
+
+    /// `CharacterBase::SaveMagic` at 0x3678 (0x4c0 within `CharacterBase`).
+    #[inline]
+    pub fn SaveMagic(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3678) }
+    }
+
+    /// `CharacterBase::SaveMagic` at 0x3678 (0x4c0 within `CharacterBase`).
+    #[inline]
+    pub fn set_SaveMagic(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3678, value) }
+    }
+
+    /// `CharacterBase::SaveDisease` at 0x367c (0x4c4 within `CharacterBase`).
+    #[inline]
+    pub fn SaveDisease(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x367c) }
+    }
+
+    /// `CharacterBase::SaveDisease` at 0x367c (0x4c4 within `CharacterBase`).
+    #[inline]
+    pub fn set_SaveDisease(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x367c, value) }
+    }
+
+    /// `CharacterBase::SaveCorruption` at 0x3680 (0x4c8 within `CharacterBase`).
+    #[inline]
+    pub fn SaveCorruption(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3680) }
+    }
+
+    /// `CharacterBase::SaveCorruption` at 0x3680 (0x4c8 within `CharacterBase`).
+    #[inline]
+    pub fn set_SaveCorruption(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3680, value) }
+    }
+
+    /// `CharacterBase::SaveFire` at 0x3684 (0x4cc within `CharacterBase`).
+    #[inline]
+    pub fn SaveFire(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3684) }
+    }
+
+    /// `CharacterBase::SaveFire` at 0x3684 (0x4cc within `CharacterBase`).
+    #[inline]
+    pub fn set_SaveFire(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3684, value) }
+    }
+
+    /// `CharacterBase::SaveCold` at 0x3688 (0x4d0 within `CharacterBase`).
+    #[inline]
+    pub fn SaveCold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3688) }
+    }
+
+    /// `CharacterBase::SaveCold` at 0x3688 (0x4d0 within `CharacterBase`).
+    #[inline]
+    pub fn set_SaveCold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3688, value) }
+    }
+
+    /// `CharacterBase::UncappedStr` at 0x368c (0x4d4 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedStr(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x368c) }
+    }
+
+    /// `CharacterBase::UncappedStr` at 0x368c (0x4d4 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedStr(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x368c, value) }
+    }
+
+    /// `CharacterBase::UncappedSta` at 0x3690 (0x4d8 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedSta(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3690) }
+    }
+
+    /// `CharacterBase::UncappedSta` at 0x3690 (0x4d8 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedSta(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3690, value) }
+    }
+
+    /// `CharacterBase::UncappedCha` at 0x3694 (0x4dc within `CharacterBase`).
+    #[inline]
+    pub fn UncappedCha(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3694) }
+    }
+
+    /// `CharacterBase::UncappedCha` at 0x3694 (0x4dc within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedCha(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3694, value) }
+    }
+
+    /// `CharacterBase::UncappedDex` at 0x3698 (0x4e0 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedDex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3698) }
+    }
+
+    /// `CharacterBase::UncappedDex` at 0x3698 (0x4e0 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedDex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3698, value) }
+    }
+
+    /// `CharacterBase::UncappedInt` at 0x369c (0x4e4 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedInt(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x369c) }
+    }
+
+    /// `CharacterBase::UncappedInt` at 0x369c (0x4e4 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedInt(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x369c, value) }
+    }
+
+    /// `CharacterBase::UncappedAgi` at 0x36a0 (0x4e8 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedAgi(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36a0) }
+    }
+
+    /// `CharacterBase::UncappedAgi` at 0x36a0 (0x4e8 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedAgi(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36a0, value) }
+    }
+
+    /// `CharacterBase::UncappedWis` at 0x36a4 (0x4ec within `CharacterBase`).
+    #[inline]
+    pub fn UncappedWis(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36a4) }
+    }
+
+    /// `CharacterBase::UncappedWis` at 0x36a4 (0x4ec within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedWis(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36a4, value) }
+    }
+
+    /// `CharacterBase::UncappedResistPoison` at 0x36a8 (0x4f0 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedResistPoison(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36a8) }
+    }
+
+    /// `CharacterBase::UncappedResistPoison` at 0x36a8 (0x4f0 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedResistPoison(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36a8, value) }
+    }
+
+    /// `CharacterBase::UncappedResistMagic` at 0x36ac (0x4f4 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedResistMagic(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36ac) }
+    }
+
+    /// `CharacterBase::UncappedResistMagic` at 0x36ac (0x4f4 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedResistMagic(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36ac, value) }
+    }
+
+    /// `CharacterBase::UncappedResistDisease` at 0x36b0 (0x4f8 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedResistDisease(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36b0) }
+    }
+
+    /// `CharacterBase::UncappedResistDisease` at 0x36b0 (0x4f8 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedResistDisease(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36b0, value) }
+    }
+
+    /// `CharacterBase::UncappedResistCorruption` at 0x36b4 (0x4fc within `CharacterBase`).
+    #[inline]
+    pub fn UncappedResistCorruption(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36b4) }
+    }
+
+    /// `CharacterBase::UncappedResistCorruption` at 0x36b4 (0x4fc within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedResistCorruption(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36b4, value) }
+    }
+
+    /// `CharacterBase::UncappedResistFire` at 0x36b8 (0x500 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedResistFire(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36b8) }
+    }
+
+    /// `CharacterBase::UncappedResistFire` at 0x36b8 (0x500 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedResistFire(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36b8, value) }
+    }
+
+    /// `CharacterBase::UncappedResistCold` at 0x36bc (0x504 within `CharacterBase`).
+    #[inline]
+    pub fn UncappedResistCold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36bc) }
+    }
+
+    /// `CharacterBase::UncappedResistCold` at 0x36bc (0x504 within `CharacterBase`).
+    #[inline]
+    pub fn set_UncappedResistCold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36bc, value) }
+    }
+
+    /// `CharacterBase::NoBuffStr` at 0x36c0 (0x508 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffStr(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36c0) }
+    }
+
+    /// `CharacterBase::NoBuffStr` at 0x36c0 (0x508 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffStr(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36c0, value) }
+    }
+
+    /// `CharacterBase::NoBuffSta` at 0x36c4 (0x50c within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffSta(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36c4) }
+    }
+
+    /// `CharacterBase::NoBuffSta` at 0x36c4 (0x50c within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffSta(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36c4, value) }
+    }
+
+    /// `CharacterBase::NoBuffCha` at 0x36c8 (0x510 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffCha(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36c8) }
+    }
+
+    /// `CharacterBase::NoBuffCha` at 0x36c8 (0x510 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffCha(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36c8, value) }
+    }
+
+    /// `CharacterBase::NoBuffDex` at 0x36cc (0x514 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffDex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36cc) }
+    }
+
+    /// `CharacterBase::NoBuffDex` at 0x36cc (0x514 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffDex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36cc, value) }
+    }
+
+    /// `CharacterBase::NoBuffInt` at 0x36d0 (0x518 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffInt(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36d0) }
+    }
+
+    /// `CharacterBase::NoBuffInt` at 0x36d0 (0x518 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffInt(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36d0, value) }
+    }
+
+    /// `CharacterBase::NoBuffAgi` at 0x36d4 (0x51c within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffAgi(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36d4) }
+    }
+
+    /// `CharacterBase::NoBuffAgi` at 0x36d4 (0x51c within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffAgi(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36d4, value) }
+    }
+
+    /// `CharacterBase::NoBuffWis` at 0x36d8 (0x520 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffWis(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36d8) }
+    }
+
+    /// `CharacterBase::NoBuffWis` at 0x36d8 (0x520 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffWis(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36d8, value) }
+    }
+
+    /// `CharacterBase::NoBuffResistPoison` at 0x36dc (0x524 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffResistPoison(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36dc) }
+    }
+
+    /// `CharacterBase::NoBuffResistPoison` at 0x36dc (0x524 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffResistPoison(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36dc, value) }
+    }
+
+    /// `CharacterBase::NoBuffResistMagic` at 0x36e0 (0x528 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffResistMagic(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36e0) }
+    }
+
+    /// `CharacterBase::NoBuffResistMagic` at 0x36e0 (0x528 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffResistMagic(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36e0, value) }
+    }
+
+    /// `CharacterBase::NoBuffResistDisease` at 0x36e4 (0x52c within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffResistDisease(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36e4) }
+    }
+
+    /// `CharacterBase::NoBuffResistDisease` at 0x36e4 (0x52c within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffResistDisease(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36e4, value) }
+    }
+
+    /// `CharacterBase::NoBuffResistCorruption` at 0x36e8 (0x530 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffResistCorruption(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36e8) }
+    }
+
+    /// `CharacterBase::NoBuffResistCorruption` at 0x36e8 (0x530 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffResistCorruption(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36e8, value) }
+    }
+
+    /// `CharacterBase::NoBuffResistFire` at 0x36ec (0x534 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffResistFire(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36ec) }
+    }
+
+    /// `CharacterBase::NoBuffResistFire` at 0x36ec (0x534 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffResistFire(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36ec, value) }
+    }
+
+    /// `CharacterBase::NoBuffResistCold` at 0x36f0 (0x538 within `CharacterBase`).
+    #[inline]
+    pub fn NoBuffResistCold(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x36f0) }
+    }
+
+    /// `CharacterBase::NoBuffResistCold` at 0x36f0 (0x538 within `CharacterBase`).
+    #[inline]
+    pub fn set_NoBuffResistCold(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x36f0, value) }
+    }
+
+    /// `CharacterBase::Unknown0x31d8` at 0x36f4 (0x53c within `CharacterBase`).
+    #[inline]
+    pub fn Unknown0x31d8(&self) -> [u8; 8412] {
+        unsafe { read(self._bytes.get().cast(), 0x36f4) }
+    }
+
+    /// `CharacterBase::Unknown0x31d8` at 0x36f4 (0x53c within `CharacterBase`).
+    #[inline]
+    pub fn set_Unknown0x31d8(&self, value: [u8; 8412]) {
+        unsafe { write(self._bytes.get().cast(), 0x36f4, value) }
+    }
+
+    /// `CharacterBase::Unknown0x31d8` at 0x36f4 (0x53c within `CharacterBase`).
+    /// One element; panics if `index >= 8412`.
+    #[inline]
+    pub fn Unknown0x31d8_at(&self, index: usize) -> u8 {
+        assert!(index < 8412, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x36f4 + index * 0x1) }
+    }
+
+    /// `CharacterBase::Unknown0x31d8` at 0x36f4 (0x53c within `CharacterBase`).
+    /// Sets one element; panics if `index >= 8412`.
+    #[inline]
+    pub fn set_Unknown0x31d8_at(&self, index: usize, value: u8) {
+        assert!(index < 8412, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x36f4 + index * 0x1, value) }
+    }
+
+    /// The `CharacterZoneClient` base, at 0x2dc8: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CharacterZoneClient(&self) -> *mut CharacterZoneClient {
+        unsafe { self._bytes.get().cast::<u8>().add(0x2dc8).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0xc;
 }
 
 /// C++ class `PendingRewardList` (0x2c bytes).
@@ -66668,6 +75598,12 @@ impl PlayerClient {
         unsafe { write(self._bytes.get().cast(), 0x1f05, u8::from(value)) }
     }
 
+    /// The `PlayerZoneClient` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_PlayerZoneClient(&self) -> *mut PlayerZoneClient {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
+    }
+
     /// The `CActorApplicationData` base, at 0x0: what C++ passes as `this` to its methods.
     #[inline]
     pub fn as_CActorApplicationData(&self) -> *mut CActorApplicationData {
@@ -66919,6 +75855,2749 @@ impl PlayerRoleLoadout {
     pub fn set_name_at(&self, index: usize, value: c_char) {
         assert!(index < 128, "index out of bounds");
         unsafe { write(self._bytes.get().cast(), 0x4 + index * 0x1, value) }
+    }
+}
+
+/// C++ class `PlayerZoneClient` (0x10c0 bytes).
+#[repr(C)]
+pub struct PlayerZoneClient {
+    _bytes: UnsafeCell<[u8; 0x10c0]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl PlayerZoneClient {
+    /// `CActorApplicationData::__vfptr` at 0x0 (0x0 within `CActorApplicationData`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CActorApplicationData::__vfptr` at 0x0 (0x0 within `CActorApplicationData`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `TListNode<PlayerClient>::m_pPrev` at 0x4 (0x0 within `TListNode<PlayerClient>`).
+    #[inline]
+    pub fn m_pPrev(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `TListNode<PlayerClient>::m_pPrev` at 0x4 (0x0 within `TListNode<PlayerClient>`).
+    #[inline]
+    pub fn set_m_pPrev(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `TListNode<PlayerClient>::m_pNext` at 0x8 (0x4 within `TListNode<PlayerClient>`).
+    #[inline]
+    pub fn m_pNext(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `TListNode<PlayerClient>::m_pNext` at 0x8 (0x4 within `TListNode<PlayerClient>`).
+    #[inline]
+    pub fn set_m_pNext(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `TListNode<PlayerClient>::m_pList` at 0xc (0x8 within `TListNode<PlayerClient>`).
+    #[inline]
+    pub fn m_pList(&self) -> *mut TList_PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `TListNode<PlayerClient>::m_pList` at 0xc (0x8 within `TListNode<PlayerClient>`).
+    #[inline]
+    pub fn set_m_pList(&self, value: *mut TList_PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `PlayerBase::JumpStrength` at 0x10 (0x10 within `PlayerBase`).
+    #[inline]
+    pub fn JumpStrength(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `PlayerBase::JumpStrength` at 0x10 (0x10 within `PlayerBase`).
+    #[inline]
+    pub fn set_JumpStrength(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `PlayerBase::SwimStrength` at 0x14 (0x14 within `PlayerBase`).
+    #[inline]
+    pub fn SwimStrength(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x14) }
+    }
+
+    /// `PlayerBase::SwimStrength` at 0x14 (0x14 within `PlayerBase`).
+    #[inline]
+    pub fn set_SwimStrength(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x14, value) }
+    }
+
+    /// `PlayerBase::SpeedMultiplier` at 0x18 (0x18 within `PlayerBase`).
+    #[inline]
+    pub fn SpeedMultiplier(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `PlayerBase::SpeedMultiplier` at 0x18 (0x18 within `PlayerBase`).
+    #[inline]
+    pub fn set_SpeedMultiplier(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `PlayerBase::AreaFriction` at 0x1c (0x1c within `PlayerBase`).
+    #[inline]
+    pub fn AreaFriction(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `PlayerBase::AreaFriction` at 0x1c (0x1c within `PlayerBase`).
+    #[inline]
+    pub fn set_AreaFriction(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `PlayerBase::AccelerationFriction` at 0x20 (0x20 within `PlayerBase`).
+    #[inline]
+    pub fn AccelerationFriction(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `PlayerBase::AccelerationFriction` at 0x20 (0x20 within `PlayerBase`).
+    #[inline]
+    pub fn set_AccelerationFriction(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `PlayerBase::CollidingType` at 0x24 (0x24 within `PlayerBase`).
+    #[inline]
+    pub fn CollidingType(&self) -> EActorType {
+        unsafe { read(self._bytes.get().cast(), 0x24) }
+    }
+
+    /// `PlayerBase::CollidingType` at 0x24 (0x24 within `PlayerBase`).
+    #[inline]
+    pub fn set_CollidingType(&self, value: EActorType) {
+        unsafe { write(self._bytes.get().cast(), 0x24, value) }
+    }
+
+    /// `PlayerBase::FloorHeight` at 0x28 (0x28 within `PlayerBase`).
+    #[inline]
+    pub fn FloorHeight(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x28) }
+    }
+
+    /// `PlayerBase::FloorHeight` at 0x28 (0x28 within `PlayerBase`).
+    #[inline]
+    pub fn set_FloorHeight(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x28, value) }
+    }
+
+    /// `PlayerBase::bSinksInWater` at 0x2c (0x2c within `PlayerBase`).
+    #[inline]
+    pub fn bSinksInWater(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2c) != 0 }
+    }
+
+    /// `PlayerBase::bSinksInWater` at 0x2c (0x2c within `PlayerBase`).
+    #[inline]
+    pub fn set_bSinksInWater(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2c, u8::from(value)) }
+    }
+
+    /// `PlayerBase::PlayerTimeStamp` at 0x30 (0x30 within `PlayerBase`).
+    #[inline]
+    pub fn PlayerTimeStamp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `PlayerBase::PlayerTimeStamp` at 0x30 (0x30 within `PlayerBase`).
+    #[inline]
+    pub fn set_PlayerTimeStamp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `PlayerBase::LastTimeIdle` at 0x34 (0x34 within `PlayerBase`).
+    #[inline]
+    pub fn LastTimeIdle(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x34) }
+    }
+
+    /// `PlayerBase::LastTimeIdle` at 0x34 (0x34 within `PlayerBase`).
+    #[inline]
+    pub fn set_LastTimeIdle(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x34, value) }
+    }
+
+    /// `PlayerBase::Lastname` at 0x38 (0x38 within `PlayerBase`).
+    #[inline]
+    pub fn Lastname(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x38) }
+    }
+
+    /// `PlayerBase::Lastname` at 0x38 (0x38 within `PlayerBase`).
+    #[inline]
+    pub fn set_Lastname(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x38, value) }
+    }
+
+    /// `PlayerBase::Lastname` at 0x38 (0x38 within `PlayerBase`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Lastname_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x38 + index * 0x1) }
+    }
+
+    /// `PlayerBase::Lastname` at 0x38 (0x38 within `PlayerBase`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Lastname_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x38 + index * 0x1, value) }
+    }
+
+    /// `PlayerBase::AreaHPRegenMod` at 0x58 (0x58 within `PlayerBase`).
+    #[inline]
+    pub fn AreaHPRegenMod(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x58) }
+    }
+
+    /// `PlayerBase::AreaHPRegenMod` at 0x58 (0x58 within `PlayerBase`).
+    #[inline]
+    pub fn set_AreaHPRegenMod(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x58, value) }
+    }
+
+    /// `PlayerBase::AreaEndRegenMod` at 0x5c (0x5c within `PlayerBase`).
+    #[inline]
+    pub fn AreaEndRegenMod(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c) }
+    }
+
+    /// `PlayerBase::AreaEndRegenMod` at 0x5c (0x5c within `PlayerBase`).
+    #[inline]
+    pub fn set_AreaEndRegenMod(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c, value) }
+    }
+
+    /// `PlayerBase::AreaManaRegenMod` at 0x60 (0x60 within `PlayerBase`).
+    #[inline]
+    pub fn AreaManaRegenMod(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x60) }
+    }
+
+    /// `PlayerBase::AreaManaRegenMod` at 0x60 (0x60 within `PlayerBase`).
+    #[inline]
+    pub fn set_AreaManaRegenMod(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x60, value) }
+    }
+
+    /// `PlayerBase::Y` at 0x64 (0x64 within `PlayerBase`).
+    #[inline]
+    pub fn Y(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x64) }
+    }
+
+    /// `PlayerBase::Y` at 0x64 (0x64 within `PlayerBase`).
+    #[inline]
+    pub fn set_Y(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x64, value) }
+    }
+
+    /// `PlayerBase::X` at 0x68 (0x68 within `PlayerBase`).
+    #[inline]
+    pub fn X(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x68) }
+    }
+
+    /// `PlayerBase::X` at 0x68 (0x68 within `PlayerBase`).
+    #[inline]
+    pub fn set_X(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x68, value) }
+    }
+
+    /// `PlayerBase::Z` at 0x6c (0x6c within `PlayerBase`).
+    #[inline]
+    pub fn Z(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x6c) }
+    }
+
+    /// `PlayerBase::Z` at 0x6c (0x6c within `PlayerBase`).
+    #[inline]
+    pub fn set_Z(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x6c, value) }
+    }
+
+    /// `PlayerBase::SpeedY` at 0x70 (0x70 within `PlayerBase`).
+    #[inline]
+    pub fn SpeedY(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `PlayerBase::SpeedY` at 0x70 (0x70 within `PlayerBase`).
+    #[inline]
+    pub fn set_SpeedY(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `PlayerBase::SpeedX` at 0x74 (0x74 within `PlayerBase`).
+    #[inline]
+    pub fn SpeedX(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x74) }
+    }
+
+    /// `PlayerBase::SpeedX` at 0x74 (0x74 within `PlayerBase`).
+    #[inline]
+    pub fn set_SpeedX(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x74, value) }
+    }
+
+    /// `PlayerBase::SpeedZ` at 0x78 (0x78 within `PlayerBase`).
+    #[inline]
+    pub fn SpeedZ(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x78) }
+    }
+
+    /// `PlayerBase::SpeedZ` at 0x78 (0x78 within `PlayerBase`).
+    #[inline]
+    pub fn set_SpeedZ(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x78, value) }
+    }
+
+    /// `PlayerBase::SpeedRun` at 0x7c (0x7c within `PlayerBase`).
+    #[inline]
+    pub fn SpeedRun(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `PlayerBase::SpeedRun` at 0x7c (0x7c within `PlayerBase`).
+    #[inline]
+    pub fn set_SpeedRun(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+
+    /// `PlayerBase::Heading` at 0x80 (0x80 within `PlayerBase`).
+    #[inline]
+    pub fn Heading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x80) }
+    }
+
+    /// `PlayerBase::Heading` at 0x80 (0x80 within `PlayerBase`).
+    #[inline]
+    pub fn set_Heading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x80, value) }
+    }
+
+    /// `PlayerBase::Angle` at 0x84 (0x84 within `PlayerBase`).
+    #[inline]
+    pub fn Angle(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x84) }
+    }
+
+    /// `PlayerBase::Angle` at 0x84 (0x84 within `PlayerBase`).
+    #[inline]
+    pub fn set_Angle(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x84, value) }
+    }
+
+    /// `PlayerBase::AccelAngle` at 0x88 (0x88 within `PlayerBase`).
+    #[inline]
+    pub fn AccelAngle(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x88) }
+    }
+
+    /// `PlayerBase::AccelAngle` at 0x88 (0x88 within `PlayerBase`).
+    #[inline]
+    pub fn set_AccelAngle(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x88, value) }
+    }
+
+    /// `PlayerBase::SpeedHeading` at 0x8c (0x8c within `PlayerBase`).
+    #[inline]
+    pub fn SpeedHeading(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x8c) }
+    }
+
+    /// `PlayerBase::SpeedHeading` at 0x8c (0x8c within `PlayerBase`).
+    #[inline]
+    pub fn set_SpeedHeading(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x8c, value) }
+    }
+
+    /// `PlayerBase::CameraAngle` at 0x90 (0x90 within `PlayerBase`).
+    #[inline]
+    pub fn CameraAngle(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x90) }
+    }
+
+    /// `PlayerBase::CameraAngle` at 0x90 (0x90 within `PlayerBase`).
+    #[inline]
+    pub fn set_CameraAngle(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x90, value) }
+    }
+
+    /// `PlayerBase::UnderWater` at 0x94 (0x94 within `PlayerBase`).
+    #[inline]
+    pub fn UnderWater(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x94) }
+    }
+
+    /// `PlayerBase::UnderWater` at 0x94 (0x94 within `PlayerBase`).
+    #[inline]
+    pub fn set_UnderWater(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x94, value) }
+    }
+
+    /// `PlayerBase::LastBodyEnvironmentType` at 0x98 (0x98 within `PlayerBase`).
+    #[inline]
+    pub fn LastBodyEnvironmentType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x98) }
+    }
+
+    /// `PlayerBase::LastBodyEnvironmentType` at 0x98 (0x98 within `PlayerBase`).
+    #[inline]
+    pub fn set_LastBodyEnvironmentType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x98, value) }
+    }
+
+    /// `PlayerBase::LastFeetEnvironmentType` at 0x9c (0x9c within `PlayerBase`).
+    #[inline]
+    pub fn LastFeetEnvironmentType(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x9c) }
+    }
+
+    /// `PlayerBase::LastFeetEnvironmentType` at 0x9c (0x9c within `PlayerBase`).
+    #[inline]
+    pub fn set_LastFeetEnvironmentType(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x9c, value) }
+    }
+
+    /// `PlayerBase::HeadWet` at 0xa0 (0xa0 within `PlayerBase`).
+    #[inline]
+    pub fn HeadWet(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `PlayerBase::HeadWet` at 0xa0 (0xa0 within `PlayerBase`).
+    #[inline]
+    pub fn set_HeadWet(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `PlayerBase::FeetWet` at 0xa1 (0xa1 within `PlayerBase`).
+    #[inline]
+    pub fn FeetWet(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xa1) }
+    }
+
+    /// `PlayerBase::FeetWet` at 0xa1 (0xa1 within `PlayerBase`).
+    #[inline]
+    pub fn set_FeetWet(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xa1, value) }
+    }
+
+    /// `PlayerBase::BodyWet` at 0xa2 (0xa2 within `PlayerBase`).
+    #[inline]
+    pub fn BodyWet(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xa2) }
+    }
+
+    /// `PlayerBase::BodyWet` at 0xa2 (0xa2 within `PlayerBase`).
+    #[inline]
+    pub fn set_BodyWet(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xa2, value) }
+    }
+
+    /// `PlayerBase::LastBodyWet` at 0xa3 (0xa3 within `PlayerBase`).
+    #[inline]
+    pub fn LastBodyWet(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0xa3) }
+    }
+
+    /// `PlayerBase::LastBodyWet` at 0xa3 (0xa3 within `PlayerBase`).
+    #[inline]
+    pub fn set_LastBodyWet(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0xa3, value) }
+    }
+
+    /// `PlayerBase::Name` at 0xa4 (0xa4 within `PlayerBase`).
+    #[inline]
+    pub fn Name(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0xa4) }
+    }
+
+    /// `PlayerBase::Name` at 0xa4 (0xa4 within `PlayerBase`).
+    #[inline]
+    pub fn set_Name(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, value) }
+    }
+
+    /// `PlayerBase::Name` at 0xa4 (0xa4 within `PlayerBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Name_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xa4 + index * 0x1) }
+    }
+
+    /// `PlayerBase::Name` at 0xa4 (0xa4 within `PlayerBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Name_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xa4 + index * 0x1, value) }
+    }
+
+    /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
+    #[inline]
+    pub fn DisplayedName(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0xe4) }
+    }
+
+    /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
+    #[inline]
+    pub fn set_DisplayedName(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0xe4, value) }
+    }
+
+    /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn DisplayedName_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe4 + index * 0x1) }
+    }
+
+    /// `PlayerBase::DisplayedName` at 0xe4 (0xe4 within `PlayerBase`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_DisplayedName_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe4 + index * 0x1, value) }
+    }
+
+    /// `PlayerBase::PossiblyStuck` at 0x124 (0x124 within `PlayerBase`).
+    #[inline]
+    pub fn PossiblyStuck(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x124) }
+    }
+
+    /// `PlayerBase::PossiblyStuck` at 0x124 (0x124 within `PlayerBase`).
+    #[inline]
+    pub fn set_PossiblyStuck(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x124, value) }
+    }
+
+    /// `PlayerBase::Type` at 0x125 (0x125 within `PlayerBase`).
+    #[inline]
+    pub fn Type(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x125) }
+    }
+
+    /// `PlayerBase::Type` at 0x125 (0x125 within `PlayerBase`).
+    #[inline]
+    pub fn set_Type(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x125, value) }
+    }
+
+    /// `PlayerBase::Properties` at 0x128 (0x128 within `PlayerBase`).
+    #[inline]
+    pub fn Properties(&self) -> &CharacterPropertyHash {
+        unsafe { at(self._bytes.get().cast(), 0x128) }
+    }
+
+    /// `PlayerBase::AvatarHeight` at 0x138 (0x138 within `PlayerBase`).
+    #[inline]
+    pub fn AvatarHeight(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x138) }
+    }
+
+    /// `PlayerBase::AvatarHeight` at 0x138 (0x138 within `PlayerBase`).
+    #[inline]
+    pub fn set_AvatarHeight(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x138, value) }
+    }
+
+    /// `PlayerBase::Height` at 0x13c (0x13c within `PlayerBase`).
+    #[inline]
+    pub fn Height(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x13c) }
+    }
+
+    /// `PlayerBase::Height` at 0x13c (0x13c within `PlayerBase`).
+    #[inline]
+    pub fn set_Height(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x13c, value) }
+    }
+
+    /// `PlayerBase::Width` at 0x140 (0x140 within `PlayerBase`).
+    #[inline]
+    pub fn Width(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x140) }
+    }
+
+    /// `PlayerBase::Width` at 0x140 (0x140 within `PlayerBase`).
+    #[inline]
+    pub fn set_Width(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x140, value) }
+    }
+
+    /// `PlayerBase::Length` at 0x144 (0x144 within `PlayerBase`).
+    #[inline]
+    pub fn Length(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x144) }
+    }
+
+    /// `PlayerBase::Length` at 0x144 (0x144 within `PlayerBase`).
+    #[inline]
+    pub fn set_Length(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x144, value) }
+    }
+
+    /// `PlayerBase::SpawnID` at 0x148 (0x148 within `PlayerBase`).
+    #[inline]
+    pub fn SpawnID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x148) }
+    }
+
+    /// `PlayerBase::SpawnID` at 0x148 (0x148 within `PlayerBase`).
+    #[inline]
+    pub fn set_SpawnID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x148, value) }
+    }
+
+    /// `PlayerBase::PlayerState` at 0x14c (0x14c within `PlayerBase`).
+    #[inline]
+    pub fn PlayerState(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x14c) }
+    }
+
+    /// `PlayerBase::PlayerState` at 0x14c (0x14c within `PlayerBase`).
+    #[inline]
+    pub fn set_PlayerState(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x14c, value) }
+    }
+
+    /// `PlayerBase::Vehicle` at 0x150 (0x150 within `PlayerBase`).
+    #[inline]
+    pub fn Vehicle(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x150) }
+    }
+
+    /// `PlayerBase::Vehicle` at 0x150 (0x150 within `PlayerBase`).
+    #[inline]
+    pub fn set_Vehicle(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x150, value) }
+    }
+
+    /// `PlayerBase::Mount` at 0x154 (0x154 within `PlayerBase`).
+    #[inline]
+    pub fn Mount(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x154) }
+    }
+
+    /// `PlayerBase::Mount` at 0x154 (0x154 within `PlayerBase`).
+    #[inline]
+    pub fn set_Mount(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x154, value) }
+    }
+
+    /// `PlayerBase::Rider` at 0x158 (0x158 within `PlayerBase`).
+    #[inline]
+    pub fn Rider(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x158) }
+    }
+
+    /// `PlayerBase::Rider` at 0x158 (0x158 within `PlayerBase`).
+    #[inline]
+    pub fn set_Rider(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x158, value) }
+    }
+
+    /// `PlayerBase::Unknown0x0164` at 0x15c (0x15c within `PlayerBase`).
+    #[inline]
+    pub fn Unknown0x0164(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x15c) }
+    }
+
+    /// `PlayerBase::Unknown0x0164` at 0x15c (0x15c within `PlayerBase`).
+    #[inline]
+    pub fn set_Unknown0x0164(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x15c, value) }
+    }
+
+    /// `PlayerBase::Targetable` at 0x160 (0x160 within `PlayerBase`).
+    #[inline]
+    pub fn Targetable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x160) != 0 }
+    }
+
+    /// `PlayerBase::Targetable` at 0x160 (0x160 within `PlayerBase`).
+    #[inline]
+    pub fn set_Targetable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x160, u8::from(value)) }
+    }
+
+    /// `PlayerBase::bTargetCyclable` at 0x161 (0x161 within `PlayerBase`).
+    #[inline]
+    pub fn bTargetCyclable(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x161) != 0 }
+    }
+
+    /// `PlayerBase::bTargetCyclable` at 0x161 (0x161 within `PlayerBase`).
+    #[inline]
+    pub fn set_bTargetCyclable(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x161, u8::from(value)) }
+    }
+
+    /// `PlayerBase::bClickThrough` at 0x162 (0x162 within `PlayerBase`).
+    #[inline]
+    pub fn bClickThrough(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x162) != 0 }
+    }
+
+    /// `PlayerBase::bClickThrough` at 0x162 (0x162 within `PlayerBase`).
+    #[inline]
+    pub fn set_bClickThrough(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x162, u8::from(value)) }
+    }
+
+    /// `PlayerBase::bBeingFlung` at 0x163 (0x163 within `PlayerBase`).
+    #[inline]
+    pub fn bBeingFlung(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x163) != 0 }
+    }
+
+    /// `PlayerBase::bBeingFlung` at 0x163 (0x163 within `PlayerBase`).
+    #[inline]
+    pub fn set_bBeingFlung(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x163, u8::from(value)) }
+    }
+
+    /// `PlayerBase::FlingActiveTimer` at 0x164 (0x164 within `PlayerBase`).
+    #[inline]
+    pub fn FlingActiveTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x164) }
+    }
+
+    /// `PlayerBase::FlingActiveTimer` at 0x164 (0x164 within `PlayerBase`).
+    #[inline]
+    pub fn set_FlingActiveTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x164, value) }
+    }
+
+    /// `PlayerBase::FlingTimerStart` at 0x168 (0x168 within `PlayerBase`).
+    #[inline]
+    pub fn FlingTimerStart(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x168) }
+    }
+
+    /// `PlayerBase::FlingTimerStart` at 0x168 (0x168 within `PlayerBase`).
+    #[inline]
+    pub fn set_FlingTimerStart(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x168, value) }
+    }
+
+    /// `PlayerBase::bFlingSomething` at 0x16c (0x16c within `PlayerBase`).
+    #[inline]
+    pub fn bFlingSomething(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x16c) != 0 }
+    }
+
+    /// `PlayerBase::bFlingSomething` at 0x16c (0x16c within `PlayerBase`).
+    #[inline]
+    pub fn set_bFlingSomething(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x16c, u8::from(value)) }
+    }
+
+    /// `PlayerBase::FlingY` at 0x170 (0x170 within `PlayerBase`).
+    #[inline]
+    pub fn FlingY(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x170) }
+    }
+
+    /// `PlayerBase::FlingY` at 0x170 (0x170 within `PlayerBase`).
+    #[inline]
+    pub fn set_FlingY(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x170, value) }
+    }
+
+    /// `PlayerBase::FlingX` at 0x174 (0x174 within `PlayerBase`).
+    #[inline]
+    pub fn FlingX(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x174) }
+    }
+
+    /// `PlayerBase::FlingX` at 0x174 (0x174 within `PlayerBase`).
+    #[inline]
+    pub fn set_FlingX(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x174, value) }
+    }
+
+    /// `PlayerBase::FlingZ` at 0x178 (0x178 within `PlayerBase`).
+    #[inline]
+    pub fn FlingZ(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x178) }
+    }
+
+    /// `PlayerBase::FlingZ` at 0x178 (0x178 within `PlayerBase`).
+    #[inline]
+    pub fn set_FlingZ(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x178, value) }
+    }
+
+    /// `PlayerBase::bFlingSnapToDest` at 0x17c (0x17c within `PlayerBase`).
+    #[inline]
+    pub fn bFlingSnapToDest(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x17c) != 0 }
+    }
+
+    /// `PlayerBase::bFlingSnapToDest` at 0x17c (0x17c within `PlayerBase`).
+    #[inline]
+    pub fn set_bFlingSnapToDest(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x17c, u8::from(value)) }
+    }
+
+    /// `PlayerBase::SplineID` at 0x180 (0x180 within `PlayerBase`).
+    #[inline]
+    pub fn SplineID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x180) }
+    }
+
+    /// `PlayerBase::SplineID` at 0x180 (0x180 within `PlayerBase`).
+    #[inline]
+    pub fn set_SplineID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x180, value) }
+    }
+
+    /// `PlayerBase::SplineRiderID` at 0x184 (0x184 within `PlayerBase`).
+    #[inline]
+    pub fn SplineRiderID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x184) }
+    }
+
+    /// `PlayerBase::SplineRiderID` at 0x184 (0x184 within `PlayerBase`).
+    #[inline]
+    pub fn set_SplineRiderID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x184, value) }
+    }
+
+    /// `PlayerZoneClient::LastIntimidateUse` at 0x188 (0x188 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastIntimidateUse(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x188) }
+    }
+
+    /// `PlayerZoneClient::LastIntimidateUse` at 0x188 (0x188 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastIntimidateUse(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x188, value) }
+    }
+
+    /// `PlayerZoneClient::IsPassenger` at 0x18c (0x18c within `PlayerZoneClient`).
+    #[inline]
+    pub fn IsPassenger(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x18c) }
+    }
+
+    /// `PlayerZoneClient::IsPassenger` at 0x18c (0x18c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_IsPassenger(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x18c, value) }
+    }
+
+    /// `PlayerZoneClient::ViewHeight` at 0x190 (0x190 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ViewHeight(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x190) }
+    }
+
+    /// `PlayerZoneClient::ViewHeight` at 0x190 (0x190 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ViewHeight(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x190, value) }
+    }
+
+    /// `PlayerZoneClient::bOfflineMode` at 0x194 (0x194 within `PlayerZoneClient`).
+    #[inline]
+    pub fn bOfflineMode(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x194) != 0 }
+    }
+
+    /// `PlayerZoneClient::bOfflineMode` at 0x194 (0x194 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bOfflineMode(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x194, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::RealEstateID` at 0x198 (0x198 within `PlayerZoneClient`).
+    #[inline]
+    pub fn RealEstateID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x198) }
+    }
+
+    /// `PlayerZoneClient::RealEstateID` at 0x198 (0x198 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_RealEstateID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x198, value) }
+    }
+
+    /// `PlayerZoneClient::TitleVisible` at 0x19c (0x19c within `PlayerZoneClient`).
+    #[inline]
+    pub fn TitleVisible(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19c) }
+    }
+
+    /// `PlayerZoneClient::TitleVisible` at 0x19c (0x19c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_TitleVisible(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19c, value) }
+    }
+
+    /// `PlayerZoneClient::bStationary` at 0x19d (0x19d within `PlayerZoneClient`).
+    #[inline]
+    pub fn bStationary(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x19d) != 0 }
+    }
+
+    /// `PlayerZoneClient::bStationary` at 0x19d (0x19d within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bStationary(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x19d, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::CharClass` at 0x19e (0x19e within `PlayerZoneClient`).
+    #[inline]
+    pub fn CharClass(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x19e) }
+    }
+
+    /// `PlayerZoneClient::CharClass` at 0x19e (0x19e within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CharClass(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x19e, value) }
+    }
+
+    /// `PlayerZoneClient::EnduranceCurrent` at 0x1a0 (0x1a0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn EnduranceCurrent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a0) }
+    }
+
+    /// `PlayerZoneClient::EnduranceCurrent` at 0x1a0 (0x1a0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_EnduranceCurrent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a0, value) }
+    }
+
+    /// `PlayerZoneClient::MinuteTimer` at 0x1a4 (0x1a4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn MinuteTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1a4) }
+    }
+
+    /// `PlayerZoneClient::MinuteTimer` at 0x1a4 (0x1a4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_MinuteTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, value) }
+    }
+
+    /// `PlayerZoneClient::LoginRelated` at 0x1a8 (0x1a8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LoginRelated(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x1a8) }
+    }
+
+    /// `PlayerZoneClient::LoginRelated` at 0x1a8 (0x1a8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LoginRelated(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x1a8, value) }
+    }
+
+    /// `PlayerZoneClient::LoginRelated` at 0x1a8 (0x1a8 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn LoginRelated_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1a8 + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::LoginRelated` at 0x1a8 (0x1a8 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_LoginRelated_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1a8 + index * 0x1, value) }
+    }
+
+    /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn DraggingPlayer(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x1c8) }
+    }
+
+    /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_DraggingPlayer(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x1c8, value) }
+    }
+
+    /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn DraggingPlayer_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1c8 + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::DraggingPlayer` at 0x1c8 (0x1c8 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_DraggingPlayer_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1c8 + index * 0x1, value) }
+    }
+
+    /// `PlayerZoneClient::Mercenary` at 0x208 (0x208 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Mercenary(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x208) != 0 }
+    }
+
+    /// `PlayerZoneClient::Mercenary` at 0x208 (0x208 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Mercenary(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x208, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::FallingStartZ` at 0x20c (0x20c within `PlayerZoneClient`).
+    #[inline]
+    pub fn FallingStartZ(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x20c) }
+    }
+
+    /// `PlayerZoneClient::FallingStartZ` at 0x20c (0x20c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_FallingStartZ(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x20c, value) }
+    }
+
+    /// `PlayerZoneClient::Zone` at 0x210 (0x210 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Zone(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x210) }
+    }
+
+    /// `PlayerZoneClient::Zone` at 0x210 (0x210 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Zone(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x210, value) }
+    }
+
+    /// `PlayerZoneClient::Light` at 0x214 (0x214 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Light(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x214) }
+    }
+
+    /// `PlayerZoneClient::Light` at 0x214 (0x214 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Light(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x214, value) }
+    }
+
+    /// `PlayerZoneClient::LastSecondaryUseTime` at 0x218 (0x218 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastSecondaryUseTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x218) }
+    }
+
+    /// `PlayerZoneClient::LastSecondaryUseTime` at 0x218 (0x218 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastSecondaryUseTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x218, value) }
+    }
+
+    /// `PlayerZoneClient::IsAttacking` at 0x21c (0x21c within `PlayerZoneClient`).
+    #[inline]
+    pub fn IsAttacking(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x21c) }
+    }
+
+    /// `PlayerZoneClient::IsAttacking` at 0x21c (0x21c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_IsAttacking(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x21c, value) }
+    }
+
+    /// `PlayerZoneClient::BearingToTarget` at 0x220 (0x220 within `PlayerZoneClient`).
+    #[inline]
+    pub fn BearingToTarget(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x220) }
+    }
+
+    /// `PlayerZoneClient::BearingToTarget` at 0x220 (0x220 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_BearingToTarget(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x220, value) }
+    }
+
+    /// `PlayerZoneClient::GMRank` at 0x224 (0x224 within `PlayerZoneClient`).
+    #[inline]
+    pub fn GMRank(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x224) }
+    }
+
+    /// `PlayerZoneClient::GMRank` at 0x224 (0x224 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GMRank(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x224, value) }
+    }
+
+    /// `PlayerZoneClient::AnimationSpeedRelated` at 0x228 (0x228 within `PlayerZoneClient`).
+    #[inline]
+    pub fn AnimationSpeedRelated(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x228) }
+    }
+
+    /// `PlayerZoneClient::AnimationSpeedRelated` at 0x228 (0x228 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_AnimationSpeedRelated(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x228, value) }
+    }
+
+    /// `PlayerZoneClient::Type2` at 0x22c (0x22c within `PlayerZoneClient`).
+    #[inline]
+    pub fn Type2(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x22c) }
+    }
+
+    /// `PlayerZoneClient::Type2` at 0x22c (0x22c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Type2(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x22c, value) }
+    }
+
+    /// `PlayerZoneClient::bBuffTimersOnHold` at 0x22d (0x22d within `PlayerZoneClient`).
+    #[inline]
+    pub fn bBuffTimersOnHold(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x22d) != 0 }
+    }
+
+    /// `PlayerZoneClient::bBuffTimersOnHold` at 0x22d (0x22d within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bBuffTimersOnHold(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x22d, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::LastRangedUsedTime` at 0x230 (0x230 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastRangedUsedTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x230) }
+    }
+
+    /// `PlayerZoneClient::LastRangedUsedTime` at 0x230 (0x230 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastRangedUsedTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x230, value) }
+    }
+
+    /// `PlayerZoneClient::pRaceGenderInfo` at 0x234 (0x234 within `PlayerZoneClient`).
+    #[inline]
+    pub fn pRaceGenderInfo(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x234) }
+    }
+
+    /// `PlayerZoneClient::pRaceGenderInfo` at 0x234 (0x234 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_pRaceGenderInfo(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x234, value) }
+    }
+
+    /// `PlayerZoneClient::LastAttack` at 0x238 (0x238 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastAttack(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x238) }
+    }
+
+    /// `PlayerZoneClient::LastAttack` at 0x238 (0x238 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastAttack(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x238, value) }
+    }
+
+    /// `PlayerZoneClient::LastPrimaryUseTime` at 0x23c (0x23c within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastPrimaryUseTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x23c) }
+    }
+
+    /// `PlayerZoneClient::LastPrimaryUseTime` at 0x23c (0x23c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastPrimaryUseTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x23c, value) }
+    }
+
+    /// `PlayerZoneClient::CurrIOState` at 0x240 (0x240 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CurrIOState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x240) }
+    }
+
+    /// `PlayerZoneClient::CurrIOState` at 0x240 (0x240 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CurrIOState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x240, value) }
+    }
+
+    /// `PlayerZoneClient::LastRefresh` at 0x244 (0x244 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastRefresh(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x244) }
+    }
+
+    /// `PlayerZoneClient::LastRefresh` at 0x244 (0x244 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastRefresh(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x244, value) }
+    }
+
+    /// `PlayerZoneClient::GuildStatus` at 0x248 (0x248 within `PlayerZoneClient`).
+    #[inline]
+    pub fn GuildStatus(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x248) }
+    }
+
+    /// `PlayerZoneClient::GuildStatus` at 0x248 (0x248 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GuildStatus(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x248, value) }
+    }
+
+    /// `PlayerZoneClient::LastTick` at 0x24c (0x24c within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastTick(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x24c) }
+    }
+
+    /// `PlayerZoneClient::LastTick` at 0x24c (0x24c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastTick(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x24c, value) }
+    }
+
+    /// `PlayerZoneClient::Level` at 0x250 (0x250 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Level(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x250) }
+    }
+
+    /// `PlayerZoneClient::Level` at 0x250 (0x250 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Level(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x250, value) }
+    }
+
+    /// `PlayerZoneClient::bAttackRelated` at 0x251 (0x251 within `PlayerZoneClient`).
+    #[inline]
+    pub fn bAttackRelated(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x251) != 0 }
+    }
+
+    /// `PlayerZoneClient::bAttackRelated` at 0x251 (0x251 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bAttackRelated(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x251, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::LoginSerial` at 0x254 (0x254 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LoginSerial(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x254) }
+    }
+
+    /// `PlayerZoneClient::LoginSerial` at 0x254 (0x254 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LoginSerial(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x254, value) }
+    }
+
+    /// `PlayerZoneClient::SomethingElse` at 0x258 (0x258 within `PlayerZoneClient`).
+    #[inline]
+    pub fn SomethingElse(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x258) }
+    }
+
+    /// `PlayerZoneClient::SomethingElse` at 0x258 (0x258 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_SomethingElse(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x258, value) }
+    }
+
+    /// `PlayerZoneClient::GM` at 0x25c (0x25c within `PlayerZoneClient`).
+    #[inline]
+    pub fn GM(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x25c) }
+    }
+
+    /// `PlayerZoneClient::GM` at 0x25c (0x25c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GM(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x25c, value) }
+    }
+
+    /// `PlayerZoneClient::FishingETA` at 0x260 (0x260 within `PlayerZoneClient`).
+    #[inline]
+    pub fn FishingETA(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x260) }
+    }
+
+    /// `PlayerZoneClient::FishingETA` at 0x260 (0x260 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_FishingETA(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x260, value) }
+    }
+
+    /// `PlayerZoneClient::Sneak` at 0x264 (0x264 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Sneak(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x264) != 0 }
+    }
+
+    /// `PlayerZoneClient::Sneak` at 0x264 (0x264 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Sneak(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x264, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::bAnimationOnPop` at 0x265 (0x265 within `PlayerZoneClient`).
+    #[inline]
+    pub fn bAnimationOnPop(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x265) != 0 }
+    }
+
+    /// `PlayerZoneClient::bAnimationOnPop` at 0x265 (0x265 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bAnimationOnPop(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x265, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::LastResendAddPlayerPacket` at 0x268 (0x268 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastResendAddPlayerPacket(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x268) }
+    }
+
+    /// `PlayerZoneClient::LastResendAddPlayerPacket` at 0x268 (0x268 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastResendAddPlayerPacket(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x268, value) }
+    }
+
+    /// `PlayerZoneClient::pViewPlayer` at 0x26c (0x26c within `PlayerZoneClient`).
+    #[inline]
+    pub fn pViewPlayer(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0x26c) }
+    }
+
+    /// `PlayerZoneClient::pViewPlayer` at 0x26c (0x26c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_pViewPlayer(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0x26c, value) }
+    }
+
+    /// `PlayerZoneClient::ACounter` at 0x270 (0x270 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ACounter(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x270) }
+    }
+
+    /// `PlayerZoneClient::ACounter` at 0x270 (0x270 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ACounter(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x270, value) }
+    }
+
+    /// `PlayerZoneClient::CameraOffset` at 0x274 (0x274 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CameraOffset(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x274) }
+    }
+
+    /// `PlayerZoneClient::CameraOffset` at 0x274 (0x274 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CameraOffset(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x274, value) }
+    }
+
+    /// `PlayerZoneClient::Meditating` at 0x278 (0x278 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Meditating(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x278) }
+    }
+
+    /// `PlayerZoneClient::Meditating` at 0x278 (0x278 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Meditating(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x278, value) }
+    }
+
+    /// `PlayerZoneClient::FindBits` at 0x27c (0x27c within `PlayerZoneClient`).
+    #[inline]
+    pub fn FindBits(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x27c) }
+    }
+
+    /// `PlayerZoneClient::FindBits` at 0x27c (0x27c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_FindBits(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x27c, value) }
+    }
+
+    /// `PlayerZoneClient::SecondaryTintIndex` at 0x280 (0x280 within `PlayerZoneClient`).
+    #[inline]
+    pub fn SecondaryTintIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x280) }
+    }
+
+    /// `PlayerZoneClient::SecondaryTintIndex` at 0x280 (0x280 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_SecondaryTintIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x280, value) }
+    }
+
+    /// `PlayerZoneClient::LastCollision` at 0x284 (0x284 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastCollision(&self) -> &CPhysicsInfo {
+        unsafe { at(self._bytes.get().cast(), 0x284) }
+    }
+
+    /// `PlayerZoneClient::PetID` at 0x2b4 (0x2b4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn PetID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b4) }
+    }
+
+    /// `PlayerZoneClient::PetID` at 0x2b4 (0x2b4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_PetID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b4, value) }
+    }
+
+    /// `PlayerZoneClient::Anon` at 0x2b8 (0x2b8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Anon(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2b8) }
+    }
+
+    /// `PlayerZoneClient::Anon` at 0x2b8 (0x2b8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Anon(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2b8, value) }
+    }
+
+    /// `PlayerZoneClient::RespawnTimer` at 0x2bc (0x2bc within `PlayerZoneClient`).
+    #[inline]
+    pub fn RespawnTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2bc) }
+    }
+
+    /// `PlayerZoneClient::RespawnTimer` at 0x2bc (0x2bc within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_RespawnTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2bc, value) }
+    }
+
+    /// `PlayerZoneClient::LastCastNum` at 0x2c0 (0x2c0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastCastNum(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c0) }
+    }
+
+    /// `PlayerZoneClient::LastCastNum` at 0x2c0 (0x2c0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastCastNum(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c0, value) }
+    }
+
+    /// `PlayerZoneClient::AARank` at 0x2c4 (0x2c4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn AARank(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c4) }
+    }
+
+    /// `PlayerZoneClient::AARank` at 0x2c4 (0x2c4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_AARank(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c4, value) }
+    }
+
+    /// `PlayerZoneClient::LastCastTime` at 0x2c8 (0x2c8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastCastTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2c8) }
+    }
+
+    /// `PlayerZoneClient::LastCastTime` at 0x2c8 (0x2c8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastCastTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2c8, value) }
+    }
+
+    /// `PlayerZoneClient::pCharacter` at 0x2cc (0x2cc within `PlayerZoneClient`).
+    #[inline]
+    pub fn pCharacter(&self) -> *mut CharacterZoneClient {
+        unsafe { read(self._bytes.get().cast(), 0x2cc) }
+    }
+
+    /// `PlayerZoneClient::pCharacter` at 0x2cc (0x2cc within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_pCharacter(&self, value: *mut CharacterZoneClient) {
+        unsafe { write(self._bytes.get().cast(), 0x2cc, value) }
+    }
+
+    /// `PlayerZoneClient::MerchantGreed` at 0x2d0 (0x2d0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn MerchantGreed(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d0) }
+    }
+
+    /// `PlayerZoneClient::MerchantGreed` at 0x2d0 (0x2d0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_MerchantGreed(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d0, value) }
+    }
+
+    /// `PlayerZoneClient::pTouchingSwitch` at 0x2d4 (0x2d4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn pTouchingSwitch(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x2d4) }
+    }
+
+    /// `PlayerZoneClient::pTouchingSwitch` at 0x2d4 (0x2d4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_pTouchingSwitch(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x2d4, value) }
+    }
+
+    /// `PlayerZoneClient::TimeStamp` at 0x2d8 (0x2d8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn TimeStamp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x2d8) }
+    }
+
+    /// `PlayerZoneClient::TimeStamp` at 0x2d8 (0x2d8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_TimeStamp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x2d8, value) }
+    }
+
+    /// `PlayerZoneClient::HPMax` at 0x2dc (0x2dc within `PlayerZoneClient`).
+    #[inline]
+    pub fn HPMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2dc) }
+    }
+
+    /// `PlayerZoneClient::HPMax` at 0x2dc (0x2dc within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_HPMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2dc, value) }
+    }
+
+    /// `PlayerZoneClient::bSummoned` at 0x2e0 (0x2e0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn bSummoned(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2e0) != 0 }
+    }
+
+    /// `PlayerZoneClient::bSummoned` at 0x2e0 (0x2e0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bSummoned(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2e0, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::InPvPArea` at 0x2e1 (0x2e1 within `PlayerZoneClient`).
+    #[inline]
+    pub fn InPvPArea(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x2e1) }
+    }
+
+    /// `PlayerZoneClient::InPvPArea` at 0x2e1 (0x2e1 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_InPvPArea(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x2e1, value) }
+    }
+
+    /// `PlayerZoneClient::HPCurrent` at 0x2e4 (0x2e4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn HPCurrent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x2e4) }
+    }
+
+    /// `PlayerZoneClient::HPCurrent` at 0x2e4 (0x2e4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_HPCurrent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x2e4, value) }
+    }
+
+    /// `PlayerZoneClient::SpellGemETA` at 0x2e8 (0x2e8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn SpellGemETA(&self) -> [u32; 13] {
+        unsafe { read(self._bytes.get().cast(), 0x2e8) }
+    }
+
+    /// `PlayerZoneClient::SpellGemETA` at 0x2e8 (0x2e8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_SpellGemETA(&self, value: [u32; 13]) {
+        unsafe { write(self._bytes.get().cast(), 0x2e8, value) }
+    }
+
+    /// `PlayerZoneClient::SpellGemETA` at 0x2e8 (0x2e8 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 13`.
+    #[inline]
+    pub fn SpellGemETA_at(&self, index: usize) -> u32 {
+        assert!(index < 13, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2e8 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::SpellGemETA` at 0x2e8 (0x2e8 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 13`.
+    #[inline]
+    pub fn set_SpellGemETA_at(&self, index: usize, value: u32) {
+        assert!(index < 13, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2e8 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::GetMeleeRangeVar1` at 0x31c (0x31c within `PlayerZoneClient`).
+    #[inline]
+    pub fn GetMeleeRangeVar1(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x31c) }
+    }
+
+    /// `PlayerZoneClient::GetMeleeRangeVar1` at 0x31c (0x31c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GetMeleeRangeVar1(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x31c, value) }
+    }
+
+    /// `PlayerZoneClient::Trader` at 0x320 (0x320 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Trader(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x320) }
+    }
+
+    /// `PlayerZoneClient::Trader` at 0x320 (0x320 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Trader(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x320, value) }
+    }
+
+    /// `PlayerZoneClient::SomeData` at 0x324 (0x324 within `PlayerZoneClient`).
+    #[inline]
+    pub fn SomeData(&self) -> [i32; 2] {
+        unsafe { read(self._bytes.get().cast(), 0x324) }
+    }
+
+    /// `PlayerZoneClient::SomeData` at 0x324 (0x324 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_SomeData(&self, value: [i32; 2]) {
+        unsafe { write(self._bytes.get().cast(), 0x324, value) }
+    }
+
+    /// `PlayerZoneClient::SomeData` at 0x324 (0x324 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn SomeData_at(&self, index: usize) -> i32 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x324 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::SomeData` at 0x324 (0x324 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_SomeData_at(&self, index: usize, value: i32) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x324 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::bSwitchMoved` at 0x32c (0x32c within `PlayerZoneClient`).
+    #[inline]
+    pub fn bSwitchMoved(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x32c) != 0 }
+    }
+
+    /// `PlayerZoneClient::bSwitchMoved` at 0x32c (0x32c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bSwitchMoved(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x32c, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::MyWalkSpeed` at 0x330 (0x330 within `PlayerZoneClient`).
+    #[inline]
+    pub fn MyWalkSpeed(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x330) }
+    }
+
+    /// `PlayerZoneClient::MyWalkSpeed` at 0x330 (0x330 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_MyWalkSpeed(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x330, value) }
+    }
+
+    /// `PlayerZoneClient::HoldingAnimation` at 0x334 (0x334 within `PlayerZoneClient`).
+    #[inline]
+    pub fn HoldingAnimation(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x334) }
+    }
+
+    /// `PlayerZoneClient::HoldingAnimation` at 0x334 (0x334 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_HoldingAnimation(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x334, value) }
+    }
+
+    /// `PlayerZoneClient::HideMode` at 0x338 (0x338 within `PlayerZoneClient`).
+    #[inline]
+    pub fn HideMode(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x338) }
+    }
+
+    /// `PlayerZoneClient::HideMode` at 0x338 (0x338 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_HideMode(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x338, value) }
+    }
+
+    /// `PlayerZoneClient::Stuff` at 0x33c (0x33c within `PlayerZoneClient`).
+    #[inline]
+    pub fn Stuff(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x33c) }
+    }
+
+    /// `PlayerZoneClient::Stuff` at 0x33c (0x33c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Stuff(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x33c, value) }
+    }
+
+    /// `PlayerZoneClient::AltAttack` at 0x340 (0x340 within `PlayerZoneClient`).
+    #[inline]
+    pub fn AltAttack(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x340) }
+    }
+
+    /// `PlayerZoneClient::AltAttack` at 0x340 (0x340 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_AltAttack(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x340, value) }
+    }
+
+    /// `PlayerZoneClient::PotionTimer` at 0x344 (0x344 within `PlayerZoneClient`).
+    #[inline]
+    pub fn PotionTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x344) }
+    }
+
+    /// `PlayerZoneClient::PotionTimer` at 0x344 (0x344 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_PotionTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x344, value) }
+    }
+
+    /// `PlayerZoneClient::HmmWhat` at 0x348 (0x348 within `PlayerZoneClient`).
+    #[inline]
+    pub fn HmmWhat(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x348) }
+    }
+
+    /// `PlayerZoneClient::HmmWhat` at 0x348 (0x348 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_HmmWhat(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x348, value) }
+    }
+
+    /// `PlayerZoneClient::PvPFlag` at 0x349 (0x349 within `PlayerZoneClient`).
+    #[inline]
+    pub fn PvPFlag(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x349) != 0 }
+    }
+
+    /// `PlayerZoneClient::PvPFlag` at 0x349 (0x349 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_PvPFlag(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x349, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::GuildID` at 0x34c (0x34c within `PlayerZoneClient`).
+    #[inline]
+    pub fn GuildID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x34c) }
+    }
+
+    /// `PlayerZoneClient::GuildID` at 0x34c (0x34c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GuildID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x34c, value) }
+    }
+
+    /// `PlayerZoneClient::RunSpeed` at 0x350 (0x350 within `PlayerZoneClient`).
+    #[inline]
+    pub fn RunSpeed(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x350) }
+    }
+
+    /// `PlayerZoneClient::RunSpeed` at 0x350 (0x350 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_RunSpeed(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x350, value) }
+    }
+
+    /// `PlayerZoneClient::ManaMax` at 0x354 (0x354 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ManaMax(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x354) }
+    }
+
+    /// `PlayerZoneClient::ManaMax` at 0x354 (0x354 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ManaMax(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x354, value) }
+    }
+
+    /// `PlayerZoneClient::LastMealTime` at 0x358 (0x358 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastMealTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x358) }
+    }
+
+    /// `PlayerZoneClient::LastMealTime` at 0x358 (0x358 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastMealTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x358, value) }
+    }
+
+    /// `PlayerZoneClient::StandState` at 0x35c (0x35c within `PlayerZoneClient`).
+    #[inline]
+    pub fn StandState(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x35c) }
+    }
+
+    /// `PlayerZoneClient::StandState` at 0x35c (0x35c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_StandState(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x35c, value) }
+    }
+
+    /// `PlayerZoneClient::LastTimeStoodStill` at 0x360 (0x360 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastTimeStoodStill(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x360) }
+    }
+
+    /// `PlayerZoneClient::LastTimeStoodStill` at 0x360 (0x360 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastTimeStoodStill(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x360, value) }
+    }
+
+    /// `PlayerZoneClient::DoSpecialMelee` at 0x364 (0x364 within `PlayerZoneClient`).
+    #[inline]
+    pub fn DoSpecialMelee(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x364) }
+    }
+
+    /// `PlayerZoneClient::DoSpecialMelee` at 0x364 (0x364 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_DoSpecialMelee(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x364, value) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillTicks` at 0x368 (0x368 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CombatSkillTicks(&self) -> [u32; 2] {
+        unsafe { read(self._bytes.get().cast(), 0x368) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillTicks` at 0x368 (0x368 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CombatSkillTicks(&self, value: [u32; 2]) {
+        unsafe { write(self._bytes.get().cast(), 0x368, value) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillTicks` at 0x368 (0x368 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn CombatSkillTicks_at(&self, index: usize) -> u32 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x368 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillTicks` at 0x368 (0x368 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_CombatSkillTicks_at(&self, index: usize, value: u32) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x368 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::MissileRangeToTarget` at 0x370 (0x370 within `PlayerZoneClient`).
+    #[inline]
+    pub fn MissileRangeToTarget(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x370) }
+    }
+
+    /// `PlayerZoneClient::MissileRangeToTarget` at 0x370 (0x370 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_MissileRangeToTarget(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x370, value) }
+    }
+
+    /// `PlayerZoneClient::SitStartTime` at 0x374 (0x374 within `PlayerZoneClient`).
+    #[inline]
+    pub fn SitStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x374) }
+    }
+
+    /// `PlayerZoneClient::SitStartTime` at 0x374 (0x374 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_SitStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x374, value) }
+    }
+
+    /// `PlayerZoneClient::realEstateItemGuid` at 0x378 (0x378 within `PlayerZoneClient`).
+    #[inline]
+    pub fn realEstateItemGuid(&self) -> &EqItemGuid {
+        unsafe { at(self._bytes.get().cast(), 0x378) }
+    }
+
+    /// `PlayerZoneClient::bShowHelm` at 0x38a (0x38a within `PlayerZoneClient`).
+    #[inline]
+    pub fn bShowHelm(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x38a) != 0 }
+    }
+
+    /// `PlayerZoneClient::bShowHelm` at 0x38a (0x38a within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bShowHelm(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x38a, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::MasterID` at 0x38c (0x38c within `PlayerZoneClient`).
+    #[inline]
+    pub fn MasterID(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x38c) }
+    }
+
+    /// `PlayerZoneClient::MasterID` at 0x38c (0x38c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_MasterID(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x38c, value) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillUsed` at 0x390 (0x390 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CombatSkillUsed(&self) -> [u32; 2] {
+        unsafe { read(self._bytes.get().cast(), 0x390) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillUsed` at 0x390 (0x390 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CombatSkillUsed(&self, value: [u32; 2]) {
+        unsafe { write(self._bytes.get().cast(), 0x390, value) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillUsed` at 0x390 (0x390 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 2`.
+    #[inline]
+    pub fn CombatSkillUsed_at(&self, index: usize) -> u32 {
+        assert!(index < 2, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x390 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::CombatSkillUsed` at 0x390 (0x390 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 2`.
+    #[inline]
+    pub fn set_CombatSkillUsed_at(&self, index: usize, value: u32) {
+        assert!(index < 2, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x390 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Handle(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x398) }
+    }
+
+    /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Handle(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x398, value) }
+    }
+
+    /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Handle_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x398 + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::Handle` at 0x398 (0x398 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Handle_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x398 + index * 0x1, value) }
+    }
+
+    /// `PlayerZoneClient::FD` at 0x3b8 (0x3b8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn FD(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x3b8) }
+    }
+
+    /// `PlayerZoneClient::FD` at 0x3b8 (0x3b8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_FD(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x3b8, value) }
+    }
+
+    /// `PlayerZoneClient::PrimaryTintIndex` at 0x3bc (0x3bc within `PlayerZoneClient`).
+    #[inline]
+    pub fn PrimaryTintIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3bc) }
+    }
+
+    /// `PlayerZoneClient::PrimaryTintIndex` at 0x3bc (0x3bc within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_PrimaryTintIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3bc, value) }
+    }
+
+    /// `PlayerZoneClient::AFK` at 0x3c0 (0x3c0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn AFK(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c0) }
+    }
+
+    /// `PlayerZoneClient::AFK` at 0x3c0 (0x3c0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_AFK(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c0, value) }
+    }
+
+    /// `PlayerZoneClient::EnduranceMax` at 0x3c4 (0x3c4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn EnduranceMax(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c4) }
+    }
+
+    /// `PlayerZoneClient::EnduranceMax` at 0x3c4 (0x3c4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_EnduranceMax(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c4, value) }
+    }
+
+    /// `PlayerZoneClient::NextIntimidateTime` at 0x3c8 (0x3c8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn NextIntimidateTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3c8) }
+    }
+
+    /// `PlayerZoneClient::NextIntimidateTime` at 0x3c8 (0x3c8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_NextIntimidateTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3c8, value) }
+    }
+
+    /// `PlayerZoneClient::SpellCooldownETA` at 0x3cc (0x3cc within `PlayerZoneClient`).
+    #[inline]
+    pub fn SpellCooldownETA(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3cc) }
+    }
+
+    /// `PlayerZoneClient::SpellCooldownETA` at 0x3cc (0x3cc within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_SpellCooldownETA(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3cc, value) }
+    }
+
+    /// `PlayerZoneClient::Linkdead` at 0x3d0 (0x3d0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Linkdead(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3d0) != 0 }
+    }
+
+    /// `PlayerZoneClient::Linkdead` at 0x3d0 (0x3d0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Linkdead(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3d0, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::Buyer` at 0x3d4 (0x3d4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Buyer(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x3d4) }
+    }
+
+    /// `PlayerZoneClient::Buyer` at 0x3d4 (0x3d4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Buyer(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x3d4, value) }
+    }
+
+    /// `PlayerZoneClient::LastTrapDamageTime` at 0x3d8 (0x3d8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LastTrapDamageTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x3d8) }
+    }
+
+    /// `PlayerZoneClient::LastTrapDamageTime` at 0x3d8 (0x3d8 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LastTrapDamageTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x3d8, value) }
+    }
+
+    /// `PlayerZoneClient::bTempPet` at 0x3dc (0x3dc within `PlayerZoneClient`).
+    #[inline]
+    pub fn bTempPet(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x3dc) != 0 }
+    }
+
+    /// `PlayerZoneClient::bTempPet` at 0x3dc (0x3dc within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bTempPet(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x3dc, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::Title` at 0x3dd (0x3dd within `PlayerZoneClient`).
+    #[inline]
+    pub fn Title(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x3dd) }
+    }
+
+    /// `PlayerZoneClient::Title` at 0x3dd (0x3dd within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Title(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x3dd, value) }
+    }
+
+    /// `PlayerZoneClient::Title` at 0x3dd (0x3dd within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Title_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3dd + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::Title` at 0x3dd (0x3dd within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Title_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3dd + index * 0x1, value) }
+    }
+
+    /// `PlayerZoneClient::FishingEvent` at 0x3fd (0x3fd within `PlayerZoneClient`).
+    #[inline]
+    pub fn FishingEvent(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x3fd) }
+    }
+
+    /// `PlayerZoneClient::FishingEvent` at 0x3fd (0x3fd within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_FishingEvent(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x3fd, value) }
+    }
+
+    /// `PlayerZoneClient::Suffix` at 0x3fe (0x3fe within `PlayerZoneClient`).
+    #[inline]
+    pub fn Suffix(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x3fe) }
+    }
+
+    /// `PlayerZoneClient::Suffix` at 0x3fe (0x3fe within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Suffix(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x3fe, value) }
+    }
+
+    /// `PlayerZoneClient::Suffix` at 0x3fe (0x3fe within `PlayerZoneClient`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn Suffix_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x3fe + index * 0x1) }
+    }
+
+    /// `PlayerZoneClient::Suffix` at 0x3fe (0x3fe within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_Suffix_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x3fe + index * 0x1, value) }
+    }
+
+    /// `PlayerZoneClient::RealEstateItemId` at 0x420 (0x420 within `PlayerZoneClient`).
+    #[inline]
+    pub fn RealEstateItemId(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x420) }
+    }
+
+    /// `PlayerZoneClient::RealEstateItemId` at 0x420 (0x420 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_RealEstateItemId(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x420, value) }
+    }
+
+    /// `PlayerZoneClient::WarCry` at 0x424 (0x424 within `PlayerZoneClient`).
+    #[inline]
+    pub fn WarCry(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x424) }
+    }
+
+    /// `PlayerZoneClient::WarCry` at 0x424 (0x424 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_WarCry(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x424, value) }
+    }
+
+    /// `PlayerZoneClient::Blind` at 0x428 (0x428 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Blind(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x428) }
+    }
+
+    /// `PlayerZoneClient::Blind` at 0x428 (0x428 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Blind(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x428, value) }
+    }
+
+    /// `PlayerZoneClient::bBetaBuffed` at 0x429 (0x429 within `PlayerZoneClient`).
+    #[inline]
+    pub fn bBetaBuffed(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x429) != 0 }
+    }
+
+    /// `PlayerZoneClient::bBetaBuffed` at 0x429 (0x429 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bBetaBuffed(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x429, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::NextSwim` at 0x42c (0x42c within `PlayerZoneClient`).
+    #[inline]
+    pub fn NextSwim(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x42c) }
+    }
+
+    /// `PlayerZoneClient::NextSwim` at 0x42c (0x42c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_NextSwim(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x42c, value) }
+    }
+
+    /// `PlayerZoneClient::CorpseDragCount` at 0x430 (0x430 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CorpseDragCount(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x430) }
+    }
+
+    /// `PlayerZoneClient::CorpseDragCount` at 0x430 (0x430 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CorpseDragCount(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x430, value) }
+    }
+
+    /// `PlayerZoneClient::IntimidateCount` at 0x434 (0x434 within `PlayerZoneClient`).
+    #[inline]
+    pub fn IntimidateCount(&self) -> u8 {
+        unsafe { read(self._bytes.get().cast(), 0x434) }
+    }
+
+    /// `PlayerZoneClient::IntimidateCount` at 0x434 (0x434 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_IntimidateCount(&self, value: u8) {
+        unsafe { write(self._bytes.get().cast(), 0x434, value) }
+    }
+
+    /// `PlayerZoneClient::berserker` at 0x438 (0x438 within `PlayerZoneClient`).
+    #[inline]
+    pub fn berserker(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x438) }
+    }
+
+    /// `PlayerZoneClient::berserker` at 0x438 (0x438 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_berserker(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x438, value) }
+    }
+
+    /// `PlayerZoneClient::StunTimer` at 0x43c (0x43c within `PlayerZoneClient`).
+    #[inline]
+    pub fn StunTimer(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x43c) }
+    }
+
+    /// `PlayerZoneClient::StunTimer` at 0x43c (0x43c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_StunTimer(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x43c, value) }
+    }
+
+    /// `PlayerZoneClient::LFG` at 0x440 (0x440 within `PlayerZoneClient`).
+    #[inline]
+    pub fn LFG(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x440) != 0 }
+    }
+
+    /// `PlayerZoneClient::LFG` at 0x440 (0x440 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_LFG(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x440, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::CastingData` at 0x444 (0x444 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CastingData(&self) -> &LaunchSpellData {
+        unsafe { at(self._bytes.get().cast(), 0x444) }
+    }
+
+    /// `PlayerZoneClient::ManaCurrent` at 0x494 (0x494 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ManaCurrent(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x494) }
+    }
+
+    /// `PlayerZoneClient::ManaCurrent` at 0x494 (0x494 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ManaCurrent(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x494, value) }
+    }
+
+    /// `PlayerZoneClient::DragNames` at 0x498 (0x498 within `PlayerZoneClient`).
+    #[inline]
+    pub fn DragNames(&self) -> [[c_char; 64]; 2] {
+        unsafe { read(self._bytes.get().cast(), 0x498) }
+    }
+
+    /// `PlayerZoneClient::DragNames` at 0x498 (0x498 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_DragNames(&self, value: [[c_char; 64]; 2]) {
+        unsafe { write(self._bytes.get().cast(), 0x498, value) }
+    }
+
+    /// `PlayerZoneClient::Deity` at 0x518 (0x518 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Deity(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x518) }
+    }
+
+    /// `PlayerZoneClient::Deity` at 0x518 (0x518 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Deity(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x518, value) }
+    }
+
+    /// `PlayerZoneClient::NpcTintIndex` at 0x51c (0x51c within `PlayerZoneClient`).
+    #[inline]
+    pub fn NpcTintIndex(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x51c) }
+    }
+
+    /// `PlayerZoneClient::NpcTintIndex` at 0x51c (0x51c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_NpcTintIndex(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x51c, value) }
+    }
+
+    /// `PlayerZoneClient::ppUDP` at 0x520 (0x520 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ppUDP(&self) -> *mut *mut u32 {
+        unsafe { read(self._bytes.get().cast(), 0x520) }
+    }
+
+    /// `PlayerZoneClient::ppUDP` at 0x520 (0x520 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ppUDP(&self, value: *mut *mut u32) {
+        unsafe { write(self._bytes.get().cast(), 0x520, value) }
+    }
+
+    /// `PlayerZoneClient::bAlwaysShowAura` at 0x524 (0x524 within `PlayerZoneClient`).
+    #[inline]
+    pub fn bAlwaysShowAura(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x524) != 0 }
+    }
+
+    /// `PlayerZoneClient::bAlwaysShowAura` at 0x524 (0x524 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_bAlwaysShowAura(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x524, u8::from(value)) }
+    }
+
+    /// `PlayerZoneClient::MovementStats` at 0x528 (0x528 within `PlayerZoneClient`).
+    #[inline]
+    pub fn MovementStats(&self) -> &TCircularBuffer_SDoCollisionMovementStats_20 {
+        unsafe { at(self._bytes.get().cast(), 0x528) }
+    }
+
+    /// `PlayerZoneClient::WhoFollowing` at 0xe40 (0xe40 within `PlayerZoneClient`).
+    #[inline]
+    pub fn WhoFollowing(&self) -> *mut PlayerClient {
+        unsafe { read(self._bytes.get().cast(), 0xe40) }
+    }
+
+    /// `PlayerZoneClient::WhoFollowing` at 0xe40 (0xe40 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_WhoFollowing(&self, value: *mut PlayerClient) {
+        unsafe { write(self._bytes.get().cast(), 0xe40, value) }
+    }
+
+    /// `PlayerZoneClient::GroupAssistNPC` at 0xe44 (0xe44 within `PlayerZoneClient`).
+    #[inline]
+    pub fn GroupAssistNPC(&self) -> [u32; 1] {
+        unsafe { read(self._bytes.get().cast(), 0xe44) }
+    }
+
+    /// `PlayerZoneClient::GroupAssistNPC` at 0xe44 (0xe44 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GroupAssistNPC(&self, value: [u32; 1]) {
+        unsafe { write(self._bytes.get().cast(), 0xe44, value) }
+    }
+
+    /// `PlayerZoneClient::GroupAssistNPC` at 0xe44 (0xe44 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 1`.
+    #[inline]
+    pub fn GroupAssistNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 1, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe44 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::GroupAssistNPC` at 0xe44 (0xe44 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 1`.
+    #[inline]
+    pub fn set_GroupAssistNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 1, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe44 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
+    #[inline]
+    pub fn RaidAssistNPC(&self) -> [u32; 3] {
+        unsafe { read(self._bytes.get().cast(), 0xe48) }
+    }
+
+    /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_RaidAssistNPC(&self, value: [u32; 3]) {
+        unsafe { write(self._bytes.get().cast(), 0xe48, value) }
+    }
+
+    /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn RaidAssistNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe48 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::RaidAssistNPC` at 0xe48 (0xe48 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_RaidAssistNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe48 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
+    #[inline]
+    pub fn GroupMarkNPC(&self) -> [u32; 3] {
+        unsafe { read(self._bytes.get().cast(), 0xe54) }
+    }
+
+    /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_GroupMarkNPC(&self, value: [u32; 3]) {
+        unsafe { write(self._bytes.get().cast(), 0xe54, value) }
+    }
+
+    /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn GroupMarkNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe54 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::GroupMarkNPC` at 0xe54 (0xe54 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_GroupMarkNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe54 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
+    #[inline]
+    pub fn RaidMarkNPC(&self) -> [u32; 3] {
+        unsafe { read(self._bytes.get().cast(), 0xe60) }
+    }
+
+    /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_RaidMarkNPC(&self, value: [u32; 3]) {
+        unsafe { write(self._bytes.get().cast(), 0xe60, value) }
+    }
+
+    /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
+    /// One element; panics if `index >= 3`.
+    #[inline]
+    pub fn RaidMarkNPC_at(&self, index: usize) -> u32 {
+        assert!(index < 3, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xe60 + index * 0x4) }
+    }
+
+    /// `PlayerZoneClient::RaidMarkNPC` at 0xe60 (0xe60 within `PlayerZoneClient`).
+    /// Sets one element; panics if `index >= 3`.
+    #[inline]
+    pub fn set_RaidMarkNPC_at(&self, index: usize, value: u32) {
+        assert!(index < 3, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xe60 + index * 0x4, value) }
+    }
+
+    /// `PlayerZoneClient::TargetOfTarget` at 0xe6c (0xe6c within `PlayerZoneClient`).
+    #[inline]
+    pub fn TargetOfTarget(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xe6c) }
+    }
+
+    /// `PlayerZoneClient::TargetOfTarget` at 0xe6c (0xe6c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_TargetOfTarget(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xe6c, value) }
+    }
+
+    /// `PlayerZoneClient::PZCLastPhysics` at 0xe70 (0xe70 within `PlayerZoneClient`).
+    #[inline]
+    pub fn PZCLastPhysics(&self) -> &PZCPhysicsInfo {
+        unsafe { at(self._bytes.get().cast(), 0xe70) }
+    }
+
+    /// `PlayerZoneClient::ParticleCastStartTime` at 0xe94 (0xe94 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ParticleCastStartTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xe94) }
+    }
+
+    /// `PlayerZoneClient::ParticleCastStartTime` at 0xe94 (0xe94 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ParticleCastStartTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xe94, value) }
+    }
+
+    /// `PlayerZoneClient::ParticleCastDuration` at 0xe98 (0xe98 within `PlayerZoneClient`).
+    #[inline]
+    pub fn ParticleCastDuration(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xe98) }
+    }
+
+    /// `PlayerZoneClient::ParticleCastDuration` at 0xe98 (0xe98 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ParticleCastDuration(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xe98, value) }
+    }
+
+    /// `PlayerZoneClient::ParticleVisualSpellNum` at 0xe9c (0xe9c within `PlayerZoneClient`).
+    #[inline]
+    pub fn ParticleVisualSpellNum(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xe9c) }
+    }
+
+    /// `PlayerZoneClient::ParticleVisualSpellNum` at 0xe9c (0xe9c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_ParticleVisualSpellNum(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xe9c, value) }
+    }
+
+    /// `PlayerZoneClient::Unknown0xea0` at 0xea0 (0xea0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn Unknown0xea0(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xea0) }
+    }
+
+    /// `PlayerZoneClient::Unknown0xea0` at 0xea0 (0xea0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_Unknown0xea0(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xea0, value) }
+    }
+
+    /// `PlayerZoneClient::mActorClient` at 0xea4 (0xea4 within `PlayerZoneClient`).
+    #[inline]
+    pub fn mActorClient(&self) -> &ActorClient {
+        unsafe { at(self._bytes.get().cast(), 0xea4) }
+    }
+
+    /// `PlayerZoneClient::pAnimation` at 0x1058 (0x1058 within `PlayerZoneClient`).
+    #[inline]
+    pub fn pAnimation(&self) -> *mut PlayerAnimationBase {
+        unsafe { read(self._bytes.get().cast(), 0x1058) }
+    }
+
+    /// `PlayerZoneClient::pAnimation` at 0x1058 (0x1058 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_pAnimation(&self, value: *mut PlayerAnimationBase) {
+        unsafe { write(self._bytes.get().cast(), 0x1058, value) }
+    }
+
+    /// `PlayerZoneClient::MeleeRadius` at 0x105c (0x105c within `PlayerZoneClient`).
+    #[inline]
+    pub fn MeleeRadius(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x105c) }
+    }
+
+    /// `PlayerZoneClient::MeleeRadius` at 0x105c (0x105c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_MeleeRadius(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x105c, value) }
+    }
+
+    /// `PlayerZoneClient::CollisionCounter` at 0x1060 (0x1060 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CollisionCounter(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x1060) }
+    }
+
+    /// `PlayerZoneClient::CollisionCounter` at 0x1060 (0x1060 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CollisionCounter(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x1060, value) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorLocationY` at 0x1064 (0x1064 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedFloorLocationY(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1064) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorLocationY` at 0x1064 (0x1064 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedFloorLocationY(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1064, value) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorLocationX` at 0x1068 (0x1068 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedFloorLocationX(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1068) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorLocationX` at 0x1068 (0x1068 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedFloorLocationX(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1068, value) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorLocationZ` at 0x106c (0x106c within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedFloorLocationZ(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x106c) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorLocationZ` at 0x106c (0x106c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedFloorLocationZ(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x106c, value) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorHeight` at 0x1070 (0x1070 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedFloorHeight(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1070) }
+    }
+
+    /// `PlayerZoneClient::CachedFloorHeight` at 0x1070 (0x1070 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedFloorHeight(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1070, value) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingLocationY` at 0x1074 (0x1074 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedCeilingLocationY(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1074) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingLocationY` at 0x1074 (0x1074 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedCeilingLocationY(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1074, value) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingLocationX` at 0x1078 (0x1078 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedCeilingLocationX(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1078) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingLocationX` at 0x1078 (0x1078 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedCeilingLocationX(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1078, value) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingLocationZ` at 0x107c (0x107c within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedCeilingLocationZ(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x107c) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingLocationZ` at 0x107c (0x107c within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedCeilingLocationZ(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x107c, value) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingHeight` at 0x1080 (0x1080 within `PlayerZoneClient`).
+    #[inline]
+    pub fn CachedCeilingHeight(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x1080) }
+    }
+
+    /// `PlayerZoneClient::CachedCeilingHeight` at 0x1080 (0x1080 within `PlayerZoneClient`).
+    #[inline]
+    pub fn set_CachedCeilingHeight(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x1080, value) }
+    }
+
+    /// `PlayerZoneClient::StaticCollision` at 0x1084 (0x1084 within `PlayerZoneClient`).
+    #[inline]
+    pub fn StaticCollision(&self) -> &CCapsule {
+        unsafe { at(self._bytes.get().cast(), 0x1084) }
+    }
+
+    /// `PlayerZoneClient::mPhysicsEffects` at 0x10a0 (0x10a0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn mPhysicsEffects(&self) -> &ArrayClass_PhysicsEffect {
+        unsafe { at(self._bytes.get().cast(), 0x10a0) }
+    }
+
+    /// `PlayerZoneClient::PhysicsEffectsUpdated` at 0x10b0 (0x10b0 within `PlayerZoneClient`).
+    #[inline]
+    pub fn PhysicsEffectsUpdated(&self) -> &ArrayClass_bool {
+        unsafe { at(self._bytes.get().cast(), 0x10b0) }
+    }
+
+    /// The `CActorApplicationData` base, at 0x0: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_CActorApplicationData(&self) -> *mut CActorApplicationData {
+        unsafe { self._bytes.get().cast::<u8>().add(0x0).cast() }
     }
 }
 
@@ -71222,6 +82901,17 @@ impl AchievementState {
     pub const AchievementNone: Self = Self(4);
 }
 
+/// C++ enum `BuffWindowType`. A newtype rather than a Rust enum, since game memory may hold
+/// values that aren't listed.
+#[repr(transparent)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct BuffWindowType(pub i32);
+
+impl BuffWindowType {
+    pub const BuffWindowStandard: Self = Self(0);
+    pub const BuffWindowShortDuration: Self = Self(1);
+}
+
 /// C++ enum `EActorType`. A newtype rather than a Rust enum, since game memory may hold
 /// values that aren't listed.
 #[repr(transparent)]
@@ -72489,10 +84179,12 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "BandolierSet", rust_name: "BandolierSet", size: 0x140 },
     RecordInfo { name: "BenefitSelection", rust_name: "BenefitSelection", size: 0x8 },
     RecordInfo { name: "CAltAbilityData", rust_name: "CAltAbilityData", size: 0xa8 },
+    RecordInfo { name: "CBuffWindow", rust_name: "CBuffWindow", size: 0x708 },
     RecordInfo { name: "CButtonDrawTemplate", rust_name: "CButtonDrawTemplate", size: 0x34 },
     RecordInfo { name: "CButtonWnd", rust_name: "CButtonWnd", size: 0x260 },
     RecordInfo { name: "CCapsule", rust_name: "CCapsule", size: 0x1c },
     RecordInfo { name: "CCastSpellWnd", rust_name: "CCastSpellWnd", size: 0x2b4 },
+    RecordInfo { name: "CCastingWnd", rust_name: "CCastingWnd", size: 0x220 },
     RecordInfo { name: "CClickStickInfo", rust_name: "CClickStickInfo", size: 0x24 },
     RecordInfo { name: "CComboWnd", rust_name: "CComboWnd", size: 0x218 },
     RecordInfo { name: "CContextMenu", rust_name: "CContextMenu", size: 0x284 },
@@ -72517,6 +84209,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CPhysicsInfo", rust_name: "CPhysicsInfo", size: 0x30 },
     RecordInfo { name: "CPlayerPointManager", rust_name: "CPlayerPointManager", size: 0x14 },
     RecordInfo { name: "CRaid", rust_name: "CRaid", size: 0x3964 },
+    RecordInfo { name: "CSpellBookWnd", rust_name: "CSpellBookWnd", size: 0x248 },
     RecordInfo { name: "CSpellDisplayManager", rust_name: "CSpellDisplayManager", size: 0x40 },
     RecordInfo { name: "CSpellGemDrawTemplate", rust_name: "CSpellGemDrawTemplate", size: 0x10 },
     RecordInfo { name: "CSpellGemWnd", rust_name: "CSpellGemWnd", size: 0x2f8 },
@@ -72618,11 +84311,13 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "PZCPhysicsInfo", rust_name: "PZCPhysicsInfo", size: 0x24 },
     RecordInfo { name: "PcClient", rust_name: "PcClient", size: 0x5804 },
     RecordInfo { name: "PcProfile", rust_name: "PcProfile", size: 0x9950 },
+    RecordInfo { name: "PcZoneClient", rust_name: "PcZoneClient", size: 0x57d0 },
     RecordInfo { name: "PendingRewardList", rust_name: "PendingRewardList", size: 0x2c },
     RecordInfo { name: "PlayerClient", rust_name: "PlayerClient", size: 0x1f08 },
     RecordInfo { name: "PlayerManagerClient", rust_name: "PlayerManagerClient", size: 0x18 },
     RecordInfo { name: "PlayerPhysicsClient", rust_name: "PlayerPhysicsClient", size: 0x28 },
     RecordInfo { name: "PlayerRoleLoadout", rust_name: "PlayerRoleLoadout", size: 0x84 },
+    RecordInfo { name: "PlayerZoneClient", rust_name: "PlayerZoneClient", size: 0x10c0 },
     RecordInfo { name: "PointSystemBase", rust_name: "PointSystemBase", size: 0x14 },
     RecordInfo { name: "ProfileList", rust_name: "ProfileList", size: 0x14 },
     RecordInfo { name: "ProfileManager", rust_name: "ProfileManager", size: 0x8 },
@@ -72978,6 +84673,151 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CAltAbilityData", field: "bAutogrant", accessor: "bAutogrant", declared_in: "CAltAbilityData", offset: 0x93, decl_offset: 0x93, size: 0x1, bits: None },
     FieldInfo { record: "CAltAbilityData", field: "AutoGrantAssociationId", accessor: "AutoGrantAssociationId", declared_in: "CAltAbilityData", offset: 0x94, decl_offset: 0x94, size: 0x4, bits: None },
     FieldInfo { record: "CAltAbilityData", field: "PersistentEffects", accessor: "PersistentEffects", declared_in: "CAltAbilityData", offset: 0x98, decl_offset: 0x98, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bControlsCreated", accessor: "bControlsCreated", declared_in: "CSidlScreenWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "SidlText", accessor: "SidlText", declared_in: "CSidlScreenWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "SidlPiece", accessor: "SidlPiece", declared_in: "CSidlScreenWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "RadioGroup", accessor: "RadioGroup", declared_in: "CSidlScreenWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bInitVisibility", accessor: "bInitVisibility", declared_in: "CSidlScreenWnd", offset: 0x1f4, decl_offset: 0x1f4, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bVisibleBeforeResize", accessor: "bVisibleBeforeResize", declared_in: "CSidlScreenWnd", offset: 0x1f5, decl_offset: 0x1f5, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "IniFlags", accessor: "IniFlags", declared_in: "CSidlScreenWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "IniStorageName", accessor: "IniStorageName", declared_in: "CSidlScreenWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "IniVersion", accessor: "IniVersion", declared_in: "CSidlScreenWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "LastResX", accessor: "LastResX", declared_in: "CSidlScreenWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "LastResY", accessor: "LastResY", declared_in: "CSidlScreenWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bLastResFullscreen", accessor: "bLastResFullscreen", declared_in: "CSidlScreenWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ContextMenuID", accessor: "ContextMenuID", declared_in: "CSidlScreenWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pFirstVScrollChild", accessor: "pFirstVScrollChild", declared_in: "CSidlScreenWnd", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ContextMenuTipID", accessor: "ContextMenuTipID", declared_in: "CSidlScreenWnd", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bHasActivatedFirstTimeAlert", accessor: "bHasActivatedFirstTimeAlert", declared_in: "CSidlScreenWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "lastUpdate", accessor: "lastUpdate", declared_in: "WndEventHandler", offset: 0x220, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "bOldIconArrangement", accessor: "bOldIconArrangement", declared_in: "CBuffWindow", offset: 0x224, decl_offset: 0x224, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ptaBlueIconBackground", accessor: "ptaBlueIconBackground", declared_in: "CBuffWindow", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ptaRedIconBackground", accessor: "ptaRedIconBackground", declared_in: "CBuffWindow", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ptaYellowIconBackground", accessor: "ptaYellowIconBackground", declared_in: "CBuffWindow", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "ptaBuffIcons", accessor: "ptaBuffIcons", declared_in: "CBuffWindow", offset: 0x234, decl_offset: 0x234, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pBuffButtons", accessor: "pBuffButtons", declared_in: "CBuffWindow", offset: 0x2dc, decl_offset: 0x2dc, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pTimeRemainingTexts", accessor: "pTimeRemainingTexts", declared_in: "CBuffWindow", offset: 0x384, decl_offset: 0x384, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pCounterTexts", accessor: "pCounterTexts", declared_in: "CBuffWindow", offset: 0x42c, decl_offset: 0x42c, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "pLimitedUseTexts", accessor: "pLimitedUseTexts", declared_in: "CBuffWindow", offset: 0x4d4, decl_offset: 0x4d4, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "spellIds", accessor: "spellIds", declared_in: "CBuffWindow", offset: 0x57c, decl_offset: 0x57c, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "buffTimers", accessor: "buffTimers", declared_in: "CBuffWindow", offset: 0x624, decl_offset: 0x624, size: 0xa8, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "whoCastHash", accessor: "whoCastHash", declared_in: "CBuffWindow", offset: 0x6cc, decl_offset: 0x6cc, size: 0x10, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "nextRefreshTime", accessor: "nextRefreshTime", declared_in: "CBuffWindow", offset: 0x6dc, decl_offset: 0x6dc, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "initWindowWidth", accessor: "initWindowWidth", declared_in: "CBuffWindow", offset: 0x6e0, decl_offset: 0x6e0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "initWindowHeight", accessor: "initWindowHeight", declared_in: "CBuffWindow", offset: 0x6e4, decl_offset: 0x6e4, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "buffWindowType", accessor: "buffWindowType", declared_in: "CBuffWindow", offset: 0x6e8, decl_offset: 0x6e8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "firstEffectSlot", accessor: "firstEffectSlot", declared_in: "CBuffWindow", offset: 0x6ec, decl_offset: 0x6ec, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "lastEffectSlot", accessor: "lastEffectSlot", declared_in: "CBuffWindow", offset: 0x6f0, decl_offset: 0x6f0, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "maxBuffButtons", accessor: "maxBuffButtons", declared_in: "CBuffWindow", offset: 0x6f4, decl_offset: 0x6f4, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "contextMenuId", accessor: "contextMenuId", declared_in: "CBuffWindow", offset: 0x6f8, decl_offset: 0x6f8, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "selectedButtonWnd", accessor: "selectedButtonWnd", declared_in: "CBuffWindow", offset: 0x6fc, decl_offset: 0x6fc, size: 0x4, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "updatedMenuItems", accessor: "updatedMenuItems", declared_in: "CBuffWindow", offset: 0x700, decl_offset: 0x700, size: 0x1, bits: None },
+    FieldInfo { record: "CBuffWindow", field: "lastBuffRefreshTime", accessor: "lastBuffRefreshTime", declared_in: "CBuffWindow", offset: 0x704, decl_offset: 0x704, size: 0x4, bits: None },
     FieldInfo { record: "CButtonDrawTemplate", field: "strName", accessor: "strName", declared_in: "CButtonDrawTemplate", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CButtonDrawTemplate", field: "ptaNormal", accessor: "ptaNormal", declared_in: "CButtonDrawTemplate", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CButtonDrawTemplate", field: "ptaPressed", accessor: "ptaPressed", declared_in: "CButtonDrawTemplate", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -73266,6 +85106,127 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CCastSpellWnd", field: "pLoadMenu", accessor: "pLoadMenu", declared_in: "CCastSpellWnd", offset: 0x2a8, decl_offset: 0x2a8, size: 0x4, bits: None },
     FieldInfo { record: "CCastSpellWnd", field: "pSaveMenu", accessor: "pSaveMenu", declared_in: "CCastSpellWnd", offset: 0x2ac, decl_offset: 0x2ac, size: 0x4, bits: None },
     FieldInfo { record: "CCastSpellWnd", field: "pDeleteMenu", accessor: "pDeleteMenu", declared_in: "CCastSpellWnd", offset: 0x2b0, decl_offset: 0x2b0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bControlsCreated", accessor: "bControlsCreated", declared_in: "CSidlScreenWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "SidlText", accessor: "SidlText", declared_in: "CSidlScreenWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "SidlPiece", accessor: "SidlPiece", declared_in: "CSidlScreenWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "RadioGroup", accessor: "RadioGroup", declared_in: "CSidlScreenWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x10, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bInitVisibility", accessor: "bInitVisibility", declared_in: "CSidlScreenWnd", offset: 0x1f4, decl_offset: 0x1f4, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bVisibleBeforeResize", accessor: "bVisibleBeforeResize", declared_in: "CSidlScreenWnd", offset: 0x1f5, decl_offset: 0x1f5, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "IniFlags", accessor: "IniFlags", declared_in: "CSidlScreenWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "IniStorageName", accessor: "IniStorageName", declared_in: "CSidlScreenWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "IniVersion", accessor: "IniVersion", declared_in: "CSidlScreenWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "LastResX", accessor: "LastResX", declared_in: "CSidlScreenWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "LastResY", accessor: "LastResY", declared_in: "CSidlScreenWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bLastResFullscreen", accessor: "bLastResFullscreen", declared_in: "CSidlScreenWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x1, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ContextMenuID", accessor: "ContextMenuID", declared_in: "CSidlScreenWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "pFirstVScrollChild", accessor: "pFirstVScrollChild", declared_in: "CSidlScreenWnd", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "ContextMenuTipID", accessor: "ContextMenuTipID", declared_in: "CSidlScreenWnd", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "CCastingWnd", field: "bHasActivatedFirstTimeAlert", accessor: "bHasActivatedFirstTimeAlert", declared_in: "CSidlScreenWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x1, bits: None },
     FieldInfo { record: "CClickStickInfo", field: "__vfptr", accessor: "__vfptr", declared_in: "CClickStickInfo", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CClickStickInfo", field: "sourceWnd", accessor: "sourceWnd", declared_in: "CClickStickInfo", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CClickStickInfo", field: "targetWnd", accessor: "targetWnd", declared_in: "CClickStickInfo", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -75070,6 +87031,137 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CRaid", field: "levelTotal", accessor: "levelTotal", declared_in: "CRaid", offset: 0x395c, decl_offset: 0x395c, size: 0x4, bits: None },
     FieldInfo { record: "CRaid", field: "Locked", accessor: "Locked", declared_in: "CRaid", offset: 0x3960, decl_offset: 0x3960, size: 0x1, bits: None },
     FieldInfo { record: "CRaid", field: "bGroupOnInvite", accessor: "bGroupOnInvite", declared_in: "CRaid", offset: 0x3961, decl_offset: 0x3961, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "__vfptr", accessor: "__vfptr", declared_in: "CXWnd", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<CXWnd>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<CXWnd>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<CXWnd>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "m_pFirstNode", accessor: "m_pFirstNode", declared_in: "TList<CXWnd>", offset: 0x10, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "m_pLastNode", accessor: "m_pLastNode", declared_in: "TList<CXWnd>", offset: 0x14, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bClipToParent", accessor: "bClipToParent", declared_in: "CXWnd", offset: 0x18, decl_offset: 0x18, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Alpha", accessor: "Alpha", declared_in: "CXWnd", offset: 0x19, decl_offset: 0x19, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Enabled", accessor: "Enabled", declared_in: "CXWnd", offset: 0x1a, decl_offset: 0x1a, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Transition", accessor: "Transition", declared_in: "CXWnd", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "MouseOver", accessor: "MouseOver", declared_in: "CXWnd", offset: 0x20, decl_offset: 0x20, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bBottomAnchoredToTop", accessor: "bBottomAnchoredToTop", declared_in: "CXWnd", offset: 0x21, decl_offset: 0x21, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bScreenClipRectChanged", accessor: "bScreenClipRectChanged", declared_in: "CXWnd", offset: 0x22, decl_offset: 0x22, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BlinkState", accessor: "BlinkState", declared_in: "CXWnd", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BackgroundDrawType", accessor: "BackgroundDrawType", declared_in: "CXWnd", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bUseInLayoutHorizontal", accessor: "bUseInLayoutHorizontal", declared_in: "CXWnd", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Locked", accessor: "Locked", declared_in: "CXWnd", offset: 0x2d, decl_offset: 0x2d, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ParentAndContextMenuArrayIndex", accessor: "ParentAndContextMenuArrayIndex", declared_in: "CXWnd", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Data", accessor: "Data", declared_in: "CXWnd", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bClientClipRectChanged", accessor: "bClientClipRectChanged", declared_in: "CXWnd", offset: 0x38, decl_offset: 0x38, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "pController", accessor: "pController", declared_in: "CXWnd", offset: 0x3c, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bRightAnchoredToLeft", accessor: "bRightAnchoredToLeft", declared_in: "CXWnd", offset: 0x40, decl_offset: 0x40, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "RuntimeTypes", accessor: "RuntimeTypes", declared_in: "CXWnd", offset: 0x44, decl_offset: 0x44, size: 0x1c, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Location", accessor: "Location", declared_in: "CXWnd", offset: 0x60, decl_offset: 0x60, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "LastBlinkFadeRefreshTime", accessor: "LastBlinkFadeRefreshTime", declared_in: "CXWnd", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bMarkedForDelete", accessor: "bMarkedForDelete", declared_in: "CXWnd", offset: 0x74, decl_offset: 0x74, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bClientRectChanged", accessor: "bClientRectChanged", declared_in: "CXWnd", offset: 0x75, decl_offset: 0x75, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bTiled", accessor: "bTiled", declared_in: "CXWnd", offset: 0x76, decl_offset: 0x76, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BlinkStartTimer", accessor: "BlinkStartTimer", declared_in: "CXWnd", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bCaptureTitle", accessor: "bCaptureTitle", declared_in: "CXWnd", offset: 0x7c, decl_offset: 0x7c, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "FadeDuration", accessor: "FadeDuration", declared_in: "CXWnd", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "WindowStyle", accessor: "WindowStyle", declared_in: "CXWnd", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ClipRectScreen", accessor: "ClipRectScreen", declared_in: "CXWnd", offset: 0x88, decl_offset: 0x88, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bEscapable", accessor: "bEscapable", declared_in: "CXWnd", offset: 0x98, decl_offset: 0x98, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BlinkFadeFreq", accessor: "BlinkFadeFreq", declared_in: "CXWnd", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "pTipTextObject", accessor: "pTipTextObject", declared_in: "CXWnd", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bIsParentOrContextMenuWindow", accessor: "bIsParentOrContextMenuWindow", declared_in: "CXWnd", offset: 0xa4, decl_offset: 0xa4, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ClipRectClient", accessor: "ClipRectClient", declared_in: "CXWnd", offset: 0xa8, decl_offset: 0xa8, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "MinClientSize", accessor: "MinClientSize", declared_in: "CXWnd", offset: 0xb8, decl_offset: 0xb8, size: 0x8, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "OldLocation", accessor: "OldLocation", declared_in: "CXWnd", offset: 0xc0, decl_offset: 0xc0, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "FocusProxy", accessor: "FocusProxy", declared_in: "CXWnd", offset: 0xd0, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "LastTimeMouseOver", accessor: "LastTimeMouseOver", declared_in: "CXWnd", offset: 0xd4, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "XMLIndex", accessor: "XMLIndex", declared_in: "CXWnd", offset: 0xd8, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BlinkFadeStartTime", accessor: "BlinkFadeStartTime", declared_in: "CXWnd", offset: 0xdc, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bBringToTopWhenClicked", accessor: "bBringToTopWhenClicked", declared_in: "CXWnd", offset: 0xe0, decl_offset: 0xe0, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "DataStr", accessor: "DataStr", declared_in: "CXWnd", offset: 0xe4, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Tooltip", accessor: "Tooltip", declared_in: "CXWnd", offset: 0xe8, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "IconTextureAnim", accessor: "IconTextureAnim", declared_in: "CXWnd", offset: 0xec, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "FadeDelay", accessor: "FadeDelay", declared_in: "CXWnd", offset: 0xf0, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bUseInLayoutVertical", accessor: "bUseInLayoutVertical", declared_in: "CXWnd", offset: 0xf4, decl_offset: 0xf4, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TransitionDuration", accessor: "TransitionDuration", declared_in: "CXWnd", offset: 0xf8, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "RightOffset", accessor: "RightOffset", declared_in: "CXWnd", offset: 0xfc, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BottomOffset", accessor: "BottomOffset", declared_in: "CXWnd", offset: 0x100, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bLeftAnchoredToLeft", accessor: "bLeftAnchoredToLeft", declared_in: "CXWnd", offset: 0x104, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "pLayoutStrategy", accessor: "pLayoutStrategy", declared_in: "CXWnd", offset: 0x108, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TransitionRect", accessor: "TransitionRect", declared_in: "CXWnd", offset: 0x10c, decl_offset: 0x10c, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "DeleteCount", accessor: "DeleteCount", declared_in: "CXWnd", offset: 0x11c, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ZLayer", accessor: "ZLayer", declared_in: "CXWnd", offset: 0x120, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "XMLToolTip", accessor: "XMLToolTip", declared_in: "CXWnd", offset: 0x124, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BGColor", accessor: "BGColor", declared_in: "CXWnd", offset: 0x128, decl_offset: 0x128, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "CRNormal", accessor: "CRNormal", declared_in: "CXWnd", offset: 0x12c, decl_offset: 0x12c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bAction", accessor: "bAction", declared_in: "CXWnd", offset: 0x130, decl_offset: 0x130, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TitlePiece2", accessor: "TitlePiece2", declared_in: "CXWnd", offset: 0x134, decl_offset: 0x134, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bClickThrough", accessor: "bClickThrough", declared_in: "CXWnd", offset: 0x138, decl_offset: 0x138, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bMaximized", accessor: "bMaximized", declared_in: "CXWnd", offset: 0x139, decl_offset: 0x139, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "MaxClientSize", accessor: "MaxClientSize", declared_in: "CXWnd", offset: 0x13c, decl_offset: 0x13c, size: 0x8, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "pTextObject", accessor: "pTextObject", declared_in: "CXWnd", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bResizableMask", accessor: "bResizableMask", declared_in: "CXWnd", offset: 0x148, decl_offset: 0x148, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BlinkDuration", accessor: "BlinkDuration", declared_in: "CXWnd", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bTopAnchoredToTop", accessor: "bTopAnchoredToTop", declared_in: "CXWnd", offset: 0x150, decl_offset: 0x150, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TitlePiece", accessor: "TitlePiece", declared_in: "CXWnd", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bKeepOnScreen", accessor: "bKeepOnScreen", declared_in: "CXWnd", offset: 0x158, decl_offset: 0x158, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "pFont", accessor: "pFont", declared_in: "CXWnd", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "managerArrayIndex", accessor: "managerArrayIndex", declared_in: "CXWnd", offset: 0x160, decl_offset: 0x160, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "IconRect", accessor: "IconRect", declared_in: "CXWnd", offset: 0x164, decl_offset: 0x164, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ParentWindow", accessor: "ParentWindow", declared_in: "CXWnd", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "FadeAlpha", accessor: "FadeAlpha", declared_in: "CXWnd", offset: 0x178, decl_offset: 0x178, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "VScrollPos", accessor: "VScrollPos", declared_in: "CXWnd", offset: 0x17c, decl_offset: 0x17c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BlinkFadeDuration", accessor: "BlinkFadeDuration", declared_in: "CXWnd", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "LeftOffset", accessor: "LeftOffset", declared_in: "CXWnd", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "DrawTemplate", accessor: "DrawTemplate", declared_in: "CXWnd", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Faded", accessor: "Faded", declared_in: "CXWnd", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "VScrollMax", accessor: "VScrollMax", declared_in: "CXWnd", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ValidCXWnd", accessor: "ValidCXWnd", declared_in: "CXWnd", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bNeedsSaving", accessor: "bNeedsSaving", declared_in: "CXWnd", offset: 0x195, decl_offset: 0x195, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "dShow", accessor: "dShow", declared_in: "CXWnd", offset: 0x196, decl_offset: 0x196, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "HScrollPos", accessor: "HScrollPos", declared_in: "CXWnd", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bEscapableLocked", accessor: "bEscapableLocked", declared_in: "CXWnd", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Fades", accessor: "Fades", declared_in: "CXWnd", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "HScrollMax", accessor: "HScrollMax", declared_in: "CXWnd", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bHCenterTooltip", accessor: "bHCenterTooltip", declared_in: "CXWnd", offset: 0x1a4, decl_offset: 0x1a4, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "WindowText", accessor: "WindowText", declared_in: "CXWnd", offset: 0x1a8, decl_offset: 0x1a8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "StartAlpha", accessor: "StartAlpha", declared_in: "CXWnd", offset: 0x1ac, decl_offset: 0x1ac, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bIsTransitioning", accessor: "bIsTransitioning", declared_in: "CXWnd", offset: 0x1ad, decl_offset: 0x1ad, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "FadeToAlpha", accessor: "FadeToAlpha", declared_in: "CXWnd", offset: 0x1ae, decl_offset: 0x1ae, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bFullyScreenClipped", accessor: "bFullyScreenClipped", declared_in: "CXWnd", offset: 0x1af, decl_offset: 0x1af, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "BGType", accessor: "BGType", declared_in: "CXWnd", offset: 0x1b0, decl_offset: 0x1b0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ClientRect", accessor: "ClientRect", declared_in: "CXWnd", offset: 0x1b4, decl_offset: 0x1b4, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Unlockable", accessor: "Unlockable", declared_in: "CXWnd", offset: 0x1c4, decl_offset: 0x1c4, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TransitionStartTick", accessor: "TransitionStartTick", declared_in: "CXWnd", offset: 0x1c8, decl_offset: 0x1c8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bMaximizable", accessor: "bMaximizable", declared_in: "CXWnd", offset: 0x1cc, decl_offset: 0x1cc, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TargetAlpha", accessor: "TargetAlpha", declared_in: "CXWnd", offset: 0x1cd, decl_offset: 0x1cd, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "Minimized", accessor: "Minimized", declared_in: "CXWnd", offset: 0x1ce, decl_offset: 0x1ce, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "TopOffset", accessor: "TopOffset", declared_in: "CXWnd", offset: 0x1d0, decl_offset: 0x1d0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bActive", accessor: "bActive", declared_in: "CXWnd", offset: 0x1d4, decl_offset: 0x1d4, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bControlsCreated", accessor: "bControlsCreated", declared_in: "CSidlScreenWnd", offset: 0x1d8, decl_offset: 0x1d8, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "SidlText", accessor: "SidlText", declared_in: "CSidlScreenWnd", offset: 0x1dc, decl_offset: 0x1dc, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "SidlPiece", accessor: "SidlPiece", declared_in: "CSidlScreenWnd", offset: 0x1e0, decl_offset: 0x1e0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "RadioGroup", accessor: "RadioGroup", declared_in: "CSidlScreenWnd", offset: 0x1e4, decl_offset: 0x1e4, size: 0x10, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bInitVisibility", accessor: "bInitVisibility", declared_in: "CSidlScreenWnd", offset: 0x1f4, decl_offset: 0x1f4, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bVisibleBeforeResize", accessor: "bVisibleBeforeResize", declared_in: "CSidlScreenWnd", offset: 0x1f5, decl_offset: 0x1f5, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "IniFlags", accessor: "IniFlags", declared_in: "CSidlScreenWnd", offset: 0x1f8, decl_offset: 0x1f8, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "IniStorageName", accessor: "IniStorageName", declared_in: "CSidlScreenWnd", offset: 0x1fc, decl_offset: 0x1fc, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "IniVersion", accessor: "IniVersion", declared_in: "CSidlScreenWnd", offset: 0x200, decl_offset: 0x200, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "LastResX", accessor: "LastResX", declared_in: "CSidlScreenWnd", offset: 0x204, decl_offset: 0x204, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "LastResY", accessor: "LastResY", declared_in: "CSidlScreenWnd", offset: 0x208, decl_offset: 0x208, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bLastResFullscreen", accessor: "bLastResFullscreen", declared_in: "CSidlScreenWnd", offset: 0x20c, decl_offset: 0x20c, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ContextMenuID", accessor: "ContextMenuID", declared_in: "CSidlScreenWnd", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "pFirstVScrollChild", accessor: "pFirstVScrollChild", declared_in: "CSidlScreenWnd", offset: 0x214, decl_offset: 0x214, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ContextMenuTipID", accessor: "ContextMenuTipID", declared_in: "CSidlScreenWnd", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "bHasActivatedFirstTimeAlert", accessor: "bHasActivatedFirstTimeAlert", declared_in: "CSidlScreenWnd", offset: 0x21c, decl_offset: 0x21c, size: 0x1, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "__vfptr", accessor: "PopDialogHandler___vfptr", declared_in: "PopDialogHandler", offset: 0x220, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "lastUpdate", accessor: "lastUpdate", declared_in: "WndEventHandler", offset: 0x224, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "m_currentPopup", accessor: "m_currentPopup", declared_in: "CSpellBookWnd", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "LeftPageNbr", accessor: "LeftPageNbr", declared_in: "CSpellBookWnd", offset: 0x22c, decl_offset: 0x22c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "SelectedBookIndex", accessor: "SelectedBookIndex", declared_in: "CSpellBookWnd", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "MemSlotIndex", accessor: "MemSlotIndex", declared_in: "CSpellBookWnd", offset: 0x234, decl_offset: 0x234, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "SpellId", accessor: "SpellId", declared_in: "CSpellBookWnd", offset: 0x238, decl_offset: 0x238, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "MemTicksLeft", accessor: "MemTicksLeft", declared_in: "CSpellBookWnd", offset: 0x23c, decl_offset: 0x23c, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ScribeBookSlot", accessor: "ScribeBookSlot", declared_in: "CSpellBookWnd", offset: 0x240, decl_offset: 0x240, size: 0x4, bits: None },
+    FieldInfo { record: "CSpellBookWnd", field: "ScribeTicksLeft", accessor: "ScribeTicksLeft", declared_in: "CSpellBookWnd", offset: 0x244, decl_offset: 0x244, size: 0x4, bits: None },
     FieldInfo { record: "CSpellDisplayManager", field: "__vfptr", accessor: "__vfptr", declared_in: "CWndDisplayManager", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CSpellDisplayManager", field: "m_windows", accessor: "m_windows", declared_in: "CWndDisplayManager", offset: 0x4, decl_offset: 0x4, size: 0x1c, bits: None },
     FieldInfo { record: "CSpellDisplayManager", field: "m_times", accessor: "m_times", declared_in: "CWndDisplayManager", offset: 0x20, decl_offset: 0x20, size: 0x1c, bits: None },
@@ -77677,6 +89769,351 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PcProfile", field: "SoleEnabledZoneID", accessor: "SoleEnabledZoneID", declared_in: "PcProfile", offset: 0x9944, decl_offset: 0x9944, size: 0x4, bits: None },
     FieldInfo { record: "PcProfile", field: "NewBodyTint", accessor: "NewBodyTint", declared_in: "PcProfile", offset: 0x9948, decl_offset: 0x9948, size: 0x4, bits: None },
     FieldInfo { record: "PcProfile", field: "CurrentMercenaryIndex", accessor: "CurrentMercenaryIndex", declared_in: "PcProfile", offset: 0x994c, decl_offset: 0x994c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "__vfptr", accessor: "__vfptr", declared_in: "PcBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "__vbptr", accessor: "__vbptr", declared_in: "PcBase", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "RecentTasks", accessor: "RecentTasks", declared_in: "PcBase", offset: 0x10, decl_offset: 0x10, size: 0x28, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Tasks", accessor: "Tasks", declared_in: "PcBase", offset: 0x38, decl_offset: 0x38, size: 0x70, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Quests", accessor: "Quests", declared_in: "PcBase", offset: 0xa8, decl_offset: 0xa8, size: 0xcb0, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BitFlags", accessor: "BitFlags", declared_in: "PcBase", offset: 0xd58, decl_offset: 0xd58, size: 0x320, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ActiveTributeBenefits", accessor: "ActiveTributeBenefits", declared_in: "PcBase", offset: 0x1078, decl_offset: 0x1078, size: 0x28, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ActiveTrophyTributeBenefits", accessor: "ActiveTrophyTributeBenefits", declared_in: "PcBase", offset: 0x10a0, decl_offset: 0x10a0, size: 0x50, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BitFlags2", accessor: "BitFlags2", declared_in: "PcBase", offset: 0x10f0, decl_offset: 0x10f0, size: 0x320, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Unknown0x1410", accessor: "Unknown0x1410", declared_in: "PcBase", offset: 0x1410, decl_offset: 0x1410, size: 0x990, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MyLeadershipAbilities", accessor: "MyLeadershipAbilities", declared_in: "PcBase", offset: 0x1da0, decl_offset: 0x1da0, size: 0x3c, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Unknown0x1ddc", accessor: "Unknown0x1ddc", declared_in: "PcBase", offset: 0x1ddc, decl_offset: 0x1ddc, size: 0xc4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankItems", accessor: "BankItems", declared_in: "PcBase", offset: 0x1ea0, decl_offset: 0x1ea0, size: 0x38, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SharedBankItems", accessor: "SharedBankItems", declared_in: "PcBase", offset: 0x1ed8, decl_offset: 0x1ed8, size: 0x38, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LimboBufferItems", accessor: "LimboBufferItems", declared_in: "PcBase", offset: 0x1f10, decl_offset: 0x1f10, size: 0x38, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AltStorageItems", accessor: "AltStorageItems", declared_in: "PcBase", offset: 0x1f48, decl_offset: 0x1f48, size: 0x38, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ArchivedDeletedItems", accessor: "ArchivedDeletedItems", declared_in: "PcBase", offset: 0x1f80, decl_offset: 0x1f80, size: 0x38, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MailItems", accessor: "MailItems", declared_in: "PcBase", offset: 0x1fb8, decl_offset: 0x1fb8, size: 0x38, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MailItemsData", accessor: "MailItemsData", declared_in: "PcBase", offset: 0x1ff0, decl_offset: 0x1ff0, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CurrentDynamicZones", accessor: "CurrentDynamicZones", declared_in: "PcBase", offset: 0x2000, decl_offset: 0x2000, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LearnedRecipes", accessor: "LearnedRecipes", declared_in: "PcBase", offset: 0x2010, decl_offset: 0x2010, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NonrepeatableQuests", accessor: "NonrepeatableQuests", declared_in: "PcBase", offset: 0x2020, decl_offset: 0x2020, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CompletedTasks", accessor: "CompletedTasks", declared_in: "PcBase", offset: 0x2030, decl_offset: 0x2030, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AlchemyTimestamp", accessor: "AlchemyTimestamp", declared_in: "PcBase", offset: 0x2040, decl_offset: 0x2040, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bGoHomeOverride", accessor: "bGoHomeOverride", declared_in: "PcBase", offset: 0x2044, decl_offset: 0x2044, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LoginTime", accessor: "LoginTime", declared_in: "PcBase", offset: 0x2048, decl_offset: 0x2048, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GuildID", accessor: "GuildID", declared_in: "PcBase", offset: 0x204c, decl_offset: 0x204c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "FullSaveToPDS", accessor: "FullSaveToPDS", declared_in: "PcBase", offset: 0x2050, decl_offset: 0x2050, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "FellowshipID", accessor: "FellowshipID", declared_in: "PcBase", offset: 0x2054, decl_offset: 0x2054, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "pFellowship", accessor: "pFellowship", declared_in: "PcBase", offset: 0x2058, decl_offset: 0x2058, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GuildStatus", accessor: "GuildStatus", declared_in: "PcBase", offset: 0x205c, decl_offset: 0x205c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GuildFlags", accessor: "GuildFlags", declared_in: "PcBase", offset: 0x2060, decl_offset: 0x2060, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GuildShowSprite", accessor: "GuildShowSprite", declared_in: "PcBase", offset: 0x2064, decl_offset: 0x2064, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CreationTime", accessor: "CreationTime", declared_in: "PcBase", offset: 0x2068, decl_offset: 0x2068, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AccountCreationTime", accessor: "AccountCreationTime", declared_in: "PcBase", offset: 0x206c, decl_offset: 0x206c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastPlayedTime", accessor: "LastPlayedTime", declared_in: "PcBase", offset: 0x2070, decl_offset: 0x2070, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MinutesPlayed", accessor: "MinutesPlayed", declared_in: "PcBase", offset: 0x2074, decl_offset: 0x2074, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Anonymous", accessor: "Anonymous", declared_in: "PcBase", offset: 0x2078, decl_offset: 0x2078, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bGM", accessor: "bGM", declared_in: "PcBase", offset: 0x2079, decl_offset: 0x2079, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bGMStealth", accessor: "bGMStealth", declared_in: "PcBase", offset: 0x207a, decl_offset: 0x207a, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AAExp", accessor: "AAExp", declared_in: "PcBase", offset: 0x207c, decl_offset: 0x207c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NobilityRank", accessor: "NobilityRank", declared_in: "PcBase", offset: 0x2080, decl_offset: 0x2080, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PercentEXPtoAA", accessor: "PercentEXPtoAA", declared_in: "PcBase", offset: 0x2081, decl_offset: 0x2081, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AirSupply", accessor: "AirSupply", declared_in: "PcBase", offset: 0x2084, decl_offset: 0x2084, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SerialNum", accessor: "SerialNum", declared_in: "PcBase", offset: 0x2088, decl_offset: 0x2088, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bNewCharacter", accessor: "bNewCharacter", declared_in: "PcBase", offset: 0x208c, decl_offset: 0x208c, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TasksAssigned", accessor: "TasksAssigned", declared_in: "PcBase", offset: 0x2090, decl_offset: 0x2090, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TasksCompleted", accessor: "TasksCompleted", declared_in: "PcBase", offset: 0x2094, decl_offset: 0x2094, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TaskPoints", accessor: "TaskPoints", declared_in: "PcBase", offset: 0x2098, decl_offset: 0x2098, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CareerTaskPoints", accessor: "CareerTaskPoints", declared_in: "PcBase", offset: 0x209c, decl_offset: 0x209c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TasksAbandoned", accessor: "TasksAbandoned", declared_in: "PcBase", offset: 0x20a0, decl_offset: 0x20a0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TaskRequestTimer", accessor: "TaskRequestTimer", declared_in: "PcBase", offset: 0x20a4, decl_offset: 0x20a4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UniquePlayerID", accessor: "UniquePlayerID", declared_in: "PcBase", offset: 0x20a8, decl_offset: 0x20a8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DynamicZoneSafeReturnLocation", accessor: "DynamicZoneSafeReturnLocation", declared_in: "PcBase", offset: 0x20ac, decl_offset: 0x20ac, size: 0x14, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "pDZTimerRoot", accessor: "pDZTimerRoot", declared_in: "PcBase", offset: 0x20c0, decl_offset: 0x20c0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BenefitTimer", accessor: "BenefitTimer", declared_in: "PcBase", offset: 0x20c4, decl_offset: 0x20c4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TrophyBenefitTimer", accessor: "TrophyBenefitTimer", declared_in: "PcBase", offset: 0x20c8, decl_offset: 0x20c8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CareerFavor", accessor: "CareerFavor", declared_in: "PcBase", offset: 0x20d0, decl_offset: 0x20d0, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CurrFavor", accessor: "CurrFavor", declared_in: "PcBase", offset: 0x20d8, decl_offset: 0x20d8, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bBenefitsActive", accessor: "bBenefitsActive", declared_in: "PcBase", offset: 0x20e0, decl_offset: 0x20e0, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bTrophyBenefitsActive", accessor: "bTrophyBenefitsActive", declared_in: "PcBase", offset: 0x20e1, decl_offset: 0x20e1, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GroupLeadershipExp", accessor: "GroupLeadershipExp", declared_in: "PcBase", offset: 0x20e8, decl_offset: 0x20e8, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "RaidLeadershipExp", accessor: "RaidLeadershipExp", declared_in: "PcBase", offset: 0x20f0, decl_offset: 0x20f0, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GroupLeadershipPoints", accessor: "GroupLeadershipPoints", declared_in: "PcBase", offset: 0x20f8, decl_offset: 0x20f8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "RaidLeadershipPoints", accessor: "RaidLeadershipPoints", declared_in: "PcBase", offset: 0x20fc, decl_offset: 0x20fc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DoLeadershipExp", accessor: "DoLeadershipExp", declared_in: "PcBase", offset: 0x2100, decl_offset: 0x2100, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "szGroupMentoringName", accessor: "szGroupMentoringName", declared_in: "PcBase", offset: 0x2101, decl_offset: 0x2101, size: 0x40, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Unknown0x2141", accessor: "Unknown0x2141", declared_in: "PcBase", offset: 0x2141, decl_offset: 0x2141, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "szMyMentor", accessor: "szMyMentor", declared_in: "PcBase", offset: 0x2145, decl_offset: 0x2145, size: 0x40, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Unknown0x2185", accessor: "Unknown0x2185", declared_in: "PcBase", offset: 0x2185, decl_offset: 0x2185, size: 0x7, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GroupMentoringPercent", accessor: "GroupMentoringPercent", declared_in: "PcBase", offset: 0x218c, decl_offset: 0x218c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bHasResetStartingCity", accessor: "bHasResetStartingCity", declared_in: "PcBase", offset: 0x2190, decl_offset: 0x2190, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bIsHeadStartCharacter", accessor: "bIsHeadStartCharacter", declared_in: "PcBase", offset: 0x2191, decl_offset: 0x2191, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPKills", accessor: "PvPKills", declared_in: "PcBase", offset: 0x2194, decl_offset: 0x2194, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPDeaths", accessor: "PvPDeaths", declared_in: "PcBase", offset: 0x2198, decl_offset: 0x2198, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPCurrentPoints", accessor: "PvPCurrentPoints", declared_in: "PcBase", offset: 0x219c, decl_offset: 0x219c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPTotalPointsEarned", accessor: "PvPTotalPointsEarned", declared_in: "PcBase", offset: 0x21a0, decl_offset: 0x21a0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPKillStreak", accessor: "PvPKillStreak", declared_in: "PcBase", offset: 0x21a4, decl_offset: 0x21a4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPDeathStreak", accessor: "PvPDeathStreak", declared_in: "PcBase", offset: 0x21a8, decl_offset: 0x21a8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPCurrentStreak", accessor: "PvPCurrentStreak", declared_in: "PcBase", offset: 0x21ac, decl_offset: 0x21ac, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastKill", accessor: "LastKill", declared_in: "PcBase", offset: 0x21b0, decl_offset: 0x21b0, size: 0x58, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastDeath", accessor: "LastDeath", declared_in: "PcBase", offset: 0x2208, decl_offset: 0x2208, size: 0x58, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPLast24HoursKillHash", accessor: "PvPLast24HoursKillHash", declared_in: "PcBase", offset: 0x2260, decl_offset: 0x2260, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPInfamyLevel", accessor: "PvPInfamyLevel", declared_in: "PcBase", offset: 0x2270, decl_offset: 0x2270, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPVitality", accessor: "PvPVitality", declared_in: "PcBase", offset: 0x2274, decl_offset: 0x2274, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPLastInfamyTime", accessor: "PvPLastInfamyTime", declared_in: "PcBase", offset: 0x2278, decl_offset: 0x2278, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastLastNameChange", accessor: "LastLastNameChange", declared_in: "PcBase", offset: 0x227c, decl_offset: 0x227c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastNameChangePriv", accessor: "LastNameChangePriv", declared_in: "PcBase", offset: 0x2280, decl_offset: 0x2280, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PvPLastVitalityTime", accessor: "PvPLastVitalityTime", declared_in: "PcBase", offset: 0x2284, decl_offset: 0x2284, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bKeepItemsOnDeath", accessor: "bKeepItemsOnDeath", declared_in: "PcBase", offset: 0x2288, decl_offset: 0x2288, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bResetSpecializationSkills", accessor: "bResetSpecializationSkills", declared_in: "PcBase", offset: 0x2289, decl_offset: 0x2289, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CharityPointsAvailable", accessor: "CharityPointsAvailable", declared_in: "PcBase", offset: 0x228c, decl_offset: 0x228c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CharityPointsEarned", accessor: "CharityPointsEarned", declared_in: "PcBase", offset: 0x2290, decl_offset: 0x2290, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GoodPointsAvailable", accessor: "GoodPointsAvailable", declared_in: "PcBase", offset: 0x2294, decl_offset: 0x2294, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GoodTotalPointsEarned", accessor: "GoodTotalPointsEarned", declared_in: "PcBase", offset: 0x2298, decl_offset: 0x2298, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "EvilPointsAvailable", accessor: "EvilPointsAvailable", declared_in: "PcBase", offset: 0x229c, decl_offset: 0x229c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "EvilTotalPointsEarned", accessor: "EvilTotalPointsEarned", declared_in: "PcBase", offset: 0x22a0, decl_offset: 0x22a0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bCanRequestNameChange", accessor: "bCanRequestNameChange", declared_in: "PcBase", offset: 0x22a4, decl_offset: 0x22a4, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bCanRequestNameChange2", accessor: "bCanRequestNameChange2", declared_in: "PcBase", offset: 0x22a5, decl_offset: 0x22a5, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bCanRequestServerTransfer", accessor: "bCanRequestServerTransfer", declared_in: "PcBase", offset: 0x22a6, decl_offset: 0x22a6, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ServerTransferGrantTime", accessor: "ServerTransferGrantTime", declared_in: "PcBase", offset: 0x22a8, decl_offset: 0x22a8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bCanRequestRaceChange", accessor: "bCanRequestRaceChange", declared_in: "PcBase", offset: 0x22ac, decl_offset: 0x22ac, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastAAResetTime", accessor: "LastAAResetTime", declared_in: "PcBase", offset: 0x22b0, decl_offset: 0x22b0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NewZoneID", accessor: "NewZoneID", declared_in: "PcBase", offset: 0x22b4, decl_offset: 0x22b4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NewAreaID", accessor: "NewAreaID", declared_in: "PcBase", offset: 0x22b8, decl_offset: 0x22b8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "eNewAreaCorner", accessor: "eNewAreaCorner", declared_in: "PcBase", offset: 0x22bc, decl_offset: 0x22bc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PreviousZoneID", accessor: "PreviousZoneID", declared_in: "PcBase", offset: 0x22c0, decl_offset: 0x22c0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "RealEstateZoneID", accessor: "RealEstateZoneID", declared_in: "PcBase", offset: 0x22c4, decl_offset: 0x22c4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ServerCreated", accessor: "ServerCreated", declared_in: "PcBase", offset: 0x22c8, decl_offset: 0x22c8, size: 0x20, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AdventureData", accessor: "AdventureData", declared_in: "PcBase", offset: 0x22e8, decl_offset: 0x22e8, size: 0xd8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SharedTaskData", accessor: "SharedTaskData", declared_in: "PcBase", offset: 0x23c0, decl_offset: 0x23c0, size: 0x8c, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "pTaskTimerData", accessor: "pTaskTimerData", declared_in: "PcBase", offset: 0x244c, decl_offset: 0x244c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "QuestHistoryData", accessor: "QuestHistoryData", declared_in: "PcBase", offset: 0x2450, decl_offset: 0x2450, size: 0x258, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PcStatistics", accessor: "PcStatistics", declared_in: "PcBase", offset: 0x26a8, decl_offset: 0x26a8, size: 0x104, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GroupStats", accessor: "GroupStats", declared_in: "PcBase", offset: 0x27ac, decl_offset: 0x27ac, size: 0x150, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bIsLfg", accessor: "bIsLfg", declared_in: "PcBase", offset: 0x28fc, decl_offset: 0x28fc, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "RaidId", accessor: "RaidId", declared_in: "PcBase", offset: 0x2900, decl_offset: 0x2900, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "GroupID", accessor: "GroupID", declared_in: "PcBase", offset: 0x2904, decl_offset: 0x2904, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UniqueGuildID", accessor: "UniqueGuildID", declared_in: "PcBase", offset: 0x2908, decl_offset: 0x2908, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Exp", accessor: "Exp", declared_in: "PcBase", offset: 0x2910, decl_offset: 0x2910, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DaysEntitled", accessor: "DaysEntitled", declared_in: "PcBase", offset: 0x2918, decl_offset: 0x2918, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "VeteranRewardsConsumed", accessor: "VeteranRewardsConsumed", declared_in: "PcBase", offset: 0x291c, decl_offset: 0x291c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bIsVeteranRewardEntitled", accessor: "bIsVeteranRewardEntitled", declared_in: "PcBase", offset: 0x2920, decl_offset: 0x2920, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bAutoConsentGroup", accessor: "bAutoConsentGroup", declared_in: "PcBase", offset: 0x2921, decl_offset: 0x2921, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bAutoConsentRaid", accessor: "bAutoConsentRaid", declared_in: "PcBase", offset: 0x2922, decl_offset: 0x2922, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bAutoConsentGuild", accessor: "bAutoConsentGuild", declared_in: "PcBase", offset: 0x2923, decl_offset: 0x2923, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bPrivateForEqPlayers", accessor: "bPrivateForEqPlayers", declared_in: "PcBase", offset: 0x2924, decl_offset: 0x2924, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AchievementFilesModificationTime", accessor: "AchievementFilesModificationTime", declared_in: "PcBase", offset: 0x2928, decl_offset: 0x2928, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "StationID", accessor: "StationID", declared_in: "PcBase", offset: 0x292c, decl_offset: 0x292c, size: 0x20, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Guid", accessor: "Guid", declared_in: "PcBase", offset: 0x2950, decl_offset: 0x2950, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bBetaBuffed", accessor: "bBetaBuffed", declared_in: "PcBase", offset: 0x2958, decl_offset: 0x2958, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "StartingCity", accessor: "StartingCity", declared_in: "PcBase", offset: 0x295c, decl_offset: 0x295c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MainLevel", accessor: "MainLevel", declared_in: "PcBase", offset: 0x2960, decl_offset: 0x2960, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bShowHelm", accessor: "bShowHelm", declared_in: "PcBase", offset: 0x2964, decl_offset: 0x2964, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastForcedUpdate", accessor: "LastForcedUpdate", declared_in: "PcBase", offset: 0x2968, decl_offset: 0x2968, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastTestCopyTime", accessor: "LastTestCopyTime", declared_in: "PcBase", offset: 0x2970, decl_offset: 0x2970, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PointManager", accessor: "PointManager", declared_in: "PcBase", offset: 0x2978, decl_offset: 0x2978, size: 0x14, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PointSystem", accessor: "PointSystem", declared_in: "PcBase", offset: 0x298c, decl_offset: 0x298c, size: 0x14, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LoyaltyVelocity", accessor: "LoyaltyVelocity", declared_in: "PcBase", offset: 0x29a0, decl_offset: 0x29a0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LoyaltyTokens", accessor: "LoyaltyTokens", declared_in: "PcBase", offset: 0x29a4, decl_offset: 0x29a4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bHasLoyaltyInfo", accessor: "bHasLoyaltyInfo", declared_in: "PcBase", offset: 0x29a8, decl_offset: 0x29a8, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OwnedRealEstates", accessor: "OwnedRealEstates", declared_in: "PcBase", offset: 0x29ac, decl_offset: 0x29ac, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OwnedItemRealEstates", accessor: "OwnedItemRealEstates", declared_in: "PcBase", offset: 0x29bc, decl_offset: 0x29bc, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ArchivedRealEstates", accessor: "ArchivedRealEstates", declared_in: "PcBase", offset: 0x29cc, decl_offset: 0x29cc, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OverridePetName", accessor: "OverridePetName", declared_in: "PcBase", offset: 0x29dc, decl_offset: 0x29dc, size: 0x40, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bCanRequestPetNameChange", accessor: "bCanRequestPetNameChange", declared_in: "PcBase", offset: 0x2a1c, decl_offset: 0x2a1c, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OverrideMercName", accessor: "OverrideMercName", declared_in: "PcBase", offset: 0x2a20, decl_offset: 0x2a20, size: 0x28, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bCanRequestMercNameChange", accessor: "bCanRequestMercNameChange", declared_in: "PcBase", offset: 0x2a48, decl_offset: 0x2a48, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "PendingRewards", accessor: "PendingRewards", declared_in: "PcBase", offset: 0x2a4c, decl_offset: 0x2a4c, size: 0x2c, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DowntimeReductionTime", accessor: "DowntimeReductionTime", declared_in: "PcBase", offset: 0x2a78, decl_offset: 0x2a78, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DowntimeTimerStart", accessor: "DowntimeTimerStart", declared_in: "PcBase", offset: 0x2a7c, decl_offset: 0x2a7c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ActivityValue", accessor: "ActivityValue", declared_in: "PcBase", offset: 0x2a80, decl_offset: 0x2a80, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NextItemId", accessor: "NextItemId", declared_in: "PcBase", offset: 0x2a84, decl_offset: 0x2a84, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SharedBank", accessor: "SharedBank", declared_in: "PcBase", offset: 0x2a88, decl_offset: 0x2a88, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankBuffer", accessor: "BankBuffer", declared_in: "PcBase", offset: 0x2a8c, decl_offset: 0x2a8c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LimboBuffer", accessor: "LimboBuffer", declared_in: "PcBase", offset: 0x2a90, decl_offset: 0x2a90, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AltStorageBuffer", accessor: "AltStorageBuffer", declared_in: "PcBase", offset: 0x2a94, decl_offset: 0x2a94, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AltStorageTimestamp", accessor: "AltStorageTimestamp", declared_in: "PcBase", offset: 0x2a98, decl_offset: 0x2a98, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LockoutCharacterReason", accessor: "LockoutCharacterReason", declared_in: "PcBase", offset: 0x2a9c, decl_offset: 0x2a9c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ProgressionExp", accessor: "ProgressionExp", declared_in: "PcBase", offset: 0x2aa0, decl_offset: 0x2aa0, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ArchivedStorageBuffer", accessor: "ArchivedStorageBuffer", declared_in: "PcBase", offset: 0x2ab0, decl_offset: 0x2ab0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MailItemsBuffer", accessor: "MailItemsBuffer", declared_in: "PcBase", offset: 0x2ab4, decl_offset: 0x2ab4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MailItemsDataBuffer", accessor: "MailItemsDataBuffer", declared_in: "PcBase", offset: 0x2ab8, decl_offset: 0x2ab8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MailItemsOverCapWarningCount", accessor: "MailItemsOverCapWarningCount", declared_in: "PcBase", offset: 0x2abc, decl_offset: 0x2abc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bIsCorrupted", accessor: "bIsCorrupted", declared_in: "PcBase", offset: 0x2ac0, decl_offset: 0x2ac0, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "pCorruptionReport", accessor: "pCorruptionReport", declared_in: "PcBase", offset: 0x2ac4, decl_offset: 0x2ac4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "InspectText", accessor: "InspectText", declared_in: "PcBase", offset: 0x2ac8, decl_offset: 0x2ac8, size: 0x100, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BlockedSpellsHash", accessor: "BlockedSpellsHash", declared_in: "PcBase", offset: 0x2bc8, decl_offset: 0x2bc8, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BlockedSpell", accessor: "BlockedSpell", declared_in: "PcBase", offset: 0x2bd8, decl_offset: 0x2bd8, size: 0x78, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BlockedPetSpellsHash", accessor: "BlockedPetSpellsHash", declared_in: "PcBase", offset: 0x2c50, decl_offset: 0x2c50, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BlockedPetSpell", accessor: "BlockedPetSpell", declared_in: "PcBase", offset: 0x2c60, decl_offset: 0x2c60, size: 0x78, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ConsumableFeatures", accessor: "ConsumableFeatures", declared_in: "PcBase", offset: 0x2cd8, decl_offset: 0x2cd8, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bGrantItemsRegistered", accessor: "bGrantItemsRegistered", declared_in: "PcBase", offset: 0x2ce8, decl_offset: 0x2ce8, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CreatedGuildID", accessor: "CreatedGuildID", declared_in: "PcBase", offset: 0x2cf0, decl_offset: 0x2cf0, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bInventoryUnserialized", accessor: "bInventoryUnserialized", declared_in: "PcBase", offset: 0x2cf8, decl_offset: 0x2cf8, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bAltStorageUnserialized", accessor: "bAltStorageUnserialized", declared_in: "PcBase", offset: 0x2cf9, decl_offset: 0x2cf9, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bArchivedStorageUnserialized", accessor: "bArchivedStorageUnserialized", declared_in: "PcBase", offset: 0x2cfa, decl_offset: 0x2cfa, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bMailUnserialized", accessor: "bMailUnserialized", declared_in: "PcBase", offset: 0x2cfb, decl_offset: 0x2cfb, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bPendingInventorySerialization", accessor: "bPendingInventorySerialization", declared_in: "PcBase", offset: 0x2cfc, decl_offset: 0x2cfc, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BuyLines", accessor: "BuyLines", declared_in: "PcBase", offset: 0x2d00, decl_offset: 0x2d00, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OfflineTraderSoldItems", accessor: "OfflineTraderSoldItems", declared_in: "PcBase", offset: 0x2d04, decl_offset: 0x2d04, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OfflineBuyerBoughtItems", accessor: "OfflineBuyerBoughtItems", declared_in: "PcBase", offset: 0x2d14, decl_offset: 0x2d14, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Krono", accessor: "Krono", declared_in: "PcBase", offset: 0x2d24, decl_offset: 0x2d24, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CursorKrono", accessor: "CursorKrono", declared_in: "PcBase", offset: 0x2d28, decl_offset: 0x2d28, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CompletedAchievements", accessor: "CompletedAchievements", declared_in: "PcBase", offset: 0x2d2c, decl_offset: 0x2d2c, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CompletedEventBasedSubComponents", accessor: "CompletedEventBasedSubComponents", declared_in: "PcBase", offset: 0x2d3c, decl_offset: 0x2d3c, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "OpenEventBasedSubComponents", accessor: "OpenEventBasedSubComponents", declared_in: "PcBase", offset: 0x2d4c, decl_offset: 0x2d4c, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastFellowshipJoin", accessor: "LastFellowshipJoin", declared_in: "PcBase", offset: 0x2d5c, decl_offset: 0x2d5c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Vitality", accessor: "Vitality", declared_in: "PcBase", offset: 0x2d60, decl_offset: 0x2d60, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AAVitality", accessor: "AAVitality", declared_in: "PcBase", offset: 0x2d68, decl_offset: 0x2d68, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "FreeToPlayUnlocks", accessor: "FreeToPlayUnlocks", declared_in: "PcBase", offset: 0x2d6c, decl_offset: 0x2d6c, size: 0x58, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "__vfptr", accessor: "CharacterZoneClient___vfptr", declared_in: "CharacterZoneClient", offset: 0x2dc8, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "__vbptr", accessor: "CharacterZoneClient___vbptr", declared_in: "CharacterZoneClient", offset: 0x2dcc, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "me", accessor: "me", declared_in: "CharacterZoneClient", offset: 0x2dd0, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "statDirtyFlag", accessor: "statDirtyFlag", declared_in: "CharacterZoneClient", offset: 0x2dd4, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "zoningStatProcessing", accessor: "zoningStatProcessing", declared_in: "CharacterZoneClient", offset: 0x2dd5, decl_offset: 0xd, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ArmorClassBonus", accessor: "ArmorClassBonus", declared_in: "CharacterZoneClient", offset: 0x2dd8, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CurrWeight", accessor: "CurrWeight", declared_in: "CharacterZoneClient", offset: 0x2ddc, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastHitPointSendPercent", accessor: "LastHitPointSendPercent", declared_in: "CharacterZoneClient", offset: 0x2de0, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastManaPointSendPercent", accessor: "LastManaPointSendPercent", declared_in: "CharacterZoneClient", offset: 0x2de4, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastEndurancePointSendPercent", accessor: "LastEndurancePointSendPercent", declared_in: "CharacterZoneClient", offset: 0x2de8, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HPBonus", accessor: "HPBonus", declared_in: "CharacterZoneClient", offset: 0x2dec, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ManaBonus", accessor: "ManaBonus", declared_in: "CharacterZoneClient", offset: 0x2df0, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "EnduranceBonus", accessor: "EnduranceBonus", declared_in: "CharacterZoneClient", offset: 0x2df4, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CombatEffectsBonus", accessor: "CombatEffectsBonus", declared_in: "CharacterZoneClient", offset: 0x2df8, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ShieldingBonus", accessor: "ShieldingBonus", declared_in: "CharacterZoneClient", offset: 0x2dfc, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SpellShieldBonus", accessor: "SpellShieldBonus", declared_in: "CharacterZoneClient", offset: 0x2e00, decl_offset: 0x38, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AvoidanceBonus", accessor: "AvoidanceBonus", declared_in: "CharacterZoneClient", offset: 0x2e04, decl_offset: 0x3c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AccuracyBonus", accessor: "AccuracyBonus", declared_in: "CharacterZoneClient", offset: 0x2e08, decl_offset: 0x40, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "StunResistBonus", accessor: "StunResistBonus", declared_in: "CharacterZoneClient", offset: 0x2e0c, decl_offset: 0x44, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "StrikeThroughBonus", accessor: "StrikeThroughBonus", declared_in: "CharacterZoneClient", offset: 0x2e10, decl_offset: 0x48, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ItemSkillMinDamageMod", accessor: "ItemSkillMinDamageMod", declared_in: "CharacterZoneClient", offset: 0x2e14, decl_offset: 0x4c, size: 0x24, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SkillMinDamageModBonus", accessor: "SkillMinDamageModBonus", declared_in: "CharacterZoneClient", offset: 0x2e38, decl_offset: 0x70, size: 0x24, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Unknown0x2e5c", accessor: "Unknown0x2e5c", declared_in: "CharacterZoneClient", offset: 0x2e5c, decl_offset: 0x94, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DoTShieldBonus", accessor: "DoTShieldBonus", declared_in: "CharacterZoneClient", offset: 0x2e60, decl_offset: 0x98, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DamageShieldMitigationBonus", accessor: "DamageShieldMitigationBonus", declared_in: "CharacterZoneClient", offset: 0x2e64, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CombatEffectsBonus2", accessor: "CombatEffectsBonus2", declared_in: "CharacterZoneClient", offset: 0x2e68, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SpellShieldBonus2", accessor: "SpellShieldBonus2", declared_in: "CharacterZoneClient", offset: 0x2e6c, decl_offset: 0xa4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ShieldingBonus2", accessor: "ShieldingBonus2", declared_in: "CharacterZoneClient", offset: 0x2e70, decl_offset: 0xa8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DamageShieldBonus2", accessor: "DamageShieldBonus2", declared_in: "CharacterZoneClient", offset: 0x2e74, decl_offset: 0xac, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DoTShieldBonus2", accessor: "DoTShieldBonus2", declared_in: "CharacterZoneClient", offset: 0x2e78, decl_offset: 0xb0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DamageShieldMitigationBonus2", accessor: "DamageShieldMitigationBonus2", declared_in: "CharacterZoneClient", offset: 0x2e7c, decl_offset: 0xb4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AvoidanceBonus2", accessor: "AvoidanceBonus2", declared_in: "CharacterZoneClient", offset: 0x2e80, decl_offset: 0xb8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AccuracyBonus2", accessor: "AccuracyBonus2", declared_in: "CharacterZoneClient", offset: 0x2e84, decl_offset: 0xbc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "StunResistBonus2", accessor: "StunResistBonus2", declared_in: "CharacterZoneClient", offset: 0x2e88, decl_offset: 0xc0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "StrikeThroughBonus2", accessor: "StrikeThroughBonus2", declared_in: "CharacterZoneClient", offset: 0x2e8c, decl_offset: 0xc4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSTRBonus", accessor: "HeroicSTRBonus", declared_in: "CharacterZoneClient", offset: 0x2e90, decl_offset: 0xc8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicINTBonus", accessor: "HeroicINTBonus", declared_in: "CharacterZoneClient", offset: 0x2e94, decl_offset: 0xcc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicWISBonus", accessor: "HeroicWISBonus", declared_in: "CharacterZoneClient", offset: 0x2e98, decl_offset: 0xd0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicAGIBonus", accessor: "HeroicAGIBonus", declared_in: "CharacterZoneClient", offset: 0x2e9c, decl_offset: 0xd4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicDEXBonus", accessor: "HeroicDEXBonus", declared_in: "CharacterZoneClient", offset: 0x2ea0, decl_offset: 0xd8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSTABonus", accessor: "HeroicSTABonus", declared_in: "CharacterZoneClient", offset: 0x2ea4, decl_offset: 0xdc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicCHABonus", accessor: "HeroicCHABonus", declared_in: "CharacterZoneClient", offset: 0x2ea8, decl_offset: 0xe0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSvMagicBonus", accessor: "HeroicSvMagicBonus", declared_in: "CharacterZoneClient", offset: 0x2eac, decl_offset: 0xe4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSvFireBonus", accessor: "HeroicSvFireBonus", declared_in: "CharacterZoneClient", offset: 0x2eb0, decl_offset: 0xe8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSvColdBonus", accessor: "HeroicSvColdBonus", declared_in: "CharacterZoneClient", offset: 0x2eb4, decl_offset: 0xec, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSvDiseaseBonus", accessor: "HeroicSvDiseaseBonus", declared_in: "CharacterZoneClient", offset: 0x2eb8, decl_offset: 0xf0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSvPoisonBonus", accessor: "HeroicSvPoisonBonus", declared_in: "CharacterZoneClient", offset: 0x2ebc, decl_offset: 0xf4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HeroicSvCorruptionBonus", accessor: "HeroicSvCorruptionBonus", declared_in: "CharacterZoneClient", offset: 0x2ec0, decl_offset: 0xf8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HealAmountBonus", accessor: "HealAmountBonus", declared_in: "CharacterZoneClient", offset: 0x2ec4, decl_offset: 0xfc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SpellDamageBonus", accessor: "SpellDamageBonus", declared_in: "CharacterZoneClient", offset: 0x2ec8, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ItemHealAmountDotMod", accessor: "ItemHealAmountDotMod", declared_in: "CharacterZoneClient", offset: 0x2ecc, decl_offset: 0x104, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ItemSpellDamageDotMod", accessor: "ItemSpellDamageDotMod", declared_in: "CharacterZoneClient", offset: 0x2ed0, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ClairvoyanceBonus", accessor: "ClairvoyanceBonus", declared_in: "CharacterZoneClient", offset: 0x2ed4, decl_offset: 0x10c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AttackBonus", accessor: "AttackBonus", declared_in: "CharacterZoneClient", offset: 0x2ed8, decl_offset: 0x110, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "HPRegenBonus", accessor: "HPRegenBonus", declared_in: "CharacterZoneClient", offset: 0x2edc, decl_offset: 0x114, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ManaRegenBonus", accessor: "ManaRegenBonus", declared_in: "CharacterZoneClient", offset: 0x2ee0, decl_offset: 0x118, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "EnduranceRegenBonus", accessor: "EnduranceRegenBonus", declared_in: "CharacterZoneClient", offset: 0x2ee4, decl_offset: 0x11c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DamageShieldBonus", accessor: "DamageShieldBonus", declared_in: "CharacterZoneClient", offset: 0x2ee8, decl_offset: 0x120, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AttackSpeed", accessor: "AttackSpeed", declared_in: "CharacterZoneClient", offset: 0x2eec, decl_offset: 0x124, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffItemSkillMinDamageMod", accessor: "NoBuffItemSkillMinDamageMod", declared_in: "CharacterZoneClient", offset: 0x2ef0, decl_offset: 0x128, size: 0x24, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bOutputHpRegen", accessor: "bOutputHpRegen", declared_in: "CharacterZoneClient", offset: 0x2f14, decl_offset: 0x14c, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bInvulnerable", accessor: "bInvulnerable", declared_in: "CharacterZoneClient", offset: 0x2f15, decl_offset: 0x14d, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bOnAVehicle", accessor: "bOnAVehicle", declared_in: "CharacterZoneClient", offset: 0x2f16, decl_offset: 0x14e, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "spellCache", accessor: "spellCache", declared_in: "CharacterZoneClient", offset: 0x2f18, decl_offset: 0x150, size: 0x58, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DoomEffectsBySlot", accessor: "DoomEffectsBySlot", declared_in: "CharacterZoneClient", offset: 0x2f70, decl_offset: 0x1a8, size: 0x210, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastHitEval", accessor: "LastHitEval", declared_in: "CharacterZoneClient", offset: 0x3180, decl_offset: 0x3b8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "__vfptr", accessor: "DebugText___vfptr", declared_in: "DebugText", offset: 0x3184, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Flags", accessor: "Flags", declared_in: "PcZoneClient", offset: 0x3188, decl_offset: 0x3188, size: 0xc, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "TransfersReceived", accessor: "TransfersReceived", declared_in: "PcZoneClient", offset: 0x3194, decl_offset: 0x3194, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LastLanguageSpoken", accessor: "LastLanguageSpoken", declared_in: "PcZoneClient", offset: 0x3198, decl_offset: 0x3198, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CurPowerSourceDrain", accessor: "CurPowerSourceDrain", declared_in: "PcZoneClient", offset: 0x319c, decl_offset: 0x319c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AlchemyBaseSkillBonusList", accessor: "AlchemyBaseSkillBonusList", declared_in: "PcZoneClient", offset: 0x31a0, decl_offset: 0x31a0, size: 0x10, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "MomentumBalance", accessor: "MomentumBalance", declared_in: "PcZoneClient", offset: 0x31b0, decl_offset: 0x31b0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LoyaltyRewardBalance", accessor: "LoyaltyRewardBalance", declared_in: "PcZoneClient", offset: 0x31b4, decl_offset: 0x31b4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "__vfptr", accessor: "IFreeToPlayInfo___vfptr", declared_in: "IFreeToPlayInfo", offset: 0x31b8, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ProfileManager", accessor: "ProfileManager", declared_in: "CharacterBase", offset: 0x31bc, decl_offset: 0x4, size: 0x8, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "languages", accessor: "languages", declared_in: "CharacterBase", offset: 0x31c4, decl_offset: 0xc, size: 0x20, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "X", accessor: "X", declared_in: "CharacterBase", offset: 0x31e4, decl_offset: 0x2c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Y", accessor: "Y", declared_in: "CharacterBase", offset: 0x31e8, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Z", accessor: "Z", declared_in: "CharacterBase", offset: 0x31ec, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Heading", accessor: "Heading", declared_in: "CharacterBase", offset: 0x31f0, decl_offset: 0x38, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Name", accessor: "Name", declared_in: "CharacterBase", offset: 0x31f4, decl_offset: 0x3c, size: 0x40, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Lastname", accessor: "Lastname", declared_in: "CharacterBase", offset: 0x3234, decl_offset: 0x7c, size: 0x20, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Title", accessor: "Title", declared_in: "CharacterBase", offset: 0x3254, decl_offset: 0x9c, size: 0x20, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "VehicleName", accessor: "VehicleName", declared_in: "CharacterBase", offset: 0x3274, decl_offset: 0xbc, size: 0x40, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Status", accessor: "Status", declared_in: "CharacterBase", offset: 0x32b4, decl_offset: 0xfc, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "currentZoneId", accessor: "currentZoneId", declared_in: "CharacterBase", offset: 0x32b8, decl_offset: 0x100, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "standstate", accessor: "standstate", declared_in: "CharacterBase", offset: 0x32bc, decl_offset: 0x104, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "unknown0x32f4", accessor: "unknown0x32f4", declared_in: "CharacterBase", offset: 0x32c0, decl_offset: 0x108, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ActiveAbilities", accessor: "ActiveAbilities", declared_in: "CharacterBase", offset: 0x32c4, decl_offset: 0x10c, size: 0x3c, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "unknown0x3334", accessor: "unknown0x3334", declared_in: "CharacterBase", offset: 0x3300, decl_offset: 0x148, size: 0x314, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ExpansionFlags", accessor: "ExpansionFlags", declared_in: "CharacterBase", offset: 0x3614, decl_offset: 0x45c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bSuperPKILL", accessor: "bSuperPKILL", declared_in: "CharacterBase", offset: 0x3618, decl_offset: 0x460, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bUnclone", accessor: "bUnclone", declared_in: "CharacterBase", offset: 0x3619, decl_offset: 0x461, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bDead", accessor: "bDead", declared_in: "CharacterBase", offset: 0x361a, decl_offset: 0x462, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "LD_Timer", accessor: "LD_Timer", declared_in: "CharacterBase", offset: 0x361c, decl_offset: 0x464, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SpellInterruptCount", accessor: "SpellInterruptCount", declared_in: "CharacterBase", offset: 0x3620, decl_offset: 0x468, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bAutoSplit", accessor: "bAutoSplit", declared_in: "CharacterBase", offset: 0x3624, decl_offset: 0x46c, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bTellsOff", accessor: "bTellsOff", declared_in: "CharacterBase", offset: 0x3625, decl_offset: 0x46d, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "bGmInvis", accessor: "bGmInvis", declared_in: "CharacterBase", offset: 0x3626, decl_offset: 0x46e, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "KillMe", accessor: "KillMe", declared_in: "CharacterBase", offset: 0x3628, decl_offset: 0x470, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CheaterLdFlag", accessor: "CheaterLdFlag", declared_in: "CharacterBase", offset: 0x362c, decl_offset: 0x474, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoRent", accessor: "NoRent", declared_in: "CharacterBase", offset: 0x362d, decl_offset: 0x475, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Corpse", accessor: "Corpse", declared_in: "CharacterBase", offset: 0x362e, decl_offset: 0x476, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SouldMarkCount", accessor: "SouldMarkCount", declared_in: "CharacterBase", offset: 0x3630, decl_offset: 0x478, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "ClientGmFlagSet", accessor: "ClientGmFlagSet", declared_in: "CharacterBase", offset: 0x3634, decl_offset: 0x47c, size: 0x1, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankSharedPlat", accessor: "BankSharedPlat", declared_in: "CharacterBase", offset: 0x3638, decl_offset: 0x480, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankSharedGold", accessor: "BankSharedGold", declared_in: "CharacterBase", offset: 0x363c, decl_offset: 0x484, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankSharedSilver", accessor: "BankSharedSilver", declared_in: "CharacterBase", offset: 0x3640, decl_offset: 0x488, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankSharedCopper", accessor: "BankSharedCopper", declared_in: "CharacterBase", offset: 0x3644, decl_offset: 0x48c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankPlat", accessor: "BankPlat", declared_in: "CharacterBase", offset: 0x3648, decl_offset: 0x490, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankGold", accessor: "BankGold", declared_in: "CharacterBase", offset: 0x364c, decl_offset: 0x494, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankSilver", accessor: "BankSilver", declared_in: "CharacterBase", offset: 0x3650, decl_offset: 0x498, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "BankCopper", accessor: "BankCopper", declared_in: "CharacterBase", offset: 0x3654, decl_offset: 0x49c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "STR", accessor: "STR", declared_in: "CharacterBase", offset: 0x3658, decl_offset: 0x4a0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "STA", accessor: "STA", declared_in: "CharacterBase", offset: 0x365c, decl_offset: 0x4a4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "CHA", accessor: "CHA", declared_in: "CharacterBase", offset: 0x3660, decl_offset: 0x4a8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "DEX", accessor: "DEX", declared_in: "CharacterBase", offset: 0x3664, decl_offset: 0x4ac, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "INT", accessor: "INT", declared_in: "CharacterBase", offset: 0x3668, decl_offset: 0x4b0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "AGI", accessor: "AGI", declared_in: "CharacterBase", offset: 0x366c, decl_offset: 0x4b4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "WIS", accessor: "WIS", declared_in: "CharacterBase", offset: 0x3670, decl_offset: 0x4b8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SavePoison", accessor: "SavePoison", declared_in: "CharacterBase", offset: 0x3674, decl_offset: 0x4bc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SaveMagic", accessor: "SaveMagic", declared_in: "CharacterBase", offset: 0x3678, decl_offset: 0x4c0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SaveDisease", accessor: "SaveDisease", declared_in: "CharacterBase", offset: 0x367c, decl_offset: 0x4c4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SaveCorruption", accessor: "SaveCorruption", declared_in: "CharacterBase", offset: 0x3680, decl_offset: 0x4c8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SaveFire", accessor: "SaveFire", declared_in: "CharacterBase", offset: 0x3684, decl_offset: 0x4cc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "SaveCold", accessor: "SaveCold", declared_in: "CharacterBase", offset: 0x3688, decl_offset: 0x4d0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedStr", accessor: "UncappedStr", declared_in: "CharacterBase", offset: 0x368c, decl_offset: 0x4d4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedSta", accessor: "UncappedSta", declared_in: "CharacterBase", offset: 0x3690, decl_offset: 0x4d8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedCha", accessor: "UncappedCha", declared_in: "CharacterBase", offset: 0x3694, decl_offset: 0x4dc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedDex", accessor: "UncappedDex", declared_in: "CharacterBase", offset: 0x3698, decl_offset: 0x4e0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedInt", accessor: "UncappedInt", declared_in: "CharacterBase", offset: 0x369c, decl_offset: 0x4e4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedAgi", accessor: "UncappedAgi", declared_in: "CharacterBase", offset: 0x36a0, decl_offset: 0x4e8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedWis", accessor: "UncappedWis", declared_in: "CharacterBase", offset: 0x36a4, decl_offset: 0x4ec, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedResistPoison", accessor: "UncappedResistPoison", declared_in: "CharacterBase", offset: 0x36a8, decl_offset: 0x4f0, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedResistMagic", accessor: "UncappedResistMagic", declared_in: "CharacterBase", offset: 0x36ac, decl_offset: 0x4f4, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedResistDisease", accessor: "UncappedResistDisease", declared_in: "CharacterBase", offset: 0x36b0, decl_offset: 0x4f8, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedResistCorruption", accessor: "UncappedResistCorruption", declared_in: "CharacterBase", offset: 0x36b4, decl_offset: 0x4fc, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedResistFire", accessor: "UncappedResistFire", declared_in: "CharacterBase", offset: 0x36b8, decl_offset: 0x500, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "UncappedResistCold", accessor: "UncappedResistCold", declared_in: "CharacterBase", offset: 0x36bc, decl_offset: 0x504, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffStr", accessor: "NoBuffStr", declared_in: "CharacterBase", offset: 0x36c0, decl_offset: 0x508, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffSta", accessor: "NoBuffSta", declared_in: "CharacterBase", offset: 0x36c4, decl_offset: 0x50c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffCha", accessor: "NoBuffCha", declared_in: "CharacterBase", offset: 0x36c8, decl_offset: 0x510, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffDex", accessor: "NoBuffDex", declared_in: "CharacterBase", offset: 0x36cc, decl_offset: 0x514, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffInt", accessor: "NoBuffInt", declared_in: "CharacterBase", offset: 0x36d0, decl_offset: 0x518, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffAgi", accessor: "NoBuffAgi", declared_in: "CharacterBase", offset: 0x36d4, decl_offset: 0x51c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffWis", accessor: "NoBuffWis", declared_in: "CharacterBase", offset: 0x36d8, decl_offset: 0x520, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffResistPoison", accessor: "NoBuffResistPoison", declared_in: "CharacterBase", offset: 0x36dc, decl_offset: 0x524, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffResistMagic", accessor: "NoBuffResistMagic", declared_in: "CharacterBase", offset: 0x36e0, decl_offset: 0x528, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffResistDisease", accessor: "NoBuffResistDisease", declared_in: "CharacterBase", offset: 0x36e4, decl_offset: 0x52c, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffResistCorruption", accessor: "NoBuffResistCorruption", declared_in: "CharacterBase", offset: 0x36e8, decl_offset: 0x530, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffResistFire", accessor: "NoBuffResistFire", declared_in: "CharacterBase", offset: 0x36ec, decl_offset: 0x534, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "NoBuffResistCold", accessor: "NoBuffResistCold", declared_in: "CharacterBase", offset: 0x36f0, decl_offset: 0x538, size: 0x4, bits: None },
+    FieldInfo { record: "PcZoneClient", field: "Unknown0x31d8", accessor: "Unknown0x31d8", declared_in: "CharacterBase", offset: 0x36f4, decl_offset: 0x53c, size: 0x20dc, bits: None },
     FieldInfo { record: "PendingRewardList", field: "__vfptr", accessor: "__vfptr", declared_in: "DoublyLinkedList<PendingReward *>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "m_pHead", accessor: "m_pHead", declared_in: "DoublyLinkedList<PendingReward *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "m_pTail", accessor: "m_pTail", declared_in: "DoublyLinkedList<PendingReward *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -78026,6 +90463,217 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PlayerPhysicsClient", field: "UpDownDist", accessor: "UpDownDist", declared_in: "PlayerPhysics", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
     FieldInfo { record: "PlayerRoleLoadout", field: "roles", accessor: "roles", declared_in: "PlayerRoleLoadout", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PlayerRoleLoadout", field: "name", accessor: "name", declared_in: "PlayerRoleLoadout", offset: 0x4, decl_offset: 0x4, size: 0x80, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "__vfptr", accessor: "__vfptr", declared_in: "CActorApplicationData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<PlayerClient>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<PlayerClient>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "m_pList", accessor: "m_pList", declared_in: "TListNode<PlayerClient>", offset: 0xc, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "JumpStrength", accessor: "JumpStrength", declared_in: "PlayerBase", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SwimStrength", accessor: "SwimStrength", declared_in: "PlayerBase", offset: 0x14, decl_offset: 0x14, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpeedMultiplier", accessor: "SpeedMultiplier", declared_in: "PlayerBase", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AreaFriction", accessor: "AreaFriction", declared_in: "PlayerBase", offset: 0x1c, decl_offset: 0x1c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AccelerationFriction", accessor: "AccelerationFriction", declared_in: "PlayerBase", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CollidingType", accessor: "CollidingType", declared_in: "PlayerBase", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FloorHeight", accessor: "FloorHeight", declared_in: "PlayerBase", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bSinksInWater", accessor: "bSinksInWater", declared_in: "PlayerBase", offset: 0x2c, decl_offset: 0x2c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PlayerTimeStamp", accessor: "PlayerTimeStamp", declared_in: "PlayerBase", offset: 0x30, decl_offset: 0x30, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastTimeIdle", accessor: "LastTimeIdle", declared_in: "PlayerBase", offset: 0x34, decl_offset: 0x34, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Lastname", accessor: "Lastname", declared_in: "PlayerBase", offset: 0x38, decl_offset: 0x38, size: 0x20, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AreaHPRegenMod", accessor: "AreaHPRegenMod", declared_in: "PlayerBase", offset: 0x58, decl_offset: 0x58, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AreaEndRegenMod", accessor: "AreaEndRegenMod", declared_in: "PlayerBase", offset: 0x5c, decl_offset: 0x5c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AreaManaRegenMod", accessor: "AreaManaRegenMod", declared_in: "PlayerBase", offset: 0x60, decl_offset: 0x60, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Y", accessor: "Y", declared_in: "PlayerBase", offset: 0x64, decl_offset: 0x64, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "X", accessor: "X", declared_in: "PlayerBase", offset: 0x68, decl_offset: 0x68, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Z", accessor: "Z", declared_in: "PlayerBase", offset: 0x6c, decl_offset: 0x6c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpeedY", accessor: "SpeedY", declared_in: "PlayerBase", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpeedX", accessor: "SpeedX", declared_in: "PlayerBase", offset: 0x74, decl_offset: 0x74, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpeedZ", accessor: "SpeedZ", declared_in: "PlayerBase", offset: 0x78, decl_offset: 0x78, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpeedRun", accessor: "SpeedRun", declared_in: "PlayerBase", offset: 0x7c, decl_offset: 0x7c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Heading", accessor: "Heading", declared_in: "PlayerBase", offset: 0x80, decl_offset: 0x80, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Angle", accessor: "Angle", declared_in: "PlayerBase", offset: 0x84, decl_offset: 0x84, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AccelAngle", accessor: "AccelAngle", declared_in: "PlayerBase", offset: 0x88, decl_offset: 0x88, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpeedHeading", accessor: "SpeedHeading", declared_in: "PlayerBase", offset: 0x8c, decl_offset: 0x8c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CameraAngle", accessor: "CameraAngle", declared_in: "PlayerBase", offset: 0x90, decl_offset: 0x90, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "UnderWater", accessor: "UnderWater", declared_in: "PlayerBase", offset: 0x94, decl_offset: 0x94, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastBodyEnvironmentType", accessor: "LastBodyEnvironmentType", declared_in: "PlayerBase", offset: 0x98, decl_offset: 0x98, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastFeetEnvironmentType", accessor: "LastFeetEnvironmentType", declared_in: "PlayerBase", offset: 0x9c, decl_offset: 0x9c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "HeadWet", accessor: "HeadWet", declared_in: "PlayerBase", offset: 0xa0, decl_offset: 0xa0, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FeetWet", accessor: "FeetWet", declared_in: "PlayerBase", offset: 0xa1, decl_offset: 0xa1, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "BodyWet", accessor: "BodyWet", declared_in: "PlayerBase", offset: 0xa2, decl_offset: 0xa2, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastBodyWet", accessor: "LastBodyWet", declared_in: "PlayerBase", offset: 0xa3, decl_offset: 0xa3, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Name", accessor: "Name", declared_in: "PlayerBase", offset: 0xa4, decl_offset: 0xa4, size: 0x40, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "DisplayedName", accessor: "DisplayedName", declared_in: "PlayerBase", offset: 0xe4, decl_offset: 0xe4, size: 0x40, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PossiblyStuck", accessor: "PossiblyStuck", declared_in: "PlayerBase", offset: 0x124, decl_offset: 0x124, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Type", accessor: "Type", declared_in: "PlayerBase", offset: 0x125, decl_offset: 0x125, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Properties", accessor: "Properties", declared_in: "PlayerBase", offset: 0x128, decl_offset: 0x128, size: 0x10, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AvatarHeight", accessor: "AvatarHeight", declared_in: "PlayerBase", offset: 0x138, decl_offset: 0x138, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Height", accessor: "Height", declared_in: "PlayerBase", offset: 0x13c, decl_offset: 0x13c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Width", accessor: "Width", declared_in: "PlayerBase", offset: 0x140, decl_offset: 0x140, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Length", accessor: "Length", declared_in: "PlayerBase", offset: 0x144, decl_offset: 0x144, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpawnID", accessor: "SpawnID", declared_in: "PlayerBase", offset: 0x148, decl_offset: 0x148, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PlayerState", accessor: "PlayerState", declared_in: "PlayerBase", offset: 0x14c, decl_offset: 0x14c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Vehicle", accessor: "Vehicle", declared_in: "PlayerBase", offset: 0x150, decl_offset: 0x150, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Mount", accessor: "Mount", declared_in: "PlayerBase", offset: 0x154, decl_offset: 0x154, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Rider", accessor: "Rider", declared_in: "PlayerBase", offset: 0x158, decl_offset: 0x158, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Unknown0x0164", accessor: "Unknown0x0164", declared_in: "PlayerBase", offset: 0x15c, decl_offset: 0x15c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Targetable", accessor: "Targetable", declared_in: "PlayerBase", offset: 0x160, decl_offset: 0x160, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bTargetCyclable", accessor: "bTargetCyclable", declared_in: "PlayerBase", offset: 0x161, decl_offset: 0x161, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bClickThrough", accessor: "bClickThrough", declared_in: "PlayerBase", offset: 0x162, decl_offset: 0x162, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bBeingFlung", accessor: "bBeingFlung", declared_in: "PlayerBase", offset: 0x163, decl_offset: 0x163, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FlingActiveTimer", accessor: "FlingActiveTimer", declared_in: "PlayerBase", offset: 0x164, decl_offset: 0x164, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FlingTimerStart", accessor: "FlingTimerStart", declared_in: "PlayerBase", offset: 0x168, decl_offset: 0x168, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bFlingSomething", accessor: "bFlingSomething", declared_in: "PlayerBase", offset: 0x16c, decl_offset: 0x16c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FlingY", accessor: "FlingY", declared_in: "PlayerBase", offset: 0x170, decl_offset: 0x170, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FlingX", accessor: "FlingX", declared_in: "PlayerBase", offset: 0x174, decl_offset: 0x174, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FlingZ", accessor: "FlingZ", declared_in: "PlayerBase", offset: 0x178, decl_offset: 0x178, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bFlingSnapToDest", accessor: "bFlingSnapToDest", declared_in: "PlayerBase", offset: 0x17c, decl_offset: 0x17c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SplineID", accessor: "SplineID", declared_in: "PlayerBase", offset: 0x180, decl_offset: 0x180, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SplineRiderID", accessor: "SplineRiderID", declared_in: "PlayerBase", offset: 0x184, decl_offset: 0x184, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastIntimidateUse", accessor: "LastIntimidateUse", declared_in: "PlayerZoneClient", offset: 0x188, decl_offset: 0x188, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "IsPassenger", accessor: "IsPassenger", declared_in: "PlayerZoneClient", offset: 0x18c, decl_offset: 0x18c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ViewHeight", accessor: "ViewHeight", declared_in: "PlayerZoneClient", offset: 0x190, decl_offset: 0x190, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bOfflineMode", accessor: "bOfflineMode", declared_in: "PlayerZoneClient", offset: 0x194, decl_offset: 0x194, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "RealEstateID", accessor: "RealEstateID", declared_in: "PlayerZoneClient", offset: 0x198, decl_offset: 0x198, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "TitleVisible", accessor: "TitleVisible", declared_in: "PlayerZoneClient", offset: 0x19c, decl_offset: 0x19c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bStationary", accessor: "bStationary", declared_in: "PlayerZoneClient", offset: 0x19d, decl_offset: 0x19d, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CharClass", accessor: "CharClass", declared_in: "PlayerZoneClient", offset: 0x19e, decl_offset: 0x19e, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "EnduranceCurrent", accessor: "EnduranceCurrent", declared_in: "PlayerZoneClient", offset: 0x1a0, decl_offset: 0x1a0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MinuteTimer", accessor: "MinuteTimer", declared_in: "PlayerZoneClient", offset: 0x1a4, decl_offset: 0x1a4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LoginRelated", accessor: "LoginRelated", declared_in: "PlayerZoneClient", offset: 0x1a8, decl_offset: 0x1a8, size: 0x20, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "DraggingPlayer", accessor: "DraggingPlayer", declared_in: "PlayerZoneClient", offset: 0x1c8, decl_offset: 0x1c8, size: 0x40, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Mercenary", accessor: "Mercenary", declared_in: "PlayerZoneClient", offset: 0x208, decl_offset: 0x208, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FallingStartZ", accessor: "FallingStartZ", declared_in: "PlayerZoneClient", offset: 0x20c, decl_offset: 0x20c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Zone", accessor: "Zone", declared_in: "PlayerZoneClient", offset: 0x210, decl_offset: 0x210, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Light", accessor: "Light", declared_in: "PlayerZoneClient", offset: 0x214, decl_offset: 0x214, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastSecondaryUseTime", accessor: "LastSecondaryUseTime", declared_in: "PlayerZoneClient", offset: 0x218, decl_offset: 0x218, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "IsAttacking", accessor: "IsAttacking", declared_in: "PlayerZoneClient", offset: 0x21c, decl_offset: 0x21c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "BearingToTarget", accessor: "BearingToTarget", declared_in: "PlayerZoneClient", offset: 0x220, decl_offset: 0x220, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GMRank", accessor: "GMRank", declared_in: "PlayerZoneClient", offset: 0x224, decl_offset: 0x224, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AnimationSpeedRelated", accessor: "AnimationSpeedRelated", declared_in: "PlayerZoneClient", offset: 0x228, decl_offset: 0x228, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Type2", accessor: "Type2", declared_in: "PlayerZoneClient", offset: 0x22c, decl_offset: 0x22c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bBuffTimersOnHold", accessor: "bBuffTimersOnHold", declared_in: "PlayerZoneClient", offset: 0x22d, decl_offset: 0x22d, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastRangedUsedTime", accessor: "LastRangedUsedTime", declared_in: "PlayerZoneClient", offset: 0x230, decl_offset: 0x230, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "pRaceGenderInfo", accessor: "pRaceGenderInfo", declared_in: "PlayerZoneClient", offset: 0x234, decl_offset: 0x234, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastAttack", accessor: "LastAttack", declared_in: "PlayerZoneClient", offset: 0x238, decl_offset: 0x238, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastPrimaryUseTime", accessor: "LastPrimaryUseTime", declared_in: "PlayerZoneClient", offset: 0x23c, decl_offset: 0x23c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CurrIOState", accessor: "CurrIOState", declared_in: "PlayerZoneClient", offset: 0x240, decl_offset: 0x240, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastRefresh", accessor: "LastRefresh", declared_in: "PlayerZoneClient", offset: 0x244, decl_offset: 0x244, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GuildStatus", accessor: "GuildStatus", declared_in: "PlayerZoneClient", offset: 0x248, decl_offset: 0x248, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastTick", accessor: "LastTick", declared_in: "PlayerZoneClient", offset: 0x24c, decl_offset: 0x24c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Level", accessor: "Level", declared_in: "PlayerZoneClient", offset: 0x250, decl_offset: 0x250, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bAttackRelated", accessor: "bAttackRelated", declared_in: "PlayerZoneClient", offset: 0x251, decl_offset: 0x251, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LoginSerial", accessor: "LoginSerial", declared_in: "PlayerZoneClient", offset: 0x254, decl_offset: 0x254, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SomethingElse", accessor: "SomethingElse", declared_in: "PlayerZoneClient", offset: 0x258, decl_offset: 0x258, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GM", accessor: "GM", declared_in: "PlayerZoneClient", offset: 0x25c, decl_offset: 0x25c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FishingETA", accessor: "FishingETA", declared_in: "PlayerZoneClient", offset: 0x260, decl_offset: 0x260, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Sneak", accessor: "Sneak", declared_in: "PlayerZoneClient", offset: 0x264, decl_offset: 0x264, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bAnimationOnPop", accessor: "bAnimationOnPop", declared_in: "PlayerZoneClient", offset: 0x265, decl_offset: 0x265, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastResendAddPlayerPacket", accessor: "LastResendAddPlayerPacket", declared_in: "PlayerZoneClient", offset: 0x268, decl_offset: 0x268, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "pViewPlayer", accessor: "pViewPlayer", declared_in: "PlayerZoneClient", offset: 0x26c, decl_offset: 0x26c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ACounter", accessor: "ACounter", declared_in: "PlayerZoneClient", offset: 0x270, decl_offset: 0x270, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CameraOffset", accessor: "CameraOffset", declared_in: "PlayerZoneClient", offset: 0x274, decl_offset: 0x274, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Meditating", accessor: "Meditating", declared_in: "PlayerZoneClient", offset: 0x278, decl_offset: 0x278, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FindBits", accessor: "FindBits", declared_in: "PlayerZoneClient", offset: 0x27c, decl_offset: 0x27c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SecondaryTintIndex", accessor: "SecondaryTintIndex", declared_in: "PlayerZoneClient", offset: 0x280, decl_offset: 0x280, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastCollision", accessor: "LastCollision", declared_in: "PlayerZoneClient", offset: 0x284, decl_offset: 0x284, size: 0x30, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PetID", accessor: "PetID", declared_in: "PlayerZoneClient", offset: 0x2b4, decl_offset: 0x2b4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Anon", accessor: "Anon", declared_in: "PlayerZoneClient", offset: 0x2b8, decl_offset: 0x2b8, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "RespawnTimer", accessor: "RespawnTimer", declared_in: "PlayerZoneClient", offset: 0x2bc, decl_offset: 0x2bc, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastCastNum", accessor: "LastCastNum", declared_in: "PlayerZoneClient", offset: 0x2c0, decl_offset: 0x2c0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AARank", accessor: "AARank", declared_in: "PlayerZoneClient", offset: 0x2c4, decl_offset: 0x2c4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastCastTime", accessor: "LastCastTime", declared_in: "PlayerZoneClient", offset: 0x2c8, decl_offset: 0x2c8, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "pCharacter", accessor: "pCharacter", declared_in: "PlayerZoneClient", offset: 0x2cc, decl_offset: 0x2cc, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MerchantGreed", accessor: "MerchantGreed", declared_in: "PlayerZoneClient", offset: 0x2d0, decl_offset: 0x2d0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "pTouchingSwitch", accessor: "pTouchingSwitch", declared_in: "PlayerZoneClient", offset: 0x2d4, decl_offset: 0x2d4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "TimeStamp", accessor: "TimeStamp", declared_in: "PlayerZoneClient", offset: 0x2d8, decl_offset: 0x2d8, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "HPMax", accessor: "HPMax", declared_in: "PlayerZoneClient", offset: 0x2dc, decl_offset: 0x2dc, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bSummoned", accessor: "bSummoned", declared_in: "PlayerZoneClient", offset: 0x2e0, decl_offset: 0x2e0, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "InPvPArea", accessor: "InPvPArea", declared_in: "PlayerZoneClient", offset: 0x2e1, decl_offset: 0x2e1, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "HPCurrent", accessor: "HPCurrent", declared_in: "PlayerZoneClient", offset: 0x2e4, decl_offset: 0x2e4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpellGemETA", accessor: "SpellGemETA", declared_in: "PlayerZoneClient", offset: 0x2e8, decl_offset: 0x2e8, size: 0x34, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GetMeleeRangeVar1", accessor: "GetMeleeRangeVar1", declared_in: "PlayerZoneClient", offset: 0x31c, decl_offset: 0x31c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Trader", accessor: "Trader", declared_in: "PlayerZoneClient", offset: 0x320, decl_offset: 0x320, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SomeData", accessor: "SomeData", declared_in: "PlayerZoneClient", offset: 0x324, decl_offset: 0x324, size: 0x8, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bSwitchMoved", accessor: "bSwitchMoved", declared_in: "PlayerZoneClient", offset: 0x32c, decl_offset: 0x32c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MyWalkSpeed", accessor: "MyWalkSpeed", declared_in: "PlayerZoneClient", offset: 0x330, decl_offset: 0x330, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "HoldingAnimation", accessor: "HoldingAnimation", declared_in: "PlayerZoneClient", offset: 0x334, decl_offset: 0x334, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "HideMode", accessor: "HideMode", declared_in: "PlayerZoneClient", offset: 0x338, decl_offset: 0x338, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Stuff", accessor: "Stuff", declared_in: "PlayerZoneClient", offset: 0x33c, decl_offset: 0x33c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AltAttack", accessor: "AltAttack", declared_in: "PlayerZoneClient", offset: 0x340, decl_offset: 0x340, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PotionTimer", accessor: "PotionTimer", declared_in: "PlayerZoneClient", offset: 0x344, decl_offset: 0x344, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "HmmWhat", accessor: "HmmWhat", declared_in: "PlayerZoneClient", offset: 0x348, decl_offset: 0x348, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PvPFlag", accessor: "PvPFlag", declared_in: "PlayerZoneClient", offset: 0x349, decl_offset: 0x349, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GuildID", accessor: "GuildID", declared_in: "PlayerZoneClient", offset: 0x34c, decl_offset: 0x34c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "RunSpeed", accessor: "RunSpeed", declared_in: "PlayerZoneClient", offset: 0x350, decl_offset: 0x350, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ManaMax", accessor: "ManaMax", declared_in: "PlayerZoneClient", offset: 0x354, decl_offset: 0x354, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastMealTime", accessor: "LastMealTime", declared_in: "PlayerZoneClient", offset: 0x358, decl_offset: 0x358, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "StandState", accessor: "StandState", declared_in: "PlayerZoneClient", offset: 0x35c, decl_offset: 0x35c, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastTimeStoodStill", accessor: "LastTimeStoodStill", declared_in: "PlayerZoneClient", offset: 0x360, decl_offset: 0x360, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "DoSpecialMelee", accessor: "DoSpecialMelee", declared_in: "PlayerZoneClient", offset: 0x364, decl_offset: 0x364, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CombatSkillTicks", accessor: "CombatSkillTicks", declared_in: "PlayerZoneClient", offset: 0x368, decl_offset: 0x368, size: 0x8, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MissileRangeToTarget", accessor: "MissileRangeToTarget", declared_in: "PlayerZoneClient", offset: 0x370, decl_offset: 0x370, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SitStartTime", accessor: "SitStartTime", declared_in: "PlayerZoneClient", offset: 0x374, decl_offset: 0x374, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "realEstateItemGuid", accessor: "realEstateItemGuid", declared_in: "PlayerZoneClient", offset: 0x378, decl_offset: 0x378, size: 0x12, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bShowHelm", accessor: "bShowHelm", declared_in: "PlayerZoneClient", offset: 0x38a, decl_offset: 0x38a, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MasterID", accessor: "MasterID", declared_in: "PlayerZoneClient", offset: 0x38c, decl_offset: 0x38c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CombatSkillUsed", accessor: "CombatSkillUsed", declared_in: "PlayerZoneClient", offset: 0x390, decl_offset: 0x390, size: 0x8, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Handle", accessor: "Handle", declared_in: "PlayerZoneClient", offset: 0x398, decl_offset: 0x398, size: 0x20, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FD", accessor: "FD", declared_in: "PlayerZoneClient", offset: 0x3b8, decl_offset: 0x3b8, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PrimaryTintIndex", accessor: "PrimaryTintIndex", declared_in: "PlayerZoneClient", offset: 0x3bc, decl_offset: 0x3bc, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "AFK", accessor: "AFK", declared_in: "PlayerZoneClient", offset: 0x3c0, decl_offset: 0x3c0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "EnduranceMax", accessor: "EnduranceMax", declared_in: "PlayerZoneClient", offset: 0x3c4, decl_offset: 0x3c4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "NextIntimidateTime", accessor: "NextIntimidateTime", declared_in: "PlayerZoneClient", offset: 0x3c8, decl_offset: 0x3c8, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "SpellCooldownETA", accessor: "SpellCooldownETA", declared_in: "PlayerZoneClient", offset: 0x3cc, decl_offset: 0x3cc, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Linkdead", accessor: "Linkdead", declared_in: "PlayerZoneClient", offset: 0x3d0, decl_offset: 0x3d0, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Buyer", accessor: "Buyer", declared_in: "PlayerZoneClient", offset: 0x3d4, decl_offset: 0x3d4, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LastTrapDamageTime", accessor: "LastTrapDamageTime", declared_in: "PlayerZoneClient", offset: 0x3d8, decl_offset: 0x3d8, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bTempPet", accessor: "bTempPet", declared_in: "PlayerZoneClient", offset: 0x3dc, decl_offset: 0x3dc, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Title", accessor: "Title", declared_in: "PlayerZoneClient", offset: 0x3dd, decl_offset: 0x3dd, size: 0x20, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "FishingEvent", accessor: "FishingEvent", declared_in: "PlayerZoneClient", offset: 0x3fd, decl_offset: 0x3fd, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Suffix", accessor: "Suffix", declared_in: "PlayerZoneClient", offset: 0x3fe, decl_offset: 0x3fe, size: 0x20, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "RealEstateItemId", accessor: "RealEstateItemId", declared_in: "PlayerZoneClient", offset: 0x420, decl_offset: 0x420, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "WarCry", accessor: "WarCry", declared_in: "PlayerZoneClient", offset: 0x424, decl_offset: 0x424, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Blind", accessor: "Blind", declared_in: "PlayerZoneClient", offset: 0x428, decl_offset: 0x428, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bBetaBuffed", accessor: "bBetaBuffed", declared_in: "PlayerZoneClient", offset: 0x429, decl_offset: 0x429, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "NextSwim", accessor: "NextSwim", declared_in: "PlayerZoneClient", offset: 0x42c, decl_offset: 0x42c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CorpseDragCount", accessor: "CorpseDragCount", declared_in: "PlayerZoneClient", offset: 0x430, decl_offset: 0x430, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "IntimidateCount", accessor: "IntimidateCount", declared_in: "PlayerZoneClient", offset: 0x434, decl_offset: 0x434, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "berserker", accessor: "berserker", declared_in: "PlayerZoneClient", offset: 0x438, decl_offset: 0x438, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "StunTimer", accessor: "StunTimer", declared_in: "PlayerZoneClient", offset: 0x43c, decl_offset: 0x43c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "LFG", accessor: "LFG", declared_in: "PlayerZoneClient", offset: 0x440, decl_offset: 0x440, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CastingData", accessor: "CastingData", declared_in: "PlayerZoneClient", offset: 0x444, decl_offset: 0x444, size: 0x50, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ManaCurrent", accessor: "ManaCurrent", declared_in: "PlayerZoneClient", offset: 0x494, decl_offset: 0x494, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "DragNames", accessor: "DragNames", declared_in: "PlayerZoneClient", offset: 0x498, decl_offset: 0x498, size: 0x80, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Deity", accessor: "Deity", declared_in: "PlayerZoneClient", offset: 0x518, decl_offset: 0x518, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "NpcTintIndex", accessor: "NpcTintIndex", declared_in: "PlayerZoneClient", offset: 0x51c, decl_offset: 0x51c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ppUDP", accessor: "ppUDP", declared_in: "PlayerZoneClient", offset: 0x520, decl_offset: 0x520, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "bAlwaysShowAura", accessor: "bAlwaysShowAura", declared_in: "PlayerZoneClient", offset: 0x524, decl_offset: 0x524, size: 0x1, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MovementStats", accessor: "MovementStats", declared_in: "PlayerZoneClient", offset: 0x528, decl_offset: 0x528, size: 0x918, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "WhoFollowing", accessor: "WhoFollowing", declared_in: "PlayerZoneClient", offset: 0xe40, decl_offset: 0xe40, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GroupAssistNPC", accessor: "GroupAssistNPC", declared_in: "PlayerZoneClient", offset: 0xe44, decl_offset: 0xe44, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "RaidAssistNPC", accessor: "RaidAssistNPC", declared_in: "PlayerZoneClient", offset: 0xe48, decl_offset: 0xe48, size: 0xc, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "GroupMarkNPC", accessor: "GroupMarkNPC", declared_in: "PlayerZoneClient", offset: 0xe54, decl_offset: 0xe54, size: 0xc, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "RaidMarkNPC", accessor: "RaidMarkNPC", declared_in: "PlayerZoneClient", offset: 0xe60, decl_offset: 0xe60, size: 0xc, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "TargetOfTarget", accessor: "TargetOfTarget", declared_in: "PlayerZoneClient", offset: 0xe6c, decl_offset: 0xe6c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PZCLastPhysics", accessor: "PZCLastPhysics", declared_in: "PlayerZoneClient", offset: 0xe70, decl_offset: 0xe70, size: 0x24, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ParticleCastStartTime", accessor: "ParticleCastStartTime", declared_in: "PlayerZoneClient", offset: 0xe94, decl_offset: 0xe94, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ParticleCastDuration", accessor: "ParticleCastDuration", declared_in: "PlayerZoneClient", offset: 0xe98, decl_offset: 0xe98, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "ParticleVisualSpellNum", accessor: "ParticleVisualSpellNum", declared_in: "PlayerZoneClient", offset: 0xe9c, decl_offset: 0xe9c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "Unknown0xea0", accessor: "Unknown0xea0", declared_in: "PlayerZoneClient", offset: 0xea0, decl_offset: 0xea0, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "mActorClient", accessor: "mActorClient", declared_in: "PlayerZoneClient", offset: 0xea4, decl_offset: 0xea4, size: 0x1b4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "pAnimation", accessor: "pAnimation", declared_in: "PlayerZoneClient", offset: 0x1058, decl_offset: 0x1058, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "MeleeRadius", accessor: "MeleeRadius", declared_in: "PlayerZoneClient", offset: 0x105c, decl_offset: 0x105c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CollisionCounter", accessor: "CollisionCounter", declared_in: "PlayerZoneClient", offset: 0x1060, decl_offset: 0x1060, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedFloorLocationY", accessor: "CachedFloorLocationY", declared_in: "PlayerZoneClient", offset: 0x1064, decl_offset: 0x1064, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedFloorLocationX", accessor: "CachedFloorLocationX", declared_in: "PlayerZoneClient", offset: 0x1068, decl_offset: 0x1068, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedFloorLocationZ", accessor: "CachedFloorLocationZ", declared_in: "PlayerZoneClient", offset: 0x106c, decl_offset: 0x106c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedFloorHeight", accessor: "CachedFloorHeight", declared_in: "PlayerZoneClient", offset: 0x1070, decl_offset: 0x1070, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedCeilingLocationY", accessor: "CachedCeilingLocationY", declared_in: "PlayerZoneClient", offset: 0x1074, decl_offset: 0x1074, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedCeilingLocationX", accessor: "CachedCeilingLocationX", declared_in: "PlayerZoneClient", offset: 0x1078, decl_offset: 0x1078, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedCeilingLocationZ", accessor: "CachedCeilingLocationZ", declared_in: "PlayerZoneClient", offset: 0x107c, decl_offset: 0x107c, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "CachedCeilingHeight", accessor: "CachedCeilingHeight", declared_in: "PlayerZoneClient", offset: 0x1080, decl_offset: 0x1080, size: 0x4, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "StaticCollision", accessor: "StaticCollision", declared_in: "PlayerZoneClient", offset: 0x1084, decl_offset: 0x1084, size: 0x1c, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "mPhysicsEffects", accessor: "mPhysicsEffects", declared_in: "PlayerZoneClient", offset: 0x10a0, decl_offset: 0x10a0, size: 0x10, bits: None },
+    FieldInfo { record: "PlayerZoneClient", field: "PhysicsEffectsUpdated", accessor: "PhysicsEffectsUpdated", declared_in: "PlayerZoneClient", offset: 0x10b0, decl_offset: 0x10b0, size: 0x10, bits: None },
     FieldInfo { record: "PointSystemBase", field: "vfTable", accessor: "vfTable", declared_in: "PointSystemBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PointSystemBase", field: "PointNameEntries", accessor: "PointNameEntries", declared_in: "PointSystemBase", offset: 0x4, decl_offset: 0x4, size: 0x10, bits: None },
     FieldInfo { record: "ProfileList", field: "ListType", accessor: "ListType", declared_in: "ProfileList", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
@@ -78313,7 +90961,9 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "AchievementManager", function: "Reset", offset: 0x0 },
     VtableInfo { record: "ActorClient", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "AggroMeterListEntry", function: "Reset", offset: 0x0 },
+    VtableInfo { record: "CBuffWindow", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CCastSpellWnd", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CCastingWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CClickStickInfo", function: "~CClickStickInfo", offset: 0x0 },
     VtableInfo { record: "CClickStickInfo", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "CComboWnd", function: "GetMinSize", offset: 0x164 },
@@ -78346,6 +90996,7 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "CMerchantWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CPageWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CPetInfoWnd", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CSpellBookWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CSpellGemWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CStmlWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CTabWnd", function: "__vecDelDtor", offset: 0x4 },
@@ -78487,6 +91138,7 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "MerchantPageHandler", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "PcClient", function: "__vecDelDtor", offset: 0xc },
     VtableInfo { record: "PcProfile", function: "__vecDelDtor", offset: 0x0 },
+    VtableInfo { record: "PcZoneClient", function: "__vecDelDtor", offset: 0xc },
     VtableInfo { record: "PendingRewardList", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "PlayerManagerClient", function: "~PlayerManagerClient", offset: 0x0 },
     VtableInfo { record: "PlayerManagerClient", function: "__vecDelDtor", offset: 0x0 },
