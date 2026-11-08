@@ -21,7 +21,7 @@ use core::ffi::{CStr, c_char, c_void};
 use crate::constants::{UI_COMBOBOX, UI_HOT_BUTTON, UI_INV_SLOT, UI_LISTBOX, UI_SCREEN, UI_SLIDER, UI_TAB_BOX, UI_TREE_VIEW, UI_UNKNOWN, XWM_CLOSE, XWM_HISTORY, XWM_HITENTER, XWM_LCLICK, XWM_LCLICKHOLD, XWM_LINK, XWM_LMOUSEUP, XWM_MAXIMIZEBOX, XWM_MENUSELECT, XWM_MOUSEOVER, XWM_NEWVALUE, XWM_QMARKBOX, XWM_RCLICK};
 use crate::eqlib;
 use crate::layouts::{
-    CComboWnd, CContainerMgr, CContainerWnd, CContextMenu, CHotButton, CHotButtonWnd, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CTextureFont, CXPoint, CXRect, CXStr, CXWnd, CXWndManager, ItemClient, ItemContainerInstance, VePointer_ItemClient,
+    CCursorAttachment, CInvSlot, CInvSlotMgr, CMerchantWnd, EqItemGuid, ItemContainer, ItemDefinition, ItemGlobalIndex, MerchantPageHandler, CComboWnd, CContainerMgr, CContainerWnd, CContextMenu, CHotButton, CHotButtonWnd, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CTextureFont, CXPoint, CXRect, CXStr, CXWnd, CXWndManager, ItemClient, ItemContainerInstance, VePointer_ItemClient,
 };
 use crate::types::{OwnedCXStr, foreign, virtual_fn};
 
@@ -120,50 +120,50 @@ function_table! {
     /// for good (and never calls into the plugin again). A window that isn't
     /// `live` (the game deleted it) isn't touched; its subclass only stops.
     pub fn mqemu_window_unsubclass(window: *mut CXWnd, live: bool) -> bool;
-    /// Picks up the item at a place onto the cursor, as `/itemnotify` does
-    /// when it finds no slot window for it. `container` is an
-    /// `ItemContainerInstance`, `in_bag` -1 for none. Outside bags (and with
-    /// the merchant window open, where it selects the item instead) this is
-    /// MacroQuest's `PickupItem` (false, said in chat, if it can't). Inside
-    /// a bag, where `PickupItem` corrupts the stack on this client (eqlib's
-    /// `AttachToCursor` takes more arguments than the client's), the shim
-    /// does what it does (`MoveItem`, then the cursor's icon) with the
-    /// client's own `AttachToCursor`; false with something on the cursor,
-    /// nothing there, or a bank place without the bank window.
-    pub fn mqemu_pick_up_item(container: i32, slot: i32, in_bag: i32) -> bool;
-    /// Puts the item on the cursor at a place, swapping with what's there:
-    /// MacroQuest's `DropItem` outside bags, the shim's own inside one (see
-    /// [`mqemu_pick_up_item`]). False with nothing on the cursor.
-    pub fn mqemu_drop_item(container: i32, slot: i32, in_bag: i32) -> bool;
-    /// Uses (clicks) the item at a place in your inventory, as `/useitem`
-    /// does (the game's command). False if there's no item there.
-    pub fn mqemu_use_item(slot: i32, in_bag: i32) -> bool;
-    /// Opens (or closes) the bag at a place, as `/itemnotify` does for a bag
-    /// right-clicked without a slot window (`OpenContainer`, `CloseContainer`).
-    /// Opening: true if it's open after; it needs the bag's slot window.
-    /// Closing: true if it was open.
-    pub fn mqemu_open_container(container: i32, slot: i32, in_bag: i32, open: bool) -> bool;
-    /// Picks up `count` of the stack at a place onto the cursor, as accepting
-    /// the quantity window does (`CInvSlot::SliderComplete`, on the place's
-    /// slot window; a closed bag is opened for it and closed again). False
-    /// with something on the cursor, the merchant window open, no stack
-    /// there or no slot window.
-    pub fn mqemu_split_stack(container: i32, slot: i32, in_bag: i32, count: i32) -> bool;
-    /// Shows the cursor's item on the cursor's icon if it isn't already: the
-    /// game's `/autoinventory` does nothing while the icon doesn't show it.
-    /// False with nothing on the cursor.
-    pub fn mqemu_attach_cursor_item() -> bool;
-    /// Selects an item in the open merchant window
-    /// (`CMerchantWnd::SelectBuySellSlot`): yours at a place in your
-    /// inventory, or the merchant's at a merchant slot (also selecting its
-    /// row). False without the window or an item there.
-    pub fn mqemu_merchant_select(container: i32, slot: i32, in_bag: i32) -> bool;
-    /// Buys `count` of the merchant's selected item (`buy`) or sells `count`
-    /// of yours (`RequestGetItem`, `RequestPutItem`). False without the window
-    /// or a selected item.
-    pub fn mqemu_merchant_trade(buy: bool, count: i32) -> bool;
 
     rust {
+        /// Picks up the item at a place onto the cursor, as `/itemnotify` does
+        /// when it finds no slot window for it. `container` is an
+        /// `ItemContainerInstance`, `in_bag` -1 for none. Outside bags (and with
+        /// the merchant window open, where it selects the item instead) this does
+        /// what MacroQuest's `PickupItem` does (false if it can't, unsaid). Inside
+        /// a bag, where `PickupItem` corrupts the stack on this client (eqlib's
+        /// `AttachToCursor` takes more arguments than the client's), this
+        /// does what it does (`MoveItem`, then the cursor's icon) with the
+        /// client's own `AttachToCursor`; false with something on the cursor,
+        /// nothing there, or a bank place without the bank window.
+        pub fn mqemu_pick_up_item(container: i32, slot: i32, in_bag: i32) -> bool;
+        /// Puts the item on the cursor at a place, swapping with what's there:
+        /// as MacroQuest's `DropItem` does outside bags, its own inside one (see
+        /// [`mqemu_pick_up_item`]). False with nothing on the cursor.
+        pub fn mqemu_drop_item(container: i32, slot: i32, in_bag: i32) -> bool;
+        /// Uses (clicks) the item at a place in your inventory, as `/useitem`
+        /// does (the game's command). False if there's no item there.
+        pub fn mqemu_use_item(slot: i32, in_bag: i32) -> bool;
+        /// Opens (or closes) the bag at a place, as `/itemnotify` does for a bag
+        /// right-clicked without a slot window (`OpenContainer`, `CloseContainer`).
+        /// Opening: true if it's open after; it needs the bag's slot window.
+        /// Closing: true if it was open.
+        pub fn mqemu_open_container(container: i32, slot: i32, in_bag: i32, open: bool) -> bool;
+        /// Picks up `count` of the stack at a place onto the cursor, as accepting
+        /// the quantity window does (`CInvSlot::SliderComplete`, on the place's
+        /// slot window; a closed bag is opened for it and closed again). False
+        /// with something on the cursor, the merchant window open, no stack
+        /// there or no slot window.
+        pub fn mqemu_split_stack(container: i32, slot: i32, in_bag: i32, count: i32) -> bool;
+        /// Shows the cursor's item on the cursor's icon if it isn't already: the
+        /// game's `/autoinventory` does nothing while the icon doesn't show it.
+        /// False with nothing on the cursor.
+        pub fn mqemu_attach_cursor_item() -> bool;
+        /// Selects an item in the open merchant window
+        /// (`CMerchantWnd::SelectBuySellSlot`): yours at a place in your
+        /// inventory, or the merchant's at a merchant slot (also selecting its
+        /// row). False without the window or an item there.
+        pub fn mqemu_merchant_select(container: i32, slot: i32, in_bag: i32) -> bool;
+        /// Buys `count` of the merchant's selected item (`buy`) or sells `count`
+        /// of yours (`RequestGetItem`, `RequestPutItem`). False without the window
+        /// or a selected item.
+        pub fn mqemu_merchant_trade(buy: bool, count: i32) -> bool;
         /// The window `name` names, as `${Window[name]}` finds it: a top-level
         /// window by name (a shown one first, if several share it), or a bag's
         /// window as `pack1`..., `bank1`... or `enviro`. Null if none. Paths
@@ -869,15 +869,7 @@ pub unsafe extern "C" fn mqemu_inv_slot_item(slot: *mut CInvSlotWnd) -> *mut Ite
         if !linked.is_null() {
             return linked;
         }
-        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return core::ptr::null_mut() };
-        let mut held = [0usize; size_of::<VePointer_ItemClient>().div_ceil(size_of::<usize>())];
-        let held = held.as_mut_ptr().cast::<VePointer_ItemClient>();
-        eqlib::CharacterBase_GetItemByGlobalIndex(pc.as_CharacterBase(), held, window.ItemLocation());
-        let item = (*held).m_pObject();
-        if let Some(reference) = item.as_ref() {
-            eqlib::VeBaseReferenceCount_DecrementRefCount(reference.as_VeBaseReferenceCount());
-        }
-        item
+        item_at(Place::of(window.ItemLocation()))
     }
 }
 
@@ -1040,6 +1032,634 @@ pub unsafe extern "C" fn mqemu_draw_texture(animation: *mut CTextureAnimation, r
     true
 }
 
+// ----- items without their slot windows -----
+
+/// `InvSlot_Cursor`: the cursor's place in your inventory.
+const INV_SLOT_CURSOR: i16 = 33;
+/// `eNumItemContainers`: container kinds are below it.
+const ITEM_CONTAINERS: i32 = 41;
+/// `ITEMTYPE_PACK`: an item definition's `Type` for a bag.
+const ITEM_TYPE_PACK: u8 = 1;
+/// `eCursorAttachment_Item`: the cursor's icon shows an item.
+const CURSOR_ATTACHMENT_ITEM: i32 = 2;
+/// `CXWndManager::GetKeyboardFlags`' bit for ctrl.
+const KEY_CTRL: u32 = 2;
+/// [`CLICKS`]' `leftmouseup`.
+const CLICK_LEFT_UP: i32 = 1;
+
+/// A place an item can be, laid out as eqlib's `ItemGlobalIndex`: a kind of
+/// container (`ItemContainerInstance`) and up to three slots, -1 past the last.
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Place {
+    location: i32,
+    slots: [i16; 3],
+}
+
+const _: () = assert!(size_of::<Place>() == size_of::<ItemGlobalIndex>());
+
+impl Place {
+    /// The place the shim functions take: `slot` of `container`, and
+    /// `in_bag` of the bag there unless it's below 0.
+    fn new(container: i32, slot: i32, in_bag: i32) -> Self {
+        let in_bag = if in_bag < 0 { -1 } else { in_bag as i16 };
+        Self { location: container, slots: [slot as i16, in_bag, -1] }
+    }
+
+    /// Your cursor (`CreateItemGlobalIndex(InvSlot_Cursor)`).
+    fn cursor() -> Self {
+        Self::new(ItemContainerInstance::eItemContainerPossessions.0, INV_SLOT_CURSOR.into(), -1)
+    }
+
+    fn of(index: &ItemGlobalIndex) -> Self {
+        Self { location: index.Location().0, slots: index.Index().m_slots() }
+    }
+
+    fn top(&self) -> i16 {
+        self.slots[0]
+    }
+
+    /// Whether it's in a bag (`!ItemIndex::IsBase`).
+    fn in_bag(&self) -> bool {
+        self.slots[1] != -1
+    }
+
+    /// `ItemGlobalIndex::IsValidIndex`.
+    fn is_valid(&self) -> bool {
+        (0..ITEM_CONTAINERS).contains(&self.location) && self.slots[0] != -1
+    }
+
+    /// `GetParent`: the bag it's in (its last slot dropped).
+    fn parent(&self) -> Self {
+        let mut parent = *self;
+        if let Some(last) = parent.slots.iter_mut().rev().find(|slot| **slot != -1) {
+            *last = -1;
+        }
+        parent
+    }
+
+    fn as_ptr(&self) -> *const ItemGlobalIndex {
+        core::ptr::from_ref(self).cast()
+    }
+}
+
+/// `CInvSlotMgr::FindInvSlot(place, include_links)`, eqlib's own code (no
+/// game function): the item slot whose window shows `place`'s top slot and
+/// bag slot, skipping hot buttons' unless `include_links`. Null for none.
+///
+/// # Safety
+/// `manager`'s slots null or live, as their windows.
+unsafe fn find_inv_slot(manager: &CInvSlotMgr, place: Place, include_links: bool) -> *mut CInvSlot {
+    if place.top() < 0 {
+        return core::ptr::null_mut();
+    }
+    let count = usize::try_from(manager.TotalSlots()).unwrap_or(0).min(manager.SlotArray().len());
+    for slot in (0..count).map(|i| manager.SlotArray_at(i)) {
+        let Some(window) = (unsafe { slot.as_ref() }).and_then(|slot| unsafe { slot.pInvSlotWnd().as_ref() }) else { continue };
+        let shows = Place::of(window.ItemLocation());
+        if shows.location == place.location && shows.slots[..2] == place.slots[..2] && (include_links || !window.bHotButton()) {
+            return slot;
+        }
+    }
+    core::ptr::null_mut()
+}
+
+/// `ItemContainer::GetItem(index)`, eqlib's own code: the item at `index`, or
+/// null past the container's size or its items.
+///
+/// # Safety
+/// `container`'s items null or valid for their size.
+unsafe fn container_item(container: &ItemContainer, index: i32) -> *mut ItemClient {
+    let items = container.m_items();
+    let items = unsafe { game_slice(items.m_data(), i32::try_from(items.m_size()).unwrap_or(i32::MAX)) };
+    let size = usize::try_from(container.m_size()).unwrap_or(usize::MAX);
+    usize::try_from(index).ok().filter(|index| *index < size).and_then(|index| items.get(index)).map_or(core::ptr::null_mut(), VePointer_ItemClient::m_pObject)
+}
+
+/// `ItemBase::GetItemDefinition`, eqlib's own code: its own definition, else
+/// the shared one.
+///
+/// # Safety
+/// `item`'s definition pointers null or live.
+unsafe fn item_definition(item: &ItemClient) -> Option<&ItemDefinition> {
+    unsafe { item.Item1().as_ref().or_else(|| item.SharedItemDef().m_ptr().as_ref()) }
+}
+
+/// `IsContainer`, inline in eqlib: a bag.
+///
+/// # Safety
+/// As [`item_definition`].
+unsafe fn is_container(item: &ItemClient) -> bool {
+    unsafe { item_definition(item) }.is_some_and(|definition| definition.Type() == ITEM_TYPE_PACK)
+}
+
+/// `IsStackable`, inline in eqlib.
+///
+/// # Safety
+/// As [`item_definition`].
+unsafe fn is_stackable(item: &ItemClient) -> bool {
+    unsafe { item_definition(item) }.is_some_and(|definition| definition.StackSize() > 1)
+}
+
+/// A copy of the item's name (`GetName`); [`until_nul`] gives its text.
+///
+/// # Safety
+/// As [`item_definition`].
+unsafe fn item_name(item: &ItemClient) -> [u8; 64] {
+    unsafe { item_definition(item) }.map_or([0; 64], |definition| definition.Name().map(|c| c as u8))
+}
+
+/// The text in a fixed buffer, up to its first NUL.
+fn until_nul(text: &[u8]) -> &[u8] {
+    &text[..text.iter().position(|c| *c == 0).unwrap_or(text.len())]
+}
+
+/// The merchant's item whose own place says merchant slot `slot`, as
+/// `${Merchant.SelectItem}` finds it on the page (`GetItem` up to `GetItemCount`).
+///
+/// # Safety
+/// `page`'s items null or live.
+unsafe fn merchant_item(page: &MerchantPageHandler, slot: i32) -> *mut ItemClient {
+    let items = page.Items();
+    (0..i32::try_from(items.m_size()).unwrap_or(i32::MAX))
+        .map(|i| unsafe { container_item(items, i) })
+        .find(|item| unsafe { item.as_ref() }.is_some_and(|item| i32::from(Place::of(item.GlobalIndex()).top()) == slot))
+        .unwrap_or(core::ptr::null_mut())
+}
+
+/// `/useitem`'s arguments for a place in your inventory, NUL-terminated.
+fn use_item_args(slot: i32, in_bag: i32, out: &mut [u8; 32]) -> &CStr {
+    fn push(out: &mut [u8; 32], len: &mut usize, n: i32) {
+        if n < 0 {
+            out[*len] = b'-';
+            *len += 1;
+        }
+        let mut digits = [0u8; 10];
+        let (mut n, mut count) = (n.unsigned_abs(), 0);
+        loop {
+            digits[count] = b'0' + (n % 10) as u8;
+            count += 1;
+            n /= 10;
+            if n == 0 {
+                break;
+            }
+        }
+        for digit in digits[..count].iter().rev() {
+            out[*len] = *digit;
+            *len += 1;
+        }
+    }
+    let mut len = 0;
+    push(out, &mut len, slot);
+    out[len] = b' ';
+    len += 1;
+    push(out, &mut len, in_bag);
+    out[len] = 0;
+    CStr::from_bytes_with_nul(&out[..=len]).unwrap_or_default()
+}
+
+/// The item at `place`: `pLocalPC->GetItemByGlobalIndex`, the game's own
+/// lookup (MacroQuest's `FindItemByGlobalIndex` walks the same containers).
+/// Its reference is dropped, as in [`mqemu_inv_slot_item`]; the item lives
+/// on in its container.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn item_at(place: Place) -> *mut ItemClient {
+    unsafe {
+        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return core::ptr::null_mut() };
+        let mut held = [0usize; size_of::<VePointer_ItemClient>().div_ceil(size_of::<usize>())];
+        let held = held.as_mut_ptr().cast::<VePointer_ItemClient>();
+        eqlib::CharacterBase_GetItemByGlobalIndex(pc.as_CharacterBase(), held, place.as_ptr());
+        let item = (*held).m_pObject();
+        if let Some(reference) = item.as_ref() {
+            eqlib::VeBaseReferenceCount_DecrementRefCount(reference.as_VeBaseReferenceCount());
+        }
+        item
+    }
+}
+
+/// MacroQuest's `ItemOnCursor`.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn item_on_cursor() -> bool {
+    unsafe { !item_at(Place::cursor()).is_null() }
+}
+
+/// Whether a window's shown (`IsVisible`).
+///
+/// # Safety
+/// `window` null or live.
+unsafe fn shown(window: *const CXWnd) -> bool {
+    unsafe { window.as_ref() }.is_some_and(CXWnd::dShow)
+}
+
+/// Whether the bank window is open, which moving bank items needs.
+///
+/// # Safety
+/// In game.
+unsafe fn bank_open() -> bool {
+    unsafe { shown(foreign(&raw const eqlib::pBankWnd)) }
+}
+
+/// Whether the merchant window is open, where clicking an item selects it.
+///
+/// # Safety
+/// In game.
+unsafe fn merchant_open() -> bool {
+    unsafe { foreign(&raw const eqlib::pMerchantWnd).as_ref() }.is_some_and(|window| unsafe { shown(window.as_CXWnd()) })
+}
+
+/// The open merchant window's page of what's for sale
+/// (`PageHandlers[RegularMerchantPage]`), which also sells.
+///
+/// # Safety
+/// In game.
+unsafe fn purchase_page<'a>() -> Option<(&'a CMerchantWnd, *mut MerchantPageHandler)> {
+    unsafe {
+        let window = foreign(&raw const eqlib::pMerchantWnd).as_ref()?;
+        if !shown(window.as_CXWnd()) {
+            return None;
+        }
+        let pages = window.PageHandlers();
+        let page = *game_slice(pages.m_data(), i32::try_from(pages.m_size()).unwrap_or(0)).first()?;
+        (!page.is_null()).then_some((window, page))
+    }
+}
+
+/// Puts the cursor's item on the cursor's icon (what the mouse carries), or
+/// takes the icon down if the cursor is empty, as the game does after moving
+/// an item to or from the cursor.
+///
+/// eqlib declares `CCursorAttachment::AttachToCursor` with 10 arguments,
+/// but this client's takes 8 (see [`eqlib::CCursorAttachment__AttachToCursor`]),
+/// so it's called through its address, as the game's own item slots call
+/// it. MacroQuest's `PickupItem` and `DropItem` call it as declared for
+/// places inside bags, and return with the stack 8 bytes off.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn update_cursor_attachment() {
+    type Deactivate = unsafe extern "thiscall" fn(*mut CXWnd) -> i32;
+    type AttachToCursor = unsafe extern "thiscall" fn(*mut CCursorAttachment, *mut CTextureAnimation, *mut CTextureAnimation, i32, i32, *const EqItemGuid, i32, *const c_char, i32);
+    unsafe {
+        let attachment = foreign(&raw const eqlib::pCursorAttachment);
+        if attachment.is_null() {
+            return;
+        }
+        let Some(item) = item_at(Place::cursor()).as_ref() else {
+            let window = (*attachment).as_CXWnd();
+            virtual_fn::<Deactivate>(window.cast(), CXWnd::VTABLE_Deactivate)(window);
+            return;
+        };
+        let address = eqlib::CCursorAttachment__AttachToCursor;
+        if address == 0 {
+            return;
+        }
+        let null = core::ptr::null_mut();
+        core::mem::transmute::<usize, AttachToCursor>(address)(attachment, null, null, CURSOR_ATTACHMENT_ITEM, -1, item.ItemGUID(), item.ID(), core::ptr::null(), -1);
+    }
+}
+
+/// What the shim checks before moving an item to or from a place inside a
+/// bag, as `PickupItem` and `DropItem` do: the bag is a bag (not an item
+/// holding an augment), not on the cursor, and the bank's places need the
+/// bank window.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn can_move_in_bag(place: Place) -> bool {
+    use ItemContainerInstance as Kind;
+    unsafe {
+        if foreign(&raw const eqlib::pInvSlotMgr).is_null() || !item_at(place.parent()).as_ref().is_some_and(|bag| is_container(bag)) {
+            return false;
+        }
+        match Kind(place.location) {
+            Kind::eItemContainerPossessions => place.top() != INV_SLOT_CURSOR,
+            Kind::eItemContainerBank | Kind::eItemContainerSharedBank => bank_open(),
+            _ => false,
+        }
+    }
+}
+
+/// What `PickupItem` and `DropItem` check of a place outside bags: not the
+/// cursor, and the bank's places need the bank window. `trade` says whether
+/// the trade window's places are refused (as `PickupItem` refuses them).
+fn may_move_top_level(place: Place, bank_open: bool, trade: bool) -> bool {
+    use ItemContainerInstance as Kind;
+    match Kind(place.location) {
+        Kind::eItemContainerPossessions => place.top() != INV_SLOT_CURSOR,
+        Kind::eItemContainerBank | Kind::eItemContainerSharedBank => bank_open,
+        Kind::eItemContainerTrade => !trade,
+        _ => true,
+    }
+}
+
+/// `PickupItem` and `DropItem` with the merchant window open: one of your
+/// items is selected (its slot window too, if it has one), to sell.
+///
+/// # Safety
+/// In game, on the game thread; `manager` live.
+unsafe fn merchant_pick(manager: *mut CInvSlotMgr, place: Place) -> bool {
+    unsafe {
+        let Some(window) = foreign(&raw const eqlib::pMerchantWnd).as_ref() else { return false };
+        if place.location != ItemContainerInstance::eItemContainerPossessions.0 {
+            return false;
+        }
+        let slot = find_inv_slot(&*manager, place, false);
+        if !slot.is_null() {
+            eqlib::CInvSlotMgr_SelectSlot(manager, slot);
+        }
+        eqlib::CMerchantWnd_SelectBuySellSlot(core::ptr::from_ref(window).cast_mut(), place.as_ptr());
+    }
+    true
+}
+
+/// A `leftmouseup` on `slot`'s window, as `PickupItem` picks up a whole
+/// stack with ctrl held. False without the window.
+///
+/// # Safety
+/// In game, on the game thread; `slot` null or live.
+unsafe fn click_slot(slot: *mut CInvSlot) -> bool {
+    unsafe { slot.as_ref() }.is_some_and(|slot| unsafe { mqemu_window_click(slot.pInvSlotWnd().cast(), CLICK_LEFT_UP) })
+}
+
+/// [`Api::mqemu_pick_up_item`]: MacroQuest's `PickupItem` outside bags and
+/// with the merchant window open; the shim's own inside a bag.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_pick_up_item(container: i32, slot: i32, in_bag: i32) -> bool {
+    unsafe {
+        let place = Place::new(container, slot, in_bag);
+        let manager = foreign(&raw const eqlib::pInvSlotMgr);
+        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return false };
+        if manager.is_null() || crate::game::current_profile(pc).is_none() || !place.is_valid() {
+            return false;
+        }
+        let Some(item) = item_at(place).as_ref() else { return false };
+        if merchant_open() {
+            return merchant_pick(manager, place);
+        }
+        if place.in_bag() {
+            if item_on_cursor() || !can_move_in_bag(place) {
+                return false;
+            }
+            eqlib::CInvSlotMgr_MoveItem(manager, place.as_ptr(), Place::cursor().as_ptr(), true, true, false, false);
+            update_cursor_attachment();
+            return true;
+        }
+        if !may_move_top_level(place, bank_open(), true) {
+            return false;
+        }
+        let ctrl = foreign(&raw const eqlib::pWndMgr).as_ref().is_some_and(|manager| eqlib::CXWndManager_GetKeyboardFlags(manager) & KEY_CTRL != 0);
+        if item.StackCount() > 1 && ctrl {
+            return click_slot(find_inv_slot(&*manager, place, false));
+        }
+        eqlib::CInvSlotMgr_MoveItem(manager, place.as_ptr(), Place::cursor().as_ptr(), true, true, false, false)
+    }
+}
+
+/// [`Api::mqemu_drop_item`]: MacroQuest's `DropItem` outside bags and with
+/// the merchant window open; the shim's own inside a bag.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_drop_item(container: i32, slot: i32, in_bag: i32) -> bool {
+    unsafe {
+        let place = Place::new(container, slot, in_bag);
+        let manager = foreign(&raw const eqlib::pInvSlotMgr);
+        let Some(pc) = foreign(&raw const eqlib::pLocalPC).as_ref() else { return false };
+        if manager.is_null() || crate::game::current_profile(pc).is_none() || !item_on_cursor() || !place.is_valid() {
+            return false;
+        }
+        if merchant_open() {
+            return merchant_pick(manager, place);
+        }
+        if place.in_bag() {
+            if !can_move_in_bag(place) {
+                return false;
+            }
+            // Swaps with what's there, which then goes on the cursor.
+            eqlib::CInvSlotMgr_MoveItem(manager, Place::cursor().as_ptr(), place.as_ptr(), true, true, false, false);
+            update_cursor_attachment();
+            return true;
+        }
+        if !may_move_top_level(place, bank_open(), false) || find_inv_slot(&*manager, place, false).as_ref().is_none_or(|slot| slot.pInvSlotWnd().is_null()) {
+            return false;
+        }
+        eqlib::CInvSlotMgr_MoveItem(manager, Place::cursor().as_ptr(), place.as_ptr(), true, true, false, false);
+    }
+    true
+}
+
+/// [`Api::mqemu_use_item`]: the game's `/useitem <slot> <in_bag>`, found in
+/// its command list as MacroQuest finds `cmdUseItem`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_use_item(slot: i32, in_bag: i32) -> bool {
+    unsafe {
+        let handler = crate::game::eq_command(eqlib::EQADDR_CMDLIST, b"/useitem");
+        let me = foreign(&raw const eqlib::pLocalPlayer);
+        if handler.is_null() || me.is_null() || item_at(Place::new(ItemContainerInstance::eItemContainerPossessions.0, slot, in_bag)).is_null() {
+            return false;
+        }
+        let mut line = [0; 32];
+        let args = use_item_args(slot, in_bag, &mut line);
+        core::mem::transmute::<*mut c_void, crate::game::EqCommandFn>(handler)(me, args.as_ptr());
+    }
+    true
+}
+
+/// The `const ItemPtr&` the container manager takes: a slot holding the
+/// item's pointer (the manager takes its own reference if it keeps it).
+fn item_ptr(item: &*mut ItemClient) -> *const VePointer_ItemClient {
+    const _: () = assert!(size_of::<VePointer_ItemClient>() == size_of::<*mut ItemClient>());
+    core::ptr::from_ref(item).cast()
+}
+
+/// MacroQuest's `OpenContainer(bag)`: opens the bag in a window for its slot
+/// window, if it has one (`CContainerMgr::OpenContainer`, no tradeskills).
+///
+/// # Safety
+/// In game, on the game thread; `bag` live and a bag.
+unsafe fn open_bag(bag: *mut ItemClient) {
+    unsafe {
+        let (Some(containers), Some(manager)) = (foreign(&raw const eqlib::pContainerMgr).as_mut(), foreign(&raw const eqlib::pInvSlotMgr).as_ref()) else { return };
+        if (*bag).Open() != 0 {
+            return;
+        }
+        let Some(window) = find_inv_slot(manager, Place::of((*bag).GlobalIndex()), false).as_ref().and_then(|slot| slot.pInvSlotWnd().as_ref()) else { return };
+        eqlib::CContainerMgr_OpenContainer(containers, item_ptr(&bag), window.ItemLocation(), false);
+    }
+}
+
+/// MacroQuest's `CloseContainer(bag)`: true if it was open.
+///
+/// # Safety
+/// In game, on the game thread; `bag` live.
+unsafe fn close_bag(bag: *mut ItemClient) -> bool {
+    unsafe {
+        let Some(containers) = foreign(&raw const eqlib::pContainerMgr).as_mut() else { return false };
+        if (*bag).Open() == 0 || !is_container(&*bag) {
+            return false;
+        }
+        eqlib::CContainerMgr_CloseContainer(containers, item_ptr(&bag), true);
+    }
+    true
+}
+
+/// [`Api::mqemu_open_container`]: MacroQuest's `OpenContainer` and
+/// `CloseContainer`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_open_container(container: i32, slot: i32, in_bag: i32, open: bool) -> bool {
+    unsafe {
+        let item = item_at(Place::new(container, slot, in_bag));
+        if !item.as_ref().is_some_and(|item| is_container(item)) {
+            return false;
+        }
+        if !open {
+            return close_bag(item);
+        }
+        if (*item).Open() != 0 {
+            return true;
+        }
+        let Some(manager) = foreign(&raw const eqlib::pInvSlotMgr).as_ref() else { return false };
+        if find_inv_slot(manager, Place::of((*item).GlobalIndex()), false).is_null() {
+            return false;
+        }
+        open_bag(item);
+        (*item).Open() != 0
+    }
+}
+
+/// [`Api::mqemu_split_stack`]: `CInvSlot::SliderComplete` on the place's
+/// slot window, as accepting the quantity window does after clicking a
+/// stack. A place in a closed bag is reached by opening the bag and closing
+/// it again. `SliderComplete` moves the item to the cursor's slot but leaves
+/// the cursor's icon alone (the quantity window's caller attaches it), and
+/// the game's `/autoinventory` ignores a cursor without the icon.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_split_stack(container: i32, slot: i32, in_bag: i32, count: i32) -> bool {
+    unsafe {
+        let Some(manager) = foreign(&raw const eqlib::pInvSlotMgr).as_ref() else { return false };
+        if count < 1 || foreign(&raw const eqlib::pLocalPC).is_null() || item_on_cursor() || merchant_open() {
+            return false;
+        }
+        let place = Place::new(container, slot, in_bag);
+        let item = item_at(place);
+        let Some(stack) = item.as_ref().filter(|item| is_stackable(item)) else { return false };
+        let mut opened = core::ptr::null_mut();
+        let mut inv_slot = find_inv_slot(manager, place, false);
+        if inv_slot.is_null() && place.in_bag() {
+            let bag = item_at(place.parent());
+            let closed_bag = bag.as_ref().is_some_and(|bag| is_container(bag) && bag.Open() == 0);
+            if !closed_bag || find_inv_slot(manager, Place::of((*bag).GlobalIndex()), false).is_null() {
+                return false;
+            }
+            open_bag(bag);
+            opened = bag;
+            inv_slot = find_inv_slot(manager, place, false);
+        }
+        if !inv_slot.is_null() {
+            eqlib::CInvSlot_SliderComplete(inv_slot, count.min(stack.StackCount()));
+            update_cursor_attachment();
+        }
+        if !opened.is_null() {
+            close_bag(opened);
+        }
+        !inv_slot.is_null()
+    }
+}
+
+/// [`Api::mqemu_attach_cursor_item`]: [`update_cursor_attachment`] unless
+/// the icon already shows an item.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_attach_cursor_item() -> bool {
+    unsafe {
+        if foreign(&raw const eqlib::pLocalPC).is_null() || !item_on_cursor() {
+            return false;
+        }
+        if !foreign(&raw const eqlib::pCursorAttachment).as_ref().is_some_and(|attachment| attachment.Type() == CURSOR_ATTACHMENT_ITEM) {
+            update_cursor_attachment();
+        }
+    }
+    true
+}
+
+/// [`Api::mqemu_merchant_select`]: `CMerchantWnd::SelectBuySellSlot`, for one
+/// of your items as `/selectitem` does, or for the merchant's item at
+/// merchant slot `slot` as `${Merchant.SelectItem}` does, which also selects
+/// the list's row named as the item (column 1).
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_merchant_select(container: i32, slot: i32, in_bag: i32) -> bool {
+    use ItemContainerInstance as Kind;
+    unsafe {
+        let Some((window, page)) = purchase_page() else { return false };
+        let window_ptr = core::ptr::from_ref(window).cast_mut();
+        let place = Place::new(container, slot, in_bag);
+        if container == Kind::eItemContainerPossessions.0 {
+            if item_at(place).is_null() {
+                return false;
+            }
+            eqlib::CMerchantWnd_SelectBuySellSlot(window_ptr, place.as_ptr());
+            return true;
+        }
+        if container != Kind::eItemContainerMerchant.0 || place.in_bag() {
+            return false;
+        }
+        let Some(item) = merchant_item(&*page, slot).as_ref() else { return false };
+        if let Some(list) = window.ItemsList().as_mut() {
+            let name = item_name(item);
+            let name = until_nul(&name);
+            for row in 0..list.ItemsArray().m_length() {
+                let text = OwnedCXStr::returned(|text| {
+                    eqlib::CListWnd_GetItemText(list, text, row, 1);
+                });
+                if cxstr_bytes(text.as_ptr()).eq_ignore_ascii_case(name) {
+                    eqlib::CListWnd_SetCurSel(list, row);
+                    break;
+                }
+            }
+        }
+        eqlib::CMerchantWnd_SelectBuySellSlot(window_ptr, place.as_ptr());
+    }
+    true
+}
+
+/// [`Api::mqemu_merchant_trade`]: the page's virtual `RequestGetItem` (buy)
+/// or `RequestPutItem` (sell), as `${Merchant.Buy}` and `${Merchant.Sell}`
+/// do; eqlib's vtable slots hold them on this client too.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_merchant_trade(buy: bool, count: i32) -> bool {
+    type RequestGetItem = unsafe extern "thiscall" fn(*mut MerchantPageHandler, i32) -> bool;
+    type RequestPutItem = unsafe extern "thiscall" fn(*mut MerchantPageHandler, i32);
+    unsafe {
+        let Some((window, page)) = purchase_page() else { return false };
+        if count < 1 || window.pSelectedItem().m_pObject().is_null() {
+            return false;
+        }
+        if buy {
+            virtual_fn::<RequestGetItem>(page.cast(), MerchantPageHandler::VTABLE_RequestGetItem)(page, count);
+        } else {
+            virtual_fn::<RequestPutItem>(page.cast(), MerchantPageHandler::VTABLE_RequestPutItem)(page, count);
+        }
+    }
+    true
+}
+
 unsafe extern "C" {
     /// The vtable entry (counted in pointers from the first) a subclass
     /// ([`mqemu_window_subclass`]) replaces for hook kind `kind`; -1 for none.
@@ -1094,6 +1714,129 @@ mod tests {
         assert!(unsafe { font_at(manager, -1) }.is_null(), "where eqlib throws");
         manager.FontsArray().set_m_array(core::ptr::null_mut());
         assert!(unsafe { font_at(manager, 0) }.is_null(), "a null array");
+    }
+
+    #[test]
+    fn places_are_item_global_indexes() {
+        let place = Place::new(1, 4, -5);
+        assert_eq!(place, Place { location: 1, slots: [4, -1, -1] }, "any in_bag below 0 is none");
+        assert!(!place.in_bag() && place.is_valid());
+        assert_eq!(place.parent(), Place { location: 1, slots: [-1, -1, -1] });
+        let in_bag = Place::new(0, 23, 2);
+        assert!(in_bag.in_bag());
+        assert_eq!(in_bag.parent(), Place::new(0, 23, -1));
+        assert_eq!(Place::cursor(), Place::new(0, 33, -1));
+        assert!(!Place::new(41, 0, -1).is_valid() && !Place::new(-1, 0, -1).is_valid() && !Place::new(0, -1, -1).is_valid());
+
+        let (_storage, index) = zeroed::<ItemGlobalIndex>();
+        let index = unsafe { &*index };
+        index.set_Location(ItemContainerInstance(2));
+        index.Index().set_m_slots([5, 6, -1]);
+        assert_eq!(Place::of(index), Place::new(2, 5, 6));
+        assert_eq!(unsafe { *Place::new(2, 5, 6).as_ptr().cast::<[u8; 12]>() }[..10], unsafe { *core::ptr::from_ref(index).cast::<[u8; 12]>() }[..10]);
+    }
+
+    #[test]
+    fn find_inv_slot_matches_the_top_and_bag_slot_of_a_kind() {
+        let (_manager_storage, manager) = zeroed::<CInvSlotMgr>();
+        let manager = unsafe { &*manager };
+        let (_a_storage, a) = zeroed::<CInvSlot>();
+        let (_b_storage, b) = zeroed::<CInvSlot>();
+        let (_a_window_storage, a_window) = zeroed::<CInvSlotWnd>();
+        let (_b_window_storage, b_window) = zeroed::<CInvSlotWnd>();
+        let at = |window: *mut CInvSlotWnd, place: Place| {
+            let location = unsafe { (*window).ItemLocation() };
+            location.set_Location(ItemContainerInstance(place.location));
+            location.Index().set_m_slots(place.slots);
+        };
+        // Slot 2 is a hot button's link to pack1's second item; slot 5 shows it.
+        unsafe { (*a).set_pInvSlotWnd(a_window) };
+        unsafe { (*b).set_pInvSlotWnd(b_window) };
+        unsafe { (*a_window).set_bHotButton(true) };
+        at(a_window, Place::new(0, 23, 1));
+        at(b_window, Place::new(0, 23, 1));
+        manager.set_SlotArray_at(2, a);
+        manager.set_SlotArray_at(5, b);
+        let find = |place, links| unsafe { find_inv_slot(manager, place, links) };
+        assert!(find(Place::new(0, 23, 1), true).is_null(), "no slots counted");
+        manager.set_TotalSlots(6);
+        assert_eq!(find(Place::new(0, 23, 1), true), a, "a link, with links");
+        assert_eq!(find(Place::new(0, 23, 1), false), b);
+        assert!(find(Place::new(1, 23, 1), false).is_null(), "another kind");
+        assert!(find(Place::new(0, 23, -1), false).is_null(), "the bag, not its item");
+        assert!(find(Place::new(0, -1, -1), true).is_null());
+        manager.set_TotalSlots(5);
+        assert!(find(Place::new(0, 23, 1), false).is_null(), "slot 5 isn't counted");
+        manager.set_TotalSlots(1_000_000);
+        assert_eq!(find(Place::new(0, 23, 1), false), b, "counts past the array are cut");
+    }
+
+    #[test]
+    fn items_come_from_containers_and_merchant_pages_with_their_definitions() {
+        let (_page_storage, page) = zeroed::<MerchantPageHandler>();
+        let page = unsafe { &*page };
+        let (_a_storage, a) = zeroed::<ItemClient>();
+        let (_b_storage, b) = zeroed::<ItemClient>();
+        let (_held, held) = zeroed::<[VePointer_ItemClient; 3]>();
+        let held = held.cast::<VePointer_ItemClient>();
+        let items = page.Items();
+        unsafe {
+            (*held).set_m_pObject(a);
+            (*held.add(2)).set_m_pObject(b);
+        }
+        items.m_items().set_m_data(held);
+        items.m_items().set_m_size(3);
+        assert!(unsafe { container_item(items, 0) }.is_null(), "a container of size 0");
+        items.set_m_size(3);
+        assert_eq!(unsafe { container_item(items, 0) }, a);
+        assert!(unsafe { container_item(items, 1) }.is_null());
+        assert_eq!(unsafe { container_item(items, 2) }, b);
+        assert!(unsafe { container_item(items, 3) }.is_null() && unsafe { container_item(items, -1) }.is_null());
+        items.m_items().set_m_size(2);
+        assert!(unsafe { container_item(items, 2) }.is_null(), "past the items");
+        items.m_items().set_m_size(3);
+
+        // The merchant's items know their own slots.
+        unsafe { (*b).GlobalIndex().Index().set_m_slots([7, -1, -1]) };
+        assert_eq!(unsafe { merchant_item(page, 7) }, b);
+        assert_eq!(unsafe { merchant_item(page, 0) }, a, "a's place is zeroed");
+        assert!(unsafe { merchant_item(page, 2) }.is_null(), "slot 2 isn't index 2");
+
+        let (_own_storage, own) = zeroed::<ItemDefinition>();
+        let (_shared_storage, shared) = zeroed::<ItemDefinition>();
+        let (a, own_ref, shared_ref) = unsafe { (&*a, &*own, &*shared) };
+        assert!(unsafe { item_definition(a) }.is_none() && !unsafe { is_container(a) } && unsafe { item_name(a) } == [0; 64]);
+        a.SharedItemDef().set_m_ptr(shared);
+        shared_ref.set_Type(ITEM_TYPE_PACK);
+        assert!(unsafe { is_container(a) }, "the shared definition");
+        a.set_Item1(own);
+        assert!(!unsafe { is_container(a) } && !unsafe { is_stackable(a) }, "its own definition first");
+        own_ref.set_StackSize(20);
+        let mut name = [0; 64];
+        name[..5].copy_from_slice(&[b'B' as c_char, b'r' as c_char, b'e' as c_char, b'a' as c_char, b'd' as c_char]);
+        own_ref.set_Name(name);
+        assert!(unsafe { is_stackable(a) });
+        assert_eq!(until_nul(&unsafe { item_name(a) }), b"Bread");
+        own_ref.set_StackSize(1);
+        assert!(!unsafe { is_stackable(a) });
+    }
+
+    #[test]
+    fn top_level_moves_refuse_the_cursor_closed_bank_and_trade() {
+        let at = |kind: i32, slot: i32| Place::new(kind, slot, -1);
+        assert!(may_move_top_level(at(0, 22), false, true));
+        assert!(!may_move_top_level(at(0, 33), true, true), "the cursor");
+        assert!(!may_move_top_level(at(1, 0), false, true) && may_move_top_level(at(2, 0), true, true), "the bank needs its window");
+        assert!(!may_move_top_level(at(3, 0), true, true) && may_move_top_level(at(3, 0), true, false), "trade: picking up only");
+        assert!(may_move_top_level(at(4, 0), false, true), "other kinds");
+    }
+
+    #[test]
+    fn use_item_args_are_slot_then_in_bag() {
+        let mut out = [0; 32];
+        assert_eq!(use_item_args(23, 4, &mut out).to_bytes(), b"23 4");
+        assert_eq!(use_item_args(0, -1, &mut out).to_bytes(), b"0 -1");
+        assert_eq!(use_item_args(i32::MIN, i32::MAX, &mut out).to_bytes(), b"-2147483648 2147483647");
     }
 
     #[test]

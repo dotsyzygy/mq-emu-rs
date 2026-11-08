@@ -62,6 +62,7 @@ CContextMenu            # one context menu
 CInvSlotWnd             # an item slot window (inventory, bags, bank, loot, trade, hot buttons)
 CInvSlotMgr             # every item slot window (pInvSlotMgr), as /itemnotify finds them
 CInvSlot                # one item slot: its window
+CCursorAttachment       # what the mouse carries (pCursorAttachment): an item, a spell...
 CHotButton              # one hot button
 CHotButtonWnd           # a hot bar (HotButtonWnd, HotButtonWnd2...)
 CContainerMgr           # the open bag windows (pContainerMgr), as FindMQ2Window finds pack1, bank1, enviro

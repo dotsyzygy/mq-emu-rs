@@ -367,11 +367,12 @@ impl<P: Plugin> Mq<P> {
     /// own slot, the bank without the bank window, the trade window, or an
     /// augment.
     ///
-    /// Outside bags this is MacroQuest's `PickupItem`. Inside a bag mq-emu
-    /// does what it does there (moves the item, then shows it on the
-    /// cursor) itself: `PickupItem` (and `/itemnotify`'s fallback through
-    /// it) leaves the stack corrupted there on this client, calling the
-    /// game's `AttachToCursor` with more arguments than it takes.
+    /// Outside bags this does what MacroQuest's `PickupItem` does (a whole
+    /// stack's slot window is clicked while ctrl is held). Inside a bag it
+    /// does what `PickupItem` does there too (moves the item, then shows it
+    /// on the cursor), but `PickupItem` itself (and `/itemnotify`'s fallback
+    /// through it) leaves the stack corrupted there on this client, calling
+    /// the game's `AttachToCursor` with more arguments than it takes.
     pub fn pick_up_item(&self, location: SlotLocation) -> bool {
         let Some((container, slot, in_bag)) = location.raw() else { return false };
         unsafe { (self.window_api().mqemu_pick_up_item)(container, slot, in_bag) }
@@ -379,8 +380,8 @@ impl<P: Plugin> Mq<P> {
 
     /// Puts the item on the cursor at a place (swapping with what's there),
     /// as `/itemnotify ... leftmouseup` does with an item on the cursor and
-    /// no window showing the place: MacroQuest's `DropItem` outside bags,
-    /// mq-emu's own inside one (see [`pick_up_item`](Self::pick_up_item)).
+    /// no window showing the place, as MacroQuest's `DropItem` does (see
+    /// [`pick_up_item`](Self::pick_up_item) for inside bags).
     /// False if it can't (nothing on the cursor, say).
     pub fn drop_item(&self, location: SlotLocation) -> bool {
         let Some((container, slot, in_bag)) = location.raw() else { return false };

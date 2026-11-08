@@ -503,6 +503,8 @@ async fn selftest_rest(task: Task<RustTest>, mut report: Report, stats_before: m
     task.with(|mq| report.section(mq, "Hooking EQ windows, and items without them"));
     window_hook_checks::subclassing(&task, &mut report).await;
     window_hook_checks::items(&task, &mut report).await;
+    window_hook_checks::top_level_item(&task, &mut report).await;
+    window_hook_checks::open_and_close_bag(&task, &mut report).await;
     task.with(|mq| report.section(mq, "Acting on spells and items"));
     action_checks::spells(&task, &mut report).await;
     action_checks::items(&task, &mut report).await;

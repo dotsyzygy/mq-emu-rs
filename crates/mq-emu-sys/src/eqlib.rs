@@ -4,7 +4,7 @@ use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_ushort, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CComboWnd, CContainerMgr, CHotButtonWnd, CharacterBase, ItemGlobalIndex, VeBaseReferenceCount, VePointer_ItemClient,CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CTextureAnimation, CTextureFont, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CComboWnd, CContainerMgr, CHotButtonWnd, CharacterBase, ItemGlobalIndex, VeBaseReferenceCount, VePointer_ItemClient,CSpellBookWnd, CDisplay, CContextMenuManager, CCursorAttachment, CInvSlot, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CTextureAnimation, CTextureFont, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -151,6 +151,15 @@ imports! {
         /// that eqlib has the address of but doesn't define:
         /// `(const CXRect& rect, COLORREF color, const CXRect& clip)`.
         pub static mut CXWnd__DrawColoredRect: usize;
+        /// The bank window (eqlib's `CBankWnd`, read as a plain window), open or not.
+        pub static mut pBankWnd: ForeignPointer<CXWnd>;
+        /// What the mouse carries: its `Type` says an item, a spell...
+        pub static mut pCursorAttachment: ForeignPointer<CCursorAttachment>;
+        /// The game's `CCursorAttachment::AttachToCursor`, which takes 8
+        /// arguments (`ret 20h`) where eqlib declares 10: overlay,
+        /// background, type, index, the item's GUID by reference, its ID, a
+        /// name and the quantity.
+        pub static mut CCursorAttachment__AttachToCursor: usize;
     }
     methods(EQLIB_METHODS) {
         // eqlib/game/PcClient.h
@@ -294,6 +303,27 @@ imports! {
         /// `VePointer` by value, holding a reference), which it returns.
         pub fn CharacterBase_GetItemByGlobalIndex(this: *const CharacterBase, out: *mut VePointer_ItemClient, location: *const ItemGlobalIndex) -> *mut VePointer_ItemClient
             = "?GetItemByGlobalIndex@CharacterBase@eqlib@@QBE?AV?$VePointer@VItemClient@eqlib@@@2@ABVItemGlobalIndex@2@@Z";
+        /// Moves the item at `from` to `to`, swapping with what's there,
+        /// combining stacks if `combine`; MacroQuest passes `debug_out` and
+        /// `combine` true, the bag flags false.
+        pub fn CInvSlotMgr_MoveItem(this: *mut CInvSlotMgr, from: *const ItemGlobalIndex, to: *const ItemGlobalIndex, debug_out: bool, combine: bool, from_into_to_bag: bool, to_into_from_bag: bool) -> bool
+            = "?MoveItem@CInvSlotMgr@eqlib@@QAE_NABVItemGlobalIndex@2@0_N111@Z";
+        /// Selects (highlights) an item slot, as clicking it does.
+        pub fn CInvSlotMgr_SelectSlot(this: *mut CInvSlotMgr, slot: *mut CInvSlot) = "?SelectSlot@CInvSlotMgr@eqlib@@QAEXPAVCInvSlot@2@@Z";
+        /// Picks up `count` of the slot's stack, as accepting the quantity window does.
+        pub fn CInvSlot_SliderComplete(this: *mut CInvSlot, count: c_int) = "?SliderComplete@CInvSlot@eqlib@@QAEXH@Z";
+        /// Selects the item at `location` to buy or sell, as clicking it does.
+        pub fn CMerchantWnd_SelectBuySellSlot(this: *mut CMerchantWnd, location: *const ItemGlobalIndex) -> c_int
+            = "?SelectBuySellSlot@CMerchantWnd@eqlib@@QAEHABVItemGlobalIndex@2@@Z";
+        /// Opens the bag `item` (a `VePointer`'s slot) in a window for the
+        /// slot window at `location`.
+        pub fn CContainerMgr_OpenContainer(this: *mut CContainerMgr, item: *const VePointer_ItemClient, location: *const ItemGlobalIndex, allow_tradeskill: bool)
+            = "?OpenContainer@CContainerMgr@eqlib@@QAEXABV?$VePointer@VItemClient@eqlib@@@2@ABVItemGlobalIndex@2@_N@Z";
+        /// Closes the bag `item`'s window, deleting it if `delete_window`.
+        pub fn CContainerMgr_CloseContainer(this: *mut CContainerMgr, item: *const VePointer_ItemClient, delete_window: bool)
+            = "?CloseContainer@CContainerMgr@eqlib@@QAEXABV?$VePointer@VItemClient@eqlib@@@2@_N@Z";
+        /// The keys held (1 shift, 2 ctrl, 4 alt).
+        pub fn CXWndManager_GetKeyboardFlags(this: *const CXWndManager) -> c_uint = "?GetKeyboardFlags@CXWndManager@eqlib@@QBEIXZ";
         /// Drops a reference, deleting the object with the last (what a
         /// `VePointer`'s destructor does).
         pub fn VeBaseReferenceCount_DecrementRefCount(this: *mut VeBaseReferenceCount) = "?DecrementRefCount@VeBaseReferenceCount@eqlib@@QAEXXZ";

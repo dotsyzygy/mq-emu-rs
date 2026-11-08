@@ -591,7 +591,7 @@ fn melee_range(attacker: Option<&PlayerClient>, target: Option<&PlayerClient>) -
 }
 
 /// A game slash command's handler (`CMDLIST::fAddress`).
-type EqCommandFn = unsafe extern "C" fn(me: *mut PlayerClient, args: *const c_char);
+pub(crate) type EqCommandFn = unsafe extern "C" fn(me: *mut PlayerClient, args: *const c_char);
 
 /// The game's handler for slash command `name` in `list` (`EQADDR_CMDLIST`,
 /// ended by an entry with no handler): the command of that name, or else the
@@ -600,7 +600,7 @@ type EqCommandFn = unsafe extern "C" fn(me: *mut PlayerClient, args: *const c_ch
 ///
 /// # Safety
 /// `list` is null or a live, terminated command list.
-unsafe fn eq_command(list: *const CMDLIST, name: &[u8]) -> *mut c_void {
+pub(crate) unsafe fn eq_command(list: *const CMDLIST, name: &[u8]) -> *mut c_void {
     if list.is_null() || name.is_empty() {
         return core::ptr::null_mut();
     }

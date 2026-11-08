@@ -170,18 +170,10 @@ fn cursor(mq: &Mq<RustTest>) -> Option<(i32, i32)> {
 
 pub async fn items(task: &Task<RustTest>, report: &mut Report) {
     let found = task.with(|mq| {
-        let skip = if mq.game_state() != GameState::InGame {
-            Some("needs to be in game".to_owned())
-        } else if cursor(mq).is_some() {
-            Some("something is on the cursor".to_owned())
-        } else if mq.window("MerchantWnd").is_some_and(|w| w.is_open()) {
-            Some("the merchant window is open (picking up selects instead)".to_owned())
-        } else {
-            None
-        };
+        let skip = cant_move_items(mq);
         let found = if skip.is_none() { item_in_closed_bag(mq) } else { None };
-        match (&skip, found) {
-            (Some(why), _) => report.print(mq, "picking up an item no window shows", Check::Skip(why.clone())),
+        match (skip, found) {
+            (Some(why), _) => report.print(mq, "picking up an item no window shows", Check::Skip(why.into())),
             (None, None) => report.print(mq, "picking up an item no window shows", Check::Skip("no item in a closed bag".into())),
             _ => {}
         }
@@ -203,6 +195,96 @@ pub async fn items(task: &Task<RustTest>, report: &mut Report) {
     task.with(|mq| {
         report.print(mq, &format!("drop_item({place}) puts it back"), Check::that(dropped && back, || {
             format!("drop_item: {dropped}; there: {:?}, cursor: {:?}", item_at(mq, at), cursor(mq))
+        }));
+    });
+}
+
+/// The first of your bag slots (`pack1`..`pack10`, outside any bag) holding
+/// an item that `bag` says is or isn't a bag, with its ID and stack.
+fn in_bag_slot(mq: &Mq<RustTest>, bag: bool) -> Option<(ItemLocation, i32, i32)> {
+    mq.inventory()?.slots().all().find_map(|(at, item)| {
+        ((23..=32).contains(&at.slot) && at.in_bag.is_none() && item.is_container() == bag).then(|| (at, item.id(), item.stack()))
+    })
+}
+
+/// Why the item checks can't move items now, if they can't.
+fn cant_move_items(mq: &Mq<RustTest>) -> Option<&'static str> {
+    if mq.game_state() != GameState::InGame {
+        Some("needs to be in game")
+    } else if cursor(mq).is_some() {
+        Some("something is on the cursor")
+    } else if mq.window("MerchantWnd").is_some_and(|w| w.is_open()) {
+        Some("the merchant window is open (picking up selects instead)")
+    } else {
+        None
+    }
+}
+
+/// Picks up an item in one of your bag slots (not in a bag), as MacroQuest's
+/// `PickupItem` does there, and puts it back as `DropItem` does.
+pub async fn top_level_item(task: &Task<RustTest>, report: &mut Report) {
+    let found = task.with(|mq| {
+        let found = match cant_move_items(mq) {
+            Some(why) => Err(why),
+            None => in_bag_slot(mq, false).ok_or("no item that isn't a bag in pack1 to pack10"),
+        };
+        if let Err(why) = found {
+            report.print(mq, "picking up an item outside bags", Check::Skip(why.into()));
+        }
+        found.ok()
+    });
+    let Some((at, id, stack)) = found else { return };
+    let place = SlotLocation::inventory(at);
+    let picked = task.with(|mq| mq.pick_up_item(place));
+    let on_cursor = task.wait_until_timeout(move |mq| cursor(mq) == Some((id, stack)), TIMEOUT).await;
+    task.with(|mq| {
+        report.print(mq, &format!("pick_up_item({place}) picks up an item outside bags"), Check::that(picked && on_cursor, || {
+            format!("pick_up_item: {picked}; the cursor has {:?}, wanted {:?}", cursor(mq), (id, stack))
+        }));
+    });
+    let dropped = task.with(|mq| cursor(mq).is_some() && mq.drop_item(place));
+    let back = task.wait_until_timeout(move |mq| cursor(mq).is_none() && item_at(mq, at) == Some((id, stack)), TIMEOUT).await;
+    task.with(|mq| {
+        report.print(mq, &format!("drop_item({place}) puts it back outside bags"), Check::that(dropped && back, || {
+            format!("drop_item: {dropped}; there: {:?}, cursor: {:?}", item_at(mq, at), cursor(mq))
+        }));
+    });
+}
+
+/// Opens a closed bag in one of your bag slots and closes it again
+/// (MacroQuest's `OpenContainer` and `CloseContainer`).
+pub async fn open_and_close_bag(task: &Task<RustTest>, report: &mut Report) {
+    let pack = |at: ItemLocation| format!("pack{}", at.slot - 22);
+    let found = task.with(|mq| {
+        let closed = mq.inventory().and_then(|inventory| {
+            inventory.slots().all().find_map(|(at, item)| {
+                let closed_bag = (23..=32).contains(&at.slot) && at.in_bag.is_none() && item.is_container() && mq.window(&pack(at)).is_none();
+                closed_bag.then_some(at)
+            })
+        });
+        let found = match mq.game_state() {
+            GameState::InGame => closed.ok_or("no closed bag in pack1 to pack10"),
+            _ => Err("needs to be in game"),
+        };
+        if let Err(why) = found {
+            report.print(mq, "opening and closing a bag", Check::Skip(why.into()));
+        }
+        found.ok()
+    });
+    let Some(at) = found else { return };
+    let place = SlotLocation::inventory(at);
+    let opened = task.with(|mq| mq.open_bag(place));
+    let shown = task.wait_until_timeout(move |mq| mq.window(&pack(at)).is_some_and(|w| w.is_open()), TIMEOUT).await;
+    task.with(|mq| {
+        report.print(mq, &format!("open_bag({place}) opens its window ({})", pack(at)), Check::that(opened && shown, || {
+            format!("open_bag: {opened}; {} found: {}", pack(at), mq.window(&pack(at)).is_some())
+        }));
+    });
+    let closed = task.with(|mq| mq.close_bag(place));
+    let gone = task.wait_until_timeout(move |mq| mq.window(&pack(at)).is_none(), TIMEOUT).await;
+    task.with(|mq| {
+        report.print(mq, &format!("close_bag({place}) closes it again"), Check::that(closed && gone, || {
+            format!("close_bag: {closed}; {} still found: {}", pack(at), !gone)
         }));
     });
 }
