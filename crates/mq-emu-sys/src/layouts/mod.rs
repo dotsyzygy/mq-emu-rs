@@ -44,3 +44,13 @@ pub struct FieldInfo {
     /// `(position, length)` for bitfields.
     pub bits: Option<(u8, u8)>,
 }
+
+/// Describes one virtual function a generated record introduces.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct VtableInfo {
+    /// C++ name of the record that introduces it.
+    pub record: &'static str,
+    pub function: &'static str,
+    /// Byte offset in the record's vtable (its `VTABLE_<function>` constant).
+    pub offset: u32,
+}

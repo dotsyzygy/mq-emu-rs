@@ -24,7 +24,7 @@ use core::cell::UnsafeCell;
 use core::ffi::{c_char, c_void};
 use core::marker::{PhantomData, PhantomPinned};
 
-use super::{FieldInfo, RecordInfo};
+use super::{FieldInfo, RecordInfo, VtableInfo};
 
 #[inline(always)]
 unsafe fn read<T>(base: *mut u8, offset: usize) -> T {
@@ -94,6 +94,8 @@ pub fn ident(name: &str) -> String {
 /// Rust names for every emitted type, unique across records, enums and opaques.
 struct Names {
     types: HashMap<TypeId, String>,
+    /// Named records and opaques, by C++ name.
+    by_cpp: HashMap<String, String>,
 }
 
 impl Names {
@@ -121,8 +123,12 @@ impl Names {
             .filter(|(name, _)| !is_anonymous(name))
             .collect();
         named.sort();
+        let mut by_cpp = HashMap::new();
         for (name, id) in named {
             claim(&mut used, &mut types, id, sanitize(name));
+            if !model.enums.contains_key(&id) {
+                by_cpp.insert(name.to_owned(), types[&id].clone());
+            }
         }
 
         // Anonymous records are named after the member that contains them. A
@@ -161,7 +167,7 @@ impl Names {
             }
             pending = waiting;
         }
-        Names { types }
+        Names { types, by_cpp }
     }
 
     fn of(&self, id: TypeId) -> &str {
@@ -226,6 +232,14 @@ pub fn emit(model: &Model) -> String {
             field.decl_offset,
             model.size_of(&field.ty),
         );
+    }
+    out.push_str("];\n");
+
+    out.push_str("\n/// Every virtual function a generated record introduces, and its vtable offset.\npub static VTABLES: &[VtableInfo] = &[\n");
+    for (_, _, record) in &records {
+        for (function, offset) in virtuals(record) {
+            let _ = writeln!(out, "    VtableInfo {{ record: {:?}, function: {function:?}, offset: {offset:#x} }},", record.cpp_name);
+        }
     }
     out.push_str("];\n");
     out
@@ -420,7 +434,52 @@ fn emit_record(out: &mut String, model: &Model, names: &Names, name: &str, recor
             }
         }
     }
+    emit_upcasts(out, names, record, accessors);
+    for (virtual_name, offset) in virtuals(record) {
+        let _ = write!(
+            out,
+            "\n    /// Byte offset of the virtual `{virtual_name}` in this class's vtable.\n    pub const VTABLE_{}: usize = {offset:#x};\n",
+            sanitize(virtual_name)
+        );
+    }
     out.push_str("}\n");
+}
+
+/// Classes whose vtable offsets in eqlib.pdb are wrong: eqlib's class
+/// declaration lacks a virtual the game has, so every slot after it is off.
+/// eqlib's own `VirtualFunctionTable` (and eqgame.exe) have the right ones;
+/// tests/vtables.rs finds any new disagreement.
+/// - CButtonWnd: the game has an undeclared virtual at 0x164 (0x620c10 in
+///   ProFusion's eqgame.exe), before `SetRadioGroup`.
+const WRONG_IN_PDB: &[&str] = &["CButtonWnd"];
+
+/// The virtuals to emit for `record`: none where the PDB is wrong.
+fn virtuals(record: &Record) -> &[(String, u32)] {
+    if WRONG_IN_PDB.contains(&record.cpp_name.as_str()) { &[] } else { &record.virtuals }
+}
+
+/// Pointers to each base class within the record, as C++ adjusts `this` to
+/// call a base's methods (with multiple or virtual inheritance, a base needn't
+/// start at offset 0). Skips bases the model has no type for, and bases that
+/// appear more than once (ambiguous in C++ too).
+fn emit_upcasts(out: &mut String, names: &Names, record: &Record, accessors: &[String]) {
+    for base in &record.bases {
+        if record.bases.iter().filter(|b| b.cpp_name == base.cpp_name).count() > 1 {
+            continue;
+        }
+        let Some(rust) = names.by_cpp.get(&base.cpp_name) else { continue };
+        let method = format!("as_{}", sanitize(&base.cpp_name));
+        if accessors.iter().any(|a| a.trim_start_matches("r#") == method) {
+            continue;
+        }
+        let _ = write!(
+            out,
+            "\n    /// The `{}` base, at {:#x}: what C++ passes as `this` to its methods.\n    #[inline]\n    \
+             pub fn {method}(&self) -> *mut {rust} {{\n        \
+             unsafe {{ self._bytes.get().cast::<u8>().add({:#x}).cast() }}\n    }}\n",
+            base.cpp_name, base.offset, base.offset
+        );
+    }
 }
 
 fn field_doc(field: &Field) -> String {
@@ -531,6 +590,8 @@ mod tests {
                 field("type", "Derived", 0x18),
                 field("x", "Derived", 0x1c),
             ],
+            bases: Vec::new(),
+            virtuals: Vec::new(),
             parent_hint: None,
         };
         assert_eq!(
@@ -547,6 +608,8 @@ mod tests {
             is_union: false,
             // `names` gets `names_at`; a member literally called `names_at` must not collide.
             fields: vec![field("names", "Arrays", 0), field("names_at", "Arrays", 4), field("set_names_at", "Arrays", 8)],
+            bases: Vec::new(),
+            virtuals: Vec::new(),
             parent_hint: None,
         };
         assert_eq!(accessor_names(&record), ["names", "Arrays_names_at", "Arrays_set_names_at"]);

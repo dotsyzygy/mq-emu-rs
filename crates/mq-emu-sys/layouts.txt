@@ -38,6 +38,9 @@ ExtendedTargetSlot      # one extended target slot
 HashTable<CXStr,int,ResizePolicyNoResize>::HashNode # a buff window's caster names, by spell ID
 CXWnd                   # an EQ UI window or control (FindMQ2Window, its children)
 CXWndManager            # every window, focus (pWndMgr)
+ControllerBase          # a window's controller (CXWnd::pController), told of its notifications
+CCastSpellWnd           # the spell gem bar (pCastSpellWnd): which gems are shown
+CSpellGemWnd            # one spell gem (CCastSpellWnd::SpellSlots)
 CButtonWnd              # a button or checkbox
 CListWnd                # a list (and a combo box's drop-down, a context menu)
 SListWndLine            # one row of a list

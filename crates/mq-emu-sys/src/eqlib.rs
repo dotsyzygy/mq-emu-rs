@@ -1,10 +1,10 @@
 //! Imports from `eqlib.dll` (`EQLIB_API` / `EQLIB_VAR`).
 
-use core::ffi::{c_char, c_uint, c_void};
+use core::ffi::{c_char, c_int, c_uint, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AggroMeterManagerClient, CContextMenuManager, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    AggroMeterManagerClient, CCastSpellWnd, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
     zoneHeader,
 };
@@ -95,5 +95,25 @@ imports! {
         pub static mut pTaskMember: ForeignPointer<SharedTaskPlayerInfo>;
         /// Points to a byte that's nonzero while your tribute is active.
         pub static mut pTributeActive: *mut u8;
+        /// The spell gem bar; `SpellSlots` past the eighth are shown only if
+        /// your character has them.
+        pub static mut pCastSpellWnd: ForeignPointer<CCastSpellWnd>;
+    }
+    methods {
+        // eqlib/game/PcClient.h
+        /// Your maximum HP with its modifiers, capped at the game's maximum when
+        /// `cap_at_max` (C++'s default). `spawn_type` 0 is you.
+        pub fn CharacterZoneClient_Max_HP(this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool) -> c_int
+            = "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z";
+
+        // eqlib/game/CXWnd.h
+        /// What kind of control `this` is (`UI_*`).
+        pub fn CXWnd_GetType(this: *const CXWnd) -> c_int = "?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ";
+
+        // eqlib/game/CXStr.h
+        /// Constructs a CXStr in `this` from NUL-terminated `text`.
+        pub fn CXStr_from_c_str(this: *mut CXStr, text: *const c_char) -> *mut CXStr = "??0CXStr@eqlib@@QAE@PBD@Z";
+        /// Destroys the CXStr in `this`, releasing its text.
+        pub fn CXStr_drop(this: *mut CXStr) = "??1CXStr@eqlib@@QAE@XZ";
     }
 }

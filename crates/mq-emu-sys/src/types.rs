@@ -78,6 +78,63 @@ impl<T> ComputedPointer<T> {
     }
 }
 
+/// What an exported `ForeignPointer` global points to, or null, read through
+/// a raw pointer to it (`&raw const eqlib::pLocalPC`).
+///
+/// # Safety
+/// As [`ForeignPointer::get`].
+pub unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
+    unsafe { (*global).get() }
+}
+
+/// The function in `object`'s vtable at byte `offset` (a generated
+/// `VTABLE_*` constant of the class that introduced it), as `F`: an
+/// `unsafe extern "thiscall" fn` taking the object first.
+///
+/// # Safety
+/// `object` must point to a live object whose vtable pointer is at its start
+/// and has a function at `offset`, and `F` must be that function's type.
+pub unsafe fn virtual_fn<F: Copy>(object: *const core::ffi::c_void, offset: usize) -> F {
+    const { assert!(size_of::<F>() == size_of::<usize>()) };
+    unsafe {
+        let vtable = *object.cast::<*const u8>();
+        vtable.add(offset).cast::<F>().read()
+    }
+}
+
+/// A `CXStr` this side owns: constructed by eqlib, released on drop.
+#[repr(C)]
+pub struct OwnedCXStr {
+    /// The CXStr itself: one pointer to its shared text (`CStrRep`).
+    rep: *mut core::ffi::c_void,
+}
+
+impl OwnedCXStr {
+    /// Copies `text` into a new CXStr.
+    ///
+    /// # Safety
+    /// `text` must be NUL-terminated; eqlib must be loaded (in game).
+    pub unsafe fn new(text: *const c_char) -> OwnedCXStr {
+        let mut out = OwnedCXStr { rep: core::ptr::null_mut() };
+        unsafe { crate::eqlib::CXStr_from_c_str(out.as_mut_ptr(), text) };
+        out
+    }
+
+    pub fn as_ptr(&self) -> *const crate::layouts::CXStr {
+        (self as *const OwnedCXStr).cast()
+    }
+
+    fn as_mut_ptr(&mut self) -> *mut crate::layouts::CXStr {
+        (self as *mut OwnedCXStr).cast()
+    }
+}
+
+impl Drop for OwnedCXStr {
+    fn drop(&mut self) {
+        unsafe { crate::eqlib::CXStr_drop(self.as_mut_ptr()) };
+    }
+}
+
 /// `fEQCommand` (`mq/api/CommandAPI.h`): a slash-command handler.
 /// `command` is the argument text after the command name.
 pub type fEQCommand = Option<unsafe extern "C" fn(player: *mut PlayerClient, command: *const c_char)>;

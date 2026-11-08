@@ -263,24 +263,6 @@ extern "C" bool mqemu_window_refade(CXWnd* window)
 	}
 }
 
-extern "C" bool mqemu_window_set_text(CXWnd* window, const char* text)
-{
-	try
-	{
-		if (window == nullptr || window->GetType() != UI_EditBox)
-			return false;
-		CEditWnd* edit = static_cast<CEditWnd*>(window);
-		edit->SetWindowText(text);
-		edit->ParentWndNotification(edit, XWM_NEWVALUE, nullptr);
-		mq::WeDidStuff();
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
 extern "C" int mqemu_list_item_text(CListWnd* list, int row, int column, char* out, size_t cap)
 {
 	try

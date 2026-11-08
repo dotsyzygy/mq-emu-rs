@@ -120,9 +120,6 @@ function_table! {
     /// Redraws the window's background and fade after its `BGColor`, `Alpha`
     /// or `FadeToAlpha` changed (`CXWnd::Refade`).
     pub fn mqemu_window_refade(window: *mut CXWnd) -> bool;
-    /// Sets an edit box's text and tells its parent, as `${Window.SetText}`
-    /// does. False for null or a window that isn't an edit box.
-    pub fn mqemu_window_set_text(window: *mut CXWnd, text: *const c_char) -> bool;
     /// The text of a list's cell (`CListWnd::GetItemText`); -1 if the row or
     /// column isn't there.
     pub fn mqemu_list_item_text(list: *mut CListWnd, row: i32, column: i32, out: *mut c_char, cap: usize) -> i32;
@@ -243,6 +240,49 @@ function_table! {
     /// of yours (`RequestGetItem`, `RequestPutItem`). False without the window
     /// or a selected item.
     pub fn mqemu_merchant_trade(buy: bool, count: i32) -> bool;
+
+    rust {
+        /// Sets an edit box's text and tells its parent, as `${Window.SetText}`
+        /// does. False for null or a window that isn't an edit box.
+        pub fn mqemu_window_set_text(window: *mut CXWnd, text: *const c_char) -> bool;
+    }
+}
+
+/// [`Api::mqemu_window_set_text`]: the virtual `SetWindowText`, then
+/// `ParentWndNotification(XWM_NEWVALUE)`, calling eqlib and the game directly.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `text` null
+/// or NUL-terminated.
+pub unsafe extern "C" fn mqemu_window_set_text(window: *mut CXWnd, text: *const c_char) -> bool {
+    use crate::constants::{UI_EDIT_BOX, XWM_NEWVALUE};
+    use crate::layouts::{CXStr, ControllerBase};
+    use crate::types::{OwnedCXStr, virtual_fn};
+
+    type SetWindowText = unsafe extern "thiscall" fn(*mut CXWnd, *const CXStr);
+    type WndNotification = unsafe extern "thiscall" fn(*mut CXWnd, *mut CXWnd, u32, *mut c_void) -> i32;
+    type ControllerNotification = unsafe extern "thiscall" fn(*mut ControllerBase, *mut CXWnd, u32, *mut c_void);
+
+    unsafe {
+        let Some(edit) = window.as_ref() else { return false };
+        if text.is_null() || crate::eqlib::CXWnd_GetType(window) != UI_EDIT_BOX {
+            return false;
+        }
+        let text = OwnedCXStr::new(text);
+        virtual_fn::<SetWindowText>(window.cast(), CXWnd::VTABLE_SetWindowText)(window, text.as_ptr());
+
+        // CXWnd::ParentWndNotification, inline in eqlib.
+        let controller = edit.pController();
+        if !controller.is_null() {
+            virtual_fn::<ControllerNotification>(controller.cast(), ControllerBase::VTABLE_WndNotification)(controller, window, XWM_NEWVALUE, core::ptr::null_mut());
+        }
+        let parent = edit.ParentWindow();
+        if !parent.is_null() {
+            virtual_fn::<WndNotification>(parent.cast(), CXWnd::VTABLE_WndNotification)(parent, window, XWM_NEWVALUE, core::ptr::null_mut());
+        }
+        crate::mq2main::WeDidStuff();
+    }
+    true
 }
 
 unsafe extern "C" {

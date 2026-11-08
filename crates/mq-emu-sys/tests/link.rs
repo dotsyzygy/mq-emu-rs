@@ -11,19 +11,21 @@ const TARGET: &str = "i686-pc-windows-msvc";
 
 /// Builds a cdylib that references `symbol` from `dll`'s import library.
 fn link_one(dll: &str, kind: SymbolKind, symbol: &str) -> Output {
-    let (decl, reference) = match kind {
-        SymbolKind::Function => (format!("fn {symbol}();"), format!("{symbol} as *const () as usize")),
-        SymbolKind::Static => (format!("static {symbol}: u8;"), format!("(&raw const {symbol}) as usize")),
+    let (abi, decl, reference) = match kind {
+        SymbolKind::Function => ("C", format!("fn {symbol}();"), format!("{symbol} as *const () as usize")),
+        SymbolKind::Static => ("C", format!("static {symbol}: u8;"), format!("(&raw const {symbol}) as usize")),
+        SymbolKind::Method => ("thiscall", format!("#[link_name = \"{symbol}\"] fn method();"), "method as *const () as usize".to_owned()),
     };
+    let dir_name = format!("{dll}_{}", symbol.replace(|c: char| !c.is_ascii_alphanumeric(), "_"));
     let source = format!(
         "#![allow(non_snake_case, non_upper_case_globals)]\n\
          #[link(name = \"{dll}\")]\n\
-         unsafe extern \"C\" {{ {decl} }}\n\
+         unsafe extern \"{abi}\" {{ {decl} }}\n\
          #[unsafe(no_mangle)]\n\
          pub extern \"C\" fn reference() -> usize {{ {reference} }}\n"
     );
 
-    let dir = PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join("link_tests").join(format!("{dll}_{symbol}"));
+    let dir = PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join("link_tests").join(dir_name);
     std::fs::create_dir_all(&dir).unwrap();
     let src = dir.join("probe.rs");
     std::fs::write(&src, source).unwrap();
@@ -43,6 +45,8 @@ fn link_one(dll: &str, kind: SymbolKind, symbol: &str) -> Output {
 enum SymbolKind {
     Function,
     Static,
+    /// A C++ member function, by its mangled name.
+    Method,
 }
 
 fn assert_links(dll: &str, kind: SymbolKind, symbol: &str) {
@@ -57,9 +61,13 @@ fn assert_unresolved(dll: &str, kind: SymbolKind, symbol: &str) {
     let out = link_one(dll, kind, symbol);
     let stderr = String::from_utf8_lossy(&out.stderr);
     assert!(!out.status.success(), "{symbol} unexpectedly linked");
-    let found = [format!("_{symbol} "), format!("__imp__{symbol} ")]
-        .iter()
-        .any(|decorated| stderr.contains(&format!("unresolved external symbol {decorated}")));
+    // Mangled C++ names (`?...`) get no underscore, and come after the
+    // demangled name, in parentheses.
+    let found = if symbol.starts_with('?') {
+        stderr.contains("unresolved external symbol") && [format!("({symbol})"), format!("(__imp_{symbol})")].iter().any(|s| stderr.contains(s.as_str()))
+    } else {
+        [format!("_{symbol} "), format!("__imp__{symbol} ")].iter().any(|decorated| stderr.contains(&format!("unresolved external symbol {decorated}")))
+    };
     assert!(found, "{symbol} failed for an unexpected reason:\n{stderr}");
 }
 
@@ -76,6 +84,17 @@ fn real_static_links() {
 #[test]
 fn real_eqlib_static_links() {
     assert_links("eqlib", SymbolKind::Static, "pLocalPlayer");
+}
+
+#[test]
+fn real_eqlib_method_links() {
+    assert_links("eqlib", SymbolKind::Method, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z");
+}
+
+#[test]
+fn method_with_wrong_signature_fails_to_link() {
+    // Max_HP(int, bool) mangled as Max_HP(int): a signature mistake is a link error.
+    assert_unresolved("eqlib", SymbolKind::Method, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH@Z");
 }
 
 #[test]

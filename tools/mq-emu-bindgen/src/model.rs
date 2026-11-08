@@ -101,8 +101,20 @@ pub struct Record {
     pub is_union: bool,
     /// Sorted by offset, then bit position.
     pub fields: Vec<Field>,
+    /// Every base class, direct or not, and where it starts in the record.
+    pub bases: Vec<Base>,
+    /// Virtual functions this class introduces, by name, with their byte
+    /// offset in its vtable. Overloads sharing a name are left out.
+    pub virtuals: Vec<(String, u32)>,
     /// For anonymous types: the record and member that first contained it.
     pub parent_hint: Option<(TypeId, String)>,
+}
+
+/// A base class within a record: where C++ moves `this` to call its methods.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Base {
+    pub cpp_name: String,
+    pub offset: u64,
 }
 
 #[derive(Debug, Clone)]
@@ -272,20 +284,58 @@ impl<'t> Builder<'_, 't> {
         self.check_unambiguous(&cpp_name)?;
 
         let mut out = Vec::new();
+        let mut bases = Vec::new();
         if let Some(fields) = fields {
-            self.collect_fields(index.0, fields, 0, &cpp_name, &mut out)?;
-            self.collect_virtual_bases(index.0, fields, size, &mut out)?;
+            self.collect_fields(index.0, fields, 0, &cpp_name, &mut out, &mut bases)?;
+            self.collect_virtual_bases(index.0, fields, size, &mut out, &mut bases)?;
         }
+        bases.sort_by_key(|b| b.offset);
+        let virtuals = match fields {
+            Some(fields) => self.collect_virtuals(fields)?,
+            None => Vec::new(),
+        };
         out.sort_by_key(|f| (f.offset, f.bits.map_or(0, |b| b.position)));
         // A vbptr shared through several bases is reported once per base.
         out.dedup_by(|a, b| a.name == b.name && a.offset == b.offset && a.name == "__vbptr");
-        Ok(Record { cpp_name, size, is_union, fields: out, parent_hint })
+        Ok(Record { cpp_name, size, is_union, fields: out, bases, virtuals, parent_hint })
+    }
+
+    /// The virtual functions a field list introduces (not overrides, which
+    /// reuse their base's slot), skipping names introduced more than once.
+    fn collect_virtuals(&mut self, list: TypeIndex) -> Result<Vec<(String, u32)>> {
+        let mut found: Vec<(String, u32)> = Vec::new();
+        let mut next = Some(list);
+        while let Some(list) = next {
+            let TypeData::FieldList(list) = self.parse(list)? else { break };
+            for field in &list.fields {
+                match field {
+                    TypeData::Method(m) => {
+                        if let Some(offset) = m.vtable_offset {
+                            found.push((m.name.to_string().into_owned(), offset));
+                        }
+                    }
+                    TypeData::OverloadedMethod(o) => {
+                        if let TypeData::MethodList(methods) = self.parse(o.method_list)? {
+                            for entry in &methods.methods {
+                                if let Some(offset) = entry.vtable_offset {
+                                    found.push((o.name.to_string().into_owned(), offset));
+                                }
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            next = list.continuation;
+        }
+        let unique = found.iter().filter(|(name, _)| found.iter().filter(|(other, _)| other == name).count() == 1).cloned().collect();
+        Ok(unique)
     }
 
     /// Lays out virtual bases. MSVC places them after all non-virtual parts of the
     /// most-derived class, in vbtable order, so they fill the record from the end.
     /// The most-derived class lists every virtual base, direct and indirect.
-    fn collect_virtual_bases(&mut self, owner: TypeId, list: TypeIndex, size: u64, out: &mut Vec<Field>) -> Result<()> {
+    fn collect_virtual_bases(&mut self, owner: TypeId, list: TypeIndex, size: u64, out: &mut Vec<Field>, bases: &mut Vec<Base>) -> Result<()> {
         let mut vbases = Vec::new();
         let mut next = Some(list);
         while let Some(list) = next {
@@ -305,15 +355,17 @@ impl<'t> Builder<'_, 't> {
                 return Err(Error(format!("virtual base {base:?} is not a class")));
             };
             end = end.checked_sub(class.size).ok_or_else(|| Error(format!("virtual bases overflow record {owner}")))?;
+            let base_name = display_name(&class.name.to_string());
+            bases.push(Base { cpp_name: base_name.clone(), offset: end });
             if let Some(fields) = class.fields {
-                self.collect_fields(owner, fields, end, &display_name(&class.name.to_string()), out)?;
+                self.collect_fields(owner, fields, end, &base_name, out, bases)?;
             }
         }
         Ok(())
     }
 
     /// Appends the members of a field list, flattening base classes into the record.
-    fn collect_fields(&mut self, owner: TypeId, list: TypeIndex, base_offset: u64, declared_in: &str, out: &mut Vec<Field>) -> Result<()> {
+    fn collect_fields(&mut self, owner: TypeId, list: TypeIndex, base_offset: u64, declared_in: &str, out: &mut Vec<Field>, bases: &mut Vec<Base>) -> Result<()> {
         let mut next = Some(list);
         while let Some(list) = next {
             let TypeData::FieldList(list) = self.parse(list)? else {
@@ -344,9 +396,11 @@ impl<'t> Builder<'_, 't> {
                         let TypeData::Class(class) = self.parse(base)? else {
                             return Err(Error(format!("base class {base:?} is not a class")));
                         };
+                        let base_name = display_name(&class.name.to_string());
+                        let offset = base_offset + u64::from(b.offset);
+                        bases.push(Base { cpp_name: base_name.clone(), offset });
                         if let Some(fields) = class.fields {
-                            let base_name = display_name(&class.name.to_string());
-                            self.collect_fields(owner, fields, base_offset + u64::from(b.offset), &base_name, out)?;
+                            self.collect_fields(owner, fields, offset, &base_name, out, bases)?;
                         }
                     }
                     // The base itself is placed by `collect_virtual_bases`; here we only

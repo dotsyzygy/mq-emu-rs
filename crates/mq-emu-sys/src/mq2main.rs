@@ -23,6 +23,9 @@ imports! {
         // Chat output (MQ2Main.h)
         /// `printf`-style output to the MQ chat window.
         pub fn WriteChatf(format: *const c_char, ...);
+        // MQ2Main.h
+        /// Tells MacroQuest the plugin acted on the UI (resets its idle timers).
+        pub fn WeDidStuff();
         /// Writes `line` in `color` (e.g. `USERCOLOR_DEFAULT`). `filter` is normally 0.
         pub fn WriteChatColor(line: *const c_char, color: c_int, filter: c_int);
         pub fn WriteChatColorf(format: *const c_char, color: c_int, ...);

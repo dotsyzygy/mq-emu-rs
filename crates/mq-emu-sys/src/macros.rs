@@ -11,6 +11,13 @@ macro_rules! imports {
         statics {
             $( $(#[$sattr:meta])* pub static mut $sname:ident : $sty:ty ; )*
         }
+        $(
+        // C++ member functions, by their mangled export names: `__thiscall`,
+        // `this` first.
+        methods {
+            $( $(#[$mattr:meta])* pub fn $mname:ident ( $($margs:tt)* ) $(-> $mret:ty)? = $mlink:literal ; )*
+        }
+        )?
     ) => {
         #[link(name = $dll)]
         unsafe extern "C" {
@@ -18,9 +25,16 @@ macro_rules! imports {
             $( $(#[$sattr])* pub static mut $sname: $sty; )*
         }
 
+        $(
+        #[link(name = $dll)]
+        unsafe extern "thiscall" {
+            $( $(#[$mattr])* #[link_name = $mlink] pub fn $mname( $($margs)* ) $(-> $mret)?; )*
+        }
+        )?
+
         /// Every symbol name declared in this module, as exported by the DLL.
         #[doc(hidden)]
-        pub const $names: &[&str] = &[ $(stringify!($fname),)* $(stringify!($sname),)* ];
+        pub const $names: &[&str] = &[ $(stringify!($fname),)* $(stringify!($sname),)* $($($mlink,)*)? ];
     };
 }
 
@@ -34,8 +48,17 @@ macro_rules! imports {
 /// pointers in `API` are only materialized where it's used, so code that takes
 /// it in a plugin (say, through a generic function only the plugin
 /// instantiates) adds the import to the plugin alone.
+///
+/// Functions under `rust { }` are defined in Rust in the same module (as
+/// `pub unsafe extern "C" fn`), replacing a shim function under the same name
+/// and type: callers and fakes of `Api` don't change.
 macro_rules! function_table {
-    ($( $(#[$meta:meta])* pub fn $name:ident($($arg:ident: $ty:ty),* $(,)?) $(-> $ret:ty)?; )*) => {
+    (
+        $( $(#[$meta:meta])* pub fn $name:ident($($arg:ident: $ty:ty),* $(,)?) $(-> $ret:ty)?; )*
+        $( rust {
+            $( $(#[$rmeta:meta])* pub fn $rname:ident($($rarg:ident: $rty:ty),* $(,)?) $(-> $rret:ty)?; )*
+        } )?
+    ) => {
         unsafe extern "C" {
             $( $(#[$meta])* pub fn $name($($arg: $ty),*) $(-> $ret)?; )*
         }
@@ -44,11 +67,12 @@ macro_rules! function_table {
         #[derive(Clone, Copy)]
         pub struct Api {
             $( pub $name: unsafe extern "C" fn($($ty),*) $(-> $ret)?, )*
+            $($( $(#[$rmeta])* pub $rname: unsafe extern "C" fn($($rty),*) $(-> $rret)?, )*)?
         }
 
         /// The real functions. Taking this in code every program links (rather
         /// than only plugins) makes those programs import the shim's DLLs.
-        pub const API: Api = Api { $( $name, )* };
+        pub const API: Api = Api { $( $name, )* $($( $rname, )*)? };
     };
 }
 

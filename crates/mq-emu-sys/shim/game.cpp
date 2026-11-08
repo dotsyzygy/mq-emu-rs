@@ -351,20 +351,6 @@ extern "C" int mqemu_hp_current()
 	}
 }
 
-// Your maximum HP with its modifiers (${Me.MaxHPs}, GetMaxHPS). 0 if there's
-// no character.
-extern "C" int mqemu_max_hp()
-{
-	try
-	{
-		return pLocalPC ? pLocalPC->Max_HP(0) : 0;
-	}
-	catch (...)
-	{
-		return 0;
-	}
-}
-
 // Your maximum mana with its modifiers (${Me.MaxMana}, GetMaxMana). 0 if
 // there's no character.
 extern "C" int mqemu_max_mana()
@@ -523,30 +509,6 @@ extern "C" bool mqemu_gem_ready(int gem)
 	catch (...)
 	{
 		return false;
-	}
-}
-
-// The spell gems you have, as ${Me.NumGems} counts them: 8, and one more for
-// each of gems 9 to 12 the cast spell window shows (the client shows them as
-// level and AAs give them). 8 without the window.
-extern "C" int mqemu_gem_count()
-{
-	try
-	{
-		int count = 8;
-		if (pCastSpellWnd)
-		{
-			for (int gem = 8; gem < NUM_SPELL_GEMS; gem++)
-			{
-				if (pCastSpellWnd->SpellSlots[gem] && pCastSpellWnd->SpellSlots[gem]->IsVisible())
-					count++;
-			}
-		}
-		return count;
-	}
-	catch (...)
-	{
-		return 8;
 	}
 }
 

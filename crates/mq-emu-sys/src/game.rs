@@ -13,7 +13,7 @@
 
 use core::ffi::c_char;
 
-use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
+use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CCastSpellWnd, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
 /// One of your auras, copied out of the game's aura manager.
@@ -87,9 +87,6 @@ function_table! {
     pub fn mqemu_max_endurance() -> i32;
     /// Your current HP (`${Me.CurrentHPs}`); 0 without a character.
     pub fn mqemu_hp_current() -> i32;
-    /// Your maximum HP with its modifiers (`${Me.MaxHPs}`); 0 without a
-    /// character.
-    pub fn mqemu_max_hp() -> i32;
     /// Your maximum mana with its modifiers (`${Me.MaxMana}`); 0 without a
     /// character.
     pub fn mqemu_max_mana() -> i32;
@@ -116,9 +113,6 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
-    /// The spell gems you have, as `${Me.NumGems}` counts them: 8, plus each
-    /// of gems 9 to 12 the cast spell window shows. 8 without the window.
-    pub fn mqemu_gem_count() -> i32;
     /// Milliseconds left on your cast as `${Me.CastTimeLeft}` counts them
     /// (`CastingData.SpellETA - pDisplay->TimeStamp`, 0 once due), or -1 when
     /// you aren't casting.
@@ -165,4 +159,79 @@ function_table! {
     /// A chat link to `achievement` as `player` has it
     /// (`${Achievement[...].Link}`).
     pub fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool;
+
+    rust {
+        /// Your maximum HP with its modifiers (`${Me.MaxHPs}`); 0 without a
+        /// character.
+        pub fn mqemu_max_hp() -> i32;
+        /// The spell gems you have, as `${Me.NumGems}` counts them: 8, plus each
+        /// of gems 9 to 12 the cast spell window shows. 8 without the window.
+        pub fn mqemu_gem_count() -> i32;
+    }
+}
+
+/// [`Api::mqemu_gem_count`], from the cast spell window's layout.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_gem_count() -> i32 {
+    unsafe { gem_count(crate::types::foreign(&raw const crate::eqlib::pCastSpellWnd).as_ref()) }
+}
+
+/// # Safety
+/// `window`'s non-null `SpellSlots` must point to live gems.
+unsafe fn gem_count(window: Option<&CCastSpellWnd>) -> i32 {
+    let Some(window) = window else { return 8 };
+    let shown = window.SpellSlots()[8..].iter().filter(|gem| unsafe { gem.as_ref() }.is_some_and(|gem| gem.dShow())).count();
+    8 + shown as i32
+}
+
+
+/// [`Api::mqemu_max_hp`]: `pLocalPC->Max_HP(0)`, calling eqlib directly.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_max_hp() -> i32 {
+    unsafe {
+        let Some(pc) = crate::types::foreign(&raw const crate::eqlib::pLocalPC).as_ref() else { return 0 };
+        crate::eqlib::CharacterZoneClient_Max_HP(pc.as_CharacterZoneClient(), 0, true)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::layouts::CSpellGemWnd;
+
+    extern crate std;
+    use std::{vec, vec::Vec};
+
+    /// Zeroed storage for a game object of type `T`.
+    fn zeroed<T>() -> (Vec<u64>, *mut T) {
+        let mut storage = vec![0u64; size_of::<T>().div_ceil(8)];
+        let ptr = storage.as_mut_ptr().cast();
+        (storage, ptr)
+    }
+
+    #[test]
+    fn gem_count_is_8_plus_the_shown_gems_past_the_eighth() {
+        let (_window_storage, window) = zeroed::<CCastSpellWnd>();
+        let window = unsafe { &*window };
+        let gems: Vec<_> = (0..12).map(|_| zeroed::<CSpellGemWnd>()).collect();
+        assert_eq!(unsafe { gem_count(None) }, 8, "no window");
+        assert_eq!(unsafe { gem_count(Some(window)) }, 8, "no gems");
+
+        for (slot, (_, gem)) in gems.iter().enumerate() {
+            window.set_SpellSlots_at(slot, *gem);
+            unsafe { &**gem }.set_dShow(true);
+        }
+        assert_eq!(unsafe { gem_count(Some(window)) }, 12, "all 12 shown");
+
+        unsafe { &*gems[9].1 }.set_dShow(false);
+        window.set_SpellSlots_at(11, core::ptr::null_mut());
+        assert_eq!(unsafe { gem_count(Some(window)) }, 10, "gem 10 hidden, gem 12 missing");
+
+        unsafe { &*gems[0].1 }.set_dShow(false);
+        assert_eq!(unsafe { gem_count(Some(window)) }, 10, "the first 8 always count");
+    }
 }
