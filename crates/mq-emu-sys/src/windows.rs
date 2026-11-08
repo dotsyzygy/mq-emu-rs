@@ -21,7 +21,7 @@ use core::ffi::{CStr, c_char, c_void};
 use crate::constants::{UI_COMBOBOX, UI_HOT_BUTTON, UI_INV_SLOT, UI_LISTBOX, UI_SCREEN, UI_SLIDER, UI_TAB_BOX, UI_TREE_VIEW, UI_UNKNOWN, XWM_CLOSE, XWM_HISTORY, XWM_HITENTER, XWM_LCLICK, XWM_LCLICKHOLD, XWM_LINK, XWM_LMOUSEUP, XWM_MAXIMIZEBOX, XWM_MENUSELECT, XWM_MOUSEOVER, XWM_NEWVALUE, XWM_QMARKBOX, XWM_RCLICK};
 use crate::eqlib;
 use crate::layouts::{
-    CComboWnd, CContainerMgr, CContainerWnd, CContextMenu, CHotButton, CHotButtonWnd, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CXPoint, CXRect, CXStr, CXWnd, ItemClient, ItemContainerInstance, VePointer_ItemClient,
+    CComboWnd, CContainerMgr, CContainerWnd, CContextMenu, CHotButton, CHotButtonWnd, CInvSlotWnd, CListWnd, CParamScreenPiece, CSliderWnd, CTabWnd, CTextObjectInterface, CTextureAnimation, CTextureFont, CXPoint, CXRect, CXStr, CXWnd, CXWndManager, ItemClient, ItemContainerInstance, VePointer_ItemClient,
 };
 use crate::types::{OwnedCXStr, foreign, virtual_fn};
 
@@ -120,23 +120,6 @@ function_table! {
     /// for good (and never calls into the plugin again). A window that isn't
     /// `live` (the game deleted it) isn't touched; its subclass only stops.
     pub fn mqemu_window_unsubclass(window: *mut CXWnd, live: bool) -> bool;
-    /// Where the window's client area is on screen, as far as it shows
-    /// (`GetClientClipRect`): where drawing on it shows.
-    pub fn mqemu_window_client_clip_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool;
-    /// Fills `rect` (screen coordinates) with `color` (ARGB), clipped to
-    /// `clip` (`CXWnd::DrawColoredRect`). Only while the game draws its UI.
-    pub fn mqemu_draw_fill_rect(rect: *const mqemu_rect, color: u32, clip: *const mqemu_rect) -> bool;
-    /// Draws `text` in EQ font `font` in `rect`, clipped to `clip`, laid out
-    /// as `flags` (eqlib's `DrawTextFlags`) say (`CTextureFont::DrawWrappedText`).
-    /// False if there's no such font.
-    pub fn mqemu_draw_text(font: i32, text: *const c_char, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, flags: u32) -> bool;
-    /// How wide `text` is in EQ font `font`, in pixels; -1 without the font.
-    pub fn mqemu_text_width(font: i32, text: *const c_char) -> i32;
-    /// How tall a line of EQ font `font` is, in pixels; -1 without the font.
-    pub fn mqemu_font_height(font: i32) -> i32;
-    /// Draws a UI texture in `rect`, clipped to `clip`, tinted `color` (and
-    /// `color2`, for animations drawn with two) (`CTextureAnimation::Draw`).
-    pub fn mqemu_draw_texture(animation: *mut CTextureAnimation, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, color2: u32) -> bool;
     /// Picks up the item at a place onto the cursor, as `/itemnotify` does
     /// when it finds no slot window for it. `container` is an
     /// `ItemContainerInstance`, `in_bag` -1 for none. Outside bags (and with
@@ -201,6 +184,23 @@ function_table! {
         /// Presses a hot button as its bar does when its key is pressed
         /// (`${Window.HotButton.Activate}`). False if its bar isn't found.
         pub fn mqemu_hot_button_activate(button: *mut CHotButton) -> bool;
+        /// Where the window's client area is on screen, as far as it shows
+        /// (`GetClientClipRect`): where drawing on it shows.
+        pub fn mqemu_window_client_clip_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool;
+        /// Fills `rect` (screen coordinates) with `color` (ARGB), clipped to
+        /// `clip` (`CXWnd::DrawColoredRect`). Only while the game draws its UI.
+        pub fn mqemu_draw_fill_rect(rect: *const mqemu_rect, color: u32, clip: *const mqemu_rect) -> bool;
+        /// Draws `text` in EQ font `font` in `rect`, clipped to `clip`, laid out
+        /// as `flags` (eqlib's `DrawTextFlags`) say (`CTextureFont::DrawWrappedText`).
+        /// False if there's no such font.
+        pub fn mqemu_draw_text(font: i32, text: *const c_char, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, flags: u32) -> bool;
+        /// How wide `text` is in EQ font `font`, in pixels; -1 without the font.
+        pub fn mqemu_text_width(font: i32, text: *const c_char) -> i32;
+        /// How tall a line of EQ font `font` is, in pixels; -1 without the font.
+        pub fn mqemu_font_height(font: i32) -> i32;
+        /// Draws a UI texture in `rect`, clipped to `clip`, tinted `color` (and
+        /// `color2`, for animations drawn with two) (`CTextureAnimation::Draw`).
+        pub fn mqemu_draw_texture(animation: *mut CTextureAnimation, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, color2: u32) -> bool;
         /// The window's kind (`CXWnd::GetType`, a `UI_*` constant); `UI_UNKNOWN`
         /// for null or a window the UI's XML didn't create.
         pub fn mqemu_window_type(window: *mut CXWnd) -> i32;
@@ -928,6 +928,118 @@ pub unsafe extern "C" fn mqemu_hot_button_activate(button: *mut CHotButton) -> b
     true
 }
 
+// ----- drawing on a window -----
+
+/// `pWndMgr->GetFont(font)`, inline in eqlib: font `font` of the manager's
+/// `FontsArray`, or null. eqlib checks only the top and throws below 0 (as
+/// for a null array); this answers null.
+///
+/// # Safety
+/// `manager`'s font array null or valid for its length.
+unsafe fn font_at(manager: &CXWndManager, font: i32) -> *mut CTextureFont {
+    let fonts = manager.FontsArray();
+    let fonts = unsafe { game_slice(fonts.m_array(), fonts.m_length()) };
+    usize::try_from(font).ok().and_then(|font| fonts.get(font)).copied().unwrap_or(core::ptr::null_mut())
+}
+
+/// The window manager's font `font`, or null (as the C++ shim's `eq_font`).
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn eq_font(font: i32) -> *mut CTextureFont {
+    unsafe { foreign(&raw const eqlib::pWndMgr).as_ref().map_or(core::ptr::null_mut(), |manager| font_at(manager, font)) }
+}
+
+/// [`Api::mqemu_window_client_clip_rect`]: the virtual `GetClientClipRect`
+/// (a list has its own), constructed straight into `out`.
+///
+/// # Safety
+/// In game, on the game thread; `window` null or a live window, `out` null
+/// or writable.
+pub unsafe extern "C" fn mqemu_window_client_clip_rect(window: *mut CXWnd, out: *mut mqemu_rect) -> bool {
+    type GetClientClipRect = unsafe extern "thiscall" fn(*const CXWnd, *mut CXRect) -> *mut CXRect;
+    if window.is_null() || out.is_null() {
+        return false;
+    }
+    unsafe { virtual_fn::<GetClientClipRect>(window.cast(), CXWnd::VTABLE_GetClientClipRect)(window, out.cast()) };
+    true
+}
+
+/// [`Api::mqemu_draw_fill_rect`]: the game's static `CXWnd::DrawColoredRect`,
+/// through its address (eqlib doesn't define it).
+///
+/// # Safety
+/// In game, on the game thread, while the UI draws; `rect` and `clip` null
+/// or readable.
+pub unsafe extern "C" fn mqemu_draw_fill_rect(rect: *const mqemu_rect, color: u32, clip: *const mqemu_rect) -> bool {
+    type DrawColoredRect = unsafe extern "C" fn(*const CXRect, u32, *const CXRect);
+    unsafe {
+        let address = eqlib::CXWnd__DrawColoredRect;
+        if rect.is_null() || clip.is_null() || address == 0 {
+            return false;
+        }
+        core::mem::transmute::<usize, DrawColoredRect>(address)(rect.cast(), color, clip.cast());
+    }
+    true
+}
+
+/// [`Api::mqemu_draw_text`]: `CTextureFont::DrawWrappedText(text, rect,
+/// clip, color, flags, 0)`, flags cut to 16 bits as the C++ took them.
+///
+/// # Safety
+/// In game, on the game thread, while the UI draws; `text` null or
+/// NUL-terminated, `rect` and `clip` null or readable.
+pub unsafe extern "C" fn mqemu_draw_text(font: i32, text: *const c_char, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, flags: u32) -> bool {
+    unsafe {
+        let font = eq_font(font);
+        if font.is_null() || text.is_null() || rect.is_null() || clip.is_null() {
+            return false;
+        }
+        let text = OwnedCXStr::new(text);
+        eqlib::CTextureFont_DrawWrappedText(font, text.as_ptr(), rect.cast(), clip.cast(), color, flags as u16, 0);
+    }
+    true
+}
+
+/// [`Api::mqemu_text_width`]: `CTextureFont::GetTextExtent`.
+///
+/// # Safety
+/// In game, on the game thread; `text` null or NUL-terminated.
+pub unsafe extern "C" fn mqemu_text_width(font: i32, text: *const c_char) -> i32 {
+    unsafe {
+        let font = eq_font(font);
+        if font.is_null() || text.is_null() {
+            return -1;
+        }
+        let text = OwnedCXStr::new(text);
+        eqlib::CTextureFont_GetTextExtent(font, text.as_ptr())
+    }
+}
+
+/// [`Api::mqemu_font_height`]: `CTextureFont::GetHeight`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_font_height(font: i32) -> i32 {
+    unsafe {
+        let font = eq_font(font);
+        if font.is_null() { -1 } else { eqlib::CTextureFont_GetHeight(font) }
+    }
+}
+
+/// [`Api::mqemu_draw_texture`]: `CTextureAnimation::Draw`.
+///
+/// # Safety
+/// In game, on the game thread, while the UI draws; `animation` null or
+/// live, `rect` and `clip` null or readable.
+pub unsafe extern "C" fn mqemu_draw_texture(animation: *mut CTextureAnimation, rect: *const mqemu_rect, clip: *const mqemu_rect, color: u32, color2: u32) -> bool {
+    if animation.is_null() || rect.is_null() || clip.is_null() {
+        return false;
+    }
+    unsafe { eqlib::CTextureAnimation_Draw(animation, rect.cast(), clip.cast(), color, color2) };
+    true
+}
+
 unsafe extern "C" {
     /// The vtable entry (counted in pointers from the first) a subclass
     /// ([`mqemu_window_subclass`]) replaces for hook kind `kind`; -1 for none.
@@ -963,6 +1075,25 @@ mod tests {
         assert!(unsafe { game_slice(data.as_ptr(), 0) }.is_empty());
         assert!(unsafe { game_slice(data.as_ptr(), -1) }.is_empty());
         assert!(unsafe { game_slice(core::ptr::null::<i32>(), 3) }.is_empty());
+    }
+
+    #[test]
+    fn font_at_reads_the_font_array_in_range() {
+        let (_manager_storage, manager) = zeroed::<CXWndManager>();
+        let manager = unsafe { &*manager };
+        assert!(unsafe { font_at(manager, 0) }.is_null(), "no fonts");
+        let (_a_storage, a) = zeroed::<CTextureFont>();
+        let (_b_storage, b) = zeroed::<CTextureFont>();
+        let mut fonts = [a, b];
+        manager.FontsArray().set_m_array(fonts.as_mut_ptr());
+        assert!(unsafe { font_at(manager, 0) }.is_null(), "no length");
+        manager.FontsArray().set_m_length(2);
+        assert_eq!(unsafe { font_at(manager, 0) }, a);
+        assert_eq!(unsafe { font_at(manager, 1) }, b);
+        assert!(unsafe { font_at(manager, 2) }.is_null());
+        assert!(unsafe { font_at(manager, -1) }.is_null(), "where eqlib throws");
+        manager.FontsArray().set_m_array(core::ptr::null_mut());
+        assert!(unsafe { font_at(manager, 0) }.is_null(), "a null array");
     }
 
     #[test]

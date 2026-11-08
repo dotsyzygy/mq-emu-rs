@@ -148,6 +148,11 @@ impl Addons {
         found.editor_wrong = wrong.join("; ");
     }
 
+    /// The game's item icons, once an ImGui frame has found them.
+    pub fn item_icons(&self) -> Option<&TextureAnimation> {
+        self.item_icons.as_ref().filter(|icons| icons.is_current())
+    }
+
     /// The selftest is done with its objects: close the dialog.
     pub fn exercise_done(&mut self) {
         if let Some(dialog) = self.dialog.as_mut() {

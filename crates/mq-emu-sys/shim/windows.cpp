@@ -25,15 +25,6 @@
 
 using namespace eqlib;
 
-// Mirrors `mqemu_rect` in mq-emu-sys's windows module.
-struct mqemu_rect
-{
-	int32_t left;
-	int32_t top;
-	int32_t right;
-	int32_t bottom;
-};
-
 // ----- a plugin's own windows -----
 
 extern "C" bool mqemu_add_xml_file(const char* filename)
@@ -183,118 +174,6 @@ extern "C" bool mqemu_plugin_window_destroy(CXWnd* window)
 		if (window == nullptr)
 			return false;
 		delete window;
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-// ----- drawing on a window -----
-
-namespace {
-
-CXRect to_cxrect(const mqemu_rect& rect)
-{
-	return CXRect(rect.left, rect.top, rect.right, rect.bottom);
-}
-
-CTextureFont* eq_font(int font)
-{
-	if (!pWndMgr || font < 0)
-		return nullptr;
-	return pWndMgr->GetFont(font);
-}
-
-} // namespace
-
-extern "C" bool mqemu_window_client_clip_rect(CXWnd* window, mqemu_rect* out)
-{
-	try
-	{
-		if (window == nullptr || out == nullptr)
-			return false;
-		CXRect rect = window->GetClientClipRect();
-		*out = mqemu_rect{ rect.left, rect.top, rect.right, rect.bottom };
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_draw_fill_rect(const mqemu_rect* rect, uint32_t color, const mqemu_rect* clip)
-{
-	try
-	{
-		if (rect == nullptr || clip == nullptr)
-			return false;
-		// eqlib has its address but no definition: a static member, so cdecl.
-		if (!CXWnd__DrawColoredRect)
-			return false;
-		using DrawColoredRectFn = void(__cdecl*)(const CXRect&, COLORREF, const CXRect&);
-		reinterpret_cast<DrawColoredRectFn>(CXWnd__DrawColoredRect)(to_cxrect(*rect), color, to_cxrect(*clip));
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" bool mqemu_draw_text(int font, const char* text, const mqemu_rect* rect, const mqemu_rect* clip, uint32_t color, uint32_t flags)
-{
-	try
-	{
-		CTextureFont* textureFont = eq_font(font);
-		if (textureFont == nullptr || text == nullptr || rect == nullptr || clip == nullptr)
-			return false;
-		textureFont->DrawWrappedText(CXStr(text), to_cxrect(*rect), to_cxrect(*clip), color, static_cast<uint16_t>(flags), 0);
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
-extern "C" int mqemu_text_width(int font, const char* text)
-{
-	try
-	{
-		CTextureFont* textureFont = eq_font(font);
-		if (textureFont == nullptr || text == nullptr)
-			return -1;
-		return textureFont->GetTextExtent(CXStr(text));
-	}
-	catch (...)
-	{
-		return -1;
-	}
-}
-
-extern "C" int mqemu_font_height(int font)
-{
-	try
-	{
-		CTextureFont* textureFont = eq_font(font);
-		return textureFont == nullptr ? -1 : textureFont->GetHeight();
-	}
-	catch (...)
-	{
-		return -1;
-	}
-}
-
-extern "C" bool mqemu_draw_texture(CTextureAnimation* animation, const mqemu_rect* rect, const mqemu_rect* clip, uint32_t color, uint32_t color2)
-{
-	try
-	{
-		if (animation == nullptr || rect == nullptr || clip == nullptr)
-			return false;
-		animation->Draw(to_cxrect(*rect), to_cxrect(*clip), color, color2);
 		return true;
 	}
 	catch (...)

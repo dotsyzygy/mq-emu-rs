@@ -106,6 +106,9 @@ struct RustTest {
     /// last: whether text drew, the line height and the text's width.
     own_draws: u32,
     own_drawing: Option<(bool, Option<i32>, Option<i32>)>,
+    /// Whether the painter drew the game's item icons on the plugin's
+    /// window last frame (None before ImGui found them).
+    own_texture: Option<bool>,
     /// What the selftest's hooks on the inventory window got, how often it
     /// drew, and whether its done button's click is handled.
     hook_events: Vec<String>,
@@ -588,6 +591,12 @@ const EXERCISE_FRAMES: u32 = 10;
 async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
     let errors_before = task.with_plugin(|plugin, mq| {
         plugin.graphics.exercise = Some(graphics::Exercise::new(EXERCISE_FRAMES));
+        // Shown while the exercise runs, its on_draw draws the item icons
+        // the exercise finds.
+        plugin.own_texture = None;
+        if let Some(window) = plugin.plugin_window.and_then(|id| mq.plugin_window(id)) {
+            window.open();
+        }
         mq.stats().imgui_errors
     });
     let started = Instant::now();
@@ -596,10 +605,25 @@ async fn graphics_exercise(task: &Task<RustTest>, report: &mut Report) {
         task.next_pulse().await;
         done = task.with_plugin(|plugin, _| plugin.graphics.exercise.as_ref().is_some_and(|e| e.frames_left == 0));
     }
-    let (exercise, errors, in_game) = task.with_plugin(|plugin, mq| {
+    // A frame of the plugin's window after the last ImGui frame found the icons.
+    task.next_pulse().await;
+    let (exercise, errors, in_game, own_texture) = task.with_plugin(|plugin, mq| {
         let exercise = plugin.graphics.exercise.take().unwrap_or_default();
         plugin.addons.exercise_done();
-        (exercise, mq.stats().imgui_errors - errors_before, mq.game_state() == mq_emu::GameState::InGame)
+        let own_texture = plugin.plugin_window.and_then(|id| mq.plugin_window(id)).map(|window| {
+            window.close();
+            plugin.own_texture
+        });
+        (exercise, mq.stats().imgui_errors - errors_before, mq.game_state() == mq_emu::GameState::InGame, own_texture)
+    });
+    task.with(|mq| {
+        let check = match own_texture {
+            _ if !in_game => Check::Skip("needs you in game".into()),
+            None => Check::Skip("the plugin's own window isn't there".into()),
+            Some(None) => Check::Fail("the window never drew with the item icons found".into()),
+            Some(Some(drew)) => Check::that(drew, || "Painter::texture said it didn't draw".into()),
+        };
+        report.print(mq, "the painter draws a UI texture (the item icons) on the plugin's own window", check);
     });
     task.with(|mq| {
         let label = "ImPlot, draw lists, images, fonts, drag and drop, multi-select and EQ widgets draw without ImGui errors";

@@ -1,10 +1,10 @@
 //! Imports from `eqlib.dll` (`EQLIB_API` / `EQLIB_VAR`).
 
-use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
+use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_ushort, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CComboWnd, CContainerMgr, CHotButtonWnd, CharacterBase, ItemGlobalIndex, VeBaseReferenceCount, VePointer_ItemClient,CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    Achievement, AchievementManager, ClientAuraManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CComboWnd, CContainerMgr, CHotButtonWnd, CharacterBase, ItemGlobalIndex, VeBaseReferenceCount, VePointer_ItemClient,CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, CHotButton, CListWnd, CSidlManager, CSliderWnd, CTabWnd, CTextureAnimation, CTextureFont, CXMLData, CXRect, HotButtonData, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -147,6 +147,10 @@ imports! {
         pub static mut pSpellBookWnd: ForeignPointer<CSpellBookWnd>;
         /// The UI's XML manager; windows have no XML data before it exists.
         pub static mut pSidlMgr: ForeignPointer<CSidlManager>;
+        /// The game's `CXWnd::DrawColoredRect`, a static member (so cdecl)
+        /// that eqlib has the address of but doesn't define:
+        /// `(const CXRect& rect, COLORREF color, const CXRect& clip)`.
+        pub static mut CXWnd__DrawColoredRect: usize;
     }
     methods(EQLIB_METHODS) {
         // eqlib/game/PcClient.h
@@ -248,6 +252,20 @@ imports! {
         pub fn CXWnd_GetScreenRect(this: *const CXWnd, out: *mut CXRect) -> *mut CXRect = "?GetScreenRect@CXWnd@eqlib@@QBE?AVCXRect@2@XZ";
         /// Redraws the window's background and fade after its colors and alpha.
         pub fn CXWnd_Refade(this: *mut CXWnd) = "?Refade@CXWnd@eqlib@@QAEXXZ";
+
+        // eqlib/game/UI.h (drawing)
+        /// Draws `text` in `rect`, clipped to `clip`, in `color`, laid out as
+        /// `flags` (`DrawTextFlags`) say; `first_line` lines skipped.
+        pub fn CTextureFont_DrawWrappedText(this: *const CTextureFont, text: *const CXStr, rect: *const CXRect, clip: *const CXRect, color: c_ulong, flags: c_ushort, first_line: c_int) -> c_int
+            = "?DrawWrappedText@CTextureFont@eqlib@@QBEHABVCXStr@2@ABVCXRect@2@1KGH@Z";
+        /// How wide `text` is in pixels.
+        pub fn CTextureFont_GetTextExtent(this: *mut CTextureFont, text: *const CXStr) -> c_int = "?GetTextExtent@CTextureFont@eqlib@@QAEHABVCXStr@2@@Z";
+        /// How tall a line is in pixels.
+        pub fn CTextureFont_GetHeight(this: *const CTextureFont) -> c_int = "?GetHeight@CTextureFont@eqlib@@QBEHXZ";
+        /// Draws the texture's current frame in `rect`, clipped to `clip`, tinted
+        /// `color` (and `color2`).
+        pub fn CTextureAnimation_Draw(this: *const CTextureAnimation, rect: *const CXRect, clip: *const CXRect, color: c_ulong, color2: c_ulong) -> c_int
+            = "?Draw@CTextureAnimation@eqlib@@QBEHABVCXRect@2@0KK@Z";
 
         // eqlib/game/UI.h
         /// The text of row `row`, column `column`, constructed into `out`

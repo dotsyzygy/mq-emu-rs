@@ -55,6 +55,12 @@ pub fn add(mq: &Mq<RustTest>) -> mq_emu::PluginWindowId {
             let drew = painter.text(FONT, "drawn by mq-emu", line, 0xff80_ff80, EqTextFlags::NO_WRAP);
             plugin.own_draws += 1;
             plugin.own_drawing = Some((drew, height, painter.text_width(FONT, "drawn by mq-emu")));
+            // The game's item icons, once the ImGui exercise found them.
+            let icon = WindowRect { left: clip.right - 24, top: clip.top + 4, right: clip.right - 4, bottom: clip.top + 24 };
+            let drew = plugin.addons.item_icons().map(|icons| painter.texture(icons, icon, 0xffff_ffff));
+            if drew.is_some() {
+                plugin.own_texture = drew;
+            }
         });
     mq.add_window_with(SCREEN, hooks)
 }
