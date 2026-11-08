@@ -248,11 +248,11 @@ async fn link(task: &Task<RustTest>, report: &mut Report) {
             report.print(mq, "sending a link", Check::Fail(format!("can't read the link of {name}: {link:?}")));
             return None;
         };
-        let (chat, output) = (mq.window(CHAT), mq.window(&format!("{CHAT}/{CHAT_OUTPUT}")));
-        let Some(chat) = chat else {
-            report.print(mq, "sending a link", Check::Skip(format!("no {CHAT}")));
+        let Some(chat) = crate::eq_window_checks::main_chat(mq) else {
+            report.print(mq, "sending a link", Check::Skip(format!("no {CHAT} titled Main Chat")));
             return None;
         };
+        let output = chat.child(CHAT_OUTPUT);
         if showing(mq, &name).is_some() {
             report.print(mq, "sending a link", Check::Skip(format!("{name} is already shown")));
             return None;

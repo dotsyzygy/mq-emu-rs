@@ -18,9 +18,17 @@ const CLICK_TIMEOUT: Duration = Duration::from_secs(2);
 const INVENTORY: &str = "InventoryWindow";
 const INVENTORY_DONE: &str = "IW_DoneButton";
 /// The main chat window and its input, for typing.
-const CHAT_INPUT: &str = "ChatWindow/CW_ChatInput";
+const CHAT_INPUT: &str = "CW_ChatInput";
 const CHAT: &str = "ChatWindow";
 const AA_WINDOW: &str = "AAWindow";
+/// The title of the chat window the checks use: every chat window is a
+/// "ChatWindow", and `${Window[ChatWindow]}` may be any of them.
+const MAIN_CHAT: &str = "Main Chat";
+
+/// The chat window titled "Main Chat" (it has the Scrollbar menu item).
+pub(crate) fn main_chat<P: Plugin>(mq: &Mq<P>) -> Option<Window<'_>> {
+    mq.windows().find(|w| w.name().is_some_and(|name| name.eq_ignore_ascii_case(CHAT)) && w.text() == MAIN_CHAT)
+}
 /// Texts longer than this don't fit `${...}`'s result (MAX_STRING), so
 /// they aren't compared.
 const MAX_COMPARED_TEXT: usize = 1500;
@@ -263,17 +271,16 @@ async fn acting(task: &Task<RustTest>, report: &mut Report) {
 /// Text typed into the chat input with set_text, then put back.
 async fn typing(task: &Task<RustTest>, report: &mut Report) {
     task.with(|mq| {
-        let Some(input) = mq.window(CHAT_INPUT).filter(|w| w.kind() == WindowKind::EditBox) else {
-            report.print(mq, "set_text in an edit box", Check::Skip(format!("no edit box {CHAT_INPUT}")));
+        let Some(input) = main_chat(mq).and_then(|chat| chat.child(CHAT_INPUT)).filter(|w| w.kind() == WindowKind::EditBox) else {
+            report.print(mq, "set_text in an edit box", Check::Skip(format!("no edit box {CHAT_INPUT} in {MAIN_CHAT}")));
             return;
         };
         let before = input.text();
         let typed = "mq-emu selftest";
         let set = input.set_text(typed);
-        let theirs = mq.parse("${Window[ChatWindow].Child[CW_ChatInput].Text}");
-        report.print(mq, "set_text types into the chat input (${Window[ChatWindow].Child[CW_ChatInput].Text})", Check::that(set && theirs == typed, || {
-            format!("set_text gave {set}, MacroQuest reads {theirs:?}")
-        }));
+        // ${Window[ChatWindow]...} may be another chat window's input.
+        let now = input.text();
+        report.print(mq, &format!("set_text types into {MAIN_CHAT}'s input (its text)"), Check::that(set && now == typed, || format!("set_text gave {set}, its text is {now:?}")));
         input.set_text(&before);
         report.print(mq, "and back", same_text(before, input.text()));
         let button = mq.windows().find_map(|w| w.descendants().find(|c| c.kind() == WindowKind::Button));
@@ -287,8 +294,8 @@ async fn typing(task: &Task<RustTest>, report: &mut Report) {
 /// menu whose text has one of `words` (lowercase); closes the menu if it's
 /// still open afterwards.
 async fn select_from_chat_menu(task: &Task<RustTest>, words: &[&str]) -> Result<(), String> {
-    if !task.with(|mq| mq.window(CHAT).is_some_and(|chat| chat.click(Click::Right))) {
-        return Err(format!("click(Right) on {CHAT} failed"));
+    if !task.with(|mq| main_chat(mq).is_some_and(|chat| chat.click(Click::Right))) {
+        return Err(format!("click(Right) on {MAIN_CHAT} failed"));
     }
     if !task.wait_until_timeout(|mq| mq.context_menu().is_some(), CLICK_TIMEOUT).await {
         return Err("no context menu opened".into());
@@ -314,7 +321,7 @@ async fn select_from_chat_menu(task: &Task<RustTest>, words: &[&str]) -> Result<
 
 /// The style of the chat window and of each window inside it, in order.
 fn chat_styles(mq: &Mq<RustTest>) -> Vec<u32> {
-    mq.window(CHAT).map(|chat| std::iter::once(chat.style()).chain(chat.descendants().map(|w| w.style())).collect()).unwrap_or_default()
+    main_chat(mq).map(|chat| std::iter::once(chat.style()).chain(chat.descendants().map(|w| w.style())).collect()).unwrap_or_default()
 }
 
 /// Selects Scrollbar in the chat window's context menu, which toggles a
@@ -324,10 +331,10 @@ async fn chat_scrollbar(task: &Task<RustTest>, report: &mut Report) {
         let skip = if mq.context_menu().is_some() {
             Some("a context menu is already open".to_owned())
         } else {
-            match mq.window(CHAT) {
+            match main_chat(mq) {
                 Some(chat) if chat.is_open() && !chat.is_minimized() => None,
-                Some(_) => Some(format!("{CHAT} is closed or minimized")),
-                None => Some(format!("no {CHAT}")),
+                Some(_) => Some(format!("{MAIN_CHAT} is closed or minimized")),
+                None => Some(format!("no {CHAT} titled {MAIN_CHAT}")),
             }
         };
         match skip {
@@ -342,7 +349,7 @@ async fn chat_scrollbar(task: &Task<RustTest>, report: &mut Report) {
 
     let picked = select_from_chat_menu(task, &["scrollbar"]).await;
     let changed = picked.is_ok() && task.wait_until_timeout(|mq| chat_styles(mq) != before, CLICK_TIMEOUT).await;
-    task.with(|mq| report.print(mq, &format!("select(Scrollbar) in {CHAT}'s context menu changes a style in it"), Check::that(changed, || {
+    task.with(|mq| report.print(mq, &format!("select(Scrollbar) in {MAIN_CHAT}'s context menu changes a style in it"), Check::that(changed, || {
         picked.clone().err().unwrap_or_else(|| "no style changed".into())
     })));
 
