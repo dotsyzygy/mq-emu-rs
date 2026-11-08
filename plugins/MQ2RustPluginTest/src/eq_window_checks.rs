@@ -106,7 +106,7 @@ pub async fn run(task: &Task<RustTest>, report: &mut Report) {
         acting(task, report).await;
         typing(task, report).await;
         context_menu(task, report).await;
-        chat_minimize(task, report).await;
+        chat_scrollbar(task, report).await;
     }
 }
 
@@ -282,10 +282,15 @@ async fn select_from_chat_menu(task: &Task<RustTest>, words: &[&str]) -> Result<
     })
 }
 
-/// Selects Minimize in the chat window's context menu, then again to
-/// restore it.
-async fn chat_minimize(task: &Task<RustTest>, report: &mut Report) {
-    let ready = task.with(|mq| {
+/// The style of the chat window and of each window inside it, in order.
+fn chat_styles(mq: &Mq<RustTest>) -> Vec<u32> {
+    mq.window(CHAT).map(|chat| std::iter::once(chat.style()).chain(chat.descendants().map(|w| w.style())).collect()).unwrap_or_default()
+}
+
+/// Selects Scrollbar in the chat window's context menu, which toggles a
+/// scrollbar's style bit, then again to toggle it back.
+async fn chat_scrollbar(task: &Task<RustTest>, report: &mut Report) {
+    let before = task.with(|mq| {
         let skip = if mq.context_menu().is_some() {
             Some("a context menu is already open".to_owned())
         } else {
@@ -295,26 +300,26 @@ async fn chat_minimize(task: &Task<RustTest>, report: &mut Report) {
                 None => Some(format!("no {CHAT}")),
             }
         };
-        if let Some(why) = &skip {
-            report.print(mq, "selecting a context menu item", Check::Skip(why.clone()));
+        match skip {
+            Some(why) => {
+                report.print(mq, "selecting a context menu item", Check::Skip(why));
+                None
+            }
+            None => Some(chat_styles(mq)),
         }
-        skip.is_none()
     });
-    if !ready {
-        return;
-    }
-    let minimized = |want: bool| move |mq: &Mq<RustTest>| mq.window(CHAT).is_some_and(|chat| chat.is_minimized() == want);
+    let Some(before) = before else { return };
 
-    let picked = select_from_chat_menu(task, &["minimize"]).await;
-    let done = picked.is_ok() && task.wait_until_timeout(minimized(true), CLICK_TIMEOUT).await;
-    task.with(|mq| report.print(mq, &format!("select(Minimize) in {CHAT}'s context menu minimizes it"), Check::that(done, || {
-        picked.clone().err().unwrap_or_else(|| "not minimized".into())
+    let picked = select_from_chat_menu(task, &["scrollbar"]).await;
+    let changed = picked.is_ok() && task.wait_until_timeout(|mq| chat_styles(mq) != before, CLICK_TIMEOUT).await;
+    task.with(|mq| report.print(mq, &format!("select(Scrollbar) in {CHAT}'s context menu changes a style in it"), Check::that(changed, || {
+        picked.clone().err().unwrap_or_else(|| "no style changed".into())
     })));
 
-    let picked = select_from_chat_menu(task, &["minimize", "restore", "maximize"]).await;
-    let done = picked.is_ok() && task.wait_until_timeout(minimized(false), CLICK_TIMEOUT).await;
-    task.with(|mq| report.print(mq, "selecting it again restores it", Check::that(done, || {
-        picked.clone().err().unwrap_or_else(|| "still minimized".into())
+    let picked = select_from_chat_menu(task, &["scrollbar"]).await;
+    let back = picked.is_ok() && task.wait_until_timeout(|mq| chat_styles(mq) == before, CLICK_TIMEOUT).await;
+    task.with(|mq| report.print(mq, "selecting it again changes it back", Check::that(back, || {
+        picked.clone().err().unwrap_or_else(|| "styles differ from before".into())
     })));
 }
 
