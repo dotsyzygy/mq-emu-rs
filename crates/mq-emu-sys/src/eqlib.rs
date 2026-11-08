@@ -4,11 +4,11 @@ use core::ffi::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CMDLIST, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    Achievement, AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CCastingWnd, CSpellBookWnd, CDisplay, CContextMenuManager, CEverQuest, CMDLIST, CTaskElement, DatabaseStringTable, StringTable, ExtendedTargetList, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
-use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
+use crate::types::{ComputedPointer, ForeignPointer, PlayerClient, StringView};
 
 imports! {
     dll: "eqlib",
@@ -23,6 +23,12 @@ imports! {
         pub fn GetFastTime() -> c_ulong;
         /// The game's clock in milliseconds, which skill timers count by.
         pub fn EQGetTime() -> c_ulong;
+
+        // eqlib/game/ItemLinks.h
+        /// Writes a chat link to `achievement` as `player` has it into
+        /// `buffer`; leaves `buffer` as it was when the achievement manager
+        /// doesn't know the achievement.
+        pub fn FormatAchievementLink(buffer: *mut c_char, size: usize, achievement: *const Achievement, player: StringView);
     }
     statics {
         // eqlib/game/Globals.h
@@ -99,6 +105,12 @@ imports! {
         pub static mut pTaskMember: ForeignPointer<SharedTaskPlayerInfo>;
         /// The game's slash commands, ended by an entry with no handler.
         pub static mut EQADDR_CMDLIST: *mut CMDLIST;
+        /// The game's string table.
+        pub static mut pDBStr: ForeignPointer<DatabaseStringTable>;
+        /// The game's top object, which names classes and races.
+        pub static mut pEverQuest: ForeignPointer<CEverQuest>;
+        /// The game's token strings, which name skills.
+        pub static mut pStringTable: ForeignPointer<StringTable>;
         /// Points to a byte that's nonzero while your tribute is active.
         pub static mut pTributeActive: *mut u8;
         /// The spell gem bar; `SpellSlots` past the eighth are shown only if
@@ -167,6 +179,10 @@ imports! {
         pub fn CSpellBookWnd_MemorizeSet(this: *mut CSpellBookWnd, spells: *mut c_int, count: c_int) = "?MemorizeSet@CSpellBookWnd@eqlib@@QAEXPAHH@Z";
 
         // eqlib/game/EQClasses.h
+        /// The string table token of skill `skill`'s name.
+        pub fn SkillManager_GetNameToken(this: *mut SkillManager, skill: c_int) -> c_int = "?GetNameToken@SkillManager@eqlib@@QAEHH@Z";
+        /// The string with token `id`; `found` (may be null) says whether there is one.
+        pub fn StringTable_getString(this: *mut StringTable, id: c_uint, found: *mut bool) -> *const c_char = "?getString@StringTable@eqlib@@QAEPBDIPA_N@Z";
         /// Whether skill `skill` is ready to use now.
         pub fn SkillManager_IsAvailable(this: *mut SkillManager, skill: c_int) -> bool = "?IsAvailable@SkillManager@eqlib@@QAE_NH@Z";
         /// Skill `skill`'s full reuse time in milliseconds.
@@ -180,6 +196,26 @@ imports! {
         pub fn CTaskManager_GetTaskStatus(this: *mut CTaskManager, pc: *mut PcClient, index: c_int, system: TaskSystemType) -> *mut PCTaskStatus
             = "?GetTaskStatus@CTaskManager@eqlib@@QAEPAUPCTaskStatus@2@PAVPcClient@2@HW4TaskSystemType@2@@Z";
 
+        /// What `objective` asks, as the task window says it, into `out`
+        /// (the game writes up to `MAX_STRING` bytes).
+        pub fn CTaskManager_GetElementDescription(this: *mut CTaskManager, objective: *const CTaskElement, out: *mut c_char)
+            = "?GetElementDescription@CTaskManager@eqlib@@QAEXPBUCTaskElement@2@PAD@Z";
+
+        // eqlib/game/EQClasses.h, eqlib/game/EQData.h, eqlib/game/PcClient.h
+        /// String `id` of `kind` (`eDatabaseStringType`); `found` says whether
+        /// the table has it.
+        pub fn DatabaseStringTable_GetString(this: *mut DatabaseStringTable, id: c_int, kind: c_int, found: *mut bool) -> *const c_char
+            = "?GetString@DatabaseStringTable@eqlib@@QAEPBDHW4eDatabaseStringType@2@PA_N@Z";
+        /// The name the game shows for race `race`.
+        pub fn CEverQuest_GetClassDesc(this: *mut CEverQuest, class: c_int) -> *const c_char = "?GetClassDesc@CEverQuest@eqlib@@QAEPBDH@Z";
+        /// The name the game shows for race `race`.
+        pub fn CEverQuest_GetRaceDesc(this: *mut CEverQuest, race: c_int) -> *const c_char = "?GetRaceDesc@CEverQuest@eqlib@@QAEPBDH@Z";
+        /// Your friend `index` (0-based, below `GetNumberOfFriends`).
+        pub fn UniversalChatProxy_GetFriendName(this: *mut UniversalChatProxy, index: c_int) -> *const c_char = "?GetFriendName@UniversalChatProxy@eqlib@@QAEPBDH@Z";
+        /// The extended target window's name for slot role `role` (`xTargetType`).
+        pub fn ExtendedTargetList_ExtendedTargetRoleName(this: *mut ExtendedTargetList, role: c_uint) -> *const c_char
+            = "?ExtendedTargetRoleName@ExtendedTargetList@eqlib@@QAEPBDI@Z";
+
         // eqlib/game/CXWnd.h
         /// What kind of control `this` is (`UI_*`).
         pub fn CXWnd_GetType(this: *const CXWnd) -> c_int = "?GetType@CXWnd@eqlib@@QBE?AW4UIType@2@XZ";
@@ -189,6 +225,8 @@ imports! {
         pub fn CXStr_from_c_str(this: *mut CXStr, text: *const c_char) -> *mut CXStr = "??0CXStr@eqlib@@QAE@PBD@Z";
         /// Destroys the CXStr in `this`, releasing its text.
         pub fn CXStr_drop(this: *mut CXStr) = "??1CXStr@eqlib@@QAE@XZ";
+        /// The CXStr's text, NUL-terminated.
+        pub fn CXStr_c_str(this: *const CXStr) -> *const c_char = "?c_str@CXStr@eqlib@@QBEPBDXZ";
 
         // eqlib/game/AltAbilities.h
         /// The alternate ability with this index (one rank of one ability), or null.
@@ -203,5 +241,11 @@ imports! {
         /// The achievement manager (C++ returns a reference): every achievement
         /// and category the client knows, and your progress.
         pub fn AchievementManager_Instance() -> *mut AchievementManager = "?Instance@AchievementManager@eqlib@@SAAAV12@XZ";
+
+        // eqlib/game/ItemLinks.h
+        /// The game's `CleanItemTags`: `text` with each chat link replaced by
+        /// its text, constructed into `out` (C++ returns the CXStr by value),
+        /// which it returns. MacroQuest passes `flag` false.
+        pub fn CleanItemTags(out: *mut CXStr, text: *const CXStr, flag: bool) -> *mut CXStr = "?CleanItemTags@eqlib@@YA?AVCXStr@1@ABV21@_N@Z";
     }
 }

@@ -143,6 +143,13 @@ const WRONG_COMMENTS: &[(&str, &str)] = &[
     ("ProfileList", "64-bit offsets"),
 ];
 
+/// Records whose header size constant is known to be stale, and why.
+const WRONG_SIZES: &[(&str, &str)] = &[
+    // CEverQuest_size is 0x395c8 but eqlib's class is 0x396b0; EverQuest.h
+    // leaves its SIZE_CHECK commented out. The offsets still match.
+    ("CEverQuest", "SIZE_CHECK commented out"),
+];
+
 #[derive(Debug, Default)]
 struct Report {
     matched: usize,
@@ -233,6 +240,9 @@ fn generated_sizes_match_header_constants() {
     let sizes: HashMap<String, u64> = eqlib_headers().iter().flat_map(|(_, text)| parse_sizes(text)).collect();
     let mut checked = 0;
     for record in RECORDS {
+        if WRONG_SIZES.iter().any(|(name, _)| *name == record.name) {
+            continue;
+        }
         if let Some(size) = sizes.get(record.name) {
             assert_eq!(u64::from(record.size), *size, "{} size", record.name);
             checked += 1;
@@ -240,6 +250,16 @@ fn generated_sizes_match_header_constants() {
     }
     // PlayerClient_size and PcClient_size at least.
     assert!(checked >= 2, "only {checked} records had a header size to compare");
+}
+
+#[test]
+fn known_wrong_sizes_are_still_wrong() {
+    let sizes: HashMap<String, u64> = eqlib_headers().iter().flat_map(|(_, text)| parse_sizes(text)).collect();
+    for (name, why) in WRONG_SIZES {
+        let record = RECORDS.iter().find(|r| r.name == *name).unwrap_or_else(|| panic!("{name} ({why}): not generated"));
+        let size = sizes.get(*name).unwrap_or_else(|| panic!("{name} ({why}): no header size"));
+        assert_ne!(u64::from(record.size), *size, "{name}'s header size now matches the PDB; remove it from WRONG_SIZES");
+    }
 }
 
 #[test]

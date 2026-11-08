@@ -2645,6 +2645,63 @@ impl ArrayClass_CXWnd {
     }
 }
 
+/// C++ class `ArrayClass<CharSelectInfo>` (0x10 bytes).
+#[repr(C)]
+pub struct ArrayClass_CharSelectInfo {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl ArrayClass_CharSelectInfo {
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn m_length(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CDynamicArrayBase::m_length` at 0x0 (0x0 within `CDynamicArrayBase`).
+    #[inline]
+    pub fn set_m_length(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `ArrayClass<CharSelectInfo>::m_array` at 0x4 (0x4 within `ArrayClass<CharSelectInfo>`).
+    #[inline]
+    pub fn m_array(&self) -> *mut CharSelectInfo {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `ArrayClass<CharSelectInfo>::m_array` at 0x4 (0x4 within `ArrayClass<CharSelectInfo>`).
+    #[inline]
+    pub fn set_m_array(&self, value: *mut CharSelectInfo) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `ArrayClass<CharSelectInfo>::m_alloc` at 0x8 (0x8 within `ArrayClass<CharSelectInfo>`).
+    #[inline]
+    pub fn m_alloc(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `ArrayClass<CharSelectInfo>::m_alloc` at 0x8 (0x8 within `ArrayClass<CharSelectInfo>`).
+    #[inline]
+    pub fn set_m_alloc(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `ArrayClass<CharSelectInfo>::m_isValid` at 0xc (0xc within `ArrayClass<CharSelectInfo>`).
+    #[inline]
+    pub fn m_isValid(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0xc) != 0 }
+    }
+
+    /// `ArrayClass<CharSelectInfo>::m_isValid` at 0xc (0xc within `ArrayClass<CharSelectInfo>`).
+    #[inline]
+    pub fn set_m_isValid(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0xc, u8::from(value)) }
+    }
+}
+
 /// C++ class `ArrayClass<ChatBufferEntry *>` (0x10 bytes).
 #[repr(C)]
 pub struct ArrayClass_ChatBufferEntry {
@@ -15839,6 +15896,690 @@ impl CDisplay {
     pub fn charselectScreens(&self) -> &ScreenWndManager {
         unsafe { at(self._bytes.get().cast(), 0x2dc4) }
     }
+}
+
+/// C++ class `CEverQuest` (0x396b0 bytes).
+#[repr(C)]
+pub struct CEverQuest {
+    _bytes: UnsafeCell<[u8; 0x396b0]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CEverQuest {
+    /// `CEverQuestBase::__vfptr` at 0x0 (0x0 within `CEverQuestBase`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `CEverQuestBase::__vfptr` at 0x0 (0x0 within `CEverQuestBase`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `UniversalChatProxyHandler::__vfptr` at 0x4 (0x0 within `UniversalChatProxyHandler`).
+    #[inline]
+    pub fn UniversalChatProxyHandler___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `UniversalChatProxyHandler::__vfptr` at 0x4 (0x0 within `UniversalChatProxyHandler`).
+    #[inline]
+    pub fn set_UniversalChatProxyHandler___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `PopDialogHandler::__vfptr` at 0x8 (0x0 within `PopDialogHandler`).
+    #[inline]
+    pub fn PopDialogHandler___vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `PopDialogHandler::__vfptr` at 0x8 (0x0 within `PopDialogHandler`).
+    #[inline]
+    pub fn set_PopDialogHandler___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `CEverQuest::currentChatServerApi` at 0xc (0xc within `CEverQuest`).
+    #[inline]
+    pub fn currentChatServerApi(&self) -> *mut UniversalChatProxy {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `CEverQuest::currentChatServerApi` at 0xc (0xc within `CEverQuest`).
+    #[inline]
+    pub fn set_currentChatServerApi(&self, value: *mut UniversalChatProxy) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `CEverQuest::alreadyAutoJoined` at 0x10 (0x10 within `CEverQuest`).
+    #[inline]
+    pub fn alreadyAutoJoined(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x10) != 0 }
+    }
+
+    /// `CEverQuest::alreadyAutoJoined` at 0x10 (0x10 within `CEverQuest`).
+    #[inline]
+    pub fn set_alreadyAutoJoined(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x10, u8::from(value)) }
+    }
+
+    /// `CEverQuest::chatNotificationStamp` at 0x18 (0x18 within `CEverQuest`).
+    #[inline]
+    pub fn chatNotificationStamp(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `CEverQuest::chatNotificationStamp` at 0x18 (0x18 within `CEverQuest`).
+    #[inline]
+    pub fn set_chatNotificationStamp(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `CEverQuest::ucpAddress` at 0x20 (0x20 within `CEverQuest`).
+    #[inline]
+    pub fn ucpAddress(&self) -> [c_char; 128] {
+        unsafe { read(self._bytes.get().cast(), 0x20) }
+    }
+
+    /// `CEverQuest::ucpAddress` at 0x20 (0x20 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucpAddress(&self, value: [c_char; 128]) {
+        unsafe { write(self._bytes.get().cast(), 0x20, value) }
+    }
+
+    /// `CEverQuest::ucpAddress` at 0x20 (0x20 within `CEverQuest`).
+    /// One element; panics if `index >= 128`.
+    #[inline]
+    pub fn ucpAddress_at(&self, index: usize) -> c_char {
+        assert!(index < 128, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x20 + index * 0x1) }
+    }
+
+    /// `CEverQuest::ucpAddress` at 0x20 (0x20 within `CEverQuest`).
+    /// Sets one element; panics if `index >= 128`.
+    #[inline]
+    pub fn set_ucpAddress_at(&self, index: usize, value: c_char) {
+        assert!(index < 128, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x20 + index * 0x1, value) }
+    }
+
+    /// `CEverQuest::ucpPort` at 0xa0 (0xa0 within `CEverQuest`).
+    #[inline]
+    pub fn ucpPort(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xa0) }
+    }
+
+    /// `CEverQuest::ucpPort` at 0xa0 (0xa0 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucpPort(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xa0, value) }
+    }
+
+    /// `CEverQuest::ucpPlayerName` at 0xa4 (0xa4 within `CEverQuest`).
+    #[inline]
+    pub fn ucpPlayerName(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0xa4) }
+    }
+
+    /// `CEverQuest::ucpPlayerName` at 0xa4 (0xa4 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucpPlayerName(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0xa4, value) }
+    }
+
+    /// `CEverQuest::ucpPlayerName` at 0xa4 (0xa4 within `CEverQuest`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn ucpPlayerName_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xa4 + index * 0x1) }
+    }
+
+    /// `CEverQuest::ucpPlayerName` at 0xa4 (0xa4 within `CEverQuest`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_ucpPlayerName_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xa4 + index * 0x1, value) }
+    }
+
+    /// `CEverQuest::ucpTicket` at 0x1a4 (0x1a4 within `CEverQuest`).
+    #[inline]
+    pub fn ucpTicket(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0x1a4) }
+    }
+
+    /// `CEverQuest::ucpTicket` at 0x1a4 (0x1a4 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucpTicket(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0x1a4, value) }
+    }
+
+    /// `CEverQuest::ucpTicket` at 0x1a4 (0x1a4 within `CEverQuest`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn ucpTicket_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1a4 + index * 0x1) }
+    }
+
+    /// `CEverQuest::ucpTicket` at 0x1a4 (0x1a4 within `CEverQuest`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_ucpTicket_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1a4 + index * 0x1, value) }
+    }
+
+    /// `CEverQuest::chatService` at 0x2a4 (0x2a4 within `CEverQuest`).
+    #[inline]
+    pub fn chatService(&self) -> *mut UniversalChatProxy {
+        unsafe { read(self._bytes.get().cast(), 0x2a4) }
+    }
+
+    /// `CEverQuest::chatService` at 0x2a4 (0x2a4 within `CEverQuest`).
+    #[inline]
+    pub fn set_chatService(&self, value: *mut UniversalChatProxy) {
+        unsafe { write(self._bytes.get().cast(), 0x2a4, value) }
+    }
+
+    /// `CEverQuest::ucNotificationStamp` at 0x2a8 (0x2a8 within `CEverQuest`).
+    #[inline]
+    pub fn ucNotificationStamp(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x2a8) }
+    }
+
+    /// `CEverQuest::ucNotificationStamp` at 0x2a8 (0x2a8 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucNotificationStamp(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x2a8, value) }
+    }
+
+    /// `CEverQuest::ucNotificationEntering` at 0x2b0 (0x2b0 within `CEverQuest`).
+    #[inline]
+    pub fn ucNotificationEntering(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x2b0) != 0 }
+    }
+
+    /// `CEverQuest::ucNotificationEntering` at 0x2b0 (0x2b0 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucNotificationEntering(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x2b0, u8::from(value)) }
+    }
+
+    /// `CEverQuest::ucNotificationPlayerName` at 0x2b1 (0x2b1 within `CEverQuest`).
+    #[inline]
+    pub fn ucNotificationPlayerName(&self) -> [c_char; 256] {
+        unsafe { read(self._bytes.get().cast(), 0x2b1) }
+    }
+
+    /// `CEverQuest::ucNotificationPlayerName` at 0x2b1 (0x2b1 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucNotificationPlayerName(&self, value: [c_char; 256]) {
+        unsafe { write(self._bytes.get().cast(), 0x2b1, value) }
+    }
+
+    /// `CEverQuest::ucNotificationPlayerName` at 0x2b1 (0x2b1 within `CEverQuest`).
+    /// One element; panics if `index >= 256`.
+    #[inline]
+    pub fn ucNotificationPlayerName_at(&self, index: usize) -> c_char {
+        assert!(index < 256, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x2b1 + index * 0x1) }
+    }
+
+    /// `CEverQuest::ucNotificationPlayerName` at 0x2b1 (0x2b1 within `CEverQuest`).
+    /// Sets one element; panics if `index >= 256`.
+    #[inline]
+    pub fn set_ucNotificationPlayerName_at(&self, index: usize, value: c_char) {
+        assert!(index < 256, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x2b1 + index * 0x1, value) }
+    }
+
+    /// `CEverQuest::ucNotificationChannelName` at 0x3b1 (0x3b1 within `CEverQuest`).
+    #[inline]
+    pub fn ucNotificationChannelName(&self) -> [[c_char; 48]; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x3b1) }
+    }
+
+    /// `CEverQuest::ucNotificationChannelName` at 0x3b1 (0x3b1 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucNotificationChannelName(&self, value: [[c_char; 48]; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x3b1, value) }
+    }
+
+    /// `CEverQuest::ucNotificationChannelNumber` at 0x594 (0x594 within `CEverQuest`).
+    #[inline]
+    pub fn ucNotificationChannelNumber(&self) -> [u32; 10] {
+        unsafe { read(self._bytes.get().cast(), 0x594) }
+    }
+
+    /// `CEverQuest::ucNotificationChannelNumber` at 0x594 (0x594 within `CEverQuest`).
+    #[inline]
+    pub fn set_ucNotificationChannelNumber(&self, value: [u32; 10]) {
+        unsafe { write(self._bytes.get().cast(), 0x594, value) }
+    }
+
+    /// `CEverQuest::ucNotificationChannelNumber` at 0x594 (0x594 within `CEverQuest`).
+    /// One element; panics if `index >= 10`.
+    #[inline]
+    pub fn ucNotificationChannelNumber_at(&self, index: usize) -> u32 {
+        assert!(index < 10, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x594 + index * 0x4) }
+    }
+
+    /// `CEverQuest::ucNotificationChannelNumber` at 0x594 (0x594 within `CEverQuest`).
+    /// Sets one element; panics if `index >= 10`.
+    #[inline]
+    pub fn set_ucNotificationChannelNumber_at(&self, index: usize, value: u32) {
+        assert!(index < 10, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x594 + index * 0x4, value) }
+    }
+
+    /// `CEverQuest::ucNotificationCount` at 0x5bc (0x5bc within `CEverQuest`).
+    #[inline]
+    pub fn ucNotificationCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5bc) }
+    }
+
+    /// `CEverQuest::ucNotificationCount` at 0x5bc (0x5bc within `CEverQuest`).
+    #[inline]
+    pub fn set_ucNotificationCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5bc, value) }
+    }
+
+    /// `CEverQuest::freeTargetTracker` at 0x5c0 (0x5c0 within `CEverQuest`).
+    #[inline]
+    pub fn freeTargetTracker(&self) -> *mut FreeTargetTracker {
+        unsafe { read(self._bytes.get().cast(), 0x5c0) }
+    }
+
+    /// `CEverQuest::freeTargetTracker` at 0x5c0 (0x5c0 within `CEverQuest`).
+    #[inline]
+    pub fn set_freeTargetTracker(&self, value: *mut FreeTargetTracker) {
+        unsafe { write(self._bytes.get().cast(), 0x5c0, value) }
+    }
+
+    /// `CEverQuest::WorldState` at 0x5c4 (0x5c4 within `CEverQuest`).
+    #[inline]
+    pub fn WorldState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c4) }
+    }
+
+    /// `CEverQuest::WorldState` at 0x5c4 (0x5c4 within `CEverQuest`).
+    #[inline]
+    pub fn set_WorldState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c4, value) }
+    }
+
+    /// `CEverQuest::GameState` at 0x5c8 (0x5c8 within `CEverQuest`).
+    #[inline]
+    pub fn GameState(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5c8) }
+    }
+
+    /// `CEverQuest::GameState` at 0x5c8 (0x5c8 within `CEverQuest`).
+    #[inline]
+    pub fn set_GameState(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5c8, value) }
+    }
+
+    /// `CEverQuest::bStopAreaProcessing` at 0x5cc (0x5cc within `CEverQuest`).
+    #[inline]
+    pub fn bStopAreaProcessing(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5cc) != 0 }
+    }
+
+    /// `CEverQuest::bStopAreaProcessing` at 0x5cc (0x5cc within `CEverQuest`).
+    #[inline]
+    pub fn set_bStopAreaProcessing(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5cc, u8::from(value)) }
+    }
+
+    /// `CEverQuest::bRAFEnabled` at 0x5cd (0x5cd within `CEverQuest`).
+    #[inline]
+    pub fn bRAFEnabled(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5cd) != 0 }
+    }
+
+    /// `CEverQuest::bRAFEnabled` at 0x5cd (0x5cd within `CEverQuest`).
+    #[inline]
+    pub fn set_bRAFEnabled(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5cd, u8::from(value)) }
+    }
+
+    /// `CEverQuest::ServerTimeSync` at 0x5d0 (0x5d0 within `CEverQuest`).
+    #[inline]
+    pub fn ServerTimeSync(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x5d0) }
+    }
+
+    /// `CEverQuest::ServerTimeSync` at 0x5d0 (0x5d0 within `CEverQuest`).
+    #[inline]
+    pub fn set_ServerTimeSync(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x5d0, value) }
+    }
+
+    /// `CEverQuest::ServerTimeBase` at 0x5d8 (0x5d8 within `CEverQuest`).
+    #[inline]
+    pub fn ServerTimeBase(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x5d8) }
+    }
+
+    /// `CEverQuest::ServerTimeBase` at 0x5d8 (0x5d8 within `CEverQuest`).
+    #[inline]
+    pub fn set_ServerTimeBase(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x5d8, value) }
+    }
+
+    /// `CEverQuest::ServerTimeLastReported` at 0x5e0 (0x5e0 within `CEverQuest`).
+    #[inline]
+    pub fn ServerTimeLastReported(&self) -> i64 {
+        unsafe { read(self._bytes.get().cast(), 0x5e0) }
+    }
+
+    /// `CEverQuest::ServerTimeLastReported` at 0x5e0 (0x5e0 within `CEverQuest`).
+    #[inline]
+    pub fn set_ServerTimeLastReported(&self, value: i64) {
+        unsafe { write(self._bytes.get().cast(), 0x5e0, value) }
+    }
+
+    /// `CEverQuest::bServerTimeHasWrapped` at 0x5e8 (0x5e8 within `CEverQuest`).
+    #[inline]
+    pub fn bServerTimeHasWrapped(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5e8) != 0 }
+    }
+
+    /// `CEverQuest::bServerTimeHasWrapped` at 0x5e8 (0x5e8 within `CEverQuest`).
+    #[inline]
+    pub fn set_bServerTimeHasWrapped(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5e8, u8::from(value)) }
+    }
+
+    /// `CEverQuest::TargetCameraDistance` at 0x5ec (0x5ec within `CEverQuest`).
+    #[inline]
+    pub fn TargetCameraDistance(&self) -> f32 {
+        unsafe { read(self._bytes.get().cast(), 0x5ec) }
+    }
+
+    /// `CEverQuest::TargetCameraDistance` at 0x5ec (0x5ec within `CEverQuest`).
+    #[inline]
+    pub fn set_TargetCameraDistance(&self, value: f32) {
+        unsafe { write(self._bytes.get().cast(), 0x5ec, value) }
+    }
+
+    /// `CEverQuest::bUnknown0x5f0` at 0x5f0 (0x5f0 within `CEverQuest`).
+    #[inline]
+    pub fn bUnknown0x5f0(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x5f0) != 0 }
+    }
+
+    /// `CEverQuest::bUnknown0x5f0` at 0x5f0 (0x5f0 within `CEverQuest`).
+    #[inline]
+    pub fn set_bUnknown0x5f0(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x5f0, u8::from(value)) }
+    }
+
+    /// `CEverQuest::TotalCharacterSlots` at 0x5f4 (0x5f4 within `CEverQuest`).
+    #[inline]
+    pub fn TotalCharacterSlots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5f4) }
+    }
+
+    /// `CEverQuest::TotalCharacterSlots` at 0x5f4 (0x5f4 within `CEverQuest`).
+    #[inline]
+    pub fn set_TotalCharacterSlots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5f4, value) }
+    }
+
+    /// `CEverQuest::MarketplaceCharacterSlots` at 0x5f8 (0x5f8 within `CEverQuest`).
+    #[inline]
+    pub fn MarketplaceCharacterSlots(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5f8) }
+    }
+
+    /// `CEverQuest::MarketplaceCharacterSlots` at 0x5f8 (0x5f8 within `CEverQuest`).
+    #[inline]
+    pub fn set_MarketplaceCharacterSlots(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5f8, value) }
+    }
+
+    /// `CEverQuest::Unknown0x608` at 0x5fc (0x5fc within `CEverQuest`).
+    #[inline]
+    pub fn Unknown0x608(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x5fc) }
+    }
+
+    /// `CEverQuest::Unknown0x608` at 0x5fc (0x5fc within `CEverQuest`).
+    #[inline]
+    pub fn set_Unknown0x608(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x5fc, value) }
+    }
+
+    /// `CEverQuest::UsingSkill` at 0x600 (0x600 within `CEverQuest`).
+    #[inline]
+    pub fn UsingSkill(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x600) }
+    }
+
+    /// `CEverQuest::UsingSkill` at 0x600 (0x600 within `CEverQuest`).
+    #[inline]
+    pub fn set_UsingSkill(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x600, value) }
+    }
+
+    /// `CEverQuest::UsingSkillTarget` at 0x604 (0x604 within `CEverQuest`).
+    #[inline]
+    pub fn UsingSkillTarget(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x604) }
+    }
+
+    /// `CEverQuest::UsingSkillTarget` at 0x604 (0x604 within `CEverQuest`).
+    #[inline]
+    pub fn set_UsingSkillTarget(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x604, value) }
+    }
+
+    /// `CEverQuest::petitionStatus` at 0x608 (0x608 within `CEverQuest`).
+    /// Indexes the 512 elements in memory order.
+    #[inline]
+    pub fn petitionStatus(&self, index: usize) -> &PetitionStatus {
+        assert!(index < 512, "index out of bounds");
+        unsafe { at(self._bytes.get().cast(), 0x608 + index * 0xb8) }
+    }
+
+    /// `CEverQuest::TotalQ` at 0x17608 (0x17608 within `CEverQuest`).
+    #[inline]
+    pub fn TotalQ(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17608) }
+    }
+
+    /// `CEverQuest::TotalQ` at 0x17608 (0x17608 within `CEverQuest`).
+    #[inline]
+    pub fn set_TotalQ(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17608, value) }
+    }
+
+    /// `CEverQuest::TotalClientPetitions` at 0x1760c (0x1760c within `CEverQuest`).
+    #[inline]
+    pub fn TotalClientPetitions(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x1760c) }
+    }
+
+    /// `CEverQuest::TotalClientPetitions` at 0x1760c (0x1760c within `CEverQuest`).
+    #[inline]
+    pub fn set_TotalClientPetitions(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x1760c, value) }
+    }
+
+    /// `CEverQuest::ChatText` at 0x17610 (0x17610 within `CEverQuest`).
+    #[inline]
+    pub fn ChatText(&self) -> [c_char; 2112] {
+        unsafe { read(self._bytes.get().cast(), 0x17610) }
+    }
+
+    /// `CEverQuest::ChatText` at 0x17610 (0x17610 within `CEverQuest`).
+    #[inline]
+    pub fn set_ChatText(&self, value: [c_char; 2112]) {
+        unsafe { write(self._bytes.get().cast(), 0x17610, value) }
+    }
+
+    /// `CEverQuest::ChatText` at 0x17610 (0x17610 within `CEverQuest`).
+    /// One element; panics if `index >= 2112`.
+    #[inline]
+    pub fn ChatText_at(&self, index: usize) -> c_char {
+        assert!(index < 2112, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x17610 + index * 0x1) }
+    }
+
+    /// `CEverQuest::ChatText` at 0x17610 (0x17610 within `CEverQuest`).
+    /// Sets one element; panics if `index >= 2112`.
+    #[inline]
+    pub fn set_ChatText_at(&self, index: usize, value: c_char) {
+        assert!(index < 2112, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x17610 + index * 0x1, value) }
+    }
+
+    /// `CEverQuest::TrimIdx` at 0x17e50 (0x17e50 within `CEverQuest`).
+    #[inline]
+    pub fn TrimIdx(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x17e50) }
+    }
+
+    /// `CEverQuest::TrimIdx` at 0x17e50 (0x17e50 within `CEverQuest`).
+    #[inline]
+    pub fn set_TrimIdx(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x17e50, value) }
+    }
+
+    /// `CEverQuest::ChatChanged` at 0x17e54 (0x17e54 within `CEverQuest`).
+    #[inline]
+    pub fn ChatChanged(&self) -> c_char {
+        unsafe { read(self._bytes.get().cast(), 0x17e54) }
+    }
+
+    /// `CEverQuest::ChatChanged` at 0x17e54 (0x17e54 within `CEverQuest`).
+    #[inline]
+    pub fn set_ChatChanged(&self, value: c_char) {
+        unsafe { write(self._bytes.get().cast(), 0x17e54, value) }
+    }
+
+    /// `CEverQuest::Trim` at 0x17e55 (0x17e55 within `CEverQuest`).
+    #[inline]
+    pub fn Trim(&self) -> [[c_char; 2112]; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x17e55) }
+    }
+
+    /// `CEverQuest::Trim` at 0x17e55 (0x17e55 within `CEverQuest`).
+    #[inline]
+    pub fn set_Trim(&self, value: [[c_char; 2112]; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x17e55, value) }
+    }
+
+    /// `CEverQuest::chat` at 0x38e58 (0x38e58 within `CEverQuest`).
+    #[inline]
+    pub fn chat(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38e58) }
+    }
+
+    /// `CEverQuest::chat` at 0x38e58 (0x38e58 within `CEverQuest`).
+    #[inline]
+    pub fn set_chat(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38e58, value) }
+    }
+
+    /// `CEverQuest::disconnected` at 0x38e5c (0x38e5c within `CEverQuest`).
+    #[inline]
+    pub fn disconnected(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38e5c) }
+    }
+
+    /// `CEverQuest::disconnected` at 0x38e5c (0x38e5c within `CEverQuest`).
+    #[inline]
+    pub fn set_disconnected(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38e5c, value) }
+    }
+
+    /// `CEverQuest::Red` at 0x38e60 (0x38e60 within `CEverQuest`).
+    #[inline]
+    pub fn Red(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38e60) }
+    }
+
+    /// `CEverQuest::Red` at 0x38e60 (0x38e60 within `CEverQuest`).
+    #[inline]
+    pub fn set_Red(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38e60, value) }
+    }
+
+    /// `CEverQuest::Green` at 0x38e64 (0x38e64 within `CEverQuest`).
+    #[inline]
+    pub fn Green(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38e64) }
+    }
+
+    /// `CEverQuest::Green` at 0x38e64 (0x38e64 within `CEverQuest`).
+    #[inline]
+    pub fn set_Green(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38e64, value) }
+    }
+
+    /// `CEverQuest::Blue` at 0x38e68 (0x38e68 within `CEverQuest`).
+    #[inline]
+    pub fn Blue(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x38e68) }
+    }
+
+    /// `CEverQuest::Blue` at 0x38e68 (0x38e68 within `CEverQuest`).
+    #[inline]
+    pub fn set_Blue(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x38e68, value) }
+    }
+
+    /// `CEverQuest::charSelectPlayerArray` at 0x38e6c (0x38e6c within `CEverQuest`).
+    #[inline]
+    pub fn charSelectPlayerArray(&self) -> &ArrayClass_CharSelectInfo {
+        unsafe { at(self._bytes.get().cast(), 0x38e6c) }
+    }
+
+    /// `CEverQuest::Filler` at 0x38e7c (0x38e7c within `CEverQuest`).
+    #[inline]
+    pub fn Filler(&self) -> [c_char; 2096] {
+        unsafe { read(self._bytes.get().cast(), 0x38e7c) }
+    }
+
+    /// `CEverQuest::Filler` at 0x38e7c (0x38e7c within `CEverQuest`).
+    #[inline]
+    pub fn set_Filler(&self, value: [c_char; 2096]) {
+        unsafe { write(self._bytes.get().cast(), 0x38e7c, value) }
+    }
+
+    /// `CEverQuest::Filler` at 0x38e7c (0x38e7c within `CEverQuest`).
+    /// One element; panics if `index >= 2096`.
+    #[inline]
+    pub fn Filler_at(&self, index: usize) -> c_char {
+        assert!(index < 2096, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x38e7c + index * 0x1) }
+    }
+
+    /// `CEverQuest::Filler` at 0x38e7c (0x38e7c within `CEverQuest`).
+    /// Sets one element; panics if `index >= 2096`.
+    #[inline]
+    pub fn set_Filler_at(&self, index: usize, value: c_char) {
+        assert!(index < 2096, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x38e7c + index * 0x1, value) }
+    }
+
+    /// The `UniversalChatProxyHandler` base, at 0x4: what C++ passes as `this` to its methods.
+    #[inline]
+    pub fn as_UniversalChatProxyHandler(&self) -> *mut UniversalChatProxyHandler {
+        unsafe { self._bytes.get().cast::<u8>().add(0x4).cast() }
+    }
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
 }
 
 /// C++ class `CGaugeDrawTemplate` (0x1c bytes).
@@ -44845,6 +45586,15 @@ impl CursorClass {
     }
 }
 
+/// C++ class `DatabaseStringTable` (0x1 bytes).
+#[repr(C)]
+pub struct DatabaseStringTable {
+    _bytes: UnsafeCell<[u8; 0x1]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl DatabaseStringTable {}
+
 /// C++ class `DynamicBitField<unsigned short,short>` (0x8 bytes).
 #[repr(C)]
 pub struct DynamicBitField_unsigned_short_short {
@@ -71581,6 +72331,171 @@ impl PendingRewardList {
     pub const VTABLE___vecDelDtor: usize = 0x0;
 }
 
+/// C++ class `PetitionStatus` (0xb8 bytes).
+#[repr(C)]
+pub struct PetitionStatus {
+    _bytes: UnsafeCell<[u8; 0xb8]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl PetitionStatus {
+    /// `PetitionStatus::ID` at 0x0 (0x0 within `PetitionStatus`).
+    #[inline]
+    pub fn ID(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `PetitionStatus::ID` at 0x0 (0x0 within `PetitionStatus`).
+    #[inline]
+    pub fn set_ID(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `PetitionStatus::Priority` at 0x4 (0x4 within `PetitionStatus`).
+    #[inline]
+    pub fn Priority(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `PetitionStatus::Priority` at 0x4 (0x4 within `PetitionStatus`).
+    #[inline]
+    pub fn set_Priority(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `PetitionStatus::State` at 0x8 (0x8 within `PetitionStatus`).
+    #[inline]
+    pub fn State(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `PetitionStatus::State` at 0x8 (0x8 within `PetitionStatus`).
+    #[inline]
+    pub fn set_State(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `PetitionStatus::ArrivalTime` at 0xc (0xc within `PetitionStatus`).
+    #[inline]
+    pub fn ArrivalTime(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `PetitionStatus::ArrivalTime` at 0xc (0xc within `PetitionStatus`).
+    #[inline]
+    pub fn set_ArrivalTime(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `PetitionStatus::User` at 0x10 (0x10 within `PetitionStatus`).
+    #[inline]
+    pub fn User(&self) -> [c_char; 32] {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `PetitionStatus::User` at 0x10 (0x10 within `PetitionStatus`).
+    #[inline]
+    pub fn set_User(&self, value: [c_char; 32]) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `PetitionStatus::User` at 0x10 (0x10 within `PetitionStatus`).
+    /// One element; panics if `index >= 32`.
+    #[inline]
+    pub fn User_at(&self, index: usize) -> c_char {
+        assert!(index < 32, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x10 + index * 0x1) }
+    }
+
+    /// `PetitionStatus::User` at 0x10 (0x10 within `PetitionStatus`).
+    /// Sets one element; panics if `index >= 32`.
+    #[inline]
+    pub fn set_User_at(&self, index: usize, value: c_char) {
+        assert!(index < 32, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x10 + index * 0x1, value) }
+    }
+
+    /// `PetitionStatus::Player` at 0x30 (0x30 within `PetitionStatus`).
+    #[inline]
+    pub fn Player(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x30) }
+    }
+
+    /// `PetitionStatus::Player` at 0x30 (0x30 within `PetitionStatus`).
+    #[inline]
+    pub fn set_Player(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x30, value) }
+    }
+
+    /// `PetitionStatus::Player` at 0x30 (0x30 within `PetitionStatus`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Player_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x30 + index * 0x1) }
+    }
+
+    /// `PetitionStatus::Player` at 0x30 (0x30 within `PetitionStatus`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Player_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x30 + index * 0x1, value) }
+    }
+
+    /// `PetitionStatus::NumActive` at 0x70 (0x70 within `PetitionStatus`).
+    #[inline]
+    pub fn NumActive(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x70) }
+    }
+
+    /// `PetitionStatus::NumActive` at 0x70 (0x70 within `PetitionStatus`).
+    #[inline]
+    pub fn set_NumActive(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x70, value) }
+    }
+
+    /// `PetitionStatus::Player2` at 0x74 (0x74 within `PetitionStatus`).
+    #[inline]
+    pub fn Player2(&self) -> [c_char; 64] {
+        unsafe { read(self._bytes.get().cast(), 0x74) }
+    }
+
+    /// `PetitionStatus::Player2` at 0x74 (0x74 within `PetitionStatus`).
+    #[inline]
+    pub fn set_Player2(&self, value: [c_char; 64]) {
+        unsafe { write(self._bytes.get().cast(), 0x74, value) }
+    }
+
+    /// `PetitionStatus::Player2` at 0x74 (0x74 within `PetitionStatus`).
+    /// One element; panics if `index >= 64`.
+    #[inline]
+    pub fn Player2_at(&self, index: usize) -> c_char {
+        assert!(index < 64, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x74 + index * 0x1) }
+    }
+
+    /// `PetitionStatus::Player2` at 0x74 (0x74 within `PetitionStatus`).
+    /// Sets one element; panics if `index >= 64`.
+    #[inline]
+    pub fn set_Player2_at(&self, index: usize, value: c_char) {
+        assert!(index < 64, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x74 + index * 0x1, value) }
+    }
+
+    /// `PetitionStatus::TimeStamp` at 0xb4 (0xb4 within `PetitionStatus`).
+    #[inline]
+    pub fn TimeStamp(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0xb4) }
+    }
+
+    /// `PetitionStatus::TimeStamp` at 0xb4 (0xb4 within `PetitionStatus`).
+    #[inline]
+    pub fn set_TimeStamp(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0xb4, value) }
+    }
+}
+
 /// C++ class `PlayerClient` (0x1f08 bytes).
 #[repr(C)]
 pub struct PlayerClient {
@@ -80789,6 +81704,63 @@ impl StatElapsedTime {
     }
 }
 
+/// C++ class `StringTable` (0x10 bytes).
+#[repr(C)]
+pub struct StringTable {
+    _bytes: UnsafeCell<[u8; 0x10]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl StringTable {
+    /// `StringTable::strings` at 0x0 (0x0 within `StringTable`).
+    #[inline]
+    pub fn strings(&self) -> *mut *mut StringItem {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `StringTable::strings` at 0x0 (0x0 within `StringTable`).
+    #[inline]
+    pub fn set_strings(&self, value: *mut *mut StringItem) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `StringTable::alloc` at 0x4 (0x4 within `StringTable`).
+    #[inline]
+    pub fn alloc(&self) -> u32 {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `StringTable::alloc` at 0x4 (0x4 within `StringTable`).
+    #[inline]
+    pub fn set_alloc(&self, value: u32) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `StringTable::filled` at 0x8 (0x8 within `StringTable`).
+    #[inline]
+    pub fn filled(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `StringTable::filled` at 0x8 (0x8 within `StringTable`).
+    #[inline]
+    pub fn set_filled(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `StringTable::Language` at 0xc (0xc within `StringTable`).
+    #[inline]
+    pub fn Language(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `StringTable::Language` at 0xc (0xc within `StringTable`).
+    #[inline]
+    pub fn set_Language(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+}
+
 /// C++ class `TCircularBuffer<SDoCollisionMovementStats,20>` (0x918 bytes).
 #[repr(C)]
 pub struct TCircularBuffer_SDoCollisionMovementStats_20 {
@@ -83837,6 +84809,13 @@ pub struct CXWndDrawTemplate {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct CharSelectInfo {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct CharacterZoneClient {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -83887,6 +84866,13 @@ pub struct EQList_AltAbilityEffectData_Node {
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
 pub struct EqMobileEmitter {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct FreeTargetTracker {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
@@ -84194,6 +85180,13 @@ pub struct SoeUtil_Internal_SharedData {
 
 /// Opaque: only reached through pointers from generated records.
 #[repr(C)]
+pub struct StringItem {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
 pub struct TList_CXWnd {
     _opaque: [u8; 0],
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
@@ -84250,6 +85243,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ArrayClass<CTextureFont *>", rust_name: "ArrayClass_CTextureFont", size: 0x10 },
     RecordInfo { name: "ArrayClass<CXStr>", rust_name: "ArrayClass_CXStr", size: 0x10 },
     RecordInfo { name: "ArrayClass<CXWnd *>", rust_name: "ArrayClass_CXWnd", size: 0x10 },
+    RecordInfo { name: "ArrayClass<CharSelectInfo>", rust_name: "ArrayClass_CharSelectInfo", size: 0x10 },
     RecordInfo { name: "ArrayClass<ChatBufferEntry *>", rust_name: "ArrayClass_ChatBufferEntry", size: 0x10 },
     RecordInfo { name: "ArrayClass<ClaimData>", rust_name: "ArrayClass_ClaimData", size: 0x10 },
     RecordInfo { name: "ArrayClass<ExtendedTargetSlot>", rust_name: "ArrayClass_ExtendedTargetSlot", size: 0x10 },
@@ -84283,6 +85277,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CContextMenu", rust_name: "CContextMenu", size: 0x284 },
     RecordInfo { name: "CContextMenuManager", rust_name: "CContextMenuManager", size: 0x122c },
     RecordInfo { name: "CDisplay", rust_name: "CDisplay", size: 0x2e04 },
+    RecordInfo { name: "CEverQuest", rust_name: "CEverQuest", size: 0x396b0 },
     RecordInfo { name: "CGaugeDrawTemplate", rust_name: "CGaugeDrawTemplate", size: 0x1c },
     RecordInfo { name: "CGaugeWnd", rust_name: "CGaugeWnd", size: 0x240 },
     RecordInfo { name: "CGroup", rust_name: "CGroup", size: 0x28 },
@@ -84333,6 +85328,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ControllerBase", rust_name: "ControllerBase", size: 0x4 },
     RecordInfo { name: "ControllerFactory", rust_name: "ControllerFactory", size: 0x14 },
     RecordInfo { name: "CursorClass", rust_name: "CursorClass", size: 0x3c },
+    RecordInfo { name: "DatabaseStringTable", rust_name: "DatabaseStringTable", size: 0x1 },
     RecordInfo { name: "DynamicBitField<unsigned short,short>", rust_name: "DynamicBitField_unsigned_short_short", size: 0x8 },
     RecordInfo { name: "EQCameraOptions", rust_name: "EQCameraOptions", size: 0x1c },
     RecordInfo { name: "EQGameOptions", rust_name: "EQGameOptions", size: 0x198 },
@@ -84407,6 +85403,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "PcProfile", rust_name: "PcProfile", size: 0x9950 },
     RecordInfo { name: "PcZoneClient", rust_name: "PcZoneClient", size: 0x57d0 },
     RecordInfo { name: "PendingRewardList", rust_name: "PendingRewardList", size: 0x2c },
+    RecordInfo { name: "PetitionStatus", rust_name: "PetitionStatus", size: 0xb8 },
     RecordInfo { name: "PlayerClient", rust_name: "PlayerClient", size: 0x1f08 },
     RecordInfo { name: "PlayerManagerClient", rust_name: "PlayerManagerClient", size: 0x18 },
     RecordInfo { name: "PlayerPhysicsClient", rust_name: "PlayerPhysicsClient", size: 0x28 },
@@ -84436,6 +85433,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "SpellLoadout", rust_name: "SpellLoadout", size: 0x4c },
     RecordInfo { name: "StatCounter", rust_name: "StatCounter", size: 0x4 },
     RecordInfo { name: "StatElapsedTime", rust_name: "StatElapsedTime", size: 0xc },
+    RecordInfo { name: "StringTable", rust_name: "StringTable", size: 0x10 },
     RecordInfo { name: "TCircularBuffer<SDoCollisionMovementStats,20>", rust_name: "TCircularBuffer_SDoCollisionMovementStats_20", size: 0x918 },
     RecordInfo { name: "TList<CObjectGroupStageInstance>", rust_name: "TList_CObjectGroupStageInstance", size: 0x8 },
     RecordInfo { name: "TList<PlayerClient>", rust_name: "TList_PlayerClient", size: 0x8 },
@@ -84655,6 +85653,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CXWnd *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CXWnd *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<CXWnd *>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CXWnd *>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
+    FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<CharSelectInfo>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<CharSelectInfo>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "ArrayClass<CharSelectInfo>", field: "m_isValid", accessor: "m_isValid", declared_in: "ArrayClass<CharSelectInfo>", offset: 0xc, decl_offset: 0xc, size: 0x1, bits: None },
     FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_length", accessor: "m_length", declared_in: "CDynamicArrayBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_array", accessor: "m_array", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "ArrayClass<ChatBufferEntry *>", field: "m_alloc", accessor: "m_alloc", declared_in: "ArrayClass<ChatBufferEntry *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -85761,6 +86763,53 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "CDisplay", field: "Unknown2d80", accessor: "Unknown2d80", declared_in: "CDisplay", offset: 0x2d80, decl_offset: 0x2d80, size: 0x4, bits: None },
     FieldInfo { record: "CDisplay", field: "gameScreens", accessor: "gameScreens", declared_in: "CDisplay", offset: 0x2d84, decl_offset: 0x2d84, size: 0x40, bits: None },
     FieldInfo { record: "CDisplay", field: "charselectScreens", accessor: "charselectScreens", declared_in: "CDisplay", offset: 0x2dc4, decl_offset: 0x2dc4, size: 0x40, bits: None },
+    FieldInfo { record: "CEverQuest", field: "__vfptr", accessor: "__vfptr", declared_in: "CEverQuestBase", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "__vfptr", accessor: "UniversalChatProxyHandler___vfptr", declared_in: "UniversalChatProxyHandler", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "__vfptr", accessor: "PopDialogHandler___vfptr", declared_in: "PopDialogHandler", offset: 0x8, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "currentChatServerApi", accessor: "currentChatServerApi", declared_in: "CEverQuest", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "alreadyAutoJoined", accessor: "alreadyAutoJoined", declared_in: "CEverQuest", offset: 0x10, decl_offset: 0x10, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "chatNotificationStamp", accessor: "chatNotificationStamp", declared_in: "CEverQuest", offset: 0x18, decl_offset: 0x18, size: 0x8, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucpAddress", accessor: "ucpAddress", declared_in: "CEverQuest", offset: 0x20, decl_offset: 0x20, size: 0x80, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucpPort", accessor: "ucpPort", declared_in: "CEverQuest", offset: 0xa0, decl_offset: 0xa0, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucpPlayerName", accessor: "ucpPlayerName", declared_in: "CEverQuest", offset: 0xa4, decl_offset: 0xa4, size: 0x100, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucpTicket", accessor: "ucpTicket", declared_in: "CEverQuest", offset: 0x1a4, decl_offset: 0x1a4, size: 0x100, bits: None },
+    FieldInfo { record: "CEverQuest", field: "chatService", accessor: "chatService", declared_in: "CEverQuest", offset: 0x2a4, decl_offset: 0x2a4, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucNotificationStamp", accessor: "ucNotificationStamp", declared_in: "CEverQuest", offset: 0x2a8, decl_offset: 0x2a8, size: 0x8, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucNotificationEntering", accessor: "ucNotificationEntering", declared_in: "CEverQuest", offset: 0x2b0, decl_offset: 0x2b0, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucNotificationPlayerName", accessor: "ucNotificationPlayerName", declared_in: "CEverQuest", offset: 0x2b1, decl_offset: 0x2b1, size: 0x100, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucNotificationChannelName", accessor: "ucNotificationChannelName", declared_in: "CEverQuest", offset: 0x3b1, decl_offset: 0x3b1, size: 0x1e0, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucNotificationChannelNumber", accessor: "ucNotificationChannelNumber", declared_in: "CEverQuest", offset: 0x594, decl_offset: 0x594, size: 0x28, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ucNotificationCount", accessor: "ucNotificationCount", declared_in: "CEverQuest", offset: 0x5bc, decl_offset: 0x5bc, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "freeTargetTracker", accessor: "freeTargetTracker", declared_in: "CEverQuest", offset: 0x5c0, decl_offset: 0x5c0, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "WorldState", accessor: "WorldState", declared_in: "CEverQuest", offset: 0x5c4, decl_offset: 0x5c4, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "GameState", accessor: "GameState", declared_in: "CEverQuest", offset: 0x5c8, decl_offset: 0x5c8, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "bStopAreaProcessing", accessor: "bStopAreaProcessing", declared_in: "CEverQuest", offset: 0x5cc, decl_offset: 0x5cc, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "bRAFEnabled", accessor: "bRAFEnabled", declared_in: "CEverQuest", offset: 0x5cd, decl_offset: 0x5cd, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ServerTimeSync", accessor: "ServerTimeSync", declared_in: "CEverQuest", offset: 0x5d0, decl_offset: 0x5d0, size: 0x8, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ServerTimeBase", accessor: "ServerTimeBase", declared_in: "CEverQuest", offset: 0x5d8, decl_offset: 0x5d8, size: 0x8, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ServerTimeLastReported", accessor: "ServerTimeLastReported", declared_in: "CEverQuest", offset: 0x5e0, decl_offset: 0x5e0, size: 0x8, bits: None },
+    FieldInfo { record: "CEverQuest", field: "bServerTimeHasWrapped", accessor: "bServerTimeHasWrapped", declared_in: "CEverQuest", offset: 0x5e8, decl_offset: 0x5e8, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "TargetCameraDistance", accessor: "TargetCameraDistance", declared_in: "CEverQuest", offset: 0x5ec, decl_offset: 0x5ec, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "bUnknown0x5f0", accessor: "bUnknown0x5f0", declared_in: "CEverQuest", offset: 0x5f0, decl_offset: 0x5f0, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "TotalCharacterSlots", accessor: "TotalCharacterSlots", declared_in: "CEverQuest", offset: 0x5f4, decl_offset: 0x5f4, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "MarketplaceCharacterSlots", accessor: "MarketplaceCharacterSlots", declared_in: "CEverQuest", offset: 0x5f8, decl_offset: 0x5f8, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "Unknown0x608", accessor: "Unknown0x608", declared_in: "CEverQuest", offset: 0x5fc, decl_offset: 0x5fc, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "UsingSkill", accessor: "UsingSkill", declared_in: "CEverQuest", offset: 0x600, decl_offset: 0x600, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "UsingSkillTarget", accessor: "UsingSkillTarget", declared_in: "CEverQuest", offset: 0x604, decl_offset: 0x604, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "petitionStatus", accessor: "petitionStatus", declared_in: "CEverQuest", offset: 0x608, decl_offset: 0x608, size: 0x17000, bits: None },
+    FieldInfo { record: "CEverQuest", field: "TotalQ", accessor: "TotalQ", declared_in: "CEverQuest", offset: 0x17608, decl_offset: 0x17608, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "TotalClientPetitions", accessor: "TotalClientPetitions", declared_in: "CEverQuest", offset: 0x1760c, decl_offset: 0x1760c, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ChatText", accessor: "ChatText", declared_in: "CEverQuest", offset: 0x17610, decl_offset: 0x17610, size: 0x840, bits: None },
+    FieldInfo { record: "CEverQuest", field: "TrimIdx", accessor: "TrimIdx", declared_in: "CEverQuest", offset: 0x17e50, decl_offset: 0x17e50, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "ChatChanged", accessor: "ChatChanged", declared_in: "CEverQuest", offset: 0x17e54, decl_offset: 0x17e54, size: 0x1, bits: None },
+    FieldInfo { record: "CEverQuest", field: "Trim", accessor: "Trim", declared_in: "CEverQuest", offset: 0x17e55, decl_offset: 0x17e55, size: 0x21000, bits: None },
+    FieldInfo { record: "CEverQuest", field: "chat", accessor: "chat", declared_in: "CEverQuest", offset: 0x38e58, decl_offset: 0x38e58, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "disconnected", accessor: "disconnected", declared_in: "CEverQuest", offset: 0x38e5c, decl_offset: 0x38e5c, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "Red", accessor: "Red", declared_in: "CEverQuest", offset: 0x38e60, decl_offset: 0x38e60, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "Green", accessor: "Green", declared_in: "CEverQuest", offset: 0x38e64, decl_offset: 0x38e64, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "Blue", accessor: "Blue", declared_in: "CEverQuest", offset: 0x38e68, decl_offset: 0x38e68, size: 0x4, bits: None },
+    FieldInfo { record: "CEverQuest", field: "charSelectPlayerArray", accessor: "charSelectPlayerArray", declared_in: "CEverQuest", offset: 0x38e6c, decl_offset: 0x38e6c, size: 0x10, bits: None },
+    FieldInfo { record: "CEverQuest", field: "Filler", accessor: "Filler", declared_in: "CEverQuest", offset: 0x38e7c, decl_offset: 0x38e7c, size: 0x830, bits: None },
     FieldInfo { record: "CGaugeDrawTemplate", field: "strName", accessor: "strName", declared_in: "CGaugeDrawTemplate", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "CGaugeDrawTemplate", field: "ptaBackground", accessor: "ptaBackground", declared_in: "CGaugeDrawTemplate", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "CGaugeDrawTemplate", field: "ptaFill", accessor: "ptaFill", declared_in: "CGaugeDrawTemplate", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -90226,6 +91275,15 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "PendingRewardList", field: "NextUID", accessor: "NextUID", declared_in: "PendingRewardList", offset: 0x20, decl_offset: 0x20, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "MaxPending", accessor: "MaxPending", declared_in: "PendingRewardList", offset: 0x24, decl_offset: 0x24, size: 0x4, bits: None },
     FieldInfo { record: "PendingRewardList", field: "ZoneMaxPending", accessor: "ZoneMaxPending", declared_in: "PendingRewardList", offset: 0x28, decl_offset: 0x28, size: 0x4, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "ID", accessor: "ID", declared_in: "PetitionStatus", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "Priority", accessor: "Priority", declared_in: "PetitionStatus", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "State", accessor: "State", declared_in: "PetitionStatus", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "ArrivalTime", accessor: "ArrivalTime", declared_in: "PetitionStatus", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "User", accessor: "User", declared_in: "PetitionStatus", offset: 0x10, decl_offset: 0x10, size: 0x20, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "Player", accessor: "Player", declared_in: "PetitionStatus", offset: 0x30, decl_offset: 0x30, size: 0x40, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "NumActive", accessor: "NumActive", declared_in: "PetitionStatus", offset: 0x70, decl_offset: 0x70, size: 0x4, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "Player2", accessor: "Player2", declared_in: "PetitionStatus", offset: 0x74, decl_offset: 0x74, size: 0x40, bits: None },
+    FieldInfo { record: "PetitionStatus", field: "TimeStamp", accessor: "TimeStamp", declared_in: "PetitionStatus", offset: 0xb4, decl_offset: 0xb4, size: 0x4, bits: None },
     FieldInfo { record: "PlayerClient", field: "__vfptr", accessor: "__vfptr", declared_in: "CActorApplicationData", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PlayerClient", field: "m_pPrev", accessor: "m_pPrev", declared_in: "TListNode<PlayerClient>", offset: 0x4, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "PlayerClient", field: "m_pNext", accessor: "m_pNext", declared_in: "TListNode<PlayerClient>", offset: 0x8, decl_offset: 0x4, size: 0x4, bits: None },
@@ -90910,6 +91968,10 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "StatElapsedTime", field: "StartTick", accessor: "StartTick", declared_in: "StatElapsedTime", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "StatElapsedTime", field: "ElapsedTotal", accessor: "ElapsedTotal", declared_in: "StatElapsedTime", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "StatElapsedTime", field: "bCurrentState", accessor: "bCurrentState", declared_in: "StatElapsedTime", offset: 0x8, decl_offset: 0x8, size: 0x1, bits: None },
+    FieldInfo { record: "StringTable", field: "strings", accessor: "strings", declared_in: "StringTable", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "StringTable", field: "alloc", accessor: "alloc", declared_in: "StringTable", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "StringTable", field: "filled", accessor: "filled", declared_in: "StringTable", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "StringTable", field: "Language", accessor: "Language", declared_in: "StringTable", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
     FieldInfo { record: "TCircularBuffer<SDoCollisionMovementStats,20>", field: "Type", accessor: "Type", declared_in: "TCircularBuffer<SDoCollisionMovementStats,20>", offset: 0x0, decl_offset: 0x0, size: 0x910, bits: None },
     FieldInfo { record: "TCircularBuffer<SDoCollisionMovementStats,20>", field: "Len", accessor: "Len", declared_in: "TCircularBuffer<SDoCollisionMovementStats,20>", offset: 0x910, decl_offset: 0x910, size: 0x4, bits: None },
     FieldInfo { record: "TCircularBuffer<SDoCollisionMovementStats,20>", field: "Index", accessor: "Index", declared_in: "TCircularBuffer<SDoCollisionMovementStats,20>", offset: 0x914, decl_offset: 0x914, size: 0x4, bits: None },
@@ -91073,6 +92135,7 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "CContextMenuManager", function: "CreateDefaultMenu", offset: 0x164 },
     VtableInfo { record: "CContextMenuManager", function: "HandleWindowMenuCommands", offset: 0x168 },
     VtableInfo { record: "CContextMenuManager", function: "__vecDelDtor", offset: 0x4 },
+    VtableInfo { record: "CEverQuest", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "CGaugeWnd", function: "__vecDelDtor", offset: 0x4 },
     VtableInfo { record: "CGroup", function: "__vecDelDtor", offset: 0x0 },
     VtableInfo { record: "CGroupMember", function: "__vecDelDtor", offset: 0x0 },

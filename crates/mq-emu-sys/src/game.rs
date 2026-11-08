@@ -13,10 +13,10 @@
 
 use core::ffi::{CStr, c_char, c_void};
 
-use crate::constants::{MAX_MEMORIZED_SPELLS, MAX_QUEST_ENTRIES, MAX_SHARED_TASK_ENTRIES, NUM_SKILLS, NUM_SPELL_GEMS, TOTAL_SPELL_COUNT};
+use crate::constants::{MAX_MEMORIZED_SPELLS, MAX_STRING, MAX_QUEST_ENTRIES, MAX_SHARED_TASK_ENTRIES, NUM_SKILLS, NUM_SPELL_GEMS, TOTAL_SPELL_COUNT};
 use crate::eqlib;
 use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CBuffWindow, CCastSpellWnd, CDisplay, CMDLIST, CTaskElement, CTaskEntry, CTaskManager, ClientSpellManager, EQ_Spell, PCTaskStatus, PcClient, PcProfile, PlayerClient, SkillManager, TaskSystemType};
-use crate::types::foreign;
+use crate::types::{OwnedCXStr, StringView, foreign};
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
 /// One of your auras, copied out of the game's aura manager.
@@ -60,39 +60,39 @@ function_table! {
     /// Your auras as the aura window lists them (`ClientAuraManager`, what
     /// `${Me.Aura}` reads): up to `cap` into `out`. Returns how many there are.
     pub fn mqemu_auras(out: *mut mqemu_aura, cap: usize) -> usize;
-    /// The game's string `id` of `kind` (`DB_STRING_*`); false if there's none.
-    pub fn mqemu_db_string(id: i32, kind: i32, out: *mut c_char, cap: usize) -> bool;
     /// Your skill `skill`: `which` 0 with modifiers (`${Me.Skill}`), 1
     /// trained (`${Me.SkillBase}`), 2 the cap at your level (`${Me.SkillCap}`).
     pub fn mqemu_skill_value(skill: i32, which: i32) -> i32;
-    /// The skill's name as the game shows it; false for none.
-    pub fn mqemu_skill_name(skill: i32, out: *mut c_char, cap: usize) -> bool;
-    /// The extended target window's name for a slot role (`xTargetType`).
-    pub fn mqemu_xtarget_role_name(role: u32, out: *mut c_char, cap: usize) -> bool;
-    /// `line` as MQ2Lua matches events against it: item links replaced by
-    /// their text (the game's `CleanItemTags`) unless `keep_links`, then
-    /// MacroQuest's color codes and line breaks removed (`StripMQChat`). `out`
-    /// needs `strlen(line) + 1` bytes; neither step lengthens the line.
-    pub fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool;
-    /// The name `${Spawn.Class}` shows for a class ID; false for none.
-    pub fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool;
-    /// The name `${Spawn.Race}` shows for a race ID; false for none.
-    pub fn mqemu_race_name(race: i32, out: *mut c_char, cap: usize) -> bool;
     /// Bytes the stack pointer moves across one call of skill function
     /// `which` (1 `GetBaseSkill`, 2 `GetPcSkillLimit`) for skill `skill`,
     /// through eqlib's declaration or as [`mqemu_skill_value`] calls it; 0 is
     /// right. For the selftest; the stack pointer is put back.
     pub fn mqemu_skill_call_stack_shift(which: i32, through_eqlib: bool, skill: i32) -> i32;
-    /// What a task objective asks, as the task window says it
-    /// (`${Task[n].Objective[m]}`); false for none.
-    pub fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool;
-    /// Your friend `index` (0-based); false past the end.
-    pub fn mqemu_friend_name(index: i32, out: *mut c_char, cap: usize) -> bool;
-    /// A chat link to `achievement` as `player` has it
-    /// (`${Achievement[...].Link}`).
-    pub fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool;
 
     rust {
+        /// The skill's name as the game shows it; false for none.
+        pub fn mqemu_skill_name(skill: i32, out: *mut c_char, cap: usize) -> bool;
+        /// `line` as MQ2Lua matches events against it: item links replaced by
+        /// their text (the game's `CleanItemTags`) unless `keep_links`, then
+        /// MacroQuest's color codes and line breaks removed (`StripMQChat`). `out`
+        /// needs `strlen(line) + 1` bytes; neither step lengthens the line.
+        pub fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool;
+        /// The name `${Spawn.Class}` shows for a class ID; false for none.
+        pub fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool;
+        /// A chat link to `achievement` as `player` has it
+        /// (`${Achievement[...].Link}`).
+        pub fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool;
+        /// The game's string `id` of `kind` (`DB_STRING_*`); false if there's none.
+        pub fn mqemu_db_string(id: i32, kind: i32, out: *mut c_char, cap: usize) -> bool;
+        /// The extended target window's name for a slot role (`xTargetType`).
+        pub fn mqemu_xtarget_role_name(role: u32, out: *mut c_char, cap: usize) -> bool;
+        /// The name `${Spawn.Race}` shows for a race ID; false for none.
+        pub fn mqemu_race_name(race: i32, out: *mut c_char, cap: usize) -> bool;
+        /// What a task objective asks, as the task window says it
+        /// (`${Task[n].Objective[m]}`); false for none.
+        pub fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool;
+        /// Your friend `index` (0-based); false past the end.
+        pub fn mqemu_friend_name(index: i32, out: *mut c_char, cap: usize) -> bool;
         /// Runs the game's own handler for slash command `name` (`"/cast"`) with
         /// `args`, as you, from the game's command table (as MacroQuest finds
         /// `cmdCast`), or the first it abbreviates, as typing it does: not
@@ -643,6 +643,254 @@ pub unsafe extern "C" fn mqemu_eq_command(name: *const c_char, args: *const c_ch
     }
 }
 
+
+/// Copies `text` NUL-terminated into `out`, cut to `cap - 1` bytes, as the
+/// string functions answer: true if there's text (even when `cap` is 0 and
+/// nothing is written), false and an empty `out` for none.
+///
+/// # Safety
+/// `out` must be writable for `cap` bytes.
+unsafe fn copy_out(text: Option<&[u8]>, out: *mut c_char, cap: usize) -> bool {
+    if cap == 0 {
+        return text.is_some();
+    }
+    let Some(text) = text else {
+        unsafe { *out = 0 };
+        return false;
+    };
+    let len = text.len().min(cap - 1);
+    unsafe {
+        core::ptr::copy_nonoverlapping(text.as_ptr().cast(), out, len);
+        *out.add(len) = 0;
+    }
+    true
+}
+
+/// [`copy_out`] of a NUL-terminated C string, or none for null.
+///
+/// # Safety
+/// `text` is null or NUL-terminated; `out` must be writable for `cap` bytes.
+unsafe fn copy_out_c(text: *const c_char, out: *mut c_char, cap: usize) -> bool {
+    unsafe { copy_out((!text.is_null()).then(|| CStr::from_ptr(text).to_bytes()), out, cap) }
+}
+
+/// [`Api::mqemu_db_string`]: `pDBStr->GetString(id, kind, &found)`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_db_string(id: i32, kind: i32, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let table = foreign(&raw const eqlib::pDBStr);
+        if table.is_null() {
+            return copy_out(None, out, cap);
+        }
+        let mut found = false;
+        let text = eqlib::DatabaseStringTable_GetString(table, id, kind, &mut found);
+        copy_out_c(if found { text } else { core::ptr::null() }, out, cap)
+    }
+}
+
+/// [`Api::mqemu_race_name`]: `pEverQuest->GetRaceDesc(race)`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_race_name(race: i32, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let everquest = foreign(&raw const eqlib::pEverQuest);
+        let text = if everquest.is_null() { core::ptr::null() } else { eqlib::CEverQuest_GetRaceDesc(everquest, race) };
+        copy_out_c(text, out, cap)
+    }
+}
+
+/// [`Api::mqemu_xtarget_role_name`]: `pLocalPC->pExtendedTargetList->ExtendedTargetRoleName(role)`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_xtarget_role_name(role: u32, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let list = foreign(&raw const eqlib::pLocalPC).as_ref().map_or(core::ptr::null_mut(), |pc| pc.pExtendedTargetList());
+        let text = if list.is_null() { core::ptr::null() } else { eqlib::ExtendedTargetList_ExtendedTargetRoleName(list, role) };
+        copy_out_c(text, out, cap)
+    }
+}
+
+/// [`Api::mqemu_task_objective_text`]: `pTaskManager->GetElementDescription`,
+/// into a buffer of `MAX_STRING` (the game writes up to that, whatever the
+/// caller's size).
+///
+/// # Safety
+/// In game, on the game thread; `objective` null or live, `out` writable for
+/// `cap` bytes.
+pub unsafe extern "C" fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let manager = eqlib::pTaskManager;
+        if manager.is_null() || objective.is_null() {
+            return copy_out(None, out, cap);
+        }
+        let mut text = [0 as c_char; MAX_STRING];
+        eqlib::CTaskManager_GetElementDescription(manager, objective, text.as_mut_ptr());
+        text[MAX_STRING - 1] = 0;
+        let text = CStr::from_ptr(text.as_ptr()).to_bytes();
+        copy_out((!text.is_empty()).then_some(text), out, cap)
+    }
+}
+
+/// [`Api::mqemu_friend_name`]: `pChatService->GetFriendName(index)`, for an
+/// index below `GetNumberOfFriends()`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_friend_name(index: i32, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let chat = crate::types::computed(&raw const eqlib::pChatService);
+        if chat.is_null() || index < 0 || index >= eqlib::UniversalChatProxy_GetNumberOfFriends(chat) {
+            return copy_out(None, out, cap);
+        }
+        copy_out_c(eqlib::UniversalChatProxy_GetFriendName(chat, index), out, cap)
+    }
+}
+
+
+/// [`Api::mqemu_skill_name`]: `mq::GetSkillName` for skills 0 to
+/// `NUM_SKILLS - 1`: `pStringTable->getString(pSkillMgr->GetNameToken(skill))`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_skill_name(skill: i32, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let strings = foreign(&raw const eqlib::pStringTable);
+        let skills = foreign(&raw const eqlib::pSkillMgr);
+        let text = if strings.is_null() || skills.is_null() || !usize::try_from(skill).is_ok_and(|skill| skill < NUM_SKILLS) {
+            core::ptr::null()
+        } else {
+            eqlib::StringTable_getString(strings, eqlib::SkillManager_GetNameToken(skills, skill) as u32, core::ptr::null_mut())
+        };
+        copy_out_c(text, out, cap)
+    }
+}
+
+/// `mq::GetClassDesc`'s names for the NPC classes the game doesn't name the
+/// way `${Spawn.Class}` shows them, and MacroQuest's own for auras, banners
+/// and campfires; None for a class the game names (`CEverQuest::GetClassDesc`).
+fn special_class_name(class: i32) -> Option<&'static CStr> {
+    Some(match class {
+        60 => c"LDoN Recruiter",
+        61 => c"LDoN Merchant",
+        62 => c"Destructible Object",
+        63 | 74 => c"Tribute Master",
+        64 => c"Guild Tribute Master",
+        66 => c"Guild Banker",
+        67 => c"Good DoN Merchant",
+        68 => c"Evil DoN Merchant",
+        69 => c"Fellowship Registrar",
+        70 => c"Merchant",
+        71 => c"Mercenary Liaison",
+        72 => c"Real Estate Merchant",
+        73 => c"Loyalty Merchant",
+        253 => c"Campfire",
+        254 => c"Banner",
+        255 => c"Aura",
+        _ => return None,
+    })
+}
+
+/// [`Api::mqemu_class_name`]: `mq::GetClassDesc(class)`: [`special_class_name`],
+/// else `pEverQuest->GetClassDesc(class)`. None without `pEverQuest`.
+///
+/// # Safety
+/// In game, on the game thread; `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        let everquest = foreign(&raw const eqlib::pEverQuest);
+        let text = match special_class_name(class) {
+            _ if everquest.is_null() => core::ptr::null(),
+            Some(name) => name.as_ptr(),
+            None => eqlib::CEverQuest_GetClassDesc(everquest, class),
+        };
+        copy_out_c(text, out, cap)
+    }
+}
+
+/// `mq::StripMQChat`: `text` without MacroQuest's color codes (`\a` and the
+/// character after it, `\a-` and the one after that, `\a#rrggbb`) and line
+/// breaks (`\n`), into `out` (cut to fit, NUL-terminated). Returns its length.
+/// Stops at the end of `text` where MQ would read past it.
+fn strip_mq_chat(text: &[u8], out: &mut [u8]) -> usize {
+    let Some(room) = out.len().checked_sub(1) else { return 0 };
+    let mut len = 0;
+    let mut i = 0;
+    while i < text.len() && text[i] != 0 {
+        match text[i] {
+            b'\x07' => {
+                i += 1;
+                match text.get(i) {
+                    Some(b'-') => i += 1,
+                    Some(b'#') => i += 6,
+                    _ => {}
+                }
+            }
+            b'\n' => {}
+            c => {
+                if len < room {
+                    out[len] = c;
+                    len += 1;
+                }
+            }
+        }
+        i += 1;
+    }
+    out[len] = 0;
+    len
+}
+
+/// The tag character that opens and closes a chat link (`ITEM_TAG_CHAR`).
+const ITEM_TAG_CHAR: u8 = 0x12;
+
+/// [`Api::mqemu_clean_chat_line`]: the game's `CleanItemTags` (unless
+/// `keep_links`, or there are no links), then [`strip_mq_chat`].
+///
+/// # Safety
+/// In game, on the game thread; `line` NUL-terminated, `out` writable for
+/// `cap` bytes.
+pub unsafe extern "C" fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        if cap == 0 {
+            return true;
+        }
+        let out = core::slice::from_raw_parts_mut(out.cast::<u8>(), cap);
+        let text = CStr::from_ptr(line).to_bytes();
+        if keep_links || !text.contains(&ITEM_TAG_CHAR) {
+            strip_mq_chat(text, out);
+            return true;
+        }
+        let original = OwnedCXStr::new(line);
+        let cleaned = OwnedCXStr::returned(|cleaned| {
+            eqlib::CleanItemTags(cleaned, original.as_ptr(), false);
+        });
+        strip_mq_chat(CStr::from_ptr(cleaned.c_str()).to_bytes(), out);
+        true
+    }
+}
+
+/// [`Api::mqemu_achievement_link`]: eqlib's `FormatAchievementLink` into `out`;
+/// false (and `out` empty) when it writes nothing.
+///
+/// # Safety
+/// In game, on the game thread; `achievement` null or live, `player` null or
+/// NUL-terminated, `out` writable for `cap` bytes.
+pub unsafe extern "C" fn mqemu_achievement_link(achievement: *const Achievement, player: *const c_char, out: *mut c_char, cap: usize) -> bool {
+    unsafe {
+        if achievement.is_null() || cap == 0 {
+            return copy_out(None, out, cap);
+        }
+        // It leaves `out` as it was when the achievement manager doesn't know it.
+        *out = 0;
+        let player = if player.is_null() { &[][..] } else { CStr::from_ptr(player).to_bytes() };
+        eqlib::FormatAchievementLink(out, cap, achievement, StringView::new(player));
+        *out != 0
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -841,6 +1089,57 @@ mod tests {
         assert_eq!(handler(b"/sit"), 0);
         assert_eq!(handler(b""), 0, "empty");
         assert!(unsafe { eq_command(core::ptr::null(), b"/alt") }.is_null(), "no list");
+    }
+
+    #[test]
+    fn copy_out_cuts_to_fit_and_says_whether_there_was_text() {
+        let mut out = [b'x' as c_char; 6];
+        let text = |out: &[c_char]| out.iter().take_while(|&&c| c != 0).map(|&c| c as u8 as char).collect::<std::string::String>();
+        assert!(unsafe { copy_out(Some(b"abc"), out.as_mut_ptr(), out.len()) });
+        assert_eq!(text(&out), "abc");
+        assert!(unsafe { copy_out(Some(b"abcdefgh"), out.as_mut_ptr(), out.len()) });
+        assert_eq!(text(&out), "abcde", "cut to cap - 1");
+        assert_eq!(out[5], 0);
+        assert!(!unsafe { copy_out(None, out.as_mut_ptr(), out.len()) });
+        assert_eq!(out[0], 0, "emptied");
+        assert!(unsafe { copy_out(Some(b""), out.as_mut_ptr(), out.len()) }, "empty text is still text");
+        out[0] = b'x' as c_char;
+        assert!(unsafe { copy_out(Some(b"abc"), out.as_mut_ptr(), 0) }, "cap 0 answers without writing");
+        assert!(!unsafe { copy_out(None, out.as_mut_ptr(), 0) });
+        assert_eq!(out[0], b'x' as c_char);
+        assert!(!unsafe { copy_out_c(core::ptr::null(), out.as_mut_ptr(), out.len()) });
+        assert!(unsafe { copy_out_c(c"hi".as_ptr(), out.as_mut_ptr(), out.len()) });
+        assert_eq!(text(&out), "hi");
+    }
+
+    #[test]
+    fn strip_mq_chat_drops_color_codes_and_line_breaks() {
+        let strip = |text: &[u8], cap: usize| {
+            let mut out = vec![b'x'; cap];
+            let len = strip_mq_chat(text, &mut out);
+            assert_eq!(out[len], 0, "NUL-terminated");
+            std::string::String::from_utf8(out[..len].to_vec()).unwrap()
+        };
+        assert_eq!(strip(b"plain", 16), "plain");
+        assert_eq!(strip(b"\x07gHello\x07x there", 32), "Hello there", "\\aX");
+        assert_eq!(strip(b"\x07-rdark\x07x", 32), "dark", "\\a-X");
+        assert_eq!(strip(b"\x07#ff8000orange\x07x", 32), "orange", "\\a#rrggbb");
+        assert_eq!(strip(b"two\nlines\r", 32), "twolines\r", "only \\n goes");
+        assert_eq!(strip(b"abcdef", 4), "abc", "cut to fit");
+        assert_eq!(strip(b"ab\0cd", 16), "ab", "stops at a NUL");
+        assert_eq!(strip(b"end\x07", 16), "end", "a code at the end");
+        assert_eq!(strip(b"end\x07#ff", 16), "end", "a cut-off \\a#");
+        assert_eq!(strip_mq_chat(b"abc", &mut []), 0, "no room");
+    }
+
+    #[test]
+    fn special_class_names_are_mqs_and_the_rest_the_games() {
+        assert_eq!(special_class_name(60), Some(c"LDoN Recruiter"));
+        assert_eq!(special_class_name(63), special_class_name(74), "both tribute masters");
+        assert_eq!(special_class_name(255), Some(c"Aura"));
+        for class in [1, 16, 41, 65, 75, 252] {
+            assert_eq!(special_class_name(class), None, "class {class}");
+        }
     }
 
     #[test]

@@ -129,8 +129,24 @@ impl OwnedCXStr {
         out
     }
 
+    /// The CXStr a C++ function returning one by value constructs in the
+    /// storage `construct` passes it.
+    ///
+    /// # Safety
+    /// `construct` must construct a CXStr at the pointer it's given.
+    pub unsafe fn returned(construct: impl FnOnce(*mut crate::layouts::CXStr)) -> OwnedCXStr {
+        let mut out = OwnedCXStr { rep: core::ptr::null_mut() };
+        construct(out.as_mut_ptr());
+        out
+    }
+
     pub fn as_ptr(&self) -> *const crate::layouts::CXStr {
         (self as *const OwnedCXStr).cast()
+    }
+
+    /// Its text, NUL-terminated, valid while it lives.
+    pub fn c_str(&self) -> *const c_char {
+        unsafe { crate::eqlib::CXStr_c_str(self.as_ptr()) }
     }
 
     fn as_mut_ptr(&mut self) -> *mut crate::layouts::CXStr {
@@ -141,6 +157,22 @@ impl OwnedCXStr {
 impl Drop for OwnedCXStr {
     fn drop(&mut self) {
         unsafe { crate::eqlib::CXStr_drop(self.as_mut_ptr()) };
+    }
+}
+
+/// `std::string_view` as MSVC lays it out (text, then length), which C++
+/// functions take by value.
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct StringView {
+    pub data: *const c_char,
+    pub len: usize,
+}
+
+impl StringView {
+    /// A view of `text`, which must outlive the call it's passed to.
+    pub fn new(text: &[u8]) -> StringView {
+        StringView { data: text.as_ptr().cast(), len: text.len() }
     }
 }
 

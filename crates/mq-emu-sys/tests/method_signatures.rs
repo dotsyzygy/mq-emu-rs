@@ -392,6 +392,20 @@ fn check(list: List, mangled: &str, args: &str, ret: &str) -> Vec<String> {
         }
         Scope::Static | Scope::Free => (&all[..], 1, ""),
     };
+    // A class returned by value comes back through a hidden pointer the caller
+    // passes first (after `this`), which the function returns in EAX: Rust
+    // declares both.
+    let (params, first, returns) = match &method.returns {
+        Some(Type::Class(class)) => {
+            let out = Type::Pointer { is_const: false, to: Box::new(Type::Class(class.clone())) };
+            let Some((out_param, params)) = params.split_first() else {
+                return vec![format!("no out parameter for the {class} C++ returns by value")];
+            };
+            problems.extend(mismatch(format!("parameter {first} (the out parameter for the {class} returned by value)"), out_param, &out));
+            (params, first + 1, Some(out))
+        }
+        returns => (params, first, returns.clone()),
+    };
     if params.len() != method.params.len() {
         problems.push(format!("{} parameters{after}, C++ has {}", params.len(), method.params.len()));
     } else {
@@ -400,7 +414,7 @@ fn check(list: List, mangled: &str, args: &str, ret: &str) -> Vec<String> {
         }
     }
     let ret = normalize(&tokens(ret));
-    match &method.returns {
+    match &returns {
         Some(Type::Prim("void")) | None if method.is_constructor => {
             // A constructor returns `this` in EAX; declaring it is optional.
             if !ret.is_empty() {
@@ -517,6 +531,18 @@ fn rejects_a_wrong_return_type() {
     assert_eq!(problems, ["returns `bool`, C++ returns nothing"]);
     let problems = check(List::Methods, "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z", "this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool", "");
     assert_eq!(problems, ["the return type is ``, C++ has i32"]);
+}
+
+#[test]
+fn a_class_returned_by_value_is_an_out_parameter_and_the_return() {
+    let mangled = "?CleanItemTags@eqlib@@YA?AVCXStr@1@ABV21@_N@Z";
+    assert_eq!(check(List::CppFunctions, mangled, "out: *mut CXStr, text: *const CXStr, flag: bool", "*mut CXStr"), Vec::<String>::new());
+    assert_eq!(
+        check(List::CppFunctions, mangled, "text: *const CXStr, flag: bool", "*mut CXStr"),
+        ["parameter 1 (the out parameter for the CXStr returned by value) is `* const CXStr`, C++ has * mut CXStr", "1 parameters, C++ has 2"]
+    );
+    assert_eq!(check(List::CppFunctions, mangled, "out: *mut CXStr, text: *const CXStr, flag: bool", ""), ["the return type is ``, C++ has * mut CXStr"]);
+    assert_eq!(check(List::CppFunctions, mangled, "", "*mut CXStr"), ["no out parameter for the CXStr C++ returns by value"]);
 }
 
 #[test]
