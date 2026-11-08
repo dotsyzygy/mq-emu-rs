@@ -13,7 +13,7 @@
 
 use core::ffi::c_char;
 
-use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CCastSpellWnd, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
+use crate::layouts::{Achievement, AchievementManager, CAltAbilityData, CCastSpellWnd, CDisplay, CTaskElement, CTaskEntry, PCTaskStatus, PlayerClient};
 
 /// One of MacroQuest's cached buffs (`mq::CachedBuff`).
 /// One of your auras, copied out of the game's aura manager.
@@ -54,15 +54,9 @@ function_table! {
     /// to `cap` into `out`. Returns how many there are. The cache holds what
     /// the server last sent for each spawn you targeted, without expired buffs.
     pub fn mqemu_cached_buffs(spawn: *mut PlayerClient, out: *mut mqemu_cached_buff, cap: usize) -> usize;
-    /// The alternate ability with this index (one rank of one ability), as
-    /// `AltAdvManager::GetAAById` finds it; null if none.
-    pub fn mqemu_alt_ability(index: i32) -> *mut CAltAbilityData;
     /// Your auras as the aura window lists them (`ClientAuraManager`, what
     /// `${Me.Aura}` reads): up to `cap` into `out`. Returns how many there are.
     pub fn mqemu_auras(out: *mut mqemu_aura, cap: usize) -> usize;
-    /// Whether you can use `ability` now; `reuse_seconds` gets its reuse time
-    /// left (`${Me.AltAbilityTimer}` in seconds).
-    pub fn mqemu_alt_ability_ready(ability: *mut CAltAbilityData, reuse_seconds: *mut i32) -> bool;
     /// The game's string `id` of `kind` (`DB_STRING_*`); false if there's none.
     pub fn mqemu_db_string(id: i32, kind: i32, out: *mut c_char, cap: usize) -> bool;
     /// Your skill `skill`: `which` 0 with modifiers (`${Me.Skill}`), 1
@@ -105,10 +99,6 @@ function_table! {
     /// Whether gem `gem`'s spell can be cast now, as `${Me.SpellReady[n]}`
     /// says. False for an empty gem.
     pub fn mqemu_gem_ready(gem: i32) -> bool;
-    /// Milliseconds left on your cast as `${Me.CastTimeLeft}` counts them
-    /// (`CastingData.SpellETA - pDisplay->TimeStamp`, 0 once due), or -1 when
-    /// you aren't casting.
-    pub fn mqemu_cast_time_left_ms() -> i32;
     /// Uses skill `skill` on your target as `/doability <name>` does
     /// (`PcClient::UseSkill`), if you have it and it's an ability you
     /// activate. False otherwise, or without a character.
@@ -156,6 +146,16 @@ function_table! {
         pub fn mqemu_max_mana() -> i32;
         /// The achievement manager (`AchievementManager::Instance`).
         pub fn mqemu_achievement_manager() -> *mut AchievementManager;
+        /// The alternate ability with this index (one rank of one ability), as
+        /// `AltAdvManager::GetAAById` finds it; null if none.
+        pub fn mqemu_alt_ability(index: i32) -> *mut CAltAbilityData;
+        /// Whether you can use `ability` now; `reuse_seconds` gets its reuse time
+        /// left (`${Me.AltAbilityTimer}` in seconds).
+        pub fn mqemu_alt_ability_ready(ability: *mut CAltAbilityData, reuse_seconds: *mut i32) -> bool;
+        /// Milliseconds left on your cast as `${Me.CastTimeLeft}` counts them
+        /// (`CastingData.SpellETA - pDisplay->TimeStamp`, 0 once due), or -1 when
+        /// you aren't casting.
+        pub fn mqemu_cast_time_left_ms() -> i32;
         /// What your active tribute costs in favor (`${Me.ActiveFavorCost}`); 0
         /// without the tribute manager.
         pub fn mqemu_active_favor_cost() -> i32;
@@ -267,6 +267,55 @@ pub unsafe extern "C" fn mqemu_achievement_manager() -> *mut AchievementManager 
     unsafe { crate::eqlib::AchievementManager_Instance() }
 }
 
+/// [`Api::mqemu_alt_ability`]: `pAltAdvManager->GetAAById(index)`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_alt_ability(index: i32) -> *mut CAltAbilityData {
+    unsafe {
+        let manager = crate::types::foreign(&raw const crate::eqlib::pAltAdvManager);
+        if manager.is_null() { core::ptr::null_mut() } else { crate::eqlib::AltAdvManager_GetAAById(manager, index) }
+    }
+}
+
+/// [`Api::mqemu_alt_ability_ready`]: `pAltAdvManager->IsAbilityReady(pLocalPC, ability, &refresh)`.
+///
+/// # Safety
+/// In game, on the game thread; `reuse_seconds` must be writable.
+pub unsafe extern "C" fn mqemu_alt_ability_ready(ability: *mut CAltAbilityData, reuse_seconds: *mut i32) -> bool {
+    unsafe {
+        *reuse_seconds = 0;
+        let manager = crate::types::foreign(&raw const crate::eqlib::pAltAdvManager);
+        let pc = crate::types::foreign(&raw const crate::eqlib::pLocalPC);
+        if manager.is_null() || pc.is_null() || ability.is_null() {
+            return false;
+        }
+        let mut refresh = 0;
+        let ready = crate::eqlib::AltAdvManager_IsAbilityReady(manager, pc, ability, &mut refresh, core::ptr::null_mut());
+        *reuse_seconds = refresh.max(0);
+        ready
+    }
+}
+
+/// [`Api::mqemu_cast_time_left_ms`].
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_cast_time_left_ms() -> i32 {
+    unsafe { cast_time_left_ms(crate::types::foreign(&raw const crate::eqlib::pDisplay).as_ref(), crate::types::foreign(&raw const crate::eqlib::pLocalPlayer).as_ref()) }
+}
+
+/// Milliseconds from the display's clock to `me`'s cast ending, 0 once due;
+/// -1 without either, or when `me` isn't casting (no `SpellETA`).
+fn cast_time_left_ms(display: Option<&CDisplay>, me: Option<&PlayerClient>) -> i32 {
+    let (Some(display), Some(me)) = (display, me) else { return -1 };
+    let eta = me.CastingData().SpellETA();
+    if eta == 0 {
+        return -1;
+    }
+    (i64::from(eta) - i64::from(display.TimeStamp())).clamp(0, i32::MAX.into()) as i32
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -280,6 +329,21 @@ mod tests {
         let mut storage = vec![0u64; size_of::<T>().div_ceil(8)];
         let ptr = storage.as_mut_ptr().cast();
         (storage, ptr)
+    }
+
+    #[test]
+    fn cast_time_left_counts_from_the_display_clock_to_the_spell_eta() {
+        let (_display_storage, display) = zeroed::<CDisplay>();
+        let (_me_storage, me) = zeroed::<PlayerClient>();
+        let (display, me) = unsafe { (&*display, &*me) };
+        display.set_TimeStamp(10_000);
+        assert_eq!(cast_time_left_ms(Some(display), Some(me)), -1, "not casting");
+        me.CastingData().set_SpellETA(12_500);
+        assert_eq!(cast_time_left_ms(Some(display), Some(me)), 2_500);
+        me.CastingData().set_SpellETA(9_000);
+        assert_eq!(cast_time_left_ms(Some(display), Some(me)), 0, "due");
+        assert_eq!(cast_time_left_ms(None, Some(me)), -1);
+        assert_eq!(cast_time_left_ms(Some(display), None), -1);
     }
 
     #[test]

@@ -153,40 +153,6 @@ extern "C" size_t mqemu_auras(mqemu_aura* out, size_t cap)
 	}
 }
 
-// The alternate ability with this index (one rank of one ability), as
-// AltAdvManager::GetAAById finds it. Null if there's none.
-extern "C" CAltAbilityData* mqemu_alt_ability(int index)
-{
-	try
-	{
-		return pAltAdvManager ? pAltAdvManager->GetAAById(index) : nullptr;
-	}
-	catch (...)
-	{
-		return nullptr;
-	}
-}
-
-// Whether you can use `ability` now, and its reuse time left in seconds
-// (as ${Me.AltAbilityTimer} reads it). False with 0 if there's no character.
-extern "C" bool mqemu_alt_ability_ready(CAltAbilityData* ability, int* reuse_seconds)
-{
-	*reuse_seconds = 0;
-	try
-	{
-		if (!pAltAdvManager || !pLocalPC || ability == nullptr)
-			return false;
-		int refresh = 0;
-		bool ready = pAltAdvManager->IsAbilityReady(pLocalPC, ability, &refresh);
-		*reuse_seconds = std::max(refresh, 0);
-		return ready;
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
 // The game's string `id` of `type` (eDatabaseStringType), NUL-terminated into
 // `out` (cut to fit). False if the table has no such string.
 extern "C" bool mqemu_db_string(int id, int type, char* out, size_t cap)
@@ -468,23 +434,6 @@ extern "C" bool mqemu_gem_ready(int gem)
 	catch (...)
 	{
 		return false;
-	}
-}
-
-// Milliseconds left on your cast, as ${Me.CastTimeLeft} counts them: 0 once
-// it's due, -1 when you aren't casting.
-extern "C" int mqemu_cast_time_left_ms()
-{
-	try
-	{
-		if (!pDisplay || !pLocalPlayer || !pLocalPlayer->CastingData.SpellETA)
-			return -1;
-		int64_t left = static_cast<int64_t>(pLocalPlayer->CastingData.SpellETA) - static_cast<int64_t>(pDisplay->TimeStamp);
-		return left > 0 ? static_cast<int>(left) : 0;
-	}
-	catch (...)
-	{
-		return -1;
 	}
 }
 

@@ -70,3 +70,4 @@ AchievementComponent    # one objective of an achievement
 AchievementInfo         # one achievement in a category
 CTribute                # tribute state (pTribute)
 UniversalChatProxy      # the chat service: your friends list (pChatService)
+CDisplay                # the display: the game clock in ms (TimeStamp) (pDisplay)

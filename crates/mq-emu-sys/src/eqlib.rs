@@ -4,7 +4,7 @@ use core::ffi::{c_char, c_int, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
-    AchievementManager, AggroMeterManagerClient, CCastSpellWnd, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
+    AchievementManager, AggroMeterManagerClient, AltAdvManager, CAltAbilityData, CCastSpellWnd, CDisplay, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
@@ -105,6 +105,11 @@ imports! {
         /// The chat service, which keeps your friends list; its getter
         /// returns null without one.
         pub static mut pChatService: ComputedPointer<UniversalChatProxy>;
+        /// Every alternate ability, and whether you can use one now.
+        pub static mut pAltAdvManager: ForeignPointer<AltAdvManager>;
+        /// The display; `TimeStamp` is the game's clock in milliseconds, which
+        /// cast and gem timers count by.
+        pub static mut pDisplay: ForeignPointer<CDisplay>;
     }
     methods(EQLIB_METHODS) {
         // eqlib/game/PcClient.h
@@ -139,6 +144,14 @@ imports! {
         pub fn CXStr_from_c_str(this: *mut CXStr, text: *const c_char) -> *mut CXStr = "??0CXStr@eqlib@@QAE@PBD@Z";
         /// Destroys the CXStr in `this`, releasing its text.
         pub fn CXStr_drop(this: *mut CXStr) = "??1CXStr@eqlib@@QAE@XZ";
+
+        // eqlib/game/AltAbilities.h
+        /// The alternate ability with this index (one rank of one ability), or null.
+        pub fn AltAdvManager_GetAAById(this: *mut AltAdvManager, index: c_int) -> *mut CAltAbilityData = "?GetAAById@AltAdvManager@eqlib@@QAEPAVCAltAbilityData@2@H@Z";
+        /// Whether `pc` can use `ability` now. `refresh` (may be null) gets
+        /// its reuse time left in seconds, `timer` (may be null) its timer.
+        pub fn AltAdvManager_IsAbilityReady(this: *mut AltAdvManager, pc: *mut PcClient, ability: *mut CAltAbilityData, refresh: *mut c_int, timer: *mut c_int) -> bool
+            = "?IsAbilityReady@AltAdvManager@eqlib@@QAE_NPAVPcClient@2@PAVCAltAbilityData@2@PAH2@Z";
     }
     cpp_functions(EQLIB_CPP_FUNCTIONS) {
         // eqlib/game/Achievements.h
