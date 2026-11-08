@@ -422,8 +422,28 @@ fn clicky_timer(mq: &Mq<RustTest>) -> i64 {
     mq.parse(&format!("${{FindItem[={CLICKY}].TimerReady}}")).parse().unwrap_or(0)
 }
 
-/// Uses the clicky as `/useitem` does: it starts casting its spell, or its
-/// reuse timer starts.
+/// Your buffs and songs: each one's spell, ticks and time left.
+type BuffSnapshot = Vec<(SpellId, Option<u32>, Option<Duration>)>;
+
+fn buff_snapshot(mq: &Mq<RustTest>) -> BuffSnapshot {
+    mq.buffs().chain(mq.songs()).map(|buff| (buff.spell_id(), buff.ticks(), buff.remaining())).collect()
+}
+
+/// Whether a spell landed since `before`: a buff that wasn't there, or one
+/// refreshed (more ticks, or more than a second more time left).
+fn buffs_landed(before: &BuffSnapshot, after: &BuffSnapshot) -> bool {
+    after.iter().any(|(id, ticks, left)| match before.iter().find(|(old, ..)| old == id) {
+        None => true,
+        Some((_, old_ticks, old_left)) => {
+            ticks.zip(*old_ticks).is_some_and(|(new, old)| new > old)
+                || left.zip(*old_left).is_some_and(|(new, old)| new > old + Duration::from_secs(1))
+        }
+    })
+}
+
+/// Uses the clicky as `/useitem` does: it starts casting its spell, its
+/// reuse timer starts, or (an instant click without a timer) a buff lands
+/// or is refreshed.
 pub async fn use_clicky(task: &Task<RustTest>, report: &mut Report) {
     const WHAT: &str = "using a clicky item";
     let found = task.with(|mq| {
@@ -454,11 +474,18 @@ pub async fn use_clicky(task: &Task<RustTest>, report: &mut Report) {
     });
     let Some((at, spell)) = found else { return };
     let place = SlotLocation::inventory(at);
+    let before = task.with(buff_snapshot);
     let used = task.with(|mq| mq.use_item(place));
-    let took = task.wait_until_timeout(move |mq| (spell.is_some() && casting(mq) == spell) || clicky_timer(mq) > 0, TIMEOUT).await;
+    let took = task
+        .wait_until_timeout(move |mq| (spell.is_some() && casting(mq) == spell) || clicky_timer(mq) > 0 || buffs_landed(&before, &buff_snapshot(mq)), TIMEOUT)
+        .await;
     task.with(|mq| {
-        report.print(mq, &format!("use_item({place}) uses {CLICKY} (casts its spell, or its timer starts)"), Check::that(used && took, || {
-            format!("use_item: {used}; casting {:?} (its spell {spell:?}); ${{FindItem[={CLICKY}].TimerReady}} {}", casting(mq), clicky_timer(mq))
+        report.print(mq, &format!("use_item({place}) uses {CLICKY} (casts its spell, its timer starts, or a buff lands)"), Check::that(used && took, || {
+            format!(
+                "use_item: {used}; casting {:?} (its spell {spell:?}); ${{FindItem[={CLICKY}].TimerReady}} {}; no buff new or refreshed",
+                casting(mq),
+                clicky_timer(mq)
+            )
         }));
     });
 }
