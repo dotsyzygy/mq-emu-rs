@@ -324,47 +324,6 @@ extern "C" bool mqemu_skill_name(int skill, char* out, size_t cap)
 	}
 }
 
-// Your maximum endurance with its modifiers (${Me.MaxEndurance}). 0 if there's
-// no character.
-extern "C" int mqemu_max_endurance()
-{
-	try
-	{
-		return pLocalPC ? pLocalPC->Max_Endurance() : 0;
-	}
-	catch (...)
-	{
-		return 0;
-	}
-}
-
-// Your current HP (${Me.CurrentHPs}, GetCurHPS). 0 if there's no character.
-extern "C" int mqemu_hp_current()
-{
-	try
-	{
-		return pLocalPC ? pLocalPC->Cur_HP(0) : 0;
-	}
-	catch (...)
-	{
-		return 0;
-	}
-}
-
-// Your maximum mana with its modifiers (${Me.MaxMana}, GetMaxMana). 0 if
-// there's no character.
-extern "C" int mqemu_max_mana()
-{
-	try
-	{
-		return pLocalPC ? pLocalPC->Max_Mana() : 0;
-	}
-	catch (...)
-	{
-		return 0;
-	}
-}
-
 // The name ${Spawn.Class} shows for a class ID. False for none.
 extern "C" bool mqemu_class_name(int32_t class_id, char* out, size_t cap)
 {
@@ -651,33 +610,6 @@ extern "C" bool mqemu_task_objective_text(const CTaskElement* objective, char* o
 	}
 }
 
-// The game's clock in seconds (GetFastTime), which task timers count by.
-extern "C" uint32_t mqemu_fast_time()
-{
-	try
-	{
-		return GetFastTime();
-	}
-	catch (...)
-	{
-		return 0;
-	}
-}
-
-// How many friends your friends list has (${Friends}); -1 without the chat
-// service that keeps it.
-extern "C" int mqemu_friend_count()
-{
-	try
-	{
-		return pChatService ? pChatService->GetNumberOfFriends() : -1;
-	}
-	catch (...)
-	{
-		return -1;
-	}
-}
-
 // Your friend `index` (0-based), as ${Friends.Friend[index+1]}. False past
 // the end.
 extern "C" bool mqemu_friend_name(int index, char* out, size_t cap)
@@ -692,20 +624,6 @@ extern "C" bool mqemu_friend_name(int index, char* out, size_t cap)
 	catch (...)
 	{
 		return copy_out(nullptr, out, cap);
-	}
-}
-
-// What your active tribute costs in favor (CTribute::GetActiveFavorCost,
-// ${Me.ActiveFavorCost}). 0 without the tribute manager.
-extern "C" int mqemu_active_favor_cost()
-{
-	try
-	{
-		return pTribute ? pTribute->GetActiveFavorCost() : 0;
-	}
-	catch (...)
-	{
-		return 0;
 	}
 }
 

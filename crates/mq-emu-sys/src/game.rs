@@ -82,14 +82,6 @@ function_table! {
     /// MacroQuest's color codes and line breaks removed (`StripMQChat`). `out`
     /// needs `strlen(line) + 1` bytes; neither step lengthens the line.
     pub fn mqemu_clean_chat_line(line: *const c_char, keep_links: bool, out: *mut c_char, cap: usize) -> bool;
-    /// Your maximum endurance with its modifiers (`${Me.MaxEndurance}`); 0
-    /// without a character.
-    pub fn mqemu_max_endurance() -> i32;
-    /// Your current HP (`${Me.CurrentHPs}`); 0 without a character.
-    pub fn mqemu_hp_current() -> i32;
-    /// Your maximum mana with its modifiers (`${Me.MaxMana}`); 0 without a
-    /// character.
-    pub fn mqemu_max_mana() -> i32;
     /// The name `${Spawn.Class}` shows for a class ID; false for none.
     pub fn mqemu_class_name(class: i32, out: *mut c_char, cap: usize) -> bool;
     /// The name `${Spawn.Race}` shows for a race ID; false for none.
@@ -144,16 +136,8 @@ function_table! {
     /// What a task objective asks, as the task window says it
     /// (`${Task[n].Objective[m]}`); false for none.
     pub fn mqemu_task_objective_text(objective: *const CTaskElement, out: *mut c_char, cap: usize) -> bool;
-    /// The game's clock in seconds (`GetFastTime`), which task timers count by.
-    pub fn mqemu_fast_time() -> u32;
-    /// How many friends your friends list has (`${Friends}`); -1 without the
-    /// chat service that keeps it.
-    pub fn mqemu_friend_count() -> i32;
     /// Your friend `index` (0-based); false past the end.
     pub fn mqemu_friend_name(index: i32, out: *mut c_char, cap: usize) -> bool;
-    /// What your active tribute costs in favor (`${Me.ActiveFavorCost}`); 0
-    /// without the tribute manager.
-    pub fn mqemu_active_favor_cost() -> i32;
     /// The achievement manager (`AchievementManager::Instance`).
     pub fn mqemu_achievement_manager() -> *mut AchievementManager;
     /// A chat link to `achievement` as `player` has it
@@ -164,6 +148,22 @@ function_table! {
         /// Your maximum HP with its modifiers (`${Me.MaxHPs}`); 0 without a
         /// character.
         pub fn mqemu_max_hp() -> i32;
+        /// Your maximum endurance with its modifiers (`${Me.MaxEndurance}`); 0
+        /// without a character.
+        pub fn mqemu_max_endurance() -> i32;
+        /// Your current HP (`${Me.CurrentHPs}`); 0 without a character.
+        pub fn mqemu_hp_current() -> i32;
+        /// Your maximum mana with its modifiers (`${Me.MaxMana}`); 0 without a
+        /// character.
+        pub fn mqemu_max_mana() -> i32;
+        /// What your active tribute costs in favor (`${Me.ActiveFavorCost}`); 0
+        /// without the tribute manager.
+        pub fn mqemu_active_favor_cost() -> i32;
+        /// How many friends your friends list has (`${Friends}`); -1 without the
+        /// chat service that keeps it.
+        pub fn mqemu_friend_count() -> i32;
+        /// The game's clock in seconds (`GetFastTime`), which task timers count by.
+        pub fn mqemu_fast_time() -> u32;
         /// The spell gems you have, as `${Me.NumGems}` counts them: 8, plus each
         /// of gems 9 to 12 the cast spell window shows. 8 without the window.
         pub fn mqemu_gem_count() -> i32;
@@ -186,15 +186,76 @@ unsafe fn gem_count(window: Option<&CCastSpellWnd>) -> i32 {
     8 + shown as i32
 }
 
-
 /// [`Api::mqemu_max_hp`]: `pLocalPC->Max_HP(0)`, calling eqlib directly.
 ///
 /// # Safety
 /// In game, on the game thread.
 pub unsafe extern "C" fn mqemu_max_hp() -> i32 {
+    unsafe { with_character(|pc| crate::eqlib::CharacterZoneClient_Max_HP(pc, 0, true)) }
+}
+
+/// Calls `f` with your character's `CharacterZoneClient`; 0 without one.
+///
+/// # Safety
+/// In game, on the game thread.
+unsafe fn with_character(f: impl FnOnce(*mut crate::layouts::CharacterZoneClient) -> i32) -> i32 {
+    match unsafe { crate::types::foreign(&raw const crate::eqlib::pLocalPC).as_ref() } {
+        Some(pc) => f(pc.as_CharacterZoneClient()),
+        None => 0,
+    }
+}
+
+/// [`Api::mqemu_max_endurance`]: `pLocalPC->Max_Endurance()`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_max_endurance() -> i32 {
+    unsafe { with_character(|pc| crate::eqlib::CharacterZoneClient_Max_Endurance(pc, true)) }
+}
+
+/// [`Api::mqemu_hp_current`]: `pLocalPC->Cur_HP(0)`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_hp_current() -> i32 {
+    unsafe { with_character(|pc| crate::eqlib::CharacterZoneClient_Cur_HP(pc, 0, true)) }
+}
+
+/// [`Api::mqemu_max_mana`]: `pLocalPC->Max_Mana()`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_max_mana() -> i32 {
+    unsafe { with_character(|pc| crate::eqlib::CharacterZoneClient_Max_Mana(pc, true)) }
+}
+
+/// [`Api::mqemu_fast_time`]: `GetFastTime()`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_fast_time() -> u32 {
+    unsafe { crate::eqlib::GetFastTime() }
+}
+
+/// [`Api::mqemu_friend_count`]: `pChatService->GetNumberOfFriends()`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_friend_count() -> i32 {
     unsafe {
-        let Some(pc) = crate::types::foreign(&raw const crate::eqlib::pLocalPC).as_ref() else { return 0 };
-        crate::eqlib::CharacterZoneClient_Max_HP(pc.as_CharacterZoneClient(), 0, true)
+        let chat = crate::types::computed(&raw const crate::eqlib::pChatService);
+        if chat.is_null() { -1 } else { crate::eqlib::UniversalChatProxy_GetNumberOfFriends(chat) }
+    }
+}
+
+/// [`Api::mqemu_active_favor_cost`]: `pTribute->GetActiveFavorCost()`.
+///
+/// # Safety
+/// In game, on the game thread.
+pub unsafe extern "C" fn mqemu_active_favor_cost() -> i32 {
+    unsafe {
+        let tribute = crate::eqlib::pTribute;
+        if tribute.is_null() { 0 } else { crate::eqlib::CTribute_GetActiveFavorCost(tribute) }
     }
 }
 

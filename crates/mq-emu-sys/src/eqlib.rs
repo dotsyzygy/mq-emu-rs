@@ -1,12 +1,12 @@
 //! Imports from `eqlib.dll` (`EQLIB_API` / `EQLIB_VAR`).
 
-use core::ffi::{c_char, c_int, c_uint, c_void};
+use core::ffi::{c_char, c_int, c_uint, c_ulong, c_void};
 
 use crate::constants::N_EQ_MAPPABLE_COMMANDS;
 use crate::layouts::{
     AggroMeterManagerClient, CCastSpellWnd, CContextMenuManager, CXStr, CXWnd, CharacterZoneClient, CInvSlotMgr, CItemDisplayManager, CLootWnd, CMercenaryManager, CMerchantWnd, CPetInfoWnd, CRaid,
-    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
-    zoneHeader,
+    CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PlayerManagerClient, SharedTaskPlayerInfo, SkillManager,
+    UniversalChatProxy, zoneHeader,
 };
 use crate::types::{ComputedPointer, ForeignPointer, PlayerClient};
 
@@ -19,6 +19,8 @@ imports! {
         /// (`key_down = true`) or up. Movement keys stay held until released.
         /// `data` and `combo` may be null.
         pub fn EQExecuteCmd(command: c_uint, key_down: bool, data: *mut c_void, combo: *const KeyCombo) -> bool;
+        /// The game's clock in seconds, which task timers count by.
+        pub fn GetFastTime() -> c_ulong;
     }
     statics {
         // eqlib/game/Globals.h
@@ -98,13 +100,35 @@ imports! {
         /// The spell gem bar; `SpellSlots` past the eighth are shown only if
         /// your character has them.
         pub static mut pCastSpellWnd: ForeignPointer<CCastSpellWnd>;
+        /// Tribute state; null before the game makes it.
+        pub static mut pTribute: *mut CTribute;
+        /// The chat service, which keeps your friends list; its getter
+        /// returns null without one.
+        pub static mut pChatService: ComputedPointer<UniversalChatProxy>;
     }
-    methods {
+    methods(EQLIB_METHODS) {
         // eqlib/game/PcClient.h
         /// Your maximum HP with its modifiers, capped at the game's maximum when
         /// `cap_at_max` (C++'s default). `spawn_type` 0 is you.
         pub fn CharacterZoneClient_Max_HP(this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool) -> c_int
             = "?Max_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z";
+        /// Your current HP, capped like [`CharacterZoneClient_Max_HP`].
+        pub fn CharacterZoneClient_Cur_HP(this: *mut CharacterZoneClient, spawn_type: c_int, cap_at_max: bool) -> c_int
+            = "?Cur_HP@CharacterZoneClient@eqlib@@QAEHH_N@Z";
+        /// Your maximum endurance with its modifiers, capped when `cap_at_max`
+        /// (C++'s default).
+        pub fn CharacterZoneClient_Max_Endurance(this: *mut CharacterZoneClient, cap_at_max: bool) -> c_int
+            = "?Max_Endurance@CharacterZoneClient@eqlib@@QAEH_N@Z";
+        /// Your maximum mana with its modifiers, capped when `cap_at_max`
+        /// (C++'s default).
+        pub fn CharacterZoneClient_Max_Mana(this: *mut CharacterZoneClient, cap_at_max: bool) -> c_int
+            = "?Max_Mana@CharacterZoneClient@eqlib@@QAEH_N@Z";
+
+        // eqlib/game/EQClasses.h, eqlib/game/EQData.h
+        /// What your active tribute costs in favor.
+        pub fn CTribute_GetActiveFavorCost(this: *mut CTribute) -> c_int = "?GetActiveFavorCost@CTribute@eqlib@@QAEHXZ";
+        /// How many friends your friends list has.
+        pub fn UniversalChatProxy_GetNumberOfFriends(this: *mut UniversalChatProxy) -> c_int = "?GetNumberOfFriends@UniversalChatProxy@eqlib@@QAEHXZ";
 
         // eqlib/game/CXWnd.h
         /// What kind of control `this` is (`UI_*`).

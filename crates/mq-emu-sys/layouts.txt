@@ -68,3 +68,5 @@ Achievement             # one achievement
 SingleAchievementAndComponentsInfo # your progress on one achievement
 AchievementComponent    # one objective of an achievement
 AchievementInfo         # one achievement in a category
+CTribute                # tribute state (pTribute)
+UniversalChatProxy      # the chat service: your friends list (pChatService)

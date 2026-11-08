@@ -36229,6 +36229,15 @@ impl CTradeWnd {
     pub const VTABLE___vecDelDtor: usize = 0x4;
 }
 
+/// C++ class `CTribute` (0x1 bytes).
+#[repr(C)]
+pub struct CTribute {
+    _bytes: UnsafeCell<[u8; 0x1]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl CTribute {}
+
 /// C++ class `CUITextureInfo` (0x18 bytes).
 #[repr(C)]
 pub struct CUITextureInfo {
@@ -68067,6 +68076,319 @@ impl TargetSetLoadout {
     }
 }
 
+/// C++ class `UniversalChatProxy` (0xe0 bytes).
+#[repr(C)]
+pub struct UniversalChatProxy {
+    _bytes: UnsafeCell<[u8; 0xe0]>,
+    _pin: PhantomData<PhantomPinned>,
+}
+
+impl UniversalChatProxy {
+    /// `UniversalChatProxy::__vfptr` at 0x0 (0x0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn __vfptr(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x0) }
+    }
+
+    /// `UniversalChatProxy::__vfptr` at 0x0 (0x0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set___vfptr(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x0, value) }
+    }
+
+    /// `UniversalChatProxy::pChatProxyHandler` at 0x4 (0x4 within `UniversalChatProxy`).
+    #[inline]
+    pub fn pChatProxyHandler(&self) -> *mut UniversalChatProxyHandler {
+        unsafe { read(self._bytes.get().cast(), 0x4) }
+    }
+
+    /// `UniversalChatProxy::pChatProxyHandler` at 0x4 (0x4 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_pChatProxyHandler(&self, value: *mut UniversalChatProxyHandler) {
+        unsafe { write(self._bytes.get().cast(), 0x4, value) }
+    }
+
+    /// `UniversalChatProxy::pUdpManager` at 0x8 (0x8 within `UniversalChatProxy`).
+    #[inline]
+    pub fn pUdpManager(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x8) }
+    }
+
+    /// `UniversalChatProxy::pUdpManager` at 0x8 (0x8 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_pUdpManager(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x8, value) }
+    }
+
+    /// `UniversalChatProxy::ChannelList` at 0xc (0xc within `UniversalChatProxy`).
+    #[inline]
+    pub fn ChannelList(&self) -> *mut *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0xc) }
+    }
+
+    /// `UniversalChatProxy::ChannelList` at 0xc (0xc within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ChannelList(&self, value: *mut *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0xc, value) }
+    }
+
+    /// `UniversalChatProxy::ActiveChannels` at 0x10 (0x10 within `UniversalChatProxy`).
+    #[inline]
+    pub fn ActiveChannels(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0x10) }
+    }
+
+    /// `UniversalChatProxy::ActiveChannels` at 0x10 (0x10 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ActiveChannels(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0x10, value) }
+    }
+
+    /// `UniversalChatProxy::mAuthenticated` at 0x14 (0x14 within `UniversalChatProxy`).
+    #[inline]
+    pub fn mAuthenticated(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x14) != 0 }
+    }
+
+    /// `UniversalChatProxy::mAuthenticated` at 0x14 (0x14 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_mAuthenticated(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x14, u8::from(value)) }
+    }
+
+    /// `UniversalChatProxy::bLoginSent` at 0x15 (0x15 within `UniversalChatProxy`).
+    #[inline]
+    pub fn bLoginSent(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x15) != 0 }
+    }
+
+    /// `UniversalChatProxy::bLoginSent` at 0x15 (0x15 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_bLoginSent(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x15, u8::from(value)) }
+    }
+
+    /// `UniversalChatProxy::bInvisible` at 0x16 (0x16 within `UniversalChatProxy`).
+    #[inline]
+    pub fn bInvisible(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x16) != 0 }
+    }
+
+    /// `UniversalChatProxy::bInvisible` at 0x16 (0x16 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_bInvisible(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x16, u8::from(value)) }
+    }
+
+    /// `UniversalChatProxy::bFullNotifyMode` at 0x17 (0x17 within `UniversalChatProxy`).
+    #[inline]
+    pub fn bFullNotifyMode(&self) -> bool {
+        unsafe { read::<u8>(self._bytes.get().cast(), 0x17) != 0 }
+    }
+
+    /// `UniversalChatProxy::bFullNotifyMode` at 0x17 (0x17 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_bFullNotifyMode(&self, value: bool) {
+        unsafe { write(self._bytes.get().cast(), 0x17, u8::from(value)) }
+    }
+
+    /// `UniversalChatProxy::UdpConnection` at 0x18 (0x18 within `UniversalChatProxy`).
+    #[inline]
+    pub fn UdpConnection(&self) -> *mut c_void {
+        unsafe { read(self._bytes.get().cast(), 0x18) }
+    }
+
+    /// `UniversalChatProxy::UdpConnection` at 0x18 (0x18 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_UdpConnection(&self, value: *mut c_void) {
+        unsafe { write(self._bytes.get().cast(), 0x18, value) }
+    }
+
+    /// `UniversalChatProxy::ChatID` at 0x1c (0x1c within `UniversalChatProxy`).
+    #[inline]
+    pub fn ChatID(&self) -> [c_char; 48] {
+        unsafe { read(self._bytes.get().cast(), 0x1c) }
+    }
+
+    /// `UniversalChatProxy::ChatID` at 0x1c (0x1c within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ChatID(&self, value: [c_char; 48]) {
+        unsafe { write(self._bytes.get().cast(), 0x1c, value) }
+    }
+
+    /// `UniversalChatProxy::ChatID` at 0x1c (0x1c within `UniversalChatProxy`).
+    /// One element; panics if `index >= 48`.
+    #[inline]
+    pub fn ChatID_at(&self, index: usize) -> c_char {
+        assert!(index < 48, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x1c + index * 0x1) }
+    }
+
+    /// `UniversalChatProxy::ChatID` at 0x1c (0x1c within `UniversalChatProxy`).
+    /// Sets one element; panics if `index >= 48`.
+    #[inline]
+    pub fn set_ChatID_at(&self, index: usize, value: c_char) {
+        assert!(index < 48, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x1c + index * 0x1, value) }
+    }
+
+    /// `UniversalChatProxy::ChatPass` at 0x4c (0x4c within `UniversalChatProxy`).
+    #[inline]
+    pub fn ChatPass(&self) -> [c_char; 48] {
+        unsafe { read(self._bytes.get().cast(), 0x4c) }
+    }
+
+    /// `UniversalChatProxy::ChatPass` at 0x4c (0x4c within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ChatPass(&self, value: [c_char; 48]) {
+        unsafe { write(self._bytes.get().cast(), 0x4c, value) }
+    }
+
+    /// `UniversalChatProxy::ChatPass` at 0x4c (0x4c within `UniversalChatProxy`).
+    /// One element; panics if `index >= 48`.
+    #[inline]
+    pub fn ChatPass_at(&self, index: usize) -> c_char {
+        assert!(index < 48, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x4c + index * 0x1) }
+    }
+
+    /// `UniversalChatProxy::ChatPass` at 0x4c (0x4c within `UniversalChatProxy`).
+    /// Sets one element; panics if `index >= 48`.
+    #[inline]
+    pub fn set_ChatPass_at(&self, index: usize, value: c_char) {
+        assert!(index < 48, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x4c + index * 0x1, value) }
+    }
+
+    /// `UniversalChatProxy::ServerName` at 0x7c (0x7c within `UniversalChatProxy`).
+    #[inline]
+    pub fn ServerName(&self) -> [c_char; 48] {
+        unsafe { read(self._bytes.get().cast(), 0x7c) }
+    }
+
+    /// `UniversalChatProxy::ServerName` at 0x7c (0x7c within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ServerName(&self, value: [c_char; 48]) {
+        unsafe { write(self._bytes.get().cast(), 0x7c, value) }
+    }
+
+    /// `UniversalChatProxy::ServerName` at 0x7c (0x7c within `UniversalChatProxy`).
+    /// One element; panics if `index >= 48`.
+    #[inline]
+    pub fn ServerName_at(&self, index: usize) -> c_char {
+        assert!(index < 48, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0x7c + index * 0x1) }
+    }
+
+    /// `UniversalChatProxy::ServerName` at 0x7c (0x7c within `UniversalChatProxy`).
+    /// Sets one element; panics if `index >= 48`.
+    #[inline]
+    pub fn set_ServerName_at(&self, index: usize, value: c_char) {
+        assert!(index < 48, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0x7c + index * 0x1, value) }
+    }
+
+    /// `UniversalChatProxy::ServerNameLen` at 0xac (0xac within `UniversalChatProxy`).
+    #[inline]
+    pub fn ServerNameLen(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xac) }
+    }
+
+    /// `UniversalChatProxy::ServerNameLen` at 0xac (0xac within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ServerNameLen(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xac, value) }
+    }
+
+    /// `UniversalChatProxy::Locale` at 0xb0 (0xb0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn Locale(&self) -> [c_char; 16] {
+        unsafe { read(self._bytes.get().cast(), 0xb0) }
+    }
+
+    /// `UniversalChatProxy::Locale` at 0xb0 (0xb0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_Locale(&self, value: [c_char; 16]) {
+        unsafe { write(self._bytes.get().cast(), 0xb0, value) }
+    }
+
+    /// `UniversalChatProxy::Locale` at 0xb0 (0xb0 within `UniversalChatProxy`).
+    /// One element; panics if `index >= 16`.
+    #[inline]
+    pub fn Locale_at(&self, index: usize) -> c_char {
+        assert!(index < 16, "index out of bounds");
+        unsafe { read(self._bytes.get().cast(), 0xb0 + index * 0x1) }
+    }
+
+    /// `UniversalChatProxy::Locale` at 0xb0 (0xb0 within `UniversalChatProxy`).
+    /// Sets one element; panics if `index >= 16`.
+    #[inline]
+    pub fn set_Locale_at(&self, index: usize, value: c_char) {
+        assert!(index < 16, "index out of bounds");
+        unsafe { write(self._bytes.get().cast(), 0xb0 + index * 0x1, value) }
+    }
+
+    /// `UniversalChatProxy::ChatPrefix` at 0xc0 (0xc0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn ChatPrefix(&self) -> *mut c_char {
+        unsafe { read(self._bytes.get().cast(), 0xc0) }
+    }
+
+    /// `UniversalChatProxy::ChatPrefix` at 0xc0 (0xc0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_ChatPrefix(&self, value: *mut c_char) {
+        unsafe { write(self._bytes.get().cast(), 0xc0, value) }
+    }
+
+    /// `UniversalChatProxy::LastDisconnectCheckTime` at 0xc4 (0xc4 within `UniversalChatProxy`).
+    #[inline]
+    pub fn LastDisconnectCheckTime(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xc4) }
+    }
+
+    /// `UniversalChatProxy::LastDisconnectCheckTime` at 0xc4 (0xc4 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_LastDisconnectCheckTime(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xc4, value) }
+    }
+
+    /// `UniversalChatProxy::BuddyList` at 0xc8 (0xc8 within `UniversalChatProxy`).
+    #[inline]
+    pub fn BuddyList(&self) -> *mut *mut UniversalChatProxy_BuddyEntry {
+        unsafe { read(self._bytes.get().cast(), 0xc8) }
+    }
+
+    /// `UniversalChatProxy::BuddyList` at 0xc8 (0xc8 within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_BuddyList(&self, value: *mut *mut UniversalChatProxy_BuddyEntry) {
+        unsafe { write(self._bytes.get().cast(), 0xc8, value) }
+    }
+
+    /// `UniversalChatProxy::BuddyListCount` at 0xcc (0xcc within `UniversalChatProxy`).
+    #[inline]
+    pub fn BuddyListCount(&self) -> i32 {
+        unsafe { read(self._bytes.get().cast(), 0xcc) }
+    }
+
+    /// `UniversalChatProxy::BuddyListCount` at 0xcc (0xcc within `UniversalChatProxy`).
+    #[inline]
+    pub fn set_BuddyListCount(&self, value: i32) {
+        unsafe { write(self._bytes.get().cast(), 0xcc, value) }
+    }
+
+    /// `UniversalChatProxy::IgnoreList` at 0xd0 (0xd0 within `UniversalChatProxy`).
+    #[inline]
+    pub fn IgnoreList(&self) -> &ArrayClass_CXStr {
+        unsafe { at(self._bytes.get().cast(), 0xd0) }
+    }
+
+    /// Byte offset of the virtual `~UniversalChatProxy` in this class's vtable.
+    pub const VTABLE_UniversalChatProxy: usize = 0x0;
+
+    /// Byte offset of the virtual `__vecDelDtor` in this class's vtable.
+    pub const VTABLE___vecDelDtor: usize = 0x0;
+}
+
 /// C++ class `VeArray<MerchantPageHandler *>` (0xc bytes).
 #[repr(C)]
 pub struct VeArray_MerchantPageHandler {
@@ -70818,6 +71140,20 @@ pub struct TaskTimerData {
     _marker: PhantomData<(*mut u8, PhantomPinned)>,
 }
 
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct UniversalChatProxyHandler {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
+/// Opaque: only reached through pointers from generated records.
+#[repr(C)]
+pub struct UniversalChatProxy_BuddyEntry {
+    _opaque: [u8; 0],
+    _marker: PhantomData<(*mut u8, PhantomPinned)>,
+}
+
 /// Every generated record, keyed by its C++ name.
 pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "ARGBCOLOR", rust_name: "ARGBCOLOR", size: 0x4 },
@@ -70906,6 +71242,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "CTaskEntry", rust_name: "CTaskEntry", size: 0x3bfc },
     RecordInfo { name: "CTaskManager", rust_name: "CTaskManager", size: 0x19c698 },
     RecordInfo { name: "CTradeWnd", rust_name: "CTradeWnd", size: 0x2fc },
+    RecordInfo { name: "CTribute", rust_name: "CTribute", size: 0x1 },
     RecordInfo { name: "CUITextureInfo", rust_name: "CUITextureInfo", size: 0x18 },
     RecordInfo { name: "CVector2", rust_name: "CVector2", size: 0x8 },
     RecordInfo { name: "CVector3", rust_name: "CVector3", size: 0xc },
@@ -71026,6 +71363,7 @@ pub static RECORDS: &[RecordInfo] = &[
     RecordInfo { name: "TList<PlayerClient>", rust_name: "TList_PlayerClient", size: 0x8 },
     RecordInfo { name: "TList<int>", rust_name: "TList_int", size: 0x8 },
     RecordInfo { name: "TargetSetLoadout", rust_name: "TargetSetLoadout", size: 0x5f7 },
+    RecordInfo { name: "UniversalChatProxy", rust_name: "UniversalChatProxy", size: 0xe0 },
     RecordInfo { name: "VeArray<MerchantPageHandler *>", rust_name: "VeArray_MerchantPageHandler", size: 0xc },
     RecordInfo { name: "VeArray<VePointer<ItemClient> >", rust_name: "VeArray_VePointer_ItemClient", size: 0xc },
     RecordInfo { name: "VePointer<ItemClient>", rust_name: "VePointer_ItemClient", size: 0x4 },
@@ -76459,6 +76797,26 @@ pub static FIELDS: &[FieldInfo] = &[
     FieldInfo { record: "TargetSetLoadout", field: "storedString", accessor: "storedString", declared_in: "TargetSetLoadout", offset: 0x19, decl_offset: 0x19, size: 0x5dc, bits: None },
     FieldInfo { record: "TargetSetLoadout", field: "inuse", accessor: "inuse", declared_in: "TargetSetLoadout", offset: 0x5f5, decl_offset: 0x5f5, size: 0x1, bits: None },
     FieldInfo { record: "TargetSetLoadout", field: "changed", accessor: "changed", declared_in: "TargetSetLoadout", offset: 0x5f6, decl_offset: 0x5f6, size: 0x1, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "__vfptr", accessor: "__vfptr", declared_in: "UniversalChatProxy", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "pChatProxyHandler", accessor: "pChatProxyHandler", declared_in: "UniversalChatProxy", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "pUdpManager", accessor: "pUdpManager", declared_in: "UniversalChatProxy", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ChannelList", accessor: "ChannelList", declared_in: "UniversalChatProxy", offset: 0xc, decl_offset: 0xc, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ActiveChannels", accessor: "ActiveChannels", declared_in: "UniversalChatProxy", offset: 0x10, decl_offset: 0x10, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "mAuthenticated", accessor: "mAuthenticated", declared_in: "UniversalChatProxy", offset: 0x14, decl_offset: 0x14, size: 0x1, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "bLoginSent", accessor: "bLoginSent", declared_in: "UniversalChatProxy", offset: 0x15, decl_offset: 0x15, size: 0x1, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "bInvisible", accessor: "bInvisible", declared_in: "UniversalChatProxy", offset: 0x16, decl_offset: 0x16, size: 0x1, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "bFullNotifyMode", accessor: "bFullNotifyMode", declared_in: "UniversalChatProxy", offset: 0x17, decl_offset: 0x17, size: 0x1, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "UdpConnection", accessor: "UdpConnection", declared_in: "UniversalChatProxy", offset: 0x18, decl_offset: 0x18, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ChatID", accessor: "ChatID", declared_in: "UniversalChatProxy", offset: 0x1c, decl_offset: 0x1c, size: 0x30, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ChatPass", accessor: "ChatPass", declared_in: "UniversalChatProxy", offset: 0x4c, decl_offset: 0x4c, size: 0x30, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ServerName", accessor: "ServerName", declared_in: "UniversalChatProxy", offset: 0x7c, decl_offset: 0x7c, size: 0x30, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ServerNameLen", accessor: "ServerNameLen", declared_in: "UniversalChatProxy", offset: 0xac, decl_offset: 0xac, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "Locale", accessor: "Locale", declared_in: "UniversalChatProxy", offset: 0xb0, decl_offset: 0xb0, size: 0x10, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "ChatPrefix", accessor: "ChatPrefix", declared_in: "UniversalChatProxy", offset: 0xc0, decl_offset: 0xc0, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "LastDisconnectCheckTime", accessor: "LastDisconnectCheckTime", declared_in: "UniversalChatProxy", offset: 0xc4, decl_offset: 0xc4, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "BuddyList", accessor: "BuddyList", declared_in: "UniversalChatProxy", offset: 0xc8, decl_offset: 0xc8, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "BuddyListCount", accessor: "BuddyListCount", declared_in: "UniversalChatProxy", offset: 0xcc, decl_offset: 0xcc, size: 0x4, bits: None },
+    FieldInfo { record: "UniversalChatProxy", field: "IgnoreList", accessor: "IgnoreList", declared_in: "UniversalChatProxy", offset: 0xd0, decl_offset: 0xd0, size: 0x10, bits: None },
     FieldInfo { record: "VeArray<MerchantPageHandler *>", field: "m_data", accessor: "m_data", declared_in: "VeArray<MerchantPageHandler *>", offset: 0x0, decl_offset: 0x0, size: 0x4, bits: None },
     FieldInfo { record: "VeArray<MerchantPageHandler *>", field: "m_size", accessor: "m_size", declared_in: "VeArray<MerchantPageHandler *>", offset: 0x4, decl_offset: 0x4, size: 0x4, bits: None },
     FieldInfo { record: "VeArray<MerchantPageHandler *>", field: "m_capacity", accessor: "m_capacity", declared_in: "VeArray<MerchantPageHandler *>", offset: 0x8, decl_offset: 0x8, size: 0x4, bits: None },
@@ -76758,4 +77116,6 @@ pub static VTABLES: &[VtableInfo] = &[
     VtableInfo { record: "SingleAchievementAndComponentsInfo", function: "UnSerializeCXStr", offset: 0x8 },
     VtableInfo { record: "SingleAchievementAndComponentsInfo", function: "Serialize", offset: 0xc },
     VtableInfo { record: "SingleAchievementAndComponentsInfo", function: "UnSerialize", offset: 0x10 },
+    VtableInfo { record: "UniversalChatProxy", function: "~UniversalChatProxy", offset: 0x0 },
+    VtableInfo { record: "UniversalChatProxy", function: "__vecDelDtor", offset: 0x0 },
 ];

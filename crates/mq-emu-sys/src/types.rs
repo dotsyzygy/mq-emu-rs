@@ -87,6 +87,15 @@ pub unsafe fn foreign<T>(global: *const ForeignPointer<T>) -> *mut T {
     unsafe { (*global).get() }
 }
 
+/// The object a [`ComputedPointer`] global computes, given a raw pointer to
+/// the global (`&raw const eqlib::pChatService`).
+///
+/// # Safety
+/// As [`ComputedPointer::get`].
+pub unsafe fn computed<T>(global: *const ComputedPointer<T>) -> *mut T {
+    unsafe { (*global).get() }
+}
+
 /// The function in `object`'s vtable at byte `offset` (a generated
 /// `VTABLE_*` constant of the class that introduced it), as `F`: an
 /// `unsafe extern "thiscall" fn` taking the object first.

@@ -13,8 +13,9 @@ macro_rules! imports {
         }
         $(
         // C++ member functions, by their mangled export names: `__thiscall`,
-        // `this` first.
-        methods {
+        // `this` first. `$sigs` lists each one's name, parameters and return
+        // type, so tests can check the Rust types against the mangled name.
+        methods($sigs:ident) {
             $( $(#[$mattr:meta])* pub fn $mname:ident ( $($margs:tt)* ) $(-> $mret:ty)? = $mlink:literal ; )*
         }
         )?
@@ -35,6 +36,13 @@ macro_rules! imports {
         /// Every symbol name declared in this module, as exported by the DLL.
         #[doc(hidden)]
         pub const $names: &[&str] = &[ $(stringify!($fname),)* $(stringify!($sname),)* $($($mlink,)*)? ];
+
+        $(
+        /// Every method declared in this module: its mangled name, then its
+        /// Rust parameters and return type (empty for none) as written.
+        #[doc(hidden)]
+        pub const $sigs: &[(&str, &str, &str)] = &[ $( ($mlink, stringify!($($margs)*), concat!("" $(, stringify!($mret))?)), )* ];
+        )?
     };
 }
 
@@ -95,6 +103,10 @@ mod tests {
         statics {
             pub static mut SomeGlobal: [c_char; 4];
         }
+        methods(TEST_METHODS) {
+            pub fn Thing_Get(this: *const c_char, index: i32) -> bool = "?Get@Thing@@QBE_NH@Z";
+            pub fn Thing_drop(this: *mut c_char) = "??1Thing@@QAE@XZ";
+        }
     }
 
     imports! {
@@ -106,7 +118,18 @@ mod tests {
 
     #[test]
     fn names_list_every_function_then_static() {
-        assert_eq!(TEST_IMPORTS, ["VariadicFn", "ReturnsValue", "SomeGlobal"]);
+        assert_eq!(TEST_IMPORTS, ["VariadicFn", "ReturnsValue", "SomeGlobal", "?Get@Thing@@QBE_NH@Z", "??1Thing@@QAE@XZ"]);
+    }
+
+    #[test]
+    fn signatures_list_each_method_with_its_rust_types() {
+        // Compares ignoring whitespace, which `stringify!` may add.
+        let same = |a: &str, b: &str| a.chars().filter(|c| !c.is_whitespace()).eq(b.chars().filter(|c| !c.is_whitespace()));
+        let expected = [("?Get@Thing@@QBE_NH@Z", "this: *const c_char, index: i32", "bool"), ("??1Thing@@QAE@XZ", "this: *mut c_char", "")];
+        assert_eq!(TEST_METHODS.len(), expected.len());
+        for (&(link, args, ret), (elink, eargs, eret)) in TEST_METHODS.iter().zip(expected) {
+            assert!(link == elink && same(args, eargs) && same(ret, eret), "{link}: ({args}) -> {ret}");
+        }
     }
 
     #[test]
