@@ -1301,6 +1301,34 @@ fn sits_and_stands_with_the_games_commands() {
 }
 
 #[test]
+fn pet_commands_go_through_the_games_pet_command_with_a_pet() {
+    use crate::PetCommand::{Attack, BackOff, Taunt};
+    game();
+    set_zone((1, 0.0, 0.0), &[(20, "Gabober", 1, 5.0, 0.0)]);
+    fake_game::with(|g| g.commands = vec!["/pet".into()]);
+    let commands = |mq: &Mq<Recorder>| [Attack, BackOff, Taunt(true), Taunt(false)].map(|command| mq.pet_command(command).to_string()).join(" ");
+    assert_eq!(pulse_log(commands), ["false false false false"], "no pet");
+    assert_eq!(fake_game::log(), Vec::<String>::new());
+    player().set_PetID(20);
+    assert_eq!(pulse_log(commands), ["true true true true"]);
+    assert_eq!(fake_game::log(), ["/pet attack", "/pet back off", "/pet taunt on", "/pet taunt off"]);
+}
+
+#[test]
+fn the_pets_target_is_what_it_follows() {
+    set_zone((1, 0.0, 0.0), &[(20, "Gabober", 1, 5.0, 0.0), (21, "a rat", 1, 9.0, 0.0)]);
+    let target = |mq: &Mq<Recorder>| format!("{:?}", mq.pet_target().map(|s| s.id()));
+    assert_eq!(pulse_log(target), ["None"], "no pet");
+    player().set_PetID(20);
+    assert_eq!(pulse_log(target), ["None"], "a pet on nothing");
+    ZONE.with(|zone| {
+        let zone = zone.borrow();
+        unsafe { (*zone[0].ptr()).set_WhoFollowing(zone[1].ptr()) }
+    });
+    assert_eq!(pulse_log(target), ["Some(SpawnId(21))"]);
+}
+
+#[test]
 fn the_skill_stack_probe_reaches_the_shim() {
     let game = game();
     game.profile.get().set_Skill_at(10, 200);

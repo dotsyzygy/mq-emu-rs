@@ -418,6 +418,15 @@ impl RustTest {
                 }
                 ui.same_line();
                 ui.text(format!("line of sight to pet: {}", mq.line_of_sight(&pet)));
+                let taunt = mq.pet_commands().is_some_and(|commands| commands.taunt);
+                for (label, command) in [("Pet attack", mq_emu::PetCommand::Attack), ("Pet back off", mq_emu::PetCommand::BackOff), (if taunt { "Pet taunt off" } else { "Pet taunt on" }, mq_emu::PetCommand::Taunt(!taunt))] {
+                    if ui.small_button(label) {
+                        let sent = mq.pet_command(command);
+                        mq.chat(format!("pet_command({command:?}): {sent}"));
+                    }
+                    ui.same_line();
+                }
+                ui.text(format!("pet target: {}", mq.pet_target().map_or("none".to_owned(), |t| t.name())));
             }
         }
         if ui.collapsing_header("Raid and mercenary") {

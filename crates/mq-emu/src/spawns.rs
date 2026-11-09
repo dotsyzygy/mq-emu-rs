@@ -80,6 +80,14 @@ impl<P: Plugin> Mq<P> {
         self.spawn(pet.master_id()?)
     }
 
+    /// What your pet is attacking (`${Pet.Target}`): `None` without a pet or
+    /// while it isn't on anything.
+    pub fn pet_target(&self) -> Option<Spawn<'_>> {
+        let pet = self.pet()?;
+        // SAFETY: the pet's target is a live spawn, or null.
+        unsafe { Spawn::from_raw(pet.raw().WhoFollowing()) }
+    }
+
     /// Your pet's command states as the pet window's buttons show them
     /// (`${Pet.Taunt}`, `${Pet.Hold}`...); `None` without a pet.
     pub fn pet_commands(&self) -> Option<PetCommands> {
@@ -101,8 +109,8 @@ impl<P: Plugin> Mq<P> {
 }
 
 /// Your pet's command states, from the pet window ([`Mq::pet_commands`]).
-/// Each is true while its button is on. Set them with `/pet` commands
-/// (`/pet taunt off`).
+/// Each is true while its button is on. Set taunt with
+/// [`Mq::pet_command`]; the others with `/pet` commands (`/pet hold on`).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct PetCommands {
     pub sit: bool,

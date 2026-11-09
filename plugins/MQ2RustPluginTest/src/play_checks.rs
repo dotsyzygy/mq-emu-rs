@@ -9,11 +9,11 @@ use std::collections::BTreeSet;
 use std::time::{Duration, Instant};
 
 use mq_emu::sys::constants::{MAX_TOTAL_BUFFS, NUM_LONG_BUFFS, NUM_SKILLS};
-use mq_emu::{Address, GameState, MercenaryState, Mq, Plugin, SkillId, SpawnId, Task};
+use mq_emu::{Address, GameState, MercenaryState, Mq, PetCommand, Plugin, SkillId, SpawnId, Task};
 
 use crate::RustTest;
 use crate::checks::{self, Check, Report, same_text};
-use crate::game_checks::{all_match, id_or_null};
+use crate::game_checks::{NULL, all_match, id_or_null};
 
 /// Mercenaries can't be had on the server this is tested on, so their checks
 /// only skip. Set to true where they can.
@@ -170,6 +170,15 @@ fn pet_commands<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     let mut rows: Vec<(String, String, String)> = rows.iter().map(|(what, on, member)| ((*what).to_owned(), tf(*on).to_owned(), format!("${{Me.Pet.{member}}}"))).collect();
     rows.push(("follow".to_owned(), (if commands.follow { "FOLLOW" } else { "GUARD" }).to_owned(), "${Me.Pet.Stance}".to_owned()));
     report.print(mq, "pet_commands() match ${Me.Pet.Taunt}, Hold, GHold, SpellHold, ReGroup, Stop, Focus, Stance", all_match(mq, rows));
+    // Taunt as it already is: the game takes the command, and nothing changes.
+    let sent = mq.pet_command(PetCommand::Taunt(commands.taunt));
+    report.print(mq, "pet_command(Taunt(as it is)) is taken", Check::that(sent, || "the game has no /pet".into()));
+    let target = mq.pet_target().map(|t| t.id().0);
+    let theirs = mq.parse("${Me.Pet.Target.ID}");
+    report.print(mq, "pet_target() = ${Me.Pet.Target.ID}", match target {
+        Some(id) => same_text(id, theirs),
+        None => Check::that(theirs == NULL || theirs == "0", || format!("no target in mq-emu, MacroQuest says {theirs:?}")),
+    });
 }
 
 /// Left-clicks the pet with nothing on the cursor, which targets it, then

@@ -66,6 +66,18 @@ impl<P: Plugin> Mq<P> {
         self.local_pc().is_some() && self.eq_command(if sit { "/sit" } else { "/stand" }, "on")
     }
 
+    /// Gives your pet a command through the game's `/pet`, as typing it does.
+    /// False without a pet.
+    pub fn pet_command(&self, command: PetCommand) -> bool {
+        let args = match command {
+            PetCommand::Attack => "attack",
+            PetCommand::BackOff => "back off",
+            PetCommand::Taunt(true) => "taunt on",
+            PetCommand::Taunt(false) => "taunt off",
+        };
+        self.pet().is_some() && self.eq_command("/pet", args)
+    }
+
     /// How close `attacker` must be to hit `target` in melee, from both
     /// spawns' sizes and heights: 14 to 75. Yours to your target is
     /// `${Target.MaxRangeTo}`.
@@ -160,6 +172,17 @@ impl<P: Plugin> Mq<P> {
 /// `current` as a percentage of `max`, 0..=100; 0 without a maximum.
 fn percent(current: i32, max: i32) -> i32 {
     if max <= 0 { 0 } else { (i64::from(current) * 100 / i64::from(max)).clamp(0, 100) as i32 }
+}
+
+/// A command to your pet, as `/pet` gives it ([`Mq::pet_command`]).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum PetCommand {
+    /// Attack your target (`/pet attack`).
+    Attack,
+    /// Stop attacking and come back (`/pet back off`).
+    BackOff,
+    /// Taunt on or off (`/pet taunt on|off`), as [`PetCommands::taunt`](crate::PetCommands::taunt) shows.
+    Taunt(bool),
 }
 
 /// Your combat state (`${Me.CombatState}`), the icon on the player window.
