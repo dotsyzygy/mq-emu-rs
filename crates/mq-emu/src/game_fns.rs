@@ -74,6 +74,21 @@ impl<P: Plugin> Mq<P> {
         unsafe { (self.host().game_fns.mqemu_melee_range)(raw(attacker), raw(target)) }
     }
 
+    /// Whether `spawn` is in line of sight of the spawn you control
+    /// (`${Spawn[id].LineOfSight}`), as the game decides it for casting.
+    pub fn line_of_sight(&self, spawn: &Spawn<'_>) -> bool {
+        unsafe { (self.host().game_fns.mqemu_line_of_sight)(std::ptr::from_ref(spawn.raw()).cast_mut()) }
+    }
+
+    /// Left-clicks `spawn` as clicking it in the world does
+    /// (`${Spawn[id].LeftClick}`). With an item on the cursor, this is how you
+    /// hand it over: an NPC (a pet) opens the give window, where
+    /// [`Click`](crate::Click)ing `GiveWnd`'s `GVW_Give_Button` gives it; a
+    /// player opens trade. False with no game to click in.
+    pub fn left_click(&self, spawn: &Spawn<'_>) -> bool {
+        unsafe { (self.host().game_fns.mqemu_left_click_spawn)(std::ptr::from_ref(spawn.raw()).cast_mut()) }
+    }
+
     /// Whether auto attack is on, despite the name.
     #[deprecated(since = "0.1.6", note = "this is auto attack: use `is_auto_attacking`, or `combat_state` for combat")]
     pub fn in_combat(&self) -> bool {
@@ -292,6 +307,8 @@ pub(crate) mod fake {
         pub buff_timers: HashMap<(i32, bool), i32>,
         /// Melee ranges, by attacker and target.
         pub melee_ranges: HashMap<(usize, usize), f32>,
+        /// The spawns in line of sight.
+        pub in_sight: Vec<usize>,
         /// Task progress, by task entry.
         pub task_statuses: HashMap<usize, *mut PCTaskStatus>,
         /// Task objective text, by objective.
@@ -327,6 +344,7 @@ pub(crate) mod fake {
                 auras: Vec::new(),
                 buff_timers: HashMap::new(),
                 melee_ranges: HashMap::new(),
+                in_sight: Vec::new(),
                 task_statuses: HashMap::new(),
                 objective_texts: HashMap::new(),
                 fast_time: 0,
@@ -555,6 +573,17 @@ pub(crate) mod fake {
         with(|game| game.melee_ranges.get(&(attacker as usize, target as usize)).copied().unwrap_or(14.0))
     }
 
+    unsafe extern "C" fn line_of_sight(spawn: *mut PlayerClient) -> bool {
+        with(|game| game.in_sight.contains(&(spawn as usize)))
+    }
+
+    /// Logged as `left click <name>`.
+    unsafe extern "C" fn left_click_spawn(spawn: *mut PlayerClient) -> bool {
+        let name = unsafe { crate::text::from_c_array(&(*spawn).DisplayedName()) };
+        with(|game| game.log.push(format!("left click {name}")));
+        true
+    }
+
     unsafe extern "C" fn task_status(task: *mut CTaskEntry) -> *mut PCTaskStatus {
         with(|game| game.task_statuses.get(&(task as usize)).copied().unwrap_or(std::ptr::null_mut()))
     }
@@ -619,6 +648,8 @@ pub(crate) mod fake {
         mqemu_use_skill: use_skill,
         mqemu_do_combat_ability: do_combat_ability,
         mqemu_melee_range: melee_range,
+        mqemu_line_of_sight: line_of_sight,
+        mqemu_left_click_spawn: left_click_spawn,
         mqemu_buff_timer: buff_timer,
         mqemu_auras: auras,
         mqemu_skill_call_stack_shift: skill_call_stack_shift,

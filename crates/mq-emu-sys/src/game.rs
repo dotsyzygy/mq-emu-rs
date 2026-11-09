@@ -102,6 +102,15 @@ function_table! {
         /// How close `attacker` must be to hit `target` in melee, as
         /// `${Spawn.MaxRangeTo}` works it out (`mq::GetMeleeRange`); 14 to 75.
         pub fn mqemu_melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32;
+        /// Whether `spawn` is in line of sight of the spawn you control
+        /// (`${Spawn[id].LineOfSight}`). False for a null spawn or with no
+        /// character.
+        pub fn mqemu_line_of_sight(spawn: *mut PlayerClient) -> bool;
+        /// Left-clicks `spawn` as clicking it in the world does
+        /// (`${Spawn[id].LeftClick}`, `/click left target`): with an item or coin
+        /// on the cursor, opens the give window (an NPC) or trade (a player).
+        /// False for a null spawn or without `pEverQuest`.
+        pub fn mqemu_left_click_spawn(spawn: *mut PlayerClient) -> bool;
         /// Your progress on `task`, one of `pTaskManager`'s `QuestEntries` or
         /// `SharedTaskEntries` (`CTaskManager::GetTaskStatus`). Null for an entry
         /// in neither, or without a character.
@@ -582,6 +591,32 @@ pub unsafe extern "C" fn mqemu_task_status(task: *mut CTaskEntry) -> *mut PCTask
 /// Each spawn is null or live.
 pub unsafe extern "C" fn mqemu_melee_range(attacker: *mut PlayerClient, target: *mut PlayerClient) -> f32 {
     unsafe { melee_range(attacker.as_ref(), target.as_ref()) }
+}
+
+/// [`Api::mqemu_line_of_sight`]: `pControlledPlayer->CanSee(*spawn)`.
+///
+/// # Safety
+/// In game, on the game thread; `spawn` null or live.
+pub unsafe extern "C" fn mqemu_line_of_sight(spawn: *mut PlayerClient) -> bool {
+    unsafe {
+        let me = foreign(&raw const eqlib::pControlledPlayer);
+        !me.is_null() && !spawn.is_null() && eqlib::PlayerBase_CanSee(me.cast(), spawn.cast_const().cast())
+    }
+}
+
+/// [`Api::mqemu_left_click_spawn`]: `pEverQuest->LeftClickedOnPlayer(spawn)`.
+///
+/// # Safety
+/// In game, on the game thread; `spawn` null or live.
+pub unsafe extern "C" fn mqemu_left_click_spawn(spawn: *mut PlayerClient) -> bool {
+    unsafe {
+        let everquest = foreign(&raw const eqlib::pEverQuest);
+        if everquest.is_null() || spawn.is_null() {
+            return false;
+        }
+        eqlib::CEverQuest_LeftClickedOnPlayer(everquest, spawn);
+        true
+    }
 }
 
 fn melee_range(attacker: Option<&PlayerClient>, target: Option<&PlayerClient>) -> f32 {

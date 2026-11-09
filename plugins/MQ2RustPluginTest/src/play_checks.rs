@@ -146,9 +146,50 @@ fn pet_buffs<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
         let ours: Vec<Option<i32>> = (0..MAX_TOTAL_BUFFS).map(|slot| mq.pet_buffs().find(|b| b.slot() == slot).map(|b| b.spell_id().0)).collect();
         let rows = ours.iter().enumerate().map(|(slot, id)| (format!("pet buff {}", slot + 1), id_or_null(*id), format!("${{Me.Pet.Buff[{}].ID}}", slot + 1)));
         report.print(mq, "pet buffs match ${Me.Pet.Buff[n].ID}", all_match(mq, rows));
+        pet_commands(mq, report);
+        left_click_pet(mq, report);
     } else {
-        report.print(mq, "pet buffs", Check::Skip("no pet".into()));
+        report.print(mq, "pet buffs, pet commands, left_click(pet)", Check::Skip("no pet".into()));
     }
+}
+
+fn pet_commands<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
+    let Some(commands) = mq.pet_commands() else {
+        report.print(mq, "pet_commands()", Check::Fail("None with a pet".into()));
+        return;
+    };
+    let rows = [
+        ("taunt", commands.taunt, "Taunt"),
+        ("hold", commands.hold, "Hold"),
+        ("greater_hold", commands.greater_hold, "GHold"),
+        ("spell_hold", commands.spell_hold, "SpellHold"),
+        ("regroup", commands.regroup, "ReGroup"),
+        ("stop", commands.stop, "Stop"),
+        ("focus", commands.focus, "Focus"),
+    ];
+    let mut rows: Vec<(String, String, String)> = rows.iter().map(|(what, on, member)| ((*what).to_owned(), tf(*on).to_owned(), format!("${{Me.Pet.{member}}}"))).collect();
+    rows.push(("follow".to_owned(), (if commands.follow { "FOLLOW" } else { "GUARD" }).to_owned(), "${Me.Pet.Stance}".to_owned()));
+    report.print(mq, "pet_commands() match ${Me.Pet.Taunt}, Hold, GHold, SpellHold, ReGroup, Stop, Focus, Stance", all_match(mq, rows));
+}
+
+/// Left-clicks the pet with nothing on the cursor, which targets it, then
+/// puts the target back.
+fn left_click_pet<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
+    if mq.inventory().is_some_and(|inventory| inventory.cursor().is_some()) {
+        report.print(mq, "left_click(pet) targets it", Check::Skip("an item is on the cursor (it would be given to the pet)".into()));
+        return;
+    }
+    let before = mq.target().map(|t| t.id());
+    let pet = mq.pet().expect("checked by the caller");
+    let clicked = mq.left_click(&pet);
+    let targeted = mq.target().map(|t| t.id());
+    let restore = before.and_then(|id| mq.spawn(id));
+    mq.set_target(restore.as_ref());
+    report.print(mq, "left_click(pet) targets it", if clicked && targeted == Some(pet.id()) {
+        Check::Pass
+    } else {
+        Check::Fail(format!("left_click {clicked}, target after {targeted:?}, pet {:?}", pet.id()))
+    });
 }
 
 /// Sends `invite` (e.g. "/raidinvite") to each of `peers`, then asks each

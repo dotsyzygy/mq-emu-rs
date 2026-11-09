@@ -80,6 +80,47 @@ impl<P: Plugin> Mq<P> {
         self.spawn(pet.master_id()?)
     }
 
+    /// Your pet's command states as the pet window's buttons show them
+    /// (`${Pet.Taunt}`, `${Pet.Hold}`...); `None` without a pet.
+    pub fn pet_commands(&self) -> Option<PetCommands> {
+        self.pet()?;
+        let window = unsafe { (self.host().pet_window)().as_ref() }?;
+        Some(PetCommands {
+            sit: window.Sit(),
+            stop: window.Stop(),
+            regroup: window.ReGroup(),
+            follow: window.Follow(),
+            guard: window.Guard(),
+            taunt: window.Taunt(),
+            hold: window.Hold(),
+            greater_hold: window.GHold(),
+            focus: window.Focus(),
+            spell_hold: window.SpellHold(),
+        })
+    }
+}
+
+/// Your pet's command states, from the pet window ([`Mq::pet_commands`]).
+/// Each is true while its button is on. Set them with `/pet` commands
+/// (`/pet taunt off`).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct PetCommands {
+    pub sit: bool,
+    pub stop: bool,
+    pub regroup: bool,
+    pub follow: bool,
+    pub guard: bool,
+    pub taunt: bool,
+    pub hold: bool,
+    /// Greater hold (`/pet ghold`).
+    pub greater_hold: bool,
+    pub focus: bool,
+    /// Won't cast its spells (`/pet spellhold`).
+    pub spell_hold: bool,
+}
+
+impl<P: Plugin> Mq<P> {
+
     /// The spawn closest to you (the controlled spawn) that `filter` accepts,
     /// not counting yourself. Distance is 3D.
     pub fn nearest(&self, filter: impl Fn(&Spawn<'_>) -> bool) -> Option<Spawn<'_>> {

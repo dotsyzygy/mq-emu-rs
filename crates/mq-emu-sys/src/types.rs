@@ -27,6 +27,9 @@ opaque! {
     MQPlugin,
     /// `mq::PluginInterface`, an optional interface a plugin can expose to others.
     PluginInterface,
+    /// eqlib's `PlayerBase`, the first base of [`PlayerClient`], so a
+    /// `PlayerClient` pointer is also one to its `PlayerBase`.
+    PlayerBase,
 }
 
 /// Alias matching MacroQuest's `SPAWNINFO`.

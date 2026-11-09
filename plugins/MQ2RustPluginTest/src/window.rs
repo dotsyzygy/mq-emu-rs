@@ -402,6 +402,23 @@ impl RustTest {
             for buff in mq.pet_buffs() {
                 ui.bullet_text(format!("pet: {} ({})", buff.name(), remaining(buff.remaining())));
             }
+            if let Some(commands) = mq.pet_commands() {
+                ui.text(format!("pet commands: {commands:?}"));
+            }
+            if let Some(pet) = mq.pet() {
+                // With an item on the cursor, the first opens the give window; the second gives it.
+                if ui.small_button("Left-click pet") {
+                    let clicked = mq.left_click(&pet);
+                    mq.chat(format!("left_click(pet): {clicked}"));
+                }
+                ui.same_line();
+                if ui.small_button("Give") {
+                    let given = mq.window("GiveWnd/GVW_Give_Button").is_some_and(|button| button.click(mq_emu::Click::Left));
+                    mq.chat(format!("GiveWnd Give clicked: {given}"));
+                }
+                ui.same_line();
+                ui.text(format!("line of sight to pet: {}", mq.line_of_sight(&pet)));
+            }
         }
         if ui.collapsing_header("Raid and mercenary") {
             match mq.raid() {

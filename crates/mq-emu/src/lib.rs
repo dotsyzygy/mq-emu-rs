@@ -135,7 +135,7 @@ pub use raid::{Raid, RaidLootType, RaidMember};
 pub use runtime::{MAX_NESTED_DELIVERIES, MAX_QUEUE};
 pub use skills::{Skill, SkillId};
 pub use spawn_buffs::{CachedBuff, WindowBuff};
-pub use spawns::{MAX_SPAWNS, Spawns};
+pub use spawns::{MAX_SPAWNS, PetCommands, Spawns};
 pub use spells::{Buff, Spell, SpellEffect, SpellId};
 pub use tasks::{MessageError, Messages, NextPulse, Task, TaskId};
 /// The client's message IDs (eqstr_us.txt's), for [`Task::watch_messages`].

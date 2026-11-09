@@ -308,6 +308,7 @@ pub fn game_data<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
             report.print(mq, "melee_range(me, target) = ${Target.MaxRangeTo}", same_float(mq.melee_range(&me, &target), &mq.parse("${Target.MaxRangeTo}")));
             let to_me = mq.parse(&format!("${{Spawn[id {}].MaxRange}}", target.id()));
             report.print(mq, "melee_range(target, me) = ${Spawn[id].MaxRange}", same_float(mq.melee_range(&target, &me), &to_me));
+            report.print(mq, "line_of_sight(target) = ${Target.LineOfSight}", same_bool(mq.line_of_sight(&target), mq.parse("${Target.LineOfSight}")));
         }
         None => report.print(mq, "target checks", Check::Skip("no target (target something to include them)".into())),
     }

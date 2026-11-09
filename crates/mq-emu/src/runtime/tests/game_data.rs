@@ -431,6 +431,20 @@ fn target_buffs_need_a_target_and_pet_buffs_a_pet() {
 }
 
 #[test]
+fn pet_commands_need_a_pet() {
+    let pet = Box::leak(Box::new(Fake::<CPetInfoWnd>::new()));
+    pet.get().set_Taunt(true);
+    pet.get().set_Hold(true);
+    set_windows(|w| w.pet_window = pet.ptr());
+    set_zone((1, 0.0, 0.0), &[(20, "Gabober", 1, 5.0, 0.0)]);
+    let log = |mq: &Mq<Recorder>| format!("{:?}", mq.pet_commands().map(|c| (c.taunt, c.hold, c.sit, c.spell_hold)));
+
+    assert_eq!(pulse_log(log), ["None"], "no pet: the window's leftovers don't count");
+    player().set_PetID(20);
+    assert_eq!(pulse_log(log), ["Some((true, true, false, false))"]);
+}
+
+#[test]
 fn cached_buffs_come_from_macroquest_in_its_order() {
     set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0)]);
     let rat = ZONE.with(|zone| zone.borrow()[0].ptr());
@@ -1262,6 +1276,19 @@ fn auto_attack_is_switched_and_melee_range_read() {
     });
     assert_eq!(log, ["true true 22.5 14"], "each way round is its own range");
     assert_eq!(fake_game::log(), ["/attack on", "/attack off"]);
+}
+
+#[test]
+fn line_of_sight_is_read_and_spawns_left_clicked() {
+    game();
+    set_zone((1, 0.0, 0.0), &[(20, "a rat", 1, 5.0, 0.0), (21, "Gabober", 1, 9.0, 0.0)]);
+    let log = pulse_log(|mq| {
+        let (rat, pet) = (mq.spawn(SpawnId(20)).unwrap(), mq.spawn(SpawnId(21)).unwrap());
+        fake_game::with(|g| g.in_sight = vec![std::ptr::from_ref(rat.raw()) as usize]);
+        format!("{} {} {}", mq.line_of_sight(&rat), mq.line_of_sight(&pet), mq.left_click(&pet))
+    });
+    assert_eq!(log, ["true false true"]);
+    assert_eq!(fake_game::log(), ["left click Gabober"]);
 }
 
 #[test]

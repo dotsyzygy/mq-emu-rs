@@ -8,7 +8,7 @@ use crate::layouts::{
     CSpellDisplayManager, CTargetWnd, CTaskManager, CTradeWnd, PCTaskStatus, TaskSystemType, CTribute, CXWndManager, ClientSpellManager, EQGroundItemListManager, EQWorldData, EverQuestinfo, KeyCombo, KeypressHandler, PcClient, PcZoneClient, PlayerManagerClient, PlayerZoneClient, SharedTaskPlayerInfo, SkillManager,
     UniversalChatProxy, zoneHeader,
 };
-use crate::types::{ComputedPointer, ForeignPointer, PlayerClient, StringView};
+use crate::types::{ComputedPointer, ForeignPointer, PlayerBase, PlayerClient, StringView};
 
 imports! {
     dll: "eqlib",
@@ -243,6 +243,13 @@ imports! {
             = "?GetString@DatabaseStringTable@eqlib@@QAEPBDHW4eDatabaseStringType@2@PA_N@Z";
         /// The name the game shows for race `race`.
         pub fn CEverQuest_GetClassDesc(this: *mut CEverQuest, class: c_int) -> *const c_char = "?GetClassDesc@CEverQuest@eqlib@@QAEPBDH@Z";
+        /// Does what left-clicking `player` in the world does: targets it, or
+        /// with an item or coin on the cursor, opens the give window (an NPC) or
+        /// trade (a player).
+        pub fn CEverQuest_LeftClickedOnPlayer(this: *mut CEverQuest, player: *mut PlayerClient)
+            = "?LeftClickedOnPlayer@CEverQuest@eqlib@@QAEXPAVPlayerClient@2@@Z";
+        /// Whether `other` is in line of sight.
+        pub fn PlayerBase_CanSee(this: *mut PlayerBase, other: *const PlayerBase) -> bool = "?CanSee@PlayerBase@eqlib@@QAE_NABV12@@Z";
         /// The name the game shows for race `race`.
         pub fn CEverQuest_GetRaceDesc(this: *mut CEverQuest, race: c_int) -> *const c_char = "?GetRaceDesc@CEverQuest@eqlib@@QAEPBDH@Z";
         /// Your friend `index` (0-based, below `GetNumberOfFriends`).
