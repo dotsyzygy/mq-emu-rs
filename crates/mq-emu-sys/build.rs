@@ -1,38 +1,55 @@
 use std::env;
 use std::path::{Path, PathBuf};
 
-/// A game client mq-emu-sys can build for: one cargo feature each.
+/// A game client mq-emu-sys can build for. Which one is MacroQuest's: the
+/// build in MQ_ROOT is for one client, so plugins never name it.
 struct Client {
-    feature: &'static str,
+    /// Its name, as in `cfg(mq_client = "...")` and its cargo feature.
+    name: &'static str,
     arch: &'static str,
-    bits: &'static str,
     target: &'static str,
 }
 
-const CLIENTS: &[Client] = &[Client { feature: "rof2", arch: "x86", bits: "32-bit only", target: "i686-pc-windows-msvc" }];
+const ROF2: Client = Client { name: "rof2", arch: "x86", target: "i686-pc-windows-msvc" };
+const CLIENTS: &[&Client] = &[&ROF2];
 
-/// The client this build is for: exactly one client feature must be on.
-fn client() -> &'static Client {
-    let names = || CLIENTS.iter().map(|client| format!("`{}`", client.feature)).collect::<Vec<_>>().join(", ");
-    let enabled: Vec<&Client> = CLIENTS
-        .iter()
-        .filter(|client| env::var_os(format!("CARGO_FEATURE_{}", client.feature.to_ascii_uppercase())).is_some())
-        .collect();
-    match enabled.as_slice() {
-        [client] => client,
-        [] => fail(&format!(
-            "needs a game client feature: enable exactly one of {}, e.g. mq-emu = {{ version = \"...\", features = [\"rof2\"] }}.",
-            names()
-        )),
-        several => {
-            let on: Vec<&str> = several.iter().map(|client| client.feature).collect();
-            fail(&format!(
-                "can build for only one game client, but features {} are all enabled (Cargo merges features across everything that depends on mq-emu or mq-emu-sys). Enable exactly one of {}.",
-                on.join(", "),
-                names()
-            ))
-        }
+/// The client of the MacroQuest build in `bin_dir`, from its MQ2Main.dll: a
+/// 32-bit MacroQuest is RoF2's. (ToB's is 64-bit; it isn't supported yet.)
+fn client_of(bin_dir: &Path) -> &'static Client {
+    let path = bin_dir.join("MQ2Main.dll");
+    let image = std::fs::read(&path).unwrap_or_else(|e| fail(&format!("couldn't read {}: {e}. Build MacroQuest first.", path.display())));
+    match pe_machine(&image) {
+        Some(0x14c) => &ROF2,
+        Some(0x8664) => fail(&format!("{} is a 64-bit MacroQuest (ToB?), which isn't supported yet.", path.display())),
+        _ => fail(&format!("{} isn't a Windows DLL, so its game client is unknown.", path.display())),
     }
+}
+
+/// A PE image's machine type, from its headers.
+fn pe_machine(image: &[u8]) -> Option<u16> {
+    let at = |offset: usize, len: usize| image.get(offset..offset + len);
+    if at(0, 2)? != b"MZ" {
+        return None;
+    }
+    let nt = u32::from_le_bytes(at(0x3c, 4)?.try_into().ok()?) as usize;
+    if at(nt, 4)? != b"PE\0\0" {
+        return None;
+    }
+    Some(u16::from_le_bytes(at(nt + 4, 2)?.try_into().ok()?))
+}
+
+/// The client features turned on: optional, each one insisting the build is
+/// for that client.
+fn required_clients() -> Vec<&'static Client> {
+    CLIENTS.iter().copied().filter(|client| env::var_os(format!("CARGO_FEATURE_{}", client.name.to_ascii_uppercase())).is_some()).collect()
+}
+
+/// Tells the crate which client it's built for: `cfg(mq_client = "...")`.
+fn emit_client(client: &Client) {
+    let names: Vec<String> = CLIENTS.iter().map(|client| format!("\"{}\"", client.name)).collect();
+    println!("cargo::rustc-check-cfg=cfg(mq_client, values({}))", names.join(", "));
+    println!("cargo::rustc-cfg=mq_client=\"{}\"", client.name);
+    println!("cargo::metadata=client={}", client.name);
 }
 
 fn main() {
@@ -41,19 +58,11 @@ fn main() {
     println!("cargo::rerun-if-env-changed=MQ_BUILD_CONFIG");
     println!("cargo::rerun-if-env-changed=DOCS_RS");
 
-    // Checked before anything else, docs.rs included: everything below depends
-    // on the client.
-    let client = client();
-
-    // docs.rs only runs rustdoc, which never links, and has no MacroQuest build.
+    // docs.rs only runs rustdoc, which never links, and has no MacroQuest
+    // build: it documents RoF2, the only client so far.
     if env::var_os("DOCS_RS").is_some() {
+        emit_client(&ROF2);
         return;
-    }
-
-    // Checked first: the shim below would otherwise fail on MacroQuest's own
-    // "Win32 Configuration is required" before the crate's compile_error! runs.
-    if env::var("CARGO_CFG_TARGET_ARCH").as_deref() != Ok(client.arch) {
-        fail(&format!("the {} client is {}. Build with --target {}.", client.feature, client.bits, client.target));
     }
 
     let mq_root = PathBuf::from(env::var("MQ_ROOT").unwrap_or_else(|_| {
@@ -69,6 +78,23 @@ fn main() {
         }
         println!("cargo::rerun-if-changed={}", path.display());
     }
+
+    // Checked before the shim compiles: it would otherwise fail on MacroQuest's
+    // own "Win32 Configuration is required" first.
+    println!("cargo::rerun-if-changed={}", bin_dir.join("MQ2Main.dll").display());
+    let client = client_of(&bin_dir);
+    if env::var("CARGO_CFG_TARGET_ARCH").as_deref() != Ok(client.arch) {
+        fail(&format!("MQ_ROOT holds a MacroQuest for the {} client. Build with --target {}.", client.name, client.target));
+    }
+    for required in required_clients() {
+        if required.name != client.name {
+            fail(&format!(
+                "the `{}` feature is on, so this must build for the {} client, but MQ_ROOT holds a MacroQuest for {}.",
+                required.name, required.name, client.name
+            ));
+        }
+    }
+    emit_client(client);
 
     // The extern blocks carry #[link(name = ...)]; we only provide the search path.
     println!("cargo::rustc-link-search=native={}", bin_dir.display());

@@ -17,7 +17,7 @@ fn standalone_plugin_crate_builds_a_loadable_dll() {
         format!(
             "[package]\nname = \"mq2-consumer\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n\
              [lib]\nname = \"MQ2Consumer\"\ncrate-type = [\"cdylib\"]\n\n\
-             [dependencies]\nmq-emu = {{ path = \"{mq_emu}\", features = [\"rof2\"] }}\n\n\
+             [dependencies]\nmq-emu = {{ path = \"{mq_emu}\" }}\n\n\
              # Standalone, not part of any enclosing workspace.\n[workspace]\n"
         ),
     )
@@ -26,6 +26,8 @@ fn standalone_plugin_crate_builds_a_loadable_dll() {
         dir.join("src/lib.rs"),
         "#![allow(non_snake_case)]\n\n\
          use mq_emu::{Mq, Plugin};\n\n\
+         // Naming no client, it builds for MQ_ROOT's: RoF2.\n\
+         const _: () = assert!(matches!(mq_emu::CLIENT, mq_emu::Client::Rof2));\n\n\
          struct Consumer;\n\n\
          impl Plugin for Consumer {\n    fn new(mq: &Mq<Self>) -> Self {\n        mq.chat(\"loaded\");\n        Consumer\n    }\n}\n\n\
          mq_emu::plugin!(Consumer);\n",

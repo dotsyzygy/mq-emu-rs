@@ -47,8 +47,8 @@ fn consumer() -> &'static Consumer {
                 "[package]\nname = \"consumer\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n\
                  [lib]\npath = \"lib.rs\"\n\n\
                  [dependencies]\nmq-emu-sys = {{ path = \"{mq_emu_sys}\" }}\n\n\
-                 # A plugin picks its client; `--no-default-features` builds without one.\n\
-                 [features]\ndefault = [\"rof2\"]\nrof2 = [\"mq-emu-sys/rof2\"]\n\n\
+                 # Off by default: the client is MacroQuest's; `--features rof2` insists on it.\n\
+                 [features]\nrof2 = [\"mq-emu-sys/rof2\"]\n\n\
                  # Standalone, not part of any enclosing workspace.\n[workspace]\n"
             ),
         )
@@ -160,20 +160,59 @@ fn mq_root_without_build_output_fails_with_clear_message() {
 
 #[test]
 fn non_32_bit_target_fails_with_clear_message() {
-    assert_fails_with(&build(TARGET_64, Some(env!("MQ_ROOT"))), "the rof2 client is 32-bit only");
+    assert_fails_with(&build(TARGET_64, Some(env!("MQ_ROOT"))), "MacroQuest for the rof2 client. Build with --target i686-pc-windows-msvc");
 }
 
-// A build is for exactly one game client, named by a feature.
+// The game client is the MacroQuest build's; a client feature only insists on one.
 
 #[test]
-fn no_client_feature_fails_with_clear_message() {
-    let out = run_cargo("build", TARGET_32, Some(env!("MQ_ROOT")), false, Some(CRT_STATIC), &[], &["--no-default-features"]);
-    assert_fails_with(&out, "needs a game client feature");
+fn client_feature_builds_against_its_client() {
+    let out = run_cargo("build", TARGET_32, Some(env!("MQ_ROOT")), false, Some(CRT_STATIC), &[], &["--features", "rof2"]);
+    assert!(out.status.success(), "build with the rof2 feature failed:\n{}", String::from_utf8_lossy(&out.stderr));
 }
 
 #[test]
-fn no_client_feature_fails_on_docs_rs_too() {
-    assert_fails_with(&run_cargo("doc", TARGET_32, None, true, None, &[], &["--no-default-features"]), "needs a game client feature");
+fn client_feature_builds_on_docs_rs() {
+    let out = run_cargo("doc", TARGET_32, None, true, None, &[], &["--features", "rof2"]);
+    assert!(out.status.success(), "docs.rs-style doc build with the rof2 feature failed:\n{}", String::from_utf8_lossy(&out.stderr));
+}
+
+/// A MacroQuest checkout with the libraries and an MQ2Main.dll of `bits`
+/// (or `None`: not a DLL), and nothing else.
+fn fake_mq_root(name: &str, bits: Option<u32>) -> PathBuf {
+    let root = scratch_root().join(name);
+    let bin = root.join("build/bin/release");
+    std::fs::create_dir_all(&bin).unwrap();
+    for lib in ["MQ2Main.lib", "eqlib.lib", "imgui.lib"] {
+        std::fs::write(bin.join(lib), "").unwrap();
+    }
+    let dll = match bits {
+        Some(bits) => {
+            const NT: usize = 0x40;
+            let mut image = vec![0u8; NT + 6];
+            image[..2].copy_from_slice(b"MZ");
+            image[0x3c..0x40].copy_from_slice(&(NT as u32).to_le_bytes());
+            image[NT..NT + 4].copy_from_slice(b"PE\0\0");
+            let machine: u16 = if bits == 64 { 0x8664 } else { 0x14c };
+            image[NT + 4..].copy_from_slice(&machine.to_le_bytes());
+            image
+        }
+        None => b"not a DLL".to_vec(),
+    };
+    std::fs::write(bin.join("MQ2Main.dll"), dll).unwrap();
+    root
+}
+
+#[test]
+fn macroquest_for_a_64_bit_client_fails_with_clear_message() {
+    let root = fake_mq_root("macroquest-64", Some(64));
+    assert_fails_with(&build(TARGET_64, Some(root.to_str().unwrap())), "is a 64-bit MacroQuest (ToB?), which isn't supported yet");
+}
+
+#[test]
+fn mq2main_that_is_not_a_dll_fails_with_clear_message() {
+    let root = fake_mq_root("macroquest-not-a-dll", None);
+    assert_fails_with(&build(TARGET_32, Some(root.to_str().unwrap())), "isn't a Windows DLL, so its game client is unknown");
 }
 
 // docs.rs has no MacroQuest build, so build.rs must not require one there.

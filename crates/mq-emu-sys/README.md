@@ -14,7 +14,8 @@ Most plugins should use the safe wrapper crate, `mq-emu`, instead of this one.
 
 ## Requirements
 
-- A game client feature, exactly one: `rof2` (the only one so far). There's no default; without one, or with two, the build fails. Through mq-emu: `mq-emu = { ..., features = ["rof2"] }`.
+The game client is the one your MacroQuest build is for (RoF2 for a 32-bit build, the only one supported so far), read from `MQ_ROOT`'s `MQ2Main.dll`, so you never name it. A client's feature (`rof2`) is optional: it makes the build fail against any other client, for a plugin that only supports that one.
+
 - A **built** MacroQuest emu checkout (`Release|Win32`), so that `<MQ_ROOT>/build/bin/release` contains `MQ2Main.lib` and `eqlib.lib`.
 - `MQ_ROOT` set to that checkout, either in your environment or in `~/.cargo/config.toml`:
 

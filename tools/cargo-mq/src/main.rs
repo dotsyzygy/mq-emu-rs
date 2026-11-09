@@ -9,22 +9,18 @@ use serde_json::Value;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
 
-/// A game client a plugin can be built for: mq-emu-sys's cargo feature for it,
-/// and the target that client's MacroQuest build needs.
-struct Client {
-    feature: &'static str,
-    target: &'static str,
-}
-
-const CLIENTS: &[Client] = &[Client { feature: "rof2", target: "i686-pc-windows-msvc" }];
+/// The target for a 32-bit MacroQuest (RoF2): the only client so far.
+const TARGET_32: &str = "i686-pc-windows-msvc";
+/// The target for a 64-bit MacroQuest (ToB, to come).
+const TARGET_64: &str = "x86_64-pc-windows-msvc";
 
 const USAGE: &str = "\
 Build, deploy and check MacroQuest plugins made with mq-emu.
 
 usage:
-  cargo mq deploy [-p <package>] [--client <client>] [--debug] [--no-build]
-      Build a plugin and copy it into a MacroQuest install. --client picks
-      the game client (rof2) for a plugin that can build for more than one.
+  cargo mq deploy [-p <package>] [--debug] [--no-build]
+      Build a plugin and copy it into a MacroQuest install, for the target
+      its MQ2Main.dll is (32-bit: RoF2).
   cargo mq doctor
       Check that the MacroQuest a plugin builds against, the one it deploys
       to and mq-emu's committed layouts all agree.
@@ -65,8 +61,6 @@ fn run(args: &[String]) -> Result<ExitCode> {
 #[derive(Default)]
 struct DeployArgs {
     package: Option<String>,
-    /// The game client to build for, by its feature's name.
-    client: Option<String>,
     debug: bool,
     no_build: bool,
 }
@@ -77,7 +71,6 @@ fn parse_deploy_args(args: &[String]) -> Result<DeployArgs> {
     while let Some(arg) = args.next() {
         match arg.as_str() {
             "-p" | "--package" => parsed.package = Some(args.next().ok_or(format!("{arg} needs a package name"))?.clone()),
-            "--client" => parsed.client = Some(args.next().ok_or(format!("{arg} needs a client name"))?.clone()),
             "--debug" => parsed.debug = true,
             "--no-build" => parsed.no_build = true,
             other => return Err(format!("unknown argument {other:?}\n{USAGE}")),
@@ -132,6 +125,19 @@ fn install_dir() -> Result<PathBuf> {
 
 /// Whether the install runs the build plugins compile against. `None` if the
 /// build's DLL can't be read, so there's nothing to compare with.
+/// The target plugins for the MacroQuest in `install` must be built for: its
+/// MQ2Main.dll's. The game client follows from it (mq-emu-sys reads it from
+/// MQ_ROOT's build), so a plugin never names one.
+fn install_target(install: &Path) -> Result<&'static str> {
+    let path = install.join("MQ2Main.dll");
+    let image = std::fs::read(&path).map_err(|e| format!("couldn't read {}: {e}", path.display()))?;
+    match object::FileKind::parse(&*image) {
+        Ok(object::FileKind::Pe32) => Ok(TARGET_32),
+        Ok(object::FileKind::Pe64) => Ok(TARGET_64),
+        _ => Err(format!("{} isn't a Windows DLL, so the target to build for is unknown.", path.display())),
+    }
+}
+
 fn same_build(install: &Path, build: &Path) -> Option<bool> {
     let built = std::fs::read(build.join("MQ2Main.dll")).ok()?;
     Some(std::fs::read(install.join("MQ2Main.dll")).ok()? == built)
@@ -152,21 +158,6 @@ fn metadata(no_deps: bool) -> Result<Value> {
     if no_deps {
         command.arg("--no-deps");
     }
-    run_metadata(command)
-}
-
-/// The plugin's dependencies as `cargo build [--features <feature>]` in its
-/// folder resolves them, so the client found in them is the one deploy builds.
-fn resolved_metadata(plugin_dir: &Path, feature: Option<&str>) -> Result<Value> {
-    let mut command = cargo();
-    command.args(["metadata", "--format-version", "1"]).current_dir(plugin_dir);
-    if let Some(feature) = feature {
-        command.args(["--features", feature]);
-    }
-    run_metadata(command)
-}
-
-fn run_metadata(mut command: Command) -> Result<Value> {
     let output = command.output().map_err(|e| format!("couldn't run cargo: {e}"))?;
     if !output.status.success() {
         return Err(format!("cargo metadata failed:\n{}", String::from_utf8_lossy(&output.stderr).trim()));
@@ -197,8 +188,6 @@ struct PluginCrate {
     name: String,
     dir: PathBuf,
     target_dir: PathBuf,
-    /// The package's own features, by name.
-    features: Vec<String>,
 }
 
 fn find_plugin(metadata: &Value, wanted: Option<&str>) -> Result<PluginCrate> {
@@ -214,8 +203,7 @@ fn find_plugin(metadata: &Value, wanted: Option<&str>) -> Result<PluginCrate> {
         "{} isn't a plugin: it has no library with crate-type = [\"cdylib\"] (see the mq-emu README).",
         text(package, "name")
     ))?;
-    let features = package["features"].as_object().map(|features| features.keys().cloned().collect()).unwrap_or_default();
-    Ok(PluginCrate { name, dir: manifest_dir(package), target_dir: PathBuf::from(text(metadata, "target_directory")), features })
+    Ok(PluginCrate { name, dir: manifest_dir(package), target_dir: PathBuf::from(text(metadata, "target_directory")) })
 }
 
 /// The package whose folder holds the current folder, innermost first.
@@ -242,63 +230,12 @@ fn only_plugin(packages: &[Value]) -> Result<&Value> {
     }
 }
 
-/// The game client the plugin is built for: the client feature Cargo resolves
-/// on its mq-emu-sys (which mq-emu's features turn on). mq-emu-sys's own build
-/// fails without exactly one, but deploy needs it first, to pick the target.
-fn client(metadata: &Value) -> Result<&'static Client> {
-    let packages = metadata["packages"].as_array().map(Vec::as_slice).unwrap_or_default();
-    let ids: Vec<&str> = packages.iter().filter(|package| text(package, "name") == "mq-emu-sys").map(|package| text(package, "id")).collect();
-    if ids.is_empty() {
-        return Err("This plugin doesn't depend on mq-emu, so there's no game client to build it for.".to_owned());
-    }
-    let nodes = metadata["resolve"]["nodes"].as_array().map(Vec::as_slice).unwrap_or_default();
-    let features: Vec<&str> = nodes
-        .iter()
-        .filter(|node| ids.contains(&text(node, "id")))
-        .flat_map(|node| node["features"].as_array().map(Vec::as_slice).unwrap_or_default())
-        .filter_map(Value::as_str)
-        .collect();
-    let names = CLIENTS.iter().map(|client| format!("`{}`", client.feature)).collect::<Vec<_>>().join(", ");
-    let enabled: Vec<&'static Client> = CLIENTS.iter().filter(|client| features.contains(&client.feature)).collect();
-    match enabled.as_slice() {
-        [client] => Ok(client),
-        [] => Err(format!(
-            "No game client feature is enabled. Enable exactly one of {names} on mq-emu, e.g. mq-emu = {{ version = \"...\", features = [\"rof2\"] }}, or, for a plugin that can build for more than one client, pick one with --client."
-        )),
-        several => {
-            let on: Vec<&str> = several.iter().map(|client| client.feature).collect();
-            Err(format!("Features {} are all enabled, but a plugin builds for one game client. Enable exactly one of {names}.", on.join(", ")))
-        }
-    }
-}
-
-fn client_named(name: &str) -> Result<&'static Client> {
-    CLIENTS.iter().find(|client| client.feature == name).ok_or_else(|| {
-        let names: Vec<&str> = CLIENTS.iter().map(|client| client.feature).collect();
-        format!("No game client {name:?}; the clients are: {}.", names.join(", "))
-    })
-}
-
 // Deploy.
 
 fn deploy(args: &DeployArgs) -> Result<()> {
     let install = install_dir()?;
     let plugin = find_plugin(&metadata(true)?, args.package.as_deref())?;
-    let wanted = args.client.as_deref().map(client_named).transpose()?;
-    // A plugin that builds for several clients has a feature named for each,
-    // turning on mq-emu's; one that builds for one names it on mq-emu directly.
-    let feature = wanted.map(|client| client.feature).filter(|feature| plugin.features.iter().any(|own| own == feature));
-    let resolved = resolved_metadata(&plugin.dir, feature)?;
-    let client = client(&resolved)?;
-    if let Some(wanted) = wanted
-        && !std::ptr::eq(wanted, client)
-    {
-        return Err(format!(
-            "{} builds for the {} client, not {}: it has no `{}` feature of its own to pick it with.",
-            plugin.name, client.feature, wanted.feature, wanted.feature
-        ));
-    }
-    let target = client.target;
+    let target = install_target(&install)?;
     let name = &plugin.name;
     let profile = if args.debug { "debug" } else { "release" };
 
@@ -307,9 +244,6 @@ fn deploy(args: &DeployArgs) -> Result<()> {
         let mut command = cargo();
         // From the plugin's folder, so its .cargo/config.toml applies.
         command.args(["build", "--target", target]).current_dir(&plugin.dir);
-        if let Some(feature) = feature {
-            command.args(["--features", feature]);
-        }
         if !args.debug {
             command.arg("--release");
         }
@@ -334,7 +268,7 @@ fn deploy(args: &DeployArgs) -> Result<()> {
         copy_plugin_dll(&pdb, &plugins_dir, name)?;
     }
 
-    deploy_client_hooks(&resolved, client, &plugin, profile, &plugins_dir, args.no_build)?;
+    deploy_client_hooks(&plugin, target, profile, &plugins_dir, args.no_build)?;
     copy_lua(&plugin.dir.join("lua"), &install.join("lua"))?;
     copy_resources(&plugin.dir.join("resources"), &install.join("resources"))?;
 
@@ -353,7 +287,8 @@ fn deploy(args: &DeployArgs) -> Result<()> {
 /// eqclient.dll, the client hooks every mq-emu plugin shares, from the
 /// eq-client the plugin was built with (its sibling eq-client-host package, in
 /// this repo or a git checkout of it). Nothing for a plugin without eq-client.
-fn deploy_client_hooks(metadata: &Value, client: &Client, plugin: &PluginCrate, profile: &str, plugins_dir: &Path, no_build: bool) -> Result<()> {
+fn deploy_client_hooks(plugin: &PluginCrate, target: &str, profile: &str, plugins_dir: &Path, no_build: bool) -> Result<()> {
+    let metadata = metadata(false)?;
     let packages = metadata["packages"].as_array().map(Vec::as_slice).unwrap_or_default();
     let Some(eq_client) = packages.iter().find(|package| text(package, "name") == "eq-client") else { return Ok(()) };
     let host = manifest_dir(eq_client).parent().unwrap_or(Path::new("")).join("eq-client-host").join("Cargo.toml");
@@ -362,12 +297,7 @@ fn deploy_client_hooks(metadata: &Value, client: &Client, plugin: &PluginCrate, 
     }
     if !no_build {
         let mut command = cargo();
-        command
-            .args(["build", "--target", client.target, "--features", client.feature, "--manifest-path"])
-            .arg(&host)
-            .arg("--target-dir")
-            .arg(&plugin.target_dir)
-            .current_dir(&plugin.dir);
+        command.args(["build", "--target", target, "--manifest-path"]).arg(&host).arg("--target-dir").arg(&plugin.target_dir).current_dir(&plugin.dir);
         if profile == "release" {
             command.arg("--release");
         }
@@ -376,7 +306,7 @@ fn deploy_client_hooks(metadata: &Value, client: &Client, plugin: &PluginCrate, 
             return Err("building eqclient.dll failed.".to_owned());
         }
     }
-    let dll = plugin.target_dir.join(client.target).join(profile).join(CLIENT_DLL);
+    let dll = plugin.target_dir.join(target).join(profile).join(CLIENT_DLL);
     let target = plugins_dir.join(CLIENT_DLL);
     let built = std::fs::read(&dll).map_err(|e| format!("couldn't read {}: {e}", dll.display()))?;
     let installed = std::fs::read(&target).ok();
@@ -598,13 +528,13 @@ mod tests {
         let workspace = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         let target_dir = std::env::current_exe().unwrap().parent().unwrap().join("eqclient-version");
         let status = cargo()
-            .args(["build", "-p", "eq-client-host", "--target", CLIENTS[0].target, "--features", CLIENTS[0].feature, "--target-dir"])
+            .args(["build", "-p", "eq-client-host", "--target", TARGET_32, "--target-dir"])
             .arg(&target_dir)
             .current_dir(&workspace)
             .status()
             .unwrap();
         assert!(status.success());
-        let image = std::fs::read(target_dir.join(CLIENTS[0].target).join("debug").join(CLIENT_DLL)).unwrap();
+        let image = std::fs::read(target_dir.join(TARGET_32).join("debug").join(CLIENT_DLL)).unwrap();
         let package: Vec<u32> = env!("CARGO_PKG_VERSION").split('.').map(|n| n.parse().unwrap()).collect();
         let version = client_version(&image).expect("no version export");
         assert!(version[0] >= 1, "API version {}", version[0]);

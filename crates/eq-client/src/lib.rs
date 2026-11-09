@@ -10,16 +10,13 @@
 //! client's messages (eqstr_us.txt's, by ID: [`eqstr`]) were shown, without
 //! reading their English text.
 //!
-//! The client is chosen with a cargo feature, and exactly one is required:
-//! `rof2` (the only one so far).
+//! The client follows the target: 32-bit is RoF2, the only one so far. Its
+//! cargo feature, `rof2`, is optional: it insists on that client.
 
-// Exactly one game client feature, matched by its target. Cargo merges features
-// across a build, so when a second client is added, two enabled at once must
-// fail here too.
-#[cfg(not(feature = "rof2"))]
-compile_error!("eq-client needs a game client feature: enable exactly one of `rof2`.");
-#[cfg(all(feature = "rof2", not(all(target_os = "windows", target_env = "msvc", target_arch = "x86"))))]
-compile_error!("eq-client: the rof2 client is 32-bit only. Build with --target i686-pc-windows-msvc.");
+// The client follows the target: 32-bit is RoF2, the only client so far. (Its
+// `rof2` feature is optional: it insists on RoF2.)
+#[cfg(not(all(target_os = "windows", target_env = "msvc", target_arch = "x86")))]
+compile_error!("eq-client: only the 32-bit RoF2 client is supported so far. Build with --target i686-pc-windows-msvc.");
 
 pub mod abi;
 pub mod eqstr;

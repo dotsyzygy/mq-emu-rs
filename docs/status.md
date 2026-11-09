@@ -63,12 +63,12 @@ Each area is supported in full, except for what's listed under **Missing**.
 
 **Second client: ToB (64-bit)**
 
-The game client is a required cargo feature (`rof2`, the only one so far), so a second client can be added without moving the API. Most client-specific code is in mq-emu-sys and eq-client. If those offer the same module and item names for each client, mq-emu stays one codebase, with a `cfg` only where a client differs.
+The game client is the one the MacroQuest build in `MQ_ROOT` is for (mq-emu-sys's build.rs reads its `MQ2Main.dll`; `cargo mq deploy` reads the install's to pick the target), so plugins never name it and the same plugin source builds for either; a client's feature is optional and only insists on that client. A second client can be added without moving the API. Most client-specific code is in mq-emu-sys and eq-client. If those offer the same module and item names for each client, mq-emu stays one codebase, with a `cfg` only where a client differs.
 
 1. Close the API's leaks of RoF2 types: the `pub fn raw()` accessors returning layout types (`Spawn::raw` and about 20 more), and `pub use mq_emu_sys as sys`, which the test plugin uses for `szEQMappableCommands` and `FindMappableCommand`. Bind what those uses reach for, then mark `raw()` and `sys` as client-specific.
-2. Move the client-specific code under `rof2/`, behind the feature, at its current paths: mq-emu-sys's layouts, eqlib.rs (x86-mangled names), game.rs, windows.rs and windows/subclass.rs (x86 trampolines), constants.rs and `EVERQUEST_VERSION`; eq-client's rof2.rs, its `getString` detour and patch.rs (`jmp rel32`, which x64 can't rely on). Give the calling convention one per-client alias, since x86_64 has no `extern "thiscall"`. build.rs picks the vcpkg triplets by client.
+2. Move the client-specific code under `rof2/`, behind `cfg(mq_client = "rof2")`, at its current paths: mq-emu-sys's layouts, eqlib.rs (x86-mangled names), game.rs, windows.rs and windows/subclass.rs (x86 trampolines), constants.rs and `EVERQUEST_VERSION`; eq-client's rof2.rs, its `getString` detour and patch.rs (`jmp rel32`, which x64 can't rely on). Give the calling convention one per-client alias, since x86_64 has no `extern "thiscall"`. build.rs picks the vcpkg triplets by client.
 3. Make mq-emu-bindgen client-aware: pointer size (fixed at 4), the list of classes whose PDB vtable offsets are wrong, and which PDB to read.
-4. Add the `tob` feature: ToB layouts generated with the same names, its target in build.rs's and cargo-mq's client lists, and a check that two client features together fail. `cargo mq deploy` needs an install per client (`MQ_INSTALL`, `MQ_ROOT`), so `--client tob` can't deploy into the RoF2 MacroQuest.
+4. Add ToB: layouts generated with the same names, `Client::Tob` and a `tob` feature, and build.rs telling ToB's MacroQuest from RoF2's (64-bit today, but read a real marker such as eqlib's client version once a ToB build exists). eq-client takes the client from the target. The switch-over is all at once (two MacroQuests fight over injecting), so `MQ_ROOT` and `MQ_INSTALL` just move to the ToB build.
 
 **Long term**
 
