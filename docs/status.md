@@ -68,7 +68,7 @@ The game client is a required cargo feature (`rof2`, the only one so far), so a 
 1. Close the API's leaks of RoF2 types: the `pub fn raw()` accessors returning layout types (`Spawn::raw` and about 20 more), and `pub use mq_emu_sys as sys`, which the test plugin uses for `szEQMappableCommands` and `FindMappableCommand`. Bind what those uses reach for, then mark `raw()` and `sys` as client-specific.
 2. Move the client-specific code under `rof2/`, behind the feature, at its current paths: mq-emu-sys's layouts, eqlib.rs (x86-mangled names), game.rs, windows.rs and windows/subclass.rs (x86 trampolines), constants.rs and `EVERQUEST_VERSION`; eq-client's rof2.rs, its `getString` detour and patch.rs (`jmp rel32`, which x64 can't rely on). Give the calling convention one per-client alias, since x86_64 has no `extern "thiscall"`. build.rs picks the vcpkg triplets by client.
 3. Make mq-emu-bindgen client-aware: pointer size (fixed at 4), the list of classes whose PDB vtable offsets are wrong, and which PDB to read.
-4. Add the `tob` feature: ToB layouts generated with the same names, its target in build.rs's and cargo-mq's client lists, and a check that two client features together fail.
+4. Add the `tob` feature: ToB layouts generated with the same names, its target in build.rs's and cargo-mq's client lists, and a check that two client features together fail. `cargo mq deploy` needs an install per client (`MQ_INSTALL`, `MQ_ROOT`), so `--client tob` can't deploy into the RoF2 MacroQuest.
 
 **Long term**
 

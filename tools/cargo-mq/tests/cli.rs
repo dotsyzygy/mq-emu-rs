@@ -44,7 +44,8 @@ fn fixture(test: &str) -> Fixture {
     let fixture = Fixture { plugin: root.join("plugin"), install: root.join("install"), home: root.join("home"), root };
     fs::create_dir_all(&fixture.home).unwrap();
     write(fixture.root.join("mq-emu-sys/Cargo.toml"), FAKE_SYS);
-    write(fixture.root.join("mq-emu-sys/lib.rs"), "");
+    // As the real one, it doesn't build without a client.
+    write(fixture.root.join("mq-emu-sys/lib.rs"), "#[cfg(not(feature = \"rof2\"))]\ncompile_error!(\"no client\");\n");
     write(fixture.plugin.join("Cargo.toml"), &plugin_manifest(&fixture.root, "mq2-fake", "MQ2Fake"));
     write(fixture.plugin.join("lib.rs"), "#![allow(non_snake_case)]\n");
     write(fixture.install.join("MQ2Main.dll"), "the install's build");
@@ -273,6 +274,45 @@ fn plugin_without_a_client_feature_fails_with_clear_message() {
     let manifest = plugin_manifest(&f.root, "mq2-fake", "MQ2Fake").replace(", features = [\"rof2\"]", "");
     write(f.plugin.join("Cargo.toml"), &manifest);
     assert_fails_with(&run(&mut f.installed(), NO_BUILD), "No game client feature is enabled");
+}
+
+/// Makes the fixture's plugin one that can build for several clients: a
+/// feature of its own for each, and none on by default.
+fn multi_client(f: &Fixture) {
+    let manifest = plugin_manifest(&f.root, "mq2-fake", "MQ2Fake")
+        .replace(", features = [\"rof2\"]", "")
+        .replace("[workspace]\n", "[features]\nrof2 = [\"mq-emu-sys/rof2\"]\n\n[workspace]\n");
+    write(f.plugin.join("Cargo.toml"), &manifest);
+}
+
+#[test]
+fn client_flag_builds_a_multi_client_plugin_with_its_feature() {
+    let f = fixture("client-flag-builds");
+    multi_client(&f);
+    assert_ok(&run(&mut f.installed(), &["deploy", "--client", "rof2"]));
+    assert_eq!(&fs::read(f.deployed("plugins/MQ2Fake.dll")).unwrap()[..2], b"MZ");
+}
+
+#[test]
+fn multi_client_plugin_without_client_flag_fails_with_clear_message() {
+    let f = fixture("client-flag-missing");
+    multi_client(&f);
+    f.fake_build("release");
+    assert_fails_with(&run(&mut f.installed(), NO_BUILD), "pick one with --client");
+}
+
+#[test]
+fn client_flag_accepts_the_client_a_single_client_plugin_names() {
+    let f = fixture("client-flag-single");
+    f.fake_build("release");
+    assert_ok(&run(&mut f.installed(), &["deploy", "--no-build", "--client", "rof2"]));
+}
+
+#[test]
+fn unknown_client_fails_with_clear_message() {
+    let f = fixture("client-flag-unknown");
+    f.fake_build("release");
+    assert_fails_with(&run(&mut f.installed(), &["deploy", "--no-build", "--client", "nope"]), "No game client \"nope\"");
 }
 
 #[test]

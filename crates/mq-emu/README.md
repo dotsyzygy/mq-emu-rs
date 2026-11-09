@@ -95,7 +95,7 @@ doctest = false
 mq-emu = { git = "https://github.com/dotsyzygy/mq-emu-rs", tag = "v0.1.0", features = ["rof2"] }
 ```
 
-The `rof2` feature picks the game client, and is required: a plugin builds for exactly one client, and there's no default. It's the only client so far.
+The `rof2` feature picks the game client, and is required: a plugin builds for exactly one client, and there's no default. It's the only client so far. A plugin that can build for more than one client has a feature of its own for each (`rof2 = ["mq-emu/rof2"]`), none on by default, and is deployed with `cargo mq deploy --client rof2`.
 
 `.cargo/config.toml` (a dependency's config doesn't carry over, so each plugin needs its own):
 
@@ -126,7 +126,7 @@ Then install the tool once, and deploy from your plugin's folder:
 
 ```powershell
 cargo install --git https://github.com/dotsyzygy/mq-emu-rs cargo-mq
-cargo mq deploy     # -p <package> to choose, --debug, --no-build
+cargo mq deploy     # -p <package> to choose, --client <client>, --debug, --no-build
 cargo mq doctor     # checks your settings and mq-emu's layouts against your MacroQuest
 ```
 

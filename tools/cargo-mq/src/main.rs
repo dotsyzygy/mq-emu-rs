@@ -22,8 +22,9 @@ const USAGE: &str = "\
 Build, deploy and check MacroQuest plugins made with mq-emu.
 
 usage:
-  cargo mq deploy [-p <package>] [--debug] [--no-build]
-      Build a plugin and copy it into a MacroQuest install.
+  cargo mq deploy [-p <package>] [--client <client>] [--debug] [--no-build]
+      Build a plugin and copy it into a MacroQuest install. --client picks
+      the game client (rof2) for a plugin that can build for more than one.
   cargo mq doctor
       Check that the MacroQuest a plugin builds against, the one it deploys
       to and mq-emu's committed layouts all agree.
@@ -64,6 +65,8 @@ fn run(args: &[String]) -> Result<ExitCode> {
 #[derive(Default)]
 struct DeployArgs {
     package: Option<String>,
+    /// The game client to build for, by its feature's name.
+    client: Option<String>,
     debug: bool,
     no_build: bool,
 }
@@ -74,6 +77,7 @@ fn parse_deploy_args(args: &[String]) -> Result<DeployArgs> {
     while let Some(arg) = args.next() {
         match arg.as_str() {
             "-p" | "--package" => parsed.package = Some(args.next().ok_or(format!("{arg} needs a package name"))?.clone()),
+            "--client" => parsed.client = Some(args.next().ok_or(format!("{arg} needs a client name"))?.clone()),
             "--debug" => parsed.debug = true,
             "--no-build" => parsed.no_build = true,
             other => return Err(format!("unknown argument {other:?}\n{USAGE}")),
@@ -148,6 +152,21 @@ fn metadata(no_deps: bool) -> Result<Value> {
     if no_deps {
         command.arg("--no-deps");
     }
+    run_metadata(command)
+}
+
+/// The plugin's dependencies as `cargo build [--features <feature>]` in its
+/// folder resolves them, so the client found in them is the one deploy builds.
+fn resolved_metadata(plugin_dir: &Path, feature: Option<&str>) -> Result<Value> {
+    let mut command = cargo();
+    command.args(["metadata", "--format-version", "1"]).current_dir(plugin_dir);
+    if let Some(feature) = feature {
+        command.args(["--features", feature]);
+    }
+    run_metadata(command)
+}
+
+fn run_metadata(mut command: Command) -> Result<Value> {
     let output = command.output().map_err(|e| format!("couldn't run cargo: {e}"))?;
     if !output.status.success() {
         return Err(format!("cargo metadata failed:\n{}", String::from_utf8_lossy(&output.stderr).trim()));
@@ -178,6 +197,8 @@ struct PluginCrate {
     name: String,
     dir: PathBuf,
     target_dir: PathBuf,
+    /// The package's own features, by name.
+    features: Vec<String>,
 }
 
 fn find_plugin(metadata: &Value, wanted: Option<&str>) -> Result<PluginCrate> {
@@ -193,7 +214,8 @@ fn find_plugin(metadata: &Value, wanted: Option<&str>) -> Result<PluginCrate> {
         "{} isn't a plugin: it has no library with crate-type = [\"cdylib\"] (see the mq-emu README).",
         text(package, "name")
     ))?;
-    Ok(PluginCrate { name, dir: manifest_dir(package), target_dir: PathBuf::from(text(metadata, "target_directory")) })
+    let features = package["features"].as_object().map(|features| features.keys().cloned().collect()).unwrap_or_default();
+    Ok(PluginCrate { name, dir: manifest_dir(package), target_dir: PathBuf::from(text(metadata, "target_directory")), features })
 }
 
 /// The package whose folder holds the current folder, innermost first.
@@ -241,7 +263,7 @@ fn client(metadata: &Value) -> Result<&'static Client> {
     match enabled.as_slice() {
         [client] => Ok(client),
         [] => Err(format!(
-            "No game client feature is enabled. Enable exactly one of {names} on mq-emu, e.g. mq-emu = {{ version = \"...\", features = [\"rof2\"] }}."
+            "No game client feature is enabled. Enable exactly one of {names} on mq-emu, e.g. mq-emu = {{ version = \"...\", features = [\"rof2\"] }}, or, for a plugin that can build for more than one client, pick one with --client."
         )),
         several => {
             let on: Vec<&str> = several.iter().map(|client| client.feature).collect();
@@ -250,13 +272,32 @@ fn client(metadata: &Value) -> Result<&'static Client> {
     }
 }
 
+fn client_named(name: &str) -> Result<&'static Client> {
+    CLIENTS.iter().find(|client| client.feature == name).ok_or_else(|| {
+        let names: Vec<&str> = CLIENTS.iter().map(|client| client.feature).collect();
+        format!("No game client {name:?}; the clients are: {}.", names.join(", "))
+    })
+}
+
 // Deploy.
 
 fn deploy(args: &DeployArgs) -> Result<()> {
     let install = install_dir()?;
     let plugin = find_plugin(&metadata(true)?, args.package.as_deref())?;
-    let resolved = metadata(false)?;
+    let wanted = args.client.as_deref().map(client_named).transpose()?;
+    // A plugin that builds for several clients has a feature named for each,
+    // turning on mq-emu's; one that builds for one names it on mq-emu directly.
+    let feature = wanted.map(|client| client.feature).filter(|feature| plugin.features.iter().any(|own| own == feature));
+    let resolved = resolved_metadata(&plugin.dir, feature)?;
     let client = client(&resolved)?;
+    if let Some(wanted) = wanted
+        && !std::ptr::eq(wanted, client)
+    {
+        return Err(format!(
+            "{} builds for the {} client, not {}: it has no `{}` feature of its own to pick it with.",
+            plugin.name, client.feature, wanted.feature, wanted.feature
+        ));
+    }
     let target = client.target;
     let name = &plugin.name;
     let profile = if args.debug { "debug" } else { "release" };
@@ -266,6 +307,9 @@ fn deploy(args: &DeployArgs) -> Result<()> {
         let mut command = cargo();
         // From the plugin's folder, so its .cargo/config.toml applies.
         command.args(["build", "--target", target]).current_dir(&plugin.dir);
+        if let Some(feature) = feature {
+            command.args(["--features", feature]);
+        }
         if !args.debug {
             command.arg("--release");
         }
