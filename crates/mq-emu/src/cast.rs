@@ -42,6 +42,8 @@ const TIMEOUT_MARGIN: Duration = Duration::from_secs(5);
 const MEMORIZE_TIMEOUT: Duration = Duration::from_secs(30);
 /// `TargetType_TargetCorpse`.
 const TARGET_CORPSE: u8 = 15;
+/// Spells on several PCs at once: AE PC v1, Group v1, AE PC v2, Group v2.
+const TARGET_PCS: [u8; 4] = [2, 3, 40, 41];
 
 /// What [`Task::cast`] casts and on whom.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -255,6 +257,9 @@ struct Prepared {
     /// Set when the cast changed your target.
     previous_target: Option<Option<SpawnId>>,
     stood: bool,
+    /// On several PCs: one that a stronger buff blocks says it didn't take
+    /// hold, but the others got it.
+    on_pcs: bool,
 }
 
 /// The checks that need nothing from the game but reading, then standing and
@@ -294,7 +299,8 @@ fn prepare<P: Plugin>(mq: &Mq<P>, cast: &Cast) -> Result<Prepared, CastResult> {
         }
     }
     let stood = me.is_sitting() && mq.eq_command("/stand", "");
-    Ok(Prepared { gem, cast_time: Duration::from_millis(u64::from(spell.cast_time_ms())), previous_target, stood })
+    let on_pcs = TARGET_PCS.contains(&spell.target_type());
+    Ok(Prepared { gem, cast_time: Duration::from_millis(u64::from(spell.cast_time_ms())), previous_target, stood, on_pcs })
 }
 
 /// Stops the cast if the task is cancelled while it's casting.
@@ -327,7 +333,8 @@ impl<P: Plugin> Task<P> {
     /// The outcome comes from the casting state and the client's messages by
     /// ID (the ones MQ2Cast reads as text). A cast [`Landed`](CastResult::Landed)
     /// only if it ran its time ([`cast_time_left`](Mq::cast_time_left) was
-    /// about done when it stopped) and no message said otherwise; stopping
+    /// about done when it stopped) and no message said otherwise (a group or
+    /// AE PC spell lands even if it didn't take hold on someone); stopping
     /// sooner without one is [`EndedEarly`](CastResult::EndedEarly). Messages can come up to a moment after
     /// the cast ends, so this waits that long. It always ends, at the latest
     /// at the [timeout](Cast::timeout). Without the client's messages
@@ -380,6 +387,8 @@ impl<P: Plugin> Task<P> {
                 match classify(id) {
                     Some(Line::Began) => (started, began, worst) = (true, true, None),
                     Some(Line::Ended(CastResult::Interrupted)) if !began => {}
+                    // One member's; it landed if it ran its time.
+                    Some(Line::Ended(CastResult::DidNotTakeHold)) if prepared.on_pcs => {}
                     Some(Line::Ended(result)) => worst = worst.max(Some(result)),
                     None => {}
                 }

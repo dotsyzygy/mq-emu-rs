@@ -705,7 +705,7 @@ fn gem_count_is_the_games_within_the_12_gems() {
 
 /// A shaman with Inner Fire (3 s, 10 mana, range 100) in gem 3, ready, and
 /// two spawns: Jo (40) near and Far (41) out of range.
-fn caster() {
+fn caster() -> &'static mut Game {
     let game = game();
     game.learn(1200, "Inner Fire");
     let spell = game.known[0].get();
@@ -721,6 +721,7 @@ fn caster() {
     });
     player().CastingData().set_SpellID(-1);
     set_zone((1, 0.0, 0.0), &[(40, "Jo", 0, 10.0, 0.0), (41, "Far", 0, 500.0, 0.0)]);
+    game
 }
 
 thread_local! {
@@ -801,6 +802,26 @@ fn a_cast_with_no_message_landed() {
     advance_clock(Duration::from_secs(1));
     rt.pulse();
     assert_eq!(task_notes(rt), ["Landed"], "it ran its time");
+}
+
+#[test]
+fn a_group_spell_that_doesnt_take_hold_on_someone_still_landed() {
+    for (target_type, expected) in [(41, "Landed"), (3, "Landed"), (5, "DidNotTakeHold")] {
+        caster().known[0].get().set_TargetType(target_type);
+        let rt = cast_task(crate::Cast::new(SpellId(1200)));
+        rt.pulse();
+        player().CastingData().set_SpellID(1200);
+        fake_game::with(|g| g.cast_time_left_ms = 100);
+        rt.pulse();
+        player().CastingData().set_SpellID(-1);
+        fake_game::with(|g| g.cast_time_left_ms = -1);
+        client_shows(crate::eqstr::SPELL_DID_NOT_TAKE_HOLD);
+        rt.pulse();
+        advance_clock(Duration::from_secs(1));
+        rt.pulse();
+        assert_eq!(task_notes(rt), [expected], "target type {target_type}");
+        rt.shutdown();
+    }
 }
 
 #[test]
@@ -1241,6 +1262,15 @@ fn auto_attack_is_switched_and_melee_range_read() {
     });
     assert_eq!(log, ["true true 22.5 14"], "each way round is its own range");
     assert_eq!(fake_game::log(), ["/attack on", "/attack off"]);
+}
+
+#[test]
+fn sits_and_stands_with_the_games_commands() {
+    game();
+    fake_game::with(|g| g.commands = vec!["/sit".into(), "/stand".into()]);
+    let log = pulse_log(|mq| format!("{} {}", mq.set_sitting(true), mq.set_sitting(false)));
+    assert_eq!(log, ["true true"]);
+    assert_eq!(fake_game::log(), ["/sit on", "/stand on"], "never plain /sit, which toggles");
 }
 
 #[test]

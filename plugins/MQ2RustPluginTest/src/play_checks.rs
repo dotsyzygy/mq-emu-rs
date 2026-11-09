@@ -8,7 +8,7 @@
 use std::collections::BTreeSet;
 use std::time::{Duration, Instant};
 
-use mq_emu::sys::constants::{MAX_TOTAL_BUFFS, NUM_SKILLS};
+use mq_emu::sys::constants::{MAX_TOTAL_BUFFS, NUM_LONG_BUFFS, NUM_SKILLS};
 use mq_emu::{Address, GameState, MercenaryState, Mq, Plugin, SkillId, SpawnId, Task};
 
 use crate::RustTest;
@@ -126,15 +126,18 @@ fn target_buff_checks<P: Plugin>(mq: &Mq<P>, report: &mut Report) {
     });
     report.print(mq, "cached buffs match ${Target.Buff[n]} (spell, slot, caster)", all_match(mq, rows));
     report.print(mq, "target_buffs_populated() = ${Target.BuffsPopulated}", same_text(tf(mq.target_buffs_populated()), mq.parse("${Target.BuffsPopulated}")));
-    // The target window and MacroQuest's cache come from the same message.
+    // The target window and MacroQuest's cache come from the same message,
+    // but the client drops its songs (the short buffs, such as an aura's
+    // pulses) from the window; MacroQuest keeps them.
     if mq.target_buffs_populated() {
         let mut window: Vec<i32> = mq.target_buffs().map(|b| b.spell_id().0).collect();
-        let mut cache: Vec<i32> = cached.iter().map(|b| b.spell_id().0).collect();
+        let mut cache: Vec<i32> = cached.iter().filter(|b| b.slot() < NUM_LONG_BUFFS).map(|b| b.spell_id().0).collect();
         window.sort_unstable();
         cache.sort_unstable();
-        report.print(mq, "the target window shows the cached buffs", Check::that(window == cache, || format!("window {window:?}, cache {cache:?}")));
+        let slots = || cached.iter().map(|b| format!("{}@{}", b.spell_id().0, b.slot())).collect::<Vec<_>>().join(", ");
+        report.print(mq, "the target window shows the cached buffs, less songs", Check::that(window == cache, || format!("window {window:?}, cache's long buffs {cache:?}; cache spell@slot: {}", slots())));
     } else {
-        report.print(mq, "the target window shows the cached buffs", Check::Skip("the target's buffs never arrived".into()));
+        report.print(mq, "the target window shows the cached buffs, less songs", Check::Skip("the target's buffs never arrived".into()));
     }
 }
 

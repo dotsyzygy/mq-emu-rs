@@ -475,6 +475,12 @@ impl RustTest {
                 let set = mq.set_auto_attack(!attacking);
                 mq.chat(format!("set_auto_attack({}): {set}", !attacking));
             }
+            ui.same_line();
+            let sitting = me.is_sitting();
+            if ui.small_button(if sitting { "Stand" } else { "Sit" }) {
+                let set = mq.set_sitting(!sitting);
+                mq.chat(format!("set_sitting({}): {set}", !sitting));
+            }
             if let Some(target) = mq.target() {
                 ui.same_line();
                 ui.text(format!("melee range to target {:.1}, {:.1} away", mq.melee_range(&me, &target), me.distance_to(&target)));

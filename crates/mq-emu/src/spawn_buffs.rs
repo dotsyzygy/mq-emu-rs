@@ -169,6 +169,8 @@ impl fmt::Debug for CachedBuff<'_> {
 impl<P: Plugin> Mq<P> {
     /// Your target's buffs and debuffs as the target window shows them. Empty
     /// without a target, and until [`target_buffs_populated`](Mq::target_buffs_populated).
+    /// The window leaves out the target's songs (short buffs, such as an
+    /// aura's pulses), which [`cached_buffs`](Mq::cached_buffs) keeps.
     pub fn target_buffs(&self) -> impl Iterator<Item = WindowBuff<'_>> + '_ {
         let window = self.target().and_then(|_| unsafe { (self.host().target_window)().as_ref() });
         window.into_iter().flat_map(|window| window_buffs(|i| window.BuffSpellID_at(i), |i| window.BuffTimer_at(i), window.Casters(), self.spell_table()))

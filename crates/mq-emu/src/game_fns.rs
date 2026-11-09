@@ -58,6 +58,14 @@ impl<P: Plugin> Mq<P> {
         self.local_pc().is_some() && self.eq_command("/attack", if on { "on" } else { "off" })
     }
 
+    /// Sits down, or stands up for `false`, through the game's `/sit on` and
+    /// `/stand on` as `${Me.Sit}` and `${Me.Stand}` do (plain `/sit`
+    /// toggles). Whether it's done shows in `Spawn::is_sitting` once the
+    /// game has it. False with no character in game.
+    pub fn set_sitting(&self, sit: bool) -> bool {
+        self.local_pc().is_some() && self.eq_command(if sit { "/sit" } else { "/stand" }, "on")
+    }
+
     /// How close `attacker` must be to hit `target` in melee, from both
     /// spawns' sizes and heights: 14 to 75. Yours to your target is
     /// `${Target.MaxRangeTo}`.
