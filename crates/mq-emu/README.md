@@ -92,8 +92,10 @@ test = false             # a plugin links MacroQuest, so a test binary can't sta
 doctest = false
 
 [dependencies]
-mq-emu = { git = "https://github.com/dotsyzygy/mq-emu-rs", tag = "v0.1.0" }
+mq-emu = { git = "https://github.com/dotsyzygy/mq-emu-rs", tag = "v0.1.0", features = ["rof2"] }
 ```
+
+The `rof2` feature picks the game client, and is required: a plugin builds for exactly one client, and there's no default. It's the only client so far.
 
 `.cargo/config.toml` (a dependency's config doesn't carry over, so each plugin needs its own):
 

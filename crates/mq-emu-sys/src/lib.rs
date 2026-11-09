@@ -8,8 +8,11 @@
 //! These bindings target the MacroQuest `emu` branch, which is built for the
 //! Rain of Fear 2 (RoF2) client used by EverQuest emulator servers. That build
 //! is 32-bit (`i686-pc-windows-msvc`) and its client version is fixed (see
-//! [`EVERQUEST_VERSION`]). They are **not** intended for live EverQuest, and
-//! building for any other architecture is a compile error.
+//! [`EVERQUEST_VERSION`]). They are **not** intended for live EverQuest.
+//!
+//! The client is chosen with a cargo feature, and exactly one is required:
+//! `rof2` (the only one so far). Building without one, or for another
+//! architecture than the client's, is a compile error.
 //!
 //! # Scope
 //!
@@ -28,10 +31,13 @@
 #![no_std]
 #![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]
 
-#[cfg(not(all(target_os = "windows", target_env = "msvc", target_arch = "x86")))]
-compile_error!(
-    "mq-emu-sys targets MacroQuest emu (RoF2), which is 32-bit only. Build with --target i686-pc-windows-msvc."
-);
+// Exactly one game client feature, matched by its target. Cargo merges features
+// across a build, so when a second client is added, two enabled at once must
+// fail here too. build.rs reports the same, before the C++ shim compiles.
+#[cfg(not(feature = "rof2"))]
+compile_error!("mq-emu-sys needs a game client feature: enable exactly one of `rof2`.");
+#[cfg(all(feature = "rof2", not(all(target_os = "windows", target_env = "msvc", target_arch = "x86"))))]
+compile_error!("mq-emu-sys: the rof2 client is 32-bit only. Build with --target i686-pc-windows-msvc.");
 
 #[macro_use]
 mod macros;

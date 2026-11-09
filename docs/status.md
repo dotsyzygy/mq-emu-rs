@@ -57,9 +57,18 @@ Each area is supported in full, except for what's listed under **Missing**.
 
 **Out of Scope**
 
-- Live EverQuest and 64-bit builds (emu/RoF2 only). Possibly ToB in the future
+- Live EverQuest
 - What acts on the ImGui context every plugin shares, which MacroQuest sets up, runs and renders. A plugin calling these would break other plugins' windows or crash the game, or change what isn't its to change (context setup, `NewFrame`/`Render`, viewports, localization, garbage collection, error recovery, the font atlas builder).
 - ImGui context hooks (`Plugin::on_update_imgui` already runs every frame) and the legacy Columns API (tables replace it)
+
+**Second client: ToB (64-bit)**
+
+The game client is a required cargo feature (`rof2`, the only one so far), so a second client can be added without moving the API. Most client-specific code is in mq-emu-sys and eq-client. If those offer the same module and item names for each client, mq-emu stays one codebase, with a `cfg` only where a client differs.
+
+1. Close the API's leaks of RoF2 types: the `pub fn raw()` accessors returning layout types (`Spawn::raw` and about 20 more), and `pub use mq_emu_sys as sys`, which the test plugin uses for `szEQMappableCommands` and `FindMappableCommand`. Bind what those uses reach for, then mark `raw()` and `sys` as client-specific.
+2. Move the client-specific code under `rof2/`, behind the feature, at its current paths: mq-emu-sys's layouts, eqlib.rs (x86-mangled names), game.rs, windows.rs and windows/subclass.rs (x86 trampolines), constants.rs and `EVERQUEST_VERSION`; eq-client's rof2.rs, its `getString` detour and patch.rs (`jmp rel32`, which x64 can't rely on). Give the calling convention one per-client alias, since x86_64 has no `extern "thiscall"`. build.rs picks the vcpkg triplets by client.
+3. Make mq-emu-bindgen client-aware: pointer size (fixed at 4), the list of classes whose PDB vtable offsets are wrong, and which PDB to read.
+4. Add the `tob` feature: ToB layouts generated with the same names, its target in build.rs's and cargo-mq's client lists, and a check that two client features together fail.
 
 **Long term**
 

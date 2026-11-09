@@ -18,4 +18,4 @@ test = false
 doctest = false
 
 [dependencies]
-mq-emu.workspace = true
+mq-emu = { workspace = true, features = ["rof2"] }

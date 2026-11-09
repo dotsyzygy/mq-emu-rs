@@ -25,16 +25,27 @@ fn write(path: impl AsRef<Path>, contents: &str) {
     fs::write(path, contents).unwrap();
 }
 
-fn plugin_manifest(package: &str, lib: &str) -> String {
-    format!("[package]\nname = \"{package}\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n[lib]\nname = \"{lib}\"\npath = \"lib.rs\"\ncrate-type = [\"cdylib\"]\n\n[workspace]\n")
+/// A plugin built for the rof2 client, through the fixture's stand-in for
+/// mq-emu-sys (in `root`).
+fn plugin_manifest(root: &Path, package: &str, lib: &str) -> String {
+    let sys = root.join("mq-emu-sys").display().to_string().replace('\\', "/");
+    format!(
+        "[package]\nname = \"{package}\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n[lib]\nname = \"{lib}\"\npath = \"lib.rs\"\ncrate-type = [\"cdylib\"]\n\n\
+         [dependencies]\nmq-emu-sys = {{ path = \"{sys}\", features = [\"rof2\"] }}\n\n[workspace]\n"
+    )
 }
+
+/// An empty mq-emu-sys with its client feature, standing in for the real one.
+const FAKE_SYS: &str = "[package]\nname = \"mq-emu-sys\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n[lib]\npath = \"lib.rs\"\n\n[features]\nrof2 = []\n\n[workspace]\n";
 
 fn fixture(test: &str) -> Fixture {
     let root = PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join("cargo-mq").join(test);
     let _ = fs::remove_dir_all(&root);
     let fixture = Fixture { plugin: root.join("plugin"), install: root.join("install"), home: root.join("home"), root };
     fs::create_dir_all(&fixture.home).unwrap();
-    write(fixture.plugin.join("Cargo.toml"), &plugin_manifest("mq2-fake", "MQ2Fake"));
+    write(fixture.root.join("mq-emu-sys/Cargo.toml"), FAKE_SYS);
+    write(fixture.root.join("mq-emu-sys/lib.rs"), "");
+    write(fixture.plugin.join("Cargo.toml"), &plugin_manifest(&fixture.root, "mq2-fake", "MQ2Fake"));
     write(fixture.plugin.join("lib.rs"), "#![allow(non_snake_case)]\n");
     write(fixture.install.join("MQ2Main.dll"), "the install's build");
     fixture
@@ -254,12 +265,36 @@ fn crate_that_is_not_a_plugin_fails_with_clear_message() {
     assert_fails_with(&run(&mut f.installed(), NO_BUILD), "isn't a plugin");
 }
 
+// The game client.
+
+#[test]
+fn plugin_without_a_client_feature_fails_with_clear_message() {
+    let f = fixture("no-client");
+    let manifest = plugin_manifest(&f.root, "mq2-fake", "MQ2Fake").replace(", features = [\"rof2\"]", "");
+    write(f.plugin.join("Cargo.toml"), &manifest);
+    assert_fails_with(&run(&mut f.installed(), NO_BUILD), "No game client feature is enabled");
+}
+
+#[test]
+fn plugin_without_mq_emu_fails_with_clear_message() {
+    let f = fixture("no-mq-emu");
+    without_mq_emu(&f);
+    assert_fails_with(&run(&mut f.installed(), NO_BUILD), "doesn't depend on mq-emu");
+}
+
+/// Makes the fixture's plugin one that doesn't use mq-emu.
+fn without_mq_emu(f: &Fixture) {
+    let manifest = plugin_manifest(&f.root, "mq2-fake", "MQ2Fake");
+    let manifest: Vec<&str> = manifest.lines().filter(|line| !line.starts_with("mq-emu-sys")).collect();
+    write(f.plugin.join("Cargo.toml"), &manifest.join("\n"));
+}
+
 /// A workspace with two plugins, MQ2One and MQ2Two.
 fn two_plugins(f: &Fixture) {
     write(f.plugin.join("Cargo.toml"), "[workspace]\nresolver = \"3\"\nmembers = [\"one\", \"two\"]\n");
     fs::remove_file(f.plugin.join("lib.rs")).unwrap();
     for (dir, package, lib) in [("one", "mq2-one", "MQ2One"), ("two", "mq2-two", "MQ2Two")] {
-        let manifest = plugin_manifest(package, lib).replace("\n[workspace]\n", "");
+        let manifest = plugin_manifest(&f.root, package, lib).replace("\n[workspace]\n", "");
         write(f.plugin.join(dir).join("Cargo.toml"), &manifest);
         write(f.plugin.join(dir).join("lib.rs"), "");
         write(f.plugin.join(BUILT).join("release").join(format!("{lib}.dll")), lib);
@@ -310,7 +345,7 @@ fn unknown_argument_prints_usage() {
 #[test]
 fn dll_name_macroquest_cannot_find_gets_a_warning() {
     let f = fixture("bad-name");
-    write(f.plugin.join("Cargo.toml"), &plugin_manifest("fake", "Fake"));
+    write(f.plugin.join("Cargo.toml"), &plugin_manifest(&f.root, "fake", "Fake"));
     write(f.plugin.join(BUILT).join("release/Fake.dll"), "dll");
     let out = run(&mut f.installed(), NO_BUILD);
     assert_ok(&out);
@@ -349,6 +384,7 @@ fn deploy_stays_quiet_when_install_matches_the_build() {
 #[test]
 fn doctor_passes_outside_an_mq_emu_project_when_settings_are_right() {
     let f = fixture("doctor-ok");
+    without_mq_emu(&f);
     let root = f.fake_mq_root("release", "the install's build");
     let out = run(f.installed().env("MQ_ROOT", &root), &["doctor"]);
     assert_ok(&out);
@@ -358,6 +394,7 @@ fn doctor_passes_outside_an_mq_emu_project_when_settings_are_right() {
 #[test]
 fn doctor_reports_missing_settings() {
     let f = fixture("doctor-missing");
+    without_mq_emu(&f);
     let out = run(&mut f.command(), &["doctor"]);
     assert_fails_with(&out, "2 problem(s)");
     assert!(stdout(&out).contains("MQ_ROOT is not set"), "{}", stdout(&out));
@@ -367,6 +404,7 @@ fn doctor_reports_missing_settings() {
 #[test]
 fn doctor_reports_missing_libraries() {
     let f = fixture("doctor-no-libs");
+    without_mq_emu(&f);
     let root = f.fake_mq_root("release", "the install's build");
     fs::remove_file(root.join("build/bin/release/eqlib.lib")).unwrap();
     let out = run(f.installed().env("MQ_ROOT", &root), &["doctor"]);
@@ -377,6 +415,7 @@ fn doctor_reports_missing_libraries() {
 #[test]
 fn doctor_reports_an_install_from_another_build() {
     let f = fixture("doctor-different");
+    without_mq_emu(&f);
     let root = f.fake_mq_root("release", "another build");
     let out = run(f.installed().env("MQ_ROOT", &root), &["doctor"]);
     assert_fails_with(&out, "1 problem(s)");
@@ -400,16 +439,12 @@ fn doctor_passes_layouts_that_match_the_pdb() {
     assert!(stdout(&out).contains("layouts match"), "{}", stdout(&out));
 }
 
-/// A plugin depending on an mq-emu-sys whose layouts are `generated`.
+/// Gives the fixture's mq-emu-sys these `generated` layouts.
 fn plugin_with_layouts(f: &Fixture, generated: &str) {
     let sys = f.root.join("mq-emu-sys");
-    write(sys.join("Cargo.toml"), "[package]\nname = \"mq-emu-sys\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n[lib]\npath = \"lib.rs\"\n\n[workspace]\n");
-    write(sys.join("lib.rs"), "");
     write(sys.join("src/layouts/generated.rs"), generated);
     let roots = fs::read_to_string(workspace_root().join("crates/mq-emu-sys/layouts.txt")).unwrap();
     write(sys.join("layouts.txt"), &roots);
-    let dependency = "[dependencies]\nmq-emu-sys = { path = \"../mq-emu-sys\" }\n\n[workspace]\n";
-    write(f.plugin.join("Cargo.toml"), &plugin_manifest("mq2-fake", "MQ2Fake").replace("[workspace]\n", dependency));
 }
 
 #[test]

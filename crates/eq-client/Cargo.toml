@@ -11,3 +11,10 @@ repository.workspace = true
 [package.metadata.docs.rs]
 default-target = "i686-pc-windows-msvc"
 targets = ["i686-pc-windows-msvc"]
+features = ["rof2"]
+
+# The game client to build for. Exactly one is required; there is no default,
+# so a plugin always says which client it targets.
+[features]
+# EverQuest RoF2 emu client, 32-bit (i686-pc-windows-msvc).
+rof2 = []

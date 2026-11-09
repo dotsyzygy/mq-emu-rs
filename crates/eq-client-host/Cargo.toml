@@ -13,5 +13,10 @@ name = "eqclient"
 # rlib too, so `cargo test` builds the DLL its integration test loads.
 crate-type = ["cdylib", "rlib"]
 
+# The game client to build for, as eq-client's; cargo mq deploy passes the
+# plugin's.
+[features]
+rof2 = ["eq-client/rof2"]
+
 [dependencies]
 eq-client.workspace = true

@@ -17,7 +17,7 @@ fn standalone_plugin_crate_builds_a_loadable_dll() {
         format!(
             "[package]\nname = \"mq2-consumer\"\nversion = \"0.0.0\"\nedition = \"2024\"\n\n\
              [lib]\nname = \"MQ2Consumer\"\ncrate-type = [\"cdylib\"]\n\n\
-             [dependencies]\nmq-emu = {{ path = \"{mq_emu}\" }}\n\n\
+             [dependencies]\nmq-emu = {{ path = \"{mq_emu}\", features = [\"rof2\"] }}\n\n\
              # Standalone, not part of any enclosing workspace.\n[workspace]\n"
         ),
     )

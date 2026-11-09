@@ -8,6 +8,10 @@
 //! Targets the MacroQuest `emu` branch for the RoF2 client, which is 32-bit
 //! (`i686-pc-windows-msvc`). Not intended for live EverQuest.
 //!
+//! A plugin picks its game client with a cargo feature, and exactly one is
+//! required: `mq-emu = { version = "...", features = ["rof2"] }` (`rof2` is the
+//! only one so far).
+//!
 //! # A plugin
 //!
 //! ```ignore
@@ -51,10 +55,14 @@
 //!
 //! Raw bindings are available as [`sys`] for anything not wrapped yet.
 
-#[cfg(not(all(target_os = "windows", target_env = "msvc", target_arch = "x86")))]
-compile_error!(
-    "mq-emu targets MacroQuest emu (RoF2), which is 32-bit only. Build with --target i686-pc-windows-msvc."
-);
+// Exactly one game client feature, matched by its target. Cargo merges features
+// across a build, so when a second client is added, two enabled at once must
+// fail here too. mq-emu-sys's build.rs reports
+// the same first.
+#[cfg(not(feature = "rof2"))]
+compile_error!("mq-emu needs a game client feature: enable exactly one of `rof2`.");
+#[cfg(all(feature = "rof2", not(all(target_os = "windows", target_env = "msvc", target_arch = "x86"))))]
+compile_error!("mq-emu: the rof2 client is 32-bit only. Build with --target i686-pc-windows-msvc.");
 
 mod achievements;
 mod aggro;

@@ -1,11 +1,49 @@
 use std::env;
 use std::path::{Path, PathBuf};
 
+/// A game client mq-emu-sys can build for: one cargo feature each.
+struct Client {
+    feature: &'static str,
+    arch: &'static str,
+    bits: &'static str,
+    target: &'static str,
+}
+
+const CLIENTS: &[Client] = &[Client { feature: "rof2", arch: "x86", bits: "32-bit only", target: "i686-pc-windows-msvc" }];
+
+/// The client this build is for: exactly one client feature must be on.
+fn client() -> &'static Client {
+    let names = || CLIENTS.iter().map(|client| format!("`{}`", client.feature)).collect::<Vec<_>>().join(", ");
+    let enabled: Vec<&Client> = CLIENTS
+        .iter()
+        .filter(|client| env::var_os(format!("CARGO_FEATURE_{}", client.feature.to_ascii_uppercase())).is_some())
+        .collect();
+    match enabled.as_slice() {
+        [client] => client,
+        [] => fail(&format!(
+            "needs a game client feature: enable exactly one of {}, e.g. mq-emu = {{ version = \"...\", features = [\"rof2\"] }}.",
+            names()
+        )),
+        several => {
+            let on: Vec<&str> = several.iter().map(|client| client.feature).collect();
+            fail(&format!(
+                "can build for only one game client, but features {} are all enabled (Cargo merges features across everything that depends on mq-emu or mq-emu-sys). Enable exactly one of {}.",
+                on.join(", "),
+                names()
+            ))
+        }
+    }
+}
+
 fn main() {
     println!("cargo::rerun-if-changed=build.rs");
     println!("cargo::rerun-if-env-changed=MQ_ROOT");
     println!("cargo::rerun-if-env-changed=MQ_BUILD_CONFIG");
     println!("cargo::rerun-if-env-changed=DOCS_RS");
+
+    // Checked before anything else, docs.rs included: everything below depends
+    // on the client.
+    let client = client();
 
     // docs.rs only runs rustdoc, which never links, and has no MacroQuest build.
     if env::var_os("DOCS_RS").is_some() {
@@ -14,8 +52,8 @@ fn main() {
 
     // Checked first: the shim below would otherwise fail on MacroQuest's own
     // "Win32 Configuration is required" before the crate's compile_error! runs.
-    if env::var("CARGO_CFG_TARGET_ARCH").as_deref() != Ok("x86") {
-        fail("mq-emu-sys targets MacroQuest emu (RoF2), which is 32-bit only. Build with --target i686-pc-windows-msvc.");
+    if env::var("CARGO_CFG_TARGET_ARCH").as_deref() != Ok(client.arch) {
+        fail(&format!("the {} client is {}. Build with --target {}.", client.feature, client.bits, client.target));
     }
 
     let mq_root = PathBuf::from(env::var("MQ_ROOT").unwrap_or_else(|_| {
