@@ -10,7 +10,7 @@ checksum = "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649"
 
 [[package]]
 name = "cargo-mq"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "mq-emu-bindgen",
  "object",
@@ -36,11 +36,11 @@ checksum = "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600"
 
 [[package]]
 name = "eq-client"
-version = "0.3.0"
+version = "0.3.1"
 
 [[package]]
 name = "eq-client-host"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "eq-client",
 ]
@@ -122,7 +122,7 @@ dependencies = [
 
 [[package]]
 name = "lua-proto-oracle"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "cc",
 ]
@@ -135,7 +135,7 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 
 [[package]]
 name = "mq-emu"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "eq-client",
  "lua-proto-oracle",
@@ -145,14 +145,14 @@ dependencies = [
 
 [[package]]
 name = "mq-emu-bindgen"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "pdb2",
 ]
 
 [[package]]
 name = "mq-emu-sys"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "cc",
  "object",
@@ -160,11 +160,11 @@ dependencies = [
 
 [[package]]
 name = "mq-member-names"
-version = "0.3.0"
+version = "0.3.1"
 
 [[package]]
 name = "mq2-rust-plugin-test"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "mq-emu",
 ]
