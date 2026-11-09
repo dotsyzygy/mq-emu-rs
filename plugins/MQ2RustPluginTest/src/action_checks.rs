@@ -180,12 +180,17 @@ async fn land(task: &Task<RustTest>, report: &mut Report, gem: usize, id: SpellI
     let checkable = is_buff && buff_before.is_none();
     let landed_buff = checkable && task.wait_until_timeout(move |mq| buff_left(mq, id).is_some(), Duration::from_secs(3)).await;
     let shown = watched.map(|messages| messages.take()).unwrap_or_default();
+    // A group spell still lands (on the others) when it didn't take hold on
+    // you, so Landed with no buff on you is right then.
+    let blocked = !landed_buff && shown.iter().any(|id| DID_NOT_TAKE_HOLD.contains(id));
     task.with(|mq| {
         let buff_label = format!("{name} {when}: Task::cast says Landed exactly when the buff lands on you");
         if !is_buff {
             report.print(mq, &buff_label, Check::Skip(format!("{name} isn't a buff; memorize a self buff to check landing")));
         } else if !checkable {
             report.print(mq, &buff_label, Check::Skip(format!("{name} was already on you; click it off before the selftest to check landing")));
+        } else if blocked {
+            report.print(mq, &buff_label, Check::Skip(format!("{name} didn't take hold on you (a stronger buff?); Task::cast ended {result:?}")));
         } else {
             let agree = (result == CastResult::Landed) == landed_buff;
             report.print(mq, &buff_label, Check::that(agree, || {
@@ -198,7 +203,7 @@ async fn land(task: &Task<RustTest>, report: &mut Report, gem: usize, id: SpellI
     });
     // The trace explains a failure; otherwise it's noise. (Mana isn't a
     // check: a regeneration tick can give the cost straight back.)
-    let failed = !result.completed() || (checkable && (result == CastResult::Landed) != landed_buff);
+    let failed = !result.completed() || (checkable && !blocked && (result == CastResult::Landed) != landed_buff);
     if failed {
         end_trace(task, &trace, &format!("{name} {when}"));
     } else {
@@ -227,10 +232,14 @@ const TRACED: &[u32] = &[
     eqstr::TARGET_RESISTED,
     eqstr::SPELL_DID_NOT_TAKE_HOLD,
     eqstr::SPELL_WOULD_NOT_TAKE_HOLD,
+    eqstr::SPELL_TOO_POWERFUL,
     eqstr::RECAST_NOT_MET,
     eqstr::RECOVERY_NOT_MET,
     eqstr::NOT_RECOVERED,
 ];
+
+/// The client saying a spell didn't take hold (on you, for a group spell).
+const DID_NOT_TAKE_HOLD: &[u32] = &[eqstr::SPELL_DID_NOT_TAKE_HOLD, eqstr::SPELL_WOULD_NOT_TAKE_HOLD, eqstr::SPELL_TOO_POWERFUL];
 
 pub(crate) fn start_trace(task: &Task<RustTest>) -> Trace {
     let lines = std::rc::Rc::new(std::cell::RefCell::new(Vec::new()));
